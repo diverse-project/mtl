@@ -33,7 +33,8 @@ test1a ()
 
 	// we define some filenames 
 	projectPath       := '../../';
-
+	//projectPath       := './';
+	
 	metamodelFilename := projectPath.concat ('MetaModels/UML_metamodel.xmi');
 	inputFilename     := projectPath.concat ('Models/UML_model.xmi');
 	outputFilename    := null; 
@@ -53,25 +54,22 @@ test1a ()
     
     '******************************************** TEST 1a ********************************************'.toOut();
 
-    
     foreach (p : source_model::Model_Management::Package) in (!source_model::Model_Management::Package!.allInstances())
 	{
 		'PACKAGE '.concat (p.name.oclAsType(!Standard::String!)).toOut();
 		
-		foreach (c : source_model::Core::ModelElement) in (p.ownedElement)
+		foreach (c : source_model::Core::ModelElement) in (p.ownedElement) where (c.oclIsKindOf (!source_model::Core::Class!))
 		{
-			if (c.oclIsKindOf (!source_model::Core::Class!) )
+			'    CLASS '.concat(c.name.oclAsType(!Standard::String!)).toOut();
+			
+		    foreach (f : source_model::Core::Feature) in (c.feature) 
 			{
-				'    CLASS '.concat(c.name.oclAsType(!Standard::String!)).toOut();
-
-			    foreach (f : source_model::Core::Feature) in (c.feature)
-				{
-					'        FEATURE '.concat(f.name.oclAsType(!Standard::String!)).toOut();
-				}			
-			}
+				'        FEATURE '.concat(f.name.oclAsType(!Standard::String!)).toOut();
+			}			
 		}
 	}
 }
+
 
 
 ////////////////////////////////////////
@@ -87,12 +85,20 @@ test1b ()
 	set := set.including ('s1');
 	set := set.including ('s2');
 	set := set.including ('s3');
-		
+	
+
     '******************************************** TEST 1b ********************************************'.toOut();
-    
-    foreach (x : Standard::String) in (set)
+	
+	'> without "where" clause"...'.toOut();
+    foreach (x : Standard::String) in (set) 
 	{
 		'string : '.concat (x).toOut();
 	}
-}
 
+	'> with "where" clause"...'.toOut();
+    foreach (y : Standard::String) in (set) where (y.[=]('s2'))
+	{
+		'string : '.concat (y).toOut();
+	}
+
+}

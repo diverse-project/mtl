@@ -1,6 +1,6 @@
 /*
  * Created on 1 août 2003
- * $Id: ForeachAnalyser.java,v 1.1 2004-04-21 18:23:23 edrezen Exp $
+ * $Id: ForeachAnalyser.java,v 1.2 2004-04-28 08:07:32 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -61,14 +61,12 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 	}
 
 
-	/** */
-	public void ForeachVarDeclaration (Object theForeach, Object varDeclaration, Map context) 
-	{
-		//System.out.println ("COOLLL : " + ((VarDeclaration)varDeclaration).getName());
-	}
-	
 	/** */ 
-	public void ForeachAfter(Object theForeach, Foreach ASTnode, Map context) 
+	public void ForeachAfter (
+		Foreach ASTnode, 
+		Object createdObject, 
+		Map context
+	) 
 	{
 		for (int i=0; i<ASTnode.cardBody(); i++)
 		{
