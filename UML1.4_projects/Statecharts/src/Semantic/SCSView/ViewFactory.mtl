@@ -1,0 +1,174 @@
+/*
+ * Library 	: SCSView 
+ *		Define a set of view for Statecharts Semantics manipulation
+ *
+ * File 	: $RCSfile: ViewFactory.mtl,v $
+ * Purpose 	: Define a view of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel 
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:37  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+ 
+library SCSView ;
+
+
+model SCS	:	RepositoryModel;
+
+
+/*
+ * Purpose	:	Initisalise the model use by the library
+ * Params	:	
+ *		+ theModel : the ref on the model to used
+ */
+//init( theModel : RepositoryModel )
+//{
+//	SCS := theModel;
+//}
+
+
+class ViewFactory {
+
+
+	/*
+	 * Purpose	:	Constructor
+	 * No Params
+	 * Remark	:	Should not be used. This class is an interface and can't be instanciated
+	 */
+	init(theModel : RepositoryModel ){
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+
+
+	/*
+	 * Purpose 	:	Return a view of the semantic model's root 
+	 * No Params.
+	 */	
+	getViewOfSemantic() : SCSView::StatechartsSemantic
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;	
+	}
+	
+	
+	/*
+	 * Purpose 	: get a View of an StateChartsSemantic Object
+	 * Params	: 
+	 *	 + scs : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the View used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfStatechartsSemantic( scs	: SCS::StatechartsSementic ) : SCSView::StatechartsSemantic
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;	
+	}
+
+	
+	/*
+	 * Purpose 	: get a View of an EventManagement Object
+	 * Params	: 
+	 *	 + emgt : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfEventManagement(emgt : SCS::EventManagement) : EventManagement
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose 	: get a View of an TransitionManagement Object
+	 * Params	: 
+	 *	 + tmgt : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfTransitionManagement(tmgt : SCS::TransitionManagement) : TransitionManagement
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose 	: get a View of an TimeManagement Object
+	 * Params	: 
+	 *	 + tmgt : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfTimeManagement(tmgt : SCS::TimeManagement) : TimeManagement
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose 	: get a View of an EventSelection Object
+	 * Params	: 
+	 *	 + es : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfEventSelection(es : SCS::EventSelection) : EventSelection
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+
+
+	/*
+	 * Purpose 	: get a View of an ConflictResolution Object
+	 * Params	: 
+	 *	 + ts : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfEventChoice(ec : SCS::EventChoice) : EventChoice
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose 	: get a View of an TransitionSelection Object
+	 * Params	: 
+	 *	 + ts : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfTransitionSelection(ts : SCS::TransitionSelection) : TransitionSelection
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}	
+	
+	
+	/*
+	 * Purpose 	: get a View of an ConflictResolution Object
+	 * Params	: 
+	 *	 + ts : the repository Object on which we want to create the view
+	 *
+	 * Return 	: the view used to access to this object or a new object if it is the first acces
+	 */
+	getViewOfTransitionChoice(tc : SCS::TransitionChoice) : TransitionChoice
+	{
+		'ERR : SCSView::ViewFactory is an abstract class ! '.toErr();
+		return null;
+	}
+	
+}

@@ -1,0 +1,39 @@
+/*
+ * Library 	: SCIView 
+ *		Define an abstract view for manipulate the implantation models
+ *
+ * File 	: $RCSfile: EventImplantation.mtl,v $
+ * Purpose 	: Define the a view for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:28  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCIView;
+
+
+class EventImplantation 
+{
+
+	init()
+	{
+		'ERR : SCIView::StateImplantation is an interface'.toOut();
+		'ERR : You should use the appropriate factory object to build such an object'.toErr();
+	}
+
+	
+	accept(visitor : AbstractVisitor)
+	{	
+		visitor.visitEventImplantation(this);
+	}
+	
+}

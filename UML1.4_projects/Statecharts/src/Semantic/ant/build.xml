@@ -1,0 +1,31 @@
+<!-- $Id: build.xml,v 1.1 2004-10-06 09:33:07 fchauvel Exp $ -->
+<project name="Statecharts" default="compile" basedir=".">
+	<description>
+	</description>
+	
+  	<target name="compile" > 
+  		<description>Compile the transformation</description>  
+ 		<delete dir="build"></delete>   		
+  		<ant antfile="Tools_build.xml" dir="." target="compile"/>  		
+  		<ant antfile="SCSView_build.xml" dir="." target="compile"/>
+  		<ant antfile="SCSAdapter_build.xml" dir="." target="compile"/>
+  		<ant antfile="SCSTest_build.xml" dir="." target="compile"/>	
+ 		<ant antfile="SCSTest_build.xml" dir="." target="run"/>	
+ 	</target> 
+ 	
+ 	<target name="run">
+ 		<ant antfile="SCSTest_build.xml" dir="." target="run"/>
+  	</target>
+
+  	<target name="clean">
+  		<delete dir="build"></delete>   		
+ 	</target>
+ 	
+ 	<target name="create_jar" 
+		description="create the jar file">
+		<jar destfile="./SCSemantic.jar">
+			<fileset dir="./build" excludes="./build/src/**"/>
+		</jar>
+	</target>	
+ 	
+</project>

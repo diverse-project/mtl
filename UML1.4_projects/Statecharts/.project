@@ -5,6 +5,11 @@
 	<projects>
 	</projects>
 	<buildSpec>
+		<!-- <buildCommand>
+			<name>org.inria.mtl.MTLBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand> -->
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
@@ -12,6 +17,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<!-- <nature>org.inria.mtl.MTLNature</nature> -->
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

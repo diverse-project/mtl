@@ -1,0 +1,27 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: EventProcessing.mtl,v $
+ * Purpose 	: Define an Factory for Enumeration Implantation object.
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:09  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class EventProcessing {
+
+}

@@ -1,0 +1,71 @@
+/*
+ * Library 	: SCSView 
+ *		Define a set of view for manipulatin
+ *
+ * File 	: $RCSfile: EventManagement.mtl,v $
+ * Purpose 	: Define a view of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel 
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:41  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+ 
+library SCSView;
+
+
+class EventManagement
+{    
+	
+	/*
+	 * Purpose	:	Constructor
+	 * No Params
+	 * Remark	:	Should not be used. This class is an interface and can't be instanciated
+	 */
+	init(){
+		'ERR : SCSView::StatechartsSemantics is an abstract class ! '.toErr();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+
+
+	/*
+	 * Purpose 	:	Entry point for visitors (pattern Visitor)
+	 * Param :
+	 *	+ visitor : the visitor
+	 */
+	accept(visitor : AbstractVisitor)
+	{
+		visitor.visitEventManagement(this);
+	}	
+
+
+	/*
+	 * Purpose	:	Return a set containing eventSelection 
+	 * No params
+	 */
+	getAllEventSelection() : Standard::Set
+	{
+		'ERR : SCSView::EventManagement is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose	:	Return a set containing all conflictResolution policy defined for this class 
+	 * No params
+	 */
+	getAllEventChoice() : Standard::Set
+	{
+		'ERR : SCSView::EventManagement is an abstract class ! '.toErr();
+		return null;
+	}	
+
+	// !TODO! ad hoc Setters
+}

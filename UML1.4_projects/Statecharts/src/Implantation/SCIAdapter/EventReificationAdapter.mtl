@@ -1,0 +1,38 @@
+/*
+ * Library 	: SCIAdapter 
+ *		Define a concrete adapter for manipulate the implantation models
+ *
+ * File 	: $RCSfile: EventReificationAdapter.mtl,v $
+ * Purpose 	: Define the an adapter for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:02:35  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCIAdapter extends SCIView;
+
+
+class EventReificationAdapter extends EventReification refines EventReification
+{
+
+	theFactory 	:	AdapterFactory;
+	theRef		:	SCI::EventReification;
+	
+	init(
+		ref			:	SCI::EventReification;
+		factory 	:	AdapterFactory
+	){
+		theFactory := factory;
+		theRef := ref;	
+	}	
+
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/Standard.tll"/>
+	<classpathentry kind="src" path="src/Semantic/SCSView"/>
+	<classpathentry kind="src" path="src/Semantic/SCSAdapter"/>
+	<classpathentry kind="src" path="src/Semantic/SCSTest"/>
+	<classpathentry kind="src" path="src/Semantic"/>
+	<classpathentry kind="src" path="src/Implantation/SCIView"/>
+	<classpathentry kind="src" path="src/Implantation/SCIAdapter"/>
+	<classpathentry kind="src" path="src/Implantation"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/ASTJava.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/BasicMtlASTView.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/BasicMtlASTWithAssociationView.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/DefaultObservers.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/DefaultVisitors.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/EMFDriver.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/io.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/MDRDriver.tll"/>
+	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.inria.mtl_0.0.4/MTL/Runtime/src/TLL/ModFactDriver.tll"/>
+</classpath>

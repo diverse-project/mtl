@@ -1,0 +1,76 @@
+/*
+ * Library 	: SCIVisitor 
+ *		Define an abstract behavior for the implantation model
+ *
+ * File 	: $RCSfile: AbstractVisitor.mtl,v $
+ * Purpose 	: Define the a view for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:04:11  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCIView;
+
+
+class AbstractVisitor 
+{
+
+
+	visitImplantation(target : Implantation)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitImplantation() on such an object'.toErr();
+	}
+	
+	
+	visitEventImplantation(target : EventImplantation)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitEventImplantation() on such an object'.toErr();	
+	}
+
+
+	visitEventEnumeration(target : EventEnumeration)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();	
+		'ERR : You cannot call visitEventEnumeration() on such an object'.toErr();		
+	}
+	
+	
+	visitEventReification(target : EventReification)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitEventReification() on such an object'.toErr();		
+	}
+	
+	
+	visitStateImplantation(target : StateImplantation)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitStateImplantation() on such an object'.toErr();		
+	}
+
+	
+	visitStateEnumeration(target : StateEnumeration)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitStateEnumeration() on such an object'.toErr();		
+	}
+	
+	
+	visitStateReification(target : StateReification)
+	{
+		'ERR : SCIVisitor::Implantation is an interface'.toOut();
+		'ERR : You cannot call visitStateReification() on such an object'.toErr();		
+	}
+
+}

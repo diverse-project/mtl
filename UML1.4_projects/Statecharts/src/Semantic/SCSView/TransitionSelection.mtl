@@ -1,0 +1,93 @@
+/*
+ * Library 	: SCSView 
+ *		Define a set of view for Statecharts Semantics manipulation
+ *
+ * File 	: $RCSfile: TransitionSelection.mtl,v $
+ * Purpose 	: Define a view of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel 
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:35  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCSView;
+
+
+class TransitionSelection
+{
+
+	/*
+	 * Purpose	:	Constructor
+	 * No Params
+	 * Remark	:	Should not be used. This class is an interface and can't be instanciated
+	 */
+	init(){
+		'ERR : SCSView::TransitionSelection is an abstract class ! '.toErr();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose 	:	Entry point for visitors (pattern Visitor)
+	 * Param :
+	 *	+ visitor : the visitor
+	 */
+	accept(visitor : AbstractVisitor)
+	{
+		visitor.visitTransitionSelection(this);
+	}	
+	
+	
+	/*
+	 * Purpose 	: Return the name of the event selection policy
+	 * No params
+	 */	
+	getName() : Standard::String 
+	{
+		'ERR : SCSView::TransitionSelection is an abstract class ! '.toErr();
+		return null;
+	}
+
+
+	/*
+	 * Purpose 	: Return the MTL code corresponding to the event selection policy
+	 * no params
+	 */	
+	getBody() : Standard::String
+	{
+		'ERR : SCSView::TransitionSelection is an abstract class ! '.toErr();
+		return null;
+	}
+
+	
+	/*
+	 * Purpose : Change the name of the event selection policy
+	 * params  : 
+	 *		+ name : a new name for the policy
+	 * return  :  nothing
+	 */
+	setName(name : Standard::String)
+	{
+		'ERR : SCSView::TransitionSelection is an abstract class ! '.toErr();
+	}
+
+	
+	/*
+	 * Puspose	:	Change the MTL body of event selection policy
+	 * params	:
+	 *		+ body : anew body value for the policy
+	 */
+	setBody(body : Standard::String)
+	{
+		'ERR : SCSView::TransitionSelection is an abstract class ! '.toErr();
+	}
+
+}

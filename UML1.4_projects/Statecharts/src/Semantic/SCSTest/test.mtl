@@ -1,0 +1,81 @@
+/*
+ * Library 	: SCStest 
+ *		Minimal Test for the SCS package (Views and adapters)
+ *
+ * File 	: $RCSfile: test.mtl,v $
+ * Purpose 	: Test the view for the semantic metamodel
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:04:26  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+library SCSTest;
+
+ 
+model sourceModel 	:	RepositoryModel;		// the repository semantic model
+model SCS		  	:	SCSAdapter; 			// A view for manipulating the semantic model
+ 
+ 
+main() : Standard::Void
+{
+	metaModelFileName	:	Standard::String;
+	inputFileName		:	Standard::String;
+	outputFileName		:	Standard::String;
+	mdrdriver         	: 	MDRDriver::MDRModelManager;
+
+	// we define some filenames 
+	metaModelFileName := 'metamodels/Semantic/MM_semantic_MOF.xmi';
+	inputFileName     := 'Models/Semantic/model.xmi';
+	outputFileName	  := 'Models/Semantic/model-updated.xmi';
+	
+	// we initialize the MDR driver		
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	sourceModel := mdrdriver.getModelFromXMI (
+		metaModelFileName, 
+		'MM_semantic',			// name of the root package in the metamodel
+		'semantic_model', 		// name of the new model in the repository
+		inputFileName,
+		outputFileName
+	);		
+
+
+//	SCS := new SCSAdapter();
+//	SCS.init(sourceModel);
+
+	'\n ----------- Start of SCS Model Test ----------- '.toOut();	
+	run();
+	' ----------- End of Test ----------- \n'.toOut();	
+	
+}
+
+
+run() : Standard::Void
+{
+	adapterFactory 	: 	SCSAdapter::AdapterFactory;
+	theFactory		:	SCSView::ViewFactory;
+	theSemantic		:	SCSView::StatechartsSemantic;
+	
+	
+	adapterFactory := new SCSAdapter::AdapterFactory();
+	theFactory := adapterFactory;
+	theFactory.init(sourceModel);
+
+	theSemantic := theFactory.getViewOfSemantic();
+	
+	foreach ( es : SCSAdapter::EventSelectionAdapter) in ( theSemantic.getEventManagement().getAllEventSelection() ) {
+		es.getName().toOut();
+		es.getBody().toOut();
+	}
+	
+}

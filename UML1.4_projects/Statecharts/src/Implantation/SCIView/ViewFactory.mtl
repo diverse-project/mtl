@@ -1,0 +1,92 @@
+/*
+ * Library 	: SCIView 
+ *		Define an abstract view for manipulate the implantation models
+ *
+ * File 	: $RCSfile: ViewFactory.mtl,v $
+ * Purpose 	: Define the a view for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:26  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCIView;
+
+
+model SCI	:	RepositoryModel;
+
+
+class ViewFactory
+{
+
+	init( theModel : RepositoryModel){
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+	
+	
+	getViewOfImplantation() : Implantation
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfImplantation() on such an object'.toErr();	
+		return null;
+	}
+
+
+	getViewOfEventImplantation(ei : SCI::EventImplantation) : SCIView::EventImplantation
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfEventImplantation() on such an object'.toErr();		
+		return null;
+	}	
+
+	
+	getViewOfStateImplantation(si : SCI::StateImplantation) : SCIView::StateImplantation
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfStateImplantation() on such an object'.toErr();		
+		return null;
+	}	
+
+
+	getViewOfStateReification(sr : SCI::StateReification) : SCIView::StateReification
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfStateReification() on such an object'.toErr();		
+		return null;
+	}	
+
+
+	getViewOfStateEnumeration(se : SCI::StateReification) : SCIView::StateEnumeration
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfStateEnumeration() on such an object'.toErr();		
+		return null;
+	}
+
+
+	getViewOfEventReification(er : SCI::EventReification) : SCIView::EventReification
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfEventReification() on such an object'.toErr();		
+		return null;
+	}	
+
+
+	getViewOfEventEnumeration(ee : SCI::EventEnumeration) : SCIView::EventEnumeration
+	{
+		'ERR : SCIView::ViewFactory is an interface'.toOut();
+		'ERR : You cannot call getViewOfEventEnumeration() on such an object'.toErr();		
+		return null;
+	}	
+	
+	
+}

@@ -1,0 +1,150 @@
+/*
+ * Library 	: SCIAdapter 
+ *		Define a concrete adapter for manipulate the implantation models
+ *
+ * File 	: $RCSfile: AdapterFactory.mtl,v $
+ * Purpose 	: Define the an adapter for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:02:36  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+
+library SCIAdapter extends SCIView;
+
+
+model SCI	:	RepositoryModel;
+
+
+class AdapterFactory extends ViewFactory refines ViewFactory 
+{
+	
+	table : Standard::Hashtable;
+	
+		
+	init( theModel : RepositoryModel){
+		SCI := theModel;
+		
+		table := new Standard::Hashtable();
+	}
+	
+	
+	getViewOfImplantation() : SCIView::Implantation
+	{
+		return null;
+	}
+
+
+	getViewOfEventImplantation(ei : SCI::EventImplantation) : SCIView::EventImplantation
+	{
+		out : EventImplantationAdapter;
+
+		if ( table.contains(ei) ){
+			out := table.get(ei);
+					
+		} else {
+			out := new EventImplantationAdapter();
+			out.init(ei, this);
+			table.put(ei, out);
+		}
+		
+		return out.oclAsType(!EventImplantationAdapter!);
+	}	
+
+	
+	getViewOfStateImplantation(si : SCI::StateImplantation) : SCIView::StateImplantation
+	{
+		out : StateImplantationAdapter;
+
+		if ( table.contains(si) ){
+			out := table.get(si);
+		
+		} else {
+			out := new StateImplantationAdapter();
+			out.init(si, this);
+			table.put(si, out);	
+		} 
+		
+		return out.oclAsType(!StateImplantationAdapter!);
+	}	
+
+
+	getViewOfStateReification(sr : SCI::StateReification) : SCIView::StateReification
+	{
+		out : StateReificationAdapter;
+
+		if ( table.contains(sr) ){
+			out := table.get(sr);
+
+		} else {
+			out := new StateReificationAdapter();
+			out.init(sr, this);
+			table.put(sr, out);
+		} 
+		
+		return out.oclAsType(!StateReificationAdapter!);
+	}	
+
+
+	getViewOfStateEnumeration(se : SCI::StateEnumeration) : SCIView::StateEnumeration
+	{
+		out : StateEnumerationAdapter;
+
+		if ( table.contains(se) ){
+			out := table.get(se);
+
+		} else {
+			out := new StateEnumerationAdapter();
+			out.init(se, this);
+			table.put(se, out);
+		} 
+		
+		return out.oclAsType(!StateEnumerationAdapter!);
+	}
+
+
+	getViewOfEventReification(er : SCI::EventReification) : SCIView::EventReification
+	{
+		out : EventReificationAdapter;
+
+		if ( table.contains(er) ){
+			out := table.get(er);
+		
+		} else {
+			out := new EventReificationAdapter();
+			out.init(er, this);
+			table.put(er, out);
+		} 
+		
+		return out.oclAsType(!EventReificationAdapter!);
+	}	
+
+
+	getViewOfEventEnumeration(ee : SCI::EventEnumeration ) : SCIView::EventEnumeration
+	{
+		out : EventEnumerationAdapter;
+
+		if ( table.contains(ee) ){
+			out := table.get(ee);
+
+		} else {
+
+			out := new EventEnumerationAdapter();
+			out.init(ee, this);
+			table.put(ee, out);
+		} 
+		
+		return out.oclAsType(!EventEnumerationAdapter!);
+	}	
+		
+}
+
+

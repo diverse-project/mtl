@@ -1,0 +1,34 @@
+<project name="Statecharts" default="compile" basedir="..">
+	<description>
+        Build file for compiling the Semantic model view
+	</description>
+
+	<property name="library.name" value="SCCodeGeneration"/>
+
+	<property name="src" location="."/>
+	<property name="build.bin" location="../../bin"/>
+	<property name="build.src" location="../../build/src"/>
+	<property name="user.src.path" location="${src}/${library.name}"/>
+	<property name="user.package.name" value="${library.name}"/>
+	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.build.bin" location="${build.bin}/${library.name}"/>
+	
+	<target name="init"
+		description="specific initialization steps">
+	</target>
+				  
+	<target name="clean"
+        description="specific cleanup steps" >
+        <ant antfile="ant/common_build.xml" dir="." target="clean common" inheritAll="true"/>
+  	</target>
+
+  	<target name="compile" description="compile all the sources in .class files" depends="init">
+  		<ant antfile="ant/common_build.xml" dir="." target="compile common" inheritAll="true"/>
+  	</target>
+
+  	<target name="run" description="run the transformation">
+  		<ant antfile="ant/common_build.xml" dir="." target="run common" inheritAll="true"/>
+  	</target>
+
+
+</project>

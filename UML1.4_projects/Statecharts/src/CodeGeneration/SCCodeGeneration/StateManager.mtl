@@ -1,0 +1,68 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: StateManager.mtl,v $
+ * Purpose 	: Define an abstract state manager.
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:03:03  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class StateManager extends STL::Transformation
+{
+
+
+	// Some attributes
+	theDirector		:	CodeGeneration;	
+
+
+	/*
+	 * Purpose		:	Create a the EventManager.
+	 * Parameters 	:
+	 *		+ director : the CodeGeneration object calling the event Manager
+	 */
+	init(director	:	CodeGeneration)
+	{
+		theDirector := director;
+	}
+	
+
+	/*
+	 * Purpose :	Execute the transformation,
+	 * No params
+	 * Remark :		Should not be directly used
+	 */
+	run()
+	{
+		'ERR : SCCodeGeneration::StateManager is an abstract class !'.toOut();
+		'ERR : You should not instanciate it !'.toOut();
+	}
+
+
+	/*
+	 * Purpose 	:	Entry point to visit the transformation	
+	 * Params :
+	 *		+ v : the visitor
+	 */
+	accept( v : CodeGenerationVisitor)
+	{
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::accept()'.toErr();
+	}	
+
+
+}

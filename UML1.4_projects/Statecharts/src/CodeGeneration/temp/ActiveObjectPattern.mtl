@@ -1,0 +1,634 @@
+/* 
+ * Library 	: DesignPattern 
+ *		This library provides some transformations for applying weel
+ *		known design pattern. 
+ *
+ * File 	: $RCSfile: ActiveObjectPattern.mtl,v $
+ * Purpose 	: Define a transformation that apply the "Active Object" Design Pattern
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:04:14  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ */ 
+
+
+library ActiveObject;
+
+
+model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver    : MDRDriver;
+model uml          : UML_Utils;
+
+
+main() : Standard::Void
+{
+	myTrans : MyTrans;
+
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+	metamodelFilename, inputFilename, outputFilename 	: Standard::String; 
+	
+	// we define some filenames 
+	metamodelFilename := 'MetaModel/UML_metamodel.xmi';
+	inputFilename     := 'Model/AirCond.xmi';
+	outputFilename    := 'Model/AirCond_changed.xmi';
+
+	// we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'UML',			// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', // name of the new model in the repository
+		inputFilename,
+		outputFilename
+	);		
+	
+	// we initialize the uml utils
+    uml := new UML_Utils ();
+    uml.init(source_model);
+	
+	'Debut de la transformation ...'.toOut();	
+	
+	myTrans :=  new  MyTrans();
+	myTrans.run();
+	
+	'That s all folks !'.toOut();
+}
+
+
+
+
+class MyTrans
+{
+
+	run(){
+		classIterator 		: 	Standard::Iterator;
+		classIterator2 		: 	Standard::Iterator;		
+		aClass 				: 	source_model::Core::Class;	
+		stateClass 			:	source_model::Core::Class;	
+		scheduler			:	source_model::Core::Class;
+		eventSetClass		:	source_model::Core::Class;
+		abstractEvent		:	source_model::Core::Class;
+		generateOperation	:	source_model::Core::Operation;
+		
+		aSet 				: 	Standard::Set;
+		
+		aSet := new Standard::Set ();
+		
+		classIterator := !source_model::Core::Class!.allInstances().getNewIterator();
+		classIterator.start();
+		while classIterator.isOn() {
+			aSet := aSet.including (classIterator.item());
+			classIterator.next();
+		}			
+		
+		classIterator2 := aSet.getNewIterator();
+		classIterator2.start();
+		while classIterator2.isOn() {
+			aClass := classIterator2.item().oclAsType(!source_model::Core::Class!);
+			
+			// Create State Hierarchy
+			stateClass := applyStatePattern (aClass);
+			
+			if ( isNull(stateClass).not() ){
+				
+				// Create Event hierarchy and link it to the event Set
+				abstractEvent := createEventHierarchy(aClass);
+				
+				// Create Scheduler classes and link it to the other class
+				scheduler := createScheduler(aClass, abstractEvent);
+				linkSchedulerToProxy(scheduler, aClass);
+				linkSchedulerToState(scheduler, stateClass);
+				
+				// Create EventSet class and link it to the scheduler
+				eventSetClass := createEventSet(aClass, abstractEvent);
+				linkSchedulerToEventSet(scheduler, eventSetClass);
+				
+				linkEventSetToAbstractEvent(eventSetClass, abstractEvent);
+				linkAbstractEventToScheduler(abstractEvent, scheduler);
+
+				// Add a generate method to the class
+				generateOperation := uml.createAndAddOperation('generate', aClass);
+				uml.createAndAddTypedParameter('event', abstractEvent, generateOperation);
+			
+			}
+				
+			classIterator2.next();
+		}			
+	}
+
+
+	createScheduler(
+		theClass 	: source_model::Core::Class;
+		event 		:	source_model::Core::Class
+	) : source_model::Core::Class 
+	{
+		resultClass		:	source_model::Core::Class;
+		opAdd			:	source_model::Core::Operation;
+		
+		'>>> Create the scheduler class'.toOut();
+		
+		// create the Scheduler Class 
+		resultClass := uml.createAndAddClass(
+			theClass.name.oclAsType(!Standard::String!).concat('Scheduler').oclAsType(!Standard::String!),
+			theClass.namespace.oclAsType(!source_model::Core::Namespace!)
+		);
+		
+		// add methods to it
+		uml.createAndAddOperation('step', resultClass);
+		opAdd := uml.createAndAddOperation('addEvent', resultClass);
+		uml.createAndAddTypedParameter('event', event, opAdd);
+					
+		return resultClass;	
+	}
+
+
+
+	createEventSet(
+		theClass		:	source_model::Core::Class;
+		event			:	source_model::Core::Class	
+	)	:	source_model::Core::Class
+	{
+		resultClass		:	source_model::Core::Class;
+		addOp			:	source_model::Core::Operation;
+		nextOp			:	source_model::Core::Operation;
+		removeOp		:	source_model::Core::Operation;
+			
+		'>>> Create the EventSet'.toOut();
+		
+		resultClass := uml.createAndAddClass(
+			'EventSet', 
+			theClass.namespace.oclAsType(!source_model::Core::Namespace!)
+		);
+		
+		// add some method to it
+		addOp := uml.createAndAddOperation('addEvent', resultClass);
+		uml.createAndAddTypedParameter('event', event, addOp);
+		nextOp := uml.createAndAddOperation('nextEvent', resultClass);
+		uml.createAndAddTypedReturnParameter(event, nextOp);
+		removeOp := uml.createAndAddOperation('removeEvent', resultClass);
+		uml.createAndAddTypedParameter('event', event, removeOp);
+			
+		return resultClass;
+
+	}
+
+
+	createEventHierarchy(theClass	:	source_model::Core::Class) : source_model::Core::Class
+	{
+		resultClass		:	source_model::Core::Class;
+		aEventClass		:	source_model::Core::Class;
+		aEvent			:	source_model::State_Machines::SignalEvent;
+		signalIterator	:	Standard::Iterator;
+		guardOperation	:	source_model::Core::Operation;
+		dataType		:	source_model::Core::DataType;
+		
+		'>>> Create the Event hierarchy'.toOut();
+	
+		'\t >>> Create the Abstract Event Class'.toOut();
+		resultClass := uml.createAndAddClass(
+			'Abstract'.concat(theClass.name.oclAsType(!Standard::String!)).concat('Event'),
+			theClass.namespace.oclAsType(!source_model::Core::Namespace!)							
+		);
+		
+		// Initialize the class adding some operations
+		resultClass.isAbstract := true;
+
+		guardOperation:= uml.createAndAddOperation('guard', resultClass);
+		dataType := uml.getTypeAsClassifier('Boolean');
+		dataType.toOut();
+		uml.createAndAddTypedReturnParameter(dataType, guardOperation);
+		uml.createAndAddOperation('call', resultClass);
+		
+		signalIterator := getAllSignalOf(theClass).getNewIterator();
+		signalIterator.start();
+		while ( signalIterator.isOn() ) {
+			aEvent := signalIterator.item().oclAsType(!source_model::State_Machines::Event!);
+
+			'\t >>> Create and link the class of event '.concat(aEvent.signal.name.oclAsType(!Standard::String!)).toOut();
+			
+			aEventClass := uml.createAndAddClass(
+				'Event'.concat(aEvent.signal.name.oclAsType(!Standard::String!) ),		
+				theClass.namespace.oclAsType(!source_model::Core::Namespace!)				
+			);
+			
+			uml.createAndAddInheritanceBetween(
+				theClass.namespace.oclAsType(!source_model::Core::Namespace!),
+				aEventClass.oclAsType(!source_model::Core::GeneralizableElement!),
+				resultClass.oclAsType(!source_model::Core::GeneralizableElement!)
+			);
+			
+			signalIterator.next();
+		}
+		
+		return resultClass;
+	}
+
+
+
+	linkEventSetToAbstractEvent(
+			eventSet			:	source_model::Core::Class;
+			abstractEvent		:	source_model::Core::Class
+	){
+		eventSetEnd			:	source_model::Core::AssociationEnd;
+		abstractEventEnd	:	source_model::Core::AssociationEnd;
+		theAssociation		:	source_model::Core::Association;
+
+		'>>> Link the Event Set to Abstract Event'.toOut();
+	
+		eventSetEnd := uml.createAssociationEnd(
+			eventSet,
+			'container',
+			false,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+
+		abstractEventEnd := uml.createAssociationEnd(
+			abstractEvent,
+			'',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(0,-1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+		
+		uml.createAndAddAssociationBetween('contain', eventSet.namespace.oclAsType(!source_model::Core::Namespace!), eventSetEnd, abstractEventEnd);
+	
+	}
+
+
+	linkAbstractEventToScheduler(		
+			abstractEvent		:	source_model::Core::Class;
+			scheduler			:	source_model::Core::Class
+	){
+		abstractEventEnd	:	source_model::Core::AssociationEnd;
+		schedulerEnd		:	source_model::Core::AssociationEnd;
+		theAssociation		:	source_model::Core::Association;
+
+		'>>> Link the Abstract Event to the scheduler'.toOut();
+	
+		schedulerEnd := uml.createAssociationEnd(
+			scheduler,
+			'target',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+
+		abstractEventEnd := uml.createAssociationEnd(
+			abstractEvent,
+			'',
+			false,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(0,-1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+		
+		uml.createAndAddAssociationBetween('', scheduler.namespace.oclAsType(!source_model::Core::Namespace!), abstractEventEnd, schedulerEnd);
+	
+	}
+
+
+	linkSchedulerToProxy(
+		scheduler	:	source_model::Core::Class;
+		proxy		:	source_model::Core::Class
+	){
+		proxyEnd		:	source_model::Core::AssociationEnd;
+		schedulerEnd	:	source_model::Core::AssociationEnd;
+		theAssociation	:	source_model::Core::Association;
+
+		'>>> Link the Scheduler to  the Proxy'.toOut();
+	
+		proxyEnd := uml.createAssociationEnd(
+			proxy,
+			'proxy',
+			false,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_public.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+
+		schedulerEnd := uml.createAssociationEnd(
+			scheduler,
+			'scheduler',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+		
+		uml.createAndAddAssociationBetween('use', scheduler.namespace.oclAsType(!source_model::Core::Namespace!), proxyEnd, schedulerEnd);
+	
+	}
+
+
+
+	
+	linkSchedulerToState(
+		scheduler 	:	source_model::Core::Class;
+		state		:	source_model::Core::Class
+	){
+		stateEnd		:	source_model::Core::AssociationEnd;
+		schedulerEnd	:	source_model::Core::AssociationEnd;
+		theAssociation	:	source_model::Core::Association;
+
+		'>>> Link the Scheduler to  the State'.toOut();
+	
+		stateEnd := uml.createAssociationEnd(
+			state,
+			'currentState',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_public.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+
+
+		schedulerEnd := uml.createAssociationEnd(
+			scheduler,
+			'context',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+		
+		
+		uml.createAndAddAssociationBetween(
+			'use', 
+			scheduler.namespace.oclAsType(!source_model::Core::Namespace!), 
+			stateEnd, 
+			schedulerEnd
+		);	
+	
+	}
+		
+
+	linkSchedulerToEventSet(
+		scheduler 	:	source_model::Core::Class;
+		eventSet	:	source_model::Core::Class
+	){
+		eventSetEnd		:	source_model::Core::AssociationEnd;
+		schedulerEnd	:	source_model::Core::AssociationEnd;
+		theAssociation	:	source_model::Core::Association;
+
+		'>>> Link the Scheduler to the event Set'.toOut();
+	
+		eventSetEnd := uml.createAssociationEnd(
+			eventSet,
+			'eventSet',
+			true,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+
+		schedulerEnd := uml.createAssociationEnd(
+			scheduler,
+			'scheduler',
+			false,
+			!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+			!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+			!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+			uml.createMultiplicity(1,1),
+			!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+			!source_model::Data_Types::VisibilityKind!.vk_private.oclAsType(!source_model::Data_Types::VisibilityKind!)
+		);
+		
+		uml.createAndAddAssociationBetween(
+			'manage', 
+			scheduler.namespace.oclAsType(!source_model::Core::Namespace!), 
+			eventSetEnd, 
+			schedulerEnd
+		);	
+	
+	}
+		
+
+
+	applyStatePattern(theClass	:	source_model::Core::Class) : source_model::Core::Class
+	{
+		behaviorIterator	:	Standard::Iterator;
+		stateClass			:	source_model::Core::Class;
+		classEnd			: 	source_model::Core::AssociationEnd;
+		stateEnd			:	source_model::Core::AssociationEnd;
+		asm 				: 	source_model::State_Machines::StateMachine;
+		signalIterator		:	Standard::Iterator;
+		aSignal				: 	source_model::State_Machines::SignalEvent;
+
+		'>>> Processing State Pattern on class : '.concat(theClass.name.oclAsType(!Standard::String!)).toOut();
+	
+		// apply state pattern on each statecharts associates to the class
+		behaviorIterator := getAllBehaviorsOfElement(theClass.oclAsType(!source_model::Core::ModelElement!)).getNewIterator();
+		behaviorIterator.start();
+		
+		if ( behaviorIterator.isOn() ) {
+			asm := behaviorIterator.item();
+			stateClass := generateClassFor(asm.top.oclAsType(!source_model::State_Machines::State!), theClass);
+				
+			// Define the Name of the abstract State Class
+			stateClass.name := 'Abstract'.concat(theClass.name.oclAsType(!Standard::String!)).concat('State');
+			stateClass.isAbstract := true;
+			
+			signalIterator := getAllSignalOf(theClass).getNewIterator();
+			signalIterator.start();
+			while signalIterator.isOn() {
+				aSignal	:= signalIterator.item().oclAsType(!source_model::State_Machines::SignalEvent!);
+				
+				uml.createAndAddOperation(
+					aSignal.signal.name.oclAsType(!Standard::String!),
+					stateClass
+				);
+				
+				signalIterator.next();
+			}
+			
+			
+			
+			
+			uml.copyAllOperationsInto(theClass, stateClass);	
+		}
+		
+		return stateClass;				
+	}	
+	
+	
+	//
+	// Create and link the class which represents the state
+	//
+	generateClassFor(	theState 				: 	source_model::State_Machines::State;
+						containerClass			: 	source_model::Core::Class
+	) : source_model::Core::Class
+	{
+		stateIterator		:	Standard::Iterator;
+		aState				:	source_model::State_Machines::StateVertex;
+		resultClass			:	source_model::State_Machines::Class;
+		aChildClass			:	source_model::Core::Class;
+		parentEnd			:	source_model::Core::AssociationEnd;
+		childEnd			:	source_model::Core::AssociationEnd;
+	
+
+		'\t >>> Creation of a sub class for state : '.concat(theState.name.oclAsType(!Standard::String!)).toOut();
+		
+		// Build the class corresponding to the state
+		resultClass := transformStateToClass(theState, containerClass);
+		
+		// generate Class for each child state
+		if ( theState.oclIsTypeOf(!source_model::State_Machines::CompositeState!) ){
+			stateIterator := theState.oclAsType(!source_model::State_Machines::CompositeState!).subvertex.getNewIterator();
+			stateIterator.start();
+			while stateIterator.isOn() {
+				aState := stateIterator.item().oclAsType(!source_model::State_Machines::StateVertex!);
+				if ( aState.oclIsKindOf(!source_model::State_Machines::State!) ){
+					aChildClass := generateClassFor(aState.oclAsType(!source_model::State_Machines::State!), resultClass);
+					
+					if ( theState.oclIsTypeOf(!source_model::State_Machines::CompositeState!) ){
+						if ( theState.oclAsType(!source_model::State_Machines::CompositeState!).isConcurrent ){
+							aChildClass.isAbstract := true;
+					
+							// If the state is concurrent, we link it with an aggregation
+							parentEnd := uml.createAssociationEnd(
+								resultClass,
+								'context',
+								true,
+								!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+								!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+								!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+								uml.createMultiplicity(0,-1),
+								!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+								!source_model::Data_Types::VisibilityKind!.vk_public.oclAsType(!source_model::Data_Types::VisibilityKind!)
+							);
+							
+							childEnd := uml.createAssociationEnd(
+								aChildClass,
+								'current'.concat(aState.name.oclAsType(!Standard::String!)),
+								true,
+								!source_model::Data_Types::OrderingKind!.ok_unordered.oclAsType(!source_model::Data_Types::OrderingKind!),
+								!source_model::Data_Types::AggregationKind!.ak_none.oclAsType(!source_model::Data_Types::AggregationKind!),
+								!source_model::Data_Types::ScopeKind!.sk_instance.oclAsType(!source_model::Data_Types::ScopeKind!),
+								uml.createMultiplicity(1,1),
+								!source_model::Data_Types::ChangeableKind!.ck_changeable.oclAsType(!source_model::Data_Types::ChangeableKind!),
+								!source_model::Data_Types::VisibilityKind!.vk_public.oclAsType(!source_model::Data_Types::VisibilityKind!)
+							);
+							
+							uml.createAndAddAssociationBetween('', containerClass.namespace.oclAsType(!source_model::Core::Namespace!), childEnd, parentEnd);
+	
+						}										
+					}
+					
+					// we add inheritance between the class and the container state
+					uml.createAndAddInheritanceBetween(
+						containerClass.namespace.oclAsType(!source_model::Core::Namespace!),
+						aChildClass.oclAsType(!source_model::Core::GeneralizableElement!),
+						resultClass.oclAsType(!source_model::Core::GeneralizableElement!)
+					);
+		
+				}
+				stateIterator.next();
+			}
+		}
+		
+		return resultClass;
+	}
+	
+
+	transformStateToClass(	theState 		: 	source_model::State_Machines::State;
+							containerClass	:	source_model::Core::Class
+	) : source_model::Core::Class
+	{
+		resultClass		:	source_model::Core::Class;
+		resultClassName	:	Standard::String;
+		
+		resultClassName := theState.name.oclAsType(!Standard::String!).concat('State');
+		
+		resultClass := uml.createAndAddClass(	
+			resultClassName,
+			containerClass.namespace.oclAsType(!source_model::Core::Namespace!)
+		);
+		
+		return resultClass;			
+	}
+	
+	
+	//
+	// Create a set containing the state of the element
+	//
+	getAllSignalOf(element : source_model::Core::ModelElement) : Standard::Set
+	{
+		resultSet				:	Standard::Set;
+		signalIterator			:	Standard::Iterator;
+		aSignal					:	source_model::State_Machines::Event;
+		
+		resultSet := new Standard::Set();
+		signalIterator := !source_model::State_Machines::Event!.allInstances.getNewIterator();
+		signalIterator.start();
+		while signalIterator.isOn() {
+			aSignal := signalIterator.item().oclAsType(!source_model::State_Machines::Event!);
+			if ( aSignal.namespace.[=](element) ){
+				resultSet := resultSet.including(aSignal);
+			}
+			signalIterator.next();
+		}
+		
+		return resultSet;
+	}
+
+		
+	getBehaviorsOfElement(element : source_model::Core::ModelElement) : Standard::Set
+	{
+		resultSet				:	Standard::Set;
+		stateMachineIterator	:	Standard::Iterator;
+		aStateMachine			:	source_model::State_Machines::StateMachine;
+		
+		resultSet := new Standard::Set();
+		stateMachineIterator := !source_model::State_Machines::StateMachine!.allInstances.getNewIterator();
+		stateMachineIterator.start();
+		while stateMachineIterator.isOn() {
+			aStateMachine := stateMachineIterator.item().oclAsType(!source_model::State_Machines::StateMachine!);
+			if ( aStateMachine.context.[=](element) ){
+				resultSet := resultSet.including(aStateMachine);
+			}
+			stateMachineIterator.next();
+		}
+		
+		return resultSet;
+	}
+	
+}

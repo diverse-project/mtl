@@ -1,0 +1,83 @@
+/*
+ * Library 	: SCSAdapter
+ *		Define an default implementation of the SCSView library
+ *
+ * File 	: $RCSfile: EventSelectionAdapter.mtl,v $
+ * Purpose 	: Define an adapter of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/09/03 12:04:00  dvojtise
+ * initial revision
+ * directly from Franck Chauvel work at the end of his DEA
+ *
+ *
+ */
+ 
+ 
+library SCSAdapter extends SCSView;
+
+
+class EventSelectionAdapter extends EventSelection refines EventSelection
+{
+
+	// Some attributes
+	theRef 		: 	SCS::EventSelection ;
+	theFactory	:	AdapterFactory;
+	
+	
+	/*
+	 * Purpose 	: Build a new StatechartsSemantic Adapter
+	 * Params 	:
+	 * 		+ ref : the object that we want to adapt
+	 *		+ factory : the adapter factory.
+	 * Remark 	: should be call only by an AdapterFactory object
+	 */
+	init(
+		ref		:	SCS::EventSelection ;
+		factory : 	AdapterFactory	
+	){
+		theRef := ref;
+		theFactory := factory;
+	}
+
+	
+	/*
+	 * See : SCSView::EventSelection::getName()
+	 */
+	getName() : Standard::String 
+	{
+		return theRef.name;
+	}
+
+
+	/*
+	 * See : SCSView::EventSelection::getBody()
+	 */
+	getBody() : Standard::String
+	{
+		return theRef.body;
+	}
+	
+	
+	/*
+	 * See : SCSView::EventSelection::setName()
+	 */
+	setName(name : Standard::String)
+	{
+		theRef.name := name;
+	}
+	
+	
+	/*
+	 * See : SCSView::EventSelection::setBody()
+	 */
+	setBody(body : Standard::String)
+	{
+		theRef.body := body;
+	}
+
+}
