@@ -44,7 +44,8 @@ public class AssociateAnalyser extends TLLTopDownVisitor.AssociateAnalyser {
 			outputForClass.print(rolesIt.next().toString() + "_ae");
 		}
 		outputForClass.println("});");
-		outputForClass.print(assoc + ".associateModelElements(null, new ModelRole [] {");
+		if (ASTnode.getIsAssociate()) outputForClass.print(assoc + ".associateModelElements(null, new ModelRole [] {");
+		else outputForClass.print(assoc + ".dissociateModelElements(null, new ModelRole [] {");
 		rolesIt = roles.iterator();
 		first = true;
 		while (rolesIt.hasNext()) {
