@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.5 2003-08-26 13:00:15 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -23,12 +23,16 @@ public class ReturnAnalyser extends TLLTopDownVisitor.ReturnAnalyser {
 		QualifiedName returnedType=theContainer.getFeatureType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.print("return ");
-		outputForClass.print("("+returnedType.getDeclarationName()+")CommonFunctions.toBMTLDataType(");		
+		if (ASTnode.getReturnedExpression() != null)
+			outputForClass.print("("+returnedType.getDeclarationName()+")CommonFunctions.toBMTLDataType(");
+		else
+			outputForClass.print("BMTLVoid.TheInstance");		
 		return null; }
 
 	public void ReturnAfter(Object theReturn, Return ASTnode, Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print(')');
+		if (ASTnode.getReturnedExpression() != null)
+			outputForClass.print(')');
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.5 2003-08-22 18:24:44 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.6 2003-08-26 13:00:15 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -98,6 +98,13 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			if ((! (theLib.getClasses(i) instanceof TheLibraryClass)) &&  (theLib.getClasses(i).getProperty("type") != null || !((Boolean)theLib.getClasses(i).getProperty("ManualMangling").getValue()).booleanValue()))
 				outputForClass.println("    if (type[0].equals(\""+JavaStringLiteralEncoder.encodeString(theLib.getClasses(i).getName())+"\")) return this."+Mangler.mangle("the", theLib.getClasses(i).getMangle())+';');
 		}
+		limit = theLib.cardUsedLibs();
+		for(i=0;i<limit;i++)
+			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
+				if (!aUsedLib.isModelType && !aUsedLib.isRepositoryModel) {
+					outputForClass.println("    if (type[0].equals(\""+JavaStringLiteralEncoder.encodeString((String)aUsedLib.get(0))+"\")) return "+aUsedLib.getExternCompleteName()+".myType;");
+				}
+			}
 		if (isStandard)
 			outputForClass.println("    return null;");
 		else
@@ -120,7 +127,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 						outputForClass.print("    else ");
 					boolean isRepRef = (aUsedLib instanceof RepositoryRef) || (aUsedLib instanceof TypedModelRef) && ((TypedModelRef)aUsedLib).getView().equals("RepositoryModel");
 					outputForClass.println("if (type[0].equals(\"" + JavaStringLiteralEncoder.encodeString((String)aUsedLib.getName()) + "\")) " + (isRepRef?"try ":"") +"{");
-					outputForClass.println("      return this."+Mangler.mangle("BMTL_", aUsedLib.getName())+".getMetaClass(unqualifiedType);");
+					outputForClass.println("      return this."+Mangler.mangle("BMTL_", aUsedLib.getName())+" == null ? null : this."+Mangler.mangle("BMTL_", aUsedLib.getName())+".getMetaClass(unqualifiedType);");
 					outputForClass.print("    }");
 					if (isRepRef)
 						outputForClass.println(" catch (UnknownElementException x) {}");
@@ -267,7 +274,8 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type getType()");
 		outputForClass.println("{ return myType; }");
 		outputForClass.println();
-		if (!hasParameters)
+		//@TODO remove the following line when the buildUsedLibs will be correctly done...
+		//if (!hasParameters)
 			outputForClass.println("public static final " + ASTnode.getMangle() + " TheInstance = new " + ASTnode.getMangle() + "();");
 		outputForClass.flush();
 		outputForInterface.flush();

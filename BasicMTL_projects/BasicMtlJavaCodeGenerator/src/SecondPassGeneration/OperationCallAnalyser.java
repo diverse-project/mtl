@@ -1,11 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.7 2003-08-25 10:58:05 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.8 2003-08-26 13:00:15 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -41,11 +42,9 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 			if (qn == null)
 				oclAsType = "null";
 			else {
-				Vector t = new Vector(qn);
-				t.remove(0);
-				oclAsType = "new String [] {\"" + AWK.mergeCollection(t, "\", \"") + "\"}";
+				oclAsType = "this.getLibrary().getMetaClass(new String [] {\"" + AWK.mergeCollection(qn, "\", \"") + "\"}).getQualifiedName()";
 			}
-			outputForClass.print(".invoke(" + oclAsType + ",\""+theOpCall.getName()+"\",new Value[]{");
+			outputForClass.print("invoke(" + oclAsType + ",\""+theOpCall.getName()+"\",new Value[]{");
 //@TODO IMPORTANT; this is a bug ; called values have to be casted into the correct BMTLDataTypes... This requires to know which operation is called.
 		} else {
 			if (qn != null) {
