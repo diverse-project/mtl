@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-11-04 15:41:40 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-10-14 12:03:32 jpthibau Exp $ -->
 <project name="SimpleUMLTransformations" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -15,9 +15,11 @@
 	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<!-- The runtime environment -->
 	<property name="MTLcompiler.Runtime" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	<property name="MDRDriver.path" location="../../../MDRDriver"/>
 	
 	<path id="current.class.path">
 	  	<pathelement path="${MTLcompiler.Runtime}"/>
+		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -28,7 +30,7 @@
 	<!-- set sample properties for this build -->
 	<property name="Sample src Folder" value="${src}/"/>
 	<property name="Sample Package" value="SimpleUMLTransformations"/>
-	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/"/>
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${MDRDriver.path}/src/ModelManager/TLL/"/>
 	<property name="Sample built src" value="${builtsrc}/SimpleUMLTransformations/"/>
 
 	<!-- ************************************************ -->
@@ -87,6 +89,7 @@
 		<classpath>
 			<pathelement path="${builtbin}/"/>
 			<pathelement path="${MTLcompiler.Runtime}"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
