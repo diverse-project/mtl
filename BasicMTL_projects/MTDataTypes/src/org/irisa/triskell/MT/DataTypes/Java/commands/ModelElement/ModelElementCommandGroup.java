@@ -27,8 +27,10 @@ public class ModelElementCommandGroup extends CommandGroupImpl {
 	
 	static {
 		TheInstance = new ModelElementCommandGroup();
-		TheInstance.addCommand(ModelElement_delete.TheInstance);
-		TheInstance.addCommand(ModelElement_oclUid.TheInstance);
+		
+		TheInstance.addCommand (ModelElement_delete.TheInstance);
+		TheInstance.addCommand (ModelElement_oclUid.TheInstance);
+		TheInstance.addCommand (ModelElement_getType.TheInstance);		
 	}
 	
 	private ModelElementCommandGroup() {
