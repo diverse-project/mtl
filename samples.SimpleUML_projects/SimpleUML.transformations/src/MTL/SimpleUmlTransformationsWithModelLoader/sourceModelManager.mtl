@@ -68,15 +68,25 @@ class sourceModelManager
 	{
 		if (driverName = 'EMF') 
 		{
+			'Storing EMF model'.toOut();
 			// store this model
-			EmfModelManager.saveModelToXMI('SimpleUmlMM');
-		}				
+			EmfModelManager.saveModelToXMI('SimpleUML_source_model');
+		}
+		elseif (driverName = 'MDR')
+		{// store this model
+			MdrDriver.storeModel('SimpleUML_source_model');
+		}
 	}
 	disposeSourceModel()
 	{
 		if (driverName = 'EMF') 
 		{
-			EmfModelManager.disposeModel('SimpleUmlMM');
+			'Disposing EMF model'.toOut();
+			EmfModelManager.disposeModel('SimpleUML_source_model');
+		}
+		elseif (driverName = 'MDR')
+		{
+			MdrDriver.disposeModel('SimpleUML_source_model');
 		}				
 	}
 	
@@ -126,11 +136,11 @@ class sourceModelManager
 	loadSourceModelInEMF(src_inputFilename, src_outputFilename : Standard::String )
 	{
 		source_model := EmfModelManager.loadModelFromXMI(
-									'SimpleUmlMM',
-									'SimpleUML',	// Name of the editing domain provider, case sensitive
+									'SimpleUML_source_model', // name under which this model will be registered
+									'SimpleUML',	// Name of the editing domain provider / file extension, case sensitive
 									src_inputFilename);
 		// Indicates where to save after changes have occured
-		EmfModelManager.saveModelAsXMI('SimpleUmlMM',
+		EmfModelManager.saveModelAsXMI('SimpleUML_source_model',
 								src_outputFilename);
 	
 	}
