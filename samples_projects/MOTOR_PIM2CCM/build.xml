@@ -1,0 +1,17 @@
+<!-- $Id: build.xml,v 1.1 2003-12-05 10:43:16 edrezen Exp $ -->
+
+<project name="PIM to CCM" default="run PIM to CCM" basedir=".">
+	<description>
+        PIM 2 CCM transformation
+	</description>
+	
+
+	<target name="run PIM to CCM" > 
+  		<description>
+  		</description>  
+  		<ant antfile="PIM2CCM_build.xml" dir="." target="compile"/>
+  		<ant antfile="PIM2CCM_build.xml" dir="." target="run"/>
+  	</target>
+
+
+</project>

@@ -1,0 +1,106 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Fri Dec 05 11:38:11 CET 2003'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a1' linkedId = '.:0000000000000390'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a2' linkedId = '.:0000000000000390'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a3' linkedId = '.:0000000000000394'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a4' linkedId = '.:0000000000000394'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a5' linkedId = '.:0000000000000399'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a6' linkedId = '.:0000000000000399'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a7' linkedId = '.:000000000000038F'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a8' linkedId = '.:0000000000000392'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a9' linkedId = '.:0000000000000393'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a10' linkedId = '.:0000000000000395'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a11' linkedId = '.:0000000000000396'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a12' linkedId = '.:0000000000000397'/>
+    <CIDLMetaModel.TraceableElement xmi.id = 'a13' linkedId = '.:0000000000000398'/>
+    <CIDLMetaModel.ConsumesDef xmi.id = 'a14' id = '.:0000000000000465' name = 'portEventIsRequired2'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a12'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ConsumesDef>
+    <CIDLMetaModel.ConsumesDef xmi.id = 'a15' id = '.:0000000000000468' name = 'portEventIsRequired1'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a13'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ConsumesDef>
+    <CIDLMetaModel.ProvidesDef xmi.id = 'a16' id = '.:0000000000000456' name = 'portIsProvided3'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a7'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ProvidesDef>
+    <CIDLMetaModel.ProvidesDef xmi.id = 'a17' id = '.:0000000000000459' name = 'portIsProvided1'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a8'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ProvidesDef>
+    <CIDLMetaModel.ProvidesDef xmi.id = 'a18' id = '.:000000000000045C' name = 'portIsProvided2'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a9'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ProvidesDef>
+    <CIDLMetaModel.HomeDef xmi.id = 'a19' id = '.:0000000000000445' name = 'component1'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a2'/>
+      </CIDLMetaModel.Element.tracedElements>
+      <CIDLMetaModel.HomeDef.component>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a20'/>
+      </CIDLMetaModel.HomeDef.component>
+    </CIDLMetaModel.HomeDef>
+    <CIDLMetaModel.HomeDef xmi.id = 'a21' id = '.:000000000000044B' name = 'component2'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a4'/>
+      </CIDLMetaModel.Element.tracedElements>
+      <CIDLMetaModel.HomeDef.component>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a22'/>
+      </CIDLMetaModel.HomeDef.component>
+    </CIDLMetaModel.HomeDef>
+    <CIDLMetaModel.HomeDef xmi.id = 'a23' id = '.:0000000000000451' name = 'component3'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a6'/>
+      </CIDLMetaModel.Element.tracedElements>
+      <CIDLMetaModel.HomeDef.component>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a24'/>
+      </CIDLMetaModel.HomeDef.component>
+    </CIDLMetaModel.HomeDef>
+    <CIDLMetaModel.UsesDef xmi.id = 'a25' id = '.:000000000000045F' name = 'portIsRequired1'
+      multiple = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a10'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.UsesDef>
+    <CIDLMetaModel.UsesDef xmi.id = 'a26' id = '.:0000000000000462' name = 'portIsRequired2'
+      multiple = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a11'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.UsesDef>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a20' id = '.:0000000000000444' name = 'component1'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a1'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ComponentDef>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a22' id = '.:000000000000044A' name = 'component2'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a3'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ComponentDef>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a24' id = '.:0000000000000450' name = 'component3'
+      isAbstract = 'false' isLocal = 'false'>
+      <CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.TraceableElement xmi.idref = 'a5'/>
+      </CIDLMetaModel.Element.tracedElements>
+    </CIDLMetaModel.ComponentDef>
+  </XMI.content>
+</XMI>

@@ -1,0 +1,403 @@
+/******************************************************************************
+ * $Id: PIM2CMM_Transformation.mtl,v 1.1 2003-12-05 10:43:18 edrezen Exp $
+ * Transform a UML+profile PIM model into a MOF PIM model
+ *
+ * Syntax used : BasicMTL beta
+ *
+ ******************************************************************************/
+
+library PIM2CCM_Transformation;
+
+model DesignMetamodel : RepositoryModel;		// should be a PIM MetaModel
+model CidlMetamodel   : RepositoryModel;
+
+
+
+main():Standard::Void
+{
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+
+	DesignMetamodel_filename : Standard::String;
+	DesignModelIn_filename   : Standard::String;
+
+	CidlMetamodel_filename : Standard::String;
+	CidlModelOut_filename  : Standard::String;
+
+	aTransformation   : TestTransformation;
+
+	//////////////////////////////////////////////////
+	// we define some filenames 
+	//////////////////////////////////////////////////
+	projectPath       := './';
+
+
+	//////////////////////////////////////////////////
+    // we initialize the MDR driver			
+	//////////////////////////////////////////////////
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	
+	//////////////////////////////////////////////////
+	// we initialize the PIM Design metamodel
+	//////////////////////////////////////////////////
+
+	DesignMetamodel_filename := projectPath.concat ('MetaModels/PIM/DesignMetamodel_MOF.xml');
+	DesignModelIn_filename   := projectPath.concat ('Models/PIM/Sample1.xml');
+
+
+	DesignMetamodel := mdrdriver.getModelFromXMI (
+		DesignMetamodel_filename, 
+		'DesignMetaModel',
+		'm1', 
+		DesignModelIn_filename,
+		DesignModelIn_filename
+	);
+
+	//////////////////////////////////////////////////
+	// we initialize the CIDL metamodel
+	//////////////////////////////////////////////////
+
+	CidlMetamodel_filename := projectPath.concat ('MetaModels/CCM/CidlMetaModel_MOF.xml');
+	CidlModelOut_filename  := projectPath.concat ('Models/CCM/SampleOut.xml');
+
+	CidlMetamodel:= mdrdriver.getModelFromXMI (
+		CidlMetamodel_filename, 
+		'CIDLMetaModel',
+		'm2', 
+		null,
+		CidlModelOut_filename
+	);
+
+	//////////////////////////////////////////////////
+	// we launch the transformation
+	//////////////////////////////////////////////////
+	aTransformation := new TestTransformation ();
+	aTransformation.run();
+}
+ 
+
+
+
+
+/*****************************************************************************/
+
+class IdGenerator 
+{
+	theId : Standard::Integer;
+
+	Init () 
+	{
+		theId := 0;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	getId () : Standard::Integer
+	{
+		theId := theId.[+](1);
+		return theId;
+	}
+}
+
+
+/*****************************************************************************/
+
+class TestTransformation
+{
+	idGenerator : IdGenerator;
+	
+
+	///////////////////////////////////////////////////////////////////////////
+	getRootElement () : DesignMetamodel::Model
+	{
+		result : DesignMetamodel::Model;
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::ModelElement;	
+
+		aModelElementIterator := !DesignMetamodel::ModelElement!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::ModelElement!);
+
+			if (aModelElement.oclIsTypeOf (!DesignMetamodel::Model!) )
+			{
+				aModelElement.name.toOut();
+				result := aModelElement;
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	Design_AddTraceableElement (
+		owner  : DesignMetamodel::Element;
+		traced : CidlMetamodel::Element
+	)
+	{
+		traceableElement : DesignMetamodel::TraceableElement;
+		traceableElement := new DesignMetamodel::TraceableElement ();
+		traceableElement.linkedId := traced.oclUid();
+
+		associate ( 
+			tracer         := owner            : DesignMetamodel::Element,
+			tracedElements := traceableElement : DesignMetamodel::TraceableElement
+		);			
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	CCM_AddTraceableElement (
+		owner  : CidlMetamodel::Element;
+		traced : DesignMetamodel::Element
+	)
+	{
+		traceableElement : CidlMetamodel::TraceableElement;
+		traceableElement := new CidlMetamodel::TraceableElement ();
+		traceableElement.linkedId := traced.oclUid();
+
+		associate ( 
+			tracer         := owner            : CidlMetamodel::Element,
+			tracedElements := traceableElement : CidlMetamodel::TraceableElement
+		);			
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	AddTraceableElement (
+		design : DesignMetamodel::Element;
+		ccm    : CidlMetamodel::Element
+	)
+	{
+		design.id := design.oclUid();
+		ccm.id    := ccm.oclUid();
+	
+		Design_AddTraceableElement (design,ccm);
+		CCM_AddTraceableElement    (ccm,design);
+	}
+
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	ComponentTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::Component;	
+		
+		aComponentDef : CidlMetamodel::ComponentDef;
+		aHomeDef      : CidlMetamodel::HomeDef;
+
+		aModelElementIterator := !DesignMetamodel::Component!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::Component!);
+						
+			// we build a new CIDL::ComponentDef object
+			aComponentDef := new CidlMetamodel::ComponentDef();
+	
+			// we build a new CIDL::HomeDef object
+			aHomeDef := new CidlMetamodel::HomeDef();
+
+			// we set the name of the CIDL::ComponentDef object
+			aComponentDef.name := aModelElement.name;
+
+			// we set the name of the CIDL::HomeDef object
+			aHomeDef.name := aModelElement.name;
+
+			// we associate the CIDL::HomeDef object and the CIDL::ComponentDef object
+			associate ( 
+				component := aComponentDef : CidlMetamodel::ComponentDef ,
+				home      := aHomeDef      : CidlMetamodel::HomeDef
+			);			
+
+			// we manage the tracability
+			AddTraceableElement (aModelElement, aComponentDef);
+			AddTraceableElement (aModelElement, aHomeDef);
+
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	PortIsProvidedTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::PortIsProvided;	
+	
+		aProvidesDef : CidlMetamodel::ProvidesDef;
+	
+		
+		aModelElementIterator := !DesignMetamodel::PortIsProvided!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortIsProvided!);
+			
+			// we build a brand new CidlMetamodel::ProvidesDef object
+			aProvidesDef := new CidlMetamodel::ProvidesDef();
+			
+			// we set the name of the CidlMetamodel::ProvidesDef object
+			aProvidesDef.name := aModelElement.name;
+
+			// we manage the tracability
+			AddTraceableElement (aModelElement, aProvidesDef);
+
+			
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	PortIsRequiredTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::PortIsRequired;	
+		
+		aUsesDef : CidlMetamodel::UsesDef;
+				
+		aModelElementIterator := !DesignMetamodel::PortIsRequired!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortIsRequired!);
+
+			// we build a new CidlMetamodel::UsesDef object
+			aUsesDef := new CidlMetamodel::UsesDef();
+			
+			// we set the name of the CidlMetamodel::UsesDef object
+			aUsesDef.name := aModelElement.name;
+
+			// we manage the tracability
+			AddTraceableElement (aModelElement, aUsesDef);
+
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	PortEventIsRequiredTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::PortEventIsRequired;	
+				
+		aConsumesDef : CidlMetamodel::ConsumesDef;
+		
+		type : Standard::OclType;
+				
+		aModelElementIterator := !DesignMetamodel::PortEventIsRequired!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortEventIsRequired!);
+
+			// we build a new CidlMetamodel::ConsumesDef object
+			aConsumesDef := new CidlMetamodel::ConsumesDef();
+
+			// we set the name of the CidlMetamodel::ConsumesDef object
+			aConsumesDef.name := aModelElement.name;
+
+			// we manage the tracability
+			AddTraceableElement (aModelElement, aConsumesDef);
+
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	Component_PortOwnerShipTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::Component;	
+		
+		portsIterator : Standard::Iterator;
+		aPort         : DesignMetamodel::Port;
+		
+		aModelElementIterator := !DesignMetamodel::Component!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::Component!);
+
+			portsIterator := aModelElement.OwnedPort.getNewIterator();
+			portsIterator.start();
+			while portsIterator.isOn()
+			{
+				aPort := portsIterator.item().oclAsType (!DesignMetamodel::Port!);
+				
+				portsIterator.next();
+			}
+			
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//
+	///////////////////////////////////////////////////////////////////////////
+	XXXTransformation () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement : DesignMetamodel::ModelElement;	
+		aType : Standard::OclType;
+		
+		aModelElementIterator := !DesignMetamodel::ModelElement!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::ModelElement!);
+			aType := aModelElement.getType();
+			aType.toOut();
+			aModelElementIterator.next();
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	run ()
+	{
+		// some initializations
+		idGenerator := new IdGenerator ();
+		idGenerator.Init();
+
+		// we process the transformations 
+		ComponentTransformation ();
+		PortIsProvidedTransformation ();
+		PortIsRequiredTransformation ();
+		PortEventIsRequiredTransformation ();
+	}
+
+
+}
