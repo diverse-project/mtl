@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.7 2003-11-14 17:29:44 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.8 2003-11-27 07:48:43 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -340,6 +340,7 @@
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
   		<mkdir dir="${dist}/Runtime/src/BasicMtlASTView"/>
+  		<mkdir dir="${dist}/Runtime/src/TLL"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
@@ -348,6 +349,9 @@
   		</copy> 		
   		<copy  todir="${dist}/Runtime/src/BasicMtlASTView">
   			<fileset dir="${base}/BMTLBasicMtlASTView"/>
+  		</copy> 
+  		<copy  todir="${dist}/Runtime/src/TLL">
+  			<fileset dir="${src}/TLL"/>
   		</copy> 		
   		<!-- add the template mtl file to weave associations -->
   		<copy todir="${dist}/bin">
