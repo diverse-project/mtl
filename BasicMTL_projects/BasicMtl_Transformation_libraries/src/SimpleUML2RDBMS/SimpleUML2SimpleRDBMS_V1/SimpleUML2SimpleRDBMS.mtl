@@ -1,5 +1,5 @@
 /**
- * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.5 2003-07-31 15:14:25 jpthibau Exp $
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.6 2003-07-31 15:38:20 dvojtise Exp $
  *
  *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
  * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
@@ -10,8 +10,8 @@
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
  * 
- * $Revision: 1.5 $ $Date: 2003-07-31 15:14:25 $
- * Last modification by : $Author: jpthibau $
+ * $Revision: 1.6 $ $Date: 2003-07-31 15:38:20 $
+ * Last modification by : $Author: dvojtise $
  * Authors : dvojtise, jpthibau
  *
  */
@@ -76,9 +76,9 @@ UMLClassesToRDBMS() : Standard::void
 	// monOclType = !source_model::Class!;
 	
 	classSet = !source_model::Class!.allInstances();
-	classSet = monOclType.allInstances();
-	truc.isTypeOf(!source_model::Class!);
-	truc.isTypeOf(monOclType);
+	// classSet = monOclType.allInstances();
+	// truc.isTypeOf(!source_model::Class!);
+	// truc.isTypeOf(monOclType);
 	// classSet = source_model.allInstances('Class');
 	
 
