@@ -1,10 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="ModFactDriver"
+   id="org.inria.ModFactDriver"
    name="ModFactDriver"
-   version="1.0.0">
+   version="0.0.1"
+   provider-name="INRIA"
+   class="org.inria.BasicMTL.ModFactDriver.ModFactDriverPlugin">
+   <runtime>
+      <library name="ThirdParty/ModFact/v1_0_0/antlr.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/JMI1_0.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ow_monolog.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/ModFactDriver.jar">
+         <export name="*"/>
+      </library>
+      <library name="bin/">
+         <export name="*"/>
+      </library>
+   </runtime>
    <requires>
       <import plugin="org.inria.BasicMTL.runtime"/>
+      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
 </plugin>

@@ -1,0 +1,39 @@
+<!-- $Id: main_build.xml,v 1.1 2004-10-25 14:01:00 dvojtise Exp $ -->
+<project name="ModFactDriver" default="compile" basedir=".">
+	<description>
+        main Build file for the ModFactDriver
+	</description>
+	<!-- set global properties for this build -->
+	
+	  	
+	<target name="copy_generic" description="copy the generic part of the driver">  		
+		<copy  todir="build/src/java/org/irisa/triskell/MT/repository/genericJMIDriver">
+		  	<fileset dir="../MDRDriver/src/java/org/irisa/triskell/MT/repository/genericJMIDriver"/>
+		</copy> 
+	</target>
+  	
+  	<target name="compile" description="compile all this plugin" depends="copy_generic">  		
+  		<ant dir="src/MTL/ModFactDriver" antfile="build.xml" target="compile_mtl" />  		
+  		<ant antfile="build.xml">
+  			<property name="javacVerbose" value="false"/>
+  		</ant>
+  	</target>
+	
+	<target name="clean" description="compile all this plugin">  		
+	  		<ant dir="src/MTL/ModFactDriver" antfile="build.xml" target="clean" />  		
+	  		<ant antfile="build.xml" target="clean"/>	  		
+	</target>
+  	
+	<target name="package" description="create a zip for this plugin" depends="compile">  		 		
+	  		<ant antfile="build.xml" target="zip.plugin"/> 		
+	</target>
+	
+	<target name="deploy" description="deploy locally this plugin (be careful when launching runtime workbench)"
+			depends="package">
+		<!--<echo message="eclipse.home = ${eclipse.home}"/>-->
+		<unzip dest="../../plugins" src="ModFactDriver_0.0.1.zip">			
+		</unzip>
+		<echo message="you should restart eclipse to take this change into account"/>
+	</target>
+	
+</project>
