@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
     <classpathentry kind="src" path="src/"/>
+    <classpathentry kind="lib" path="BasicMTLruntime.jar"/>
     <classpathentry kind="var"
         path="ECLIPSE_HOME/plugins/org.eclipse.core.resources_2.1.1/resources.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.core.resources_2.1.1/resourcessrc.zip"/>
     <classpathentry kind="var"
@@ -31,7 +32,6 @@
     <classpathentry kind="var"
         path="ECLIPSE_HOME/plugins/org.eclipse.core.runtime_2.1.1/runtime.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.core.runtime_2.1.1/runtimesrc.zip"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="C:/ECLIPSEEMFDRIVER/eclipse/workspace/RepositoryAPI/dist/bin/RepositoryAPI.jar"/>
-    <classpathentry kind="lib" path="C:/ECLIPSEEMFDRIVER/eclipse/workspace/RepositoryAPI/dist/bin/MTDataTypes.jar"/>
+    <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -8,6 +8,10 @@
 
    <runtime>
       <library name="EMFDriver.jar"/>
+      <library name="BasicMTLruntime.jar">
+         <export name="*"/>
+      </library>
+      <library name="log4j.jar"/>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>

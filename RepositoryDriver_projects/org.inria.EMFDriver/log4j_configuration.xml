@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/RepositoryDriver_projects/org.inria.EMFDriver/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2004-02-27 08:33:58 $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2004-03-08 08:18:22 $ -->
 <!-- $Author: jpthibau $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -30,6 +30,10 @@
   </logger>
 
   <logger name="MDRDriver">
+    <level value="DEBUG"/>
+  </logger>
+
+  <logger name="EMFDriver">
     <level value="DEBUG"/>
   </logger>
 

@@ -16,6 +16,9 @@
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.inria.EMFDriver"/>
+      <import plugin="EMFDriverTest"/>
+      <import plugin="library"/>
+      <import plugin="library.edit"/>
    </requires>
 
 
