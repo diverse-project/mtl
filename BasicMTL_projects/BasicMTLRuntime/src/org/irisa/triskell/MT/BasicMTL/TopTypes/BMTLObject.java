@@ -10,7 +10,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
-public abstract class BMTLObject extends Throwable implements BMTLInterface
+public abstract class BMTLObject extends Throwable implements BMTLObjectInterface
 {
 	protected Map inheritanceMap;
 	protected String name;

@@ -19,7 +19,7 @@ import java.util.*;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public abstract class BMTLLibrary extends BMTLObject {
+public abstract class BMTLLibrary extends BMTLObject implements BMTLLibInterface {
 	private TreeMap classInstances = new TreeMap(Collator.getInstance());
 	
 	public BMTLLibrary (String name) {
@@ -55,5 +55,5 @@ public abstract class BMTLLibrary extends BMTLObject {
 		this.allClassInstances(className).remove(instance);
 	}
 	
-	public abstract Type getMetaClass (String [] qualifiedName);
+	public void delete() {}
 }
