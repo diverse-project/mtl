@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BooleanLiteralAnalyser.java,v 1.1 2003-08-06 16:18:46 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BooleanLiteralAnalyser.java,v 1.2 2003-08-14 20:47:47 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -17,6 +17,7 @@ public class BooleanLiteralAnalyser extends ASTTopDownVisitor.BooleanLiteralAnal
 
 	public void BooleanLiteralAction(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BooleanLiteral ASTnode,java.util.Map context)
 	{	BooleanLiteral theCreatedLiteral=new BooleanLiteral(ASTnode.getValue());
+		theCreatedLiteral.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Instruction",theCreatedLiteral);
 	}
 

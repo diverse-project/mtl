@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ReturnAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ReturnAnalyser.java,v 1.3 2003-08-14 20:47:47 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -32,6 +32,7 @@ public class ReturnAnalyser extends ASTTopDownVisitor.ReturnAnalyser {
 
 	public void ReturnAfter(Object theReturn,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Return ASTnode,java.util.Map context)
 	{	Return theCreatedReturn=(Return)theReturn;
+		theCreatedReturn.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Instruction",theCreatedReturn);
 	}
 

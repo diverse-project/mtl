@@ -1,9 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.3 2003-08-09 15:16:08 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.4 2003-08-14 20:47:46 ffondeme Exp $
  * Created on 23 juil. 2003
  *
  */
 package TLLBuilder;
+
+import java.util.Arrays;
+import java.util.Vector;
 
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
@@ -22,11 +25,17 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 	{	String userClassName=ASTnode.getName();
 		String mangle=null;
 		Property mangling=(Property)ASTnode.getProperty("mangle");
-		if (mangling == null)
+		boolean manualMangling = mangling != null;
+		if (manualMangling)
+			mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
+		else
 			mangle=Mangler.mangle("BMTL_",userClassName);
-		else mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		UserClass theCreatedClass=new UserClass(userClassName,mangle,lineNumber);
+		theCreatedClass.createNewProperty("ManualMangling", manualMangling ? Boolean.TRUE : Boolean.FALSE, "Boolean");
+		Property typeTag = ASTnode.getProperty("type");
+		if (typeTag != null)
+			theCreatedClass.createNewProperty("type", typeTag.getValue(), "String");
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		Property inheritance=(Property)ASTnode.getProperty("Inheritance");
 		InheritedTypesList parentsTypesList=new InheritedTypesList();
@@ -35,9 +44,11 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		for (int i=0;i<parents.size();i++) {
 			QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)parents.get(i),theCreatedLib);
 			parentsTypesList.addElement(type);
-			String getRefOpName="getRef_"+type.get(0);
-			if (type.size()>1) getRefOpName=getRefOpName+type.get(1);
-			OpSignature getRefSignature=new OpSignature(getRefOpName,Mangler.mangle("BMTL_",getRefOpName));
+			String name = type.size()>1 ? (String) type.get(1) : (String) type.get(0);
+			String getRefOpName="getRef_"+name;
+			//@TODO cette opération devrait être faite au controle des types...
+			String getRefOpMangle ="getRef_"+Mangler.mangle("BMTL_", name);
+			OpSignature getRefSignature=new OpSignature(getRefOpName,getRefOpMangle);
 			getRefSignature.setReturnedType(type);
 			getRefSignature.setArgsCount(0);
 			theCreatedClass.appendLocalSignatures(getRefSignature);
@@ -62,12 +73,17 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		context.put("KnownAttributes",knownAttributes);
 		String getterName="get_"+attrib.getName();
 		String setterName="set_"+attrib.getName();
-		OpSignature getterSignature=new OpSignature(getterName,Mangler.mangle("BMTL_",getterName));
-		OpSignature setterSignature=new OpSignature(setterName,Mangler.mangle("BMTL_",setterName));
+		String getterMangle="get_"+attrib.getMangle();
+		String setterMangle="set_"+attrib.getMangle();
+		OpSignature getterSignature=new OpSignature(getterName,getterMangle);
+		OpSignature setterSignature=new OpSignature(setterName,setterMangle);
 		getterSignature.setReturnedType(attrib.getFeatureType());
 		getterSignature.setArgsCount(0);
-		QualifiedName returnTypeSetter=new QualifiedName();
-		returnTypeSetter.addElement("VoidValueImpl");
+//		QualifiedName returnTypeSetter=new QualifiedName();
+//		returnTypeSetter.addElement("Standard");
+//		returnTypeSetter.addElement("Void");
+		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		QualifiedName returnTypeSetter=CommonFunctions.findOrAddType(new Vector (Arrays.asList(new String [] {"Standard", "Void"})), theCreatedLib);
 		setterSignature.setReturnedType(returnTypeSetter);
 		setterSignature.setArgsCount(1);
 		setterSignature.appendArgsTypes(attrib.getFeatureType());

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/AssociateAnalyser.java,v 1.1 2003-08-06 16:18:44 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/AssociateAnalyser.java,v 1.2 2003-08-14 20:47:46 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -29,6 +29,7 @@ public class AssociateAnalyser extends ASTTopDownVisitor.AssociateAnalyser {
 
 	public void AssociateAfter(Object theAssociate,Associate ASTnode,java.util.Map context)
 	{	Associate theCreatedAssociate=(Associate)theAssociate;
+		theCreatedAssociate.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Associate",theCreatedAssociate);
 	}
 

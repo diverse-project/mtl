@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationAnalyser.java,v 1.3 2003-08-09 15:16:08 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationAnalyser.java,v 1.4 2003-08-14 20:47:47 ffondeme Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -65,6 +65,7 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 	{	Operation theCreatedOp=(Operation)theOp;
 		Instruction instr=(Instruction)objectInstr;
 		theCreatedOp.appendInstructions(instr);
+		instr.setContainerOp(theCreatedOp);
 	}
 
 	public void OperationAfter(Object theOp,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation ASTnode,java.util.Map context)

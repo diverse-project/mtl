@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarSettingAnalyser.java,v 1.1 2003-08-06 16:18:45 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarSettingAnalyser.java,v 1.2 2003-08-14 20:47:47 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -40,6 +40,7 @@ public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
 
 	public void VarSettingAfter(Object theInstr,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarSetting ASTnode,java.util.Map context)
 	{	Instruction theCreatedInstruction=(Instruction)theInstr;
+		theCreatedInstruction.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Instruction",theCreatedInstruction);
 	}
 

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclTypeLiteralAnalyser.java,v 1.1 2003-08-06 16:18:46 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclTypeLiteralAnalyser.java,v 1.2 2003-08-14 20:47:46 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -21,6 +21,7 @@ public class OclTypeLiteralAnalyser extends ASTTopDownVisitor.OclTypeLiteralAnal
 		theCreatedLiteral.setTheType(new QualifiedName());
 		for(int i=0;i<typeValue.size();i++)
 			theCreatedLiteral.getTheType().addElement(typeValue.get(i));
+		theCreatedLiteral.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Instruction",theCreatedLiteral);
 	}
 

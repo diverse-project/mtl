@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarCallAnalyser.java,v 1.1 2003-08-06 16:18:45 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarCallAnalyser.java,v 1.2 2003-08-14 20:47:47 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -28,6 +28,7 @@ public class VarCallAnalyser extends ASTTopDownVisitor.VarCallAnalyser {
 		}
 		if (found) {
 			OperationCall theCreatedOpCall=new OperationCall("get_"+varName,-1000);
+			theCreatedOpCall.setContainerOp((Operation)context.get("CurrentOperation"));
 			context.put("Instruction",theCreatedOpCall);
 		}
 		else {
@@ -45,10 +46,13 @@ public class VarCallAnalyser extends ASTTopDownVisitor.VarCallAnalyser {
 			if (found) {
 				VarCall theCreatedVarCall=new VarCall(ASTnode.getVarName());
 				theCreatedVarCall.setRelatedDecl((VarDeclaration)knownVarDecls.get(foundIndex));
+				theCreatedVarCall.setContainerOp((Operation)context.get("CurrentOperation"));
 				context.put("Instruction",theCreatedVarCall); }
 			else {
 				ANTLR2TLLJava.antlr2tll.getLog().error("Undeclared variable found (VarCall):"+varName);
-				context.put("Instruction",new VarCall(ASTnode.getVarName()));
+				VarCall theCreatedVarCall = new VarCall(ASTnode.getVarName());
+				theCreatedVarCall.setContainerOp((Operation)context.get("CurrentOperation"));
+				context.put("Instruction",theCreatedVarCall);
 			}
 		}
 	}
