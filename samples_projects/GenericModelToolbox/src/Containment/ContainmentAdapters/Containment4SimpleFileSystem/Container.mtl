@@ -1,7 +1,0 @@
-library Containment4SimpleFileSystem;
-
-class Container extends ContainmentDefaultAdapter::AbstractContainer
-{
-
-}
-

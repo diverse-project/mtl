@@ -1,0 +1,49 @@
+library Containment;
+
+package Factory
+{
+	class AdapterFactory
+	{
+		/** */
+		getInstance (kind : Standard::String;  path : Standard::String) : Containment::View_Container
+		{
+			if (kind='MOF')
+			{
+				return getInstanceMOF (path);
+			}
+			elseif (kind='UML')
+			{
+				return getInstanceUML (path);
+			}
+			elseif (kind='RDBMS')
+			{
+				return getInstanceRDBMS (path);
+			}
+			else
+			{
+				'IMPOSSIBLE CASE IN ContainmentFactory::AdapterFactory::getInstance...'.toErr();
+				return null;
+			}
+		}
+	
+	
+		/** */
+		getInstanceMOF (path : Standard::String) : Containment::View_Container
+		{
+			return new Containment::Containment4MOF_Container().init(path);
+		}
+		
+		/** */ 
+		getInstanceUML (path : Standard::String) : Containment::View_Container
+		{
+			return new Containment::Containment4UML_Container().init(path);
+		}
+	
+		/** */
+		getInstanceRDBMS (path : Standard::String) : Containment::View_Container
+		{
+			return new Containment::Containment4SimpleRDBMS_Container().init(path);
+		}
+	}
+	
+}

@@ -1,0 +1,20 @@
+library Containment;
+
+package Commands
+{
+	class Flatten extends Containment::View_Command
+	{
+		execute (container : Containment::View_Container) : Standard::OclAny
+	 	{
+			foreach (c : Containment::View_Container) in (container.getContents())
+			{
+				if (c.getRole() = container.getRole())
+				{
+					'Inner role found'.toOut();
+				}		
+			}
+	 		
+	 		return null;
+		}
+	}
+}	

@@ -1,0 +1,110 @@
+library Containment;
+
+package DefaultAdapter 
+{
+	class ProxyContainer extends DefaultAdapter_AbstractContainer
+	{
+		proxySubject : Standard::OclAny;
+
+	
+		/** GOF Template method */
+		init (modelPath : Standard::String) : Containment::View_Container
+		{
+			// we initialize the model 
+			initTheModel (modelPath);
+	
+			// we initialize the role of the root Container object		
+			setRole ('root');
+			
+			// we return the result, i.e. a Container object that acts as a root container
+			return this;
+		}
+	
+	
+		/** GOF Template Method */
+		addChild (proxySubject: Standard::OclAny;  role : Standard::String) : Containment::View_Container
+		{
+			result : Containment::DefaultAdapter_ProxyContainer;
+			
+			// a little check won't hurt.
+			if (isNull(proxySubject))
+			{
+				return null;
+			}
+			
+			// we create the child Container
+			result := createContainer ();
+			
+			// we set the proxy subject
+			result.setProxySubject (proxySubject);
+			
+			// we set the role
+			result.setRole (role);
+			
+			// we set the parent
+			result.setParent (this);
+	
+			// we add this child Container into the self Container
+			this.contents := this.contents.including (result);
+	
+			// we return the result
+			return result;
+		}
+	
+	
+		/** */
+		getName() : Standard::String
+		{ 
+			result : Standard::String;
+	
+			if (isNull(getProxySubject()))  { result := 'root'; }
+			else                            { result := getProxySubjectName (getProxySubject()); }
+			
+			return result;
+		}
+	
+	
+		/** */
+		setName (name : Standard::String)
+		{ 
+			// we update the proxy subject name
+			if (isNull(getProxySubject()).not())
+			{
+				setProxySubjectName (getProxySubject(), name);
+			}
+		}
+	
+		
+		/** Accessor */
+		getProxySubject() : Standard::OclAny
+		{
+			return this.proxySubject;
+		}
+	
+		/** Modifier */
+		setProxySubject (proxySubject : Standard::OclAny)
+		{
+			this.proxySubject := proxySubject;
+		}
+	
+	
+		/** Primitive used in a GOF Template Method */
+		initTheModel (modelPath : Standard::String) 
+		{
+			'ContainmentDefaultAdapter::ProxyContainer::initTheModel be abstract...'.toErr();
+		}
+	
+		/** Primitive used in a GOF Template Method */
+		getProxySubjectName (subject : Standard::OclAny) : Standard::String
+		{
+			'ContainmentDefaultAdapter::ProxyContainer::getProxySubjectName be abstract...'.toErr();
+			return null;
+		}
+	
+		/** Primitive used in a GOF Template Method */
+		setProxySubjectName (subject : Standard::OclAny;  name : Standard::String)
+		{
+			'ContainmentDefaultAdapter::ProxyContainer::setProxySubjectName be abstract...'.toErr();
+		}
+	}
+}	

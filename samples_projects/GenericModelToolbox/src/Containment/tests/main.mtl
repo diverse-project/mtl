@@ -1,0 +1,83 @@
+/******************************************************************************
+ * $Id: main.mtl,v 1.2 2004/03/17 15:36:20 edrezen Exp $
+ ******************************************************************************/
+
+library ContainmentTests;
+
+
+main (args : Standard::Sequence) : Standard::Void
+{
+	new Tests_Sample1().init('MOF',   '../../Models/MOF/UML_model.xmi').execute();
+//	new Tests_Sample1().init('UML',   '../../Models/UML/SimpleUml_model.xmi').execute();
+//	new Tests_Sample1().init('RDBMS', '../../Models/SimpleRDBMS/SimpleRDBMS_model.xmi').execute();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+package Tests
+{
+	class Sample1
+	{
+		adapter : Containment::Factory_AdapterFactory;
+		cmd     : Containment::Factory_CommandFactory;
+		root    : Containment::View_Container;
+	
+		/** */
+		init (adapterKind : Standard::String;  modelPath : Standard::String) : Tests_Sample1
+		{
+			// we define a factory for getting commands instances
+			cmd := new Containment::Factory_CommandFactory();
+	
+			// we define a factory for getting an adapter
+			adapter := new Containment::Factory_AdapterFactory();
+	
+			// we choose the adapter to be used
+			root := adapter.getInstance (adapterKind, modelPath);
+
+			// we return the instance
+			return this;
+		}
+	
+	
+		/** */
+		execute () : Standard::OclAny
+		{
+			'\n****************************************************************************************************'.toOut();
+			// we display a hierarchical representation of the container
+			root.execute (cmd.toStringDeep()).toOut();
+			
+			'\n****************************************************************************************************'.toOut();
+			// we search all containers whose name contains '_' and whose role contains 'as'	
+			foreach (c : Containment::View_Container) in (root.execute (cmd.find('', 'as')))
+			{
+				// we show the qualified name of the current container
+				c.execute (cmd.qualifiedName()).toOut();
+			}
+			
+			'\n****************************************************************************************************'.toOut();
+			// we search all containers whose name contains 'visibility' and whose role contains 'Attribute'
+			// we display for each of them their hierarchy	
+			foreach (c0 : Containment::View_Container) in (root.execute (cmd.find('visibility','Attribute')))
+			{
+				c0.execute (cmd.toString(false)).toOut();
+				'--------------------------------------------------'.toOut();
+				foreach (c1 : Containment::View_Container) in (c0.execute (cmd.hierarchy()))
+				{
+					'    '.concat (c1.execute (cmd.toString(false)).oclAsType(!Standard::String!)).toOut();
+				}
+				''.toOut();
+			}
+			
+			'\n****************************************************************************************************'.toOut();
+			// we search all containers whose name contains '_' and whose role can be anything.
+			// for all found containers, we replace the '_' by a '+'	
+			root.execute (cmd.replace('_', '+', ''));
+			root.execute (cmd.toStringDeep()).toOut();
+			
+			return null;
+		}
+	}
+}

@@ -1,0 +1,69 @@
+library Containment;
+
+model RDBMS : RepositoryModel;
+
+package Containment4SimpleRDBMS
+{
+	class Container extends Containment::DefaultAdapter_ProxyContainer
+	{
+		/** Definition of the hierarchical structure of the adapter class. */
+		getContents() : Standard::Set
+		{
+			if (isNull(this.contents))
+			{
+				this.contents := new Standard::Set ();
+	
+				if (getRole()='root')
+				{
+					foreach (aTable: RDBMS::Table) 
+					{
+						addChild (aTable, 'Table');
+					}
+				}
+				
+				if (getRole()='Table')
+				{
+					addChild (getProxySubject().oclAsType(!RDBMS::Table!).key.oclAsType(!Standard::OclAny!), 'Key');
+					addChild (getProxySubject().oclAsType(!RDBMS::Table!).foreignKey.oclAsType(!Standard::OclAny!), 'ForeignKey');
+					
+					foreach (aColumn : RDBMS::Column) in (getProxySubject().oclAsType(!RDBMS::Table!).column)
+					{
+						addChild (aColumn, 'Column');
+					}
+				}
+			}
+			
+			return this.contents;
+		}
+	
+	
+		/** Definition of the Factory Method declared in ContainmentDefaultAdapter::AbstractContainer */
+		createContainer () : Containment::View_Container
+		{
+			return  new Containment::Containment4SimpleRDBMS_Container();
+		}
+	
+		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+		getProxySubjectName (subject : Standard::OclAny) : Standard::String
+		{
+			return subject.oclAsType(!RDBMS::ModelElement!).name.oclAsType(!Standard::String!);
+		}
+	
+		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+		setProxySubjectName (subject : Standard::OclAny;  name : Standard::String)
+		{
+			subject.oclAsType(!RDBMS::ModelElement!).name := name;
+		}
+	
+	
+		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+		initTheModel (modelPath : Standard::String) 
+		{
+			driver : MDRDriver::MDRModelManager;
+			driver := new MDRDriver::MDRModelManager();
+			driver.init();
+			RDBMS := driver.getModelFromXMI ('../../MetaModels/SimpleRDBMS/SimpleRDBMS_metamodel.xmi', 'SimpleRdbmsMM2', modelPath,  modelPath, modelPath.concat('.modified'));
+		}
+	}
+	
+}

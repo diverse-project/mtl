@@ -1,0 +1,69 @@
+library Containment;
+
+package View
+{
+	class Container
+	{
+		/** */
+		getName() : Standard::String
+		{ 
+			'ContainmentView::getName : should be abstract...'.toErr();
+			return null; 
+		}
+		
+		/** */
+		getRole() : Standard::String
+		{ 
+			'ContainmentView::getRole : should be abstract...'.toErr();
+			return null; 
+		}
+	
+		/** */
+		getContents () : Standard::Set
+		{
+			'ContainmentView::getContents : should be abstract...'.toErr();
+			return null;
+		}
+	
+		/** */
+		getParent() : Containment::View_Container
+		{
+			'ContainmentView::getParent : should be abstract...'.toErr();
+			return null;
+		}
+	
+	
+		/** */
+		setName (name : Standard::String)
+		{ 
+			'ContainmentView::setName : should be abstract...'.toErr();
+		}
+	
+		/** */
+		setRole (role: Standard::String)
+		{ 
+			'ContainmentView::setRole : should be abstract...'.toErr();
+		}
+		
+	
+		/** */
+		setContents ()
+		{
+			'ContainmentView::setContents : should be abstract...'.toErr();
+		}
+	
+		
+		/** */
+		execute (command : Containment::View_Command) : Standard::OclAny
+		{
+			return command.execute (this);
+		}
+	}
+	
+	
+	class Command
+	{
+		execute (container : Containment::View_Container) : Standard::OclAny   { return null; }
+	}
+
+}

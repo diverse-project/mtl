@@ -1,0 +1,51 @@
+library Containment;
+
+package Commands
+{
+	class ToString extends  Containment::View_Command
+	{
+		showParent : Standard::Boolean;
+		
+		/** */
+		init (showParent : Standard::Boolean) : Containment::View_Command
+		{
+			this.showParent := showParent;
+			return this;
+		}	
+		
+		
+		/** */
+		execute (container : Containment::View_Container) : Standard::OclAny
+		{
+			str : Standard::String;
+			
+			if (isNull(showParent)) { showParent := true; }
+	
+			str := getString (container);
+		
+			if (showParent and isNull(container.getParent()).not())
+			{
+				str := str.concat (' (parent is ');
+				str := str.concat (getString(container.getParent()));
+				str := str.concat (') ');
+			}
+			
+			return str;
+		}
+		
+		
+		/** */
+		getString (container : Containment::View_Container) : Standard::String
+		{
+			result : Standard::String;
+	
+			result := '';
+			result := result.concat(container.getRole());
+			result := result.concat(' : ');
+			result := result.concat(container.getName());
+	
+			return result;
+		}
+		
+	}
+}

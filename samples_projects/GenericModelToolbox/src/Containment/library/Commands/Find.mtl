@@ -1,0 +1,50 @@
+library Containment;
+
+package Commands
+{
+	class Find extends Commands_Navigate
+	{
+		nameExp : Standard::String;
+		roleExp : Standard::String;
+		result     : Standard::Set;
+		
+		/** */
+		init (name : Standard::String;  role : Standard::String) : Containment::View_Command
+		{
+			this.nameExp := name;
+			this.roleExp := role;
+			
+			result := new Standard::Set();
+	
+			return this;
+		}
+	
+	
+		/** */
+		preExecute (container : Containment::View_Container)
+		{
+			test : Standard::Boolean;
+	
+			JavaCode [
+				java.util.regex.Pattern namePattern = java.util.regex.Pattern.compile (BMTL_nameExp.getTheString());
+				java.util.regex.Pattern rolePattern = java.util.regex.Pattern.compile (BMTL_roleExp.getTheString());
+				
+				java.util.regex.Matcher nameMatcher = namePattern.matcher (BMTL_container.BMTL_getName().getTheString());
+				java.util.regex.Matcher roleMatcher = rolePattern.matcher (BMTL_container.BMTL_getRole().getTheString());
+	
+				BMTL_test = new BMTLBoolean (nameMatcher.find() && roleMatcher.find());
+			];
+			
+			if (test)
+			{
+				result := result.including (container);
+			}
+		}
+		
+		/** */
+		postExecute (container : Containment::View_Container) : Standard::OclAny
+		{
+			return result;
+		}
+	}
+}	

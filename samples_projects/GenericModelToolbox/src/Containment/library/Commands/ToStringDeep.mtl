@@ -1,0 +1,67 @@
+library Containment;
+
+package Commands
+{
+	class ToStringDeep extends Commands_Navigate
+	{
+		str          : Standard::String;
+		toStringCmd  : Containment::View_Command;
+		indentLevel  : Standard::Integer;
+		
+		/** */
+		init (showParent : Standard::Boolean) : Containment::View_Command
+		{
+			this.str         := ''; 
+			this.toStringCmd := new Containment::Commands_ToString().init(showParent);
+			this.indentLevel := 0;
+			return this;
+		}	
+	
+		/** */
+		preExecute (container : Containment::View_Container)
+		{
+			if (isNull(str))  { init (true); }
+	
+			str := str.concat (getIndent());
+			str := str.concat (container.execute(toStringCmd).oclAsType(!Standard::String!));
+			str := str.concat ('\n');
+			increaseIndent();
+		}
+		
+		/** */
+		postExecute (container : Containment::View_Container) : Standard::OclAny
+		{
+			decreaseIndent();
+			return str;
+		}
+		
+		/** TOTALLY INEFFICIANT !!! */
+		getIndent () : Standard::String
+		{
+			result : Standard::String;
+			n      : Standard::Integer;
+	
+			result := '';
+			n := indentLevel;
+			while (n.[>=](0))
+			{
+				result := result.concat ('    ');
+				n := n.[-](1);
+			}
+			
+			return result;
+		}
+		
+		/** */
+		increaseIndent ()
+		{
+			indentLevel := indentLevel.[+](1);
+		}
+		
+		/** */
+		decreaseIndent ()
+		{
+			indentLevel := indentLevel.[-](1);
+		}
+	}
+}

@@ -1,0 +1,9 @@
+library Containment;
+
+package Containment4SimpleFileSystem
+{
+	class Container extends Containment::DefaultAdapter_AbstractContainer
+	{
+	}
+}	
+

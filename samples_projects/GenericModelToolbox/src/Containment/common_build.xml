@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2004-06-22 17:04:53 edrezen Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2004-07-01 15:41:01 edrezen Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -9,7 +9,10 @@
 	<property name="build.bin" location="build/bin"/>
 	<property name="build.src" location="build/src"/>
 
-	<property name="user.src.path"     location="${src}/${library.name}"/>
+<!--	<property name="user.src.path"     location="${src}/${library.name}"/> -->
+<!--	<property name="user.src.path"     location="${src}/View"/> -->
+
+
 	<property name="user.package.name" value="${library.name}"/>
 
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
@@ -49,16 +52,9 @@
   	</target>
 
   	<target name="compile common" description="compile all the sources in .class files" depends="init common">
-  		<!-- generate java files from the mtl files -->
-  		<!--<echo>TEMPLATEPATH=${MTLcompiler.jar.path}/</echo>
-  		<echo>${BasicMTLc.jar} ${user.src.path}/ </echo>
-  		<echo>-TLLPath ${build.src}/TLL/ </echo>
-  		<echo>-TLLLoadingPaths ${user.needed.TLL.path}/ </echo>
-  		<echo>-PackageName ${user.package.name} </echo>
-  		<echo>-BinPath ${user.build.src}/ </echo>-->
+
   		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
 
- 
   		<java jar="${BasicMTLc.jar}" 
 					fork="true"
            			failonerror="true">
@@ -73,7 +69,6 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${user.build.src}/"/> 
        	</java> 
-
  	
   		<!-- final java compile -->
   		<javac srcdir="${build.src}" 

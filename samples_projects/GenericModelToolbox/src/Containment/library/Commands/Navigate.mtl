@@ -1,0 +1,30 @@
+library Containment;
+
+package Commands
+{
+	// this command navigates the hierarchy of a container 
+	class Navigate extends Containment::View_Command
+	{
+		/** GOF Template method */
+		execute (container : Containment::View_Container) : Standard::OclAny
+	 	{
+	 		preExecute (container);
+			foreach (c : Containment::View_Container) in (container.getContents())
+			{
+				execute (c);
+			}
+			return postExecute(container);
+		}
+		
+		/** Primitive of the GOF Template Method */
+		preExecute (container : Containment::View_Container)
+		{
+		}
+		
+		/** Primitive of the GOF Template Method */
+		postExecute (container : Containment::View_Container) : Standard::OclAny
+		{
+			return null;
+		}
+	}
+}

@@ -1,0 +1,26 @@
+library Containment;
+
+package Commands
+{
+	class Hierarchy extends Commands_Navigate
+	{
+		result : Standard::Set;
+		
+		/** */
+		execute (container : Containment::View_Container) : Standard::OclAny
+		{
+			if (isNull(result)) { result:=new Standard::Set(); }
+	
+			if (isNull(container.getParent()).not())
+			{
+				foreach (c : Containment::View_Container) in (execute(container.getParent()))
+				{
+					result := result.including (c);
+				}
+				result := result.including (container);
+			}
+			
+			return result;
+		}
+	}
+}	

@@ -1,0 +1,93 @@
+library Containment;
+
+package Factory
+{
+	class CommandFactory
+	{
+		aFind          : Containment::Commands_Find;
+		aFlatten       : Containment::Commands_Flatten;
+		aHierarchy     : Containment::Commands_Hierarchy;
+		aQualifiedName : Containment::Commands_QualifiedName;
+		aToString      : Containment::Commands_ToString;
+		aToStringDeep  : Containment::Commands_ToStringDeep;
+		aReplace       : Containment::Commands_Replace;
+	
+	
+		/** */
+		find (name : Standard::String;  role : Standard::String) : Containment::Commands_Find
+		{
+			if (isNull(aFind))
+			{
+				aFind := new Containment::Commands_Find();
+			}
+			aFind.init (name,role);
+			return aFind ;
+		}
+	
+		/** */
+		flatten () : Containment::Commands_Flatten
+		{
+			if (isNull(aFlatten))
+			{
+				aFlatten := new Containment::Commands_Flatten();
+			}
+			return aFlatten;
+		}
+	
+		/** */
+		hierarchy () : Containment::Commands_Hierarchy
+		{
+			if (isNull(aHierarchy))
+			{
+				aHierarchy := new Containment::Commands_Hierarchy ();
+			}
+			return aHierarchy;
+		}
+	
+		/** */
+		qualifiedName () : Containment::Commands_QualifiedName
+		{
+			if (isNull(aQualifiedName))
+			{
+				aQualifiedName := new Containment::Commands_QualifiedName ();
+			}
+			return aQualifiedName;
+		}
+	
+		/** */
+		toString (showParent : Standard::Boolean) : Containment::Commands_ToString
+		{
+			if (isNull(aToString))
+			{
+				aToString := new Containment::Commands_ToString ();
+			}
+			aToString.init (showParent);
+			return aToString;
+		}
+	
+		/** */
+		toStringDeep () : Containment::Commands_ToStringDeep
+		{
+			if (isNull(aToStringDeep))
+			{
+				aToStringDeep := new Containment::Commands_ToStringDeep ();
+			}
+			return aToStringDeep;
+		}
+	
+		/** */
+		replace (
+			searchExp  : Standard::String;  
+			replaceExp : Standard::String;  
+			roleExp    : Standard::String
+		) : Containment::Commands_Replace
+		{
+			if (isNull(aReplace))
+			{
+				aReplace := new Containment::Commands_Replace ();
+			}
+			aReplace.init (searchExp,replaceExp,roleExp);
+			return aReplace;
+		}
+	}
+}

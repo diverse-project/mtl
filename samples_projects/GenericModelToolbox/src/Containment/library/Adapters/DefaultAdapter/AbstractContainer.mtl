@@ -1,0 +1,71 @@
+library Containment;
+
+package DefaultAdapter 
+{
+	class AbstractContainer extends Containment::View_Container
+	{
+		name     : Standard::String;
+		role     : Standard::String;
+		contents : Standard::Set;
+		parent   : Containment::View_Container;
+	
+		/** Method that creates a sub Container suitable for the current type of Container.
+			GOF Factory Method; must be redefined in subclasses. 
+		*/
+		createContainer () : Containment::View_Container
+		{
+			'Containment::DefaultAdapter_AbstractContainer::createContainer should be abstract...'.toErr();
+			return null;
+		}
+	
+		/** */
+		getName() : Standard::String
+		{ 
+			return name; 
+		}
+		
+		/** */
+		getRole() : Standard::String
+		{ 
+			return role; 
+		}
+	
+		/** */
+		getContents () : Standard::Set
+		{
+			return contents;
+		}
+	
+		/** */
+		getParent() : Containment::View_Container
+		{
+			return parent;
+		}
+	
+	
+		/** */
+		setName (name : Standard::String)
+		{ 
+			this.name := name; 
+		}
+	
+		/** */
+		setRole (role: Standard::String)
+		{ 
+			this.role := role; 
+		}
+	
+		/** */
+		setContents (contents : Standard::Set)
+		{
+			this.contents := contents;
+		}
+	
+		/** */
+		setParent (parent : Containment::View_Container)
+		{
+			this.parent := parent;
+		}
+	}
+}
+
