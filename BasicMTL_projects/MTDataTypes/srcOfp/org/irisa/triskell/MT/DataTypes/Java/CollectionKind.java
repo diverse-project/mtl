@@ -38,7 +38,7 @@ public final class CollectionKind
         else return 1;
     }
 
-    public static final org.irisa.triskell.MT.DataTypes.Java.CollectionKind ordered_set_kind = new CollectionKind(1);
+    public static final org.irisa.triskell.MT.DataTypes.Java.CollectionKind ordered_set_kind = new CollectionKind(4);
     public static org.irisa.triskell.MT.DataTypes.Java.CollectionKind getOrdered_set_kind () {
         return CollectionKind.ordered_set_kind;
     }

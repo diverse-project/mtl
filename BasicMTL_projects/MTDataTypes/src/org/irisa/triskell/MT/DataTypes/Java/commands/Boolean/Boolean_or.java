@@ -30,11 +30,12 @@ public class Boolean_or extends AbstractCommand {
 		if (lhsUndef && rhsUndef)
 			return invoker;
 		else if (rhsUndef || lhsUndef) {
-			BooleanValue def, undef;
+			BooleanValue def;
+			Value undef;
 			if (rhsUndef) {
-				def = (BooleanValue)invoker; undef = (BooleanValue)arguments[0];
+				def = (BooleanValue)invoker; undef = arguments[0];
 			} else {
-				def = (BooleanValue)arguments[0]; undef = (BooleanValue)invoker;
+				def = (BooleanValue)arguments[0]; undef = invoker;
 			}
 			if (def.getTheBoolean())
 				return def;

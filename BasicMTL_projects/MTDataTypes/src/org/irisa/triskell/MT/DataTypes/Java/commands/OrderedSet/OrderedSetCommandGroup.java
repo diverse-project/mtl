@@ -9,6 +9,8 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
@@ -39,4 +41,9 @@ public class OrderedSetCommandGroup extends CommandGroupImpl {
 	protected OrderedSetCommandGroup(OrderedSetType collectionType, CollectionCommandGroup parent) {
 		super(collectionType, Arrays.asList(new CommandGroup [] {parent}));
 	}
+	
+	public boolean checkInvoker(Value invoker) {
+		return super.checkInvoker(invoker) && ((CollectionValue)invoker).getKind().equals(CollectionKind.ordered_set_kind);
+	}
+	
 }

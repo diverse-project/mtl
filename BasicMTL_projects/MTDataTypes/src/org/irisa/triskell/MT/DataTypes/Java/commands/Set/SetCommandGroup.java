@@ -9,12 +9,16 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.Set;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
+import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
@@ -33,6 +37,9 @@ public class SetCommandGroup extends CommandGroupImpl {
 		if (ret == null) {
 			ret = new SetCommandGroup(setType, CollectionCommandGroup.getCollectionCommandGroup(setType));
 			setCommandGroups.put(setType, ret);
+			ret.addCommand(Set_union.TheInstance);
+			ret.addCommand(Set_intersection.TheInstance);
+			ret.addCommand(Set_including.TheInstance);
 		}
 		return ret;
 	}
@@ -40,5 +47,9 @@ public class SetCommandGroup extends CommandGroupImpl {
 	protected SetCommandGroup(SetType collectionType, CollectionCommandGroup parent) {
 		super(collectionType, Arrays.asList(new CommandGroup [] {parent}));
 	}
-	
+
+	public boolean checkInvoker(Value invoker) {
+		return super.checkInvoker(invoker) && ((CollectionValue)invoker).getKind().equals(CollectionKind.set_kind);
+	}
+
 }
