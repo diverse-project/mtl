@@ -1,4 +1,4 @@
-<!-- $Id: PureJava_build.xml,v 1.6 2003-12-16 08:13:11 jpthibau Exp $ -->
+<!-- $Id: PureJava_build.xml,v 1.7 2004-06-30 14:37:38 jpthibau Exp $ -->
 <project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -48,6 +48,7 @@
 	    <!-- <ant antfile="${src}/Standard/build.xml" dir="src/Standard" target="compile Standard"/> -->
 	    <ant antfile="${src}/Standard/build.xml" dir="${src}/Standard" target="compile Standard" inheritAll="false"/>
 	    <ant antfile="${src}/DefaultVisitors/build.xml" dir="${src}/DefaultVisitors" target="compile DefaultVisitors" inheritAll="false"/>
+	    <ant antfile="${src}/DefaultObservers/build.xml" dir="${src}/DefaultObservers" target="compile DefaultObservers" inheritAll="false"/>
 	</target>
 	
 		
@@ -143,12 +144,16 @@
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
   		<mkdir dir="${dist}/Runtime/src/DefaultVisitors"/>
+  		<mkdir dir="${dist}/Runtime/src/DefaultObservers"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
   		<copy todir="${dist}/Runtime/src/DefaultVisitors">
-  			<fileset dir="${base}/BMTLDefaultVisitors"/>
+  			<fileset dir="${base}/BMTLDefaultVisitors/DefaultVisitors"/>
+  		</copy>
+  		<copy todir="${dist}/Runtime/src/DefaultObservers">
+  			<fileset dir="${base}/BMTLDefaultVisitors/DefaultObservers"/>
   		</copy>
   		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>

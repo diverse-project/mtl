@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.1 2004-06-04 12:02:06 jpthibau Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.2 2004-06-30 14:38:08 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -220,13 +220,24 @@
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
-	         <arg value="${base}/BMTLDefaultVisitors/src/"/>
+	         <arg value="${base}/BMTLDefaultVisitors/DefaultVisitors/src/"/>
 	         <arg value="-TLLPath"/> 
 	         <arg value="${src}/TLL/"/>  
 	         <arg value="-PackageName"/> 
 	         <arg value="DefaultVisitors"/> 
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/DefaultVisitors/"/> 
+       	</java> 
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
+	         <arg value="${base}/BMTLDefaultVisitors/DefaultObservers/src/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${src}/TLL/"/>  
+	         <arg value="-PackageName"/> 
+	         <arg value="DefaultObservers"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${src}/DefaultObservers/"/> 
        	</java> 
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
@@ -314,13 +325,17 @@
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
   		<mkdir dir="${dist}/Runtime/src/DefaultVisitors"/>
+  		<mkdir dir="${dist}/Runtime/src/DefaultObservers"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
   		<mkdir dir="${dist}/Runtime/src/BasicMtlASTView"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
   		<copy todir="${dist}/Runtime/src/DefaultVisitors">
-  			<fileset dir="${base}/BMTLDefaultVisitors"/>
+  			<fileset dir="${base}/BMTLDefaultVisitors/DefaultVisitors"/>
+  		</copy>
+  		<copy todir="${dist}/Runtime/src/DefaultObservers">
+  			<fileset dir="${base}/BMTLDefaultVisitors/DefaultObservers"/>
   		</copy>
   		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>

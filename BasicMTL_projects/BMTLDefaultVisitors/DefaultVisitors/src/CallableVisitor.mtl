@@ -1,0 +1,45 @@
+library DefaultVisitors;
+
+// **************************
+// * CallableVisitor class *
+// **************************
+/** 
+  * Visitor for any BasicMTL defined class
+  * this Visitor provides three default methods
+  /*
+  /* visitOclAny(class_to_visit : OclAny; visitor_context : OclAny) : OclAny
+  /* 	which is the default visit method. It has the class_to_visit argument which is the class that
+  /* 	accept this Visitor, and a visitor_context argument which may be any object that has to be passed
+  /* 	between two visited classes (for instance, an accumulator of visited classes).
+  /* 	The visit method has a return value that allow vistors to build something (for instance a tree of visited classes).
+  /* 
+  /* visit(className : String; class_to_visit : OclAny; visitor_context : OclAny) : OclAny
+  /*   this method switches among defined visit methods using the className
+  /*   to select the appropriate visit method to call.
+  /*   if no visit method is available for the className, visit() has to throw a CallableVisitor (throw self; for instance).
+  /*.
+  /* To define a new visitor, one had generally to :
+  /* 1 - define a new Visitor that implements above methods
+  /* 2 - put any number of visitCLASSNAME methods that will visit
+  /* 	the corresponding class (having CLASSNAME as its name).
+  /* 3- build a switch in visit() method to call methods defined in 2)
+  /* 4- Eventually define Visitors that inherit from previously defined ones
+  /* 5 - For each created visitor remeber visitOclAny is the common behaviour for
+  /* 	all classes that lack of thier visitCLASSNAME corresponding method.
+  */
+class CallableVisitor {
+
+	visitOclAny(class_to_visit : Standard::OclAny; visitor_context : Standard::OclAny) : Standard::OclAny
+	{
+      // default visit method for any class
+      // does nothing and returns null for default BMTLCallableVisitor
+      	return null;
+    }
+
+   	visit(className : Standard::String; class_to_visit : Standard::OclAny; visitor_context : Standard::OclAny) : Standard::OclAny
+   	{
+   	//should switch to appropriate visit method, related to className
+   	//throw a CallableVisitor if no visit method is related to the className
+   	throws self.oclAsType(!DefaultVisitors::CallableVisitor!);
+   	}
+}

@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.1 2004-06-04 12:02:06 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.2 2004-06-30 14:38:08 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -318,7 +318,7 @@
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
-	         <arg value="${base}/BMTLDefaultVisitors/src/"/>
+	         <arg value="${base}/BMTLDefaultVisitors/DefaultVisitors/src/"/>
 	         <arg value="-TLLPath"/> 
 	         <arg value="${src}/TLL/"/>  
 	         <arg value="-TLLLoadingPaths"/>
@@ -327,6 +327,19 @@
 	         <arg value="DefaultVisitors"/> 
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/DefaultVisitors/"/> 
+       	</java>
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
+	         <arg value="${base}/BMTLDefaultVisitors/DefaultObservers/src/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${src}/TLL/"/>  
+	         <arg value="-TLLLoadingPaths"/>
+	         <arg value="${src}/TLL/"/>
+	         <arg value="-PackageName"/> 
+	         <arg value="DefaultObservers"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${src}/DefaultObservers/"/> 
        	</java>
   	</target>
     <target name="compile common" description="compile all the sources in .class files" >
@@ -366,6 +379,7 @@
     				<include name="Standard/**"/>
     				<include name="io/**"/>
     				<include name="DefaultVisitors/**"/>
+    				<include name="DefaultObservers/**"/>
   				</patternset>				
 			</fileset>
 			<!-- manifest to include -->
