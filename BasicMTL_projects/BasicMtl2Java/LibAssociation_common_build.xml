@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.4 2003-10-31 15:49:48 dpollet Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.5 2003-10-31 16:20:54 dpollet Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -357,7 +357,7 @@
   		</copy> 		
   		<!-- add the template mtl file to weave associations -->
   		<copy todir="${dist}/bin">
-  			<fileset dir="${BasicMtlAntlr2ASTViewAssociation}/build/src/Template"/>
+  			<fileset dir="${BasicMtlAntlr2ASTViewAssociation}/Template"/>
   		</copy> 
   		<!-- add the default log4j configuration file -->
   		<copy file="log4j_configuration.xml" todir="${dist}/bin"/>
