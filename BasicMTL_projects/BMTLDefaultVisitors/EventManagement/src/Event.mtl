@@ -5,10 +5,10 @@ library EventManagement;
 ////////////////////////////////////////////////////////////////////////////////
 class Event
 {
-	kind : Standard::String;
-	source : Standard::ModelElement;
+	kind   : Standard::String;
+	source : Standard::OclAny;
 	
-	getSource () : Standard::ModelElement
+	getSource () : Standard::OclAny
 	{
 		return this.source;
 	}
@@ -68,4 +68,12 @@ class AssociationEvent extends Event
 ////////////////////////////////////////////////////////////////////////////////
 class InstanceEvent extends Event
 {
+	instance : Standard::OclAny;
+	
+	/** */
+	getInstance () : Standard::OclAny
+	{
+		return this.instance;
+	}
 }
+

@@ -6,7 +6,7 @@ library EventManagement;
 ////////////////////////////////////////////////////////////////////////////////
 class EventCommand
 {
-	update (event : Event) 
+	execute (event : Event) 
 	{
 	}
 }
