@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/ForeachAnalyser.java,v 1.1 2004-04-21 18:07:08 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/ForeachAnalyser.java,v 1.2 2004-04-28 13:39:21 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -21,25 +21,30 @@ public class ForeachAnalyser extends Analyser {
 	{	super(Foreach.class);
 	}
 
-	public void analyse (Visitable node,Visitor visitor,java.util.Map context)
+	public void analyse (Visitable node, Visitor visitor,java.util.Map context)
 	{	
 		Foreach ASTnode = (Foreach) node;
-		Object theCreatedForeach = ForeachBefore (ASTnode,context);
+		Object theCreatedObject = ForeachBefore (ASTnode,context);
 
 		ASTnode.getCollection().accept (visitor,context);
-		this.ForeachCollection (theCreatedForeach, context.get("Instruction"), context);
+		this.ForeachCollection (ASTnode, theCreatedObject, context);
 
-		//ASTnode.getVarDeclaration().accept (visitor,context);
-		this.ForeachVarDeclaration (theCreatedForeach, context.get("VarDeclaration"), context);
+		this.ForeachVarDeclaration (ASTnode, theCreatedObject, context);
+
+		if (ASTnode.getCondition() != null)
+		{
+			ASTnode.getCondition().accept (visitor,context);
+			this.ForeachCondition (ASTnode, theCreatedObject, context);
+		}
 
 		// we loop over the instructions of the foreach body
 		for (int i=0; i<ASTnode.cardBody(); i++) 
 		{
 			((Instruction)ASTnode.getBody(i)).accept (visitor,context);
-			this.ForeachBodyInstruction (theCreatedForeach,context.get("Instruction"),context);
+			this.ForeachBodyInstruction ((Instruction)ASTnode.getBody(i), theCreatedObject, context);
 		}
 
-		ForeachAfter (theCreatedForeach,ASTnode,context);
+		ForeachAfter (ASTnode, theCreatedObject, context);
 	}
 
 	/** */
@@ -51,20 +56,12 @@ public class ForeachAnalyser extends Analyser {
 		return null; 
 	}
 
-	/** */
-	public void ForeachAfter (
-		Object theForeach, 
-		Foreach ASTnode,
-		java.util.Map context
-	) 
-	{
-	}
 
 
 	/** */
 	public void ForeachVarDeclaration (
-		Object theForeach, 
-		Object varDeclaration, 
+		Foreach node,
+		Object createdObject, 
 		java.util.Map context
 	) 
 	{
@@ -73,8 +70,18 @@ public class ForeachAnalyser extends Analyser {
 
 	/** */
 	public void ForeachCollection (
-		Object theForeach, 
-		Object collection, 
+		Foreach node, 
+		Object createdObject, 
+		java.util.Map context
+	) 
+	{
+	}
+
+
+	/** */
+	public void ForeachCondition (
+		Foreach node,
+		Object createdObject, 
 		java.util.Map context
 	) 
 	{
@@ -83,10 +90,20 @@ public class ForeachAnalyser extends Analyser {
 
 	/** */
 	public void ForeachBodyInstruction (
-		Object theForeach, 
-		Object instr, 
+		Instruction instr,
+		Object createdObject, 
 		java.util.Map context
 	) 
 	{
 	}
+	
+	/** */
+	public void ForeachAfter (
+		Foreach node,
+		Object createdObject, 
+		java.util.Map context
+	) 
+	{
+	}
+	
 }
