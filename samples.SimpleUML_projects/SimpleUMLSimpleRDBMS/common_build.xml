@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.3 2004-09-09 12:20:03 dvojtise Exp $ -->
+<!-- $Id: common_build.xml,v 1.4 2004-10-14 09:52:41 jpthibau Exp $ -->
 <project name="common_build" default="compile common" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -19,6 +19,8 @@
 -->	
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
+		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+		<pathelement path="${ModFactDriver.path}/dist/bin/ModFactDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -61,7 +63,7 @@
   		<!--<echo>TEMPLATEPATH=${MTLcompiler.jar.path}/</echo>
   		<echo>${BasicMTLc.jar} ${user.src.path}/ </echo>
   		<echo>-TLLPath ${build.src}/TLL/ </echo>
-  		<echo>-TLLLoadingPaths ${user.needed.TLL.path}/ </echo>
+  		<echo>-TLLLoadingPaths ${user.needed.TLL.path} </echo>
   		<echo>-PackageName ${user.package.name} </echo>
   		<echo>-BinPath ${user.build.src}/ </echo>-->
   		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
@@ -73,7 +75,7 @@
 	         <arg value="-TLLPath"/> 
 	         <arg value="${build.src}/TLL/"/>  
 	         <arg value="-TLLLoadingPaths"/>
-	         <arg value="${user.needed.TLL.path}/"/>
+	         <arg value="${user.needed.TLL.path}"/>
 	         <arg value="-PackageName"/> 
 	         <arg value="${user.package.name}"/> 
 	         <arg value="-BinPath"/> 
@@ -98,8 +100,10 @@
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
 			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
-   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/ModFact/v1_0_0/JMI1_0.jar"/>
-   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/ModFact/v1_0_0/JMIRepository.jar"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+			<pathelement path="${ModFactDriver.path}/dist/bin/ModFactDriver.jar"/>
+   			<pathelement path="${ModFactDriver.path}/Thirdparty/ModFact/v1_0_0/JMI1_0.jar"/>
+   			<pathelement path="${ModFactDriver.path}/Thirdparty/ModFact/v1_0_0/ModFactJmi.jar"/>
 		</classpath>
        	</java> 
 	</target>

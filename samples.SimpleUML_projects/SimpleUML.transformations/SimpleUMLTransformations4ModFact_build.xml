@@ -15,7 +15,8 @@
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL"/>
+	<property name="ModFactDriver.path" location="../ModFactDriver"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL/;${ModFactDriver.path}/src/ModelManager/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	

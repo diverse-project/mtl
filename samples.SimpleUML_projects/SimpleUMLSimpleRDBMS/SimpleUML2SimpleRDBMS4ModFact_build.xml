@@ -1,4 +1,4 @@
-<!-- $Id: SimpleUML2SimpleRDBMS4ModFact_build.xml,v 1.2 2004-01-30 14:27:27 dvojtise Exp $ -->
+<!-- $Id: SimpleUML2SimpleRDBMS4ModFact_build.xml,v 1.3 2004-10-14 09:52:41 jpthibau Exp $ -->
 <project name="UML14_Transformations" default="compile" basedir=".">
 	<description>
         Build file for compiling and running UML14_Transformations
@@ -12,7 +12,8 @@
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL"/>
+	<property name="ModFactDriver.path" location="../ModFactDriver"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL/;${ModFactDriver.path}/src/ModelManager/TLL/"/>
 	<!-- The runtime environment -->
 	<!--<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>-->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.path}/bin"/>
