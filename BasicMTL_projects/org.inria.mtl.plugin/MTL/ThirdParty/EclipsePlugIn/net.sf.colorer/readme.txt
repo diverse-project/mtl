@@ -1,4 +1,4 @@
-$Id: readme.txt,v 1.1 2004-05-28 16:53:17 sdzale Exp $
+$Id: readme.txt,v 1.2 2004-06-15 15:13:15 sdzale Exp $
 
 Color editor for eclipse
 This is my prefered one (Didier)

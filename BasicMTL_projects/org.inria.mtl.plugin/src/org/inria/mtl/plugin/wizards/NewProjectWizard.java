@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.3 2004-05-28 16:53:09 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.4 2004-06-15 15:12:58 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,6 +9,9 @@
 package org.inria.mtl.plugin.wizards; 
  
 import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
@@ -28,10 +31,12 @@ import org.eclipse.jdt.ui.wizards.NewJavaProjectWizardPage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-//import ThirdParty.
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLBuilder;
 import org.inria.mtl.plugin.builders.MTLNature;
@@ -52,6 +57,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IWorkspaceRu
 	   this.workbench = workbench;
 	   this.selection = selection;
 	   setWindowTitle(MTLImportMessages.getString("NewProjectCreationWizard.title"));
+	   //initializeDefaultPageImageDescriptor();
    }
  
 	/*
@@ -117,6 +123,7 @@ public void run(IProgressMonitor monitor) throws CoreException {
  */
 public boolean finish(IProgressMonitor monitor) {
 	IPreferenceStore store=PreferenceConstants.getPreferenceStore();
+	String RuntimeFilePath;
 	
 	
 	// create the new file resource
@@ -159,8 +166,30 @@ public boolean finish(IProgressMonitor monitor) {
 		binmtl.create(true, true, null);
 		
 		//A revoir
-		
+		String pluginPath =MTLPlugin.getDefault().getLocation();
 		String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
+		if (MTLcompiler_path.length()==0){
+					RuntimeFilePath=pluginPath.concat("MTL\\bin\\BasicMTLruntime.jar");
+					pluginPath=pluginPath.concat("MTL");
+					File runtimeFile = new File(RuntimeFilePath); 
+//					System.out.println("File :"+compFile.toString());
+					if (!(runtimeFile.exists())){
+						Shell shell = new Shell();
+									MessageDialog.openInformation(
+									shell,
+									"MTL Runtime Compiler",
+									"Compiler path not define...");
+									return false;
+					}
+					MTLcompiler_path=pluginPath;
+					store.setValue(PreferenceConstants.MTL_COMPILER_PATH,MTLcompiler_path);
+			
+		}else{
+			RuntimeFilePath=MTLcompiler_path.concat("\\bin\\BasicMTLruntime.jar");
+		}
+		
+		IPath BasicMTLRuntimePath=new Path(RuntimeFilePath);
+		
 		if (MTLcompiler_path.length()==0){
 					IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
 					IClasspathEntry[] newcpe = new IClasspathEntry[1] ;			
@@ -180,8 +209,9 @@ public boolean finish(IProgressMonitor monitor) {
 					}			
 		  }else{
 					IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
-					IClasspathEntry[] newcpe = new IClasspathEntry[1] ;			
+					IClasspathEntry[] newcpe = new IClasspathEntry[2] ;			
 					newcpe[0] = JavaCore.newSourceEntry(javasrc.getFullPath());
+					newcpe[1] = JavaCore.newLibraryEntry(BasicMTLRuntimePath,null,null);
 
 					fJavaPage.setDefaultClassPath(newcpe, true);
 					fJavaPage.setDefaultOutputFolder(binjava.getFullPath());
@@ -192,10 +222,10 @@ public boolean finish(IProgressMonitor monitor) {
 						newcpe1[0]=MTLCore.newSourceEntry(mtlsrc.getFullPath()/*,MtlClasspathEntry.NO_EXCLUSION_PATTERNS,output.getFullPath()*/);			
 					}catch (Exception E){System.out.println("Ajout source incorrect");
 					}
-					try{
-					}catch (Exception E){
-						System.out.println("Ajout container incorrect");
-					}
+//					try{
+//					}catch (Exception E){
+//						System.out.println("Ajout container incorrect");
+//					}
 					
 					boolean bol=MTLCore.saveClasspath(newcpe1,null);
 					
@@ -227,8 +257,7 @@ public boolean finish(IProgressMonitor monitor) {
 //		System.out.println("tll :"+binmtl.getFullPath().toString());
 		MTLCore.findFolders();
 		
-
-	} catch (Exception e) {
+		} catch (Exception e) {
 		e.printStackTrace();
 		return false;
 	}
@@ -281,6 +310,22 @@ private void setBuilder(IProject newProject) throws Exception {
 	
 
 
+}
+
+/* (non-Javadoc)
+ * Method declared on BasicNewResourceWizard.
+ */
+ protected void initializeDefaultPageImageDescriptor() {
+	String iconPath = "icons/";//$NON-NLS-1$		
+	try {
+		URL installURL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
+		URL url = new URL(installURL, iconPath + "wizban/fmtl.gif");//$NON-NLS-1$
+		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
+		setDefaultPageImageDescriptor(desc);
+	}
+	catch (MalformedURLException e) {
+		// Should not happen.  Ignore.
+	}
 }
 
 		

@@ -1,4 +1,4 @@
-<!-- $Id: sample_build.xml,v 1.1 2004-05-28 16:53:36 sdzale Exp $ -->
+<!-- $Id: sample_build.xml,v 1.2 2004-06-15 15:13:28 sdzale Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="run test1" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler

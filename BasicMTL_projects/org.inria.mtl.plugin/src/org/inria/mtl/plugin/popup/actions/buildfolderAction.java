@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.3 2004-05-28 16:53:32 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.4 2004-06-15 15:13:25 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -34,6 +34,7 @@ public class buildfolderAction implements IObjectActionDelegate {
 	private StructuredSelection currentSelection = null;
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
+	private ISelection selection=null;
 
 
 	/**
@@ -54,8 +55,22 @@ public class buildfolderAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		Shell shell = new Shell();
-		
-		//MessageDialog.openInformation(shell,"Plugin Plug-in","New Action was executed.");
+		if (selection instanceof StructuredSelection)
+				{
+					currentSelection = (StructuredSelection)selection;
+					java.util.Iterator it = currentSelection.iterator();
+					while (it.hasNext()){
+						if (it instanceof IResource){
+										IResource item = (IResource) it.next ();
+										if (item instanceof IFolder){
+											currentProject=item.getProject();
+											srcFolder=(IFolder)item;
+										}
+										
+
+									}
+					}
+				}
 		boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 	}
 
@@ -63,23 +78,8 @@ public class buildfolderAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		this.selection=selection;
 			currentSelection = null;
-			if (selection instanceof StructuredSelection)
-				{
-					currentSelection = (StructuredSelection)selection;
-					java.util.Iterator it = currentSelection.iterator();
-					while (it.hasNext())
-									{
-										IResource item = (IResource) it.next ();
-										if (item instanceof IFolder){
-											System.out.println("iciFold");
-											currentProject=item.getProject();
-											srcFolder=(IFolder)item;
-										}
-										
-
-									}
-				}
 		}
 
 	/**

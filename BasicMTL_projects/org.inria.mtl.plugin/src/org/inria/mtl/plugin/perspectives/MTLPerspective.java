@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPerspective.java,v 1.2 2004-05-19 09:22:52 sdzale Exp $
+* $Id: MTLPerspective.java,v 1.3 2004-06-15 15:14:03 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -46,7 +46,7 @@ public class MTLPerspective implements IPerspectiveFactory
 		// Add "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);
-		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
+		//layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
   
@@ -59,28 +59,43 @@ public class MTLPerspective implements IPerspectiveFactory
 	*/                      
 	private void defineLayout(IPageLayout layout)
 	{
-		// Hide the editor.  Note the user can always make it come back.  
-		//layout.setEditorAreaVisible(true);
-        
+		//on récupère l'éditeur
 		String editorArea = layout.getEditorArea();
 
-		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.25f,editorArea); //$NON-NLS-1$
+		//		navigator
+		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.20f, editorArea); //$NON-NLS-1$
 		topLeft.addView(IPageLayout.ID_RES_NAV);
 		topLeft.addView(IPageLayout.ID_BOOKMARKS);
 		
-		//bottom left
-		IFolderLayout bottom = 
-						 layout.createFolder("bottom", IPageLayout.BOTTOM, 0.75f,editorArea); //$NON-NLS-1$
-		
-	
-		bottom.addView(IPageLayout.ID_TASK_LIST);
-		bottom.addView(IPageLayout.ID_BOOKMARKS);
-		//bottom.addView(IDebugUIConstants.);
-		
-		layout.addView(IPageLayout.ID_OUTLINE,
+		//		Outline
+		IFolderLayout topRight =
+					layout.createFolder(
+						"topRight",
 						IPageLayout.RIGHT,
-						0.75f,
+						0.80f,
 						editorArea);
+				topRight.addView(IPageLayout.ID_OUTLINE);
+				
+		
+		//		console at bottom
+			  IFolderLayout bottom =
+				  layout.createFolder(
+					  "bottom",
+					  IPageLayout.BOTTOM,
+					  0.80f,
+					  editorArea);
+			  bottom.addView("org.inria.mtl.plugin.views.mtlconsoleview");
+		
+		   	bottom.addView(IPageLayout.ID_TASK_LIST);
+		   	
+		//		assistants
+			layout.addNewWizardShortcut(
+				"org.inria.plugin.mtl.wizard.MTLProjectCreationWizard");
+			layout.addNewWizardShortcut(
+				"org.inria.plugin.mtl.wizard.MTLFolderCreationWizard");
+		    layout.addNewWizardShortcut(
+						"org.inria.plugin.mtl.wizard.MTLFileCreationWizard");
+		    
 			
 		
 	}

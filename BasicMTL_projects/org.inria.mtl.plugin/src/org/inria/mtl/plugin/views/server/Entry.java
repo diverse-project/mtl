@@ -1,5 +1,5 @@
 /*
-* $Id: Entry.java,v 1.1 2004-05-28 16:52:33 sdzale Exp $
+* $Id: Entry.java,v 1.2 2004-06-15 15:13:56 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,21 +7,9 @@
 */
 package org.inria.mtl.plugin.views.server;
 import java.util.Date;
-import java.util.Hashtable;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
-import org.eclipse.ui.views.tasklist.TaskList;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.ui.texteditor.MarkerUtilities;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.*;
-import org.inria.mtl.plugin.core.MTLCore;
-import org.inria.mtl.plugin.MTLPlugin;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.ui.views.tasklist.TaskList;
 
 /**
  * @author tcn
@@ -79,16 +67,8 @@ public class Entry
 		this.locationDetails = (event.getLocationInformation() == null)
 						? null
 						: event.getLocationInformation().fullInfo;
-		//Create a task
-		try{
-			createMarkers(event);
 			System.out.println("Marker créé");
-//			
-		}catch (CoreException e){
-			System.out.println("Marker non créé"+e.getMessage());
-			MTLPlugin.log(e);
-		}
-		
+
 		
 	}
 
@@ -149,55 +129,6 @@ public class Entry
 		return this.time;
 	}
 	
-/**
- * Create markers according to the compiler output
- */
-	public void createMarkers(LoggingEvent entry) throws CoreException {
-		
-	String Message=entry.getMessage().toString();
-	//System.out.println("Message initial:"+Message);
-	int AntLrTest=Message.indexOf("ANTLRException");
-	//System.out.println("Entrée Create Markers :"+AntLrTest);
-	//Antlr Exception Case
-	if (Message.indexOf("ANTLRException")==0){
-		
-		String messageAll = Message.substring(Message.indexOf(" on ") + 4, Message.length() ); //$NON-NLS-1$
-		//System.out.println("Message All:"+messageAll);
-		String messageFile = messageAll.substring(0, messageAll.indexOf(",")); //$NON-NLS-1$
-		System.out.println("Message File:"+messageFile);
-		String messageDelta = messageAll.substring(messageAll.indexOf(", ") + 2, messageAll.length()); //$NON-NLS-1$
-		//System.out.println("Message Delta:"+messageDelta);
-		//System.out.println("Message line:"+messageAll.indexOf(" line ")+"Test :"+messageAll.indexOf(":",messageAll.indexOf(" line ")));
-		String messageLine = messageDelta.substring(messageDelta.indexOf("line ")+5 ,messageDelta.indexOf(":")); //$NON-NLS-1$
-		//System.out.println("Message Line:"+messageLine);
-		String messageDesc = messageDelta.substring(messageDelta.indexOf(":",messageDelta.indexOf(":")+1)+1, messageDelta.length()); //$NON-NLS-1$
-		//System.out.println("Message Desc:"+messageDesc);
-		
-
-		Hashtable attributes = new Hashtable();
-		MarkerUtilities.setMessage(attributes, messageDesc);
-		attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-		
-		try{
-			int lineNumber =
-				Integer.parseInt(messageLine);	//$NON-NLS-1$
-				MarkerUtilities.setLineNumber(attributes, lineNumber);
-		}catch (Exception e){
-			System.out.println("Error Line number :");
-			
-		}
-		
-		String N=messageFile.substring(messageFile.indexOf(MTLCore.getProject().getName())+MTLCore.getProject().getName().length()+1);
-		//System.out.println("File name :"+N);
-		IFile currFile=MTLCore.getProject().getFile(N);
-		currFile.deleteMarkers(IMarker.PROBLEM, false, 0);
-		MarkerUtilities.createMarker(currFile, attributes, IMarker.PROBLEM);
-		
-		//And refresh the compilation unit folder
-		currFile.getParent().refreshLocal(IResource.DEPTH_ONE, null);
-		
-		}
-	}
 
 
 }

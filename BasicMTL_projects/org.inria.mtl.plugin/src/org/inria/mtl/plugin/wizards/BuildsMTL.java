@@ -1,5 +1,5 @@
 /*
-* $Id: BuildsMTL.java,v 1.4 2004-05-28 16:53:10 sdzale Exp $
+* $Id: BuildsMTL.java,v 1.5 2004-06-15 15:12:59 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,7 +10,7 @@ package org.inria.mtl.plugin.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IContainer; 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -70,6 +70,7 @@ import org.eclipse.ui.help.WorkbenchHelp;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.core.MtlClasspathEntry;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
@@ -191,7 +192,7 @@ public class BuildsMTL {
 		item.setData(fSourceContainerPage);		
 		item.setControl(fSourceContainerPage.getControl(folder));
 		
-		System.out.println("Nb éléments"+fClassPathList.getSize());
+		//System.out.println("Nb éléments"+fClassPathList.getSize());
 		
 		IWorkbench workbench= MTLPlugin.getDefault().getWorkbench();	
 		Image projectImage= workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
@@ -253,20 +254,22 @@ public class BuildsMTL {
 	 */	
 	public void init(IJavaProject jproject, IPath outputLocation, IClasspathEntry[] classpathEntries) {
 		
-		//System.out.println("build1");
 		fCurrJProject= jproject;
+		
 		boolean projectExists= false;
 		List newClassPath= null;
-		//System.out.println("build2");
+		
 		try {
 			IProject project= fCurrJProject.getProject();
+			//System.out.println("Builds nom du projet:"+jproject.getProject().getName());
 			projectExists= (project.exists() && project.getFile(".mtlclasspath").exists()); //$NON-NLS-1$
-			//System.out.println("build3");
+		
 			if  (projectExists) {
 				if (outputLocation == null) {
 					outputLocation=  fCurrJProject.getOutputLocation();
 				}
 				if (classpathEntries == null) {
+					MTLCore.setProject(MTLModel.getProject());
 					classpathEntries=  MTLCore.readClasspathFile();
 				}
 			}
@@ -294,8 +297,7 @@ public class BuildsMTL {
 		fClassPathList.setElements(newClassPath);
 		fClassPathList.setCheckedElements(exportedEntries);
 		
-		System.out.println("FclasspathBuild :"+fClassPathList.getSize());
-
+		//System.out.println("Proj avant source :"+fCurrJProject.getProject().getName());
 		if (fSourceContainerPage != null) {
 			fSourceContainerPage.init(fCurrJProject);
 			fProjectsPage.init(fCurrJProject);
@@ -309,6 +311,8 @@ public class BuildsMTL {
 		ArrayList newClassPath= new ArrayList();
 		for (int i= 0; i < classpathEntries.length; i++) {
 			IClasspathEntry curr= classpathEntries[i];
+//			System.out.println("Proj getExisting :"+fCurrJProject.getProject().getName());
+//			System.out.println("Curr getExisting :"+curr.getPath().toString());
 			newClassPath.add(CPListElement.createFromExisting(curr, fCurrJProject));
 		}
 		return newClassPath;
@@ -463,6 +467,7 @@ public class BuildsMTL {
 /*		if (fCurrJProject.hasClasspathCycle(entries)) {
 			fClassPathStatus.setWarning(NewWizardMessages.getString("BuildPathsBlock.warning.CycleInClassPath")); //$NON-NLS-1$
 		}
+		
 */		
 
 	}
@@ -526,8 +531,7 @@ public class BuildsMTL {
 			if (fSWTWidget != null && !fSWTWidget.getShell().isDisposed()) {
 				shell= fSWTWidget.getShell();
 			}
-			System.out.println(fClassPathList.getElements().size());
-			internalConfigureMTLProject(fClassPathList.getElements(),/* getOutputLocation(),*/ shell, monitor);
+				internalConfigureMTLProject(fClassPathList.getElements(), shell, monitor);
 		} finally {
 			monitor.done();
 		}
@@ -545,13 +549,11 @@ public class BuildsMTL {
 			reorgQuery= getRemoveOldBinariesQuery(shell);
 		}
 
-		// remove old .tll and .java files
-				
+					
 		int nEntries= classPathEntries.size();
 		IClasspathEntry[] classpath= new IClasspathEntry[nEntries];
 		IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
-//		System.out.println("Nombre d'élements dans  classpathEntry "+nEntries);
-		
+
 		
 		// create and set the class path
 		for (int i= 0; i < nEntries; i++) {
@@ -562,13 +564,8 @@ public class BuildsMTL {
 				CoreUtility.createFolder((IFolder)res, true, true, null);
 			}
 			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-				//System.out.println("N°:"+i+"  "+entry.getEntryKind() +" ICode : "+IClasspathEntry.CPE_SOURCE+"    "+entry.getPath().toOSString());
+				//System.out.println("entry :"+entry.getPath());
 				classpath[i]=MTLCore.newSourceEntry(entry.getPath());
-				IPath folderOutput= (IPath) entry.getAttribute(CPListElement.OUTPUT);
-//				if (folderOutput != null && folderOutput.segmentCount() > 1) {
-//					IFolder folder= fWorkspaceRoot.getFolder(folderOutput);
-//					CoreUtility.createFolder((IFolder)folder, true, true, null);
-//				}
 			}else{
 						
 			classpath[i]= findClasspathEntry(entry);
@@ -576,7 +573,6 @@ public class BuildsMTL {
 						
 			
 		}
-		//System.out.println("Save Classpath ");
 		boolean bol=MTLCore.saveClasspath(classpath,null);
 		
  
@@ -594,12 +590,12 @@ public class BuildsMTL {
 			IPath attach= (IPath) entry.getAttribute(SOURCEATTACHMENT);
 			return MTLCore.newLibraryEntry(entry.getPath(), attach, null, entry.isExported());
 		case IClasspathEntry.CPE_PROJECT:
+			//Insert the project in the Java Builder Classpath
+			//JavaCore.newProjectEntry(entry.getPath(), entry.isExported());
+			//JavaCore.run();
 			return MTLCore.newProjectEntry(entry.getPath(), entry.isExported());
 		case MtlClasspathEntry.K_COMP:
 			return MTLCore.newContainerEntry(entry.getPath());
-//		case IClasspathEntry.CPE_VARIABLE:
-//			IPath varAttach= (IPath) entry.getAttribute(SOURCEATTACHMENT);
-//			return MTLCore.newVariableEntry(entry.getPath(), varAttach, null, entry.isExported());
 		default:
 			return null;
 	}
@@ -710,6 +706,11 @@ public class BuildsMTL {
 			fCurrPage= newPage;
 			fPageIndex= tabItem.getParent().getSelectionIndex();
 		}
+	}
+	
+	private void test() {
+		
+			
 	}
 	
 

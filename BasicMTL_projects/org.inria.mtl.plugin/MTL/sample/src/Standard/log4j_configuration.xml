@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/org.inria.mtl.plugin/MTL/sample/src/Standard/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2004-05-28 16:53:50 $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2004-06-15 15:13:38 $ -->
 <!-- $Author: sdzale $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">

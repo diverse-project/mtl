@@ -20,8 +20,8 @@
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.pde.ui"/>
       <import plugin="org.eclipse.jdt.ui"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.apache.xerces"/>
+      <import plugin="org.eclipse.jdt.core"/> 
+      <import plugin="org.apache.xerces"/> 
    </requires>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -37,7 +37,15 @@
   	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
  	 <showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
   </perspectiveExtension>
- <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+ <perspectiveExtension targetID="org.inria.mtl.plugin.MTLPerspective">
+ 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLProjectCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFolderCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFileCreationWizard" /> 
+  	 <actionSet id="org.inria.mtl.plugin.actionSet" /> 
+  </perspectiveExtension>
+  <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+  	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFolderCreationWizard" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFileCreationWizard" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLProjectCreationWizard" /> 
@@ -45,6 +53,7 @@
   <actionSet id="org.inria.mtl.plugin.actionSet" /> 
   </perspectiveExtension>
  <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+ 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFolderCreationWizard" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFileCreationWizard" /> 
   	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLProjectCreationWizard" /> 
@@ -52,6 +61,11 @@
   	<actionSet id="org.inria.mtl.plugin.actionSet" /> 
   </perspectiveExtension>
   </extension>
+  
+<!-- =========================================================================== -->
+<!-- Nature  and Builder of the project                                                                 -->
+<!-- =========================================================================== -->
+  
     <extension
          id="MTLNature"
          name="%MTLNature"
@@ -65,6 +79,14 @@
             id="org.inria.mtl.plugin.MTLPlugin.MTLBuilder">
       </builder>
    </extension>
+     <extension
+         point="org.eclipse.ui.projectNatureImages">
+      <image
+            icon="icons/fmtl2.gif"
+            natureId="org.inria.mtl.plugin.MTLNature"
+            id="org.inria.mtl.plugin.MTLNature">
+      </image>
+   </extension>
    <extension
          id="MTLBuilder"
          name="%MTLBuilder"
@@ -75,18 +97,37 @@
          </run>
       </builder>
    </extension>
+<!-- =========================================================================== -->
+<!-- Filtres du navigateur                                                              -->
+<!-- =========================================================================== -->
+ <extension
+         point="org.eclipse.ui.resourceFilters">
+      <filter
+            selected="true"
+            pattern=".project">
+      </filter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.resourceFilters">
+      <filter
+            selected="true"
+            pattern="*.classpath">
+      </filter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.resourceFilters">
+      <filter
+            selected="true"
+            pattern="*.mtlclasspath">
+      </filter>
+   </extension>
+<!-- =========================================================================== -->
+<!-- Editor                                                                 -->
+<!-- =========================================================================== -->
+
   <extension point="org.eclipse.team.core.fileTypes">
   	<fileTypes type="text" extension="mtl" /> 
   </extension>
-  
- <!--  <extension
-         point="org.eclipse.ui.projectNatureImages">
-      <image
-            icon="icons/nature.gif"
-            natureId="org.inria.mtl.plugin.MTLNature"
-            id="MTLNatureImage">
-      </image>
-   </extension>-->
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -111,9 +152,12 @@
             <separator
                   name="MTLGroup">
             </separator>
+             <separator
+                  name="second_separator">
+            </separator>
          </menu>
          <action 
-               label="%build.all.projects"
+               label="%build.all.projects" 
                icon="icons/xz.gif"
                tooltip="%tooltip.build.all.projects"
                class="org.inria.mtl.plugin.actions.buildAllAction"
@@ -147,6 +191,22 @@
                enablesFor="1">
 			   <selection class="org.eclipse.core.resources.IFolder">
 			   </selection>
+         </action>
+         <action
+               label="%menu.about"
+               tooltip="%menu.tooltip.about"
+               class="org.inria.mtl.plugin.actions.AboutAction"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/second_separator"
+               id="org.inria.mtl.plugin.AboutAction">
+         </action>
+          <action
+               label="%menu.newProject"
+               icon="icons/fmtl2.gif"
+               tooltip="%menu.tooltip.newProject"
+               class="org.inria.mtl.plugin.actions.NewProjectWizardAction"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
+               toolbarPath="Normal"
+               id="org.inria.mtl.plugin.actions.newprojectAction">
          </action>
       </actionSet>
             <actionSet
@@ -364,7 +424,7 @@
             name="%new.pluginFolder.name"
             icon="icons/mtl.gif"
             category="org.inria.plugin.mtl.wizcat"
-            class="org.eclipse.ui.wizards.newresource.BasicNewFolderResourceWizard"
+            class="org.inria.mtl.plugin.wizards.BasicNewFolderWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
             project="true"
             finalPerspective="org.inria.mtl.MTLPerspective"
@@ -387,7 +447,7 @@
          </description>
       </wizard>
    </extension>
-   <extension
+     <extension
          point="org.eclipse.ui.preferencePages">
       <page
             name="%MTLPreferencePage"
@@ -499,7 +559,7 @@
 		 </category>
       <view
             name="%mtlConsoleView"
-            icon="icons/fmtl.gif"
+            icon="icons/fmtl2.gif"
             category="MTLPlugin"
             class="org.inria.mtl.plugin.views.MTLConsole"
             id="org.inria.mtl.plugin.views.mtlconsoleview">

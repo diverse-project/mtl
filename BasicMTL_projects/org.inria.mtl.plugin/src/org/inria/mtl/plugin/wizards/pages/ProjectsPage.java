@@ -1,5 +1,5 @@
 /*
-* $Id: ProjectsPage.java,v 1.2 2004-05-19 09:21:43 sdzale Exp $
+* $Id: ProjectsPage.java,v 1.3 2004-06-15 15:13:14 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -29,6 +29,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import org.inria.mtl.plugin.builders.MTLNature;
+
 
 
 
@@ -40,6 +42,7 @@ public class ProjectsPage extends BuildPathBasePage {
 	private CheckedListDialogField fProjectsList;
 	
 	public ProjectsPage(ListDialogField classPathList) {
+		
 		fClassPathList= classPathList;
 				
 		ProjectsListListener listener= new ProjectsListListener();
@@ -66,7 +69,7 @@ public class ProjectsPage extends BuildPathBasePage {
 		try {
 			IJavaModel jmodel= currJProject.getJavaModel();
 			IJavaProject[] jprojects= jmodel.getJavaProjects();
-			
+					
 			// regarder si ces projets ont la nature MTL avant de les afficher
 			
 			List projects= new ArrayList(jprojects.length);
@@ -74,8 +77,10 @@ public class ProjectsPage extends BuildPathBasePage {
 			// a vector remembering all projects that dont have to be added anymore
 			List existingProjects= new ArrayList(jprojects.length);
 			existingProjects.add(currJProject.getProject());
-			
+					
 			final List checkedProjects= new ArrayList(jprojects.length);
+			
+			
 			// add the projects-cpentries that are already on the class path
 			List cpelements= fClassPathList.getElements();
 			for (int i= cpelements.size() - 1 ; i >= 0; i--) {
@@ -89,17 +94,24 @@ public class ProjectsPage extends BuildPathBasePage {
 			
 			for (int i= 0; i < jprojects.length; i++) {
 				IProject proj= jprojects[i].getProject();
-				if (!existingProjects.contains(proj))/* && (proj.hasNature(MTLNature.NATURE_ID)) */ {
+				try{
+				
+				if ((!existingProjects.contains(proj)) && (proj.hasNature(MTLNature.NATURE_ID)))  {
 					projects.add(new CPListElement(fCurrJProject, IClasspathEntry.CPE_PROJECT, proj.getFullPath(), proj));
+					
+					}
+				}catch (Exception e){
+					e.printStackTrace();
 				}
 			}	
-						
+			
 			fProjectsList.setElements(projects);
 			fProjectsList.setCheckedElements(checkedProjects);
 				
 		} catch (JavaModelException e) {
 			// no solution exists or other problems: create an empty list
 			fProjectsList.setElements(new ArrayList(5));
+			
 		}
 		fCurrJProject= currJProject;
 	}		
@@ -134,7 +146,7 @@ public class ProjectsPage extends BuildPathBasePage {
 	
 	private void updateClasspathList() {
 		List projelements= fProjectsList.getCheckedElements();
-		
+				
 		boolean remove= false;
 		List cpelements= fClassPathList.getElements();
 		// backwards, as entries will be deleted
@@ -149,7 +161,7 @@ public class ProjectsPage extends BuildPathBasePage {
 		}
 		for (int i= 0; i < projelements.size(); i++) {
 			cpelements.add(projelements.get(i));
-		}
+			}
 		if (remove || (projelements.size() > 0)) {
 			fClassPathList.setElements(cpelements);
 		}
@@ -168,13 +180,13 @@ public class ProjectsPage extends BuildPathBasePage {
 	public void setSelection(List selElements) {
 		fProjectsList.selectElements(new StructuredSelection(selElements));
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#isEntryKind(int)
-	 */
-	public boolean isEntryKind(int kind) {
-		return kind == IClasspathEntry.CPE_PROJECT;
-	}
+		 * @see org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#isEntryKind(int)
+		 */
+		public boolean isEntryKind(int kind) {
+				return kind == IClasspathEntry.CPE_PROJECT;
+		}
 
 
 }

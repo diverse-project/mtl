@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/org.inria.mtl.plugin/MTL/bin/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2004-05-28 16:53:39 $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2004-06-15 15:13:29 $ -->
 <!-- $Author: sdzale $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -18,7 +18,7 @@
   
   <appender name="CSOUT" class="org.apache.log4j.net.SocketAppender">
     <param name="RemoteHost" value="localhost"/>
-    <param name="Port" value="4445"/>
+    <param name="Port" value="4447"/>
     <param name="LocationInfo" value="true"/>
   </appender>
 

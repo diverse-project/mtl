@@ -1,5 +1,5 @@
 /*
-* $Id: LibrairiesPage.java,v 1.3 2004-05-19 09:21:46 sdzale Exp $
+* $Id: LibrairiesPage.java,v 1.4 2004-06-15 15:13:15 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,7 +7,6 @@
 */ 
 package org.inria.mtl.plugin.wizards.pages;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,20 +17,15 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.IUIConstants;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.dialogs.StatusDialog;
-import org.eclipse.jdt.internal.ui.preferences.JavadocConfigurationBlock;
 import org.eclipse.jdt.internal.ui.util.PixelConverter;
-import org.eclipse.jdt.internal.ui.wizards.IStatusChangeListener;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
@@ -61,13 +55,11 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.eclipse.ui.help.WorkbenchHelp;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.inria.mtl.plugin.MTLPlugin;
@@ -348,14 +340,15 @@ public class LibrairiesPage extends BuildPathBasePage {
 				fLibrariesList.refresh();
 				fClassPathList.refresh(); // images
 			}
-		} else if (key.equals(CPListElement.JAVADOC)) {
-			CPListElement selElement= (CPListElement) elem.getParent();
-			JavadocPropertyDialog dialog= new JavadocPropertyDialog(getShell(), selElement);
-			if (dialog.open() == JavadocPropertyDialog.OK) {
-				selElement.setAttribute(CPListElement.JAVADOC, dialog.getJavaDocLocation());
-				fLibrariesList.refresh();
-			}
-		}
+		} 
+//		else if (key.equals(CPListElement.JAVADOC)) {
+//			CPListElement selElement= (CPListElement) elem.getParent();
+//			JavadocPropertyDialog dialog= new JavadocPropertyDialog(getShell(), selElement);
+//			if (dialog.open() == JavadocPropertyDialog.OK) {
+//				selElement.setAttribute(CPListElement.JAVADOC, dialog.getJavaDocLocation());
+//				fLibrariesList.refresh();
+//			}
+//		}
 	}
 		
 	private void editElementEntry(CPListElement elem) {
@@ -731,43 +724,7 @@ public class LibrairiesPage extends BuildPathBasePage {
 		return currEntries;
 	}
 		
-	private class JavadocPropertyDialog extends StatusDialog implements IStatusChangeListener {
 
-		private JavadocConfigurationBlock fJavadocConfigurationBlock;
-		private CPListElement fElement;
-
-		public JavadocPropertyDialog(Shell parent, CPListElement element) {
-			super(parent);
-			setTitle(NewWizardMessages.getFormattedString("LibrariesWorkbookPage.JavadocPropertyDialog.title", element.getPath().toString())); //$NON-NLS-1$
-			fElement= element;
-			
-			URL initialLocation= JavaUI.getLibraryJavadocLocation(element.getPath());
-			fJavadocConfigurationBlock= new JavadocConfigurationBlock(parent, this, initialLocation);
-		}
-
-		protected Control createDialogArea(Composite parent) {
-			Composite composite= (Composite) super.createDialogArea(parent);
-			Control inner= fJavadocConfigurationBlock.createContents(composite);
-			inner.setLayoutData(new GridData(GridData.FILL_BOTH));
-			return composite;
-		}
-
-		public void statusChanged(IStatus status) {
-			updateStatus(status);
-		}
-		
-		public URL getJavaDocLocation() {
-			return fJavadocConfigurationBlock.getJavadocLocation();
-		}
-
-		/*
-		 * @see org.eclipse.jface.window.Window#configureShell(Shell)
-		 */
-		protected void configureShell(Shell newShell) {
-			super.configureShell(newShell);
-			WorkbenchHelp.setHelp(newShell, IJavaHelpContextIds.JAVADOC_PROPERTY_DIALOG);
-		}
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#isEntryKind(int)

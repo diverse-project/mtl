@@ -1,4 +1,4 @@
-/* $Id: EMFModelManager.java,v 1.1 2004-05-28 16:54:02 sdzale Exp $
+/* $Id: EMFModelManager.java,v 1.2 2004-06-15 15:13:46 sdzale Exp $
  * Created on 25 août 2003
  */
 package EMFDriver;

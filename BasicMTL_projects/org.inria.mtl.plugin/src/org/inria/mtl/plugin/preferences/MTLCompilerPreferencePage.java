@@ -1,12 +1,10 @@
 package org.inria.mtl.plugin.preferences;
 
-import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
 import org.inria.mtl.plugin.MTLPlugin;
 
 /**

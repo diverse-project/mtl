@@ -1,4 +1,4 @@
-/* $Id: MDRModelManager.java,v 1.1 2004-05-28 16:52:37 sdzale Exp $
+/* $Id: MDRModelManager.java,v 1.2 2004-06-15 15:13:00 sdzale Exp $
  * Created on 25 août 2003
  */
 package MDRDriver;

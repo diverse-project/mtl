@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.5 2004-05-28 16:54:21 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.6 2004-06-15 15:13:53 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -57,10 +57,29 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-//		MessageDialog.openInformation(
-//			window.getShell(),
-//			"Plugin Plug-in",
-//			"Hello, Eclipse world");
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IProject[] projects =workspaceRoot.getProjects();
+		
+		for (int i=0;i<projects.length;i++){
+			try{
+			
+			//voir comment contrôler cette exécution
+				if (projects[i].hasNature(MTLNature.NATURE_ID)){
+					System.out.println("build All"+projects[i].getName());
+					
+					currentProject=projects[i].getProject();
+					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+					MTLCore.findFolders();
+					IPath[] srcPaths=MTLModel.srcFolders;
+					for (int j =0;j<srcPaths.length;j++){
+						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+					}			
+				}
+			}catch (Exception E){
+				System.out.println("Error :Build all");
+			}
+		}
 	}
 
 	/**
@@ -71,30 +90,7 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		IProject[] projects =workspaceRoot.getProjects();
-		
-		
-		for (int i=0;i<projects.length;i++){
-			try{
-			
-			//voir comment contrôler cette exécution
-				if (projects[i].hasNature(MTLNature.NATURE_ID)){
-//					
-//					currentProject=projects[i].getProject();
-//					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-//					MTLCore.findFolders();
-//					IPath[] srcPaths=MTLModel.srcFolders;
-//					for (int j =0;j<srcPaths.length;j++){
-//						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
-//						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-//					}			
-				}
-			}catch (Exception E){
-				System.out.println("Error :Build all");
-			}
-		}
-	
+
 	}
 
 	/**

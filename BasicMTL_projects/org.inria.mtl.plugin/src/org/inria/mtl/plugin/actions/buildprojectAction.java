@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.3 2004-05-19 09:22:47 sdzale Exp $
+* $Id: buildprojectAction.java,v 1.4 2004-06-15 15:13:49 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -28,6 +28,7 @@ import org.inria.mtl.plugin.core.MTLCore;
 public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 	private StructuredSelection currentSelection = null;
+	private ISelection selection=null;
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
 
@@ -49,50 +50,44 @@ public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void run(IAction action) {
 		Shell shell = new Shell();
-		
-//		MessageDialog.openInformation(
-//			shell,
-//			"MTL",
-//			"Run the project...");
-////			MTLCore.findFolders();
-//		IPath[] srcFolders=MTLPlugin.srcFolders;
-////		for(int i=0;i<srcFolders.length;i++){
-//			try{
-//				//???????????????
-//			}
-//		}
-		
-	}
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
 		if (selection instanceof StructuredSelection)
 			{
 				currentSelection = (StructuredSelection)selection;
-//				java.util.Iterator it = currentSelection.iterator();
-//				while (it.hasNext())
-//					{
-//							IResource item = (IResource) it.next ();
-//							if (item instanceof IProject){
-//							    currentProject=item.getProject();
-//								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-//								MTLCore.findFolders();
-//								IPath[] srcPaths=MTLModel.srcFolders;
-//							    for (int i =0;i<srcPaths.length;i++){
-//									IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
-//									boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-//									
-//							    }
-//							  
-//							 }
-//						}
+				java.util.Iterator it = currentSelection.iterator();
+				while (it.hasNext())
+					{
+					  if (it instanceof IResource){
+						  IResource item = (IResource) it.next ();
+							if (item instanceof IProject){
+								System.out.println(item.toString());
+							    currentProject=item.getProject();
+								MTLCore.setProject(currentProject);
+								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+								MTLCore.findFolders();
+								IPath[] srcPaths=MTLModel.srcFolders;
+								for (int i =0;i<srcPaths.length;i++){
+									IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
+									boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+									
+								}
+							  
+							 }
+						  }
+						}
 					}
 		
+
+	}
+
+	/**
+	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+		this.selection = selection;
+	
 	}
 	
 	/**

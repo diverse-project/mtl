@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.3 2004-05-28 16:53:01 sdzale Exp $
+* $Id: MTLConsole.java,v 1.4 2004-06-15 15:13:08 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -17,14 +17,12 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -37,6 +35,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
@@ -301,6 +301,20 @@ public class MTLConsole extends ViewPart {
 		public void refresh()
 		{
 			viewer.refresh();		
+		}
+		
+		public static MTLConsole getConsole() {
+		IWorkbenchPage page =
+			PlatformUI
+				.getWorkbench()
+				.getActiveWorkbenchWindow()
+				.getActivePage();
+		MTLConsole console = (MTLConsole) page.findView(MTLConsole.CONSOLE_ID);
+		return console;
+		}
+		
+		public static void cleanConsole(){
+			Controller.getInstance().clear();
 		}
  
 

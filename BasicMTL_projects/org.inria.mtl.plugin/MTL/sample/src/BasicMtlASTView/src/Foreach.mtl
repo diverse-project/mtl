@@ -9,7 +9,8 @@
 class Foreach extends Instruction 
 {
 	varDeclaration : VarDeclaration;
-	expression     : Expression;
+	collection     : Expression;
+	condition      : Expression;	
 	body           : Standard::OrderedSet;
 
 
@@ -35,8 +36,18 @@ class Foreach extends Instruction
 	JavaCode [
 		org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Foreach  theForeach = 
 			new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Foreach (
+
 				(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)BMTL_varDeclaration.BMTL_toASTJava(),
-				(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_expression.BMTL_toASTJava()
+
+				(BMTL_collection != null ?
+					(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_collection.BMTL_toASTJava()
+					: null
+				),
+
+				(BMTL_condition != null ?
+					(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_condition.BMTL_toASTJava()				
+					  : null
+				)
 			)
 	];
 

@@ -1,5 +1,5 @@
 /*
-* $Id: SourcesPage.java,v 1.2 2004-05-19 09:21:46 sdzale Exp $
+* $Id: SourcesPage.java,v 1.3 2004-06-15 15:13:14 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -110,6 +110,8 @@ public class SourcesPage extends BuildPathBasePage {
 	public void init(IJavaProject jproject) {
 		fCurrJProject= jproject;
 		fProjPath= fCurrJProject.getProject().getFullPath();	
+		System.out.println("Builds nom du projet:"+jproject.getProject().getName());
+		System.out.println("Builds fCurr nom du projet:"+fCurrJProject.getProject().getName());
 		updateFoldersList();
 	}
 	
@@ -122,6 +124,7 @@ public class SourcesPage extends BuildPathBasePage {
 			CPListElement cpe= (CPListElement)cpelements.get(i);
 			if (cpe.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				folders.add(cpe);
+				System.out.println("projet :"+cpe.getPath());
 				boolean hasOutputFolder= (cpe.getAttribute(CPListElement.OUTPUT) != null);
 				if (hasOutputFolder) {
 					useFolderOutputs= true;

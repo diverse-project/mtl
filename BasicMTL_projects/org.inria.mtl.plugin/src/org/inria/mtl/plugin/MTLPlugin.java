@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPlugin.java,v 1.4 2004-05-28 16:54:17 sdzale Exp $
+* $Id: MTLPlugin.java,v 1.5 2004-06-15 15:14:01 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,6 +9,7 @@ package org.inria.mtl.plugin;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -26,6 +27,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.jdt.ui.IWorkingCopyManager;
@@ -171,7 +173,7 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	 */
 	 protected void initializeDefaultPreferences(IPreferenceStore store) {
 		super.initializeDefaultPreferences(store);
-		store.setDefault(PreferenceConstants.AUTO_COMPILE, true);
+		store.setDefault(PreferenceConstants.AUTO_COMPILE, false);
 		store.setDefault(PreferenceConstants.SHOW_OUTPUT_IN_CONSOLE, false);
 		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_MULTI_LINE_COMMENT_COLOR, MTLEditorColorProvider.MULTI_LINE_COMMENT);
 		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR, MTLEditorColorProvider.SINGLE_LINE_COMMENT);
@@ -341,5 +343,13 @@ public synchronized MTLDocumentProviders getCompilationUnitDocumentProvider() {
   return fCompilationUnitDocumentProvider;
 }
 
+  public ImageDescriptor getImageDescriptor(String name) {
+		try {
+			URL url= new URL(getDescriptor().getInstallURL(), name);
+			return ImageDescriptor.createFromURL(url);
+		} catch (MalformedURLException e) {
+			return ImageDescriptor.getMissingImageDescriptor();
+		}
+	}
  	
 }

@@ -1,5 +1,5 @@
 /*
-* $Id: buildAllAction.java,v 1.4 2004-05-28 16:53:32 sdzale Exp $
+* $Id: buildAllAction.java,v 1.5 2004-06-15 15:13:26 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,7 +9,6 @@ package org.inria.mtl.plugin.popup.actions;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -22,6 +21,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLModel;
+import org.inria.mtl.plugin.builders.MTLNature;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
@@ -54,6 +54,28 @@ public class buildAllAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		Shell shell = new Shell();
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IProject[] projects =workspaceRoot.getProjects();
+		for (int i=0;i<projects.length;i++){
+			try{
+			
+			//voir comment contrôler cette exécution
+				if (projects[i].hasNature(MTLNature.NATURE_ID)){
+					System.out.println("build All"+projects[i].getName());
+					
+					currentProject=projects[i].getProject();
+					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+					MTLCore.findFolders();
+					IPath[] srcPaths=MTLModel.srcFolders;
+					for (int j =0;j<srcPaths.length;j++){
+						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+					}			
+				}
+			}catch (Exception E){
+				System.out.println("Error :Build all");
+			}
+		}
 		
 		
 	}
@@ -62,32 +84,7 @@ public class buildAllAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		IProject[] projects =workspaceRoot.getProjects();
-		if (selection instanceof StructuredSelection)
-			{
-				currentSelection = (StructuredSelection)selection;
-				java.util.Iterator it = currentSelection.iterator();
-				while (it.hasNext())
-					{
-							IResource item = (IResource) it.next ();
-							if (item instanceof IProject){
-								currentProject=item.getProject();
-								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-								MTLCore.findFolders();
-								System.out.println("iciall");
-								IPath[] srcPaths=MTLModel.srcFolders;
-								for (int i =0;i<srcPaths.length;i++){
-									boolean b=MTLPlugin.instance().getModel(currentProject).processResource((IFolder)srcPaths[i]);
-									
-								}
-							  
-							 }
-										
-
-											}
-						}
-		
+			
 	}
 	
    

@@ -1,5 +1,5 @@
 /*
-* $Id: Utility.java,v 1.1 2004-05-28 16:53:01 sdzale Exp $
+* $Id: Utility.java,v 1.2 2004-06-15 15:13:08 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,12 +10,10 @@ package org.inria.mtl.plugin.views;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.io.*;
-
-import org.inria.mtl.plugin.views.controller.Controller;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.inria.mtl.plugin.views.controller.Controller;
 
 /**
  * @author tcn

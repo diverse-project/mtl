@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.5 2004-06-03 13:08:52 sdzale Exp $
+* $Id: MTLCore.java,v 1.6 2004-06-15 15:13:11 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -652,12 +652,18 @@ public static void findFolders() {
 				IClasspathEntry[] classpathEntries = MTLCore.readClasspathFile();
 				for (int i= 0; i < classpathEntries.length; i++) {
 					IClasspathEntry curr= classpathEntries[i];
+					
+					//Add source folder
 					if( curr.getEntryKind()==IClasspathEntry.CPE_SOURCE){
 						if (projPath.isPrefixOf(curr.getPath())){
 							lSources.add(curr.getPath());
 						}else{
 							lProj.add(curr.getPath()); 
 						}
+					}
+					//Add project
+					if( curr.getEntryKind()==IClasspathEntry.CPE_PROJECT){
+							lProj.add(curr.getPath()); 
 					}
 					if( curr.getEntryKind()==MtlClasspathEntry.K_COMP){
 									  lProj.add(curr.getPath());
@@ -674,6 +680,8 @@ public static void findFolders() {
 				MTLModel.projFolders=new IPath[lProj.size()];
 				MTLPlugin.libFolders=new IPath[lLib.size()];
 				MTLModel.libFolders=new IPath[lLib.size()];
+				
+				
 				for (int i= 0; i < lSources.size(); i++) {
 					MTLPlugin.srcFolders[i]=(IPath)lSources.get(i);
 					MTLModel.srcFolders[i]=(IPath)lSources.get(i);
@@ -682,7 +690,7 @@ public static void findFolders() {
 				for (int i= 0; i < lProj.size(); i++) {
 						MTLPlugin.projFolders[i]=(IPath)lProj.get(i);
 						MTLModel.projFolders[i]=(IPath)lProj.get(i);
-					//	System.out.println("Proj :"+((IPath)lProj.get(i)).makeAbsolute());			  
+					//	System.out.println("ProjAINTEGER :"+((IPath)lProj.get(i)).makeAbsolute());			  
 				}
 				for (int i= 0; i < lLib.size(); i++) {
 							MTLPlugin.libFolders[i]=(IPath)lLib.get(i);

@@ -187,6 +187,7 @@
             <word name="try"/>
             <word name="this"/>
             <word name="throw"/>
+            <word name="where"/>
             <word name="while"/>
          </keywords>
          <keywords region="KeywordModifier">
