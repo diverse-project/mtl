@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarSettingAnalyser.java,v 1.4 2003-08-20 16:07:33 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarSettingAnalyser.java,v 1.5 2003-10-14 14:35:40 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -25,7 +25,8 @@ public class VarSettingAnalyser extends TLLTopDownVisitor.VarSettingAnalyser {
 		QualifiedName type=theSetVar.getType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.print(theSetVar.getMangle()+'=');
-		outputForClass.print("("+type.getDeclarationName()+")CommonFunctions.toBMTLDataType(");
+//TODO test all examples with this simplification		outputForClass.print("("+type.getDeclarationName()+")CommonFunctions.toBMTLDataType(");
+		outputForClass.print("("+type.getDeclarationName()+")");
 		return null; }
 
 	public void VarSettingAfter(
@@ -33,7 +34,7 @@ public class VarSettingAnalyser extends TLLTopDownVisitor.VarSettingAnalyser {
 		VarSetting ASTnode,
 		Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print(')');
+//		TODO test all examples with this simplification		outputForClass.print(')');
 	}
 
 }

@@ -119,4 +119,14 @@ public class UserClass
     {
 this.name=name;
     }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute findAttribute(
+        String attributeName)
+    {
+for (int i=0;i<this.cardDefinedAttributes();i++)
+{ if (this.getDefinedAttributes(i).getName().equals(attributeName))
+return this.getDefinedAttributes(i);
+}
+return null;
+    }
 }

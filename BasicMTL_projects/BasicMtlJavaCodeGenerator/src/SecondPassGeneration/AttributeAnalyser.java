@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.5 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.6 2003-10-14 14:35:40 jpthibau Exp $
  * Created on 4 août 2003
  *
  */
@@ -36,9 +36,21 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 			}
 		}
 		outputForClass.println("public "+getter.getReturnedType().getDeclarationName()+' '+getter.getOpMangle()+"()");
-		outputForClass.println("{ return this."+ASTnode.getMangle()+"; }\n");
+		if (ASTnode.getGetter()==null)
+			outputForClass.println("{ return this."+ASTnode.getMangle()+"; }\n");
+		else {
+			outputForClass.println("{ try {\n");
+			outputForClass.println("     return this."+ASTnode.getGetter().getMangle()+"(); }\n");
+			outputForClass.println("catch (Throwable e) { return null; } }\n");
+			} 
 		outputForClass.println("public " + setter.getReturnedType().getDeclarationName() + ' ' +setter.getOpMangle()+" ("+setter.getArgsTypes(0).getDeclarationName()+" value)");
-		outputForClass.println("{ this."+ASTnode.getMangle()+"=value;");
+		if (ASTnode.getSetter()==null)
+			outputForClass.println("{ this."+ASTnode.getMangle()+"=value;");
+		else {
+			outputForClass.println("{ try {\n");
+			outputForClass.println("     this."+ASTnode.getSetter().getMangle()+"(value); }");
+			outputForClass.println("catch (Throwable e) {}\n");
+			} 
 		outputForClass.println("return BMTLVoid.TheInstance; }\n");
 		outputForInterface.println("public "+getter.getReturnedType().getDeclarationName()+' '+getter.getOpMangle()+"();");
 		outputForInterface.println("public " + setter.getReturnedType().getDeclarationName() + ' ' +setter.getOpMangle()+" ("+setter.getArgsTypes(0).getDeclarationName()+" value);");

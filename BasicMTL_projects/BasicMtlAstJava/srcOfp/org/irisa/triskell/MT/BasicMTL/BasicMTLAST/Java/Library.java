@@ -105,6 +105,26 @@ abstract public class Library
         return this.uses.size();
     }
 
+    protected Vector definedAssociations = new Vector();
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Association getDefinedAssociations (int i) {
+        return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Association)this.definedAssociations.elementAt(i);
+    }
+    public void setDefinedAssociations (int i, org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Association value) {
+        this.definedAssociations.setElementAt(value, i);
+    }
+    public void appendDefinedAssociations (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Association value) {
+        this.definedAssociations.addElement(value);
+    }
+    public void eraseDefinedAssociations (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Association value)  {
+        this.definedAssociations.removeElement(value);
+    }
+    public void eraseDefinedAssociations (int i)  {
+        this.definedAssociations.removeElementAt(i);
+    }
+    public int cardDefinedAssociations () {
+        return this.definedAssociations.size();
+    }
+
 
     public Library(
         String name)

@@ -43,4 +43,36 @@ public class OclAsType
         return this.type.size();
     }
 
+    protected boolean isAConstant;
+    public boolean getIsAConstant () {
+        return this.isAConstant;
+    }
+    public void setIsAConstant (boolean value) {
+        this.isAConstant = value; 
+    }
+
+    protected String typeVar;
+    public String getTypeVar () {
+        return this.typeVar;
+    }
+    public void setTypeVar (String value) {
+        this.typeVar = value; 
+    }
+
+    protected String methodVar;
+    public String getMethodVar () {
+        return this.methodVar;
+    }
+    public void setMethodVar (String value) {
+        this.methodVar = value; 
+    }
+
+    protected String parameterVar;
+    public String getParameterVar () {
+        return this.parameterVar;
+    }
+    public void setParameterVar (String value) {
+        this.parameterVar = value; 
+    }
+
 }

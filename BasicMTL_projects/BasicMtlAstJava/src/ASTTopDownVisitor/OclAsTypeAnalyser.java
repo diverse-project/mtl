@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OclAsTypeAnalyser.java,v 1.1 2003-08-21 20:03:52 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OclAsTypeAnalyser.java,v 1.2 2003-10-14 14:39:34 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -37,7 +37,7 @@ public class OclAsTypeAnalyser extends Analyser {
 		Vector type = new Vector(limit);
 		for (i = 0; i < limit; ++i)
 			type.add(ASTnode.getType(i));
-		this.OclAsTypeType(expression, type, context);
+		this.OclAsTypeType(ASTnode.getIsAConstant(),expression,type,ASTnode.getTypeVar(),ASTnode.getMethodVar(),ASTnode.getParameterVar(), context);
 		this.OclAsTypeAfter(expression,context);
 	}
 
@@ -45,7 +45,7 @@ public class OclAsTypeAnalyser extends Analyser {
 
 	public void OclAsTypeExpression(Object arg,java.util.Map context) {}
 
-	public void OclAsTypeType(Object expr, Vector type,java.util.Map context) {}
+	public void OclAsTypeType(boolean isConstant,Object expr, Vector type,String typeVar,String methodVar,String parameterVar,java.util.Map context) {}
 
 	public void OclAsTypeAfter(Object expression,java.util.Map context) {}
 

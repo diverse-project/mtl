@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.8 2003-09-23 17:12:27 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.9 2003-10-14 14:35:40 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -77,6 +77,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
 			outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');
 		}
+		context.put("OperationContainer",ASTnode);
 		return null;
 	}
 

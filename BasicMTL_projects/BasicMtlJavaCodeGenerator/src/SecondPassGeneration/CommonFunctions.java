@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.3 2003-08-21 20:10:18 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.4 2003-10-14 14:35:40 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -52,16 +52,29 @@ public class CommonFunctions {
 	public static void generateCastBefore (PrintWriter output, Expression e) {
 		QualifiedName cast = e.getToBeCasted();
 		if (cast != null) {
-			output.print("((");
-			output.print(cast.getDeclarationName());
-			output.print(")CommonFunctions.toBMTLDataType(");
+			String castWithVar = e.getToBeCastedWithTypeVar();
+			if (castWithVar != null) {
+				output.print("((BMTLType)BMTL_"+castWithVar+".getTheType()).getTheClass()");
+				output.print(".getMethod(\"BMTL_\"+BMTL_"+e.getToBeCastedWithMethodVar()+".getTheString(),");
+				output.print("new Class[]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class})");
+				output.print(".invoke(");
+				}
+			else {
+				output.print("(("); 
+				output.print(cast.getDeclarationName());
+				output.print(")CommonFunctions.toBMTLDataType(");
+				}
 		}
 	}
 	
 	public static void generateCastAfter (PrintWriter output, Expression e) {
 		QualifiedName cast = e.getToBeCasted();
 		if (cast != null) {
-			output.print("))");
+			String castWithVar = e.getToBeCastedWithTypeVar();
+			if (castWithVar != null)
+				output.print(",new Object[]{BMTL_"+e.getToBeCastedWithParameterVar()+"})");
+			else output.print("))");
 		}
+
 	}
 }

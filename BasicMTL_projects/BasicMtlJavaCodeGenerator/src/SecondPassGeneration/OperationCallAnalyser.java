@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.8 2003-08-26 13:00:15 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.9 2003-10-14 14:35:40 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -35,6 +35,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 	{	OperationCall theOpCall=(OperationCall)theOperationCall;
 		QualifiedName qn = theOpCall.getOclAsType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		Operation operationContainer = (Operation)context.get("OperationContainer");
 		if (expr != null)
 			outputForClass.print('.');
 		if (theOpCall.getIsToInvoke())  {
@@ -52,10 +53,24 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 				outputForClass.print(grs.getOpMangle());
 				outputForClass.print("().");
 			}
-			if (theOpCall.getKind().equals(OperationKind.getAttributeCall()))
-				outputForClass.print(AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
-			else if (theOpCall.getKind().equals(OperationKind.getAttributeSet()))
-				outputForClass.print(AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+			if (theOpCall.getKind().equals(OperationKind.getAttributeCall())) {
+				if (operationContainer.getIsGetterFor()!=null
+					&& operationContainer.getIsGetterFor().getName().equals(theOpCall.getName()))
+					//call of the attribute for which this opCall is the Getter; use => this.attribute
+				{	outputForClass.print("this."+Mangler.mangle("BMTL_", theOpCall.getName()));
+					theOpCall.setNoEndingBracket(true);
+				} 
+				else outputForClass.print(AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+				}
+			else if (theOpCall.getKind().equals(OperationKind.getAttributeSet())) {
+					if (operationContainer.getIsSetterFor()!=null
+					&& operationContainer.getIsSetterFor().getName().equals(theOpCall.getName()))
+					{	outputForClass.print("this."+Mangler.mangle("BMTL_", theOpCall.getName()));
+						outputForClass.print('=');
+						theOpCall.setNoEndingBracket(true);
+					} 
+				else outputForClass.print(AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+			}
 			else if (theOpCall.getKind().equals(OperationKind.getCurrentLibraryCall()))
 				outputForClass.print("theLib");
 			else if (theOpCall.getKind().equals(OperationKind.getLibraryCall())) {
@@ -96,7 +111,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 			outputForClass.print("},new String[]{" + disc + "})");
 		} else if (! theOpCall.getKind().equals(OperationKind.getCurrentLibraryCall())
 					&&! theOpCall.getKind().equals(OperationKind.getLibraryCall()))
-			outputForClass.print(')');
+			if (!theOpCall.getNoEndingBracket())outputForClass.print(')');
 		CommonFunctions.generateCastAfter(outputForClass, theOpCall);
 	}
 

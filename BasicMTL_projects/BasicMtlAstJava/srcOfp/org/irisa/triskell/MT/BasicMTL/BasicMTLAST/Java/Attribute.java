@@ -30,6 +30,30 @@ public class Attribute
         return this.name;
     }
 
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getter;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getGetter () {
+        return this.getter;
+    }
+    public void setGetter (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation value) {
+        this.getter = value; 
+    }
+    public int cardGetter () {
+        if ( this.getter == null ) return 0;
+        else return 1;
+    }
+
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation setter;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getSetter () {
+        return this.setter;
+    }
+    public void setSetter (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation value) {
+        this.setter = value; 
+    }
+    public int cardSetter () {
+        if ( this.setter == null ) return 0;
+        else return 1;
+    }
+
 
     public Attribute(
         String name)
