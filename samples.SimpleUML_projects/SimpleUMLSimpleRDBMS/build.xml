@@ -1,27 +1,27 @@
-<!-- $Id: build.xml,v 1.2 2004-01-29 14:56:08 xblanc Exp $ -->
-<project name="UML14" default="run Transformations with MDR" basedir=".">
+<!-- $Id: build.xml,v 1.3 2004-02-18 10:10:39 dvojtise Exp $ -->
+<project name="SimpleUMLSimpleRDBMS" default="run Transformations with MDR" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
 	</description>
 	
-	
-	
-	
-	<target name="run Transformations with MDR" > 
-  		<description>
-  		</description> 
-  		<delete dir="build"></delete> 
+	<target name="run all" 
+  		description="run SimpleUML2SimpleRDBMS transformations with MDR and with ModFact"
+  		depends="run Transformations with MDR, run Transformations with ModFact">
+  	</target>
+	<target name="run Transformations with MDR" 
+  		description="run SimpleUML2SimpleRDBMS transformations with MDR"> 
   		<ant antfile="SimpleUMLSimpleRDBMS_build.xml" dir="." target="compile"/>
   		<ant antfile="SimpleUML2SimpleRDBMS4MDR_build.xml" dir="." target="compile"/>
   		<ant antfile="SimpleUML2SimpleRDBMS4MDR_build.xml" dir="." target="run"/>
   	</target>
-  	<target name="run Transformations with ModFact" > 
-  		<description>
-  		</description> 
-  		<delete dir="build"></delete> 
+  	<target name="run Transformations with ModFact" 
+  		description="run SimpleUML2SimpleRDBMS transformations with ModFact"> 
   		<ant antfile="SimpleUMLSimpleRDBMS_build.xml" dir="." target="compile"/>
   		<ant antfile="SimpleUML2SimpleRDBMS4ModFact_build.xml" dir="." target="compile"/>
   		<ant antfile="SimpleUML2SimpleRDBMS4ModFact_build.xml" dir="." target="run"/>
+  	</target>
+  	<target name="clean">
+  		<delete dir="build"></delete> 
   	</target>
 
 </project>
