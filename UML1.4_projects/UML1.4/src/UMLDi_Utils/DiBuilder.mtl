@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: DiBuilder.mtl,v 1.1 2005-01-18 10:23:13 dvojtise Exp $
+ * $Id: DiBuilder.mtl,v 1.2 2005-01-18 16:41:59 dvojtise Exp $
  * This library provides tools function to manipulate objects of UML1.4 + Diagram interchange2.0 metamodel
  *
  ******************************************************************************/
@@ -46,16 +46,9 @@ class UMLDiBuilder
 
 		'adding simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();
 		aGN := new UMLDi::Diagram_Interchange::GraphNode();		
-		// aGN.oclUid().toOut();
 		aGN.isVisible := true;
-		aGN.position := new UMLDi::Diagram_Interchange::Point();
-		'setting position.x on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
-		aGN.position.x := '0';
-		aGN.position.y := '0';
-		aGN.size := new UMLDi::Diagram_Interchange::Dimension();
-		'setting size.width on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
-		aGN.size.width := width;
-		aGN.size.height := height;
+		setPositionOnGraphNode(aGN);	
+		setSizeOnGraphNode(aGN);	
 		aSm := new UMLDi::Diagram_Interchange::SimpleSemanticModelElement();
 		aSm.presentation := '';
 		aSm.typeInfo := simpleSemanticModelName;		
@@ -80,6 +73,8 @@ class UMLDiBuilder
 		opParameterStartGN		: UMLDi::Diagram_Interchange::GraphNode;
 		opParameterEndGN		: UMLDi::Diagram_Interchange::GraphNode;
 		opTypeSeparatorGN		: UMLDi::Diagram_Interchange::GraphNode;
+		
+		pos : 	UMLDi::Diagram_Interchange::Point;
 		
 		
 		// find the OperationCompartment GraphNode; if not found create one
@@ -113,14 +108,11 @@ class UMLDiBuilder
 			'Usually a correct Class Graphnode must have one'.toOut();
 		}
 		// add a new Graphnode linked to this Operation
-		operationGN := new UMLDi::Diagram_Interchange::GraphNode();
-		operationGN.position := new UMLDi::Diagram_Interchange::Point();
-		operationGN.position.x := 2;
-		operationGN.position.y := 2;
-		operationGN.size := new UMLDi::Diagram_Interchange::Dimension();
-		operationGN.size.width := 101.8145;
-		operationGN.size.height := 15;
+		operationGN := new UMLDi::Diagram_Interchange::GraphNode();		
+		setPositionOnGraphNode(operationGN);
+		setSizeOnGraphNode(operationGN);
 		operationGN.isVisible := true;
+		
 		// SemanticBridge
 		opSm := new UMLDi::Diagram_Interchange::Uml1SemanticModelBridge();
 		opSm.presentation := '';
@@ -161,4 +153,49 @@ class UMLDiBuilder
 		
 		// addParametersGN to this structure ?
 	}
+	
+	
+	/* 
+	 * create a position field for this GraphNode
+	 */
+	setPositionOnGraphNode(aGN : UMLDi::Diagram_Interchange::GraphNode)
+	{
+	 // BUG ? I don't know how to do that directly in MTL
+	 // so here is a code that does that using Posidon api
+		JavaCode [
+
+	com.gentleware.jboogie.model_management.DiFactory aDiFactory;
+	org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement jmi_me;
+	org.omg.uml2.diagraminterchange.GraphNode gn;
+	
+	jmi_me = (org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement)(BMTL_aGN.getModelElementDelegate());
+	gn =(org.omg.uml2.diagraminterchange.GraphNode)jmi_me.getRefObject();
+	aDiFactory = com.gentleware.poseidon.openapi.PoseidonProjectConnector.getCurrentProject().getDiFactory();
+
+	gn.setPosition(aDiFactory.createPoint(0,0));
+];
+
+
+	}
+	/* 
+	 * create a size field for this GraphNode
+	 */	
+	setSizeOnGraphNode(aGN : UMLDi::Diagram_Interchange::GraphNode)
+	{
+		 // BUG ? I don't know how to do that directly in MTL
+	 // so here is a code that does that using Posidon api
+			JavaCode [
+
+	com.gentleware.jboogie.model_management.DiFactory aDiFactory;
+	org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement jmi_me;
+	org.omg.uml2.diagraminterchange.GraphNode gn;
+	
+	jmi_me = (org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement)(BMTL_aGN.getModelElementDelegate());
+	gn =(org.omg.uml2.diagraminterchange.GraphNode)jmi_me.getRefObject();
+	aDiFactory = com.gentleware.poseidon.openapi.PoseidonProjectConnector.getCurrentProject().getDiFactory();
+
+	gn.setSize(aDiFactory.createDimension(0,0));
+];
+	}
+	
 }
