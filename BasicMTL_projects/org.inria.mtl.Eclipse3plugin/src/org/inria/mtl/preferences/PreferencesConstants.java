@@ -1,5 +1,5 @@
 /*
-* $Id: PreferencesConstants.java,v 1.4 2004-09-14 15:06:42 dvojtise Exp $
+* $Id: PreferencesConstants.java,v 1.5 2004-09-16 13:16:22 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,14 +9,12 @@ package org.inria.mtl.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jdt.ui.JavaUI;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.editors.utils.MTLEditorColorProvider;
@@ -1092,7 +1090,17 @@ public static void initializeDefaultValues(IPreferenceStore store) {
   	
   	//MTL Compiler Page
 	String pluginPath = MTLPlugin.getDefault().getLocation();
-	// weird: getLocation() returns a string like "/c:/eclispse/...."
+	try{
+		java.net.URL theURL = org.eclipse.core.runtime.Platform.asLocalURL(MTLPlugin.getDefault().getBundle().getEntry("/"));			
+		java.io.File aFile = new java.io.File(theURL.getFile()); // convert it into system specific string
+		pluginPath = aFile.getPath();
+		pluginPath = pluginPath + System.getProperty("file.separator");
+	}
+	catch (java.io.IOException e)
+	{
+		// not able to revlove this URL return the weird string using /C:/blab/bla
+		pluginPath = MTLPlugin.getDefault().getLocation();
+	}
 	/*Shell shell = new Shell();
 	MessageDialog.openInformation(
 			shell,
