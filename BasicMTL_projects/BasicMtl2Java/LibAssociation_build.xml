@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_build.xml,v 1.11 2004-10-25 12:27:15 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_build.xml,v 1.12 2004-10-26 09:55:39 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -78,7 +78,9 @@
 	<target name="dist" depends="create_jar" >
 		<!-- call common part -->
 		<ant antfile="LibAssociation_common_build.xml" dir="." target="dist common" inheritAll="true"/>
-		<!-- specific jar creation steps -->				
+		<!-- specific jar creation steps -->
+		<!-- post action-->
+		<antcall target="compile_dependent_external_jars"/>
 	</target>
 	<target name="compile_dependent_external_jars" 
 		description="compiles the jars that are part of this distibution but that need a version of the compiler (eg. dirvers)">
