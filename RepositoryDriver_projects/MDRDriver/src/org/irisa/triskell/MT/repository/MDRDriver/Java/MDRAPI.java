@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.12 2004-10-07 07:41:58 edrezen Exp $
+ * $Id: MDRAPI.java,v 1.13 2004-10-08 12:48:29 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
-import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDREventListenerFactory;
 import org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement;
 import org.netbeans.api.mdr.CreationFailedException;
@@ -475,28 +474,35 @@ public class MDRAPI
 
 	/** */
 	private boolean eventThreadChecked = false;
-	
 	public void changeEventDispatcherPriority ()
 	{
 		if (! eventThreadChecked)
 		{
-			Thread[] threads = new Thread[3];
-			Thread.enumerate (threads);
-			for (int i=0; i<threads.length; i++)
-			{
-				Thread t = threads[i];
-				if (t!=null)
-				{
-					if (t.getName().equals("MDR event dispatcher"))
-					{
-						t.setPriority (t.getThreadGroup().getMaxPriority());
-						eventThreadChecked = true;
-					}
-				}
-			}
+			Thread t = getThreadByName ("MDR event dispatcher");
+			t.setPriority (t.getThreadGroup().getMaxPriority());
+			eventThreadChecked = true;
 		}
 	}
 
+	/** */
+	public Thread getThreadByName (String name)
+	{
+		Thread[] threads = new Thread[3];
+		Thread.enumerate (threads);
+		for (int i=0; i<threads.length; i++)
+		{
+			Thread t = threads[i];
+			if (t!=null)
+			{
+				if (t.getName().equals(name))
+				{
+					return t;
+				}
+			}
+		}
+		return null;
+	}
+	
 
 static {
 		MDRAPI.getStaticLog().info("Setting up MDR.");
