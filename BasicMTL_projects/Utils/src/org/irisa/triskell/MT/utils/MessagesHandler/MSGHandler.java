@@ -1,4 +1,4 @@
-/* $Id: MSGHandler.java,v 1.4 2004-06-10 15:35:18 jpthibau Exp $
+/* $Id: MSGHandler.java,v 1.5 2004-06-22 15:05:10 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -29,48 +29,63 @@ public class MSGHandler {
 			return MSGHandler.log;
 	}
 	
+	
+	/**
+	 * initialize the log4j system and create an empty message vector 
+	 */
 	public static void init() {
+		String filePath="";
 		allMessages=new Vector();
+			
 		try {
-			String filePath = new java.io.File(Directories.getRootPath(MSGHandler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
+			filePath = new java.io.File(Directories.getRootPath(MSGHandler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
+			
 			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
+			DOMConfigurator.configure(filePath); 
+			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
+		}
 		catch(java.io.IOException e) {
-							System.err.println("Can't state log4j in MSGHandler"); }
+			System.err.println("Can't state log4j in MSGHandler");
+			System.err.println("looking for log4jconfiguration file here: "+filePath); 
+		}
+	}
+	
+	/**
+	 * empty the message vector
+	 */
+	public static void reinit() {
+			allMessages=new Vector();
+			
 	}
 	
 	public static void info(Class origin,int originLineNumber,String msg) {
-		if (allMessages == null)
-		init();
+		if (allMessages == null) init();
 		log.info(msg);
 		allMessages.add(new CompilerMessage("info",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 
 	public static void warn(Class origin,int originLineNumber,String msg) {
-		if (allMessages == null)
-		init();
+		if (allMessages == null) init();
 		log.warn(msg);
 		allMessages.add(new CompilerMessage("warn",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 	public static void debug(Class origin,int originLineNumber,String msg) {
-		if (allMessages == null)
-		init();
+		if (allMessages == null) init();
 		log.debug(msg);
 		allMessages.add(new CompilerMessage("debug",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 	
 	public static void error(Class origin,int originLineNumber,String msg) {
-		if (allMessages == null)
-		init();
+		if (allMessages == null) init();
 		log.error(msg);
 		allMessages.add(new CompilerMessage("error",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 
-	public static void fatal(Class origin,int originLineNumber,String msg) throws Exception {
+	public static void fatal(Class origin,int originLineNumber,String msg) throws CompilerException {
 		if (allMessages == null)
 		init();
 		log.error(msg);
 		allMessages.add(new CompilerMessage("fatal",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));
-		throw new Exception("Basic MTL Fatal Error.");
+		throw new CompilerException("Basic MTL Fatal Error.");
 	}
 }
