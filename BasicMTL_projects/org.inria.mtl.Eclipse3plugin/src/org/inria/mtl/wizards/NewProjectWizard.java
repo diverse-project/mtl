@@ -1,5 +1,5 @@
 /*
- * $Id: NewProjectWizard.java,v 1.5 2005-02-24 16:43:54 dvojtise Exp $ Authors :
+ * $Id: NewProjectWizard.java,v 1.6 2005-02-28 15:41:24 dvojtise Exp $ Authors :
  * Authors: sdzale, dvojtise
  * 
  * Created on ${date} Copyright 2004 - INRIA - LGPL license
@@ -140,6 +140,8 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 		String RuntimeFilePath;
 
 		// create the new file resource
+
+		String sep = System.getProperty("file.separator");
 		IProject newProject = fMainPage.getProjectHandle();
 		if (newProject == null) {
 			return false;
@@ -190,7 +192,7 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 					.getString(PreferencesConstants.MTL_COMPILER_PATH);
 			if (MTLcompiler_path.length() == 0) {
 				RuntimeFilePath = pluginPath
-						.concat("MTL\\bin\\BasicMTLruntime.jar");
+						.concat("MTL" +sep+ "bin" +sep+ "BasicMTLruntime.jar");
 				pluginPath = pluginPath.concat("MTL");
 				File runtimeFile = new File(RuntimeFilePath);
 				//					System.out.println("File :"+compFile.toString());
@@ -207,7 +209,7 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 
 			} else {
 				RuntimeFilePath = MTLcompiler_path
-						.concat("\\bin\\BasicMTLruntime.jar");
+						.concat(sep +"bin" +sep+ "BasicMTLruntime.jar");
 			}
 
 			IPath BasicMTLRuntimePath = new Path(RuntimeFilePath);
@@ -232,7 +234,7 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 				}
 			} else {
 				IClasspathEntry[] newcpe1 = new IClasspathEntry[1];
-				IClasspathEntry[] newcpe = new IClasspathEntry[2];
+				IClasspathEntry[] newcpe = new IClasspathEntry[2];   // cpe = classpath java
 				newcpe[0] = JavaCore.newSourceEntry(javasrc.getFullPath());
 				newcpe[1] = JavaCore.newLibraryEntry(BasicMTLRuntimePath, null,
 						null);
@@ -242,13 +244,13 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 				fJavaPage.getRunnable().run(null);
 
 				//Insertion des librairies de base
-				IClasspathEntry[] newcpe2 = new IClasspathEntry[] {};
+				IClasspathEntry[] newcpe2 = new IClasspathEntry[] {}; // mtlclasspath
 				String filesList[] = new File("").list();
 				if (!(MTLcompiler_path.charAt(MTLcompiler_path.length() - 1) == '/' || MTLcompiler_path
 						.charAt(MTLcompiler_path.length() - 1) == '\\'))
-					MTLcompiler_path = MTLcompiler_path + '/';
+					MTLcompiler_path = MTLcompiler_path + sep;
 				RuntimetllFolder = MTLcompiler_path
-						.concat("Runtime\\src\\TLL\\");
+						.concat("Runtime" +sep+ "src" +sep+ "TLL" +sep);
 				System.out.println("Runtime :" + RuntimetllFolder);
 				java.util.Vector tllfilenames = new java.util.Vector();
 				//System.out.println("Runtime :"+(new
@@ -257,7 +259,7 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 					filesList = new java.io.File(RuntimetllFolder).list();
 					System.out.println("Filelist :" + filesList);
 					if (!((filesList == null) || (filesList.length == 0))) {
-						newcpe2 = new IClasspathEntry[filesList.length + 1];
+						newcpe2 = new IClasspathEntry[filesList.length + 3];
 						for (int i = 0; i < filesList.length; i++) {
 							if (filesList[i].endsWith(".tll")) {
 
@@ -288,6 +290,10 @@ public class NewProjectWizard extends Wizard implements INewWizard,
 					} else {
 						newcpe2[filesList.length] = MTLCore
 								.newSourceEntry(mtlsrc.getFullPath());
+						newcpe2[filesList.length+1] = MTLCore
+							.newOutputTllEntry(binmtl.getFullPath());
+						newcpe2[filesList.length+2] = MTLCore
+							.newOutputEntry(javasrc.getFullPath());
 						boolean bol = MTLCore.saveClasspath(newcpe2, null, null);
 					}
 				} else {

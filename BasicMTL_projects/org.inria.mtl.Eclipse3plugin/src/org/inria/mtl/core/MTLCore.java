@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.4 2005-02-24 16:43:50 dvojtise Exp $
+* $Id: MTLCore.java,v 1.5 2005-02-28 15:41:25 dvojtise Exp $
 * Authors : sdzale, dvojtise
 *
 * Created on ${date}
@@ -383,7 +383,27 @@ public static IClasspathEntry newProjectEntry(IPath path, boolean isExported) {
 			specificOutputLocation, // custom output location
 			false);
 	}
-		
+	public static IClasspathEntry newOutputTllEntry(IPath path) {
+		return newSimpleOutputEntry(path, MtlClasspathEntry.K_OUTPUT_TLL);
+	}
+	public static IClasspathEntry newOutputEntry(IPath path) {
+		return newSimpleOutputEntry(path, MtlClasspathEntry.K_OUTPUT);
+	}
+
+	public static IClasspathEntry newSimpleOutputEntry(IPath path, int entryKind) {
+
+		if (!path.isAbsolute()){ 
+						Assert.isTrue(false, "Path for IClasspathEntry must be absolute"); }//$NON-NLS-1$
+		return new MtlClasspathEntry(
+			IPackageFragmentRoot.K_BINARY,
+			entryKind,
+			path,
+			MtlClasspathEntry.NO_EXCLUSION_PATTERNS,
+			null, // source attachment
+			null, // source attachment root
+			null, // custom output location
+			false);
+	}	
 		/**
 		 * Reads and decode an XML classpath string
 		 */
