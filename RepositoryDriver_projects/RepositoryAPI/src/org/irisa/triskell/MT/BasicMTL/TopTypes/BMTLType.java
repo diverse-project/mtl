@@ -10,10 +10,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.utils.Java.AWK;
@@ -38,7 +39,7 @@ public class BMTLType extends CommandGroupImpl implements Type {
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.DataTypes.Java.commands.Type#allInstances()
 	 */
-	public Collection allInstances() {
+	public CollectionValue allInstances() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,6 +81,14 @@ public class BMTLType extends CommandGroupImpl implements Type {
 
 	public boolean equals(Object obj) {
 		return this == obj || ((obj instanceof BMTLType) && ((BMTLType)obj).clazz.equals(this.clazz));
+	}
+
+	public boolean isKindOf(Value v) {
+		return (v instanceof BMTLObject) && ((BMTLType)v.getType()).conformsTo(this);
+	}
+
+	public boolean isTypeOf(Value v) {
+		return (v instanceof BMTLObject) && ((BMTLType)v.getType()).equals(this);
 	}
 
 }

@@ -6,20 +6,10 @@
  */
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Command;
-import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
-import org.irisa.triskell.MT.utils.Java.AWK;
 
 public class BMTLCommandGroup extends CommandGroupImpl {
 	public BMTLCommandGroup() {
