@@ -1,0 +1,33 @@
+/*
+ * Created on 13 oct. 2004
+ *
+ */
+package org.inria.mtl.commands.tag;
+
+import org.eclipse.core.resources.IResource;
+
+/**
+ * @author edrezen
+ *
+ */
+public class GetTagResourceCommand extends MTLTagCommand
+{
+	////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////
+	public GetTagResourceCommand (IResource resource)
+	{
+		super (resource);
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// METHODS
+	////////////////////////////////////////////////////////////////////////////////
+
+	/** */
+	public Object common (IResource res) throws Exception
+	{
+		return res.getPersistentProperty (MTLTagCommand.tagName);
+	}
+}
