@@ -1,5 +1,5 @@
 /*
- * $Id: TC_generic_behavioral.java,v 1.1 2003-08-25 14:50:07 dvojtise Exp $
+ * $Id: TC_generic_behavioral.java,v 1.2 2003-08-25 14:56:28 dvojtise Exp $
  * Created on 25 août 2003
  *
  * Generic Testcase for behavioral tests
@@ -14,7 +14,10 @@ import org.irisa.triskell.MT.utils.Java.*;
 /**
  * Testcase for behavioral test
  * simply compare the output with the expected_result.log file
- * 
+ * do not forget to set these class members 
+ * 		public File expectedLogFile;
+ * 		public String testName;
+ *
  * @author dvojtise
  *
  */
@@ -32,6 +35,10 @@ public abstract class TC_generic_behavioral extends TestCase
 		expectedLogFile = anExpectedLogFile;
 		testName = aTestName;
 	}
+	/**
+	 * main test methods
+	 * @throws Exception
+	 */
 	public void test() throws Exception 
 	{
 		PrintStream stdOut;
@@ -45,7 +52,7 @@ public abstract class TC_generic_behavioral extends TestCase
 			System.setOut(new PrintStream(tempOut));
 			
         
-			// call the Main of the behavorial_test1
+			// call the method to test
 			callTestMethod();  
 	         
 			tempOut.close();  
@@ -83,6 +90,9 @@ public abstract class TC_generic_behavioral extends TestCase
 		}
 	}	
 	
+	/**
+	 * implement this method to indicate what to run and check for expected results
+	 */
 	public abstract void callTestMethod(); 
 	
 }
