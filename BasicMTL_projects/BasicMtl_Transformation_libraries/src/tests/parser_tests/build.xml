@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-08-19 09:56:17 dvojtise Exp $ -->
-<project name="BasicMtl_Transformation_libraires" default="success_tests_test1a_antlr2tll" basedir=".">
+<!-- $Id: build.xml,v 1.2 2003-08-19 13:51:21 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="user_task" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project simpleUML2RDBMS V1
 	</description>
@@ -23,7 +23,7 @@
 	    <mkdir dir="${build}/src/java"/>
 	    <mkdir dir="${bin}"/>
 	</target>
-	
+<!--	
 	<target name="success_tests_test1a_antlr2tll" depends="init"
   	 	description="Parse success_tests/test1.mtl to a TLL">
 	 	<java jar="${ANTLR2TLL}" 
@@ -82,10 +82,75 @@
        </java>
  
 	</target>  
+-->
+	
 	<target name="clean"
         description="clean up SimpleUML2SimpleRDBMS_V1" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
-    	<delete dir="${build}/src/java"/>    
-    	<delete dir="${build}"/>    
+    	<delete dir="${build}/src/java/success_tests"/>    
+    	<delete file="${build}/src/TLL/aLibrary.tll"/>
+    	<delete file="${build}/src/TLL/AnotherLibrary.tll"/>    
+    	<delete file="${build}/src/UncheckedTLL/aLibrary.tll"/>
+    	<delete file="${build}/src/UncheckedTLL/AnotherLibrary.tll"/>
   	</target>
+  	
+  	
+  	<target name="user_task" depends="init,user_task1,user_task2">
+  	</target>
+  	<target name="user_task1" depends="user_task2">
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\success_tests\test1a.mtl" />  
+  			<param name="packagename" value="success_tests" /> 
+  			<param name="libname" value="aLibrary" /> 
+  		</antcall>
+  	</target>
+  	<target name="user_task2" >
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\success_tests\test1b.mtl" /> 
+  			<param name="packagename" value="success_tests" /> 
+  			<param name="libname" value="AnotherLibrary" /> 
+  		</antcall>
+  	</target>
+  	
+  	<!-- generic tasks -->
+  	<target name="MTL2TLL" depends="init"
+  	 	description="generic target mtl to a TLL">
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${mtlsrcfile}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="${packagename}"/> 
+       </java> 
+	</target>
+  	<target name="TLL2Javacode" depends="MTL2TLL">
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>
+  		<mkdir dir="${build}\src\java\${packagename}"/>
+  		<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${libname}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/${packagename}/"/> 
+       </java>
+  	</target>
+  	<target name="MTL2Java" depends="TLL2Javacode"> 
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>
+  		
+  	</target>
+  	
 </project>
