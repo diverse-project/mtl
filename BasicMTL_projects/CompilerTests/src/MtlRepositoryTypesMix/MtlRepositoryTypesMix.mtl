@@ -1,0 +1,34 @@
+library MtlRepositoryTypesMix;
+
+model UML : RepositoryModel;
+ 
+ 
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main() : Standard::Void
+{
+	set : Standard::Set;
+
+	// the signature of 'union' in the Set class is (see Standard.mtl)            : union (s : Set) : Set	  
+	// the signature of 'allInstances' in the OclType class is (see Standard.mtl) : allInstances() : Set   
+		
+	set.union (!UML::Core::Class!.allInstances());	 
+	
+	/*
+	the generated java code is :
+	
+	BMTL_set.BMTL_union (
+		new BMTLOclType(this.getLibrary(), new String [] {"UML", "Core", "Class"}).invoke (
+			null,
+			"allInstances",
+			new Value[]{},
+			new String[] {
+				ModelElement.OperationDiscriminant
+			}
+		)
+	);
+	
+	*/
+}
