@@ -130,6 +130,24 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	}
 
 	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public MDRAPI BMTL_getModelFromXMI(
+		BMTLStringInterface metamodelXmiFileName,
+		BMTLStringInterface metaPackageToInstanciate,
+		BMTLStringInterface modelName,
+		BMTLStringInterface modelXmiInputFileName,
+		BMTLStringInterface modelXmiOuputFileName)
+		throws Exception {
+		return this.getModelFromXMI(
+			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
+			metaPackageToInstanciate == null ? null : metaPackageToInstanciate.getTheString(),
+			modelName == null ? null : modelName.getTheString(),
+			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString());
+	}
+
+	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#init()
 	 */
 	public SimpleStandaloneModelManager BMTL_init() throws Exception {
@@ -285,6 +303,11 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	public BMTLVoidInterface BMTL_toErr() {
 		OclAny_toErr.TheInstance.invoke(this, null);
 		return BMTLVoid.TheInstance;
+	}
+
+
+	public BMTLBooleanInterface BMTL_isNull(Value v) {
+		return v == null ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
 	}
 
 }

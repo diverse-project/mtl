@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: MDRDriver.mtl,v 1.2 2003-08-25 10:55:04 ffondeme Exp $
+// $Id: MDRDriver.mtl,v 1.3 2003-08-26 12:51:42 ffondeme Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
@@ -49,6 +49,13 @@ tag DoNotGenerate := booleantag true;
 	/* one of the simpliest way to get started
 	getModelFromXMI(
 		metamodelXmiFileName, modelName, 
+		modelXmiInputFileName, modelXmiOuputFileName : Standard::String ) : RepositoryModel
+	{	
+	}*/
+	
+	/* one of the simpliest way to get started, giving the root package
+	getModelFromXMI(
+		metamodelXmiFileName, metaPackageToInstanciate, modelName, 
 		modelXmiInputFileName, modelXmiOuputFileName : Standard::String ) : RepositoryModel
 	{	
 	}*/

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.8 2003-08-25 10:55:04 ffondeme Exp $
+// $Id: Standard.mtl,v 1.9 2003-08-26 12:51:42 ffondeme Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -516,6 +516,21 @@ tag DoNotGenerate := booleantag true;
       // sequence.
    	}
 
+   	isOn(): Boolean
+   	{
+      // Returns true when there are more objects in the
+      // sequence.
+      // post: result = self.isOff().not()
+   	}
+
+   	hasNext(): Boolean
+   	{
+      // Returns true when there are more objects in the
+      // sequence.
+      // post: result = self.isOn()
+      
+   	}
+
    	item(): OclAny
    	{
       // Returns the object at the current position in the sequence.
@@ -526,6 +541,13 @@ tag DoNotGenerate := booleantag true;
    	{
       	// Positions the iterator to the next object in the sequence.
 		// pre:  not is_off
+	}
+	
+	nextItem () : OclAny
+   	{
+      // Returns the object at the current position in the sequence,
+      // and positions the iterator to the next object in the sequence.
+      // pre  not is_off
 	}
 }
 

@@ -20,6 +20,8 @@ class clazz {
 		theSelf : clazz;
 		wasInOp := true;
 		theSelf := self;
+		
+		1.toOut();
 	
 		theSelf.vehicule := new amphibieherite::vehiculeAmphibieHerite();
 		if vehicule.oclIsTypeOf(!amphibieherite::vehiculeAmphibieHerite!).not() {

@@ -1,5 +1,5 @@
 /**
- * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.8 2003-08-25 09:39:00 dvojtise Exp $
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.9 2003-08-26 12:51:42 ffondeme Exp $
  *
  *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
  * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
@@ -10,8 +10,8 @@
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
  * 
- * $Revision: 1.8 $ $Date: 2003-08-25 09:39:00 $
- * Last modification by : $Author: dvojtise $
+ * $Revision: 1.9 $ $Date: 2003-08-26 12:51:42 $
+ * Last modification by : $Author: ffondeme $
  * Authors : dvojtise, jpthibau
  *
  */
@@ -45,10 +45,12 @@ model target_model : RepositoryModel;		// must be SimpleRDBMS MetaModel
 // -------------------
 // main of the lib (also its constructor)
 
-init( a_source_model:RepositoryModel; a_target_model:RepositoryModel)
+init( a_source_model:RepositoryModel; a_target_model:RepositoryModel) : SimpleUML2SimpleRDBMS
 {
 	source_model := a_source_model;
 	target_model := a_target_model;
+	
+	return self;
 	
 }
 
@@ -56,15 +58,15 @@ init( a_source_model:RepositoryModel; a_target_model:RepositoryModel)
 // other library level methods
 // ---------------------------
 
-UMLToRDBMS() : Standard::void
+UMLToRDBMS() : Standard::Void
 {	
 	// Start the different phasis of the transformation
 	UMLClassesToRDBMS();
-	UMLAssociationsToRDBMS();
+	//UMLAssociationsToRDBMS();
 }
 
 
-UMLClassesToRDBMS() : Standard::void
+UMLClassesToRDBMS() : Standard::Void
 {			
 	// look for all the sources classes 
 		// this will be improved when the ocl select will be available
@@ -73,7 +75,7 @@ UMLClassesToRDBMS() : Standard::void
 	
 	/* input model checks */
 	// TO DO
-	// we should chack some well formness rules on the input model in order to 
+	// we should check some well formness rules on the input model in order to 
 	// minimize errors handling in the transformation code. 
 	// The problem is : when to do this check in an homogeneous way ?
 	//	- best way seems to be : load the input model in a lib view of the expected MM with ocl constraints
@@ -96,23 +98,22 @@ UMLClassesToRDBMS() : Standard::void
 	
 
 
-	classIterator := classSet.get_new_iterator();
+	classIterator := classSet.getNewIterator();
 	classIterator.start();
-	while classIterator.is_off().not() 
+	while classIterator.isOn() 
 	{		
-		UMLClassToRDBMSfirstPass(classIterator.item());  // return value not used
+		UMLClassToRDBMSfirstPass(classIterator.item().oclAsType(!source_model::Class!));  // return value not used
 		
 		classIterator.next();
 	}
 	
 	
 	// for each attribute of type class
-	classIterator := classSet.get_new_iterator();
 	classIterator.start();
-	while classIterator.is_off().not()
+	while classIterator.isOn()
 	{
 		
-		UMLClassToRDBMSsecondPass(classIterator.item());  // return value not used
+		UMLClassToRDBMSsecondPass(classIterator.item().oclAsType(!source_model::Class!));  // return value not used
 				
 		classIterator.next();
 	}
@@ -120,7 +121,8 @@ UMLClassesToRDBMS() : Standard::void
 
 UMLClassToRDBMSfirstPass(sourceClass : source_model::Class) 
 {
-	// require sourceClass.isUndefined().not()
+	// require sourceClass.oclIsUndefined().not()
+	// see later
 	 
 	// the first pass create the table and it associated primary key
 	// local variable at the beginning of the method
@@ -135,12 +137,15 @@ UMLClassToRDBMSfirstPass(sourceClass : source_model::Class)
 	
 	
 	/* input model checks */
-	// TO DO
+	// require sourceClass.oclIsUndefined().not()
+	if sourceClass.oclIsUndefined() {
+		throw 'Undefined class found.');
+	}
 	
 	
-	if sourceClass.get_kind().[=]('persistent')
-	//if sourceClass.get_kind().=('persistent')
-	//if sourceClass.get_kind() = 'persistent'
+	if sourceClass.kind.[=]('persistent')
+	//if sourceClass.kind.=('persistent')
+	//if sourceClass.kind = 'persistent'
 	{
 		// create a table for this class  (use the default constructor)
 		aTable := new target_model::Table();
@@ -149,7 +154,7 @@ UMLClassToRDBMSfirstPass(sourceClass : source_model::Class)
 		//aTable.kind = ???;
 		// create the primary key
 		aKey := new target_model::Key();
-		aKey.name := 'pk_'.concat(sourceClass.name);
+		aKey.name := 'pk_'.concat(sourceClass.name.oclAsType(!Standard::String!));
 		aKey.kind := 'primitive';
 		associate (key := aKey : target_model::Key, owner := aTable : target_model::Table);
 		
@@ -167,7 +172,7 @@ UMLClassToRDBMSsecondPass(sourceClass : source_model::Class  )
 	aColumn : target_model::Column;
 	primitiveAttribute : source_model::Classifier;
 	aString : Standard::String;
-	anException : Standard::Exception;
+	anException : Standard::OclAny;
 	
 	/* input model checks */
 	// TO DO
@@ -177,21 +182,20 @@ UMLClassToRDBMSsecondPass(sourceClass : source_model::Class  )
 		return;
 	}	
 	// retrieve the previously created table for this class	
-	aTable := getTableFromName(sourceClass.name);
-	if aTable.isUndefined()
+	aTable := getTableFromName(sourceClass.name.oclAsType(!Standard::String!));
+	if isNull(aTable)
 	{
-		anException := new Standard::Exception();
-		anException.make('Could not find a table that be there');
+		anException := 'Could not find a table that be there';
 		throw anException;
 	}
 	
 	// for each attribute of primitive data type create a column for this type	
 	//		else create a foreignKey and the needed columns
-	attributeSet := classIterator.item().attribute();
+	attributeIterator := sourceClass.attribute.getNewIterator();
 	attributeIterator.start();
-	while attributeIterator.is_off().not()
+	while attributeIterator.isOn()
 	{
-		if 	attributeIterator.item().type().oclIsKindOf('source_model::PrimitiveDataType')
+		if 	attributeIterator.item().oclAsType(!source_model::Attribute!).type.oclIsKindOf(!source_model::PrimitiveDataType!)
 		{
 			// create a new column to the table
 			primitiveAttribute := attributeIterator.item();
@@ -201,11 +205,11 @@ UMLClassToRDBMSsecondPass(sourceClass : source_model::Class  )
 			aString := primitiveAttribute.type.name;
 			if  aString.[=]('int')
 			{	
-				aColumn.type := 'NUMBER';
+				aColumn.kind := 'NUMBER';
 			}
 			else
 			{
-				aColumn.type := 'VARCHAR';
+				aColumn.kind := 'VARCHAR';
 			}
 			// associate : complete syntax	
 			associate (column := aColumn : target_model::Column, owner := aTable : target_model::Table);
@@ -214,17 +218,17 @@ UMLClassToRDBMSsecondPass(sourceClass : source_model::Class  )
 			{
 				// if the attribute kind is primary, the column is bound the the key
 				// associate : complete syntax	
-				associate (column := aColumn : Column, belongsTo := aKey : Key);
+				 associate (column := aColumn : target_model::Column, belongsTo := aTable.key : target_model::Key);
 				// other syntax : (because the is enough information)
-				// associate aColumn, aKey
-				// associate aColumn : Column, aKey : Key
-				// associate column = aColumn, belongsTo = aKey
+				// associate aColumn, aTable.key
+				// associate aColumn : Column, aTable.Key : Key
+				// associate column = aColumn, belongsTo = aTable.Key
 			}
 			
 		}
 		else
 		{
-			nonPrimitiveAtt2ForeignKey(aTable, attributeIterator.item());
+			nonPrimitiveAtt2ForeignKey(aTable, attributeIterator.item().oclAsType(!source_model::Attribute!));
 		}
 		attributeIterator.next();
 	}
@@ -243,24 +247,26 @@ getTableFromName(tableName : Standard::String) : target_model::aTable
 	
 	
 	tableSet := !target_model::Table!.allInstances();
-	tableIterator := tableSet.get_new_iterator();
-	tableIterator();
-	while tableIterator.is_off().not()
+	tableIterator := tableSet.getNewIterator();
+	tableIterator.start();
+	while tableIterator.isOn()
 	{
-		if tableIterator.item().name().[=](tableName)
+		if tableIterator.item().oclAsType(!target_model::Table!).name.[=](tableName)
 		{
 			return tableIterator.item();
 		}
 		tableIterator.next();
 	}
 	
-	return new Standard::Undefined();
+	return null;
 }
 
-nonPrimitiveAtt2ForeignKey(aTable : target_model::Table; nonPrimitiveAttribute : source_model::Classifier)
+nonPrimitiveAtt2ForeignKey(aTable : target_model::Table; nonPrimitiveAttribute : source_model::Attribute)
 {
 	aForeignKey : target_model::ForeignKey;
-	aKey : target_model::KEy;		
+	aColumn : target_model::Column;
+	aKey : target_model::Key;
+	typePrimaryAttribute_it : Standard::Iterator;
 
 
 	// do nothing condition
@@ -270,26 +276,25 @@ nonPrimitiveAtt2ForeignKey(aTable : target_model::Table; nonPrimitiveAttribute :
 	}
 	
 	// get the table primary key (there should be only one)
-	keyIterator := aTable.key.get_new_iterator().start();
-	aKey := keyIterator.Item();
+	aKey := aTable.key;
 			
 	// create a foreign key	
 	aForeignKey := new target_model::ForeignKey();
 		// set name, kind, owner
-	aForeignKey.name := primitiveAttribute.name;
+	aForeignKey.name := nonPrimitiveAttribute.name;
 	// aForeignKey.kind = ????
 	associate (foreignKey := aForeignKey : target_model::ForeignKey, owner := aTable : target_model::Table);
 				// TO DO verify model validity  (when to do that ???,  precheck before the transformation ? now ?
 				// for each primitive attribute of the type of this attribute				
-	typePrimaryAttribute_it := nonPrimitiveAttribute.type.attribute.get_new_iterator();
+	typePrimaryAttribute_it := nonPrimitiveAttribute.type.attribute.getNewIterator();
 	typePrimaryAttribute_it.start();
-	while typePrimaryAttribute_it.is_off().not()
+	while typePrimaryAttribute_it.isOn()
 	{	
-		if typePrimaryAttribute_it.item().kind.[=]('primary')
+		if typePrimaryAttribute_it.item().oclAsType(!source_model::Attribute!).kind.[=]('primary')
 		{
 			// create a column (name = attribute.name+_+primitive_attribute.name
 			aColumn := new target_model::Column();
-			aColumn.name := nonPrimitiveAttribute.name.concat('_'.concat(typePrimaryAttribute_it.item()));
+			aColumn.name := nonPrimitiveAttribute.name.concat('_'.concat(typePrimaryAttribute_it.item().oclAsType(!source_model::Attribute!).name.oclAsType(!Standard::String!)));
 			aColumn.kind := 'foreign';
 			associate (column := aColumn : target_model::Column, owner := aTable : target_model::Table);					
 			// add this column to the foreign key	
@@ -300,6 +305,7 @@ nonPrimitiveAtt2ForeignKey(aTable : target_model::Table; nonPrimitiveAttribute :
 				associate (column := aColumn : target_model::Column, key := aKey : target_model::Key);
 			}
 		}
+		typePrimaryAttribute_it.next();
 	}
 }
 

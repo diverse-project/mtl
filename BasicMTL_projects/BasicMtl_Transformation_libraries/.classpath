@@ -9,5 +9,6 @@
     <classpathentry kind="src" path="/MDRDriver"/>
     <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
     <classpathentry kind="src" path="/Utils"/>
+    <classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-25 09:39:00 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-26 12:51:42 ffondeme Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="compile SimpleUML2SimpleRDBMS" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project simpleUML2RDBMS V1
@@ -40,21 +40,59 @@
  
 	</target>
 
-	<target name="compile SimpleUML2SimpleRDBMS" depends="SimpleUML2SimpleRDBMS_antlr2tll"
+	<target name="fast compile SimpleUML2SimpleRDBMS" depends=""
   	 	description="Generate code for vehicule.mtl">
-	    <mkdir dir="${build}/src/java/SimpleUML2RDBMS/SimpleUML2SimpleRDBMS_V1"/>
+	    <mkdir dir="${build}/src/java/SimpleUML2SimpleRDBMS"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
-         <arg value="SimpleUML2SimpleRDBMSLib"/> 
+         <arg value="SimpleUML2SimpleRDBMS"/> 
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${build}/src/java/Vehicule/"/> 
+         <arg value="${build}/src/java/SimpleUML2SimpleRDBMS/"/> 
        </java>
  
 	</target>
+
+	<target name="compile SimpleUML2SimpleRDBMS" depends="SimpleUML2SimpleRDBMS_antlr2tll,fast compile SimpleUML2SimpleRDBMS"
+  	 	description="Generate code for vehicule.mtl"/>
+	
+	<target name="SimpleUML2RDBMS_mdr_antlr2tll" depends="init"
+  	 	description="Parse SimpleUML2RDBMS_mdr.mtl to a TLL">
+  	 	<echo> ${src}</echo>
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\SimpleUML2RDBMS_mdr.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleUML2SimpleRDBMS"/> 
+       </java>
+ 
+	</target>
+
+	<target name="fast compile SimpleUML2RDBMS_mdr" depends=""
+  	 	description="Generate code for SimpleUML2RDBMS_mdr.tll">
+	    <mkdir dir="${build}/src/java/SimpleUML2SimpleRDBMS"/>
+	 	<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="SimpleUML2SimpleRDBMS_MDR"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/SimpleUML2SimpleRDBMS/"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile SimpleUML2RDBMS_mdr" depends="SimpleUML2SimpleRDBMS_antlr2tll,SimpleUML2RDBMS_mdr_antlr2tll,fast compile SimpleUML2RDBMS_mdr"
+  	 	description="Generate code for SimpleUML2RDBMS_mdr.mtl"/>
   
 	<target name="clean"
         description="clean up SimpleUML2SimpleRDBMS_V1" >

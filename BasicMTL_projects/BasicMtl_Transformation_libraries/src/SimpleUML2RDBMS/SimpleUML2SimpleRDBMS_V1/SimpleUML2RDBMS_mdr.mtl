@@ -1,5 +1,5 @@
 /*
- * $Id: SimpleUML2RDBMS_mdr.mtl,v 1.3 2003-08-25 09:39:00 dvojtise Exp $
+ * $Id: SimpleUML2RDBMS_mdr.mtl,v 1.4 2003-08-26 12:51:42 ffondeme Exp $
  *
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
@@ -24,8 +24,6 @@ model target_model : RepositoryModel;		// must be SimpleRDBMS MetaModel
 // Typed model 
 model SUML2RDBMS_transform_lib : SimpleUML2SimpleRDBMS;
 
-model mdrdriver : MDRDriver;
-
 // Library level methods
 // ---------------------
 // Note : should be put into a class which name is the same as the library ? NO
@@ -38,8 +36,8 @@ model mdrdriver : MDRDriver;
 
 main():Standard::Void
 {
-	
-	mdrdriver := new MDRDriver();
+	mdrdriver : MDRDriver::MDRModelManager;
+	mdrdriver := new MDRDriver::MDRModelManager();
 	//mdrdriver.GetDriverInstance();
 	mdrdriver.init();
 	
@@ -51,9 +49,11 @@ main():Standard::Void
 							  new mdrdriver::XmiModel('ThirdParty/MDR/Test/models/testModel4SimpleUML.xml', 
 							  mdrdriver.XmiModel.Read));
 							 */
-	source_model := mdrdriver.getModelFromXMI('SimpleUMLMM_MOF.xml', 
+	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\MM\\SimpleUML\\SimpleUmlMM_MOF.xml', 
+						'SimpleUmlMM',
 						'SimpleUML_source_model', 
-						'SimpleUML_FullExample.xml', 'SimpleUML_source_model.xml' )
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\MM\\SimpleUML\\sample_models\\SimpleUML_FullExample.xml',
+						null);
 	// or this kind !!! source_model := mdrdriver.GUIGetModel('select your Source Model')
 	// create the target model
 	/*
@@ -63,15 +63,17 @@ main():Standard::Void
 							  new mdrdriver::XmiModel('ThirdParty/MDR/Test/models/resultModel4SimpleRDBMS.xml', 
 							  mdrdriver.XmiModel.Write));
 	*/
-	target_model := mdrdriver.getModelFromXMI('SimpleRDBMS_MM.xml', 
-						'SimpleRDBMS_source_model', 
-						'SimpleRDBMS_FullExample.xml', 'SimpleRDBMS_FullExample.xml' )
+	target_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\MM\\SimpleRDBMS\\SimpleRdbmsMM_MOF.xml', 
+						'SimpleRdbmsMM',
+						'SimpleRDBMS_target_model', 
+						null,
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\SimpleUML2SimpleRDBMS_V1\\SimpleUML_FullExample_2RDBMS_result.xml' );
 					// note : if the model xmi file is empty or doesn't exist, it create an empty model
 					// the xmi file name is then used to save the model at the end of the transformation
 	// or this kind !!! target_model := mdrdriver.GUIGetModel("select your target Model")
 	
 	// instanciate transformation lib
-	SUML2RDBMS_transform_lib := (new SimpleUML2SimpleRDBMS).init(source_model, target_model);
+	SUML2RDBMS_transform_lib := new SimpleUML2SimpleRDBMS().init(source_model, target_model);
 	
 	// Start the transformation
 	// ou ? call SUML2RDBMS_transform_lib::transform()
