@@ -1,6 +1,6 @@
 /*
  * Created on May 22, 2003
- * $Id: CollectionCommandGroup.java,v 1.7 2004-02-16 17:01:53 dvojtise Exp $
+ * $Id: CollectionCommandGroup.java,v 1.8 2004-04-29 08:05:46 ffondeme Exp $
  * @author : ffondeme 
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -30,6 +30,7 @@ public class CollectionCommandGroup extends CommandGroupImpl {
 			ret = new CollectionCommandGroup(collectionType);
 			ret.addCommand(Collection_getNewIterator.TheInstance);
 			ret.addCommand(Collection_isEmpty.TheInstance);
+			ret.addCommand(Collection_notEmpty.TheInstance);
 			ret.addCommand(Collection_size.TheInstance);
 			ret.addCommand(Collection_at.TheInstance);
 			ret.addCommand(Collection_includes.TheInstance);

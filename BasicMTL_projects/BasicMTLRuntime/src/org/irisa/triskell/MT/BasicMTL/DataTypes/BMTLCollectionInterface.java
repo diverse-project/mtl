@@ -23,6 +23,7 @@ public interface BMTLCollectionInterface
 	BMTLIteratorInterface BMTL_getNewIterator();
 	BMTLOclAnyInterface BMTL_at(IntegerValue position);
 	BMTLBooleanInterface BMTL_isEmpty();
+	BMTLBooleanInterface BMTL_notEmpty();
 	BMTLIntegerInterface BMTL_size();
 	BMTLBooleanInterface BMTL_includes(Value v);
 	BMTLBooleanInterface BMTL_excludes(Value v);

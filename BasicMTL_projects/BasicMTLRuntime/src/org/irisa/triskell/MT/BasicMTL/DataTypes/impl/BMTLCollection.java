@@ -22,6 +22,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_inclu
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_at;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_includesAll;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_isEmpty;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_notEmpty;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_size;
 
 /**
@@ -64,6 +65,10 @@ public class BMTLCollection
 	public BMTLBooleanInterface BMTL_isEmpty() {
 		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_isEmpty.TheInstance.invoke(this.getCollectionDelegate(), null));
 	}
+
+	public BMTLBooleanInterface BMTL_notEmpty() {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_notEmpty.TheInstance.invoke(this.getCollectionDelegate(), null));
+	}
 	
 	public BMTLIntegerInterface BMTL_size() {
 		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Collection_size.TheInstance.invoke(this.getCollectionDelegate(), null));
@@ -84,6 +89,4 @@ public class BMTLCollection
 	public BMTLBooleanInterface BMTL_excludesAll(CollectionValue v) {
 		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_excludesAll.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
 	}
-
-
 }
