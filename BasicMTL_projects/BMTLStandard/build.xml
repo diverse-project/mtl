@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-11-14 14:37:11 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-11-14 14:39:25 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="compile Standard" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -13,13 +13,13 @@
 	<path id="MTLcompiler.class.path">
     	<pathelement path="${java.class.path}/"/>
     	<pathelement path="."/>
-    	<pathelement path="..\MTDataTypes\dist\bin\MTDataTypes.jar"/>
-    	<pathelement path="..\BasicMTLRuntime\dist\bin\BasicMTLRuntime.jar"/>
-    	<pathelement path="..\RepositoryAPI\dist\bin\RepositoryAPI.jar"/>
-    	<pathelement path="..\MDRDriver\dist\bin\MDRDriver.jar"/>
-    	<pathelement path="..\Utils\dist\bin\Utils.jar"/>
-    	<pathelement path="..\Utils\ThirdParty\log4j\log4j.jar"/>
-    	<pathelement path="..\BasicMtl_Transformation_libraries\bin"/>
+    	<pathelement path="../MTDataTypes/dist/bin/MTDataTypes.jar"/>
+    	<pathelement path="../BasicMTLRuntime/dist/bin/BasicMTLRuntime.jar"/>
+    	<pathelement path="../RepositoryAPI/dist/bin/RepositoryAPI.jar"/>
+    	<pathelement path="../MDRDriver/dist/bin/MDRDriver.jar"/>
+    	<pathelement path="../Utils/dist/bin/Utils.jar"/>
+    	<pathelement path="../Utils/ThirdParty/log4j/log4j.jar"/>
+    	<pathelement path="../BasicMtl_Transformation_libraries/bin"/>
   	</path>
   	
 	<target name="init">
@@ -39,7 +39,7 @@
            fork="true"
            failonerror="true"
            >
-         <arg value="${src}\"/> 
+         <arg value="${src}/"/> 
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
