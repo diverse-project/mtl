@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PoseidonDriver.mtl,v 1.1 2004-10-13 14:38:18 jpthibau Exp $
+ * $Id: PoseidonDriver.mtl,v 1.1 2004-11-08 13:22:29 dvojtise Exp $
  * This native library is used to provide the specific functions needed to open, load, save models
  * with the MDR repository embedded in Poseidon
  * its behavior is slightly different from MDRDriver itself
@@ -42,7 +42,7 @@ tag DoNotGenerate := booleantag true;
 	  *		repository: name of the repository that contains the model, null if you want to use the default repository
 	  *		modelName: name of the model you want to retreive
 	  */
-	connectModel ( repository: Standard::String;
+	getModel ( repository: Standard::String;
 			   modelName : Standard::String ): RepositoryModel
 	{
 	}
@@ -51,32 +51,31 @@ tag DoNotGenerate := booleantag true;
 	  * return an exisiting model from Poseidon model extent
 	  *	Equivalent to getModel(null, modelName)
 	  */
-	connectPoseidonModel ( modelName : Standard::String ): RepositoryModel
+	getPoseidonModel ( modelName : Standard::String ): RepositoryModel
 	{
 	}
 	/**
 	  * return the name of the first model in Poseidon model extent
 	  */
-	connectPoseidonCurrentModelName() : Standard::String
+	getPoseidonCurrentModelName() : Standard::String
 	{
 	}
 			
 	/**
 	  * return the MOF metamodel as a model (meta model is itself)
 	  */
-	connectRepositoryMOF () : RepositoryModel 
+	getRepositoryMOF () : RepositoryModel 
 	{}
 	
 	/**
 	  * return the UML metamodel as a model (metamodel is MOF)
-	  */
-	connectPoseidonUML () : RepositoryModel 
+	getPoseidonUML () : RepositoryModel 
 	{}
 	
 	/**
 	  * return the UML profiles as a model (metamodel is UML)
 	  */
-	connectPoseidonUMLProfiles () : RepositoryModel 
+	getPoseidonUMLProfiles () : RepositoryModel 
 	{}	
 	
 	/** allow to freely create new models not managed by poseidon 
@@ -90,7 +89,7 @@ tag DoNotGenerate := booleantag true;
 	  *		modelXmiInputFileName: file from which the model is loaded
 	  *		modelXmiOuputFileName: file where the model will be saved
 	  */
-	createModelFromXMI(
+	getModelFromXMI(
 		metamodelXmiFileName, 
 		metamodelName,	
 		metaPackageToInstanciate, 

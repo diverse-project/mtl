@@ -1,5 +1,5 @@
 /*
- * $Id: PoseidonModelManager.java,v 1.2 2004-10-08 14:36:01 jpthibau Exp $
+ * $Id: PoseidonModelManager.java,v 1.1 2004-11-08 13:22:26 dvojtise Exp $
  * Authors : dvojtise
  * Created on 5 octobre 2004
  * 
@@ -23,7 +23,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -187,6 +187,29 @@ public class PoseidonModelManager {
 		api.startup(null);
 		return api;
 	}
+	/**
+	 * get an existing UML model from its name
+	 * @param modelName
+	 * @return
+	 * @throws java.lang.Exception
+	 */
+	public MDRAPI getModel(String repository, String modelName)
+			throws java.lang.Exception
+		{
+			if (! isInitialized) throw new Exception("Driver not correctly initialized");
+			
+			org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel metamodel;
+			org.irisa.triskell.MT.repository.genericJMIDriver.Model model;
+			
+			metamodel = new ImplementedMetamodel(); // new LoadedMetamodel("M2_jboogie", new String [] {metaPackageToInstanciate});
+			model = new ImplementedModel();
+			
+			MDRAPI api = new MDRAPI(repository, metamodel, modelName, model, false);
+			managedAPIs.put(modelName,api);			
+			saveHookForModel(api, model);
+			api.startup(null);
+			return api;
+		}
 	
 	/**
 	 * Returns a metamodel described by a (MOF-based) XMI file.
@@ -253,7 +276,8 @@ public class PoseidonModelManager {
 		String metamodelXmiFileName,
 		String modelName,
 		String modelXmiInputFileName,
-		String modelXmiOuputFileName)
+		String modelXmiOuputFileName,
+		boolean isSychronized)
 		throws java.lang.Exception
 	{
 		
@@ -276,7 +300,8 @@ public class PoseidonModelManager {
 		String metaPackageToInstanciate,
 		String modelName,
 		String modelXmiInputFileName,
-		String modelXmiOuputFileName)
+		String modelXmiOuputFileName,
+		boolean isSychronized)
 		throws java.lang.Exception
 	{
 		

@@ -1,11 +1,10 @@
-/* $Id: BMTL_PoseidonModelManager.java,v 1.1 2004-10-13 14:38:16 jpthibau Exp $
+/* $Id: BMTL_PoseidonModelManager.java,v 1.1 2004-11-08 13:22:34 dvojtise Exp $
  * Created on 25 août 2003
  */
 package PoseidonDriver;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
@@ -15,6 +14,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLOrderedSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLObjectInterface;
@@ -27,20 +27,14 @@ import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsKindOf;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsTypeOf;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.ImplementedMetamodel;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.LoadedMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
+import org.irisa.triskell.MT.repository.PoseidonDriver.Java.PoseidonModelManager;
 import org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel;
 import org.irisa.triskell.MT.repository.genericJMIDriver.Model;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.MofMetamodel;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetamodel;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.XmiModel;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
 /**
@@ -48,7 +42,11 @@ import org.irisa.triskell.MT.utils.Java.AWK;
  *
  *	Implementation of BMTL_PoseidonModelManager BMTL object using SimpleStandaloneModelManager from the repository driver
  */
-public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager implements BMTLObjectInterface, Value {
+/**
+ * @author dvojtise
+ *
+ */
+public class BMTL_PoseidonModelManager extends PoseidonModelManager implements BMTLObjectInterface, Value {
 	protected static final String n = "BMTL_PoseidonModelManager";
 	protected static final String [] qn = new String [] {"BMTL_PoseidonModelManager", n};
 	 
@@ -117,15 +115,28 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModel(java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel, java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Model)
 	 */
-	public MDRAPI BMTL_getModel(
-		StringValue repository,
-		Metamodel metamodel,
-		StringValue modelName,
-		Model model)
+	public MDRAPI BMTL_getModel(StringValue repository, StringValue modelName)
 		throws Exception {
-		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model, false);
+		return this.getModel(repository == null ? null : repository.getTheString(),	modelName == null ? null : modelName.getTheString());
 	}
 
+	/**
+	 * @return
+	 * @throws Exception
+	 * warning; it currently returns M1_UmlInstance instead of looking for it in Poseidon itself
+	 */
+	public StringValue BMTL_getPoseidonCurrentModelName()
+			throws Exception {
+			
+			return new BMTLString("M1_UmlInstance");
+			
+	}
+	public MDRAPI BMTL_getPoseidonModel(StringValue modelName)
+			throws Exception {
+			return this.getModel(null, 
+								 modelName == null ? null : modelName.getTheString());
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelfromGUI(java.lang.String)
 	 */
@@ -150,6 +161,7 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 			false);
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -170,9 +182,28 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 	}
 
 	/* (non-Javadoc)
+	 * 
+	 */
+	public MDRAPI BMTL_getModelFromXMI(
+		StringValue metamodelXmiFileName,
+		StringValue metamodelName,  // Warning ! currently not used ...
+		StringValue metaPackageToInstanciate,
+		StringValue modelName,
+		StringValue modelXmiInputFileName,
+		StringValue modelXmiOuputFileName)
+		throws Exception {
+		return this.getModelFromXMI(
+			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
+			metaPackageToInstanciate == null ? null : metaPackageToInstanciate.getTheString(),
+			modelName == null ? null : modelName.getTheString(),
+			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString(),
+			false);
+	}
+	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#init()
 	 */
-	public SimpleStandaloneModelManager BMTL_init() throws Exception {
+	public PoseidonModelManager BMTL_init() throws Exception {
 		return this.init();
 	}
 	
