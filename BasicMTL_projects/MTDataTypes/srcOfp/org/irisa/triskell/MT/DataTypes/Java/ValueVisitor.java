@@ -37,6 +37,9 @@ public interface ValueVisitor
      void visitModelElementValue(
         org.irisa.triskell.MT.DataTypes.Java.ModelElementValue value);
 
+     void visitRepositoryAPIValue(
+            org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue value);
+
      void visitTupleValue(
         org.irisa.triskell.MT.DataTypes.Java.TupleValue value);
 

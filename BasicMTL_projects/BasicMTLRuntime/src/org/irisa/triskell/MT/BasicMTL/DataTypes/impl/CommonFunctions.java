@@ -1,6 +1,6 @@
 /*
  * Created on 20 août 2003
- * $Id: CommonFunctions.java,v 1.4 2004-02-17 08:58:24 dvojtise Exp $
+ * $Id: CommonFunctions.java,v 1.5 2004-10-28 15:14:43 jpthibau Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -18,6 +18,7 @@ import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.ModelElementValue;
+import org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue;
 import org.irisa.triskell.MT.DataTypes.Java.NullValue;
 import org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
@@ -32,6 +33,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
 //import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
 //import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.API;
 //import org.irisa.triskell.MT.repository.API.Java.ModelRole;
 
 /**
@@ -100,6 +102,10 @@ class ToBMTLDataTypeVisitor implements ValueVisitor {
 
 	public void visitModelElementValue(ModelElementValue value) {
 		this.distilled = new BMTLModelElement((ModelElement)value);
+	}
+
+	public void visitRepositoryAPIValue(RepositoryAPIValue value) {
+		this.distilled = new BMTLRepositoryAPI((API)value);
 	}
 
 	public void visitNullValue(NullValue value) {

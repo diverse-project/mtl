@@ -1,5 +1,5 @@
 /*
- * $Id: UndefinedValueImpl.java,v 1.2 2004-02-16 17:01:58 dvojtise Exp $
+ * $Id: UndefinedValueImpl.java,v 1.3 2004-10-28 15:11:55 jpthibau Exp $
  * @author : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -65,6 +65,10 @@ final class HasValueDeterminer implements ValueVisitor {
 	}
 
 	public void visitModelElementValue(ModelElementValue value) {
+		this.result = true;
+	}
+
+	public void visitRepositoryAPIValue(RepositoryAPIValue value) {
 		this.result = true;
 	}
 
