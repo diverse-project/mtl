@@ -3,6 +3,10 @@
 	<name>BasicMtl2Java</name>
 	<comment></comment>
 	<projects>
+		<project>BasicMTLRuntime</project>
+		<project>MDRDriver</project>
+		<project>MTDataTypes</project>
+		<project>Utils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
