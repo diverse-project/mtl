@@ -58,27 +58,27 @@ public class Test2 extends TestCommand
         ////////////////////////////////////////////////////////////////////////////////
         // we add a listener on one element
 		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-        	me_oeuvre, 
-			getAPI().getEventListenerFactory().createAttributeEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("ATTRIBUTE kind : " + ((AttributeEvent)e).getKind());
-        			}
-        		}
-			)
-		);
+//        getAPI().addListenerToElement (
+//        	me_oeuvre, 
+//			getAPI().getEventListenerFactory().createAttributeEventListener (
+//				new EventListenerCommand () {
+//        			public void update (Event e) {
+//        				getAPI().getLog().info ("ATTRIBUTE kind : " + ((AttributeEvent)e).getKind());
+//        			}
+//        		}
+//			)
+//		);
 
-        getAPI().addListenerToElement (
-        	me_oeuvre,
-			getAPI().getEventListenerFactory().createAssociationEventListener (
-   				new EventListenerCommand () {
-           			public void update (Event e) {
-           				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
-           			}
-           		}
-   			)
-   		);
+//        getAPI().addListenerToElement (
+//        	me_oeuvre,
+//			getAPI().getEventListenerFactory().createAssociationEventListener (
+//   				new EventListenerCommand () {
+//           			public void update (Event e) {
+//           				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
+//           			}
+//           		}
+//   			)
+//   		);
 
         
         me_compositeur.setAttributeValue (me_compositeur,ma_name,new StringValueImpl(false,null,"compositeur"));

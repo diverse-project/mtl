@@ -46,7 +46,8 @@ public abstract class TestCommand
 						null, 
 						new XmiMetamodel (modelsPath + "MOFmetamodel.xml", new String [] {"SimpleUmlMM"} ), 
 						"MyModel", 
-						new XmiModel (modelsPath + "instance.xmi", XmiModel.Write )
+						new XmiModel (modelsPath + "instance.xmi", XmiModel.Write),
+						true // synchronization
 				);
 			} 
 			catch (Exception e) {

@@ -6,6 +6,10 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events.tests;
 
+import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDREventListenerFactory;
+
 /**
  * @author edrezen
  *
@@ -13,9 +17,10 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events.tests;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class Main {
-
+	
 	public static void main(String[] args) throws Exception 
 	{
-		new Test3().execute(null);
+		TestCommand test = new Test5();
+		test.execute(null);
 	}
 }

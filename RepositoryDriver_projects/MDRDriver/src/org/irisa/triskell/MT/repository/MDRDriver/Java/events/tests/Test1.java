@@ -49,46 +49,46 @@ public class Test1 extends TestCommand
 		////////////////////////////////////////////////////////////////////////////////
         // we add an Attribute listener on one element
 		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-    		mc_Class, 
-			getAPI().getEventListenerFactory().createAttributeEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("ATTRIBUTE kind : " + ((AttributeEvent)e).getKind());
-        			}
-        		}
-			)
-		);
+//        getAPI().addListenerToElement (
+//    		mc_Class, 
+//			getAPI().getEventListenerFactory().createAttributeEventListener (
+//				new EventListenerCommand () {
+//        			public void update (Event e) {
+//        				getAPI().getLog().info ("ATTRIBUTE kind : " + ((AttributeEvent)e).getKind());
+//        			}
+//        		}
+//			)
+//		);
 
         
         ////////////////////////////////////////////////////////////////////////////////
         // we add an Instance listener on one element
 		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-        	mc_Class,
-			getAPI().getEventListenerFactory().createInstanceEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("INSTANCE kind : " + ((InstanceEvent)e).getKind());
-        			}
-        		}
-			)
-		);
+//        getAPI().addListenerToElement (
+//        	mc_Class,
+//			getAPI().getEventListenerFactory().createInstanceEventListener (
+//				new EventListenerCommand () {
+//        			public void update (Event e) {
+//        				getAPI().getLog().info ("INSTANCE kind : " + ((InstanceEvent)e).getKind());
+//        			}
+//        		}
+//			)
+//		);
 
         
         ////////////////////////////////////////////////////////////////////////////////
         // we add an Association listener on one element
 		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-        	mc_Class,
-        	getAPI().getEventListenerFactory().createAssociationEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
-        			}
-        		}
-			)
-		);
+//        getAPI().addListenerToElement (
+//        	mc_Class,
+//        	getAPI().getEventListenerFactory().createAssociationEventListener (
+//				new EventListenerCommand () {
+//        			public void update (Event e) {
+//        				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
+//        			}
+//        		}
+//			)
+//		);
 
         
 		////////////////////////////////////////////////////////////////////////////////

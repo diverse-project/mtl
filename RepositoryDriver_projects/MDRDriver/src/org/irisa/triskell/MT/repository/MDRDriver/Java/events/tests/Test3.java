@@ -54,30 +54,30 @@ public class Test3 extends TestCommand
         ////////////////////////////////////////////////////////////////////////////////
         // we add a listener on some elements
 		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-        	me_oeuvre, 
-			getAPI().getEventListenerFactory().createAttributeEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				AttributeEvent evt = (AttributeEvent)e;
-        				getAPI().getLog().info ("ATTRIBUTE kind : " + evt.getKind() + "  attribute name is '" + evt.getAttributeName() + "'  new value is '" + evt.getNewValue().toString() + "'  old value is '" + evt.getOldValue() + "'");
-        				
-        			}
-        		}
-			)
-		);
+//        getAPI().addListenerToElement (
+//        	me_oeuvre, 
+//			getAPI().getEventListenerFactory().createAttributeEventListener (
+//				new EventListenerCommand () {
+//        			public void update (Event e) {
+//        				AttributeEvent evt = (AttributeEvent)e;
+//        				getAPI().getLog().info ("ATTRIBUTE kind : " + evt.getKind() + "  attribute name is '" + evt.getAttributeName() + "'  new value is '" + evt.getNewValue().toString() + "'  old value is '" + evt.getOldValue() + "'");
+//        				
+//        			}
+//        		}
+//			)
+//		);
 
-        getAPI().addListenerToElement (
-        	me_oeuvre,
-			getAPI().getEventListenerFactory().createAssociationEventListener (
-   				new EventListenerCommand () {
-           			public void update (Event e) {
-        				AssociationEvent evt = (AssociationEvent)e;
-           				getAPI().getLog().info ("ASSOCIATION kind : " + evt.getKind() + " end name is '" + evt.getEndName() + "'");
-           			}
-           		}
-   			)
-   		);
+//        getAPI().addListenerToElement (
+//        	me_oeuvre,
+//			getAPI().getEventListenerFactory().createAssociationEventListener (
+//   				new EventListenerCommand () {
+//           			public void update (Event e) {
+//        				AssociationEvent evt = (AssociationEvent)e;
+//           				getAPI().getLog().info ("ASSOCIATION kind : " + evt.getKind() + " end name is '" + evt.getEndName() + "'");
+//           			}
+//           		}
+//   			)
+//   		);
 
         
         me_compositeur.setAttributeValue (me_compositeur,ma_name,new StringValueImpl(false,null,"compositeur"));
