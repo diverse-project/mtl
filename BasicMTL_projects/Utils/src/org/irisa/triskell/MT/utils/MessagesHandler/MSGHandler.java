@@ -1,18 +1,19 @@
-/* $Id: MSGHandler.java,v 1.8 2004-10-19 06:57:46 jpthibau Exp $
+/* $Id: MSGHandler.java,v 1.9 2004-10-21 14:00:12 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.utils.MessagesHandler;
 
-import java.util.Enumeration;
+//import java.util.Enumeration;
 import java.util.Vector;
 
-import org.apache.log4j.Appender;
+//import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.irisa.triskell.MT.utils.Java.Directories;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.xml.DOMConfigurator;
+//import org.irisa.triskell.MT.utils.Java.Directories;
+import org.irisa.triskell.MT.utils.Java.LogConfigurationHelper;
 
 /**
  *This class manages all compiler messages and ask the compiler for informations on processed file,line number and so on
@@ -39,23 +40,11 @@ public class MSGHandler {
 		String filePath="";
 		Logger logger=null;
 		if (allMessages==null) {
-		allMessages=new Vector();
-			
-		try {
-			filePath = new java.io.File(Directories.getRootPath(MSGHandler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-			
-			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath);
-			//put getRootLogger.error(.. instead of debug if you want to stop on the configuration file loaded.
-			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
-			logger=Logger.getLogger("MSGHandler");
-			if (logger.getAppender("MSGHandlerAppender")==null)
-				logger.addAppender(new MSGHandlerAppender());
-		}
-		catch(java.io.IOException e) {
-			System.err.println("Can't state log4j in MSGHandler");
-			System.err.println("looking for log4jconfiguration file here: "+filePath); 
-		}
+			allMessages=new Vector();
+		
+		
+			LogConfigurationHelper.reconfigureLog4j(MSGHandler.class.getName());					
+					
 		}
 		else logger=Logger.getLogger("MSGHandler");
 		return logger;
