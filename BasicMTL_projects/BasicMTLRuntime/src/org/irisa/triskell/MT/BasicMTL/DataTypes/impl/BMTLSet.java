@@ -1,24 +1,24 @@
 /*
+ * $Id: BMTLSet.java,v 1.5 2004-01-22 10:58:04 dvojtise Exp $
  * Created on 19 août 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+// import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_including;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_intersection;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_union;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_symmetricDifference;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * 
+ * Implementation of the BasicMTL object Standard::Set
+ * It uses a delegate objects in MTDataTypes project
  */
 public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
 	
@@ -45,5 +45,8 @@ public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
 	public BMTLSetInterface BMTL_including(Value s) {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
-
+	public BMTLSetInterface BMTL_symmetricDifference(BMTLSetInterface s) {
+		System.out.println("class BMTLSet BMTL_symmetricDifference(BMTLSetInterface s)");
+		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_symmetricDifference.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
 }
