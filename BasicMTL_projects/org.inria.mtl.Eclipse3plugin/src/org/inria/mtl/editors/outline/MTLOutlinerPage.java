@@ -51,6 +51,10 @@ public class MTLOutlinerPage extends ContentOutlinePage
 		viewer.setContentProvider(new WorkbenchContentProvider());
 		viewer.setLabelProvider(new WorkbenchLabelProvider());
 		viewer.setSorter(new MTLNameSorter());
+		
+		if (input != null)
+			viewer.setInput(input);
+
 	}
 
 	private IAdaptable getContentOutline(IDocument input)
