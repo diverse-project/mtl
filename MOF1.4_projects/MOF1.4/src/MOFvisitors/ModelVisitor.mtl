@@ -1,0 +1,401 @@
+/******************************************************************************
+ * $Id: ModelVisitor.mtl,v 1.1 2004-03-17 15:41:44 edrezen Exp $
+ ******************************************************************************/
+
+library MOFvisitors;
+
+model helper : MOFhelper;
+
+/** */
+class VisitorResult
+{
+	set : Standard::Set;
+	
+	init () : VisitorResult
+	{	
+		set := new Standard::Set ();
+		return this;
+	}
+	
+	add (elt : Standard::OclAny) : VisitorResult
+	{
+		if (isNull(elt).not())
+		{
+			set := set.including (elt);
+		}
+
+		return this;
+	}
+	
+	toString() : Standard::String
+	{
+		result   : Standard::String;
+		iterator : Standard::Iterator;		
+		item     : Standard::OclAny;
+		found : Standard::Boolean;
+		
+		result := '';
+
+		iterator := this.set.getNewIterator();
+		while (iterator.isOn())
+		{
+			item := iterator.item();
+
+			found := false;
+
+			if (found.[=](false).and (item.oclIsKindOf(!Standard::String!)) )
+			{
+				result := result.concat (item.oclAsType(!Standard::String!));
+				found := true;				
+			}
+
+
+			if (found.[=](false).and (item.oclIsKindOf(!MOFvisitors::VisitorResult!)) )
+			{
+				result := result.concat (item.oclAsType(!MOFvisitors::VisitorResult!).toString());
+				found := true;				
+			}
+
+			if (found.[=](false))
+			{
+				'NOT FOUND'.toOut();
+				item.toOut();
+			}
+
+			iterator.next();
+		}
+	
+		return result;
+	}
+}
+
+
+/** */
+class VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new VisitorResult().init();
+	}
+}
+
+
+
+/** */
+class ModelVisitor extends DefaultVisitors::InvokableVisitor 
+{
+	resultFactory : VisitorResultFactory;
+
+	/** */
+	init (factory : VisitorResultFactory)
+	{
+		this.resultFactory := factory;
+	}
+
+ 	/** */
+	visitOclAny (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{	
+		return resultFactory.create ();
+	}
+
+	/** */
+	visitPackage (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		thePackage : MOFview::Package;
+		result : VisitorResult;
+		
+		importsIterator : Standard::Iterator;
+		aImport : MOFview::Import;
+
+		classesIterator : Standard::Iterator;
+		aClass          : MOFview::Class;
+
+		primitiveTypesIterator : Standard::Iterator;		
+		aPrimitiveType : MOFview::PrimitiveType;
+
+		structureTypesIterator : Standard::Iterator;		
+		aStructureType : MOFview::StructureType;
+
+		enumerationTypesIterator : Standard::Iterator;		
+		aEnumerationType : MOFview::EnumerationType;
+
+		associationsIterator : Standard::Iterator;		
+		aAssociation : MOFview::Association;
+		
+		subPackagesIterator : Standard::Iterator;
+		subPackage : MOFview::Package;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the current package
+		thePackage := instance.oclAsType (!MOFview::Package!);
+		
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the Import objects
+		////////////////////////////////////////////////////////////////////////////////
+		importsIterator := getHelper().getImports (thePackage).getNewIterator();
+		while (importsIterator.isOn())
+		{
+			aImport := importsIterator.item ();
+			result.add (aImport.accept (this,context)); 
+			importsIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the Class objects
+		////////////////////////////////////////////////////////////////////////////////
+		classesIterator := getHelper().getClasses (thePackage).getNewIterator();
+		while (classesIterator.isOn())
+		{
+			aClass := classesIterator.item(); 
+			result.add (aClass.accept (this,context));
+			classesIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the PrimitiveType objects
+		////////////////////////////////////////////////////////////////////////////////
+		primitiveTypesIterator := getHelper().getPrimitiveTypes (thePackage).getNewIterator();
+		while (primitiveTypesIterator.isOn())
+		{
+			aPrimitiveType := primitiveTypesIterator.item(); 
+			result.add (aPrimitiveType.accept (this,context));
+			primitiveTypesIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the StructureType objects
+		////////////////////////////////////////////////////////////////////////////////
+		structureTypesIterator := getHelper().getStructureTypes (thePackage).getNewIterator();
+		while (structureTypesIterator.isOn())
+		{
+			aStructureType := structureTypesIterator.item(); 
+			result.add (aStructureType.accept (this,context));
+			structureTypesIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the EnumerationType objects
+		////////////////////////////////////////////////////////////////////////////////
+		enumerationTypesIterator := getHelper().getEnumerationTypes (thePackage).getNewIterator();
+		while (enumerationTypesIterator.isOn())
+		{
+			aEnumerationType := enumerationTypesIterator.item(); 
+			result.add (aEnumerationType.accept (this,context));
+			enumerationTypesIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the Association objects
+		////////////////////////////////////////////////////////////////////////////////
+		associationsIterator := getHelper().getAssociations (thePackage).getNewIterator();
+		while (associationsIterator.isOn())
+		{
+			aAssociation := associationsIterator.item(); 
+			result.add (aAssociation.accept (this,context));
+			associationsIterator.next();
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// we visit the subpackages of the current package
+		////////////////////////////////////////////////////////////////////////////////
+		subPackagesIterator := getHelper().getSubPackages (thePackage).getNewIterator();
+		subPackagesIterator.start();
+		while (subPackagesIterator.isOn())
+		{
+			subPackage := subPackagesIterator.item().oclAsType (!MOFview::Package!);
+			result.add (subPackage.accept (this, context));
+			subPackagesIterator.next();
+		}
+		
+		return result;
+	}
+	
+
+	/**	*/	
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass : MOFview::Class;
+		result : VisitorResult;
+		
+		attributesIterator : Standard::Iterator;
+		aAttribute : MOFview::Attribute;
+
+		referenceIterator : Standard::Iterator;
+		aReference        : MOFview::Reference;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theClass := instance.oclAsType (!MOFview::Class!);
+
+		// we visit the Attribute objects
+		attributesIterator := getHelper().getAttributes (theClass).getNewIterator();
+		while (attributesIterator.isOn())
+		{
+			aAttribute := attributesIterator.item().oclAsType (!MOFview::Attribute!);
+			result.add (aAttribute.accept (this, context));
+			attributesIterator.next();
+		}
+
+		// we visit the Reference objects
+		referenceIterator := getHelper().getReferences (theClass).getNewIterator();
+		referenceIterator.start();
+		while (referenceIterator.isOn())
+		{
+			aReference := referenceIterator.item();
+			result.add (aReference.accept (this, context));
+			referenceIterator.next();
+		}
+		
+		return result;
+	}
+	
+	
+	/** */
+	visitAttribute (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAttribute: MOFview::Attribute;
+		result : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theAttribute := instance.oclAsType (!MOFview::Attribute!);
+
+		/*
+		theAttribute.getType().accept (this, context);*/
+		
+		return result;
+	}
+	
+	
+	/** */
+	visitReference (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theReference : MOFview::Reference;
+		result       : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theReference := instance.oclAsType (!MOFview::Reference!);
+
+		return result;
+	}
+
+
+	/** */
+	visitImport (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theImport : MOFview::Import;
+		result    : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theImport := instance.oclAsType (!MOFview::Import!);
+
+		return result;
+	}
+
+
+	/** */
+	visitPrimitiveType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		thePrimitiveType : MOFview::PrimitiveType;
+		result           : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		thePrimitiveType := instance.oclAsType (!MOFview::PrimitiveType!);
+
+		return result;
+	}
+
+
+	/** */
+	visitStructureType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theStructureType : MOFview::StructureType;
+		result           : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theStructureType := instance.oclAsType (!MOFview::StructureType!);
+
+		return result;
+	}
+
+	/** */
+	visitEnumerationType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theEnumerationType : MOFview::EnumerationType;
+		result             : VisitorResult;
+		iterator           : Standard::Iterator;
+		label              : Standard::String;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theEnumerationType := instance.oclAsType (!MOFview::EnumerationType!);
+
+		iterator := theEnumerationType.getLabels().getNewIterator();
+		iterator.start();
+		while (iterator.isOn())
+		{
+			label := iterator.item().oclAsType(!Standard::String!);
+			result.add (label);
+			iterator.next();
+		}
+
+		return result;
+	}
+
+
+	/** */
+	visitAssociation (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAssociation  : MOFview::Association;
+		result          : VisitorResult;
+		iterator        : Standard::Iterator;
+		aAssociationEnd : MOFview::AssociationEnd;
+		
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theAssociation := instance.oclAsType (!MOFview::Association!);
+
+		// we loop over the AssociationEnd objects
+		iterator := getHelper().getAssociationEnds (theAssociation).getNewIterator();
+		while (iterator.isOn())
+		{
+			aAssociationEnd := iterator.item();
+			result.add (aAssociationEnd.accept (this, context));
+			iterator.next();
+		}
+		return result;
+	}
+	
+	
+	/** */
+	getHelper() : MOFhelper
+	{
+		if (isNull(helper))
+		{
+			helper := new MOFhelper ();
+		}
+		return (helper);
+	}
+}
