@@ -4,6 +4,6 @@
       scrub-output="false"
       use-console="true">
    <feature id="org.inria.BasicMTL.runtime" version="0.0.3"/>
-   <feature id="org.inria.BasicMTLc" version="0.0.3"/>
-   <feature id="org.inria.UmlautNG" version="0.0.3"/>
+   <feature id="org.inria.BasicMTLc" version="0.0.4"/>
+   <feature id="org.inria.UmlautNG" version="0.0.4"/>
 </site-build>
