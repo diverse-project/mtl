@@ -547,7 +547,8 @@ def main():
         can_process = 1
 
     if can_process == 1:
-        commonfile = open(templates_path+"common_build.xml")
+        
+        commonfile = open(templates_path+"/common_build.xml")
         data = commonfile.read()
         commonfile.close()
 
