@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.4 2004-08-05 11:53:50 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.5 2004-09-28 13:03:24 edrezen Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -341,6 +341,19 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/DefaultObservers/"/> 
        	</java>
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
+	         <arg value="${base}/BMTLDefaultVisitors/EventManagement/src/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${src}/TLL/"/>  
+	         <arg value="-TLLLoadingPaths"/>
+	         <arg value="${src}/TLL/"/>
+	         <arg value="-PackageName"/> 
+	         <arg value="EventManagement"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${src}/EventManagement/"/> 
+       	</java>
   	</target>
     <target name="compile common" description="compile all the sources in .class files" >
   		<!-- final java compile -->
@@ -382,6 +395,7 @@
     				<include name="io/**"/>
     				<include name="DefaultVisitors/**"/>
     				<include name="DefaultObservers/**"/>
+    				<include name="EventManagement/**"/>
   				</patternset>				
 			</fileset>
 			<!-- manifest to include -->
