@@ -7,7 +7,6 @@
     <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
     <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/generation/bin"/>
     <classpathentry kind="lib" path="ThirdParty/MDR/official/jmi.jar"/>
     <classpathentry kind="lib" path="ThirdParty/MDR/official/jmiutils.jar"/>
     <classpathentry kind="lib" path="ThirdParty/MDR/official/mdrapi.jar"/>
