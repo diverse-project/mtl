@@ -1,0 +1,111 @@
+library EventListenerTests;
+
+model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
+
+
+
+main() : Standard::Void
+{	 
+	new Test1().init().execute();
+	
+	'That s all folks !'.toOut();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+
+class MyCommand extends  EventManagement::EventCommand
+{
+	update (event : EventManagement::Event)
+	{
+		'++++++++++++++++++++ My command ++++++++++++++++++++'.toOut();
+		event.getSource().toOut();
+		event.getKind().toOut();
+	}
+}
+
+class YourCommand extends  EventManagement::EventCommand
+{
+	update (event : EventManagement::Event)
+	{
+		'++++++++++++++++++++ Your command +++++++++++++++++++'.toOut();
+		event.getSource().toOut();
+		event.getKind().toOut();
+	}
+}
+
+class OurCommand extends  EventManagement::EventCommand
+{
+	update (event : EventManagement::Event)
+	{
+		'++++++++++++++++++++ Our command ++++++++++++++++++++'.toOut();
+		event.getSource().toOut();
+		event.getKind().toOut();
+	}
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+class Test1
+{
+	/** */
+	init () : Test1
+	{
+		driver            : MDRDriver::MDRModelManager;
+	    projectPath       : Standard::String;
+		metamodelFilename : Standard::String;
+		inputFilename     : Standard::String;
+		outputFilename    : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '../../';
+		metamodelFilename := projectPath.concat ('MetaModels/UML_metamodel.xmi');
+		inputFilename     := projectPath.concat ('Models/UML_model.xmi');
+		outputFilename    := projectPath.concat ('Models/UML_model_MODIFIED.xmi');
+	
+	    // we initialize the MDR driver			
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+		 
+		// intanciate the model, save result in another file
+		source_model := driver.getModelFromXMI (metamodelFilename, 'UML', 'UML1.4_model', inputFilename, outputFilename);
+
+		return this;
+	}
+
+	
+	/** */
+	execute ()
+	{
+		aClass     : source_model::Core::Class;
+		aParameter : source_model::Core::Parameter;
+
+		// we create some elements in the model
+		aClass     := new source_model::Core::Class();
+		aParameter := new source_model::Core::Parameter();
+
+		// we add some listeners to some model elements
+		new EventManagement::AttributeEventListener().init(new MyCommand()).connect (aClass);
+		new EventManagement::AssociationEventListener().init(new YourCommand()).connect (aParameter);
+		new EventManagement::InstanceEventListener().init(new OurCommand()).connect (aClass);
+
+		// we perform some actions on the model elements.
+		// notifications should come since listeners have been defined on some of these model elements.
+		
+		aClass.name := 'MyClass';
+
+		associate ( 
+			type           := aClass     : source_model::Core::Classifier,
+			typedParameter := aParameter : source_model::Core::Parameter
+		);
+
+		aClass.delete ();
+	}
+}
+
+
+
