@@ -1,4 +1,4 @@
-// $Id: AssociationTemplates.mtl,v 1.1 2003-10-17 17:06:26 jpthibau Exp $
+// $Id: AssociationTemplates.mtl,v 1.2 2003-12-03 04:30:46 ffondeme Exp $
 // part of the BasicMtlASTWithAssociationView Library
 //methods required to merge code in produced classes during the associations transformation process
 /* version written for basicmtl.g,v 1.2
@@ -45,7 +45,7 @@ buildLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Standa
 	instancesElts.start();
 	rolesElts.start();
 	while instancesElts.isOn() {
-		if ref.[=](instancesElts.item()).not() {
+		if ref.[=](instancesElts.item()).[not]() {
 			if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
 				anOrderedSet := new Standard::OrderedSet();
 				anOrderedSet := anOrderedSet.including(instancesElts.item());
@@ -77,7 +77,7 @@ updateLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Stand
 	instancesElts.start();
 	rolesElts.start();
 	while instancesElts.isOn() {
-		if ref.[=](instancesElts.item()).not() {
+		if ref.[=](instancesElts.item()).[not]() {
 			if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
 				if self.validity {
 					anOrderedSet := self.orderedGet(rolesElts.item().oclAsType(!Standard::String!));}
@@ -112,7 +112,7 @@ removeLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Stand
 		instancesElts.start();
 		rolesElts.start();
 		while instancesElts.isOn() {
-			if ref.[=](instancesElts.item()).not() {
+			if ref.[=](instancesElts.item()).[not]() {
 				if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
 					actualOrderedSet := self.orderedGet(rolesElts.item().oclAsType(!Standard::String!));
 					anOrderedSet := new Standard::OrderedSet();
@@ -120,7 +120,7 @@ removeLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Stand
 					elements.start();
 					while elements.isOn()
 					{
-						if elements.item().[=](instancesElts.item()).not()
+						if elements.item().[=](instancesElts.item()).[not]()
 							{	anOrderedSet := anOrderedSet.including(elements.item()); }
 						elements.next();
 					}
@@ -135,7 +135,7 @@ removeLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Stand
 					elements.start();
 					while elements.isOn()
 					{
-						if elements.item().[=](instancesElts.item()).not()
+						if elements.item().[=](instancesElts.item()).[not]()
 							{	aSet := aSet.including(elements.item()); }
 						elements.next();
 					}
@@ -188,7 +188,7 @@ associateOperation (roles : Standard::OrderedSet;instances : Standard::OrderedSe
 dissociateOperation (roles : Standard::OrderedSet;instances : Standard::OrderedSet)
 {	elements,rolesIterator : Standard::Iterator;
 	examined,found : Standard::Set;
-	if isNull(allKnownLinks).not() {
+	if isNull(allKnownLinks).[not]() {
 		rolesIterator := instances.getNewIterator();
 		rolesIterator.start();
 		while rolesIterator.isOn() {
@@ -202,7 +202,7 @@ dissociateOperation (roles : Standard::OrderedSet;instances : Standard::OrderedS
 				{	found := examined; }
 				elements.next();
 			}
-			if isNull(found).not() {
+			if isNull(found).[not]() {
 				found.at(2).oclAsType(!ASSOCIATIONNAME!).removeLink(rolesIterator.item(),roles,instances);}
 			rolesIterator.next();
 		}
@@ -214,7 +214,7 @@ getRole (roleName : Standard::String; ref : Standard::OclAny) : Standard::Set
 	examined,found : Standard::Set;
 	examined := null;
 	found := null;
-	if isNull(allKnownLinks).not()
+	if isNull(allKnownLinks).[not]()
 	{	elements := allKnownLinks.getNewIterator();
 		elements.start();
 		while elements.isOn().and(isNull(found)) {
@@ -233,7 +233,7 @@ getOrderedRole (roleName : Standard::String; ref : Standard::OclAny) : Standard:
 	examined,found : Standard::Set;
 	examined := null;
 	found := null;
-	if isNull(allKnownLinks).not()
+	if isNull(allKnownLinks).[not]()
 	{	elements := allKnownLinks.getNewIterator();
 		elements.start();
 		while elements.isOn().and(isNull(found)) {

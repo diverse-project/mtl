@@ -1,4 +1,4 @@
-// $Id: Association.mtl,v 1.1 2003-10-17 15:27:25 jpthibau Exp $
+// $Id: Association.mtl,v 1.2 2003-12-03 04:29:52 ffondeme Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -30,7 +30,7 @@ copyOperation (theOp : Operation) : Operation
 	elements : Standard::Iterator;
 	copy := new Operation();
 	copy.name := theOp.name;
-	if isNull(theOp.Parameters).not()
+	if isNull(theOp.Parameters).[not]()
 	{	elements := theOp.Parameters.getNewIterator();
 		copy.Parameters := new Standard::OrderedSet();
 		elements.start();
@@ -39,7 +39,7 @@ copyOperation (theOp : Operation) : Operation
 			elements.next();
 		}
 	}
-	if isNull(theOp.declaredVariables).not()
+	if isNull(theOp.declaredVariables).[not]()
 	{	elements := theOp.declaredVariables.getNewIterator();
 		copy.declaredVariables := new Standard::OrderedSet();
 		elements.start();
@@ -48,7 +48,7 @@ copyOperation (theOp : Operation) : Operation
 			elements.next();
 		}
 	}
-	if isNull(theOp.instructions).not()
+	if isNull(theOp.instructions).[not]()
 	{	elements := theOp.instructions.getNewIterator();
 		copy.instructions := new Standard::OrderedSet();
 		elements.start();
@@ -76,7 +76,7 @@ copyOperationCall (theOpCall : OperationCall) : OperationCall
 	copy := new OperationCall();
 	copy.name := theOpCall.name;
 	copy.caller := theOpCall.caller;
-	if isNull(theOpCall.arguments).not()
+	if isNull(theOpCall.arguments).[not]()
 	{	elements := theOpCall.arguments.getNewIterator();
 		copy.arguments := new Standard::OrderedSet();
 		elements.start();
@@ -577,7 +577,7 @@ makeTheAssociationName() : Standard::String
 	anEndPoint : EndPoint;
 
 	associationName := 'association';
-	if isNull(name).not() {
+	if isNull(name).[not]() {
 	associationName := associationName.concat(name);
 	}
 	theEndPoints := endPoints.getNewIterator();
@@ -684,7 +684,7 @@ linkTheUserClass(anEndPoint : EndPoint;associationName : Standard::String; userC
 	theknownClasses.start();
 	while theknownClasses.isOn() {
 		aClass := theknownClasses.item().oclAsType(!UserClass!);
-		if (aClass.name.[=](anEndPoint.className) {
+		if aClass.name.[=](anEndPoint.className) {
 			aClass.appendDefinedAttributes(theAssociationRefAttribute);
 			theOtherEnds := otherEndPoints.getNewIterator();
 			theOtherEnds.start();
@@ -762,7 +762,7 @@ walkEndPoints(theAssociationClass : UserClass;associationName : Standard::String
 		theOtherEndPoints.start();
 		while theOtherEndPoints.isOn() {
 			anotherEndPoint := theOtherEndPoints.item().oclAsType(!EndPoint!);
-			if anotherEndPoint.roleName.[=](anEndPoint.roleName).not()
+			if anotherEndPoint.roleName.[=](anEndPoint.roleName).[not]()
 			{	otherEndPoints := otherEndPoints.including(anotherEndPoint);	}
 			theOtherEndPoints.next();
 		}

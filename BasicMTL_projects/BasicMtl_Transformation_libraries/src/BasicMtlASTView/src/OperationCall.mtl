@@ -1,4 +1,4 @@
-// $Id: OperationCall.mtl,v 1.1 2003-09-17 07:31:04 jpthibau Exp $
+// $Id: OperationCall.mtl,v 1.2 2003-12-03 04:30:48 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -25,7 +25,7 @@
 	anArgument : Expression;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OperationCall theOperationCall=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OperationCall(this.BMTL_name.getTheString())];
-	if isNull(arguments).not()
+	if isNull(arguments).[not]()
 	{
 	theArguments := arguments.getNewIterator();
 	theArguments.start();

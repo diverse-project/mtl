@@ -98,7 +98,7 @@ class SimpleUML2SimpleRDBMS
 	  */
 	UMLClassToRDBMSfirstPass(sourceClass : source_UMLmodel::Class) 
 	{	
-		// pre : sourceClass.oclIsUndefined().not()
+		// pre : sourceClass.oclIsUndefined().[not]()
 		 
 		// the first pass creates the table and it associated primary key
 		// local variables
@@ -112,7 +112,7 @@ class SimpleUML2SimpleRDBMS
 		
 		'UMLClassToRDBMSfirstPass'.toOut();
 		// input model checks 
-		// require sourceClass.oclIsUndefined().not()
+		// require sourceClass.oclIsUndefined().[not]()
 		if sourceClass.oclIsUndefined() 
 		{
 			throw 'Undefined class found.';
@@ -302,7 +302,7 @@ class SimpleUML2SimpleRDBMS
 	nonPrimitiveAtt2ForeignKey(aTable : target_RDBMSmodel::Table; nonPrimitiveAttribute : source_UMLmodel::Attribute)
 	{
 		// do nothing condition
-		if nonPrimitiveAttribute.type.kind.[=]('persistent').not()
+		if nonPrimitiveAttribute.type.kind.[=]('persistent').[not]()
 		{
 			'nonPrimitiveAtt2ForeignKey non persistent'.toOut();
 			return null;
@@ -380,7 +380,7 @@ class SimpleUML2SimpleRDBMS
 	forwardAssociation2ForeignKey(aTable : target_RDBMSmodel::Table; anAssociation : source_UMLmodel::Association)
 	{		
 		// do nothing condition
-		if anAssociation.kind.[=]('persistent').not()
+		if anAssociation.kind.[=]('persistent').[not]()
 		{
 			'ToForeignKey non persistent'.toOut();
 			return null;

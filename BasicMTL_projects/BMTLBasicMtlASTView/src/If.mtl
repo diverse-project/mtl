@@ -1,4 +1,4 @@
-// $Id: If.mtl,v 1.1 2003-10-14 15:56:21 jpthibau Exp $
+// $Id: If.mtl,v 1.2 2003-12-03 04:30:14 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -37,7 +37,7 @@
 		JavaCode [theIf.appendThenBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
 		instructions.next();
 	}
-	if isNull(elseBody).not()
+	if isNull(elseBody).[not]()
 	{
 	instructions := elseBody.getNewIterator();
 	instructions.start();

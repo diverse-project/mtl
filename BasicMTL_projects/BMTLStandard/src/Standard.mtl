@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.2 2003-11-24 13:38:35 dvojtise Exp $
+// $Id: Standard.mtl,v 1.3 2003-12-03 04:31:01 ffondeme Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -483,7 +483,7 @@ tag DoNotGenerate := booleantag true;
 	}
 	
 	// prefix not : Boolean
-	not() : Boolean
+	[not]() : Boolean
 	{ 
 		// True if self is false.
 		// post: if self then result = false else result = true endif
@@ -526,7 +526,7 @@ tag DoNotGenerate := booleantag true;
    	{
       // Returns true when there are more objects in the
       // sequence.
-      // post: result = self.isOff().not()
+      // post: result = self.isOff().[not]()
    	}
 
    	hasNext(): Boolean

@@ -1,4 +1,4 @@
-// $Id: NewObject.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
+// $Id: NewObject.mtl,v 1.3 2003-12-03 04:30:48 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -23,7 +23,7 @@
 	anArgument : Expression;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.NewObject theNewObject=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.NewObject()];
-	if isNull(arguments).not() { 
+	if isNull(arguments).[not]() { 
 	theArguments := arguments.getNewIterator();
 	theArguments.start();
 	while theArguments.isOn() {

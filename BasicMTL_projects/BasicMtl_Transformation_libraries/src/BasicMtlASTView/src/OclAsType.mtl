@@ -1,4 +1,4 @@
-// $Id: OclAsType.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
+// $Id: OclAsType.mtl,v 1.3 2003-12-03 04:30:48 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -27,7 +27,7 @@
 	anArgument : Standard::String;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType theOclAsType=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType()];
-	if isNull(type).not() { 
+	if isNull(type).[not]() { 
 		theArguments := type.getNewIterator();
 		theArguments.start();
 		while theArguments.isOn() {
@@ -41,7 +41,7 @@
 	JavaCode [if (BMTL_methodVar !=null) theOclAsType.setMethodVar(BMTL_methodVar.getTheString())];
 	JavaCode [if (BMTL_parameterVar !=null) theOclAsType.setParameterVar(BMTL_parameterVar.getTheString())];
 	JavaCode [theOclAsType.setIsAConstant(BMTL_isAConstant.getTheBoolean())];
-	if isNull(self.oclAsType(!ASTNode!).decoration).not() { 
+	if isNull(self.oclAsType(!ASTNode!).decoration).[not]() { 
 		properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 		properties.start();
 		while properties.isOn() {

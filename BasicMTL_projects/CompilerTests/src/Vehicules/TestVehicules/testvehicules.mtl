@@ -24,7 +24,7 @@ class clazz {
 		1.toOut();
 	
 		theSelf.vehicule := new amphibieherite::vehiculeAmphibieHerite();
-		if vehicule.oclIsTypeOf(!amphibieherite::vehiculeAmphibieHerite!).not() {
+		if vehicule.oclIsTypeOf(!amphibieherite::vehiculeAmphibieHerite!).[not]() {
 			throws 'Problem with attribute object affectation';
 		}
 		vehicule.toOut();
@@ -63,7 +63,7 @@ class clazz2 extends clazz {
 	op (param : Standard::String) {
 		self.oclAsType(!clazz!).op(param);
 		self.wasInOp2 := true;
-		if self.wasInOp.not() {
+		if self.wasInOp.[not]() {
 			throw 'oclAsType has problems';
 		}
 		oclAsType(!clazz2!).wasInOp := false;
@@ -124,7 +124,7 @@ main(args : Standard::Sequence):Standard::Void
 	if vehicule.oclIsUndefined() {
 		throws 'OclAny.oclIsUndefined() has problems';
 	}
-	if vehicule.oclIsTypeOf(!vehiculeLib::vehicule!).not() {
+	if vehicule.oclIsTypeOf(!vehiculeLib::vehicule!).[not]() {
 		throws 'OclAny.oclIsTypeOf(OclType) has problems';
 	}
 	if vehicule.oclIsTypeOf(!Standard::BMTLObject!) {
@@ -133,19 +133,19 @@ main(args : Standard::Sequence):Standard::Void
 	if self.oclIsTypeOf(!Standard::BMTLLibrary!) {
 		throws 'OclAny.oclIsTypeOf(OclType) has problems';
 	}
-	if self.oclIsTypeOf(!testVehicules!).not() {
+	if self.oclIsTypeOf(!testVehicules!).[not]() {
 		throws 'OclAny.oclIsTypeOf(OclType) has problems';
 	}
-	if vehicule.oclIsKindOf(!vehiculeLib::vehicule!).not() {
+	if vehicule.oclIsKindOf(!vehiculeLib::vehicule!).[not]() {
 		throws 'OclAny.oclIsKindOf(OclType) has problems';
 	}
-	if vehicule.oclIsKindOf(!Standard::BMTLObject!).not() {
+	if vehicule.oclIsKindOf(!Standard::BMTLObject!).[not]() {
 		throws 'OclAny.oclIsKindOf(OclType) has problems';
 	}
-	if self.oclIsKindOf(!Standard::BMTLLibrary!).not() {
+	if self.oclIsKindOf(!Standard::BMTLLibrary!).[not]() {
 		throws 'OclAny.oclIsKindOf(OclType) has problems';
 	}
-	if self.oclIsKindOf(!testVehicules!).not() {
+	if self.oclIsKindOf(!testVehicules!).[not]() {
 		throws 'OclAny.oclIsKindOf(OclType) has problems';
 	}
 	
@@ -198,13 +198,13 @@ main(args : Standard::Sequence):Standard::Void
 	if r.[<](-1.9) {
 		throws 'Real.<(Real) has problems';
 	}
-	if r.[>](-1.9).not() {
+	if r.[>](-1.9).[not]() {
 		throws 'Real.>(Real) has problems';
 	}
 	if r.[<=](-1.9) {
 		throws 'Real.<=(Real) has problems';
 	}
-	if r.[>=](-1.9).not() {
+	if r.[>=](-1.9).[not]() {
 		throws 'Real.>=(Real) has problems';
 	}
 	if r.toString().[<>]('-0.1') {
@@ -280,7 +280,7 @@ main(args : Standard::Sequence):Standard::Void
 	
 	c := new clazz2();
 	c.op('789');
-	if c.oclAsType(!clazz2!).wasInOp2.not() {
+	if c.oclAsType(!clazz2!).wasInOp2.[not]() {
 		throw 'oclAsType has problems';
 	}
 	

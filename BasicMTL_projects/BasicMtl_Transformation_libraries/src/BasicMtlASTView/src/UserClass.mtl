@@ -1,4 +1,4 @@
-// $Id: UserClass.mtl,v 1.3 2003-10-17 17:03:19 jpthibau Exp $
+// $Id: UserClass.mtl,v 1.4 2003-12-03 04:30:49 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -72,7 +72,7 @@
 //	inheritance : Standard::BMTLObject;
 //	lineNumber : Standard::String;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass theClass=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass(BMTL_name.getTheString())];
-	if isNull(definedAttributes).not() {
+	if isNull(definedAttributes).[not]() {
 	attributes := definedAttributes.getNewIterator();
 	attributes.start();
 	while attributes.isOn() {
@@ -81,7 +81,7 @@
 		attributes.next();
 	}
 	}
-	if isNull(definedMethods).not() {
+	if isNull(definedMethods).[not]() {
 	methods := definedMethods.getNewIterator();
 	methods.start();
 	while methods.isOn() {
@@ -89,13 +89,13 @@
 		JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theASTMethod=(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)BMTL_aMethod.BMTL_toASTJava()];
 		JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute theASTAttribute=null];
 		JavaCode [theClass.appendDefinedMethods(theASTMethod)];
-		if isNull(aMethod.isGetterFor).not() {
+		if isNull(aMethod.isGetterFor).[not]() {
 			attributeName := aMethod.isGetterFor.name;
 			JavaCode [theASTAttribute = theClass.findAttribute(BMTL_attributeName.getTheString())];
 			JavaCode [theASTAttribute.setGetter(theASTMethod)];
 			JavaCode [theASTMethod.setIsGetterFor(theASTAttribute)];
 		}
-		if isNull(aMethod.isSetterFor).not() {
+		if isNull(aMethod.isSetterFor).[not]() {
 			attributeName := aMethod.isSetterFor.name;
 			JavaCode [theASTAttribute = theClass.findAttribute(BMTL_attributeName.getTheString())];
 			JavaCode [theASTAttribute.setSetter(theASTMethod)];

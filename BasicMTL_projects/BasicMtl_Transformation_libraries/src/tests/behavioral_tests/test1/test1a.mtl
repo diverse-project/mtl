@@ -1,4 +1,4 @@
-// $Id: test1a.mtl,v 1.1 2003-08-27 09:34:09 dvojtise Exp $
+// $Id: test1a.mtl,v 1.2 2003-12-03 04:30:45 ffondeme Exp $
 // This file is intend to verify various constructs that should work with the parser
 // this is a simple test approach, a better way should be to create various files and use them separately with junit
 
@@ -215,12 +215,12 @@ methodWithIf()
 		aInt1 := 2;
 	}
 	
-	if aBool1.[=](aBool2).not()
+	if aBool1.[=](aBool2).[not]()
 	{
 		aInt1 := 1;
 	}
 	
-	if aBool1.[=](aBool2).not()
+	if aBool1.[=](aBool2).[not]()
 	{
 		aInt1 := 1;
 	}

@@ -178,9 +178,9 @@ class Class // extend SimpleUml::Class
 		// for each new attribute in the set	
 			new_attribute_it = anAttributeSet.get_new_iterator();
 			new_attribute_it.start();
-			while new_attribute_it.is_off().not()
+			while new_attribute_it.is_off().[not]()
 			{
-				if attribute.includes(new_attribute_it.item()).not()
+				if attribute.includes(new_attribute_it.item()).[not]()
 				{
 					new_attribute_it.item().owner = this;
 					// Note : use the standard setter of Attribute
@@ -192,9 +192,9 @@ class Class // extend SimpleUml::Class
 		// for each removed attribute in the set
 			attribute_it = attribute.get_new_iterator();
 			attribute_it.start();
-			while attribute_it.is_off().not()
+			while attribute_it.is_off().[not]()
 			{
-				if anAttributeSet.includes(attribute_it.item()).not()
+				if anAttributeSet.includes(attribute_it.item()).[not]()
 				{	// this test should not be usefull ...?!
 					if attribute_it.item().owner.=(this)
 					{
@@ -305,12 +305,12 @@ class Class // extend SimpleUml::Class
 		// for each attribute owned by this class => associates their related rdbms objects
 		attribute_it = attribute.get_new_iterator();
 		attribute_it.start();  
-		while attribute_it.is_off().not()
+		while attribute_it.is_off().[not]()
 		{
 			// get the attribute related object (there should be only 1)
 			attribute_related_it = attribute_it.item().rdbms_related_me_set.get_new_iterator();
 			attribute_related_it.start();
-			while attribute_related_it.is_off().not()
+			while attribute_related_it.is_off().[not]()
 			{
 				associate (column = attribute_related_it.item(), owner = aTable	);
 				attribute_related_it.next();
@@ -416,14 +416,14 @@ class Attribute
 			}
 			
 			// if the attribute has owner
-			if owner.oclIsUndefined().not()
+			if owner.oclIsUndefined().[not]()
 			{
 				// this column is owned by the corresponding Table 
 					// get the owner table
 					
 					owner_table_it = owner.rdbms_related_me_set.get_new_iterator();
 				owner_table_it.start();  // there should be only 0..1 owner ( 0 occurs if the table hasn't enough info to be created
-				while owner_table_it.is_off().not()
+				while owner_table_it.is_off().[not]()
 				{
 					associate (column = aColumn, owner = it.item()	);
 					owner_table_it.next();
@@ -476,7 +476,7 @@ class PrimitiveDataType
 				// for each attribute of this type
 				it = Attribute.get_new_iterator();
 				it.start();
-				while it.is_off().not()
+				while it.is_off().[not]()
 				{
 					// may be optimized with local variable or inversing the while and the if.
 					if name.=('int')

@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.3 2003-10-17 17:03:18 jpthibau Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.4 2003-12-03 04:30:47 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -24,7 +24,7 @@
 	anOperation : Operation;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary theBasicMtlLibrary=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary(this.get_BMTL_name().getTheString())];
-	if isNull(parameters).not() {
+	if isNull(parameters).[not]() {
 	theParameters := parameters.getNewIterator();
 	theParameters.start();
 	while theParameters.isOn() {
@@ -33,7 +33,7 @@
 		theParameters.next();
 	}
 	}
-	if isNull(self.oclAsType(!Library!).definedOperations).not() {
+	if isNull(self.oclAsType(!Library!).definedOperations).[not]() {
 	operations := self.oclAsType(!Library!).definedOperations.getNewIterator();
 	operations.start();
 	while operations.isOn() {
@@ -131,7 +131,7 @@
 		classes.start();
 		while classes.isOn() {
 			aClassName := classes.item().oclAsType(!Standard::OrderedSet!);
-			if (isRefined(aClassName,refinedClasses).not()
+			if (isRefined(aClassName,refinedClasses).[not]()
 				{	addClass(aClassName); }
 			classes.next();
 		}

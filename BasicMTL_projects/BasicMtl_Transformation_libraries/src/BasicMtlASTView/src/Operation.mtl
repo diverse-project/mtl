@@ -1,4 +1,4 @@
-// $Id: Operation.mtl,v 1.2 2003-10-17 17:03:18 jpthibau Exp $
+// $Id: Operation.mtl,v 1.3 2003-12-03 04:30:47 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -42,7 +42,7 @@
 	aProperty : Property;
 	theParameters,localVars,theInstructions,properties : Standard::Iterator;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theOperation=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation(BMTL_name.getTheString())];
-	if isNull(Parameters).not() {
+	if isNull(Parameters).[not]() {
 	theParameters := Parameters.getNewIterator();
 	theParameters.start();
 	while theParameters.isOn() {
@@ -51,7 +51,7 @@
 		theParameters.next();
 	}
 	}
-	if isNull(declaredVariables).not() {
+	if isNull(declaredVariables).[not]() {
 	theParameters := declaredVariables.getNewIterator();
 	theParameters.start();
 	while theParameters.isOn() {
@@ -60,7 +60,7 @@
 		theParameters.next();
 	}
 	}
-	if isNull(instructions).not() {
+	if isNull(instructions).[not]() {
 	theInstructions := instructions.getNewIterator();
 	theInstructions.start();
 	while theInstructions.isOn() {

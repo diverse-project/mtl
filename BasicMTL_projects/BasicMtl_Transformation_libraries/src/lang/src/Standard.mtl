@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.10 2003-09-17 08:19:33 jpthibau Exp $
+// $Id: Standard.mtl,v 1.11 2003-12-03 04:30:51 ffondeme Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -520,7 +520,7 @@ tag DoNotGenerate := booleantag true;
    	{
       // Returns true when there are more objects in the
       // sequence.
-      // post: result = self.isOff().not()
+      // post: result = self.isOff().[not]()
    	}
 
    	hasNext(): Boolean

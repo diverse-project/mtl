@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.12 2003-12-02 18:25:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.13 2003-12-03 04:29:58 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -290,13 +290,14 @@ public Object whileInstr(Object expression,Object body)
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
-	java.util.Vector elseInstructions=(java.util.Vector)((java.util.Vector)elseBody).get(0);
-	String lineNumber=(String)((java.util.Vector)thenBody).get(0);
+	java.util.Vector elseInstructions=elseBody == null ? null : (java.util.Vector)((java.util.Vector)elseBody).get(0);
+	String lineNumber=(String)((java.util.Vector)thenBody).get(1);
 	If node=new If((Expression)expression);
 	for(i=0;i<thenInstructions.size();i++)
 		node.appendThenBody((Instruction)thenInstructions.get(i));
-	for(i=0;i<elseInstructions.size();i++)
-		node.appendElseBody((Instruction)elseInstructions.get(i));
+	if (elseInstructions != null)
+		for(i=0;i<elseInstructions.size();i++)
+			node.appendElseBody((Instruction)elseInstructions.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 

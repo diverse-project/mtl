@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.4 2003-12-02 18:25:38 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.5 2003-12-03 04:30:21 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -399,15 +399,16 @@ public Object whileInstr(Object expression,Object body)
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
-	java.util.Vector elseInstructions=(java.util.Vector)((java.util.Vector)elseBody).get(0);
-	String lineNumber=(String)((java.util.Vector)thenBody).get(0);
+	java.util.Vector elseInstructions=elseBody == null ? null : (java.util.Vector)((java.util.Vector)elseBody).get(0);
+	String lineNumber=(String)((java.util.Vector)thenBody).get(1);
 	BMTL_If node=(BMTL_If)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"If"})).instanciate();
 	node.set_BMTL_condition((BMTL_ExpressionInterface)expression);
 	try {
 	for(i=0;i<thenInstructions.size();i++)
 		node.BMTL_appendThenBody((BMTL_InstructionInterface)thenInstructions.get(i));
-	for(i=0;i<elseInstructions.size();i++)
-		node.BMTL_appendElseBody((BMTL_InstructionInterface)elseInstructions.get(i));
+	if (elseInstructions != null)
+		for(i=0;i<elseInstructions.size();i++)
+			node.BMTL_appendElseBody((BMTL_InstructionInterface)elseInstructions.get(i));
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }

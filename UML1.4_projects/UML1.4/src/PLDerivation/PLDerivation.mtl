@@ -1,5 +1,5 @@
 /************************************************************
- * $Id: PLDerivation.mtl,v 1.3 2003-12-02 15:31:00 dvojtise Exp $ *
+ * $Id: PLDerivation.mtl,v 1.4 2003-12-03 04:30:27 ffondeme Exp $ *
  ************************************************************/
 library PLDerivation;
 
@@ -242,7 +242,7 @@ collectDelete (set : Standard::Set; condition : Condition) {
 		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
 		if condition.canRemove(element) {
 			name := element.name;
-			if isNull(name).not() {
+			if isNull(name).[not]() {
 				'\t'.concat(name).concat(' removed').toOut();	
 			}
 			element.delete();

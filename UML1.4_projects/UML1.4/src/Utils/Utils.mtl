@@ -173,7 +173,7 @@ class UMLDoc
 			theFeature := it.item().oclAsType (!UML::Core::Feature!);
 	
 			// get the visibility			
-			if	isNull(theFeature.visibility).not()
+			if	isNull(theFeature.visibility).[not]()
 			{	// it may be null !!!
 				if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_public)
 				{
@@ -201,7 +201,7 @@ class UMLDoc
 				featureName := 'unknown feature (no name)';
 			}
 			
-			if theFeature.oclIsTypeOf(!UML::Core::Method!).not()
+			if theFeature.oclIsTypeOf(!UML::Core::Method!).[not]()
 			{
 				// nothing to do with methods
 				returnedString := returnedString.concat(tabsString);

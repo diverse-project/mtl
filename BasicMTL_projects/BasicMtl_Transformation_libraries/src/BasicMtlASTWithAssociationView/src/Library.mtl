@@ -1,4 +1,4 @@
-// $Id: Library.mtl,v 1.3 2003-10-17 17:03:53 jpthibau Exp $
+// $Id: Library.mtl,v 1.4 2003-12-03 04:30:49 ffondeme Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -36,7 +36,7 @@
 	iterator : standard::Iterator;
 	associationClass : BasicMtlASTView::UserClass;
 	instances := associationType.allInstances();
-	if isNull(instances).not() {
+	if isNull(instances).[not]() {
 		iterator := instances.getNewIterator();
 		iterator.start();
 		associationClass := iterator.item().oclAsType(!BasicMtlASTView::UserClass!);
