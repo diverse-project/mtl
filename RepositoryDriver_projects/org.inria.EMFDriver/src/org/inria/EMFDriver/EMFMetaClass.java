@@ -1,26 +1,26 @@
-/* $Id: EMFMetaClass.java,v 1.3 2004-03-11 13:28:03 jpthibau Exp $
+/* $Id: EMFMetaClass.java,v 1.4 2004-06-23 15:14:36 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.inria.EMFDriver;
 
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+// import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.repository.API.Java.API;
+// import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
-import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
-import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+// import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
+// import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
+// import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.command.*;
-import org.eclipse.emf.edit.command.*;
+// import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+// import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.common.util.*;
 import java.util.Collection;
 import java.util.ArrayList;

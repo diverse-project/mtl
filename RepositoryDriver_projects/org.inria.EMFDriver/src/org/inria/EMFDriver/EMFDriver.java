@@ -1,18 +1,18 @@
-/* $Id: EMFDriver.java,v 1.4 2004-03-11 13:28:03 jpthibau Exp $
+/* $Id: EMFDriver.java,v 1.5 2004-06-23 15:14:36 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.inria.EMFDriver;
 
-import java.io.*;
+// import java.io.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.utils.Java.Directories;
+// import org.irisa.triskell.MT.utils.Java.Directories;
 
 import java.util.Hashtable;
 
@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.Hashtable;
+// import java.util.Hashtable;
 
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.*;

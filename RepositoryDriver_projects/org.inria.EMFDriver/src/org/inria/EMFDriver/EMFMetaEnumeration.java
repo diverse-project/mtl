@@ -1,4 +1,4 @@
-/* $Id: EMFMetaEnumeration.java,v 1.1 2004-03-08 08:18:17 jpthibau Exp $
+/* $Id: EMFMetaEnumeration.java,v 1.2 2004-06-23 15:14:37 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -7,7 +7,7 @@ package org.inria.EMFDriver;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
-import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
+// import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
@@ -16,7 +16,7 @@ import org.irisa.triskell.MT.repository.API.Java.CommonException;
 import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
 import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
-import org.irisa.triskell.MT.repository.API.Java.MetaClass;
+// import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;

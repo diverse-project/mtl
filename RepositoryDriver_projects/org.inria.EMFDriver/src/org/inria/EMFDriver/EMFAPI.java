@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.4 2004-04-05 14:51:03 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.5 2004-06-23 15:14:37 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -7,8 +7,8 @@ package org.inria.EMFDriver;
 
 import java.util.Hashtable;
 
-import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
+// import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
+// import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
@@ -20,9 +20,9 @@ import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.ModelRole;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-import org.eclipse.emf.edit.command.*;
+// import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.ecore.EClassifier;
+// import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import java.util.Collection;

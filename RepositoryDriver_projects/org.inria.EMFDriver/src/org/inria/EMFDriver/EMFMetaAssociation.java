@@ -1,5 +1,5 @@
 /*
- * $Id: EMFMetaAssociation.java,v 1.1 2004-04-05 14:51:03 jpthibau Exp $
+ * $Id: EMFMetaAssociation.java,v 1.2 2004-06-23 15:14:37 dvojtise Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -14,7 +14,7 @@ import org.irisa.triskell.MT.DataTypes.Java.*;
 // import org.netbeans.api.mdr.*;
 // import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 // import org.apache.log4j.*;
-import org.irisa.triskell.MT.utils.Java.*;
+// import org.irisa.triskell.MT.utils.Java.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 import org.eclipse.emf.common.command.*;
 

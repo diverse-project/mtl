@@ -1,4 +1,4 @@
-/* $Id: EditingDomainProvider.java,v 1.1 2004-03-10 17:15:45 jpthibau Exp $
+/* $Id: EditingDomainProvider.java,v 1.2 2004-06-23 15:14:36 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 

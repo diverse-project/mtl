@@ -1,4 +1,4 @@
-/* $Id: EMFMetaFeature.java,v 1.1 2004-03-08 08:18:20 jpthibau Exp $
+/* $Id: EMFMetaFeature.java,v 1.2 2004-06-23 15:14:37 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -7,7 +7,7 @@ package org.inria.EMFDriver;
 
 import java.util.List;
 
-import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+// import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
 /**
  * @author jpthibau

@@ -1,4 +1,4 @@
-/* $Id: EMFFeatured.java,v 1.3 2004-03-16 15:11:40 jpthibau Exp $
+/* $Id: EMFFeatured.java,v 1.4 2004-06-23 15:14:36 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -12,14 +12,14 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-import org.eclipse.emf.ecore.EAnnotation;
+// import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
+// import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+// import org.eclipse.emf.ecore.ETypedElement;
+// import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.impl.ESuperAdapter;
 import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.common.command.*;

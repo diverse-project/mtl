@@ -1,4 +1,4 @@
-/* $Id: EMFModelElement.java,v 1.3 2004-03-11 13:28:03 jpthibau Exp $
+/* $Id: EMFModelElement.java,v 1.4 2004-06-23 15:14:37 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -9,16 +9,16 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementCommandGroup;
 
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.ETypedElement;
+// import org.eclipse.emf.ecore.EClassifier;
+// import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.common.command.*;
-import org.eclipse.emf.ecore.resource.Resource;
+// import org.eclipse.emf.ecore.resource.Resource;
 
 import org.eclipse.emf.ecore.*;
-import java.util.Collection;
-import java.util.ArrayList;
+// import java.util.Collection;
+// import java.util.ArrayList;
 
 
 /**

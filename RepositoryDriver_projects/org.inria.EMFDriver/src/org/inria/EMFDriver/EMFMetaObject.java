@@ -1,4 +1,4 @@
-/* $Id: EMFMetaObject.java,v 1.1 2004-03-08 08:18:19 jpthibau Exp $
+/* $Id: EMFMetaObject.java,v 1.2 2004-06-23 15:14:38 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -12,7 +12,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeCommandGroup
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeType;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 
-import org.eclipse.emf.edit.command.*;
+// import org.eclipse.emf.edit.command.*;
 
 
 
