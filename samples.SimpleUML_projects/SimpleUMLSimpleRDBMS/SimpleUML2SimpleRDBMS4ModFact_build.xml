@@ -1,4 +1,4 @@
-<!-- $Id $ -->
+<!-- $Id: SimpleUML2SimpleRDBMS4ModFact_build.xml,v 1.2 2004-01-30 14:27:27 dvojtise Exp $ -->
 <project name="UML14_Transformations" default="compile" basedir=".">
 	<description>
         Build file for compiling and running UML14_Transformations

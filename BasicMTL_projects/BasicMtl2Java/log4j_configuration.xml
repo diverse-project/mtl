@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl2Java/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.2 $ -->
-<!-- $Date: 2003-10-29 11:09:24 $ -->
+<!-- $Revision: 1.3 $ -->
+<!-- $Date: 2004-01-30 14:27:30 $ -->
 <!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -32,6 +32,9 @@
     <level value="DEBUG"/>
   </logger>
   <logger name="MDRDriver">
+    <level value="DEBUG"/>
+  </logger>  
+  <logger name="ModFactDriver">
     <level value="DEBUG"/>
   </logger>
   <root>

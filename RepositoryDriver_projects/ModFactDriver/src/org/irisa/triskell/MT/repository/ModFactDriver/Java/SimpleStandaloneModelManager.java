@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.1 2004-01-29 16:47:18 xblanc Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.2 2004-01-30 14:27:35 dvojtise Exp $
  */
 package org.irisa.triskell.MT.repository.ModFactDriver.Java;
 
@@ -26,7 +26,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -43,7 +43,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 public class SimpleStandaloneModelManager {
 
 	protected boolean isInitialized = false;
-	protected static final org.apache.log4j.Logger log = Logger.getLogger("MDRDriver");
+	protected static final org.apache.log4j.Logger log = Logger.getLogger("ModFactDriver");
 	
 	protected static final StringBuffer decompiler = new StringBuffer(); // store the batch command for decompiling
 	/**
@@ -107,12 +107,12 @@ public class SimpleStandaloneModelManager {
 			String filePath = new java.io.File(Directories.getRootPath(SimpleStandaloneModelManager.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath);
-			SimpleStandaloneModelManager.getLog().info("MDR driver initialized...");
+			SimpleStandaloneModelManager.getLog().info("ModFact driver initialized...");
 			isInitialized = true;	
 			return this;
 		} 
 		catch (Exception e) {
-			SimpleStandaloneModelManager.getLog().error("MDR driver bugged !!!", e);
+			SimpleStandaloneModelManager.getLog().error("ModFact driver bugged !!!", e);
 			throw e;
 		}
 	}

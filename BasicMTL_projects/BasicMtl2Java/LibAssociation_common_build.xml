@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.12 2004-01-29 14:55:05 xblanc Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.13 2004-01-30 14:27:30 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -113,6 +113,9 @@
   		</copy>
   		<copy  todir="${dist}/bin/ThirdParty/MDR">
   			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
+  		</copy>
+  		<copy  todir="${dist}/bin/ThirdParty/ModFact">
+  			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
   		</copy>
   		<!-- update classpath for compiling the compiler -->
 		<!--<path id="compileCompiler.class.path">
@@ -409,6 +412,7 @@
   		</copy> 
   		<!-- add the default log4j configuration file -->
   		<copy file="log4j_configuration.xml" todir="${dist}/bin"/>
+  		<copy file="log4j_configuration.xml" todir="${dist}/../bin"/>
   		<!-- preparing sample directory structure with sample build file -->
   		<!-- TODO -->
   		<mkdir dir="${dist}/sample"/>

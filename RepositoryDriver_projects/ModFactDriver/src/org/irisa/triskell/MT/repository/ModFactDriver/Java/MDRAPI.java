@@ -92,7 +92,7 @@ public class MDRAPI
 //        else return 1;
 //    }
 
-    protected static final org.apache.log4j.Logger staticLog = Logger.getLogger("MDRDriver");
+    protected static final org.apache.log4j.Logger staticLog = Logger.getLogger("ModFactDriver");
     public static org.apache.log4j.Logger getStaticLog () {
         return staticLog;
     }
@@ -119,7 +119,7 @@ public class MDRAPI
         else return 1;
     }
 
-    protected static final String IGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY = "org.irisa.triskell.MT.repository.MDRDriver.ignoreAssociationEndsForNavigation";
+    protected static final String IGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY = "org.irisa.triskell.MT.repository.ModFactDriver.ignoreAssociationEndsForNavigation";
     public static String getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY () {
         return MDRAPI.IGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY;
     }
@@ -420,9 +420,9 @@ public class MDRAPI
         throws java.lang.Exception
     {
 		synchronized(MDRAPI.class) {
-			this.log = Logger.getLogger("MDRDriver." + modelName);
+			this.log = Logger.getLogger("ModFactDriver." + modelName);
 			this.modelName = modelName;
-			this.getLog().debug("Initializing MDR driver:\tmodel name is : " + this.getModelName() + '.');
+			this.getLog().debug("Initializing ModFact driver:\tmodel name is : " + this.getModelName() + '.');
 	
 //			if (repository != null) {
 //				this.getLog().debug("Initializing MDR driver:\tloading repository : " + repository + '.');
@@ -434,10 +434,10 @@ public class MDRAPI
 //			if (this.mdrRepository.getExtent(modelName) != null)
 //				throw new CreationFailedException("Repository " + modelName + " already exists.");
 
-			this.getLog().debug("Initializing MDR driver:\tinitializing metamodel.");
+			this.getLog().debug("Initializing ModFact driver:\tinitializing metamodel.");
 			this.model = metamodel.getRefPackage(this);
 	
-			this.getLog().debug("Initializing MDR driver:\tloading model.");
+			this.getLog().debug("Initializing ModFact driver:\tloading model.");
 			this.manipulatedModel = model;
 			model.load(this);
     	}
@@ -446,7 +446,7 @@ public class MDRAPI
     public synchronized void startup(
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
     {
-		this.getLog().debug("Starting up MDR driver " + this.getModelName() + '.');
+		this.getLog().debug("Starting up  driver " + this.getModelName() + '.');
     }
 
     /**
@@ -455,7 +455,7 @@ public class MDRAPI
     public synchronized void shutdown(
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
     {
-		this.getLog().debug("Finalizing MDR driver " + this.getModelName() + '.');
+		this.getLog().debug("Finalizing ModFact driver " + this.getModelName() + '.');
 		try {
 			if (this.manipulatedModel != null)
 				this.manipulatedModel.store(this);
@@ -1204,14 +1204,14 @@ public class MDRAPI
 
 
 static {
-		MDRAPI.getStaticLog().info("Setting up MDR.");
-		System.setProperty("org.openide.util.Lookup", "org.irisa.triskell.MT.repository.MDRDriver.Java.RepositoryLookup");
+		MDRAPI.getStaticLog().info("Setting up ModFact.");
+		System.setProperty("org.openide.util.Lookup", "org.irisa.triskell.MT.repository.ModFactDriver.Java.RepositoryLookup");
 		// mdrManager = org.netbeans.api.mdr.MDRManager.getDefault();
 		reader = (XmiReader) new XmiReaderImpl(); //RepositoryLookup.getDefault().lookup(XmiReader.class);
 		writer = (XmiWriter) new XmiWriterImpl(); //RepositoryLookup.getDefault().lookup(XmiWriter.class);
 		Runtime.getRuntime().addShutdownHook(new Thread (new Runnable () {
 			public void run () {
-				MDRAPI.getStaticLog().info("Shutting down MDR.");
+				MDRAPI.getStaticLog().info("Shutting down ModFact.");
 				//MDRAPI.mdrManager.shutdownAll();
 			}
 		}));
