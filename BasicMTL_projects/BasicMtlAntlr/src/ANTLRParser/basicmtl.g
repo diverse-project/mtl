@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.8 2003-08-22 18:27:46 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.9 2003-08-26 12:52:33 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -279,7 +279,7 @@ instruction returns [Object tree=null;]
 	  ( "finally" OPENBRACE (l4=instruction {theElseInstructions.addElement(l4);} )+ CLOSEBRACE)? CLOSEBRACE
 	  {tree=walker.tryInstr(theInstructions,theCatches,theElseInstructions,n);}
 	| "associate" n=openbracket l5=associateEndPoint {theAssociatePoints.addElement(l5);} 
-		( COMMA l6=associateEndPoint {theAssociatePoints.addElement(l5);} )+ CLOSEBRACKET SEMICOLON
+		( COMMA l6=associateEndPoint {theAssociatePoints.addElement(l6);} )+ CLOSEBRACKET SEMICOLON
 	  {tree=walker.associateInstr(theAssociatePoints,n); }
 exception catch [RecognitionException ex] {
 	throw ex; }
