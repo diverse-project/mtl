@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesAction.java,v 1.1 2004-08-10 12:18:03 dvojtise Exp $
+/* $Id: Associations2AttributesAction4simpleuml.java,v 1.1 2004-08-19 10:18:45 dvojtise Exp $
  * Authors : dvojtise
  * Created on 01/08/2004
  * Copyright 2003 - INRIA - LGPL license
@@ -22,6 +22,7 @@ import SimpleUML.provider.SimpleUMLItemProviderAdapterFactory;
 import SimpleUmlTransformationsWithModelLoader.BMTLLib_SimpleUmlTransformationsWithModelLoader;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -30,17 +31,20 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.inria.EMFDriver.EMFDriver;
 import org.inria.EMFDriver.EditingDomainProvider;
+import org.inria.simpleUML.transformations.UI.UIPlugin;
+import org.inria.simpleUML.transformations.UI.dialogs.*;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 
-public class Associations2AttributesAction implements IObjectActionDelegate {
+public class Associations2AttributesAction4simpleuml implements IObjectActionDelegate {
 	private StructuredSelection currentSelection = null;
 	private IProject currentProject = null;
 	private org.eclipse.core.resources.IFile selectedFile=null;
 	private ISelection selection=null;
 
 	/**
-	 * Constructor for Associations2AttributesAction.
+	 * Constructor for Associations2AttributesAction4simpleuml.
 	 */
-	public Associations2AttributesAction() {
+	public Associations2AttributesAction4simpleuml() {
 		super();
 	}
 
@@ -55,44 +59,58 @@ public class Associations2AttributesAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		IFile anIFile;
+		String sourceFileName;
 		Shell shell = new Shell();
 		
 		anIFile = getIFileFromSelection();
-		
-		Map registry = EPackage.Registry.INSTANCE;
-		/* SimpleUML editing domain creation as provider */
-		EditingDomainProvider provider = new EditingDomainProvider("SimpleUML",new SimpleUMLItemProviderAdapterFactory());
-
-		String aSimpleUMLPackageURI = SimpleUMLPackage.eNS_URI;
-		SimpleUMLPackage aSimpleUMLPackage = (SimpleUMLPackage) registry.get(aSimpleUMLPackageURI);
-		SimpleUMLFactory aSimpleUMLFactory = aSimpleUMLPackage.getSimpleUMLFactory();
-		provider.setRootElement(aSimpleUMLFactory.createSimpleUmlMM());
-
-		EMFDriver.addEditingDomainProvider("SimpleUmlMM",provider);
-		/* ========================================================================= */
-
-
-		//RUN THE APPROPRIATE APPLICATION BY CALLING ITS ENTRYPOINT METHOD
-		try {
-			String args[] = new String[3];
-			args[0] = "anIFile.getLocation().toString() + anIFile.getName()";
-			args[1] = "anIFile.getLocation().toString() + anIFile.getName()";
-			args[2] = "EMF";
+		sourceFileName = anIFile.getLocation().toString();
+		DestFileDialog mydialog = new DestFileDialog(
+				sourceFileName,
+				sourceFileName,
+				"SimpleUML transformations UI Plug-in",
+				"Remove all the associations and replace them by a pair of attributes",
+				shell);
+		if ( mydialog.open() == IDialogConstants.OK_ID)
+		{
+			Map registry = EPackage.Registry.INSTANCE;
+			/* SimpleUML editing domain creation as provider */
+			EditingDomainProvider provider = new EditingDomainProvider("SimpleUML",new SimpleUMLItemProviderAdapterFactory());
+	
+			String aSimpleUMLPackageURI = SimpleUMLPackage.eNS_URI;
+			SimpleUMLPackage aSimpleUMLPackage = (SimpleUMLPackage) registry.get(aSimpleUMLPackageURI);
+			SimpleUMLFactory aSimpleUMLFactory = aSimpleUMLPackage.getSimpleUMLFactory();
+			provider.setRootElement(aSimpleUMLFactory.createSimpleUmlMM());
+	
+			EMFDriver.addEditingDomainProvider("SimpleUmlMM",provider);
+			/* ========================================================================= */
+	
+	
+			//RUN THE APPROPRIATE APPLICATION BY CALLING ITS ENTRYPOINT METHOD
+			Thread cur = Thread.currentThread();
+			ClassLoader save = cur.getContextClassLoader();			
+			cur.setContextClassLoader(getClass().getClassLoader());		
+			try {
+				Associations2AttributesActions actionClass;
+				actionClass = new Associations2AttributesActions(UIPlugin.getDefault());
+				actionClass.transformSimpleUML_EMF(sourceFileName,
+						mydialog.getDestFileName());
+				
+			}
+			catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
+								 e.printStackTrace();}
+			finally {
+				  cur.setContextClassLoader(save);
+			}
 			
-			BMTLLib_SimpleUmlTransformationsWithModelLoader.main(args);
-		}
-		catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
-							 e.printStackTrace();}
-
+			// free memory
+			provider.dispose();
 		
-		// free memory
-		provider.dispose();
-		
-		// Confirm end of transformation
-		MessageDialog.openInformation(
+			// Confirm end of transformation
+			MessageDialog.openInformation(
 				shell,
 				"SimpleUML transformations UI Plug-in",
-				"Associations2AttributesAction was executed on " + anIFile.getLocation().toString() + anIFile.getName());
+				"Associations2AttributesAction4simpleuml was executed on " + anIFile.getLocation().toString() + anIFile.getName());
+		}
 	}
 
 	/**

@@ -20,8 +20,8 @@
       <import plugin="org.inria.EMFDriver"/>
       <import plugin="SimpleUML.edit"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.inria.SimpleUML.transformations"/>
       <import plugin="org.inria.BasicMTL.runtime"/>
+      <import plugin="org.inria.SimpleUML.transformations"/>
    </requires>
    <extension
          point="org.eclipse.ui.actionSets">
@@ -49,19 +49,36 @@
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.simpleuml"
-            id="org.inria.simpleUML.transformations.UI.contribution1">
+            id="org.inria.simpleUML.transformations.UI.contribution4simpleumlfiles">
          <menu
-               label="SimpleUML transformations"
+               label="SimpleUML transformations (*.simpleuml)"
                path="additions"
-               id="org.inria.simpleUML.transformations.UI.menu1">
+               id="org.inria.simpleUML.transformations.UI.menu4simpleumlfiles">
             <separator name="group1"/>
          </menu>
          <action
                enablesFor="1"
                label="Refactor associations into attributes"
-               class="org.inria.simpleUML.transformations.UI.popup.actions.Associations2AttributesAction"
-               menubarPath="org.inria.simpleUML.transformations.UI.menu1/group1"
-               id="org.inria.simpleUML.transformations.UI.newAction"/>
+               class="org.inria.simpleUML.transformations.UI.popup.actions.Associations2AttributesAction4simpleuml"
+               menubarPath="org.inria.simpleUML.transformations.UI.menu4simpleumlfiles/group1"
+               id="org.inria.simpleUML.transformations.UI.newAction1"/>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.xml"
+            id="org.inria.simpleUML.transformations.UI.contribution4xmlfiles">
+         <menu
+               label="SimpleUML transformations (*.xml)"
+               path="additions"
+               id="org.inria.simpleUML.transformations.UI.menu4xmlfiles">
+            <separator name="group2"/>
+         </menu>
+         <action
+               enablesFor="1"
+               label="Refactor associations into attributes"
+               class="org.inria.simpleUML.transformations.UI.popup.actions.Associations2AttributesAction4xml"
+               menubarPath="org.inria.simpleUML.transformations.UI.menu4xmlfiles/group2"
+               id="org.inria.simpleUML.transformations.UI.newAction2"/>
       </objectContribution>
    </extension>
 

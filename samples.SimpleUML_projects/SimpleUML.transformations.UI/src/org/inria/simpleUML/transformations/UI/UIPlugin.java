@@ -1,7 +1,14 @@
 package org.inria.simpleUML.transformations.UI;
 
+import org.eclipse.core.runtime.ILibrary;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.ui.plugin.*;
+import org.inria.BasicMTL.runtime.JarClassLoader;
 import org.osgi.framework.BundleContext;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -21,6 +28,7 @@ public class UIPlugin extends AbstractUIPlugin {
 		plugin = this;
 		try {
 			resourceBundle = ResourceBundle.getBundle("simpleUML.transformations.UI.UIPluginResources");
+			System.out.println("UIPlugin got bundle");
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
@@ -31,6 +39,10 @@ public class UIPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		System.out.println("SimpleUML.transformations.UIPlugin activated");
+		showRuntimeLibraries();
+		System.out.println(context.toString());
+		//context.installBundle();
 	}
 
 	/**
@@ -65,5 +77,33 @@ public class UIPlugin extends AbstractUIPlugin {
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
+	}
+	
+	public void  showBundleContent() throws Exception
+	{
+		//getBundle().loadClass("org.openide.util.Lookup");
+		 getBundle().loadClass("org.inria.BasicMTL.runtime.JarClassLoader");
+		org.osgi.framework.ServiceReference[] registeredServices = getBundle().getRegisteredServices();
+		org.osgi.framework.ServiceReference[] usedServices = getBundle().getServicesInUse();
+	}
+	private void  showRuntimeLibraries()
+	{
+		String requires = (String)getBundle().getHeaders().get(org.osgi.framework.Constants.BUNDLE_CLASSPATH);
+		System.out.println(" " + requires);
+		//getBundle().
+		/* deprecated code
+		  org.eclipse.core.runtime.IPluginDescriptor pd = getDefault().getDescriptor();
+		java.net.URL url = pd.getInstallURL();
+		String urlString = url.toString();
+		org.eclipse.core.runtime.ILibrary[] libraries = pd.getRuntimeLibraries();
+		for (int i = 0; i < libraries.length; i++) {
+			org.eclipse.core.runtime.ILibrary iLibrary = libraries[i];
+			org.eclipse.core.runtime.IPath libPath = iLibrary.getPath();
+			String libPathStr = libPath.toString();
+			String libUrlStr = urlString + libPathStr;
+			System.out.println(" " + libUrlStr );
+		}
+		*/
+		
 	}
 }

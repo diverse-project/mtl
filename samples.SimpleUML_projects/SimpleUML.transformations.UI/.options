@@ -1,0 +1,4 @@
+org.inria.SimpleUML.transformations.UI/debug = true
+org.inria.SimpleUML.transformations.UI/debug/flag = true
+org.inria.SimpleUML.transformations.UI/debug/filter = *
+org.inria.SimpleUML.transformations.UI/trace/contexts = true
