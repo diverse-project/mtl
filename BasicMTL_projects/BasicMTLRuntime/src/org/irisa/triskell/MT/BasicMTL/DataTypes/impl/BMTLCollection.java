@@ -10,6 +10,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIntegerInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
@@ -76,6 +77,22 @@ public class BMTLCollection
 	
 	public BMTLBooleanInterface BMTL_excludesAll(CollectionValue v) {
 		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_excludesAll.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
+	}
+
+	public CollectionValue  BMTL_append(BMTLOclAnyInterface object) {
+		CollectionValue collection=this.getCollectionDelegate();
+		Value[] theCollection=collection.getTheCollection();
+		Value [] theNewCollection=new Value[theCollection.length+1];
+		for (int i=0;i<theCollection.length;i++)
+			theNewCollection[i]=theCollection[i];
+		theNewCollection[theCollection.length]=(Value)object;
+		if (collection.getKind().equals(CollectionKind.ordered_set_kind))
+			return new BMTLOrderedSet(theNewCollection);
+		 else if (collection.getKind().equals(CollectionKind.set_kind))
+					return new BMTLSet(theNewCollection);
+				else if (collection.getKind().equals(CollectionKind.sequence_kind))
+					   return new BMTLSequence(theNewCollection);
+				else return new BMTLBag(theNewCollection);
 	}
 
 }
