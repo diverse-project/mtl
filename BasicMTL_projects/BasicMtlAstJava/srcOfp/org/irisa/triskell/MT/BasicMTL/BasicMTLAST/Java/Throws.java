@@ -15,7 +15,7 @@ public class Throws
     /**
       * The value to be thrown.
       */
-    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression thrownExpression;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression thrownExpression;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getThrownExpression () {
         return this.thrownExpression;
     }
@@ -28,5 +28,6 @@ public class Throws
     public Throws(
         org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression expr)
     {
+		this.thrownExpression = expr;
     }
 }
