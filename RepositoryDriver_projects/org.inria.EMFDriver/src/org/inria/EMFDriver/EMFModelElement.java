@@ -1,4 +1,4 @@
-/* $Id: EMFModelElement.java,v 1.2 2004-03-10 17:15:45 jpthibau Exp $
+/* $Id: EMFModelElement.java,v 1.3 2004-03-11 13:28:03 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -70,21 +70,16 @@ public class EMFModelElement
 		throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException
 	{
 		if (this.refObject != null) {
-			//TODO Try to cretae a good remove command that notify model change to other elements
-			// by using the RemoveCommand of editing domain
-/*			EditingDomain ed = this.getSpecificAPI().editingDomain;
+			EditingDomain ed = this.getSpecificAPI().editingDomain;
 			EMFChildElement childDescr = this.type.getRefClass();
 			Command deleteCmd = RemoveCommand.create(ed,childDescr.owner,childDescr.childDescriptor.getEReference(),this.refObject);
 			if (deleteCmd.canExecute())
 				deleteCmd.execute();
-			else EMFDriver.log.warn("Cannot delete the following model element "+this.refObject+" instance of metaclass"+this.type);
-			Collection selection = new ArrayList();
-			selection.add(this.refObject);
-			deleteCmd = RemoveCommand.create(ed,childDescr.owner,childDescr.childDescriptor.getEReference(),selection);
-			if (deleteCmd.canExecute())
-				deleteCmd.execute();
-			else EMFDriver.log.warn("Cannot delete the following model element "+this.refObject+" instance of metaclass"+this.type);*/
-			this.getSpecificAPI().resource.getContents().remove(this.refObject);
+			else {
+				EMFDriver.log.warn("Cannot delete the following model element "+this.refObject+" instance of metaclass"+this.type);
+				EMFDriver.log.warn("Trying to remove it directly from the managed resource...");
+				this.getSpecificAPI().resource.getContents().remove(this.refObject);
+				} 
 		} else
 			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(this);
 

@@ -21,6 +21,7 @@ import java.util.Map;
 import FileAccessTest.*;
 import AllInstancesTest.*;
 import EltsCreationAndSettingTest.*;
+import library2documentationExample.*;
 //==============================================================
 
 
@@ -91,8 +92,9 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		//RUN THE APPROPRIATE APPLICATION BY CALLING ITS ENTRYPOINT METHOD
 		try {
 //			new BMTLLib_FileAccessTest().BMTL_runTransformation();
-//			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
-			new BMTLLib_EltsCreationAndSettingTest().BMTL_runTransformation();
+			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
+//			new BMTLLib_EltsCreationAndSettingTest().BMTL_runTransformation();
+		new BMTLLib_library2documentationExample().BMTL_runTransformation();
 		}
 		catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
 							 e.printStackTrace();}

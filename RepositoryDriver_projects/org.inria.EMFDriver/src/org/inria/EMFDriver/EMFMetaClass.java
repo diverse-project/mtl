@@ -1,4 +1,4 @@
-/* $Id: EMFMetaClass.java,v 1.2 2004-03-10 17:15:44 jpthibau Exp $
+/* $Id: EMFMetaClass.java,v 1.3 2004-03-11 13:28:03 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.command.*;
 import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.common.util.*;
 import java.util.Collection;
 import java.util.ArrayList;

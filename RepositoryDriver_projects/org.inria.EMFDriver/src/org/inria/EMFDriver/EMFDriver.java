@@ -1,4 +1,4 @@
-/* $Id: EMFDriver.java,v 1.3 2004-03-10 17:15:44 jpthibau Exp $
+/* $Id: EMFDriver.java,v 1.4 2004-03-11 13:28:03 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -209,6 +209,8 @@ public class EMFDriver {
 			while (childrenDescrIter.hasNext()) {
 				CommandParameter descriptor = (CommandParameter)childrenDescrIter.next();
 				Command createCmd = CreateChildCommand.create(api.editingDomain,modelElt,descriptor,selection);
+				if (! createCmd.canExecute())
+					EMFDriver.log.warn("There will be a problem with metaClass "+descriptor.getEReference().getName()+":"+descriptor.getEValue().eClass().getName()+" : No instances may be created!");
 				if (! metaClasses.containsKey(createCmd.getDescription()))
 					metaClasses.put(createCmd.getDescription(),new EMFChildElement(modelElt,descriptor,createCmd));
 			}
