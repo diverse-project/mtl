@@ -1,0 +1,52 @@
+/******************************************************************************
+ * $Id: test5.mtl,v 1.1 2004-03-17 15:38:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFtests;
+
+class Test5
+{
+	/** */
+	init ()
+	{
+	}
+
+	/** */
+	execute ()
+	{
+		topLevelPackagesIterator : Standard::Iterator;
+		aPackage                 : MOFview::Package;
+		aVisitor                 : MOFvisitors::TostringVisitor;
+		aVisitorResult           : MOFvisitors::VisitorResult;
+		fullString               : Standard::String;
+		file : io::FileOutput;
+		
+		// we build the TostringVisitor
+		aVisitor := new MOFvisitors::TostringVisitor().init();
+
+		// we prepare a string for full display
+		fullString := '';
+		
+		// we get the top level packages
+		topLevelPackagesIterator := helper.getTopLevelPackages().getNewIterator();
+		topLevelPackagesIterator.start ();
+		while (topLevelPackagesIterator.isOn())
+		{
+			aPackage := topLevelPackagesIterator.item().oclAsType(!MOFview::Package!);
+			aVisitorResult := aPackage.accept (aVisitor, '');
+			fullString := fullString.concat (aVisitorResult.toString());
+			topLevelPackagesIterator.next ();
+		}		
+		
+		// we display the string
+		fullString.toOut();
+		
+		// we write the string into a file
+		file := new io::FileOutput ();                                                           
+		file.setName ('test.out');                                                       
+		file.write   (fullString);
+		file.close ();
+	}
+}
+
+ 
