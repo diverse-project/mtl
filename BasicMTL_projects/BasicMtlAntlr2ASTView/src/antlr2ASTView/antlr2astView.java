@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.15 2004-10-18 16:00:02 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.16 2004-11-03 09:23:19 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -241,7 +241,7 @@ public Object multiplicity (String lowerBound,String upperBound)
 
 }
 	
-public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
+public Object classDefinition(String lineNumber,boolean isAbstract,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
 {	int i;
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
@@ -257,6 +257,8 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 	BMTL_UserClass node=(BMTL_UserClass)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"UserClass"})).instanciate();
 	node.set_BMTL_name(new BMTLString(classSurname));
 	node.set_BMTL_QualifiedName(qn);
+	if (isAbstract) node.set_BMTL_isAbstract(BMTLBoolean.TRUE);
+	else  node.set_BMTL_isAbstract(BMTLBoolean.FALSE);
 	try {
 	for(i=0;i<attributes.size();i++) {
 		java.util.Vector declaredAttributes=(java.util.Vector)attributes.get(i);
@@ -302,7 +304,7 @@ public Object setterGetter(boolean isGetter,String attributeName,String operatio
 	return theSetterGetter;
 }
 
-public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
+public Object method(String creation,boolean isAbstract,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
 {	int i,j;
 	java.util.Vector params=(java.util.Vector)parameters;
 	BMTL_Operation node=(BMTL_Operation)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Operation"})).instanciate();
@@ -338,6 +340,8 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("returnedType"),theReturnedType,"TypeTag");
 	if (throwsException != null) node.set_BMTL_throwsExceptionValue(BMTLBoolean.TRUE);
 	else  node.set_BMTL_throwsExceptionValue(BMTLBoolean.FALSE);
+	if (isAbstract) node.set_BMTL_isAbstract(BMTLBoolean.TRUE);
+	else  node.set_BMTL_isAbstract(BMTLBoolean.FALSE);
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	putTags(node,tags);

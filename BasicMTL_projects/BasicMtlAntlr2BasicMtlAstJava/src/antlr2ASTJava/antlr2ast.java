@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.23 2004-10-18 16:00:06 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.24 2004-11-03 09:24:10 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -159,7 +159,7 @@ public Object multiplicity (String lowerBound,String upperBound)
 	return node;
 }
 
-public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
+public Object classDefinition(String lineNumber,boolean isAbstract,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
 {	int i,j;
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
@@ -169,6 +169,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 		classNames.add(classSurname+classSurname);
 	}
 	UserClass node=new UserClass(classSurname);
+	node.setIsAbstract(isAbstract);
 	node.appendQualifiedName(classSurname);
 	for (i=1;i < classNames.size();i++) {
 		classSurname=classSurname.concat("_"+(String)classNames.get(i));
@@ -234,10 +235,11 @@ public Object setterGetter(boolean isGetter,String attributeName,String operatio
 	return theSetterGetter;
 }
 
-public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
+public Object method(String creation,boolean isAbstract,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
 {	int i,j;
 	java.util.Vector params=(java.util.Vector)parameters;
 	Operation node=new Operation(methodName);
+	node.setIsAbstract(isAbstract);
 	if (parameters !=null) {
 	for(i=0;i<params.size();i++) {
 		java.util.Vector typedVars=(java.util.Vector)params.get(i);
