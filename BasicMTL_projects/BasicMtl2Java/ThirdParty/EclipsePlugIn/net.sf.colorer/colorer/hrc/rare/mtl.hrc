@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1251"?>
-<!-- $Id$
-    BasicMTL Files
+<!-- $Id:$
+    Colorer support for BasicMTL Files
 -->
 <!DOCTYPE hrc PUBLIC "-//Cail Lomecb//DTD Colorer HRC take5//EN" "../hrc.dtd">
 <hrc version="take5" xmlns="http://colorer.sf.net/2003/hrc">
@@ -32,15 +32,15 @@
                 region1='def:Keyword' region2='LibraryOutline'/>
          <regexp match="/^ \s* (import) \s* ([\w\$\.\*]+)?/x"
                 region1='def:Keyword' region2='ImportOutline'/>
-          <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
-                region1='def:Keyword' region2='TagOutline'/>
+          <!-- <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
+                region1='def:Keyword' region2='TagOutline'/>-->
 
-		 <!-- library methods -->
+		 <!-- outline support for methods in library -->
 		 <regexp match="/^ \s* \b (?{MethodOutline}[\w_*&amp;~]+? \s* \( [^\)\(]*? \) \s* [\:\w\s]*) \s* \{* \s* $/x"
          	region1='def:Function'/>
          	
          <inherit scheme="MtlComments"/>
-         <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <!-- <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>-->
          <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
          <regexp match="/ \b (?{Keyword}library) \s+ (?{LibraryOutline}[\w_]+ [\w_:\$]*?) /x"/>
 
@@ -54,7 +54,7 @@
             <word name='model'/>
             <word name="throws"/>
             <word name="extends"/>
-            <word name="implements"/>
+            <word name="refines"/>
          </keywords>
 
          <block start="/(\{)/" end="/(\})/" scheme="TypeDeclaration"
@@ -91,7 +91,6 @@
          <regexp match="/(\@author)\s+(\S.*)/x" region1="CommentContent" region2="CommentContent"/>
          <!--regexp match="/(\@)(\w+)/" region1="Symbol"-->
          <keywords region="CommentContent">
-            <word name="@beaninfo"/>
             <word name="@deprecated"/>
             <word name="@exception"/>
             <word name="@param"/>
@@ -124,13 +123,11 @@
          <inherit scheme="MtlComments"/>
 
          <regexp match="/ \b (?{Keyword}new) \s+ (?{InnerClassOutline}[\w_]+ [\w_:\$]*?) \M \s*\([^\(\)]*\) \s* ([\{]|$) /x"/>
-         <regexp match="/ \M\b native .+? (?{NativeOutline}[\w_]+ [\w_:\$]*?) \s*\( /x"/>
 
-         <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>
          <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
-         <regexp match="/ \b (?{Keyword}tag) \s+ (?{TagOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <!-- <regexp match="/ \b (?{Keyword}tag) \s+ (?{TagOutline}[\w_]+ [\w_:\$]*?) /x"/>-->
          
-          <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
+          <regexp match="/^ \s* (JavaCode) \s* ([\w\$\s\.\*]+)?/x"
                 region1='def:Keyword' region2='TagOutline'/>
 
          <inherit scheme="def:PairedBrackets">
@@ -163,7 +160,7 @@
             <symb name="&amp;"/><symb name="^"/>
             <symb name="|"/><symb name=":"/>
             <symb name=","/><symb name="."/>
-            <symb name="!"/><symb name="~"/>
+            <!--<symb name="!"/>--><symb name="~"/>
             <symb name="&lt;"/><symb name="&gt;"/>
             <symb name="%"/><symb name="?"/>
             <symb name="#"/><symb name="@"/>
@@ -172,8 +169,8 @@
             <word name="break"/>
             <word name="catch"/>
             <word name="else"/>
+            <word name="elseif"/>
             <word name="if"/>
-            <word name="JavaCode"/>
             <word name="library"/>
             <word name="model"/>
             <word name="new"/>
@@ -194,7 +191,7 @@
             <word name='strictfp'/>
             <word name="throws"/>
             <word name="extends"/>
-            <word name="implements"/>
+            <word name="refines"/>
          </keywords>
          <keywords region="KeywordModifier">
             <word name='native'/>
@@ -231,11 +228,12 @@
             -->s
          </keywords>
 
-		 <!-- class methods -->
+		 <!-- outline support for methods in classes -->
          <regexp match="/^ \s* \b (?{MethodOutline}[\w_*&amp;~]+? \s* \( [^\)\(]*? \) \s* [\:\w\s]*) \s* \{* \s* $/x"/>
 
       </scheme>
-
+ 
+	
    </type>
 </hrc>
 <!-- ***** BEGIN LICENSE BLOCK *****
