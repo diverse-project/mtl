@@ -1,4 +1,4 @@
-<!-- $Id: UML14_Transformations_build.xml,v 1.1 2003-11-04 12:52:33 dvojtise Exp $ -->
+<!-- $Id: UML14_Transformations_build.xml,v 1.2 2004-02-18 10:07:57 dvojtise Exp $ -->
 <project name="UML14_Transformations" default="compile" basedir=".">
 	<description>
         Build file for compiling and running UML14_Transformations
@@ -51,7 +51,7 @@
   	<target name="run" description="run the transformation">
   		<!-- cannot run the default target due to the mangling of the _
   			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
-  		<java classname="${user.package.name}.BMTLLib_UML14_5fTransformations" fork="true">
+  		<java classname="${user.package.name}.BMTLLib_UML14_5fTransformations" fork="true" failonerror="true">
 		<arg value="-h"/>
 		<classpath>
 			<pathelement path="${build.bin}/"/>
