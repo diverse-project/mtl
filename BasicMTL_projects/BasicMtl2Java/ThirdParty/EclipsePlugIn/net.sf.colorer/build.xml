@@ -1,0 +1,21 @@
+<!-- $Id: build.xml,v 1.1 2004-03-31 09:32:47 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="update for 0.5.0" basedir=".">
+	<description>
+        install the MTL support to colorer plugin
+        (ease the deployment of this file)
+	</description>
+
+	<property name="plugins.location" location="c:/eclipse/plugins"/>
+
+	<target name="install mtl for 0.5.0" description="" depends="update for 0.5.0">
+		<copy file="colorer/hrc/colorer.hrc" todir="${plugins.location}/net.sf.colorer_0.5.0/colorer/hrc"/>
+  		
+	</target>
+	<target name="update for 0.5.0" description="copy the colorer file in the right place">    		   	
+  		<copy file="colorer/hrc/rare/mtl.hrc" todir="${plugins.location}/net.sf.colorer_0.5.0/colorer/hrc/rare"/>
+  		<copy todir="${plugins.location}/net.sf.colorer_0.5.0/icons">
+  			<fileset dir="icons"/>
+  		</copy>
+  	</target>
+  	
+</project>
