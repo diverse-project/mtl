@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: main.mtl,v 1.1 2004-02-18 10:50:07 edrezen Exp $
+ * $Id: main.mtl,v 1.2 2004-03-17 15:36:20 edrezen Exp $
  ******************************************************************************/
 
 library MOFtests;
@@ -18,6 +18,8 @@ main (args : Standard::Sequence) : Standard::Void
 	test1      : MOFtests::Test1;
 	test2      : MOFtests::Test2;
 	test3      : MOFtests::Test3;
+	test4      : MOFtests::Test4;
+	test5      : MOFtests::Test5;
 	
 	// we initialize the arguments parser
 	argsParser := new ArgumentsParser ();
@@ -25,6 +27,7 @@ main (args : Standard::Sequence) : Standard::Void
 
 	// we initialize the MOF adapter
 	mgr := new MOFadapter::AdapterFactory ();
+	
 	mgr.init (argsParser.getArg());
 	
 	// we initialize the mof helper
@@ -37,14 +40,21 @@ main (args : Standard::Sequence) : Standard::Void
 	//test1.init ();
 	//test1.execute ();
 
-	test2 := new MOFtests::Test2 ();
-	test2.init ();
-	test2.execute ();
+	//test2 := new MOFtests::Test2 ();
+	//test2.init ();
+	//test2.execute ();
 
-	//test3 := new MOFtests::Test3 ();
-	//test3.init ();
-	//test3.execute ();
+	test3 := new MOFtests::Test3 ();
+	test3.init ();
+	test3.execute ();
 
+	//test4 := new MOFtests::Test4 ();
+	//test4.init ();
+	//test4.execute ();
+
+	//test5 := new MOFtests::Test5 ();
+	//test5.init ();
+	//test5.execute ();
 	
 	'FINISHED...'.toOut();
 }
