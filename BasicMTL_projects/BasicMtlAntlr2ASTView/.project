@@ -6,7 +6,6 @@
 		<project>BasicMTLRuntime</project>
 		<project>BasicMtlAntlr</project>
 		<project>BasicMtlAstJava</project>
-		<project>BasicMtl_Transformation_libraries</project>
 		<project>MTDataTypes</project>
 		<project>Utils</project>
 	</projects>
