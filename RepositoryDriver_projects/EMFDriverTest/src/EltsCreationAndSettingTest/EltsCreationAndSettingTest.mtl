@@ -17,8 +17,8 @@ runTransformation():Standard::Void
 	modelManager : EMFDriver::EMFModelManager;
 	set : Standard::Set;
 	it : Standard::Iterator;
-	aBook, newBook, aBookToRemove : LibraryM::[org.eclipse.example.library.Library]::Book;
-	aWriter, newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	aBook, newBook, aBookToRemove : LibraryM::Book;
+	aWriter, newWriter : LibraryM::Writer;
 	
 	modelManager := new EMFDriver::EMFModelManager();
 
@@ -38,19 +38,19 @@ runTransformation():Standard::Void
 
 
 	//add a book taht will be removed later
-	aBookToRemove := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+	aBookToRemove := new MyOwnLibraryM::Book();
 	aBookToRemove.title := 'To remove later...';
 	
 	//copy all books from loaded model to created one
 	'Copy all Books...'.toOut();
 	'*===============*'.toOut();
-	set := !LibraryM::[org.eclipse.example.library.Library]::Book!.allInstances();
+	set := !LibraryM::Book!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
 		it.item().toOut();
 		aBook := it.item();
-		newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+		newBook := new MyOwnLibraryM::Book();
 		newBook.title := aBook.title;
 		newBook.pages := aBook.pages;
 		it.next();
@@ -59,14 +59,14 @@ runTransformation():Standard::Void
 
 	'Copy all Writers...'.toOut();
 	'*=================*'.toOut();
-	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	set := !LibraryM::Writer!.allInstances();
 	set.toOut();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
 		it.item().toOut();
 		aWriter := it.item();
-		newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+		newWriter  := new MyOwnLibraryM::Writer();
 		newWriter.name := aWriter.name;
 		it.next();
 	}

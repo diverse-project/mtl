@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src/"/>
-    <classpathentry kind="src" path="build/src"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.text_2.1.0/text.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.text_2.1.0/textsrc.zip"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.jface.text_2.1.0/jfacetext.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.jface.text_2.1.0/jfacetextsrc.zip"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.ui.views_2.1.0/views.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.ui.views_2.1.0/viewssrc.zip"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.ui.win32_2.1.0/workbenchwin32.jar" sourcepath="ORG_ECLIPSE_PLATFORM_WIN32_SOURCE_SRC/org.eclipse.ui.win32_2.1.0/workbenchwin32src.zip"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.ui.workbench.texteditor_2.1.0/texteditor.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.ui.workbench.texteditor_2.1.0/texteditorsrc.zip"/>
-    <classpathentry kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.ui.editors_2.1.0/editors.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.ui.editors_2.1.0/editorssrc.zip"/>
-    <classpathentry kind="src" path="/org.inria.EMFDriver"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib"
-        path="/BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar" sourcepath="BasicMtl2Java/LibAssociation/src"/>
-    <classpathentry kind="var" path="ECLIPSE_CORE_BOOT"/>
-    <classpathentry kind="var" path="ECLIPSE_CORE_RESOURCES"/>
-    <classpathentry kind="var" path="ECLIPSE_CORE_RUNTIME"/>
-    <classpathentry kind="var" path="ECLIPSE_JFACE"/>
-    <classpathentry kind="var" path="ECLIPSE_SWT"/>
-    <classpathentry kind="var" path="ECLIPSE_UI"/>
-    <classpathentry kind="var" path="ECLIPSE_UI_WORKBENCH"/>
-    <classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="build/src"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

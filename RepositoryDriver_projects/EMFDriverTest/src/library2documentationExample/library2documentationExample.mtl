@@ -26,9 +26,9 @@ runTransformation():Standard::Void
 	modelManager : EMFDriver::EMFModelManager;
 	set : Standard::Set;
 	it : Standard::Iterator;
-	aClass : DocumentationMM::[org.eclipse.emf.ecore.EPackage]::EClass;
-	anAssociationEnd : DocumentationMM::[org.eclipse.emf.ecore.EClass]::EReference;
-	 aBookCategory : DocumentationMM::[org.eclipse.emf.ecore.EEnum]::EEnumLiteral;
+	aClass : DocumentationMM::EClass;
+	anAssociationEnd : DocumentationMM::EReference;
+	 aBookCategory : DocumentationMM::EEnumLiteral;
 	
 	modelManager := new EMFDriver::EMFModelManager();
 
@@ -46,7 +46,7 @@ runTransformation():Standard::Void
 	//iterate on all classes to refactor their names
 	'Update all class names...'.toOut();
 	'*=======================*'.toOut();
-	set := !DocumentationMM::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances();
+	set := !DocumentationMM::EClass!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
@@ -66,7 +66,7 @@ runTransformation():Standard::Void
 	//iterate on all roles to refactor their names
 	'Update all roles names...'.toOut();
 	'*=======================*'.toOut();
-	set := !DocumentationMM::[org.eclipse.emf.ecore.EClass]::EReference!.allInstances();
+	set := !DocumentationMM::EReference!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
@@ -83,7 +83,7 @@ runTransformation():Standard::Void
 	//iterate on all book categories to refactor their names
 	'Update all booklets categories...'.toOut();
 	'*===============================*'.toOut();
-	set := !DocumentationMM::[org.eclipse.emf.ecore.EEnum]::EEnumLiteral!.allInstances();
+	set := !DocumentationMM::EEnumLiteral!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
@@ -100,7 +100,7 @@ runTransformation():Standard::Void
 		it.next();
 	}
 	//add the 'history' category
-	aBookCategory := new DocumentationMM::[org.eclipse.emf.ecore.EEnum]::EEnumLiteral();
+	aBookCategory := new DocumentationMM::EEnumLiteral();
 	aBookCategory.name := 'History';
 	aBookCategory.value := 3;
 

@@ -79,11 +79,11 @@ runTransformation():Standard::Void
    'Derivation done.'.toOut();
 }
 
-derivePL (concreteFactory : source_model::[org.eclipse.emf.ecore.EPackage]::EClass) {
+derivePL (concreteFactory : source_model::EClass) {
 	selectedVariants	: Standard::Set;
 	operationIterator	: Standard::Iterator;
-	operation			: source_model::[org.eclipse.emf.ecore.EClass]::EOperation;
-	returnType			: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	operation			: source_model::EOperation;
+	returnType			: source_model::EClass;
 	namesIterator : Standard::Iterator;
 	subClassesNames		: Standard::Set;
 	stereotypesIterator : Standard::Iterator;
@@ -128,7 +128,7 @@ derivePL (concreteFactory : source_model::[org.eclipse.emf.ecore.EPackage]::ECla
 	}
 	
 	classesToDelete := newSet();
-	classesIterator := !source_model::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances().getNewIterator();
+	classesIterator := !source_model::EClass!.allInstances().getNewIterator();
 	while classesIterator.isOn() {
 		aClass := classesIterator.item();
 		name := aClass.name;
@@ -155,11 +155,11 @@ derivePL (concreteFactory : source_model::[org.eclipse.emf.ecore.EPackage]::ECla
 
 removeFactory () {
 	allPackagesIt : Standard::Iterator;
-	aPackage : source_model::[org.eclipse.emf.ecore.EPackage]::EPackage;
+	aPackage : source_model::EPackage;
 	deletionDone : Standard::Boolean;
 	
 	deletionDone := false;
-	allPackagesIt := !source_model::[org.eclipse.emf.ecore.EPackage]::EPackage!.allInstances().getNewIterator();
+	allPackagesIt := !source_model::EPackage!.allInstances().getNewIterator();
 	while allPackagesIt.isOn() {
 		aPackage := allPackagesIt.item();
 		if aPackage.name.[=]('Factory') {
@@ -173,11 +173,11 @@ removeFactory () {
 	}
 }
 
-findClass (name: Standard::String) : source_model::[org.eclipse.emf.ecore.EPackage]::EClass {
+findClass (name: Standard::String) : source_model::EClass {
 	allClassesIt : Standard::Iterator;
-	aClass : source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	aClass : source_model::EClass;
 	
-	allClassesIt := !source_model::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances().getNewIterator();
+	allClassesIt := !source_model::EClass!.allInstances().getNewIterator();
 	while allClassesIt.isOn() {
 		aClass := allClassesIt.item();
 		if aClass.name.[=](name) {
@@ -188,10 +188,10 @@ findClass (name: Standard::String) : source_model::[org.eclipse.emf.ecore.EPacka
 	throw 'Cannot find class named '.concat(name);
 }
 
-allSubClasses (clazz : source_model::[org.eclipse.emf.ecore.EPackage]::EClass) : Standard::Set {
+allSubClasses (clazz : source_model::EClass) : Standard::Set {
 	ret 					: Standard::Set;
 	subClassesIterator	: Standard::Iterator;
-	aSubClass			: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	aSubClass			: source_model::EClass;
 	
 	ret := newSet();
 	subClassesIterator := clazz.SubClasses().getNewIterator();
@@ -208,7 +208,7 @@ allSubClasses (clazz : source_model::[org.eclipse.emf.ecore.EPackage]::EClass) :
 collectModelElementsNames (set : Standard::Set) : Standard::Set {
 	ret			: Standard::Set;
 	iterator 	: Standard::Iterator;
-	element		: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	element		: source_model::EClass;
 	
 	ret := newSet();
 	iterator := set.getNewIterator();
@@ -220,7 +220,7 @@ collectModelElementsNames (set : Standard::Set) : Standard::Set {
 	return ret;
 }
 
-collectSteretypesNames (operation : source_model::[org.eclipse.emf.ecore.EClass]::EOperation) : Standard::Set {
+collectSteretypesNames (operation : source_model::EOperation) : Standard::Set {
 	ret			: Standard::Set;
 	iterator 	: Standard::Iterator;
 	element		: source_model::[org.eclipse.emf.ecore.EModelElement]::EAnnotation;
@@ -235,7 +235,7 @@ collectSteretypesNames (operation : source_model::[org.eclipse.emf.ecore.EClass]
 	return ret;
 }
 
-isStereotyped (clazz : source_model::[org.eclipse.emf.ecore.EPackage]::EClass; stereotypeName : Standard::String) : Standard::Boolean {
+isStereotyped (clazz : source_model::EClass; stereotypeName : Standard::String) : Standard::Boolean {
 	stereotypeIterator	: Standard::Iterator;
 	stereotype			: source_model::[org.eclipse.emf.ecore.EModelElement]::EAnnotation;
 	

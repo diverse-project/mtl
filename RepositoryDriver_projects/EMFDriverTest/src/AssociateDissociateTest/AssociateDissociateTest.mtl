@@ -18,8 +18,8 @@ runTransformation():Standard::Void
 	set : Standard::Set;
 	booksBag : Standard::Bag;
 	it,booksIt : Standard::Iterator;
-	aBook, newBook : LibraryM::[org.eclipse.example.library.Library]::Book;
-	aWriter, newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	aBook, newBook : LibraryM::Book;
+	aWriter, newWriter : LibraryM::Writer;
 	
 	modelManager := new EMFDriver::EMFModelManager();
 
@@ -41,13 +41,13 @@ runTransformation():Standard::Void
 	//copy all Writers and their books from loaded model in following association Writer--books--> Book
 	'Copy all writers and their books...'.toOut();
 	'*=================================*'.toOut();
-	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	set := !LibraryM::Writer!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
 		aWriter := it.item();
 		'Author '.concat(aWriter.name.oclAsType(!Standard::String!)).concat(' has written the following book(s):').toOut();
-		newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+		newWriter  := new MyOwnLibraryM::Writer();
 		newWriter.name := aWriter.name;
 		//association roles navigation result in a Bag
 		//No "ordered" or "unique" properties is available on EMF association ends.
@@ -57,26 +57,26 @@ runTransformation():Standard::Void
 		while booksIt.isOn() {
 			aBook := booksIt.item();
 			aBook.title.toOut();
-			newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+			newBook := new MyOwnLibraryM::Book();
 			newBook.title := aBook.title;
 			newBook.pages := aBook.pages;
-			associate (books := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
-						author := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);
+			associate (books := newWriter : LibraryM::Writer,
+						author := newBook : LibraryM::Book);
 			booksIt.next();
 		}
 		it.next();
 	}
 
 	//try the dissociate regardless of the library replica
-	newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+	newBook := new MyOwnLibraryM::Book();
 	newBook.title := 'UNKNOWNBOOK';
-	newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+	newWriter  := new MyOwnLibraryM::Writer();
 	newWriter.name := 'UNKNOWNAUTHOR';
-	associate (books := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
-				author := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);
+	associate (books := newWriter : LibraryM::Writer,
+				author := newBook : LibraryM::Book);
 	//comment or uncomment the following line to get association between UNKNOWNAUTHOR and UNKNOWNBOOK or not
-	dissociate (books := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
-				author := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);
+	dissociate (books := newWriter : LibraryM::Writer,
+				author := newBook : LibraryM::Book);
 
 	//save the created model
 	modelManager.saveModelToXMI('MyOwnLibrary');
@@ -95,7 +95,7 @@ runTransformation():Standard::Void
 									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
 
 
-	set := !LibraryM::[org.eclipse.example.library.Library]::Book!.allInstances();
+	set := !LibraryM::Book!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {

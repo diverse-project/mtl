@@ -3,7 +3,6 @@
 	<name>EMFDriverTest</name>
 	<comment></comment>
 	<projects>
-		<project>org.inria.EMFDriver</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

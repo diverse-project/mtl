@@ -19,8 +19,8 @@ runTransformation():Standard::Void
 	modelManager : EMFDriver::EMFModelManager;
 	set : Standard::Set;
 	it : Standard::Iterator;
-	aBook : LibraryM::[org.eclipse.example.library.Library]::Book;
-	aWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	aBook : LibraryM::Book;
+	aWriter : LibraryM::Writer;
 	
 	modelManager := new EMFDriver::EMFModelManager();
 	// use loadModelFromXmi method to get the models.
@@ -49,12 +49,12 @@ runTransformation():Standard::Void
 
 	'EClasses found in LibraryModel'.toOut();
 	'*============================*'.toOut();
-	set := !EcoreLibraryMM::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances();
+	set := !EcoreLibraryMM::EClass!.allInstances();
 	set.toOut();
 
 	'Books found in LibraryInstance'.toOut();
 	'*============================*'.toOut();
-	set := !LibraryM::[org.eclipse.example.library.Library]::Book!.allInstances();
+	set := !LibraryM::Book!.allInstances();
 	it := set.getNewIterator();
 	it.start();
 	while it.isOn() {
@@ -68,7 +68,7 @@ runTransformation():Standard::Void
 
 	'Writers found in LibraryInstance'.toOut();
 	'*==============================*'.toOut();
-	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	set := !LibraryM::Writer!.allInstances();
 	set.toOut();
 	it := set.getNewIterator();
 	it.start();
