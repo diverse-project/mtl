@@ -1,4 +1,4 @@
-<!-- $Id: PureJava_build.xml,v 1.3 2003-10-17 14:51:16 jpthibau Exp $ -->
+<!-- $Id: PureJava_build.xml,v 1.4 2003-10-31 15:49:48 dpollet Exp $ -->
 <project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -19,10 +19,10 @@
 	<property name="RepositoryAPI"  location="${base}\RepositoryAPI"/>
 	<property name="MDRDriver"  location="${base}\MDRDriver"/>
 	<property name="BasicMTLRuntime"  location="${base}\BasicMTLRuntime"/>
-	<property name="BasicMTLAstJava"  location="${base}\BasicMTLAstJava"/>
-	<property name="BasicMtlAntlr"  location="${base}\BasicMTLAntlr"/>
-	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMTLAntlr2TLLJava"/>
-	<property name="BasicMTLAntlr2BasicMtlAstJava"  location="${base}\BasicMTLAntlr2BasicMtlAstJava"/>
+	<property name="BasicMTLAstJava"  location="${base}\BasicMtlAstJava"/>
+	<property name="BasicMtlAntlr"  location="${base}\BasicMtlAntlr"/>
+	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMtlAntlr2TLLJava"/>
+	<property name="BasicMTLAntlr2BasicMtlAstJava"  location="${base}\BasicMtlAntlr2BasicMtlAstJava"/>
 	<property name="BasicMtlTLLJava"  location="${base}\BasicMtlTLLJava"/>
 	<property name="TLLTypeChecker"  location="${base}\TLLTypeChecker"/>
 	<property name="BasicMtlJavaCodeGenerator"  location="${base}\BasicMtlJavaCodeGenerator"/>
@@ -114,27 +114,27 @@
   		<copy file="${RepositoryAPI}/dist/bin/RepositoryAPI.jar" todir="${dist}/bin"/>
   		<copy file="${MDRDriver}/dist/bin/MDRDriver.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMTLRuntime}/dist/bin/BasicMTLRuntime.jar" todir="${dist}/bin"/>
-  		<copy file="${BasicMTLAstJava}/dist/bin/BasicMTLAstJava.jar" todir="${dist}/bin"/>
-  		<copy file="${BasicMtlAntlr}/dist/bin/BasicMTLAntlr.jar" todir="${dist}/bin"/>
-  		<copy file="${BasicMTLAntlr2TLLJava}/dist/bin/BasicMTLAntlr2TLLJava.jar" todir="${dist}/bin"/>
-  		<copy file="${BasicMTLAntlr2BasicMtlAstJava}/dist/bin/BasicMTLAntlr2BasicMtlAstJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAstJava}/dist/bin/BasicMtlAstJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMtlAntlr}/dist/bin/BasicMtlAntlr.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAntlr2TLLJava}/dist/bin/BasicMtlAntlr2TLLJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAntlr2BasicMtlAstJava}/dist/bin/BasicMtlAntlr2BasicMtlAstJava.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlTLLJava}/dist/bin/BasicMtlTLLJava.jar" todir="${dist}/bin"/>
   		<copy file="${TLLTypeChecker}/dist/bin/TLLTypeChecker.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlJavaCodeGenerator}/dist/bin/BasicMtlJavaCodeGenerator.jar" todir="${dist}/bin"/>
   		<copy file="${Facade}/dist/bin/Facade.jar" todir="${dist}/bin"/>
   		
   		<!-- thirdparty jars but needed in the distribution -->
-  		<copy  todir="${dist}/bin/Thirdparty/log4j">
-  			<fileset dir="${Utils}/dist/bin/Thirdparty/log4j/"/>
+  		<copy  todir="${dist}/bin/ThirdParty/log4j">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/log4j/"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/JUnit">
-  			<fileset dir="${Utils}/dist/bin/Thirdparty/JUnit"/>
+  		<copy  todir="${dist}/bin/ThirdParty/JUnit">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/JUnit"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/ANTLR">
-  			<fileset dir="${BasicMtlAntlr}/Thirdparty/ANTLR"/>
+  		<copy  todir="${dist}/bin/ThirdParty/ANTLR">
+  			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/MDR">
-  			<fileset dir="${MDRDriver}/dist/bin/Thirdparty/MDR"/>
+  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
   		</copy>
   		
   		<mkdir dir="${dist}/Runtime/"/>

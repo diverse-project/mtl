@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_boot_build.xml,v 1.2 2003-10-31 12:17:22 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_boot_build.xml,v 1.3 2003-10-31 15:49:48 dpollet Exp $ -->
 <project name="BasicMtl2Java_LibAssociation_boot" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -19,14 +19,14 @@
 	
 	<!-- classpath for compiling the compiler -->
 	<path id="compileCompiler.class.path">
-    	<pathelement path="${dist}\bin\Thirdparty\ANTLR\antlrfull.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\log4j\log4j.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmi.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmiutils.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\mdrapi.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\mof.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\nbmdr.jar"/>
-    	<pathelement path="${dist}\bin\Thirdparty\MDR\openide-lookup.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\ANTLR\antlrfull.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\log4j\log4j.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\jmi.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\jmiutils.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\mdrapi.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\mof.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\nbmdr.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\MDR\openide-lookup.jar"/>
   	</path>
 	
 	<target name="init">

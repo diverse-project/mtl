@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.3 2003-10-31 12:18:20 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.4 2003-10-31 15:49:48 dpollet Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -25,11 +25,11 @@
 	<property name="RepositoryAPI"  		location="${base}\RepositoryAPI"/>
 	<property name="MDRDriver"  			location="${base}\MDRDriver"/>
 	<property name="BasicMTLRuntime"  		location="${base}\BasicMTLRuntime"/>
-	<property name="BasicMTLAstJava"  		location="${base}\BasicMTLAstJava"/>
-	<property name="BasicMtlAntlr"  		location="${base}\BasicMTLAntlr"/>
+	<property name="BasicMTLAstJava"  		location="${base}\BasicMtlAstJava"/>
+	<property name="BasicMtlAntlr"  		location="${base}\BasicMtlAntlr"/>
 	<property name="BasicMtlTLLJava"  		location="${base}\BasicMtlTLLJava"/>
 	<property name="TLLTypeChecker"  		location="${base}\TLLTypeChecker"/>
-	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMTLAntlr2TLLJava"/>
+	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMtlAntlr2TLLJava"/>
 	<property name="BasicMtlJavaCodeGenerator"  location="${base}\BasicMtlJavaCodeGenerator"/>
 	<property name="FacadeAssociation"  	location="${base}\FacadeAssociation"/>
 	<property name="BasicMtlAntlr2BasicMtlAstJava" location="${base}\BasicMtlAntlr2BasicMtlAstJava"/>
@@ -100,29 +100,29 @@
 	    	<pathelement path="${dist}\bin\BasicMtlAntlr.jar"/>
 	  	</path>-->
   		<!-- thirdparty jars but needed in the distribution -->
-  		<copy  todir="${dist}/bin/Thirdparty/log4j">
-  			<fileset dir="${Utils}/dist/bin/Thirdparty/log4j/"/>
+  		<copy  todir="${dist}/bin/ThirdParty/log4j">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/log4j/"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/JUnit">
-  			<fileset dir="${Utils}/dist/bin/Thirdparty/JUnit"/>
+  		<copy  todir="${dist}/bin/ThirdParty/JUnit">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/JUnit"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/ANTLR">
-  			<fileset dir="${BasicMtlAntlr}/Thirdparty/ANTLR"/>
+  		<copy  todir="${dist}/bin/ThirdParty/ANTLR">
+  			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
   		</copy>
-  		<copy  todir="${dist}/bin/Thirdparty/MDR">
-  			<fileset dir="${MDRDriver}/dist/bin/Thirdparty/MDR"/>
+  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
   		</copy>
   		<!-- update classpath for compiling the compiler -->
 		<!--<path id="compileCompiler.class.path">
 	    	<pathelement path="${compileCompiler.class.path}/"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\ANTLR\antlrfull.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\log4j\log4j.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmi.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmiutils.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\mdrapi.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\mof.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\nbmdr.jar"/>
-	    	<pathelement path="${dist}\bin\Thirdparty\MDR\openide-lookup.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\ANTLR\antlrfull.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\log4j\log4j.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\jmi.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\jmiutils.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\mdrapi.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\mof.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\nbmdr.jar"/>
+	    	<pathelement path="${dist}\bin\ThirdParty\MDR\openide-lookup.jar"/>
 	  	</path>-->
   		
   	</target>
@@ -298,7 +298,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar Thirdparty/MDR/jmi.jar Thirdparty/MDR/jmiutils.jar Thirdparty/MDR/mdrapi.jar Thirdparty/MDR/mof.jar Thirdparty/MDR/nbmdr.jar Thirdparty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -326,7 +326,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="BasicMTLruntime.jar Thirdparty\ANTLR\antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar Thirdparty/MDR/jmi.jar Thirdparty/MDR/jmiutils.jar Thirdparty/MDR/mdrapi.jar Thirdparty/MDR/mof.jar Thirdparty/MDR/nbmdr.jar Thirdparty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="BasicMTLruntime.jar ThirdParty\ANTLR\antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
