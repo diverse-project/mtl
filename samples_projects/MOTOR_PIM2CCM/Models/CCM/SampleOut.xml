@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'ISO-8859-1' ?>
-<XMI xmi.version = '1.2' timestamp = 'Thu Jan 29 11:39:47 CET 2004'>
+<XMI xmi.version = '1.2' timestamp = 'Mon Feb 09 10:53:26 CET 2004'>
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
@@ -7,187 +7,72 @@
     </XMI.documentation>
   </XMI.header>
   <XMI.content>
-    <CIDLMetaModel.InterfaceDef xmi.id = 'a1' uid = '.:0000000000000449' name = 'interface1'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a2' uid = '.:0000000000000376'
-          role = 'interface'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.InterfaceDef xmi.id = 'a1' name = 'interface1' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.Container.contents>
-        <CIDLMetaModel.AttributeDef xmi.id = 'a3' uid = '.:0000000000000452' name = 'property3'
-          isReadOnly = 'false'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a4' uid = '.:0000000000000373'
-              role = 'property'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.AttributeDef>
-        <CIDLMetaModel.OperationDef xmi.id = 'a5' uid = '.:000000000000045B' name = 'operation2'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a6' uid = '.:0000000000000374'
-              role = 'operation'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.OperationDef>
-        <CIDLMetaModel.OperationDef xmi.id = 'a7' uid = '.:000000000000045E' name = 'operation3'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a8' uid = '.:0000000000000375'
-              role = 'operation'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.OperationDef>
+        <CIDLMetaModel.AttributeDef xmi.id = 'a2' name = 'property3' isReadOnly = 'false'/>
+        <CIDLMetaModel.OperationDef xmi.id = 'a3' name = 'operation2'/>
+        <CIDLMetaModel.OperationDef xmi.id = 'a4' name = 'operation3'/>
       </CIDLMetaModel.Container.contents>
     </CIDLMetaModel.InterfaceDef>
-    <CIDLMetaModel.InterfaceDef xmi.id = 'a9' uid = '.:000000000000044C' name = 'interface2'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a10' uid = '.:000000000000037A'
-          role = 'interface'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.InterfaceDef xmi.id = 'a5' name = 'interface2' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.Container.contents>
-        <CIDLMetaModel.AttributeDef xmi.id = 'a11' uid = '.:0000000000000455' name = 'property1'
-          isReadOnly = 'false'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a12' uid = '.:0000000000000377'
-              role = 'property'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.AttributeDef>
-        <CIDLMetaModel.AttributeDef xmi.id = 'a13' uid = '.:0000000000000458' name = 'property2'
-          isReadOnly = 'false'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a14' uid = '.:0000000000000378'
-              role = 'property'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.AttributeDef>
-        <CIDLMetaModel.OperationDef xmi.id = 'a15' uid = '.:0000000000000461' name = 'operation1'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a16' uid = '.:0000000000000379'
-              role = 'operation'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.OperationDef>
+        <CIDLMetaModel.AttributeDef xmi.id = 'a6' name = 'property1' isReadOnly = 'false'/>
+        <CIDLMetaModel.AttributeDef xmi.id = 'a7' name = 'property2' isReadOnly = 'false'/>
+        <CIDLMetaModel.OperationDef xmi.id = 'a8' name = 'operation1'/>
       </CIDLMetaModel.Container.contents>
     </CIDLMetaModel.InterfaceDef>
-    <CIDLMetaModel.InterfaceDef xmi.id = 'a17' uid = '.:000000000000044F' name = 'interface3'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a18' uid = '.:000000000000037B'
-          role = 'interface'/>
-      </CIDLMetaModel.Element.tracedElements>
-    </CIDLMetaModel.InterfaceDef>
-    <CIDLMetaModel.HomeDef xmi.id = 'a19' uid = '.:000000000000041D' name = 'component1'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a20' uid = '.:0000000000000369'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.InterfaceDef xmi.id = 'a9' name = 'interface3' isAbstract = 'false'
+      isLocal = 'false'/>
+    <CIDLMetaModel.HomeDef xmi.id = 'a10' name = 'component1' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.HomeDef.component>
-        <CIDLMetaModel.ComponentDef xmi.idref = 'a21'/>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a11'/>
       </CIDLMetaModel.HomeDef.component>
     </CIDLMetaModel.HomeDef>
-    <CIDLMetaModel.HomeDef xmi.id = 'a22' uid = '.:0000000000000423' name = 'component2'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a23' uid = '.:000000000000036C'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.HomeDef xmi.id = 'a12' name = 'component2' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.HomeDef.component>
-        <CIDLMetaModel.ComponentDef xmi.idref = 'a24'/>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a13'/>
       </CIDLMetaModel.HomeDef.component>
     </CIDLMetaModel.HomeDef>
-    <CIDLMetaModel.HomeDef xmi.id = 'a25' uid = '.:0000000000000429' name = 'component3'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a26' uid = '.:0000000000000371'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.HomeDef xmi.id = 'a14' name = 'component3' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.HomeDef.component>
-        <CIDLMetaModel.ComponentDef xmi.idref = 'a27'/>
+        <CIDLMetaModel.ComponentDef xmi.idref = 'a15'/>
       </CIDLMetaModel.HomeDef.component>
     </CIDLMetaModel.HomeDef>
-    <CIDLMetaModel.ComponentDef xmi.id = 'a21' uid = '.:000000000000041C' name = 'component1'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a28' uid = '.:0000000000000369'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a11' name = 'component1' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.ComponentDef.emits>
-        <CIDLMetaModel.EmitsDef xmi.id = 'a29' uid = '.:0000000000000443' name = 'portEventIsProvided1'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a30' uid = '.:0000000000000366'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.EmitsDef>
-        <CIDLMetaModel.EmitsDef xmi.id = 'a31' uid = '.:0000000000000446' name = 'portEventIsProvided2'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a32' uid = '.:0000000000000367'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.EmitsDef>
+        <CIDLMetaModel.EmitsDef xmi.id = 'a16' name = 'portEventIsProvided1'/>
+        <CIDLMetaModel.EmitsDef xmi.id = 'a17' name = 'portEventIsProvided2'/>
       </CIDLMetaModel.ComponentDef.emits>
       <CIDLMetaModel.ComponentDef.facet>
-        <CIDLMetaModel.ProvidesDef xmi.id = 'a33' uid = '.:000000000000042E' name = 'portIsProvided3'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a34' uid = '.:0000000000000368'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.ProvidesDef xmi.id = 'a18' name = 'portIsProvided3'>
           <CIDLMetaModel.ProvidesDef.provides>
-            <CIDLMetaModel.InterfaceDef xmi.idref = 'a9'/>
+            <CIDLMetaModel.InterfaceDef xmi.idref = 'a5'/>
           </CIDLMetaModel.ProvidesDef.provides>
         </CIDLMetaModel.ProvidesDef>
       </CIDLMetaModel.ComponentDef.facet>
     </CIDLMetaModel.ComponentDef>
-    <CIDLMetaModel.ComponentDef xmi.id = 'a24' uid = '.:0000000000000422' name = 'component2'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a35' uid = '.:000000000000036C'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a13' name = 'component2' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.ComponentDef.facet>
-        <CIDLMetaModel.ProvidesDef xmi.id = 'a36' uid = '.:0000000000000431' name = 'portIsProvided1'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a37' uid = '.:000000000000036A'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.ProvidesDef>
-        <CIDLMetaModel.ProvidesDef xmi.id = 'a38' uid = '.:0000000000000434' name = 'portIsProvided2'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a39' uid = '.:000000000000036B'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.ProvidesDef>
+        <CIDLMetaModel.ProvidesDef xmi.id = 'a19' name = 'portIsProvided1'/>
+        <CIDLMetaModel.ProvidesDef xmi.id = 'a20' name = 'portIsProvided2'/>
       </CIDLMetaModel.ComponentDef.facet>
     </CIDLMetaModel.ComponentDef>
-    <CIDLMetaModel.ComponentDef xmi.id = 'a27' uid = '.:0000000000000428' name = 'component3'
-      isAbstract = 'false' isLocal = 'false'>
-      <CIDLMetaModel.Element.tracedElements>
-        <CIDLMetaModel.TraceableElement xmi.id = 'a40' uid = '.:0000000000000371'
-          role = 'component'/>
-      </CIDLMetaModel.Element.tracedElements>
+    <CIDLMetaModel.ComponentDef xmi.id = 'a15' name = 'component3' isAbstract = 'false'
+      isLocal = 'false'>
       <CIDLMetaModel.ComponentDef.consumes>
-        <CIDLMetaModel.ConsumesDef xmi.id = 'a41' uid = '.:000000000000043D' name = 'portEventIsRequired2'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a42' uid = '.:000000000000036F'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.ConsumesDef>
-        <CIDLMetaModel.ConsumesDef xmi.id = 'a43' uid = '.:0000000000000440' name = 'portEventIsRequired1'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a44' uid = '.:0000000000000370'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.ConsumesDef>
+        <CIDLMetaModel.ConsumesDef xmi.id = 'a21' name = 'portEventIsRequired2'/>
+        <CIDLMetaModel.ConsumesDef xmi.id = 'a22' name = 'portEventIsRequired1'/>
       </CIDLMetaModel.ComponentDef.consumes>
       <CIDLMetaModel.ComponentDef.receptacle>
-        <CIDLMetaModel.UsesDef xmi.id = 'a45' uid = '.:0000000000000437' name = 'portIsRequired1'
-          multiple = 'false'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a46' uid = '.:000000000000036D'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
-        </CIDLMetaModel.UsesDef>
-        <CIDLMetaModel.UsesDef xmi.id = 'a47' uid = '.:000000000000043A' name = 'portIsRequired2'
-          multiple = 'false'>
-          <CIDLMetaModel.Element.tracedElements>
-            <CIDLMetaModel.TraceableElement xmi.id = 'a48' uid = '.:000000000000036E'
-              role = 'port'/>
-          </CIDLMetaModel.Element.tracedElements>
+        <CIDLMetaModel.UsesDef xmi.id = 'a23' name = 'portIsRequired1' multiple = 'false'/>
+        <CIDLMetaModel.UsesDef xmi.id = 'a24' name = 'portIsRequired2' multiple = 'false'>
           <CIDLMetaModel.UsesDef.uses>
             <CIDLMetaModel.InterfaceDef xmi.idref = 'a1'/>
           </CIDLMetaModel.UsesDef.uses>
