@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.7 2004-04-23 08:38:48 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.8 2004-10-19 11:50:11 jpthibau Exp $ -->
 <project name="Build,run all tests" default="run all" basedir=".">
 	<description>
         Build and run all tests of the CompilerTests project
@@ -26,6 +26,8 @@
 	    <ant antfile="${basedir}/acceptSamples/build.xml" dir="${basedir}/acceptSamples" target="compile" inheritAll="false"/>
 	    <echo>Building "ForeachTests" test.</echo>
 	    <ant antfile="${basedir}/ForeachTests/build.xml" dir="${basedir}/ForeachTests" target="compile" inheritAll="false"/>
+	    <echo>Building "MOFmodelVisitors" test.</echo>
+	    <ant antfile="${basedir}/MOFmodelVisitors/build.xml" dir="${basedir}/MOFmodelVisitors" target="compile" inheritAll="false"/>
 	    
 	</target>
   
@@ -54,6 +56,8 @@
  	   <!-- <ant antfile="${basedir}/behavioral_tests/test6/build.xml" dir="${basedir}/behavioral_tests/test6" target="run test6" inheritAll="false"/> -->
  	    <echo>Running "ForeachTests" test.</echo>
 	    <ant antfile="${basedir}/ForeachTests/build.xml" dir="${basedir}/ForeachTests" target="run sample" inheritAll="false"/>
+ 	    <echo>Running "MOFmodelVisitors" test.</echo>
+	    <ant antfile="${basedir}/MOFmodelVisitors/build.xml" dir="${basedir}/MOFmodelVisitors" target="run sample" inheritAll="false"/>
 	    
   	</target>
 </project>
