@@ -1,0 +1,116 @@
+// $Id: Association.mtl,v 1.1 2003-09-17 07:33:07 jpthibau Exp $
+// part of the BasicMtlASTWithAssociationView Library
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTWithAssociationView extends BasicMtlASTView;
+ 
+ class Association extends BasicMtlASTView::ASTNode {
+ 
+	endPoints : Standard::Set;
+	name : Standard::String;
+
+	appendEndPoint(point : EndPoint) : Standard::Void
+	{	if isNull(endPoints)
+			{ JavaCode [BMTL_endPoints=new BMTLSet()]; }
+		endPoints := endPoints.append(point).oclAsType(!Standard::Set!);
+	}
+
+	toBasicMTL() : Standard::Void
+	//transform this association class into attributes references
+	{
+	node : BasicMtlASTView::ASTNode;
+	properties : Standard::Iterator;
+	aProperty : BasicMtlASTView::Property;
+	//build the UserClass mapping the Association class
+	//give it the name "Association"+name+roleNames
+	//For instance association A with roles R1 and R2 will have
+	//a corresponding UserClass with name "AssociationAR1R2"
+	associationName : Standard::String;
+	theAssociationClass : BasicMtlASTView::UserClass;
+	anAssociationAttribute : BasicMtlASTView::Attribute;
+	theAssociationRefAttribute : BasicMtlASTView::Attribute;
+	integerType : Standard::OrderedSet;
+	userClassType : Standard::OrderedSet;
+	orderedSetType : Standard::OrderedSet;
+	setType : Standard::OrderedSet;
+	anEndPoint : EndPoint;
+	theEndPoints : Standard::Iterator;
+	//build the necessary attributes types Set and OrderedSet
+	userClassType := new Standard::OrderedSet();
+	userClassType := userClassType.append('BasicMtlASTView');
+	userClassType := userClassType.append('UserClass');
+	integerType := new Standard::OrderedSet();
+	integerType := integerType.append('Standard');
+	integerType := integerType.append('Integer');
+	setType := new Standard::OrderedSet();
+	setType := setType.append('Standard');
+	setType := setType.append('Set');
+	orderedSetType := new Standard::OrderedSet();
+	orderedSetType := orderedSetType.append('Standard');
+	orderedSetType := orderedSetType.append('OrderedSet');
+	//build the association class with its composed name
+	associationName := 'Association';
+	if isNull(name).not() {
+	associationName := associationName.concat(name);
+	}
+	theEndPoints := endPoints.getNewIterator();
+	theEndPoints.start();
+	while theEndPoints.isOn() {
+		anEndPoint := theEndPoints.item().oclAsType(!EndPoint!);
+		associationName := associationName.concat(anEndPoint.roleName);
+		theEndPoints.next();
+	}
+	theAssociationClass := new BasicMtlASTView::UserClass();
+	theAssociationClass.name := associationName;
+	//prepare the attribute to refer the association class
+	theAssociationRefAttribute :=  new BasicMtlASTView::Attribute();
+	theAssociationRefAttribute.name := associationName;
+	theAssociationRefAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',userClassType,'TagType');
+	//Put each endPoint as an attribute of name = roleName
+	// and of type Set or OrderedSet depending of the "isOrdered" value
+	//put also multiplicity bounds as integer attributes with name roleName+'MultiplicityLower(Upper)Bound' 
+	theEndPoints.start();
+	while theEndPoints.isOn() {
+		anEndPoint := theEndPoints.item().oclAsType(!EndPoint!);
+		anAssociationAttribute := new BasicMtlASTView::Attribute();
+		anAssociationAttribute.name :=anEndPoint.roleName;
+		if anEndPoint.isOrdered {
+			anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',orderedSetType,'TagType');
+		}
+		else {
+			anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',setType,'TagType');
+		}
+		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
+		anAssociationAttribute := new BasicMtlASTView::Attribute();
+		anAssociationAttribute.name :=anEndPoint.roleName;
+		anAssociationAttribute.name := anAssociationAttribute.name.concat('MultiplicityLowerBound');
+		anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',integerType,'TagType');
+		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
+		anAssociationAttribute := new BasicMtlASTView::Attribute();
+		anAssociationAttribute.name :=anEndPoint.roleName;
+		anAssociationAttribute.name := anAssociationAttribute.name.concat('MultiplicityUpperBound');
+		anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',integerType,'TagType');
+		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
+		//Now for this endPoint add an attribute to the linked class to refer theAssociationClass
+		anEndPoint.linkedClass.appendDefinedAttributes(theAssociationRefAttribute);
+		theEndPoints.next();
+	}
+	node := theAssociationClass.oclAsType(!BasicMtlASTView::ASTNode!);
+	properties := self.oclAsType(!BasicMtlASTView::ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!BasicMtlASTView::Property!);
+		node.decoration := node.decoration.append(aProperty).oclAsType(!Standard::Set!);
+		properties.next();
+	}
+ }
+}
+
+/* associateModelElements(endPoints : Standard::Set) : Standard::Void
+{} 
+
+dissociateModelElements(endPoints : Standard::Set) : Standard::Void
+{} */
+
