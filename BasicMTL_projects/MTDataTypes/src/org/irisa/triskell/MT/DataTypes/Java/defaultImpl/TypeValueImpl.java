@@ -58,7 +58,11 @@ public class TypeValueImpl
 	public Value invoke(String[] scopeQualifiedName, String name, Value[] arguments, String[] discriminants)
 		throws UnknownCommandException, MultipleCommandException, SecurityException {
 		if (this.isUndefined())
-			return this;
+			throw new UnknownCommandException(this,
+			        name,
+			        arguments,
+			        discriminants,
+			        this.toString());
 		try {
 			Type t = this.getTheType();
 			if (t != null) {
