@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.8 2004-07-29 14:07:47 ffondeme Exp $
+ * $Id: MDRAPI.java,v 1.9 2004-09-20 14:47:44 dvojtise Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -145,6 +145,9 @@ public class MDRAPI
     private final Map refStructures = new Hashtable();
 */
     private final org.irisa.triskell.MT.repository.genericJMIDriver.Model manipulatedModel;
+    public org.irisa.triskell.MT.repository.genericJMIDriver.Model getManipulatedModel () {
+        return this.manipulatedModel;
+    }
 /*
     public class Value2Java 
         implements org.irisa.triskell.MT.DataTypes.Java.ValueVisitor
