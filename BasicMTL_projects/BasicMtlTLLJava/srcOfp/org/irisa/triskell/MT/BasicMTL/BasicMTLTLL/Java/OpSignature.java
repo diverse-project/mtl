@@ -1,11 +1,10 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import java.util.Map;
+import java.io.Serializable;
 
 public class OpSignature 
     implements java.io.Serializable
@@ -23,11 +22,11 @@ public class OpSignature
         this.argsCount = value; 
     }
 
-    org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
-    org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
         return this.theOperation;
     }
-    int cardTheOperation () {
+    public int cardTheOperation () {
         if ( this.theOperation == null ) return 0;
         else return 1;
     }

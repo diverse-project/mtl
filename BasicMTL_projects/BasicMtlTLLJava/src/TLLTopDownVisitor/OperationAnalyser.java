@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationAnalyser.java,v 1.3 2003-08-14 21:02:02 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationAnalyser.java,v 1.4 2003-08-19 13:47:33 ffondeme Exp $
  * Created on 17 juil. 2003
  *
  */
@@ -57,6 +57,8 @@ public class OperationAnalyser extends Analyser {
 	public void OperationVarDeclaration(Object theOperation,Object varDecl,java.util.Map context) {}
 
 	public void OperationInstruction(Object theOperation,Object instr,java.util.Map context) {}
+
+	public void OperationInstructionSeparator(Object theOperation,Object instr,java.util.Map context) {}
 
 	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {}
 

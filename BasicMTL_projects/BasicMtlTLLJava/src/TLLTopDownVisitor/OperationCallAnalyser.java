@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.2 2003-08-08 15:46:47 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.3 2003-08-19 13:47:33 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -27,14 +27,16 @@ public class OperationCallAnalyser extends Analyser {
 		Object theOperationCall=this.OperationCallBefore(ASTnode,context);
 		if (ASTnode.getCaller() != null) {
 			ASTnode.getCaller().accept(visitor,context);
-			this.OperationCallCaller(theOperationCall,context.get("Instruction"),context);
+			//this.OperationCallCaller(theOperationCall,context.get("Instruction"),context);
+			//@TODO this is a Frd hack... Plese, check its correctness !
+			this.OperationCallCaller(theOperationCall,ASTnode.getCaller(),context);
 		}
 		else this.OperationCallCaller(theOperationCall,null,context);
 		limit=ASTnode.cardArguments();
 		for (i=0;i<limit;i++) {
 			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
 			this.OperationCallArgument(theOperationCall,context.get("Instruction"),context);
-			this.OperationCallArgSeparator(context);
+			if (i < limit-1) this.OperationCallArgSeparator(context);
 		}		
 		this.OperationCallAfter(theOperationCall,(OperationCall) node,context);
 	}

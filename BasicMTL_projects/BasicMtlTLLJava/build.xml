@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-08-12 14:53:11 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-08-19 13:47:33 ffondeme Exp $ -->
 <project name="BasicMtlTLLJava" default="dist" basedir=".">
 	<description>
         Known directories for the BasicMtlTLL
@@ -8,6 +8,9 @@
 	<property name="srcOfp" location="srcOfp"/>
 	<property name="bin" location="bin"/>
 	<property name="dist"  location="dist"/>
+	
+	<!-- This project depends on the Utils project -->
+	<property name="Utils"  location="..\Utils"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -16,6 +19,11 @@
 	    <mkdir dir="${bin}"/>
 	    <mkdir dir="${dist}"/>
 	    <mkdir dir="${dist}/bin"/>
+	    
+	    <!-- This project depends on the Utils project -->
+	    <echo>Building the "Utils" project.</echo>
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="dist" inheritAll="false"/>
+	    <echo>"Utils" project built.</echo>
 	</target>
 
 	<target name="compile_java" depends="init"
@@ -23,7 +31,7 @@
     	<!-- Compile the java code from ${src} and ${srcOfp} into ${bin} -->
 	    <javac srcdir="${src};${srcOfp}" 
     	    destdir="${bin}"
-   			classpath="."/>
+   			classpath=".;${Utils}\bin"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">
@@ -32,7 +40,7 @@
             splitindex="true" author="true" version="true"
             packagenames="TLLTopDownVisitor, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java, org.irisa.triskell.MT.visitors.Java.AnalysingVisitor, org.irisa.triskell.MT.visitors.Java.GenericVisitor"
             nodeprecatedlist="false" nodeprecated="false"
-            classpath="bin" doctitle="Basic MTL TLLJava internal Documentation">
+            classpath="bin;${Utils}\bin" doctitle="Basic MTL TLLJava internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <!-- <package name="*"/> packagenames="TLLTopDownVisitor, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java, org.irisa.triskell.MT.visitors.Java.AnalysingVisitor, org.irisa.triskell.MT.visitors.Java.GenericVisitor"
             -->           
@@ -53,7 +61,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>   
 		    	<attribute name="Main-Class" value="TLLTopDownVisitor.topDownVisitor"/>
-				<attribute name="Class-Path" value="."/>
+				<attribute name="Class-Path" value=". Utils.jar"/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -69,6 +77,13 @@
 	<target name="dist" depends="create_jar"
 		description="create a distibution">
 		<mkdir dir="${dist}"/>
+		<!-- This project depends on the Utils project -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${Utils}\dist\bin"/>
+		</copy>
+		
+		<!-- There is no need of junit or log4j-->
+		<delete dir="${dist}/bin/ThirdParty"/>
 	</target>	
 	<target name="redist" depends="clean" description="clean then dist">
 		<antcall target="dist">      
@@ -92,6 +107,9 @@
   	
   	<target name="deep_clean" depends="clean"
         description="deep clean up (including depending projects)" >
+	    
+	    <!-- This project depends on the Utils project -->
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="deep_clean" inheritAll="false"/>
 	    
     </target>
 </project>

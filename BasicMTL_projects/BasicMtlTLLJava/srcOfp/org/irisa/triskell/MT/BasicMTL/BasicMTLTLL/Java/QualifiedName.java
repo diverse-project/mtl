@@ -1,11 +1,10 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import java.util.Map;
+import java.util.Vector;
 
 public class QualifiedName 
     extends java.util.Vector
@@ -80,6 +79,14 @@ public class QualifiedName
     }
     public void setIsRepositoryModel (boolean value) {
         this.isRepositoryModel = value; 
+    }
+
+    public String declarationName;
+    public String getDeclarationName () {
+        return this.declarationName;
+    }
+    public void setDeclarationName (String value) {
+        this.declarationName = value; 
     }
 
 }

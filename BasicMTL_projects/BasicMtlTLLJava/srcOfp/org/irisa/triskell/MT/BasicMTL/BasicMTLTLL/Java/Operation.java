@@ -42,6 +42,18 @@ public class Operation
         return this.instructions.size();
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature theSignature;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature getTheSignature () {
+        return this.theSignature;
+    }
+    public void setTheSignature (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature value) {
+        this.theSignature = value; 
+    }
+    public int cardTheSignature () {
+        if ( this.theSignature == null ) return 0;
+        else return 1;
+    }
+
     /**
       * The parameters of the operation.
       */
@@ -97,18 +109,6 @@ public class Operation
     }
     public void setThrowsException (boolean value) {
         this.throwsException = value; 
-    }
-
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature theSignature;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature getTheSignature () {
-        return this.theSignature;
-    }
-    public void setTheSignature (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature value) {
-        this.theSignature = value; 
-    }
-    public int cardTheSignature () {
-        if ( this.theSignature == null ) return 0;
-        else return 1;
     }
 
     public boolean isConstructor;

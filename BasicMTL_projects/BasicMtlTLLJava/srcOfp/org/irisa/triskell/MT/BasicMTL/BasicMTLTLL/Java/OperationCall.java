@@ -78,6 +78,18 @@ public class OperationCall
         this.isToInvoke = value; 
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind kind = OperationKind.getOperationCall();
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind getKind () {
+        return this.kind;
+    }
+    public void setKind (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind value) {
+        this.kind = value; 
+    }
+    public int cardKind () {
+        if ( this.kind == null ) return 0;
+        else return 1;
+    }
+
 
     public OperationCall(
         String name,
