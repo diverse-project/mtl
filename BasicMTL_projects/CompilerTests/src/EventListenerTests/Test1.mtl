@@ -1,0 +1,29 @@
+library EventListenerTests;
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+
+class Test1 extends TestCommand
+{
+	/** */
+	execute ()
+	{
+		aClass : UML::Core::Class;
+		i : Standard::Integer;
+
+		new MyInstanceEventListener().connect (!UML::Core::Class!);
+
+		// we create some elements in the model
+		i := 0;
+		while (i<30)
+		{
+			aClass := new UML::Core::Class();
+			aClass.name := 'this is a name';
+			aClass.delete ();
+			i := i + 1;
+		}
+	}
+}

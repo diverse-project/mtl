@@ -1,16 +1,5 @@
 library EventListenerTests;
 
-model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
-
-
-
-main() : Standard::Void
-{	 
-	new Test1().init().execute();
-	
-	'That s all folks !'.toOut();
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -18,12 +7,17 @@ main() : Standard::Void
 
 class MyAttributeEventListener extends EventManagement::AttributeEventListener
 {
-	update (event : EventManagement::Event)
+//	preNotify (event : EventManagement::Event)
+//	{
+//		'++++++++++++++++++++ MyAttributeEventListener ++++++++++++++++++++'.toOut();
+//	}
+	
+	postNotify (event : EventManagement::Event)
 	{
 		theEvent : EventManagement::AttributeEvent;
 		theEvent := event.oclAsType (!EventManagement::AttributeEvent!);
 		
-		'++++++++++++++++++++ MyAttributeEventListener ++++++++++++++++++++'.toOut();
+		'-------------------- MyAttributeEventListener --------------------'.toOut();
 		theEvent.getSource().toOut();
 		theEvent.getKind().toOut();
 		theEvent.getAttributeName().toOut();
@@ -32,88 +26,52 @@ class MyAttributeEventListener extends EventManagement::AttributeEventListener
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+
+class MyInstanceEventListener extends  EventManagement::InstanceEventListener
+{
+	preNotify (event : EventManagement::Event)
+	{
+		'++++++++++++++++++++ MyInstanceEventListener ++++++++++++++++++++'.toOut();
+	}
+
+	postNotify (event : EventManagement::Event)
+	{
+		theEvent : EventManagement::InstanceEvent;
+		theEvent := event.oclAsType (!EventManagement::InstanceEvent!);
+
+		'-------------------- MyInstanceEventListener --------------------'.toOut();
+		theEvent.getSource().toOut();
+		theEvent.getKind().toOut();
+
+		if (theEvent.getKind()='instanceCreate')
+		{
+			//theEvent.getInstance().toOut();
+			new MyAttributeEventListener().connect (theEvent.getInstance());
+		}
+	}
+}
+
+
 class MyAssociationEventListener extends  EventManagement::AssociationEventListener
 {
-	update (event : EventManagement::Event)
+//	preNotify (event : EventManagement::Event)
+//	{
+//		'++++++++++++++++++++ MyAssociationEventListener ++++++++++++++++++++'.toOut();
+//	}
+
+	postNotify (event : EventManagement::Event)
 	{
 		theEvent : EventManagement::AssociationEvent;
 		theEvent := event.oclAsType (!EventManagement::AssociationEvent!);
 
-		'++++++++++++++++++++ MyAssociationEventListener +++++++++++++++++++'.toOut();
+		'-------------------- MyAssociationEventListener --------------------'.toOut();
 		theEvent.getSource().toOut();
 		theEvent.getKind().toOut();
 		theEvent.getEndName().toOut();
 	}
 }
 
-class MyInstanceEventListener extends  EventManagement::InstanceEventListener
-{
-	update (event : EventManagement::Event)
-	{
-		'++++++++++++++++++++ MyInstanceEventListener ++++++++++++++++++++'.toOut();
-		event.getSource().toOut();
-		event.getKind().toOut();
-	}
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-////////////////////////////////////////////////////////////////////////////////
-class Test1
-{
-	/** */
-	init () : Test1
-	{
-		driver            : MDRDriver::MDRModelManager;
-	    projectPath       : Standard::String;
-		metamodelFilename : Standard::String;
-		inputFilename     : Standard::String;
-		outputFilename    : Standard::String;
-	
-		// we define some filenames 
-		projectPath       := '../../';
-		metamodelFilename := projectPath.concat ('MetaModels/UML_metamodel.xmi');
-		inputFilename     := projectPath.concat ('Models/UML_model.xmi');
-		outputFilename    := projectPath.concat ('Models/UML_model_MODIFIED.xmi');
-	
-	    // we initialize the MDR driver			
-		driver := new MDRDriver::MDRModelManager();
-		driver.init();
-		 
-		// intanciate the model, save result in another file
-		source_model := driver.getModelFromXMI (metamodelFilename, 'UML', 'UML1.4_model', inputFilename, outputFilename);
-
-		return this;
-	}
-
-	
-	/** */
-	execute ()
-	{
-		aClass     : source_model::Core::Class;
-		aParameter : source_model::Core::Parameter;
-
-		// we create some elements in the model
-		aClass     := new source_model::Core::Class();
-		aParameter := new source_model::Core::Parameter();
-
-		// we add some listeners to some model elements
-		new MyAttributeEventListener().connect (aClass);
-		new MyAssociationEventListener().connect (aParameter);
-		new MyInstanceEventListener().connect (aClass);
-
-		// we perform some actions on the model elements.
-		// notifications should come since listeners have been defined on some of these model elements.
-		
-		aClass.name := 'MyClass';
-		aClass.name := 'YourClass';
-
-		associate ( 
-			type           := aClass     : source_model::Core::Classifier,
-			typedParameter := aParameter : source_model::Core::Parameter
-		);
-
-		aClass.delete ();
-	}
-}

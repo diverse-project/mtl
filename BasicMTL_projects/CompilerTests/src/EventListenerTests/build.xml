@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2004-09-28 12:55:02 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-10-07 12:07:04 edrezen Exp $ -->
 <project name="EventListenerTests" default="compile" basedir=".">
 	<description>
         Build file for the event listeners
@@ -29,7 +29,7 @@
 	<property name="Sample src Folder" value="${src}/"/>
 	<property name="Sample Package" value="EventListenerTests"/>
 	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${builtsrc}/TLL/"/>
-	<property name="Sample built src" value="${builtsrc}/observersSamples/"/>
+	<property name="Sample built src" value="${builtsrc}/EventListenerTests/"/>
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->

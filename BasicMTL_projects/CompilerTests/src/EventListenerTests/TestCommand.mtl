@@ -1,0 +1,42 @@
+library EventListenerTests;
+
+model UML : RepositoryModel;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+class TestCommand
+{
+	/** */
+	init () : TestCommand
+	{
+		driver            : MDRDriver::MDRModelManager;
+	    projectPath       : Standard::String;
+		metamodelFilename : Standard::String;
+		inputFilename     : Standard::String;
+		outputFilename    : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '../../';
+		metamodelFilename := projectPath.concat ('MetaModels/UML_metamodel.xmi');
+		inputFilename     := projectPath.concat ('Models/UML_model.xmi');
+		outputFilename    := projectPath.concat ('Models/UML_model_MODIFIED.xmi');
+	
+	    // we initialize the MDR driver			
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+		driver.setIsSynchronized (true);
+		 
+		// intanciate the model, save result in another file
+		UML := driver.getModelFromXMI (metamodelFilename, 'UML', 'UML1.4_model', inputFilename, outputFilename);
+
+		return this;
+	}
+
+	
+	/** */
+	execute ()
+	{
+	}
+}

@@ -1,0 +1,9 @@
+library EventListenerTests;
+
+main() : Standard::Void
+{	 
+	new Test1().init().execute();
+	
+	'That s all folks !'.toOut();
+}
+
