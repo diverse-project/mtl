@@ -68,9 +68,8 @@
 				<pathelement path="ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
-				<pathelement path="ThirdParty/MDR/nbmdr.jar"/>
 				<pathelement path="ThirdParty/JUnit/junit.jar"/>
-				<pathelement path="runtime.jar"/>
+				<pathelement path="ThirdParty/MDR/nbmdr.jar"/>
 			</classpath>
 			<src path="src/"			/>
 			<src path="build/src/"			/>
@@ -109,7 +108,7 @@
 			<fileset dir="${build.result.folder}" includes="runtime.jar"			/>
 		</copy>
 		<copy todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="true">
-			<fileset dir="${basedir}" includes="plugin.xml,runtime.jar,bin/,src/,ThirdParty/,build/,META-INF/,manifest/"			/>
+			<fileset dir="${basedir}" includes="plugin.xml,runtime.jar,bin/,src/,ThirdParty/,build/,META-INF/,manifest/,log4j_configuration.xml"			/>
 		</copy>
 	</target>
 
