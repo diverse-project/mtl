@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/AttributeAnalyser.java,v 1.3 2003-08-19 13:37:24 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/AttributeAnalyser.java,v 1.4 2004-06-04 13:24:07 jpthibau Exp $
  * Created on 4 août 2003
  *
  */
@@ -7,6 +7,7 @@ package FirstPassGeneration;
 
 import java.io.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 /**
  * @author jpthibau
@@ -29,7 +30,7 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 							outputForClass.println("API "+ASTnode.getMangle()+';');
 							outputForClass.println();
 					}
-				else CodeGeneration.BMTLCompiler.getLog().error("Attribute has a wrong type qualifier ! "+ASTnode.getName()+':'+type);;
+				else MSGHandler.error("Attribute has a wrong type qualifier ! "+ASTnode.getName()+':'+type);;
 	}
 
 }

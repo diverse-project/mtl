@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: CommonFunctions.java,v 1.8 2004-03-17 10:56:48 dvojtise Exp $
+ * $Id: CommonFunctions.java,v 1.9 2004-06-04 13:24:08 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -12,6 +12,7 @@ import java.io.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression;
 //import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 //import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
 
 import CodeGeneration.*;
@@ -24,7 +25,6 @@ import CodeGeneration.*;
  */
 public class CommonFunctions {
 
-	static final org.apache.log4j.Logger logger=BMTLCompiler.getLog();
 	private static int genSymbolNumber=0;
 
 	public static String generateNewSymbol()
@@ -36,9 +36,9 @@ public class CommonFunctions {
 	{	FileOutputStream outputFile=null;
 		try {
 			outputFile=new FileOutputStream(name+".java",append);
-			logger.debug(name+".java succesfully created.");
+			MSGHandler.debug(name+".java succesfully created.");
 		}
-		catch (FileNotFoundException e) {logger.error("Code generation : Can't open file "+name+".java");}
+		catch (FileNotFoundException e) {MSGHandler.error("Code generation : Can't open file "+name+".java");}
 		PrintWriter output = new PrintWriter(outputFile);
 		return output;
 	}

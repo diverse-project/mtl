@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.8 2003-12-16 07:51:45 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.9 2004-06-04 13:24:08 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -7,6 +7,7 @@ package SecondPassGeneration;
 
 import java.io.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 import CodeGeneration.BMTLCompiler;
 
@@ -46,7 +47,7 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 //		if (type.getIsLocalType())
 //			outputForClass.println("new "+type.getLocalMangledName()+"(this.getLibrary())");
 		if (ASTnode.cardArguments() > 0)
-			BMTLCompiler.getLog().error("new should not have arguments as you can't define your own constructors...");
+			MSGHandler.error("new should not have arguments as you can't define your own constructors...");
 		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		return null; }
 

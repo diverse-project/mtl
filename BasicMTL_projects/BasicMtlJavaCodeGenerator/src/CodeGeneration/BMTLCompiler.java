@@ -1,15 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.5 2004-03-17 10:56:47 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.6 2004-06-04 13:24:11 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
 package CodeGeneration;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-
-import org.irisa.triskell.MT.utils.Java.Directories;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -25,12 +21,6 @@ public class BMTLCompiler {
 	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLJavaCodeGen");
-
-	public static org.apache.log4j.Logger getLog () {
-			return BMTLCompiler.log;
-	}
-
 	public static void compile(BasicMtlLibrary theLib,String defaultTLLPath,String defaultBinPath)
 	{	
 		java.util.Hashtable context=new java.util.Hashtable();
@@ -39,17 +29,11 @@ public class BMTLCompiler {
 		DefaultAnalysingVisitor visitor2 = new DefaultAnalysingVisitor("SecondPassGeneration");
 		visitor.visit(theLib,context);
 		visitor2.visit(theLib,context);
-		log.info("Code generation is over.");
+		MSGHandler.info("Code generation is over.");
 	}
 	
 	public static void main(String[] args)
-	{	try {
-			String filePath = new java.io.File(Directories.getRootPath(BMTLCompiler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
-		catch(java.io.IOException e) {
-			System.err.println("Can't state log4j in BMTLParser"); }
-		if (args.length > 0) {
+	{	if (args.length > 0) {
 			int argsEnd=args.length;
 			String defaultBinPath=null;
 			String defaultTLLPath=null;
@@ -68,7 +52,7 @@ public class BMTLCompiler {
 			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultTLLPath+args[0]+tllSuffix);
 			compile(theLib,defaultTLLPath,defaultBinPath);
 		}
-		else log.error("USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
+		else MSGHandler.error("USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
 	}
 
 

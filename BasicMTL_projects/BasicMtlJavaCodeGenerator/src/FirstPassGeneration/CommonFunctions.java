@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.6 2004-03-17 10:56:46 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.7 2004-06-04 13:24:07 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
 package FirstPassGeneration;
 
 import java.io.*;
+
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 import CodeGeneration.*;
 
@@ -17,16 +19,14 @@ import CodeGeneration.*;
  */
 public class CommonFunctions {
 
-	static final org.apache.log4j.Logger logger=BMTLCompiler.getLog();
-
 	
 	public static PrintWriter openFile(String name,boolean append)
 	{	FileOutputStream outputFile=null;
 		try {
 			outputFile=new FileOutputStream(name+".java",append);
-			logger.debug(name+".java succesfully created.");
+			MSGHandler.debug(name+".java succesfully created.");
 		}
-		catch (FileNotFoundException e) {logger.error("Code generation : Can't open file "+name+".java");}
+		catch (FileNotFoundException e) {MSGHandler.error("Code generation : Can't open file "+name+".java");}
 		PrintWriter output = new PrintWriter(outputFile);
 		return output;
 	}
