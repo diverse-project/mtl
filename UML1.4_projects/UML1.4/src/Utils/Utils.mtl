@@ -142,6 +142,55 @@ flat  (
 	return returnedString;
 }
 
+/******************************************************************************
+ * category : UML::Core::Class
+ * name     : short 
+ * purpose  : return a string giving feature name and visibility of the class
+ * in       : aClass  : the Class we want to flatten
+ *			: tabsString : a tab string to add at the begining of each new line
+ * out      : the string 
+ * remark   : 
+ ******************************************************************************/
+short  (
+	aClass  	: UML::Core::Class;
+	tabsString 	: Standard::String
+) : Standard::String
+{	
+	aParentClass  	: UML::Core::Class;
+	it 				: Standard::Iterator;
+	returnedString  : Standard::String;
+	nameString  : Standard::String;
+	
+	//'short'.toOut();
+	returnedString := tabsString;
+	nameString := aClass.name;
+	// returnedString := returnedString.concat(aClass.name); // bug doesn't work use an intermediate var
+	returnedString := returnedString.concat(nameString);
+	returnedString := returnedString.concat(' :\n');
+	// visit the class features
+	it := aClass.feature.getNewIterator();
+	while it.isOn()
+	{
+		//'output of a feature'.toOut();
+		returnedString := returnedString.concat('  ');
+		nameString := it.item().oclAsType (!UML::Core::Feature!).name;
+		if isNull(nameString).not()
+		{
+			returnedString := returnedString.concat(nameString);	
+		}
+		else
+		{
+			returnedString := returnedString.concat('unknown feature (no name)');
+			// TODO analyse this case : (association ?)
+			// bug if null the concat fail should simply concat nothing ...
+		}
+		// TODO find visibility, type of feature,  etc
+		returnedString := returnedString.concat('\n');	
+		it.next();
+	}
+	// we return the result
+	return returnedString;
+}
 		
 ////////////////////////////////////////////////////////////////////////////////////
 // category : UML::Core::Method
