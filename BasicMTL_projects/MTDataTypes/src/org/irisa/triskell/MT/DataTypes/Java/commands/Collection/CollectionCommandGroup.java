@@ -32,6 +32,7 @@ public class CollectionCommandGroup extends CommandGroupImpl {
 			ret = new CollectionCommandGroup(collectionType);
 			ret.addCommand(Collection_getNewIterator.TheInstance);
 			ret.addCommand(Collection_isEmpty.TheInstance);
+			ret.addCommand(Collection_size.TheInstance);
 			ret.addCommand(Collection_includes.TheInstance);
 			ret.addCommand(Collection_excludes.TheInstance);
 			ret.addCommand(Collection_includesAll.TheInstance);
