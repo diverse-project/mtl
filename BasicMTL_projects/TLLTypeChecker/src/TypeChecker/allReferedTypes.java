@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.17 2004-04-06 08:46:38 dvojtise Exp $
+ * $Id: allReferedTypes.java,v 1.18 2004-04-07 16:38:37 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -10,6 +10,10 @@ package TypeChecker;
 
 //import org.irisa.triskell.MT.utils.Java.AWK;
 //import org.irisa.triskell.MT.utils.Java.Mangler;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -134,6 +138,50 @@ public class allReferedTypes {
 			}
 		}
 		return loadedTLL;
+	}
+	
+	/**
+	 * loadTLLAllKnownClasses loads the TLL and gives its AllKnownClasses names
+	 * The returned collection contains first the library name then userclasses names
+	 * this method is called for library inheritance.
+	 * Load an allready processed library from its serialisation (TLL files)
+	 * look for the TLL file in the defaultTLLPaths
+	 * 
+	 * @param libName  : name of the library to load
+	 * @param theLib	: 
+	 * @return Library : loaded library
+	 */
+	public static Collection loadTLLAllKnownClasses(String libName)
+	{	Library loadedTLL=null;
+		String libraryName = null;
+		if (TLLtypechecking.defaultTLLPaths != null) {
+			java.util.Vector possiblesPaths=TLLtypechecking.defaultTLLPaths;
+			int triedPaths=0;
+			do {
+				try {
+					loadedTLL=Library.load((String)possiblesPaths.get(triedPaths)+libName+TLLtypechecking.tllSuffix);							
+				} catch (Exception e){loadedTLL=null;}
+				triedPaths++;
+			}
+			while (loadedTLL==null && triedPaths<possiblesPaths.size());
+			}
+		if (loadedTLL==null)
+			//last chance : same location for loading and production
+			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
+			
+		if (loadedTLL == null)  
+					return null;
+		Enumeration allKnownClasses = loadedTLL.knownTypes.elements();
+		ArrayList result = new ArrayList();
+		while (allKnownClasses.hasMoreElements())
+			{ 	UserDefinedClass c = (UserDefinedClass)allKnownClasses.nextElement();
+				if ( c instanceof UserClass )
+					result.add(((UserClass)c).getName());
+				if ( c instanceof TheLibraryClass )
+				libraryName = ((TheLibraryClass)c).getName();
+			}
+		result.add(0,libraryName);
+		return result;
 	}
 	
 	public static boolean checkLocalClass(QualifiedName aType,String typeName,BasicMtlLibrary  theLib)

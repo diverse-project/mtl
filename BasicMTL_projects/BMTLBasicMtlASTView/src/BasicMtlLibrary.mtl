@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.5 2003-12-11 17:20:50 edrezen Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.6 2004-04-07 16:40:58 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -134,18 +134,32 @@
 	librariesNames,classes : Standard::Iterator;
 	aLibName,aClassName : Standard::OrderedSet;
 	inheritedClasses : Standard::Set;
+	theLibraryName : Standard::String;
 	librariesNames := inheritance.getNewIterator();
 	librariesNames.start();
 	while librariesNames.isOn() {
 		aLibName := librariesNames.item().oclAsType(!Standard::OrderedSet!);
+		'INHERIETD LIBRARY ADDED'.toOut();
 		inheritedClasses := self.allKnownClasses(aLibName);
+		if isNull(inheritedClasses) {
+			'TRYING TO COLLECT CLASSES FROM TLL'.toOut();
+			JavaCode [String libNameToImport = ((BMTLStringInterface)BMTL_aLibName.getTheCollection()[0\]).getTheString()];
+			JavaCode [ java.util.Collection allKnownClassesCollection = TypeChecker.allReferedTypes.loadTLLAllKnownClasses(libNameToImport)];
+			JavaCode [ java.util.Iterator allKnownClassesIt = allKnownClassesCollection.iterator()];
+			JavaCode [ if (allKnownClassesCollection.size() > 1) BMTL_inheritedClasses = new BMTLSet()];
+			JavaCode [ if (allKnownClassesIt.hasNext()) BMTL_theLibraryName = new BMTLString((String)allKnownClassesIt.next())];
+			JavaCode [ while (allKnownClassesIt.hasNext()) BMTL_inheritedClasses = BMTL_inheritedClasses.BMTL_including(new BMTLOrderedSet(new Value[\]{BMTL_theLibraryName,new BMTLString((String)allKnownClassesIt.next())}))];
+			}
 		if isNull(inheritedClasses).[not]() {
 		classes := inheritedClasses.getNewIterator();
 		classes.start();
 		while classes.isOn() {
 			aClassName := classes.item().oclAsType(!Standard::OrderedSet!);
 			if isRefined(aClassName,refinedClasses).[not]()
-				{	addClass(aClassName); }
+				{	'COPY SKELETON CLASS'.toOut();
+					aClassName.toOut();
+					' FROM IMPORTED LIBRARY.'.toOut();
+					addClass(aClassName); }
 			classes.next();
 		}
 		}
