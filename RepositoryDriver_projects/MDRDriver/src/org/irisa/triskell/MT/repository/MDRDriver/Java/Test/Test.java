@@ -1,5 +1,5 @@
 /*
- * $Id: Test.java,v 1.8 2004-02-16 15:44:39 dvojtise Exp $
+ * $Id: Test.java,v 1.9 2004-07-30 13:23:22 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -157,9 +157,8 @@ public class Test
 						}
 					} catch (Exception x) {
 						x.printStackTrace();
-					} finally {
-						return null;
 					}
+					return null;
 				}
 			});
 					

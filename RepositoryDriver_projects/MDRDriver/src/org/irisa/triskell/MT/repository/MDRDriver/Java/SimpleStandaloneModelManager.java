@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.8 2004-06-25 12:08:51 jpthibau Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.9 2004-07-30 13:23:21 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license 
@@ -28,7 +28,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -98,9 +98,8 @@ public class SimpleStandaloneModelManager {
 						}
 					} catch (Exception x) {
 						x.printStackTrace();
-					} finally {
-						return null;
 					}
+					return null;
 				}
 			});
 
