@@ -1,11 +1,11 @@
- /*
+ /* $Id: generateAntfilesAction.java,v 1.3 2005-02-24 14:05:14 dvojtise Exp $
  * Project  : org.inria.mtl.Eclipse3plugin
- * Filename : generateAntfilesAction.java
+ * Filename : $File:$
  * License  : LGPL
- * Author   : zdrey@irisa.fr
+ * Authors  : zdrey@irisa.fr
  * 
  * Creation date     : Jan 19, 2005
- * Modification date : Jan 19, 2005
+ * Modification date : $Date: 2005-02-24 14:05:14 $
  * 
  * Description       : 
  * This code creates a Button that is associated to this action :
@@ -16,26 +16,21 @@
  */
 package org.inria.mtl.actions;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Platform;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
@@ -46,7 +41,7 @@ import org.inria.mtl.MTLPlugin;
 /**
  * @author zdrey
  * 
- * Description : TODO
+ * Description : action associate to the button: generate ant files correspnding to the MTL project build configuration 
  */
 public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 
@@ -63,8 +58,7 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	/* (non-Javadoc)
@@ -79,6 +73,7 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 	  *  (copied from MTLPlugin main class), and add a path chunk to it.
 	  * @param a path chunk, that is a path relative to the current plugin directory
 	  * @return    The platform-dependent absolute path of the given "path chunk"
+	  * Note: a patch is used to remove the leading / on windows platform  (otherwise we get something like:  /C:/mydir/blabla
 	  */
 	
 	public String getPathFromRelative(String pathChunk)
@@ -90,7 +85,10 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 			cmd_url = new URL(
 					org.inria.mtl.MTLPlugin.getBaseURL(),
 					pathChunk);
-		    path = Platform.resolve(cmd_url).getPath();
+			Path nP = new Path(Platform.resolve(cmd_url).getPath());
+
+		    path = pathToOSString(nP.toOSString());
+		    
 		}
 		catch (Exception e)
 		{
@@ -101,12 +99,27 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		return path;
 	}
 	
-	public String getDefaultBasicMTLc()
+	/**
+	 * // sometime on windows system, the path still start with / even if has C:  ex: /C:/mydir
+	 *  PATCH: we really want an OSString ...
+	 * @param path
+	 * @return
+	 */
+	String pathToOSString(String path)
 	{
-		System.setProperty ("Directories.RootPath",  
-				MTLPlugin.getDefault().getLocation() +	System.getProperty("file.separator")
-				+ "MTL" + System.getProperty("file.separator") + "bin");
-		return "";
+		String osPath;
+		Path nP = new Path(path);
+
+		osPath = nP.toOSString();
+		if (nP.getDevice().endsWith(":") && nP.getDevice().startsWith("/"))
+		{	// windows system but start with / ??? PATCH: we really want an OSString ...
+			osPath = osPath.substring(1);
+		}
+		return osPath;
+	}
+	public String getDefaultBasicMTLcDir()
+	{
+		return pathToOSString(MTLPlugin.getDefault().getLocation()) + "MTL" + System.getProperty("file.separator") + "bin";
 	}
 	
 	/**
@@ -126,8 +139,10 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		String sep 		= System.getProperty("file.separator");
 		if (rootpath == null)
 		{
+			
+			IPath path = new Path(org.inria.mtl.MTLPlugin.getDefault().getLocation());
 			System.setProperty("Directories.RootPath",
-					org.inria.mtl.MTLPlugin.getDefault().getLocation() + sep + "MTL" + sep + "bin");
+					getPathFromRelative(path.toOSString()) + "MTL" + sep + "bin");
 			rootpath = System.getProperty("Directories.RootPath");
 		}
 		// Get the selected item in the view
@@ -157,11 +172,9 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 			Process py_proc;			// Here we ask the user to give the path of BasicMTLc.jar
 			try
 			{
-				py_proc = Runtime.getRuntime().exec("python "
-						+this.getPathFromRelative(cmd_path)
-						+options);
+				String ss = this.getPathFromRelative(cmd_path);
 				InputDialog idialog = new InputDialog(shell, "get BasicMTLc.jar path", "Path of the _directory_ of BasicMTLc.jar...", 
-						rootpath,null);
+						getDefaultBasicMTLcDir(),null);
 				
 				int code = idialog.open();
 				// User can cancell her action
@@ -169,6 +182,9 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 				{
 					String i_basicmtlpath = idialog.getValue();
 					options			+= " --jardir="+i_basicmtlpath;
+					py_proc = Runtime.getRuntime().exec("python "
+							+this.getPathFromRelative(cmd_path)
+							+options);
 					// Wheres we display the output of the python command 
 					BufferedReader error_stream = new BufferedReader(
 							new InputStreamReader(py_proc.getErrorStream()));
