@@ -314,7 +314,10 @@
   </prototype>
 
   <!--  rare languages  -->
-  
+  <prototype name="mtl" group="rare" description="BasicMTL">
+    <location link="rare/mtl.hrc"/>
+    <filename>/\.(mtl)$/i</filename>
+  </prototype>
   <prototype name="c1c" group="rare" description="1C">
     <location link="jar:common.jar!rare/1c.hrc"/>
     <filename>/\.1c$/i</filename>
