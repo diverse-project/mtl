@@ -1,4 +1,4 @@
-<!-- $Id: DeveloperGuide_build.xml,v 1.2 2005-03-25 17:14:27 dvojtise Exp $ -->
+<!-- $Id: DeveloperGuide_build.xml,v 1.3 2005-03-29 14:38:54 dvojtise Exp $ -->
 <project name="DeveloperGuide" default="all">
 	<!-- configuration properties -->
 	<!-- tool location -->
@@ -68,6 +68,9 @@
 		description="Generate a single big HTML file from the docbook document">
 		<antcall target="clean.html.single" />
         <mkdir dir="${build.dir}/html.single/${project.name}" />
+		<copy todir="${build.dir}/html.single/${project.name}/${project.name}_figures">
+		    	    <fileset dir="${build.docbook.dir}/${project.name}/${project.name}_figures"/>
+		</copy>
         <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
               target="html.single">
              <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
@@ -83,6 +86,10 @@
 		description="Generate chunked HTML files from the docbook document"> 
 		<antcall target="clean.html.chunked" />
         <mkdir dir="${build.dir}/html.chunked/${project.name}" />
+
+		<copy todir="${build.dir}/html.chunked/${project.name}/${project.name}_figures">
+		    	    <fileset dir="${build.docbook.dir}/${project.name}/${project.name}_figures"/>
+		</copy>
         <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
               target="html.chunked">
              <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
@@ -98,6 +105,9 @@
 		description="Generate a HTMLHelp (chm) file from the docbook document">
 		<antcall target="clean.html.help" />
         <mkdir dir="${build.dir}/html.help/${project.name}" />
+		<copy todir="${build.dir}/html.help/${project.name}/${project.name}_figures">
+		    	    <fileset dir="${build.docbook.dir}/${project.name}/${project.name}_figures"/>
+		</copy>
         <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
               target="html.help">
              <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
@@ -120,6 +130,9 @@
 		description="Generate Eclipse help files from the docbook document">
 		<antcall target="clean.eclipse.help" />
         <mkdir dir="${build.dir}/eclipse.help/${project.name}" />
+		<copy todir="${build.dir}/eclipse.help/${project.name}/${project.name}_figures">
+		    	    <fileset dir="${build.docbook.dir}/${project.name}/${project.name}_figures"/>
+		</copy>
         <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
               target="eclipse.help">
              <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
@@ -152,18 +165,23 @@
 		
 		<!-- HACK: copy figures in the ${ant.docbook.styler.dir} directory : I don't know why the docbook.resources.dir doesn't work -->
     	<copy todir="${ant.docbook.styler.dir}/figures">
-    	    <fileset dir="${build.dir}/figures"/>
+    	    <fileset dir="${build.docbook.dir}/${project.name}/figures"/>
     	</copy>
+		<copy todir="${ant.docbook.styler.dir}/${project.name}_figures">
+		   	 <fileset dir="${build.docbook.dir}/${project.name}/${project.name}_figures"/>
+		</copy>
     	
         <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
               target="pdf.fop">
              <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
-             <property name="docbook.resources.dir" location="${build.dir}/figures" />
+             <property name="docbook.resources.dir" location="${build.docbook.dir}/${project.name}/figures" />
              <property name="distribution.dir" location="${build.dir}/pdf.fop/${project.name}" />
              <property name="build.dir" location="${build.docbook.dir}/${project.name}" />
         </ant>
     	<!-- HACK: remove the copy from ${ant.docbook.styler.dir} directory -->
     	<delete dir="${ant.docbook.styler.dir}/figures" failonerror="false" quiet="true" /> 
+		<delete dir="${ant.docbook.styler.dir}/${project.name}_figures" failonerror="false" quiet="true" />
+
 
         <available property="tmp:pdf.fop.ok" file="${build.dir}/pdf.fop/${project.name}/index.pdf" />
         <fail message="not good: pdf fop not found." unless="tmp:pdf.fop.ok" />
