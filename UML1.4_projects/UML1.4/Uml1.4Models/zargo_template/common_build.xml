@@ -7,18 +7,19 @@
 	
 	<!-- this property must be overwriten by the user build --> 
 	<property name="base.name" value="testposeidon"/>
+	<property name="base.path" location="."/>
 	<property name="zargo.template.dir" location="."/>
 
 	
 	<target name="extract_xmi_from_zargo">
 		<mkdir dir="${base.name}_extracted"/>
-		<unzip src="${base.name}.zargo" dest="${base.name}_extracted"/>
-		<copy file="${base.name}_extracted/${base.name}.xmi" todir="."/>
-		<delete dir="${base.name}_extracted"></delete>		
+		<unzip src="${base.path}/${base.name}.zargo" dest="${base.path}/${base.name}_extracted"/>
+		<copy file="${base.path}/${base.name}_extracted/${base.name}.xmi" todir="."/>
+		<delete dir="${base.path}/${base.name}_extracted"></delete>		
 	</target>
 	<target name="create_zargo_from_xmi">
 		<mkdir dir="new"/>
-		<copy file="${base.name}.xmi" todir="new"/>
+		<copy file="${base.path}/${base.name}.xmi" todir="new"/>
 		<copy file="${zargo.template.dir}/template.argo" todir="new"/> 
 		<copy file="${zargo.template.dir}/Empty Class diagram_1.pgml" todir="new"/>
 		<replaceregexp file="new/template.argo"
@@ -30,7 +31,7 @@
                          replace="${user.name}" byline="true">
 		</replaceregexp>		
 		<move file="new/template.argo" tofile="new/${base.name}.argo"/> 
-		<zip destfile="${base.name}.zargo"
+		<zip destfile="${base.path}/${base.name}.zargo"
        		basedir="new"
 		  />
 		<delete dir="new"></delete>
