@@ -1,6 +1,6 @@
 /*
  * Created on 25 juil. 2003
- * $Id: VarCallAnalyser.java,v 1.5 2004-02-16 17:32:59 dvojtise Exp $
+ * $Id: VarCallAnalyser.java,v 1.6 2004-03-19 17:44:02 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -40,19 +40,33 @@ public class VarCallAnalyser extends ASTTopDownVisitor.VarCallAnalyser {
 			theCreatedVarCall.setRelatedDecl((VarDeclaration)known.get(foundIndex));
 			theCreatedVarCall.setContainerOp((Operation)context.get("CurrentOperation"));
 			context.put("Instruction",theCreatedVarCall); }
-		if (! found) {
+
+		if (! found) 
+		{
 			//check whether the varCall is an attributeCall
-			known=(java.util.Vector)context.get("KnownAttributes");
-			if (known !=null) {
+			known = (java.util.Vector)context.get("KnownAttributes");
+			Attribute foundAttribute = null;
+			if (known !=null) 
+			{
 				i=0;
+				// we look if we can retrieve the attribute (given its name) in the declared attributes
 				while (!found &&(i<known.size()))
-					{if (varName.equals(known.get(i))) found=true;
-					 i++; } 
+				{
+					Attribute loopAttribute = (Attribute)known.get(i);
+					if (varName.equals(loopAttribute.getName())) 
+					{
+						found=true;
+						foundAttribute = loopAttribute;
+					}
+				 	i++; 
+				 } 
 			}
 			if (found) {
 				OperationCall theCreatedOpCall=new OperationCall(varName,lineNumber);
 				theCreatedOpCall.setKind(OperationKind.getAttributeCall());
 				theCreatedOpCall.setContainerOp((Operation)context.get("CurrentOperation"));
+				// we keep the information of the attribute in the operation call
+				theCreatedOpCall.createNewProperty ("Attribute", foundAttribute, null);
 				context.put("Instruction",theCreatedOpCall);
 			}
 		}

@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.10 2004-02-16 17:32:58 dvojtise Exp $
+ * $Id: UserClassAnalyser.java,v 1.11 2004-03-19 17:44:02 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -91,9 +91,12 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 	{	UserClass theCreatedClass=(UserClass)theUserClass;
 		Attribute attrib=(Attribute)objectAttrib;
 		theCreatedClass.appendDefinedFeatures(attrib);
+
+		// we add the attribute (full object) in the "KnownAttributes" context
 		java.util.Vector knownAttributes=(java.util.Vector)context.get("KnownAttributes");
-		knownAttributes.addElement(attrib.getName());
+		knownAttributes.addElement(attrib);
 		context.put("KnownAttributes",knownAttributes);
+
 		String getterName="get_"+attrib.getName();
 		String setterName="set_"+attrib.getName();
 		String getterMangle=Mangler.mangle("BMTL_", getterName);
