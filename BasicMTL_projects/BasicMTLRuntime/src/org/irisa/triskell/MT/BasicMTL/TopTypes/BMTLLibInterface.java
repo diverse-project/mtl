@@ -6,6 +6,7 @@
  */
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 
 /**
@@ -14,6 +15,6 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public interface BMTLLibInterface extends BMTLInterface {
+public interface BMTLLibInterface extends BMTLInterface, BMTLOclAnyInterface {
 	public Type getMetaClass (String [] qualifiedName);
 }

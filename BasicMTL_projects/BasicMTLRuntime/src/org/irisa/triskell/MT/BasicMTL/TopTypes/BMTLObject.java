@@ -3,6 +3,14 @@ package org.irisa.triskell.MT.BasicMTL.TopTypes;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
@@ -84,6 +92,38 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 			return (BMTLObject)this.inheritanceMap.get(AWK.merge(qualifiedName, "::"));
 		else
 			return null;
+	}
+
+	public BMTLVoidInterface BMTL_delete() {
+		this.delete();
+		return BMTLVoid.TheInstance;
+	}
+
+	public BMTLBooleanInterface BMTL__3c_3e(Value rhs) {
+		return this.BMTL__3d(rhs).BMTL_not();
+	}
+
+	public BMTLBooleanInterface BMTL__3d(Value rhs) {
+		return this.equals(rhs) ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
+	public BMTLBooleanInterface BMTL_oclIsKindOf(TypeValue type) {
+		return type.getTheType().isKindOf(this) ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
+	public BMTLBooleanInterface BMTL_oclIsTypeOf(TypeValue type) {
+		return type.getTheType().isTypeOf(this) ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
+	public BMTLBooleanInterface BMTL_oclIsUndefined() {
+		return BMTLBoolean.FALSE;
+	}
+
+	public Value getOclAnyDelegate() {
+		return this;
+	}
+	public Value getDelegate() {
+		return this;
 	}
 
 }
