@@ -1,9 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/RoleAnalyser.java,v 1.1 2003-08-06 16:18:44 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/RoleAnalyser.java,v 1.2 2003-08-26 12:53:52 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
 package TLLBuilder;
+
+import java.util.Map;
 
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
@@ -31,8 +33,8 @@ public class RoleAnalyser extends ASTTopDownVisitor.RoleAnalyser {
 		theCreatedRole.setExpression(expr);
 	}
 
-	public void RoleAfter(Object theRole,Role ASTnode,java.util.Map context)
-	{	Role theCreatedRole=(Role)theRole;
+	public void RoleAfter(Object theRole, org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Role ASTnode, Map context) {
+		Role theCreatedRole=(Role)theRole;
 		context.put("Role",theCreatedRole);
 	}
 

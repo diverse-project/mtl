@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/AssociateAnalyser.java,v 1.2 2003-08-14 20:47:46 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/AssociateAnalyser.java,v 1.3 2003-08-26 12:53:52 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -27,10 +27,11 @@ public class AssociateAnalyser extends ASTTopDownVisitor.AssociateAnalyser {
 		theCreatedAssociate.appendRoles(role);
 	}
 
-	public void AssociateAfter(Object theAssociate,Associate ASTnode,java.util.Map context)
+	public void AssociateAfter(Object theAssociate,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Associate ASTnode,java.util.Map context)
 	{	Associate theCreatedAssociate=(Associate)theAssociate;
 		theCreatedAssociate.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Associate",theCreatedAssociate);
+		context.put("Instruction",theCreatedAssociate);
 	}
 
 }
