@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.6 2003-10-31 13:29:26 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.7 2004-03-15 14:27:30 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="LibAssociation dist" basedir=".">
 	<description>
         Build for the different BasicMTL compilers following the bootstrap process
@@ -17,4 +17,10 @@
 	<target name="LibAssociation dist" depends="LibAssociation_boot dist">
     	<ant antfile="LibAssociation_build.xml" target="dist"/>
   	</target>
+  	
+  	
+	<target name="source dist">
+    	<ant antfile="sourceDist_build.xml" target="dist"/>
+  	</target>
+  	
 </project>
