@@ -1,5 +1,5 @@
 /**
- * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.4 2003-07-31 09:13:57 dvojtise Exp $
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.5 2003-07-31 15:14:25 jpthibau Exp $
  *
  *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
  * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
@@ -10,8 +10,8 @@
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
  * 
- * $Revision: 1.4 $ $Date: 2003-07-31 09:13:57 $
- * Last modification by : $Author: dvojtise $
+ * $Revision: 1.5 $ $Date: 2003-07-31 15:14:25 $
+ * Last modification by : $Author: jpthibau $
  * Authors : dvojtise, jpthibau
  *
  */
@@ -73,11 +73,11 @@ UMLClassesToRDBMS() : Standard::void
 	// Note : is  this the correct syntax for calling allInstance on a model ?
 	
 	// monOclType : OclType;
-	// monOclType = source_model::Class;
+	// monOclType = !source_model::Class!;
 	
-	classSet = source_model::Class.allInstances();
+	classSet = !source_model::Class!.allInstances();
 	classSet = monOclType.allInstances();
-	truc.isTypeOf(source_model::Class);
+	truc.isTypeOf(!source_model::Class!);
 	truc.isTypeOf(monOclType);
 	// classSet = source_model.allInstances('Class');
 	
@@ -166,7 +166,7 @@ UMLClassToRDBMS(sourceClass : source_model::Class  ) : target_model::Table
 		attributeIterator.next();
 	}
 	return( aTable);
-}
+} 
 
 
 
