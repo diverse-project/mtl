@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NullLiteralAnalyser.java,v 1.3 2003-08-20 16:07:30 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NullLiteralAnalyser.java,v 1.4 2003-08-21 20:10:17 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -18,6 +18,9 @@ public class NullLiteralAnalyser extends TLLTopDownVisitor.NullLiteralAnalyser {
 
 	public void NullLiteralAction(NullLiteral ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print("BMTLNull.TheInstance");
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		//outputForClass.print("BMTLNull.TheInstance");
+		outputForClass.print("null");
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
 	}
 }

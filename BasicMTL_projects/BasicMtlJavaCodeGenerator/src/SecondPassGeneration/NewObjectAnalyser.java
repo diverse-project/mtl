@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.4 2003-08-21 20:10:18 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -21,9 +21,10 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 	public Object NewObjectBefore(NewObject ASTnode,java.util.Map context)
 	{	QualifiedName type=ASTnode.getTypeToCreate();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
 		if (type.getIsModelType() && type.getIsRepositoryModel()) {
 			outputForClass.print(type.getLocalMangledName()+".getMetaClass(new String[]{");
-			for (int i=1;i<type.size();i++) {
+			for (int i=0;i<type.size();i++) {
 				outputForClass.print("\""+type.get(i)+'"');
 				if (i<type.size()-1) outputForClass.print(',');
 			}
@@ -34,7 +35,7 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 			|| (type.getIsModelType() && (! type.getIsRepositoryModel())))*/
 		 {
 				outputForClass.print("((BMTLType)this.getLibrary().getMetaClass(new String [] {");
-				for (int i=1;i<type.size();i++) {
+				for (int i=0;i<type.size();i++) {
 					outputForClass.print('"');
 					outputForClass.print(type.get(i));
 					outputForClass.print('"');
@@ -47,6 +48,7 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 //			outputForClass.println("new "+type.getLocalMangledName()+"(this.getLibrary())");
 		if (ASTnode.cardArguments() > 0)
 			BMTLCompiler.getLog().error("new should not have arguments as you can't define your own constructors...");
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
 		return null; }
 
 }

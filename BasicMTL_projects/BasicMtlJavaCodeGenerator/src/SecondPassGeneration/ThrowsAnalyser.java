@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ThrowsAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ThrowsAnalyser.java,v 1.5 2003-08-21 20:10:17 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -20,12 +20,19 @@ public class ThrowsAnalyser extends TLLTopDownVisitor.ThrowsAnalyser {
 
 	public Object ThrowsBefore(Throws ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print("throw (Throwable)CommonFunctions.toBMTLDataType(");
-		return null; }
+		String genSymbol = CommonFunctions.generateNewSymbol();
+		outputForClass.print("Throwable " + genSymbol + " = (Throwable)CommonFunctions.toBMTLDataType(");
+		return genSymbol; }
+
+	public void ThrowsExpression(Object theThrows, Object expr, Map context) {
+		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		outputForClass.println(");");
+	}
 
 	public void ThrowsAfter(Object theThrows, Throws ASTnode, Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print(')');
+		outputForClass.println(((String)theThrows) + ".initCause(new Exception(\"Manually raised exception at line " + ASTnode.getLineNumber() +"\"));");
+		outputForClass.print("throw " + theThrows);
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.5 2003-08-20 16:07:33 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.6 2003-08-21 20:10:17 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -9,6 +9,8 @@ import java.io.*;
 import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.utils.Java.AWK;
+import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
 
 import CodeGeneration.BMTLCompiler;
 
@@ -23,11 +25,23 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 	public Object OperationBefore(Operation ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
+			UserDefinedClass clazz = (UserDefinedClass)context.get("CurrentClass");
 		String currentClassMangle=(String)context.get("CurrentClassMangledName");
-		if (ASTnode.getName().equalsIgnoreCase("main")) {
-			//@TODO for a library, it would be better to ask the singleton
+		if (ASTnode.getName().equalsIgnoreCase("main") && (clazz instanceof TheLibraryClass)) {
 			outputForClass.println("public static void main(String args[]) {"); 
-			outputForClass.println("new "+currentClassMangle+"().BMTL_main(); }");
+			outputForClass.println("  try {");
+			//@TODO check this piece of code
+			if(((TheLibraryClass)clazz).getTheLibrary().cardUsedModels()==0)
+				outputForClass.print("    "+currentClassMangle+".TheInstance");
+			else
+				outputForClass.print("    new "+currentClassMangle+"()");
+			outputForClass.println(".BMTL_main();");
+			outputForClass.println("  } catch (Throwable t) {"); 
+			boolean isLib = clazz instanceof TheLibraryClass; 
+			outputForClass.println("    System.err.println(\"Problem while executing the main function of " + (isLib ? "library " : "class ") + JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(clazz.getQualifiedName(), "::")) + ":\");");
+			outputForClass.println("    t.printStackTrace();");
+			outputForClass.println("  }");
+			outputForClass.println('}');
 		}
 		QualifiedName type=ASTnode.getFeatureType();
 		if (type.getIsLocalType())
@@ -54,8 +68,8 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 	public void OperationEndParameters(Object theOperation, java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
-		outputForClass.println(") {");
-		outputForInterface.print(')');
+		outputForClass.println(") throws Throwable {");
+		outputForInterface.print(") throws Throwable");
 		/*Operation theOp = (Operation)theOperation;
 		for (int i = 0; i < theOp.cardParameters(); ++i) {
 			VarDeclaration p = theOp.getParameters(i);

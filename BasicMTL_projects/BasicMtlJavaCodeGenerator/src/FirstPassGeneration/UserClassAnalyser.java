@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/UserClassAnalyser.java,v 1.3 2003-08-19 13:37:24 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/UserClassAnalyser.java,v 1.4 2003-08-21 20:10:18 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -171,15 +171,22 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		outputForClass.println("/*====================*/");
 		outputForClass.println("public BMTLLibrary getLibrary()");
 		outputForClass.println("{ return (BMTLLibrary)theLib; }");
+		QualifiedName aParentType = ASTnode.getQualifiedName();
+		GetReferenceSignature signature = new GetReferenceSignature(aParentType);
+		outputForClass.println("public "+signature.getReturnedType().getDeclarationName()+' '+signature.getOpMangle()+"()");
+		outputForInterface.println("public "+signature.getReturnedType().getDeclarationName()+' '+signature.getOpMangle()+"();");
+		String localParentName=aParentType.getLocalMangledName(); 
+		outputForClass.println("{ return this; }");
+		outputForClass.println();
 		limit=ASTnode.getInheritance().size();
 		// Inheritance from other defined classes
 		//=======================================
 		for (i=0;i<limit;i++) {
-			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			GetReferenceSignature signature = new GetReferenceSignature(aParentType);
+			aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
+			signature = new GetReferenceSignature(aParentType);
 			outputForClass.println("public "+signature.getReturnedType().getDeclarationName()+' '+signature.getOpMangle()+"()");
 			if (aParentType.getIsLocalType()) //class defined in this library
-				{ 	String localParentName=aParentType.getLocalMangledName(); 
+				{ 	localParentName=aParentType.getLocalMangledName(); 
 					outputForClass.println("{ return this."+"BMTLRef_"+localParentName+"; }");
 					outputForClass.println();
 				}

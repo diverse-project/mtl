@@ -1,11 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.2 2003-08-14 21:31:41 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.3 2003-08-21 20:10:18 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
 
 import CodeGeneration.*;
 
@@ -42,5 +47,21 @@ public class CommonFunctions {
 		output.println("import org.irisa.triskell.MT.BasicMTL.TopTypes.*;");
 		output.println("import org.irisa.triskell.MT.repository.API.Java.*;");
 		output.println("import org.irisa.triskell.MT.DataTypes.Java.*;\n\n");
+	}
+	
+	public static void generateCastBefore (PrintWriter output, Expression e) {
+		QualifiedName cast = e.getToBeCasted();
+		if (cast != null) {
+			output.print("((");
+			output.print(cast.getDeclarationName());
+			output.print(")CommonFunctions.toBMTLDataType(");
+		}
+	}
+	
+	public static void generateCastAfter (PrintWriter output, Expression e) {
+		QualifiedName cast = e.getToBeCasted();
+		if (cast != null) {
+			output.print("))");
+		}
 	}
 }

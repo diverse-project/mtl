@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.4 2003-08-20 16:07:31 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.5 2003-08-21 20:10:17 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -7,11 +7,14 @@ package SecondPassGeneration;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Vector;
 
+import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeGetterSignature;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeSetterSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 
 /**
  * @author jpthibau
@@ -23,20 +26,38 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 
 	public Object OperationCallBefore(OperationCall ASTnode,java.util.Map context)
 	{	return ASTnode; }
-	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context)
+	public void OperationCallCaller(Object theOperationCall,OperationCall node,Object expr, java.util.Map context)
 	{	OperationCall theOpCall=(OperationCall)theOperationCall;
+		QualifiedName qn = theOpCall.getOclAsType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		if (theOpCall.getIsToInvoke()) 
-			outputForClass.print(".invoke(null,\""+theOpCall.getName()+"\",new Value[]{");
+		CommonFunctions.generateCastBefore(outputForClass, theOpCall);
+		if (theOpCall.getIsToInvoke())  {
+			String oclAsType;
+			if (qn == null)
+				oclAsType = "null";
+			else {
+				Vector t = new Vector(qn);
+				t.remove(0);
+				oclAsType = "new String [] {\"" + AWK.mergeCollection(t, "\", \"") + "\"}";
+			}
+			outputForClass.print(".invoke(" + oclAsType + ",\""+theOpCall.getName()+"\",new Value[]{");
 //@TODO IMPORTANT; this is a bug ; called values have to be casted into the correct BMTLDataTypes... This requires to know which operation is called.
-		else if (theOpCall.getKind().equals(OperationKind.getAttributeCall()))
-			outputForClass.print("."+AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
-		else if (theOpCall.getKind().equals(OperationKind.getAttributeSet()))
-			outputForClass.print("."+AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
-		else {
-			String mangledOpCall=Mangler.mangle("BMTL_",theOpCall.getName());
-			outputForClass.print("."+mangledOpCall+'(');
-		} 
+		} else {
+			if (qn != null) {
+				GetReferenceSignature grs = new GetReferenceSignature(qn);
+				outputForClass.print('.');
+				outputForClass.print(grs.getOpMangle());
+				outputForClass.print("()");
+			}
+			if (theOpCall.getKind().equals(OperationKind.getAttributeCall()))
+				outputForClass.print("."+AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+			else if (theOpCall.getKind().equals(OperationKind.getAttributeSet()))
+				outputForClass.print("."+AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+			else {
+				String mangledOpCall=Mangler.mangle("BMTL_",theOpCall.getName());
+				outputForClass.print("."+mangledOpCall+'(');
+			} 
+		}
 	}
 
 	public void OperationCallArgSeparator(java.util.Map context)
@@ -47,9 +68,19 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context)
 	{	OperationCall theOpCall=(OperationCall)theOperationCall;
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		if (theOpCall.getIsToInvoke()) 
-			outputForClass.print("},new String[]{ ModelElement.OperationDiscriminant})");
-		else outputForClass.print(')');
+		if (theOpCall.getIsToInvoke())  {
+			String disc;
+			if (ASTnode.getKind().equals(OperationKind.getOperationCall()))
+				disc = "ModelElement.OperationDiscriminant";
+			else if (ASTnode.getKind().equals(OperationKind.getAttributeCall()))
+				disc = "ModelElement.AttributeDiscriminant, ModelElement.AssociationDiscriminant";
+			else if (ASTnode.getKind().equals(OperationKind.getAttributeSet()))
+				disc = "ModelElement.SetAttributeDiscriminant";
+			else
+				disc = "";
+			outputForClass.print("},new String[]{" + disc + "})");
+		} else outputForClass.print(')');
+		CommonFunctions.generateCastAfter(outputForClass, theOpCall);
 	}
 
 }

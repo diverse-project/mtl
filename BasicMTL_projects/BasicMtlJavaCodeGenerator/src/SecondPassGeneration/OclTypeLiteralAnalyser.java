@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OclTypeLiteralAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OclTypeLiteralAnalyser.java,v 1.5 2003-08-21 20:10:17 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -19,6 +19,7 @@ public class OclTypeLiteralAnalyser extends TLLTopDownVisitor.OclTypeLiteralAnal
 
 	public void OclTypeLiteralAction(OclTypeLiteral ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
 		QualifiedName type=ASTnode.getTheType();
 //		outputForClass.print("new OclTypeValueImpl(false,null,");
 //		if (type.getIsModelType()) {
@@ -43,5 +44,6 @@ public class OclTypeLiteralAnalyser extends TLLTopDownVisitor.OclTypeLiteralAnal
 			outputForClass.print('"');
 		}
 		outputForClass.print("})");
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
 	}
 }

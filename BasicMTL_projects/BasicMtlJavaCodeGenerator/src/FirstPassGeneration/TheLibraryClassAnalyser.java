@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.3 2003-08-19 13:37:24 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.4 2003-08-21 20:10:18 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -103,26 +103,31 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		else
 			outputForClass.println("    return this.getMetaClass(new String [] {\"Standard\", type[0]});");
 		outputForClass.println("  }");
-		limit=theLib.cardUsedLibs();
+		limit=theLib.cardUsedLibs() + theLib.cardUsedModels();
 		if (limit > 0) {
 			outputForClass.println("  else {");
 			outputForClass.println("    String [] unqualifiedType = new String [type.length-1];");
 			outputForClass.println("    System.arraycopy(type, 1, unqualifiedType, 0, unqualifiedType.length);");
 			outputForClass.println("    Type ret;");
 			boolean first = true;
+			limit = theLib.cardUsedModels();
 			for(i=0;i<limit;i++)
-				{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
-					if (aUsedLib.getIsModelType() || aUsedLib.getIsRepositoryModel()) {
-						if (first) {
-							first = false;
-							outputForClass.println("    ");
-						} else
-							outputForClass.println("    else ");
-						outputForClass.println("    if (type[0].equals(\"" + JavaStringLiteralEncoder.encodeString((String)aUsedLib.get(0)) + "\")) {");
-						outputForClass.println("      return this.BMTLRef_"+aUsedLib.getExternMangledName()+".getMetaClass(unqualifiedType);");
-						outputForClass.println("    }");
-					}
+				{	ModelRef aUsedLib=theLib.getUsedModels(i);
+					if (first) {
+						first = false;
+						outputForClass.print("    ");
+					} else
+						outputForClass.print("    else ");
+					boolean isRepRef = (aUsedLib instanceof RepositoryRef) || (aUsedLib instanceof TypedModelRef) && ((TypedModelRef)aUsedLib).getView().equals("RepositoryModel");
+					outputForClass.println("if (type[0].equals(\"" + JavaStringLiteralEncoder.encodeString((String)aUsedLib.getName()) + "\")) " + (isRepRef?"try ":"") +"{");
+					outputForClass.println("      return this."+Mangler.mangle("BMTL_", aUsedLib.getName())+".getMetaClass(unqualifiedType);");
+					outputForClass.print("    }");
+					if (isRepRef)
+						outputForClass.println(" catch (UnknownElementException x) {}");
+					else
+						outputForClass.println();
 				}
+			limit = theLib.cardUsedLibs();
 			for(i=0;i<limit;i++)
 				{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
 					if (!aUsedLib.isModelType && !aUsedLib.isRepositoryModel) {
@@ -147,8 +152,6 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		for (i = theLib.cardUsedLibs()-1; (!hasParameters) && i >= 0; --i) {
 			hasParameters = theLib.getUsedLibs(i).isModelType || theLib.getUsedLibs(i).isRepositoryModel;
 		}
-		if (!hasParameters)
-			outputForClass.println("public static final " + ASTnode.getMangle() + " TheInstance = new " + ASTnode.getMangle() + "();\n");
 		limit=theLib.cardUsedLibs();
 		for(i=0;i<limit;i++)
 			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
@@ -187,6 +190,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("this.buildAllClassTypes();");
 		outputForClass.println("inheritanceMap.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
 		outputForClass.println("theCaller=this;");
+		outputForClass.println("((BMTLLibraryType)this.getType()).register(theCaller);");
 		// Call parents constructors
 		//=======================================
 		limit=ASTnode.getInheritance().size();
@@ -209,6 +213,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("this.buildAllClassTypes();");
 		outputForClass.println("inheritanceMap = map;");
 		outputForClass.println("theCaller=o;");
+		outputForClass.println("((BMTLLibraryType)this.getType()).register(theCaller);");
 		outputForClass.println("map.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
 		// Call parents constructors
 		//=======================================
@@ -228,13 +233,19 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("/*====================*/");
 		outputForClass.println("/* Lib & Refs METHODS */");
 		outputForClass.println("/*====================*/");
+		QualifiedName aParentType = ASTnode.getQualifiedName();
+		GetReferenceSignature signature = new GetReferenceSignature(aParentType);
+		String externParentName=aParentType.getExternMangledName();
+		outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "()");
+		outputForInterface.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "();");
+		outputForClass.println("{ return this; }\n");
 		limit=ASTnode.getInheritance().size();
 		// Inheritance from other defined libraries
 		//=======================================
 		for (i=0;i<limit;i++) {
-			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			GetReferenceSignature signature = new GetReferenceSignature(aParentType);
-			String externParentName=aParentType.getExternMangledName();
+			aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
+			signature = new GetReferenceSignature(aParentType);
+			externParentName=aParentType.getExternMangledName();
 			outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "()");
 			outputForClass.println("{ return this."+"BMTLRef_"+externParentName+"; }\n");
 		}
@@ -251,6 +262,9 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("}));");
 		outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type getType()");
 		outputForClass.println("{ return myType; }");
+		outputForClass.println();
+		if (!hasParameters)
+			outputForClass.println("public static final " + ASTnode.getMangle() + " TheInstance = new " + ASTnode.getMangle() + "();");
 		outputForClass.flush();
 		outputForInterface.flush();
 		outputForClass.close();
