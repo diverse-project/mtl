@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-12-05 14:07:37 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-12-09 16:47:01 dvojtise Exp $ -->
 <project name="Build,run all tests" default="run all" basedir=".">
 	<description>
         Build and run all tests of the CompilerTests project
@@ -16,6 +16,8 @@
 	    <ant antfile="${basedir}/Vehicules/Amphibie/build.xml" dir="${basedir}/Vehicules/Amphibie" target="compile" inheritAll="false"/>
 	    <ant antfile="${basedir}/Vehicules/AmphibieHerite/build.xml" dir="${basedir}/Vehicules/AmphibieHerite" target="compile" inheritAll="false"/>
 	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="compile" inheritAll="false"/>
+	    <echo>Building "HelloWorld" test.</echo>
+	    <ant antfile="${basedir}/HelloWorld/build.xml" dir="${basedir}/HelloWorld" target="compile" inheritAll="false"/>	
 	    <echo>Building "AssociationTry" test.</echo>
 	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="compile" inheritAll="false"/>
 	</target>
@@ -31,7 +33,9 @@
 	    <!-- call successively each runner -->
 	    <echo>Running "Vehicules" test.</echo>
 	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="run TestVehicules" inheritAll="false"/>
-	    <echo>Running "AssociationTry" test.</echo>
+	    <echo>Running "HelloWorld" test.</echo>
+	    <ant antfile="${basedir}/HelloWorld/build.xml" dir="${basedir}/HelloWorld" target="run HelloWorld" inheritAll="false"/>
+  	<echo>Running "AssociationTry" test.</echo>
 	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="run AssociationTry" inheritAll="false"/>
   	</target>
 </project>

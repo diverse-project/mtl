@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-12-05 14:07:35 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-12-09 16:46:50 dvojtise Exp $ -->
 <project name="HelloWorld" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -9,8 +9,8 @@
 	<property name="builtbin" location="../../bin"/>
 	<property name="builtsrc" location="../../build/src"/>
 	
-	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation"/>
-	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
+	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation/dist"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
 	<!-- The compilation tool -->
 	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<!-- The runtime environment -->
@@ -28,7 +28,7 @@
 	<!-- set sample properties for this build -->
 	<property name="Sample src Folder" value="${src}/"/>
 	<property name="Sample Package" value="HelloWorld"/>
-	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/"/>
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/Runtime/src/TLL/"/>
 	<property name="Sample built src" value="${builtsrc}/HelloWorld/"/>
 
 	<!-- ************************************************ -->
@@ -81,7 +81,7 @@
    		</javac>
   	</target>
 
-  	<target name="run sample" description="run the sample program">
+  	<target name="run HelloWorld" description="run the HelloWorld program">
 		<java classname="${Sample Package}.BMTLLib_${Sample Package}" fork="true" failonerror="yes">
 		<arg value="-h"/>
 		<classpath>
