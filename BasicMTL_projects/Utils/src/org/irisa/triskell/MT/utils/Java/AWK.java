@@ -150,7 +150,7 @@ public class AWK
 			ret.add(s.substring(i, j));
 			
 			 i = j + separatorLength;
-			 j = s.indexOf(separator);
+			 j = s.indexOf(separator, i);
 		}
 		ret.add(s.substring(i));
 		return (String [])ret.toArray(new String [ret.size()]);
