@@ -1,2 +1,2 @@
 # compiler version
-beta2 - build $Build$
+beta3 - build $Build$
