@@ -3,7 +3,7 @@
 <plugin
    id="org.inria.BasicMTL.runtime"
    name="BasicMTL Runtime Plug-in"
-   version="0.0.3"
+   version="0.0.4"
    provider-name="INRIA"
    class="org.inria.BasicMTL.runtime.RuntimePlugin">
 
