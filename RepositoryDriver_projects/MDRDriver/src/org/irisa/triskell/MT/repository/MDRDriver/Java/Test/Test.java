@@ -1,5 +1,5 @@
 /*
- * $Id: Test.java,v 1.9 2004-07-30 13:23:22 ffondeme Exp $
+ * $Id: Test.java,v 1.10 2004-10-07 07:45:11 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -251,7 +251,7 @@ public class Test
 	public static void rien() {}
 	
 	public static void testLoadStore () throws Exception {
-		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml"));
+		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml"), false);
 		api.startup(null);
 		ModelElementIterator attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		MetaAttribute vis = api.getMetaAttribute("visibility", null);
@@ -300,7 +300,7 @@ public class Test
 		
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
+		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read), false);
 		api.startup(null);
 		attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		//To be reloaded because the api has changed...
@@ -330,7 +330,7 @@ public class Test
 	}
 	
 	public static void testMOFModel () throws Exception {
-		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read), false);
 		api.startup(null);
 		if (api.getMdrRepository().getExtent("UML 1.3") == null)
 			throw new Exception("Error: MDR extent UML 1.3 not found...");
@@ -522,7 +522,7 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel (String repName) throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName, new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName, new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write), false);
 		api.startup(null);
 
 		MetaClass table = api.getMetaClass(new String [] {"SimpleDB", "Table"});
@@ -612,7 +612,7 @@ public class Test
 			
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName+"Res", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName+"Res", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read), false);
 		api.startup(null);
 		
 		
@@ -722,7 +722,7 @@ public class Test
 	
 	public static void testSimpleTableDBModel2 () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read), false);
 			api.startup(null);
 			throw new Exception("Test testSimpleTableDBModel2 passed while should not...");
 		} catch (CreationFailedException x) {
@@ -730,13 +730,13 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel3 () throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read), false);
 		api.startup(null);
 	}
 	
 	public static void testUnknownMetamodel () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null), false);
 			api.startup(null);
 			throw new Exception("Test testUnknownMetamodel passed while should not...");
 		} catch (java.io.FileNotFoundException x) {
@@ -747,7 +747,7 @@ public class Test
 		final PrintStream err = System.err;
 		try {
 			System.setErr(new PrintStream(new OutputStream () {public void write(int b) throws IOException{}}));
-			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read), false);
 			api.startup(null);
 			throw new Exception("Test testBadMetamodel passed while should not...");
 		} catch (javax.jmi.xmi.MalformedXMIException x) {
@@ -757,7 +757,7 @@ public class Test
 	}
 	
 	public static void testErwan () throws Exception {
-        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/MOFmetamodel.xml",new String [] {"SimpleUmlMM"}), "MyModel", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
+        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/MOFmetamodel.xml",new String [] {"SimpleUmlMM"}), "MyModel", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write), false);
         
         api.startup(null); 
 
@@ -870,7 +870,7 @@ public class Test
     }
 	
 	public static void testUML13Model () throws Exception {
-		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", XmiModel.Read));
+		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", XmiModel.Read), false);
 		api.startup(null);
 
 		MetaClass classifier = api.getMetaClass(new String [] {"UML", "Foundation", "Core", "Classifier"});

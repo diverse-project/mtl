@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.10 2004-09-20 14:47:25 dvojtise Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.11 2004-10-07 07:41:58 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license 
@@ -29,7 +29,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -171,12 +171,14 @@ public class SimpleStandaloneModelManager {
 		String repository,
 		org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel metamodel,
 		String modelName,
-		org.irisa.triskell.MT.repository.genericJMIDriver.Model model)
+		org.irisa.triskell.MT.repository.genericJMIDriver.Model model,
+		boolean isSychronized
+	)
 		throws java.lang.Exception
 	{
 		if (! isInitialized) throw new Exception("Driver not correctly initialized");
 		
-		MDRAPI api = new MDRAPI(repository, metamodel, modelName, model);
+		MDRAPI api = new MDRAPI(repository, metamodel, modelName, model, isSychronized);
 		saveHookForModel(api, model);
 		api.startup(null);
 		return api;
@@ -247,7 +249,9 @@ public class SimpleStandaloneModelManager {
 		String metamodelXmiFileName,
 		String modelName,
 		String modelXmiInputFileName,
-		String modelXmiOuputFileName)
+		String modelXmiOuputFileName,
+		boolean isSychronized
+	)
 		throws java.lang.Exception
 	{
 		
@@ -257,7 +261,9 @@ public class SimpleStandaloneModelManager {
 		MDRAPI api = new MDRAPI(null, 
 								new XmiMetamodel(metamodelXmiFileName),
 								modelName, 
-								xmiModel);
+								xmiModel,
+								isSychronized
+							);
 		managedAPIs.put(modelName,api);
 		saveHookForModel(api, xmiModel);
 		api.startup(null);
@@ -269,7 +275,9 @@ public class SimpleStandaloneModelManager {
 		String metaPackageToInstanciate,
 		String modelName,
 		String modelXmiInputFileName,
-		String modelXmiOuputFileName)
+		String modelXmiOuputFileName,
+		boolean isSychronized
+	)
 		throws java.lang.Exception
 	{
 		
@@ -279,7 +287,9 @@ public class SimpleStandaloneModelManager {
 		MDRAPI api = new MDRAPI(null, 
 								new XmiMetamodel(metamodelXmiFileName, new String [] {metaPackageToInstanciate}),
 								modelName, 
-								xmiModel);
+								xmiModel,
+								isSychronized
+							);
 		managedAPIs.put(modelName,api);
 		saveHookForModel(api, xmiModel);
 		api.startup(null);

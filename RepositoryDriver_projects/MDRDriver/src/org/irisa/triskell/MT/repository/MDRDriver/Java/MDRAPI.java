@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.11 2004-09-28 12:48:51 edrezen Exp $
+ * $Id: MDRAPI.java,v 1.12 2004-10-07 07:41:58 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -393,7 +393,9 @@ public class MDRAPI
         String repository,
         org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel metamodel,
         String modelName,
-        org.irisa.triskell.MT.repository.genericJMIDriver.Model model)
+        org.irisa.triskell.MT.repository.genericJMIDriver.Model model,
+		boolean isSychronized
+	)
         throws java.lang.Exception
     {
 		super(repository, metamodel, modelName, model, Logger.getLogger("MDRDriver." + modelName));
@@ -448,19 +450,14 @@ public class MDRAPI
 	/** */
 	public void addListenerToElement (Element element, EventListener listener)
 	{
-		if (element instanceof ModelElement)
+		MDRObject obj = (MDRObject)((JMIElement)element).getRef();
+		if (obj!=null)
+        {
+			obj.addListener ((MDRChangeListener)listener, listener.isOfType());
+        }
+		else
 		{
-			ModelElement me = (ModelElement)element;
-
-			MDRObject obj = (MDRObject)((JMIElement)element).getRef();
-			if (obj!=null)
-	        {
-				obj.addListener ((MDRChangeListener)listener);
-	        }
-			else
-			{
-				getLog().warn ("Null MDR reference when adding a listener...");
-			}
+			getLog().warn ("Null MDR reference when adding a listener...");
 		}
 	}
 	
@@ -476,6 +473,29 @@ public class MDRAPI
 		return this.eventListenerFactory;
 	}
 
+	/** */
+	private boolean eventThreadChecked = false;
+	
+	public void changeEventDispatcherPriority ()
+	{
+		if (! eventThreadChecked)
+		{
+			Thread[] threads = new Thread[3];
+			Thread.enumerate (threads);
+			for (int i=0; i<threads.length; i++)
+			{
+				Thread t = threads[i];
+				if (t!=null)
+				{
+					if (t.getName().equals("MDR event dispatcher"))
+					{
+						t.setPriority (t.getThreadGroup().getMaxPriority());
+						eventThreadChecked = true;
+					}
+				}
+			}
+		}
+	}
 
 
 static {
