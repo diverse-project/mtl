@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.22 2004-04-21 18:15:28 edrezen Exp $ 			*/
+/* $Id: basicmtl.g,v 1.23 2004-04-22 14:47:29 dvojtise Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -381,7 +381,8 @@ instruction
 	| "try" bodyinstr
 	  ("catch" ident COLON type bodyinstr )+
 	  ( "finally" bodyinstr )? CLOSEBRACE
-	| "associate" openbracket associateEndPoint ( COMMA associateEndPoint )+ CLOSEBRACKET SEMICOLON!
+	| ("associate" | "dissociate") openbracket associateEndPoint ( COMMA associateEndPoint )+ CLOSEBRACKET SEMICOLON!
+	| foreachInstruction
 ==================================================================*/
 instruction returns [Object tree=null;]
 {	java.util.Vector theCatches=new java.util.Vector();
