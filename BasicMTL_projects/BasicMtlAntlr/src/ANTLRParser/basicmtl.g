@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.16 2003-12-03 03:26:33 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.17 2003-12-04 09:54:11 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -274,15 +274,16 @@ methodDefinition returns [Object tree=null;]
 	Object l4=null;
 	Object l5=null;
 	Token s1 = null;
+	String methodName=null;
 }
 	:	("creation" {creation=new String("creation"); } )?
-			s1=ident n=openbracket
+			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}) n=openbracket
 		    ( l1=parameterdef )? CLOSEBRACKET (COLON l2=type)?
 			( "throwsException" {throwsException=new String("throwsException"); } )?
 			( l3=tag {theTags.addElement(l3); } )*
 			OPENBRACE (l4=localVarDef {theVars.addElement(l4); } )*
 			(l5=instruction {theInstructions.addElement(l5); } )* CLOSEBRACE
-		{tree=walker.method(creation,s1.getText(),n,l1,l2,throwsException,theVars,theInstructions,theTags); }
+		{tree=walker.method(creation,methodName,n,l1,l2,throwsException,theVars,theInstructions,theTags); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -343,7 +344,6 @@ instruction
 instruction returns [Object tree=null;]
 {	java.util.Vector theCatches=new java.util.Vector();
 	java.util.Vector theAssociatePoints=new java.util.Vector();
-	String classident = null;
 	String n;
 	Object l1=null;
 	Object l2=null;
@@ -462,7 +462,7 @@ singleexpr :
 	| (ident OPENBRACKET) => (propertyCall)+ //direct operation call
 	| (ident POINT ident) => ident (POINT ident)+ //attribute getter
 	| ident // variable reference
-	| "not" expression
+	| "not" expression 
 ==================================================================*/
 singleexpr returns [Object tree=null;]
 {	java.util.Vector theCalls=new java.util.Vector();
@@ -510,9 +510,11 @@ propertyCall :	( attributeCall
 ==================================================================*/
 propertyCall returns [Object tree=null;]
 {	Object l1=null;
+	String n;
 }
 	:	( l1=attributeCall
-		| l1=operationCall	)
+		| l1=operationCall	
+		| n=notKeyword OPENBRACKET CLOSEBRACKET {l1=walker.operationCall("not",null,n);})
 		{tree=l1; }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -537,8 +539,8 @@ simpleOperationCall : ident  openbracket (arguments)? CLOSEBRACKET
 ==================================================================*/
 simpleOperationCall returns [Object tree=null;]
 { String n; Token s1 = null; }
-	: s1=ident  n=openbracket (tree=arguments)? CLOSEBRACKET
-	{tree=walker.operationCall(s1.getText(),tree,n);}
+:	s1=ident n=openbracket (tree=arguments)? CLOSEBRACKET 
+		{tree=walker.operationCall(s1.getText(),tree,n);}
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
