@@ -180,6 +180,17 @@ class DOMAntimtl(BaseProcess) :
         self.dom_mtlclasspath = self.initDom(self.inmtlcp)
         self.dom_classpath = self.initDom(self.incp)
         self.inbuild = inbuild
+        self.BASICMTL_BIN = ""
+        
+
+    def setBasicMTLBin(self, env_var):
+        """This method set the directory where we can find the .jars necessary for the compilation and
+        the execution of BasicMTL programs. It answers to the problem of access/setting an environment
+        variable (os.environ['BASICMTL_BIN'] returns a key error when executing Antimtl through
+        MTL plugin)
+        """
+        self.BASICMTL_BIN = env_var
+        
 
     def initOutput(self):
         # TODO : test if file was not already loaded
@@ -445,7 +456,12 @@ class DOMAntimtl(BaseProcess) :
     def setMTLcompilerJarPathProperty(self):
         """We set here a specific property, that allows to access to the .jar
         that are necessary for the MTL compilation phase of the .mtl libraries"""
-        self.setProperty(self.COMPILERJARPATH, os.environ['BASICMTL_BIN'])
+        try:
+            self.setProperty(self.COMPILERJARPATH, os.environ['BASICMTL_BIN'])
+        except KeyError:
+            print "Could not find BASICMTL_BIN env var,",\
+             "trying to use the var given in the command execution"
+            self.setProperty(self.COMPILERJARPATH, self.BASICMTL_BIN)
 
 
     def finishOutput(self, ofilename, doc):
@@ -471,8 +487,8 @@ def main():
     import getopt, os
     
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hdt:c:m:o:", ["help","demo",
-        "templates_path=","cp=","mtlcp=","output="])
+        opts, args = getopt.getopt(sys.argv[1:], "hdt:c:m:o:j:", ["help","demo",
+        "templates_path=","cp=","mtlcp=","output=", "jardir="])
     except getopt.GetoptError:
         # print help information and exit:
         usage(2)
@@ -486,6 +502,7 @@ def main():
     demo = False
     # boolean that is set to true if we can process our generation:)
     can_process = 0
+    var = ""
     for o, value in opts:
         if o in ("-h", "--help"):
             usage(1)
@@ -500,6 +517,8 @@ def main():
             output = value
         if o == "--demo": # use demo files
             demo = True
+        if o == "--jardir":
+            var = value
 
     if opts == []:
         usage(1)
@@ -538,9 +557,11 @@ def main():
         tll_build = templates_path+"tll_build.template.xml"
         build = templates_path+"build.template.xml"
   
-        print "Look for .mtlclasspath and .classpath in %s"%output
-        print "Look for templates of ant files in %s"%templates_path
+        print >> sys.stdout, "Look for .mtlclasspath and .classpath in %s"%output
+        print >> sys.stdout, "Look for templates of ant files in %s"%templates_path
         processor = DOMAntimtl(tll_build, build, output+"/.classpath", output+"/.mtlclasspath", output)
+        # dirty ?
+        processor.setBasicMTLBin(var)
         processor.run()
         
         
