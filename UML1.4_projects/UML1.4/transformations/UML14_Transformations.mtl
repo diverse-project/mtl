@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML14_Transformations.mtl,v 1.4 2003-09-17 07:45:20 dvojtise Exp $
+ * $Id: UML14_Transformations.mtl,v 1.5 2003-09-18 12:57:22 dvojtise Exp $
  * Simple transformations that apply to UML1.4 models
  *	includes : 
  *		Attribute_Privatize that privatize 
@@ -21,14 +21,14 @@ main() : Standard::Void
 {	 
 	// local variables
 	mdrdriver         : MDRDriver::MDRModelManager;
-	aTransformation   : MyTransformation;
+	aTransformation   : PrivatizeAttributeTransformation;
     projectPath       : Standard::String;
 	metamodelFilename : Standard::String;
 	inputFilename     : Standard::String;
 	outputFilename    : Standard::String;
 
 	// we define some filenames 
-	projectPath       := 'E:/Program Files/eclipse/workspace/UML1.4/';
+	projectPath       := './';
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
 	inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
 	outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
