@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: MDRDriver.mtl,v 1.2 2005-03-18 15:14:46 dvojtise Exp $
+// $Id: MDRDriver.mtl,v 1.3 2005-03-24 08:28:45 dvojtise Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
@@ -114,6 +114,13 @@ tag DoNotGenerate := booleantag true;
 	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
 	  */
 	GUIGetModel(UserMessage : Standard::String) : RepositoryModel
+	{
+	}
+	
+	/**
+	 * must be set to true if we use the events on MDR
+	 */
+	setIsSynchronized(value : Standard::Boolean)
 	{
 	}
 }
