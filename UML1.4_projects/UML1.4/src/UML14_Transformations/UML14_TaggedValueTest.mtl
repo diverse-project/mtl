@@ -1,0 +1,77 @@
+/******************************************************************************
+ * $Id: UML14_TaggedValueTest.mtl,v 1.1 2004-12-15 08:05:32 dvojtise Exp $
+ * Simple transformations that apply to UML1.4 models
+ *	includes : 
+ *		Attribute_Privatize that privatize 
+ * Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ ******************************************************************************/
+library UML14_Transformations;
+
+
+
+class TaggedValueTest
+{
+	tg    : source_model::Core::TagDefinition;
+		
+
+	run()
+	{
+		tg := uml.findTagDefinition ('JavaNote');
+		if isNull(tg)
+		{
+			throws 'unable to find a TagDefinition with name = \'JavaNote \'';
+		}
+		
+		showElementWithJavaNoteTaggedValue();
+		'***********************************'.toOut();
+		addJavaNoteTaggedValue('added JavaNote');
+		'***********************************'.toOut();
+		showElementWithJavaNoteTaggedValue();
+		
+		
+	}
+	
+	addJavaNoteTaggedValue(value : Standard::String)
+	{
+		iterator : Standard::Iterator;
+		anElt : source_model::Core::Attribute;						
+		
+		iterator := !source_model::Core::Attribute!.allInstances().getNewIterator();
+		while iterator.isOn() {
+			anElt := iterator.item();
+//			anElt.toOut();
+			
+			value := uml.getFirstModelElementTaggedValue(anElt, tg);
+			if  isNull(value)
+			{
+				'adding to the following element'.toOut();
+				anElt.toOut();
+				uml.createAndAddTaggedValue(anElt,tg,value);
+			}
+			iterator.next();
+		}
+	}
+	showElementWithJavaNoteTaggedValue()
+	{
+		iterator : Standard::Iterator;
+		anElt : source_model::Core::Attribute;
+		
+		value : Standard::String;		
+		
+		iterator := !source_model::Core::Attribute!.allInstances().getNewIterator();
+		while iterator.isOn() {
+			anElt := iterator.item();
+//			anElt.toOut();
+			value := uml.getFirstModelElementTaggedValue(anElt, tg);
+			
+			if not ('' = value) and not isNull(value)
+			{
+				anElt.toOut();
+				'   value = '.concat(value).toOut();
+			}
+			iterator.next();
+		}
+	}
+	
+}

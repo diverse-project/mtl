@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML14_Transformations.mtl,v 1.2 2003-11-14 12:49:34 dvojtise Exp $
+ * $Id: UML14_Transformations.mtl,v 1.3 2004-12-15 08:05:33 dvojtise Exp $
  * Simple transformations that apply to UML1.4 models
  *	includes : 
  *		Attribute_Privatize that privatize 
@@ -22,6 +22,7 @@ main() : Standard::Void
 	// local variables
 	mdrdriver         : MDRDriver::MDRModelManager;
 	aTransformation   : PrivatizeAttributeTransformation;
+	aTaggedValueTest  : TaggedValueTest;
     projectPath       : Standard::String;
 	metamodelFilename : Standard::String;
 	inputFilename     : Standard::String;
@@ -30,10 +31,10 @@ main() : Standard::Void
 	// we define some filenames 
 	projectPath       := './';
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
-	// inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
-	// outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
-	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML.xml');
-	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML_modified.xml');
+	inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
+	outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
+	// inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML.xml');
+	// outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML_modified.xml');
 
 
 
@@ -58,6 +59,9 @@ main() : Standard::Void
 
 	aTransformation := new PrivatizeAttributeTransformation();
 	aTransformation.run();
+	
+	aTaggedValueTest := new TaggedValueTest();
+	aTaggedValueTest.run();
 	
 	'That s all folks !'.toOut();
 }

@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML_Utils.mtl,v 1.3 2003-12-18 08:46:39 dvojtise Exp $
+ * $Id: UML_Utils.mtl,v 1.4 2004-12-15 08:05:31 dvojtise Exp $
  * This library provides tools function to manipulate objects of UML1.4 metamodel
  * It is inspired by some usefull Objecteering J method for some metaclasses.
  * It should avoid to have some repetitive MTL code. 
@@ -246,6 +246,46 @@ addParameterToBehavioralFeature (
 	);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::ModelElement
+// name     : createAndAddTaggedValue
+// purpose  : create a new value for the given tagDefinition
+// in       :
+// out      : returns the created tagValue
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+createAndAddTaggedValue(
+	elt : UML::Core::ModelElement;
+	tagDef : UML::Core::TagDefinition;
+	value : Standard::String	
+	) : UML::Core::TaggedValue
+{
+	result : UML::Core::TaggedValue;
+	dataValue : Standard::Set;
+	aValue : Standard::String;
+	aValue := value;
+	
+	result := new UML::Core::TaggedValue();
+	//dataValue := new Standard::Set().including(value);
+	//result.dataValue := dataValue;
+	dataValue := dataValue.including('hello2');
+	//dataValue := dataValue.including(value);
+	result.dataValue := dataValue.oclAsType(!Standard::Set!);
+	// TODO we must debug that or at least find a workaround .... (using a JavaCode ?)
+	//result.dataValue := 'hello';
+	//result.dataValue := new Standard::Set().including(aValue); // ne fonctionne pas !!!??
+	//result.dataValue := new Standard::Set().including('hello'); // fonctionne !!
+	//result.dataValue := new Standard::Set();
+	//result.dataValue := new Standard::Set();
+	//result.dataValue := result.dataValue.including(value.oclAsType(!Standard::String!));
+	
+	
+	
+	associate(typedValue := result : UML::Core::TaggedValue, type := tagDef : UML::Core::TagDefinition );
+	associate(taggedValue := result : UML::Core::TaggedValue, modelElement := elt : UML::Core::ModelElement );
+	
+	return result;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 // category : UML::Core::ModelElement
@@ -253,7 +293,7 @@ addParameterToBehavioralFeature (
 // purpose  : Tells if a model element has a given tagged value (given as a string)
 // in       :
 // out      :
-// remark   : 
+// remark   : this function looks into the value!  not the tagdefinition
 ////////////////////////////////////////////////////////////////////////////////////
 
 IsModelElementTaggedValue (
@@ -291,4 +331,78 @@ IsModelElementTaggedValue (
 	
 	return result;
 }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::ModelElement
+// name     : getFirstModelElementTaggedValue
+// purpose  : return the first associated string to a model element for a 
+//            given tagged value (given as a tagdefinition)
+// in       :
+// out      : return null if this element doesn't have this TagValue
+// remark   : this is a really simple version; a more complex one would deal with 
+//            the different multiplicities instead of taking the first value
+////////////////////////////////////////////////////////////////////////////////////
+
+getFirstModelElementTaggedValue (
+	elt : UML::Core::ModelElement;
+	tagDef : UML::Core::TagDefinition
+) : Standard::String
+{
+	result   : Standard::String;
+	iterator : Standard::Iterator;
+	tg       : UML::Core::TaggedValue;
+	tgval    : Standard::String;
+	itValue  : Standard::Iterator;
 	
+
+	iterator := elt.taggedValue.getNewIterator();
+	iterator.start();
+	while isNull(result) and iterator.isOn()
+	{		
+		tg := iterator.item().oclAsType(!UML::Core::TaggedValue!);
+
+		if (tg.type.name = tagDef.name)
+		{ 
+			itValue := tg.dataValue.getNewIterator ();
+			if itValue.isOn()
+			{
+				result := itValue.item();
+			}
+		}
+		iterator.next();
+	}
+	
+	return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::TagDefinition
+// name     : findTagDefintion
+// purpose  : find a specific TagDefinition in the model
+// in       : name of the requested TagDefinition
+// out      : an existing TagDefinition or null if it doesn't exist
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+findTagDefinition(TagName : Standard::String)	: UML::Core::TagDefinition
+{
+	iterator  : Standard::Iterator;
+	tg        : UML::Core::TagDefinition;
+	result    : UML::Core::TagDefinition;
+	name      : Standard::String;
+	
+	iterator := !UML::Core::TagDefinition!.allInstances().getNewIterator();
+	while isNull(result) and (iterator.isOn()) 
+	{ 
+		tg := iterator.item();
+		name := tg.name;
+		if (name = TagName)
+		{ 
+			result := tg;
+		}
+		iterator.next();
+	}
+	return result;
+}
