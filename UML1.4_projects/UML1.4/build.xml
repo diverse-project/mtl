@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-09-03 15:04:48 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-09-12 13:50:27 edrezen Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="run UML14_Transformations" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
@@ -75,13 +75,37 @@
   	</target>
   	
   	
+  	<!-- UML utils -->  	
+  	<target name="generate_UML_Utils" depends="init">
+  		<description>
+  			generate the java code for UML utils
+  		</description>
+  		<antcall target="Lazy_MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\UML_Utils.mtl" />  
+  			<param name="packagename" value="UML_Utils" /> 
+  			<param name="libname" value="UML_Utils" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_UML_Utils_generated_code" 
+  			depends="compile Standard and MDRDriver, generate_UML_Utils">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java/UML_Utils" 
+    	    destdir="${bin}"
+   			debug="true">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  	</target>
+
+
   	<!-- transformations -->  	
   	<target name="generate_UML14_transformations" depends="init,generate_UML14_Transformations">  	
   		<description>
   			generate the java code for transformations
   		</description>
   	</target>
-  	<target name="generate_UML14_Transformations" >
+  	<target name="generate_UML14_Transformations" depends="compile_UML_Utils_generated_code">
   		<antcall target="Lazy_MTL2Java" inheritAll="true">
   			<param name="mtlsrcfile" value="${src}\UML14_Transformations.mtl" />  
   			<param name="packagename" value="UML14_Transformations" /> 
@@ -113,7 +137,7 @@
    		</java>
   	</target>
   	
-  	
+
   	<!-- all the folowing may be put in another build file ...? -->
   	
   	
