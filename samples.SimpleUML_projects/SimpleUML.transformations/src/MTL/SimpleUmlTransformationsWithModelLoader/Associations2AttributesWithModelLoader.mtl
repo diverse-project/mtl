@@ -1,5 +1,5 @@
 /*
- * $Id: Associations2AttributesWithModelLoader.mtl,v 1.2 2004-08-19 10:16:54 dvojtise Exp $
+ * $Id: Associations2AttributesWithModelLoader.mtl,v 1.3 2004-09-15 09:06:30 dvojtise Exp $
  *
  * Sample of use of associations2attribute with a MDR repository
  */
@@ -19,8 +19,12 @@ model SimpleUmlTransformation_lib : SimpleUmlTransformations;
 // -------------------
 main(args : Standard::Sequence):Standard::Void 
 {
-	argsParser : ArgumentsParser;
-	
+	argsParser 			: ArgumentsParser;
+	aSourceModelManager : sourceModelManager;
+	sourceFileName		: Standard::String;
+	destFileName		: Standard::String;
+	driverName			: Standard::String;
+		
 	anAssociations2AttributesTransfo : SimpleUmlTransformations::Associations2Attributes;
 
 	// we initialize the arguments parser
@@ -33,7 +37,14 @@ main(args : Standard::Sequence):Standard::Void
 	// instanciate transformation lib
 	SimpleUmlTransformation_lib := new SimpleUmlTransformations();
 			
-	new sourceModelLoader().loadSourceModel (argsParser.getArg(), argsParser.getArg(), argsParser.getArg());
+	aSourceModelManager := new sourceModelManager();
+	sourceFileName := argsParser.getArg();
+	destFileName := argsParser.getArg();
+	driverName := argsParser.getArg();
+	
+	'driverName='.concat(driverName).toOut();
+	aSourceModelManager.init(driverName);
+	aSourceModelManager.loadSourceModel (sourceFileName, destFileName);
 	
 		
 		// instanciate transformation tool class, and initialize the library models	
@@ -42,6 +53,8 @@ main(args : Standard::Sequence):Standard::Void
 		// start the transformation
 	anAssociations2AttributesTransfo.associations2attributes();
 
+	aSourceModelManager.storeSourceModel();
+	aSourceModelManager.disposeSourceModel();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,137 @@
+/*
+ * $Id: sourceModelLoader.mtl,v 1.2 2004/09/13 12:04:17 dvojtise Exp $
+ *
+ * This class is dedicated to manage the model source_model of  SimpleUmlTransformationsWithModelLoader Library
+ * It proposes to load, store and dispose this model independently of the repository
+ * Currently it can work only with this source_model, a more generic version is possible but currently bugged
+ *  due to a problem in the compiler that doesn't allows to corretly pass models as parameters
+ */
+ 
+library SimpleUmlTransformationsWithModelLoader;
+
+class sourceModelManager
+{
+	driverName 		: Standard::String;
+	EmfModelManager : EMFDriver::EMFModelManager;
+	MdrDriver       : MDRDriver::MDRModelManager;
+	ModFactDriver   : ModFactDriver::ModFactModelManager;
+
+	/*
+	 * external methods
+	 */
+	init(theDriverName : Standard::String)
+	{
+		driverName := theDriverName;
+		if (driverName = 'MDR') 
+		{
+			// we initialize the MDR driver			
+			MdrDriver := new MDRDriver::MDRModelManager();
+			MdrDriver.init();
+		}
+		elseif (driverName = 'ModFact')
+		{
+			// we initialize the MDR driver			
+			ModFactDriver := new ModFactDriver::ModFactModelManager();
+			ModFactDriver.init();
+		}
+		elseif (driverName = 'EMF')
+		{
+			EmfModelManager := new EMFDriver::EMFModelManager();
+		}
+		else 
+		{
+			'ERROR: don\'t know how to use the specified driver: "'.concat(driverName).concat('"\n').toErr();
+		}
+		
+	}
+	loadSourceModel(src_inputFilename, src_outputFilename : Standard::String)
+	{
+		if (driverName = 'MDR') 
+		{
+			loadSourceModelInMDR(src_inputFilename, src_outputFilename);
+		}
+		elseif (driverName = 'ModFact')
+		{
+			loadSourceModelInModFact(src_inputFilename, src_outputFilename);
+		}
+		elseif (driverName = 'EMF')
+		{
+			loadSourceModelInEMF(src_inputFilename, src_outputFilename);
+		}
+		else 
+		{
+			'ERROR: don\'t know how to use the specified driver: "'.concat(driverName).concat('"\n').toErr();
+		}
+	}
+	
+	storeSourceModel()
+	{
+		if (driverName = 'EMF') 
+		{
+			// store this model
+			EmfModelManager.saveModelToXMI('SimpleUmlMM');
+		}				
+	}
+	disposeSourceModel()
+	{
+		if (driverName = 'EMF') 
+		{
+			EmfModelManager.disposeModel('SimpleUmlMM');
+		}				
+	}
+	
+	/*
+	 * internal methods
+	 */
+	loadSourceModelInMDR(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		projectPath       : Standard::String;
+		src_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		src_metamodelFilename := projectPath.concat ('workspace/SimpleUML/model/XMI1.2_MOF1.4/SimpleUmlMM_MOF.xml');
+		
+	    
+		
+			
+		// intanciate the source model, no changes in the source model
+		source_model := MdrDriver.getModelFromXMI (
+			src_metamodelFilename, 
+			'SimpleUmlMM',		// name of the root element in the Uml1.4 metamodel
+			'SimpleUML_source_model', 
+			src_inputFilename,
+			src_outputFilename
+		);
+	}
+	loadSourceModelInModFact(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		projectPath       : Standard::String;
+		src_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		src_metamodelFilename := projectPath.concat ('../SimpleUML/model/XMI1.2_MOF1.4/SimpleUmlMM_MOF.xml');
+		
+	    			
+		// intanciate the source model, no changes in the source model
+		source_model := ModFactDriver.getModelFromXMI (
+			src_metamodelFilename, 
+			'SimpleUmlMM',		// name of the root element in the Uml1.4 metamodel
+			'SimpleUML_source_model', 
+			src_inputFilename,
+			src_outputFilename
+		);
+	}
+	loadSourceModelInEMF(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		source_model := EmfModelManager.loadModelFromXMI(
+									'SimpleUmlMM',
+									'SimpleUML',	// Name of the editing domain provider, case sensitive
+									src_inputFilename);
+		// Indicates where to save after changes have occured
+		EmfModelManager.saveModelAsXMI('SimpleUmlMM',
+								src_outputFilename);
+	
+	}
+}
