@@ -1,4 +1,4 @@
-/* $Id: BMTL_PoseidonModelManager.java,v 1.1 2004-11-08 13:22:34 dvojtise Exp $
+/* $Id: BMTL_PoseidonModelManager.java,v 1.2 2005-02-25 10:32:48 dvojtise Exp $
  * Created on 25 août 2003
  */
 package PoseidonDriver;
@@ -124,17 +124,18 @@ public class BMTL_PoseidonModelManager extends PoseidonModelManager implements B
 	 * @return
 	 * @throws Exception
 	 * warning; it currently returns M1_UmlInstance instead of looking for it in Poseidon itself
+	 * warning: this is the name of the MDR extent which contains the user model; not the name the user had given to his model
 	 */
-	public StringValue BMTL_getPoseidonCurrentModelName()
+	public StringValue BMTL_getPoseidonCurrentModelExtentName()
 			throws Exception {
 			
 			return new BMTLString("M1_UmlInstance");
 			
 	}
-	public MDRAPI BMTL_getPoseidonModel(StringValue modelName)
+	public MDRAPI BMTL_getPoseidonModel(StringValue modelExtentName)
 			throws Exception {
 			return this.getModel(null, 
-								 modelName == null ? null : modelName.getTheString());
+					modelExtentName == null ? null : modelExtentName.getTheString());
 	}
 	
 	/* (non-Javadoc)

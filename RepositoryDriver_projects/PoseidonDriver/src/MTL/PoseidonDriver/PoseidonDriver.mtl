@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PoseidonDriver.mtl,v 1.1 2004-11-08 13:22:29 dvojtise Exp $
+ * $Id: PoseidonDriver.mtl,v 1.2 2005-02-25 10:33:09 dvojtise Exp $
  * This native library is used to provide the specific functions needed to open, load, save models
  * with the MDR repository embedded in Poseidon
  * its behavior is slightly different from MDRDriver itself
@@ -51,13 +51,13 @@ tag DoNotGenerate := booleantag true;
 	  * return an exisiting model from Poseidon model extent
 	  *	Equivalent to getModel(null, modelName)
 	  */
-	getPoseidonModel ( modelName : Standard::String ): RepositoryModel
+	getPoseidonModel ( modelExtentName : Standard::String ): RepositoryModel
 	{
 	}
 	/**
-	  * return the name of the first model in Poseidon model extent
+	  * return the name of the extent  first model in Poseidon model extent
 	  */
-	getPoseidonCurrentModelName() : Standard::String
+	getPoseidonCurrentModelExtentName() : Standard::String
 	{
 	}
 			
