@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLSet.java,v 1.6 2004-04-14 17:11:53 ffondeme Exp $
+ * $Id: BMTLSet.java,v 1.7 2004-05-19 22:21:20 ffondeme Exp $
  * Created on 19 août 2003
  *
  */
@@ -11,6 +11,7 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_excluding;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_including;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_intersection;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_sub;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_union;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_symmetricDifference;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
@@ -41,6 +42,10 @@ public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
 
 	public BMTLSetInterface BMTL_intersection(BMTLSetInterface s) {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_intersection.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+
+	public BMTLSetInterface BMTL__2d(BMTLSetInterface s) {
+		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_sub.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 	public BMTLSetInterface BMTL_including(Value s) {
