@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPlugin.java,v 1.2 2004-05-19 09:22:50 sdzale Exp $
+* $Id: MTLPlugin.java,v 1.3 2004-05-25 09:07:41 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -109,14 +109,7 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	public static MTLPlugin getDefault() {
 		return plugin;
 	}
-	/*public static Shell getActiveWorkbenchShell() {
-			IWorkbenchWindow window = getActiveWorkbenchWindow();
-			if (window != null) {
-				return window.getShell();
-			}
-			return null;
-		}
-	*/	
+
 	public static IWorkbenchWindow getActiveWorkbenchWindow() {
 		return getDefault().getWorkbench().getActiveWorkbenchWindow();
 	}
@@ -193,11 +186,6 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 		PreferenceConverter.setDefault(store, PreferenceConstants.MTL_CONSTANT, MTLEditorColorProvider.CONSTANT);
 		PreferenceConverter.setDefault(store, PreferenceConstants.MTL_TYPE, MTLEditorColorProvider.TYPE);
 		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_STRING_COLOR, MTLEditorColorProvider.STRING);
-//		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_MTL_DEFAULT_COLOR, PHPColorProvider.DEFAULT);
-//		PreferenceConverter.setDefault(store, PreferenceConstants.PHPDOC_KEYWORD, PHPColorProvider.PHPDOC_KEYWORD);
-//		PreferenceConverter.setDefault(store, PHPDOC_TAG, PHPColorProvider.PHPDOC_TAG);
-//		PreferenceConverter.setDefault(store, PHPDOC_LINK, PHPColorProvider.PHPDOC_LINK);
-//		PreferenceConverter.setDefault(store, PHPDOC_DEFAULT, PHPColorProvider.PHPDOC_DEFAULT); 
 
 		PreferenceConstants.initializeDefaultValues(store);
 	}

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPreferencePageEditor.java,v 1.3 2004-05-19 09:21:31 sdzale Exp $
+* $Id: MTLPreferencePageEditor.java,v 1.4 2004-05-25 09:07:44 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -87,6 +87,12 @@ public class MTLPreferencePageEditor
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_PROBLEM_INDICATION),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_WARNING_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_DEBUG_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_FATAL_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_INFO_INDICATION_COLOR),
+						new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_INFO_INDICATION),						
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_TASK_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_TASK_INDICATION),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_BOOKMARK_INDICATION_COLOR),
@@ -171,7 +177,22 @@ public class MTLPreferencePageEditor
 				PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_WARNING_INDICATION,
 				PreferenceConstants.EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER },
-				{
+			{
+		 	"DEBUG",
+				PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR,
+				PreferenceConstants.EDITOR_DEBUG_INDICATION,
+				PreferenceConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER },
+			{
+			"Fatal",
+				PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR,
+				PreferenceConstants.EDITOR_FATAL_INDICATION,
+				PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER },
+			{
+			"Info",
+				PreferenceConstants.EDITOR_INFO_INDICATION_COLOR,
+				PreferenceConstants.EDITOR_INFO_INDICATION,
+				PreferenceConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER },
+			{
 			"Tasks",
 				PreferenceConstants.EDITOR_TASK_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_TASK_INDICATION,
@@ -194,8 +215,7 @@ public class MTLPreferencePageEditor
 	};
 
 	private OverlayPreferenceStore fOverlayStore;
-	//private JavaTextTools fJavaTextTools;
-	
+		
 
 	private Map fColorButtons = new HashMap();
 	private SelectionListener fColorButtonListener = new SelectionListener() {

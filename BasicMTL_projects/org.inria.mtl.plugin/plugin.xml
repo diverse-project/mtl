@@ -34,7 +34,27 @@
             id="org.inria.mtl.plugin.MTLPerspective">
       </perspective>
    </extension>
-   <extension
+  <extension point="org.eclipse.ui.perspectiveExtensions">
+  <perspectiveExtension targetID="org.inria.mtl.plugin.MTLPerspective">
+  	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 	 <showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+  </perspectiveExtension>
+ <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFolderCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFileCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLProjectCreationWizard" /> 
+  	<perspectiveShortcut id="org.inria.mtl.plugin.MTLPerspective" /> 
+  <actionSet id="org.inria.mtl.plugin.actionSet" /> 
+  </perspectiveExtension>
+ <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFolderCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLFileCreationWizard" /> 
+  	<newWizardShortcut id="org.inria.plugin.mtl.wizard.MTLProjectCreationWizard" /> 
+  	<perspectiveShortcut id="org.inria.mtl.plugin.MTLPerspective" /> 
+  	<actionSet id="org.inria.mtl.plugin.actionSet" /> 
+  </perspectiveExtension>
+  </extension>
+    <extension
          id="MTLNature"
          name="%MTLNature"
          point="org.eclipse.core.resources.natures">
@@ -399,6 +419,12 @@
             category="org.inria.plugin.mtl.MTLPreferencePage"
             class="org.inria.mtl.plugin.preferences.MTLOutlinePage"
             id="org.inria.mtl.plugin.preferences.MTLOutlinePage">
+      </page>
+      <page
+            name="%Log4J"
+            category="org.inria.plugin.mtl.MTLPreferencePage"
+            class="org.inria.mtl.plugin.preferences.Log4jPreferencePage"
+            id="org.inria.mtl.plugin.preferences.Log4jPage">
       </page>
    </extension>
    <extension

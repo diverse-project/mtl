@@ -1,5 +1,5 @@
 /*
-* $Id: PreferenceConstants.java,v 1.3 2004-05-19 09:21:29 sdzale Exp $
+* $Id: PreferenceConstants.java,v 1.4 2004-05-25 09:07:43 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -80,6 +80,16 @@ public class PreferenceConstants {
 //	*/
 //   public final static String EDITOR_FOREGROUND_DEFAULT_COLOR = AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT;
 
+	public final static String LOG4_PORT = "log4j.port"; //$NON-NLS-1$
+
+	 /**
+	  * A named preference that controls whether the editor shows problem indicators in text (squiggly lines). 
+	  * <p>
+	  * Value is of type <code>Boolean</code>.
+	  * </p>
+	  */
+	 
+
   public final static String EDITOR_CORRECTION_INDICATION = "JavaEditor.ShowTemporaryProblem"; //$NON-NLS-1$
 
   /**
@@ -107,6 +117,28 @@ public class PreferenceConstants {
    */
   public final static String EDITOR_WARNING_INDICATION = "warningIndication"; //$NON-NLS-1$
 
+  /**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
+	 * A named preference that controls whether the editor shows fatal indicators in text (squiggly lines). 
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_FATAL_INDICATION = "fatalIndication"; //$NON-NLS-1$
+	/**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
+	   * A named preference that controls whether the editor shows warning indicators in text (squiggly lines). 
+	   * <p>
+	   * Value is of type <code>Boolean</code>.
+	   * </p>
+	   */
+	  public final static String EDITOR_INFO_INDICATION = "infoIndication"; //$NON-NLS-1$
+	/**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
+	   * A named preference that controls whether the editor shows warning indicators in text (squiggly lines). 
+	   * <p>
+	   * Value is of type <code>Boolean</code>.
+	   * </p>
+	   */
+	  public final static String EDITOR_DEBUG_INDICATION = "debugIndication"; //$NON-NLS-1$
+
   /**
    * A named preference that holds the color used to render warning indicators.
    * <p>
@@ -119,6 +151,43 @@ public class PreferenceConstants {
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
   public final static String EDITOR_WARNING_INDICATION_COLOR = "warningIndicationColor"; //$NON-NLS-1$
+
+  /**
+	* A named preference that holds the color used to render fatal indicators.
+	* <p>
+	* Value is of type <code>String</code>. A RGB color value encoded as a string
+	* using class <code>PreferenceConverter</code>
+	* </p>
+	* 
+	* @see #EDITOR_FATAL_INDICATION
+	* @see org.eclipse.jface.resource.StringConverter
+	* @see org.eclipse.jface.preference.PreferenceConverter
+	*/
+   public final static String EDITOR_FATAL_INDICATION_COLOR = "fatalIndicationColor"; //$NON-NLS-1$
+   /**
+	 * A named preference that holds the color used to render info indicators.
+	 * <p>
+	 * Value is of type <code>String</code>. A RGB color value encoded as a string
+	 * using class <code>PreferenceConverter</code>
+	 * </p>
+	 * 
+	 * @see #EDITOR_INFO_INDICATION
+	 * @see org.eclipse.jface.resource.StringConverter
+	 * @see org.eclipse.jface.preference.PreferenceConverter
+	 */
+	public final static String EDITOR_INFO_INDICATION_COLOR = "infoIndicationColor"; //$NON-NLS-1$
+	/**
+	  * A named preference that holds the color used to render debug indicators.
+	  * <p>
+	  * Value is of type <code>String</code>. A RGB color value encoded as a string
+	  * using class <code>PreferenceConverter</code>
+	  * </p>
+	  * 
+	  * @see #EDITOR_DEBUG_INDICATION
+	  * @see org.eclipse.jface.resource.StringConverter
+	  * @see org.eclipse.jface.preference.PreferenceConverter
+	  */
+	 public final static String EDITOR_DEBUG_INDICATION_COLOR = "warningIndicationColor"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the editor shows task indicators in text (squiggly lines). 
@@ -214,6 +283,33 @@ public class PreferenceConstants {
    * </p>
    */
   public final static String EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER = "warningIndicationInOverviewRuler"; //$NON-NLS-1$
+
+  /**
+   * A named preference that controls whether the overview ruler shows fatal
+   * indicators.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public final static String EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER = "fatalIndicationInOverviewRuler"; //$NON-NLS-1$
+
+  /**
+   * A named preference that controls whether the overview ruler shows info
+   * indicators.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public final static String EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER = "infoIndicationInOverviewRuler"; //$NON-NLS-1$
+
+  /**
+   * A named preference that controls whether the overview ruler shows debug
+   * indicators.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public final static String EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER = "debugIndicationInOverviewRuler"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the overview ruler shows task
@@ -996,6 +1092,18 @@ public class PreferenceConstants {
 	   store.setDefault(PreferenceConstants.EDITOR_WARNING_INDICATION, true);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(244, 200, 45));
 	   store.setDefault(PreferenceConstants.EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER, true);
+
+	store.setDefault(PreferenceConstants.EDITOR_FATAL_INDICATION, true);
+		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(244, 200, 45));
+		   store.setDefault(PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER, true);
+
+	store.setDefault(PreferenceConstants.EDITOR_INFO_INDICATION, true);
+		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(244, 200, 45));
+		   store.setDefault(PreferenceConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER, true);
+
+	store.setDefault(PreferenceConstants.EDITOR_DEBUG_INDICATION, true);
+		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(244, 200, 45));
+		   store.setDefault(PreferenceConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER, true);
 
 	   store.setDefault(PreferenceConstants.EDITOR_TASK_INDICATION, false);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_TASK_INDICATION_COLOR, new RGB(0, 128, 255));

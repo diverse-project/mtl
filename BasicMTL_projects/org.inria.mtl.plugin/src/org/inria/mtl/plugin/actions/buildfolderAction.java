@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.2 2004-05-19 09:22:47 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.3 2004-05-25 09:07:48 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -19,19 +19,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
 
-
-/**
- * @author sdzale
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-/**
- * @author sdzale
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 	private StructuredSelection currentSelection = null;

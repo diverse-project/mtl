@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.2 2004-05-19 09:22:40 sdzale Exp $
+* $Id: MTLCore.java,v 1.3 2004-05-25 09:07:46 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -58,7 +58,7 @@ import org.xml.sax.SAXException;
 public  class MTLCore  {
 
 	/**
-		 * Value of the mtlclasspath extension.
+		 * Value of the mtlclasspath extension. 
 		 */
 
 	public static final String MTLCLASSPATH_FILENAME = ".mtlclasspath";  //$NON-NLS-1$
