@@ -1,5 +1,5 @@
 /*
- * $Id: JMIModelElement.java,v 1.1 2004-10-25 12:32:53 dvojtise Exp $
+ * $Id: JMIModelElement.java,v 1.2 2005-01-18 16:43:41 dvojtise Exp $
  * Authors : ffondeme dvojtise
  */
  package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -18,7 +18,7 @@ public class JMIModelElement
     extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured
 {
     private final javax.jmi.reflect.RefObject refObject;
-    protected javax.jmi.reflect.RefObject getRefObject () {
+    public javax.jmi.reflect.RefObject getRefObject () {
         return this.refObject;
     }
     protected int cardRefObject () {
