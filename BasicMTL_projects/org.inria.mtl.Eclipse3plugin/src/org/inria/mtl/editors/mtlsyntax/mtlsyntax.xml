@@ -4,133 +4,87 @@
 ===================================================        
 *Below this are the various mtl-specific functions *
 ===================================================     
-        <mtlsyntax function="COM_invoke" usage="mixed COM_invoke(int module, string handler_name [, mixed arg [, mixed ...]])">Invokes a COM module</mtlsyntax>
-        <mtlsyntax function="COM_load" usage="int com_load(string module_name [, string remote_host [, int codepage [, string typelib]]])">Loads a COM module</mtlsyntax>
-        <mtlsyntax function="abs" usage="int abs(int number)">Return the absolute value of the number</mtlsyntax>
-<mtlsyntax function="accept_connect"></mtlsyntax>
-        <mtlsyntax function="acos" usage="float acos(float arg)">Return the arc cosine of the arg in radians</mtlsyntax>
-        <mtlsyntax function="acosh" usage="float acosh(float arg)">Returns the inverse hyperbolic cosine of arg</mtlsyntax>
-        <mtlsyntax function="add"></mtlsyntax>
-        <mtlsyntax function="add_iovec"></mtlsyntax>
-        <mtlsyntax function="addaction"></mtlsyntax>
-        <mtlsyntax function="addcolor"></mtlsyntax>
-        <mtlsyntax function="addcslashes" usage="string addcslashes (string str, string charlist)">
-Returns a string with backslashes before characters that are listed in charlist parameter. 
-It escapes \n, \r etc. in C-like style, characters with ASCII code lower than 32 and 
-higher than 126 are converted to octal representation.</mtlsyntax>
-        <mtlsyntax function="addentry"></mtlsyntax>
-        <mtlsyntax function="addfill"></mtlsyntax>
-        <mtlsyntax function="addshape"></mtlsyntax> 
-        <mtlsyntax function="addslashes" usage="string addslashes (string str)">
-Returns a string with backslashes before characters that need to be quoted in database queries etc. 
-These characters are single quote ('), double quote (&quot;), backslash (\) and NUL (the NULL byte).</mtlsyntax>
-        <mtlsyntax function="addstring"></mtlsyntax>
-        <mtlsyntax function="aggregate" usage="void aggregate ( object object, string class_name)">
-Aggregates methods and properties defined in a class to an existing object. 
-Methods and properties with names starting with an underscore character (_) are considered private 
-to the aggregated class and are not used, constructors are also excluded from the aggregation procedure.</mtlsyntax>
-        <mtlsyntax function="align"></mtlsyntax>
-        <mtlsyntax function="apache_child_terminate" usage="bool apache_child_terminate ( void)">
-apache_child_terminate() will register the Apache process executing the current mtl request for termination 
-once execution of mtl code it is completed. It may be used to terminate a process after a script with 
-high memory consumption has been run as memory will usually only be freed internally but not given 
-back to the operating system.
-        </mtlsyntax>
-        <mtlsyntax function="apache_lookup_uri" usage="object apache_lookup_uri ( string filename)">
-This performs a partial request for a URI. It goes just far enough to obtain all the important information 
-about the given resource and returns this information in a class.
-        </mtlsyntax>
-        <mtlsyntax function="apache_note" usage="string apache_note ( string note_name [, string note_value])">apache_note() is an Apache-specific function which gets and sets values in a request's notes table. If called with one argument, it returns the current value of note note_name. If called with two arguments, it sets the value of note note_name to note_value and returns the previous value of note note_name.</mtlsyntax>
-        <mtlsyntax function="apache_sub_req"></mtlsyntax>
-        <mtlsyntax function="array" usage="array array ( [mixed ...])">
-Create an array.
-Returns an array of the parameters. The parameters can be given an index with the =&gt; operator. 
-Note: array() is a language construct used to represent literal arrays, and not a regular function. 
-Syntax &quot;index =&gt; values&quot;, separated by commas, define index and values. index may be of type string or numeric. 
-When index is omitted, a integer index is automatically generated, starting at 0. 
-If index is an integer, next generated index will be the biggest integer index + 1. 
-Note that when two identical index are defined, the last overwrite the first. 
-</mtlsyntax>
-        <mtlsyntax function="array_change_key_case" usage="array array_change_key_case ( array input [, int case])">Returns an array with all string keys lowercased or uppercased</mtlsyntax>
-      <mtlsyntax function="assert" usage="int assert ( mixed assertion)">
-assert() will check the given assertion and take appropriate action if its result is FALSE .
+		<mtlsyntax function="oclAsType" usage="oclAsType(typename : OclType) : OclAny">Evaluates to self, where self is of the type identified by typename. Typename may be in the format Package::subPackage::classifier.
+			It is used in order to cast the object to this type, so the appropriate method can be called.
+			post: (result = self) and result.oclIsTypeOf( typeName )</mtlsyntax>
+		<mtlsyntax function="oclIsUndefined" usage="oclIsUndefined() : Boolean">Evaluates to true if the self is equal to OclUndefined.	post: result = self.isTypeOf( OclVoid )</mtlsyntax>
+        <mtlsyntax function="oclIsTypeOf" usage="oclIsTypeOf(typename : OclType) : Boolean">Evaluates to true if the self is of the type identified by typename. Typename may be in the format Package::subPackage::classifier.</mtlsyntax>
+        <mtlsyntax function="oclIsKindOf" usage="oclIsKindOf(typename : OclType) : Boolean">Evaluates to true if the self conforms to the type identified by typename. Typename may be in the format Package::subPackage::classifier.</mtlsyntax>
+		<mtlsyntax function="toOut" usage="toOut()">For convenience only, Writes this object to the standard output</mtlsyntax>
+        <mtlsyntax function="toErr" usage="toErr()">For convenience only, Writes this object to the standard output</mtlsyntax>
+		<mtlsyntax function="delete" usage="delete()">delete this model element</mtlsyntax>
+		<mtlsyntax function="oclUid" usage="oclUid() : String">return the Unique ID of this model element</mtlsyntax>
+		<mtlsyntax function="accept" usage="accept(v : DefaultVisitors::CallableVisitor; context : Standard::OclAny) : Standard::OclAny"></mtlsyntax>
+		<mtlsyntax function="accept" usage="accept(v : DefaultVisitors::InvokableVisitor; context : Standard::OclAny) : Standard::OclAny"></mtlsyntax>
 
-If the assertion is given as a string it will be evaluated as mtl code by assert(). The advantages of a string assertion are less overhead when assertion checking is off and messages containing the assertion expression when an assertion fails. This means that if you pass a boolean condition as assertion this condition will not show up as parameter to the assertion function which you may have defined with the assert_options() function, the condition is converted to a string before calling that handler function, and the boolean FALSE is converted as the empty string.</mtlsyntax>
-        <mtlsyntax function="assert_options" usage="mixed assert_options ( int what [, mixed value])">Using assert_options() you may set the various assert() control options or just query their current settings.</mtlsyntax>
-        <mtlsyntax function="atan" usage="loat atan ( float arg)">Returns the arc tangent of arg in radians. atan() is the complementary function of tan(), which means that a==tan(atan(a)) for every value of a that is within atan()'s range.</mtlsyntax>
-        <mtlsyntax function="atan2" usage="float atan2 ( float y, float x)">
-This function calculates the arc tangent of the two variables xand y. It is similar to calculating the arc tangent of y/x, except that the signs of both arguments are used to determine the quadrant of the result. 
-
-The function returns the result in radians, which is between -PI and PI (inclusive)</mtlsyntax>
-        <mtlsyntax function="base64_decode" usage="string base64_decode ( string encoded_data)">base64_decode() decodes encoded_data and returns the original data. The returned data may be binary.</mtlsyntax>
-     <mtlsyntax function="bindec"></mtlsyntax>
-        <mtlsyntax function="bindec" usage="int bindec ( string binary_string)">
-Returns the decimal equivalent of the binary number represented by the binary_string argument. 
-
-bindec() converts a binary number to an integer. The largest number that can be converted is 31 bits of 1's or 2147483647 in decimal.</mtlsyntax>
-            <mtlsyntax function="zzip_readdir"></mtlsyntax>
 ==================================================        
 *Below this are the various mtl-specific keywords *
 ==================================================     
         <mtlsyntax keyword="if" tokenval="1001"></mtlsyntax>
         <mtlsyntax keyword="elseif" tokenval="1002"></mtlsyntax>
         <mtlsyntax keyword="else" tokenval="1003"></mtlsyntax>
-        <mtlsyntax keyword="endif" tokenval="1004"></mtlsyntax>
-        <mtlsyntax keyword="for" tokenval="1005"></mtlsyntax>
-        <mtlsyntax keyword="endfor" tokenval="1005"></mtlsyntax>
+        <mtlsyntax keyword="isNull" tokenval="1004"></mtlsyntax>
+        <mtlsyntax keyword="JavaCode" tokenval="1005"></mtlsyntax>
+        <mtlsyntax keyword="Tag" tokenval="1005"></mtlsyntax>
         <mtlsyntax keyword="while" tokenval="1007"></mtlsyntax>
-        <mtlsyntax keyword="endwhile" tokenval="1008"></mtlsyntax>
+        <mtlsyntax keyword="throw" tokenval="1008"></mtlsyntax>
         <mtlsyntax keyword="switch" tokenval="1009"></mtlsyntax>
         <mtlsyntax keyword="case" tokenval="1010"></mtlsyntax>
-        <mtlsyntax keyword="endswitch" tokenval="1011"></mtlsyntax>
+        <!--<mtlsyntax keyword="endswitch" tokenval="1011"></mtlsyntax>-->
         <mtlsyntax keyword="break" tokenval="1012"></mtlsyntax>
         <mtlsyntax keyword="continue" tokenval="1013"></mtlsyntax>
         <mtlsyntax keyword="return" tokenval="1014"></mtlsyntax>
-        <mtlsyntax keyword="define" tokenval="1015"></mtlsyntax>
-        <mtlsyntax keyword="include" tokenval="1016"></mtlsyntax>
-        <mtlsyntax keyword="include_once" tokenval="1017"></mtlsyntax>
-        <mtlsyntax keyword="require" tokenval="1018"></mtlsyntax>
-        <mtlsyntax keyword="require_once" tokenval="1019"></mtlsyntax>
-        <mtlsyntax keyword="function" tokenval="1020"></mtlsyntax>
+        <mtlsyntax keyword="associate" tokenval="1015"></mtlsyntax>
+        <mtlsyntax keyword="dissociate" tokenval="1016"></mtlsyntax>
+        <mtlsyntax keyword="try" tokenval="1017"></mtlsyntax>
+        <mtlsyntax keyword="catch" tokenval="1018"></mtlsyntax>
+        <mtlsyntax keyword="finally" tokenval="1019"></mtlsyntax>
+        <!--<mtlsyntax keyword="function" tokenval="1020"></mtlsyntax>-->
         <mtlsyntax keyword="class" tokenval="1021"></mtlsyntax>
         <mtlsyntax keyword="new" tokenval="1022"></mtlsyntax>
-        <mtlsyntax keyword="do" tokenval="1023"></mtlsyntax>
+        <!--<mtlsyntax keyword="do" tokenval="1023"></mtlsyntax>-->
         <mtlsyntax keyword="library" tokenval="1024"></mtlsyntax>
         <mtlsyntax keyword="model" tokenval="1025"></mtlsyntax>
         <mtlsyntax keyword="package" tokenval="1026"></mtlsyntax> 
         <mtlsyntax keyword="static" tokenval="1027"></mtlsyntax>
         <mtlsyntax keyword="foreach" tokenval="1028"></mtlsyntax>
-        <mtlsyntax keyword="endforeach" tokenval="1029"></mtlsyntax>
+        <!--<mtlsyntax keyword="endforeach" tokenval="1029"></mtlsyntax>-->
         <mtlsyntax keyword="extends" tokenval="1030"></mtlsyntax>
-        <mtlsyntax keyword="empty" tokenval="1031"></mtlsyntax>
-        <mtlsyntax keyword="array" tokenval="1032"></mtlsyntax>
-        <mtlsyntax keyword="echo" tokenval="1033"></mtlsyntax>
-        <mtlsyntax keyword="var" tokenval="1034"></mtlsyntax>
+        <mtlsyntax keyword="refines" tokenval="1031"></mtlsyntax>
+        <mtlsyntax keyword="self" tokenval="1032"></mtlsyntax>
+        <mtlsyntax keyword="this" tokenval="1033"></mtlsyntax>
+        <!--<mtlsyntax keyword="var" tokenval="1034"></mtlsyntax>-->
         <mtlsyntax keyword="main" tokenval="1035"></mtlsyntax> 
-        <mtlsyntax keyword="print" tokenval="1036"></mtlsyntax> 
-        <mtlsyntax keyword="unset" tokenval="1037"></mtlsyntax>
-        <mtlsyntax keyword="exit" tokenval="1038"></mtlsyntax>
-        <mtlsyntax keyword="die" tokenval="1039"></mtlsyntax>
+        <!--<mtlsyntax keyword="print" tokenval="1036"></mtlsyntax> -->
+        <!--<mtlsyntax keyword="unset" tokenval="1037"></mtlsyntax>-->
+        <!--<mtlsyntax keyword="exit" tokenval="1038"></mtlsyntax>-->
+        <mtlsyntax keyword="not" tokenval="1039"></mtlsyntax>
         <mtlsyntax keyword="and" tokenval="1040"></mtlsyntax>
         <mtlsyntax keyword="or" tokenval="1041"></mtlsyntax>
         <mtlsyntax keyword="xor" tokenval="1042"></mtlsyntax>
-        <mtlsyntax keyword="list" tokenval="1043"></mtlsyntax> 
+        <!--<mtlsyntax keyword="list" tokenval="1043"></mtlsyntax> -->
         <mtlsyntax keyword="null" tokenval="1044"></mtlsyntax>
         <mtlsyntax keyword="false" tokenval="1045"></mtlsyntax>
         <mtlsyntax keyword="true" tokenval="1046"></mtlsyntax>
 =========================================================        
 *Below this are the various mtl-specific variable types *
 =========================================================
-        <mtlsyntax type="string"></mtlsyntax>         
-        <mtlsyntax type="unset"></mtlsyntax> 
-        <mtlsyntax type="object"></mtlsyntax>         
-        <mtlsyntax type="bool"></mtlsyntax>         
-        <mtlsyntax type="boolean"></mtlsyntax>         
-        <mtlsyntax type="real"></mtlsyntax>         
-        <mtlsyntax type="double"></mtlsyntax>         
-        <mtlsyntax type="float"></mtlsyntax>         
-        <mtlsyntax type="int"></mtlsyntax>         
-        <mtlsyntax type="integer"></mtlsyntax>        
+        <mtlsyntax type="Bag"></mtlsyntax>       
+        <mtlsyntax type="BMTLLibrary"></mtlsyntax>       
+        <mtlsyntax type="BMTLOject"></mtlsyntax>       
+        <mtlsyntax type="Boolean"></mtlsyntax>        
+        <mtlsyntax type="Collection"></mtlsyntax>     
+        <mtlsyntax type="Hashtable"></mtlsyntax>         
+        <mtlsyntax type="Integer"></mtlsyntax>        
+        <mtlsyntax type="Iterator"></mtlsyntax>
+        <mtlsyntax type="ModelElement"></mtlsyntax>
+        <mtlsyntax type="OclAny"></mtlsyntax>
+        <mtlsyntax type="OclType"></mtlsyntax>
+        <mtlsyntax type="OrderedSet"></mtlsyntax>
+        <mtlsyntax type="Real"></mtlsyntax>          
+        <mtlsyntax type="Sequence"></mtlsyntax>           
+        <mtlsyntax type="Set"></mtlsyntax> 
+        <mtlsyntax type="String"></mtlsyntax>
 		<mtlsyntax type="Void"></mtlsyntax>        
 ===================================================        
 *Below this are the various mtl-specific constants *
@@ -138,8 +92,6 @@ bindec() converts a binary number to an integer. The largest number that can be 
         <mtlsyntax constant="true"></mtlsyntax>
         <mtlsyntax constant="false"></mtlsyntax>
         <mtlsyntax constant="null"></mtlsyntax>
-        <mtlsyntax constant="object"></mtlsyntax>
-        <mtlsyntax constant="array"></mtlsyntax>
 		<mtlsyntax constant="Standard"></mtlsyntax>
 
 </mtlstandardsyntax>
