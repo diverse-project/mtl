@@ -1,8 +1,8 @@
 package org.irisa.triskell.MT.DataTypes.Java.defaultImpl;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.String.StringCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.String.StringType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringCommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
 
 import java.io.*;
 import java.util.*;

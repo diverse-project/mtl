@@ -4,7 +4,7 @@
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-package org.irisa.triskell.MT.DataTypes.Java.commands.String;
+package org.irisa.triskell.MT.DataTypes.Java.commands.OclString;
 
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
