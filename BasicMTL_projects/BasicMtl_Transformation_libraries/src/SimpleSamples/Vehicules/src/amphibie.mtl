@@ -4,7 +4,7 @@ library amphibie;
 // classe vehiculeAmphibie
 /********************************************/
 class vehiculeAmphibie {
-surTerre:Standard::boolean;
+surTerre:Standard::Boolean;
 va:aquatiqueLib::vehiculeAquatique;
 vt:terrestreLib::vehiculeTerrestre;
 

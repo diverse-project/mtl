@@ -4,6 +4,6 @@ library amphibieherite;
 // classe vehiculeAmphibieHerite
 /********************************************/
 class vehiculeAmphibieHerite extends terrestreLib::vehiculeTerrestre,aquatiqueLib::vehiculeAquatique {
-surTerre:Standard::boolean;
+surTerre:Standard::Boolean;
 
 }

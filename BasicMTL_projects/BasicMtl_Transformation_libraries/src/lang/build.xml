@@ -1,12 +1,12 @@
-<!-- $Id: build.xml,v 1.4 2003-08-09 15:19:50 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.5 2003-08-09 16:43:21 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="Standard_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="./src"/>
-	<property name="bin" location="../../bin/Standard"/>
-	<property name="build" location="../../build/Standard"/>
+	<property name="bin" location="../../bin/"/>
+	<property name="build" location="../../build/"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
