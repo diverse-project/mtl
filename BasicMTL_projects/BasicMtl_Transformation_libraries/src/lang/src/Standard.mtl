@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.5 2003-08-08 15:22:27 jpthibau Exp $
+// $Id: Standard.mtl,v 1.1 2003-08-08 17:00:42 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
