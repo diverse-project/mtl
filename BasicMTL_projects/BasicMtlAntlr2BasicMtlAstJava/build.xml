@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-09-05 12:15:09 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-10-14 15:00:10 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2BasicMtlAstJava" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -10,9 +10,9 @@
 	
 	<!-- This project depends on the BasicMtlAntlr and BasicMtlAstJava projects -->
 	<property name="BasicMtlAntlr"  location="..\BasicMtlAntlr"/>
-	<property name="BasicMtlAstJava"  location="..\BasicMtlAstJava"/>
 	<!-- This project deeply depends on the Utils project -->
 	<property name="Utils"  location="..\Utils"/>
+	<property name="BasicMtlAstJava"  location="..\BasicMtlAstJava"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -26,9 +26,6 @@
 	    <echo>Building the "BasicMtlAntlr" project.</echo>
 	    <ant antfile="${BasicMtlAntlr}\build.xml" dir="${BasicMtlAntlr}" target="dist" inheritAll="false"/>
 	    <echo>"BasicMtlAntlr" project built.</echo>
-	    <echo>Building the "BasicMtlAstJava" project.</echo>
-	    <ant antfile="${BasicMtlAstJava}\build.xml" dir="${BasicMtlAstJava}" target="dist" inheritAll="false"/>
-	    <echo>"BasicMtlAstJava" project built.</echo>
 	</target>
 
 	<target name="compile_java" depends="init"
@@ -81,9 +78,6 @@
 		<copy todir="${dist}/bin">
 			<fileset dir="${BasicMtlAntlr}\dist\bin"/>
 		</copy>
-		<copy todir="${dist}/bin">
-			<fileset dir="${BasicMtlAstJava}\dist\bin"/>
-		</copy>
 		
 	    <copy file="log4j_configuration.xml"
 	    	todir="${dist}/bin"
@@ -102,6 +96,5 @@
 	    
 		<!-- This project depends on the BasicMtlAntlr and BasicMtlAstJava projects -->
 	    <ant antfile="${BasicMtlAntlr}\build.xml" dir="${BasicMtlAntlr}" target="deep_clean" inheritAll="false"/>
-	    <ant antfile="${BasicMtlAstJava}\build.xml" dir="${BasicMtlAstJava}" target="deep_clean" inheritAll="false"/>
     </target>
 </project>

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.10 2003-08-28 16:39:18 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.11 2003-10-14 14:59:20 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -32,6 +32,8 @@ public class antlr2ast implements ANTLRWalkerActionsInterface {
 	public static org.apache.log4j.Logger getLog () {
 			return BMTLParser.log;
 	}
+	
+	private static Library theBuiltAST=null; //<<<Accumulation>>>
 
 public Library buildLibraryFromText(String fileName)
 { return ((Library)BMTLParser.Parse(fileName,this)); }
@@ -84,15 +86,16 @@ return expr; }
 
 /* ANTLRWalkerActionsInterface implemented functions */
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes)
-{	int i;
-	Library node=(Library)header;
+{	int i; //<<<Accumulation>>>
+	if (antlr2ast.theBuiltAST ==null)
+		antlr2ast.theBuiltAST=(Library)header;
 	for(i=0;i<models.size();i++)
-		((BasicMtlLibrary)node).appendParameters((ModelRef)models.get(i)); 
+		((BasicMtlLibrary)antlr2ast.theBuiltAST).appendParameters((ModelRef)models.get(i)); 
 	for(i=0;i<methods.size();i++)
-		node.appendDefinedOperations((Operation)methods.get(i)); 
+	antlr2ast.theBuiltAST.appendDefinedOperations((Operation)methods.get(i)); 
 	for(i=0;i<classes.size();i++)
-		node.appendDefinedClasses((UserClass)classes.get(i)); 
-	return node; }
+	antlr2ast.theBuiltAST.appendDefinedClasses((UserClass)classes.get(i)); 
+	return antlr2ast.theBuiltAST; }
 
 public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector tags)
 {	Library node=(Library)libHeader;
@@ -121,18 +124,62 @@ public Object model(String lineNumber,String modelName,String viewName)
 		return node;
 	}
 }
-	
-public Object classDefinition(String lineNumber,String className,Object inheritance,java.util.Vector tags,java.util.Vector attributes,java.util.Vector methods)
+public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints)
 {	int i;
+	Association node=new Association(associationName);
+	for (i=0;i<endPoints.size();i++) 
+		node.appendEndPoints((EndPoint)endPoints.get(i));
+	putProperty(node,"LineNumber",lineNumber,"StringTag");
+	putTags(node,tags);
+	return node; }
+
+public Object endPoint(String lineNumber,String roleName,String className,Object multiplicity,boolean isComposition,boolean isAggregation,boolean isOrdered,boolean isNavigable,java.util.Vector theTags)
+{	EndPoint node= new EndPoint(roleName,className,isComposition,isAggregation,isOrdered,isNavigable);
+	node.setMultiplicity((Multiplicity)multiplicity);
+	putProperty(node,"LineNumber",lineNumber,"StringTag");
+	return node;
+}
+
+public Object multiplicity (String lowerBound,String upperBound)
+{	Multiplicity node=new Multiplicity(Integer.parseInt(lowerBound),Integer.parseInt(upperBound));
+	return node;
+}
+	
+public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
+{	int i,j;
 	UserClass node=new UserClass(className);
 	for(i=0;i<attributes.size();i++) {
 		java.util.Vector declaredAttributes=(java.util.Vector)attributes.get(i);
-		for (int j=0;j<declaredAttributes.size();j++)
+		for (j=0;j<declaredAttributes.size();j++)
 			node.appendDefinedAttributes((Attribute)declaredAttributes.get(j)); 
 	}
 	for(i=0;i<methods.size();i++)
 		node.appendDefinedMethods((Operation)methods.get(i)); 
+	for(i=0;i<settersGetters.size();i++) {
+		java.util.Vector theSetterGetter = (java.util.Vector)settersGetters.get(i);
+		Attribute theAttribute=null;
+		Operation theOperation=null;
+		for(j=0;j<node.cardDefinedAttributes();j++)
+			if (node.getDefinedAttributes(j).getName().equals((String)theSetterGetter.get(1)))
+				theAttribute = node.getDefinedAttributes(j);
+		for(j=0;j<node.cardDefinedMethods();j++)
+			if (node.getDefinedMethods(j).getName().equals((String)theSetterGetter.get(2)))
+				theOperation = node.getDefinedMethods(j);
+		if (theAttribute == null | theOperation==null)
+			log.error("Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
+		else {
+			if (((Boolean)theSetterGetter.get(0)).booleanValue())
+				{	theAttribute.setGetter(theOperation);
+					theOperation.setIsGetterFor(theAttribute);
+			}
+			else {
+					theAttribute.setSetter(theOperation);
+					theOperation.setIsSetterFor(theAttribute);
+				}
+		}
+	}
 	putProperty(node,"Inheritance",inheritance,"SpecialTag");
+	putProperty(node,"Refinement",refinement,"SpecialTag");
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	putTags(node,tags);
 	return node; }
@@ -151,6 +198,14 @@ public Object attribute(Object localVarDef,java.util.Vector tags)
 		declaredAttributes.addElement(attrib);
 	}
 	return declaredAttributes; }
+
+public Object setterGetter(boolean isGetter,String attributeName,String operationName)
+{	java.util.Vector theSetterGetter=new java.util.Vector();
+	theSetterGetter.addElement(new Boolean(isGetter));
+	theSetterGetter.addElement(attributeName);
+	theSetterGetter.addElement(operationName);
+	return theSetterGetter;
+}
 
 public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
 {	int i,j;
@@ -356,12 +411,17 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return (Expression)node; }
 
-public Object oclAsType(Object type,String lineNumber)
-{	java.util.Vector qualifiers=(java.util.Vector)type;
-	OclAsType node=new OclAsType();
+public Object oclAsType(Object type,String lineNumber,String theType,String theMethod,String theParameter,boolean isAConstant)
+{	OclAsType node=new OclAsType();
+	node.setIsAConstant(isAConstant);
+	java.util.Vector qualifiers=(java.util.Vector)type;
 	for(int i=0;i<qualifiers.size();i++)
 		node.appendType((String)qualifiers.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
+	if (! isAConstant)
+	{	node.setTypeVar(theType);
+		node.setMethodVar(theMethod);
+		node.setParameterVar(theParameter); }
 	return (Expression)node; }
 
 public Object arguments(java.util.Vector expressions)
