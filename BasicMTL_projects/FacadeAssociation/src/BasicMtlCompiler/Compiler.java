@@ -1,15 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.10 2004-06-14 13:19:21 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.11 2004-06-22 15:04:36 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
 package BasicMtlCompiler;
 
 import java.io.*;
-import java.util.Vector;
+//import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
+import org.irisa.triskell.MT.utils.MessagesHandler.CompilerException;
 
 import ANTLRASTWalker.antlrParserInterface;
 import TypeChecker.TLLtypechecking;
@@ -36,7 +37,7 @@ public class Compiler {
 	/**
 	 * @param args command line arguments
 	 */
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args) 
 	{
 		// parses the arguments in order to find the necessary data
 		if (args.length > 0) {
@@ -69,8 +70,14 @@ public class Compiler {
 			
 			// ok let's do the stuff...
 			Compiler thisCompilerFacade = new Compiler();
-			thisCompilerFacade.compileFromDirectory(sourcesDir,defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);
-						
+			try {
+				thisCompilerFacade.compileFromDirectory(sourcesDir,defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);
+			}
+			catch (CompilerException e)
+			{
+				System.err.println("Compilation error found");
+				System.exit(-1);		
+			}
 		}
 		else showUsage();
 	}
@@ -90,7 +97,7 @@ public class Compiler {
 		String defaultTLLPath,
 		String TLLLoadingPaths,
 		String defaultBinPath)
-		throws Exception
+		throws CompilerException
 	{
 		// create destination directory
 		java.io.File directoryFile=new java.io.File(defaultBinPath);
@@ -104,7 +111,7 @@ public class Compiler {
 		if (theLib!=null)
 			// compile, ie. generate the java files
 			BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
-		else MSGHandler.fatal(Compiler.class,104,"theLib == null");
+		else MSGHandler.fatal(Compiler.class,104,"no generated library");
 	}
 	
 	/**
@@ -122,9 +129,8 @@ public class Compiler {
 			String defaultTLLPath,
 			String TLLLoadingPaths,
 			String defaultBinPath)
-			throws Exception
+			throws CompilerException
 	{
-		MSGHandler.allMessages = new Vector();
 		// look in the directory only for mtl files. 
 		// this version do not search recursively
 		java.util.Vector filenamesArguments=new java.util.Vector();
