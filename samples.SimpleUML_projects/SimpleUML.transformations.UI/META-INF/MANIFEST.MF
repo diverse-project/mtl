@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Name: SimpleUML transformations UI Plug-in
 Bundle-SymbolicName: org.inria.SimpleUML.transformations.UI; singleton=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.0.1
 Bundle-ClassPath: SimpleUML_transformations_UI.jar
 Bundle-Activator: org.inria.simpleUML.transformations.UI.UIPlugin
 Bundle-Vendor: INRIA
