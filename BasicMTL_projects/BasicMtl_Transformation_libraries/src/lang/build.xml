@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.8 2003-08-26 09:40:50 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.9 2003-08-29 07:36:16 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="Standard_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -8,6 +8,20 @@
 	<property name="bin" location="../../bin/"/>
 	<property name="build" location="../../build/"/>
 
+
+	<!-- classpath for compiling and running MTL file -->
+	<path id="MTLcompiler.class.path">
+    	<pathelement path="${java.class.path}/"/>
+    	<pathelement path="."/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MTDataTypes\dist\bin\MTDataTypes.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMTLRuntime\dist\bin\BasicMTLRuntime.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\RepositoryAPI\dist\bin\RepositoryAPI.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MDRDriver\dist\bin\MDRDriver.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\dist\bin\Utils.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\ThirdParty\log4j\log4j.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\bin"/>
+  	</path>
+  	
 	<target name="init">
     	<!-- Create the time stamp -->
     	<tstamp/>
@@ -51,6 +65,22 @@
  
 	</target>
 
+	
+	<target name="compile generated code" depends="compile Standard">
+		<description>
+  			compile the generated Java Code
+  		</description>		
+   		<!-- there is also one java file in the src directory -->
+  		<javac srcdir="${src}" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  		<javac srcdir="${build}/src/java/Standard" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>		
+	</target>
+	
 	<target name="clean"
         description="clean up Standard lib" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
