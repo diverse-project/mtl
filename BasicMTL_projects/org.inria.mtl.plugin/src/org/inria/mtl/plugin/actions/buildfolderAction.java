@@ -1,3 +1,10 @@
+/*
+* $Id: buildfolderAction.java,v 1.2 2004-05-19 09:22:47 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.actions;
 
 import org.eclipse.core.resources.IFolder;

@@ -1,7 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: LibrairiesPage.java,v 1.3 2004-05-19 09:21:46 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.wizards.pages;
 
 import java.net.URL;

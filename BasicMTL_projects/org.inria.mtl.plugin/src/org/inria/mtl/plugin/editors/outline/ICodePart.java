@@ -1,9 +1,10 @@
 /*
- * Created on 05-05-2004
- *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
+* $Id: ICodePart.java,v 1.2 2004-05-19 09:21:11 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.outline;
 
 import org.eclipse.jface.text.Position;

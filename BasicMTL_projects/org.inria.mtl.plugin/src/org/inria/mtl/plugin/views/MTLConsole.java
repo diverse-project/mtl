@@ -1,14 +1,16 @@
+/*
+* $Id: MTLConsole.java,v 1.2 2004-05-19 09:22:33 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.views;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-//import net.sourceforge.phpdt.internal.ui.PHPUiImages;
-//import net.sourceforge.phpeclipse.PHPeclipsePlugin;
-//import net.sourceforge.phpeclipse.actions.PHPActionMessages;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
@@ -18,8 +20,8 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
+//import org.eclipse.jface.text.BadLocationException;
+//import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -46,7 +48,7 @@ public class MTLConsole extends ViewPart {
   private int COMMAND_COMBO_SIZE = 10;
 
   private TextViewer fViewer = null;
-  private Document fDocument = null;
+//  private Document fDocument = null;
   private StyledText fStyledText;
   // private Combo fCommandCombo;
   //  private ProcessOutputWriter consoleOut;
@@ -176,20 +178,20 @@ public class MTLConsole extends ViewPart {
    * Set the text for the viewer
    */
   public void setOutputText(String text) {
-	fDocument = new Document(text);
-	fViewer.setDocument(fDocument);
+//	fDocument = new Document(text);
+//	fViewer.setDocument(fDocument);
   }
 
   public void appendOutputText(String text) {
-	try {
-	  if (fDocument == null) {
-		fDocument = new Document(text);
-		fViewer.setDocument(fDocument);
-	  } else {
-		fDocument.replace(fDocument.getLength(), 0, text);
-	  }
-	} catch (BadLocationException e) {
-	}
+//	try {
+//	  if (fDocument == null) {
+//		fDocument = new Document(text);
+//		fViewer.setDocument(fDocument);
+//	  } else {
+//		fDocument.replace(fDocument.getLength(), 0, text);
+//	  }
+//	} catch (BadLocationException e) {
+//	}
 	//  viewer.setDocument(document);
   }
 

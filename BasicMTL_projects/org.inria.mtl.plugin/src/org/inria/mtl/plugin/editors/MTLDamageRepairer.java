@@ -1,9 +1,10 @@
 /*
- * Created on 06-Oct-2003
- *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
+* $Id: MTLDamageRepairer.java,v 1.2 2004-05-19 09:22:37 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -14,10 +15,8 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.ITokenScanner;
 
 /**
- * @author ish
+ * @author sdzale
  *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class MTLDamageRepairer extends DefaultDamagerRepairer {
 	

@@ -1,4 +1,10 @@
-
+/*
+* $Id: PreferenceConstants.java,v 1.3 2004-05-19 09:21:29 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.preferences;
 
 
@@ -15,7 +21,7 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.WorkbenchChainedTextFontFieldEditor;
 
 /**
- * Preference constants used in the JDT-UI preference store. Clients should only read the
+ * Preference constants used in the MTL-UI preference store. Clients should only read the
  * JDT-UI preference store using these values. Clients are not allowed to modify the 
  * preference store programmatically.
  * 

@@ -1,7 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: TextBuffer.java,v 1.2 2004-05-19 09:21:15 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.completion.template.textmanipulation;
 
 import java.util.ArrayList;

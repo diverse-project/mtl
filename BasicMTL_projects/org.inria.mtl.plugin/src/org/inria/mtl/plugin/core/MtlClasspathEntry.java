@@ -1,10 +1,16 @@
+/*
+* $Id: MtlClasspathEntry.java,v 1.2 2004-05-19 09:22:40 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.core;
-import org.eclipse.jdt.internal.core.*;
 
+import org.eclipse.jdt.internal.core.*;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
-//import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;

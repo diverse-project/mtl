@@ -1,8 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved
- */
-package org.inria.mtl.plugin.preferences;
+* $Id: TabFolderLayout.java,v 1.2 2004-05-19 09:21:28 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ package org.inria.mtl.plugin.preferences;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;

@@ -1,9 +1,10 @@
 /*
- * Created on 11 mai 2004
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
+* $Id: TextEditNode.java,v 1.2 2004-05-19 09:21:19 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.completion.template.textmanipulation;
 
 /**

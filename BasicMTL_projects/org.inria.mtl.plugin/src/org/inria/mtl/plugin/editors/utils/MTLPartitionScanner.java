@@ -1,13 +1,14 @@
-package org.inria.mtl.plugin.editors.utils;
-
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: MTLPartitionScanner.java,v 1.2 2004-05-19 09:22:07 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
+package org.inria.mtl.plugin.editors.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IPredicateRule;

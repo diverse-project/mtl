@@ -4,24 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-
-//import  org.eclipse.jdt.internal.corext.template.ITemplateEditor;
 
 import org.eclipse.core.runtime.CoreException;
-
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.MultiTextEdit;
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.NopTextEdit;
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.SimpleTextEdit;
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextBuffer;
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextBufferEditor;
 import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextEdit;
-import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextRange;
 
 
 /**

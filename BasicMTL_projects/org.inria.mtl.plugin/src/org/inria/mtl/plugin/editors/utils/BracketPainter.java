@@ -1,3 +1,10 @@
+/*
+* $Id: BracketPainter.java,v 1.2 2004-05-19 09:22:11 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.utils;
 
 import org.eclipse.jface.text.IRegion;

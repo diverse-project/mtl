@@ -1,3 +1,10 @@
+/*
+* $Id: MTLCore.java,v 1.2 2004-05-19 09:22:40 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.core;
 
 import java.io.ByteArrayInputStream;

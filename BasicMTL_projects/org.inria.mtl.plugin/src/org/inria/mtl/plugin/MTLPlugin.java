@@ -1,3 +1,10 @@
+/*
+* $Id: MTLPlugin.java,v 1.2 2004-05-19 09:22:50 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin;
 
 import java.io.InputStream;
@@ -5,7 +12,7 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProject; 
 import org.eclipse.core.resources.ISaveContext;
 import org.eclipse.core.resources.ISaveParticipant;
 import org.eclipse.core.resources.IWorkspace;
@@ -29,7 +36,7 @@ import org.inria.mtl.plugin.builders.MTLNature;
 import org.inria.mtl.plugin.editors.utils.MTLEditorColorProvider;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
-import org.inria.mtl.plugin.editors.MTLDocumentProvider;
+import org.inria.mtl.plugin.editors.MTLDocumentProviders;
 
 
 
@@ -74,7 +81,7 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	public static IPath[] libFolders ;
 	public static IPath[] projFolders ;
 	
-	private MTLDocumentProvider fCompilationUnitDocumentProvider;
+	private MTLDocumentProviders fCompilationUnitDocumentProvider;
 	
 	
 	
@@ -336,9 +343,9 @@ private IWorkbenchPage internalGetActivePage() {
 	   
 
 // TODO: refactor this into a better method name !
-public synchronized MTLDocumentProvider getCompilationUnitDocumentProvider() {
+public synchronized MTLDocumentProviders getCompilationUnitDocumentProvider() {
   if (fCompilationUnitDocumentProvider == null)
-	fCompilationUnitDocumentProvider = new MTLDocumentProvider();
+	fCompilationUnitDocumentProvider = new MTLDocumentProviders();
   return fCompilationUnitDocumentProvider;
 }
 

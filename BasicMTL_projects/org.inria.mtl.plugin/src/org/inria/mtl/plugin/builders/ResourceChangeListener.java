@@ -1,3 +1,10 @@
+/*
+* $Id: ResourceChangeListener.java,v 1.2 2004-05-19 09:22:20 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.builders;
 
 import org.eclipse.core.resources.IResource;
@@ -6,9 +13,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
-
 import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.preferences.MTLPreferencePage;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 

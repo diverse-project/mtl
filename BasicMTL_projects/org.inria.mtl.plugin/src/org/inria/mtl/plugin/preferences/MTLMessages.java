@@ -1,3 +1,10 @@
+/*
+* $Id: MTLMessages.java,v 1.2 2004-05-19 09:21:34 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.preferences;
 
 import java.text.MessageFormat;

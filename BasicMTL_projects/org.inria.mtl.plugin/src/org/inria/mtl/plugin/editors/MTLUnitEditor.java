@@ -1,10 +1,16 @@
+/*
+* $Id: MTLUnitEditor.java,v 1.4 2004-05-19 09:22:38 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -781,8 +787,8 @@ public class MTLUnitEditor extends MTLEditor {
   private void configureTabConverter() {
 	if (fTabConverter != null) {
 	  IDocumentProvider provider = getDocumentProvider();
-	  if (provider instanceof MTLDocumentProvider) {
-		MTLDocumentProvider cup = (MTLDocumentProvider) provider;
+	  if (provider instanceof MTLDocumentProviders) {
+		MTLDocumentProviders cup = (MTLDocumentProviders) provider;
 		IEditorInput input = getEditorInput();
 		fTabConverter.setLineTracker(cup.createLineTracker(getEditorInput()));
 	  }

@@ -1,3 +1,10 @@
+/*
+* $Id: MTLActionContributor.java,v 1.4 2004-05-19 09:22:36 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors;
 
 import java.util.ArrayList;

@@ -1,12 +1,15 @@
+/*
+* $Id: GenerateActionGroup.java,v 1.3 2004-05-19 09:21:01 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.actions;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.inria.mtl.plugin.preferences.PreferenceConstants;
-import org.inria.mtl.plugin.editors.utils.*;
-import org.inria.mtl.plugin.editors.MTLEditor;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -26,6 +29,8 @@ import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.ConvertLineDelimitersAction;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.IUpdate;
+import org.inria.mtl.plugin.editors.MTLEditor;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 /**
  * Action group that adds the source and generate actions to a part's context

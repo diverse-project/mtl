@@ -1,9 +1,11 @@
-package org.inria.mtl.plugin.editors.utils;
-
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: PrintMarginPainter.java,v 1.2 2004-05-19 09:22:16 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
+package org.inria.mtl.plugin.editors.utils;
 
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.SWT;

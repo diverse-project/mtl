@@ -1,4 +1,12 @@
+/*
+* $Id: MTLDocumentProviders.java,v 1.1 2004-05-19 09:22:39 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
@@ -7,19 +15,19 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
 import org.eclipse.jface.text.ILineTracker;
 import org.eclipse.jface.text.DefaultLineTracker;
 
-//import org.irisa.mtl.plugin.editors.*;
+
 
 /** 
- * The CSharpDocumentProvider provides the IDocuments used by c sharp editors.
+ * The MTLDocumentProvider provides the IDocuments used by c sharp editors.
  */
 
-public class MTLDocumentProvider extends FileDocumentProvider {
+public class MTLDocumentProviders extends FileDocumentProvider {
 
 	private final static String[] TYPES= new String[] { MTLPartitionScanner.MTL_DOC, MTLPartitionScanner.MTL_MULTILINE_COMMENT };
 
 	private static MTLPartitionScanner scanner= null;
 
-	public MTLDocumentProvider() {
+	public MTLDocumentProviders() {
 		super();
 	}
 	

@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.3 2004-05-18 15:05:31 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.4 2004-05-19 09:22:48 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -11,7 +11,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
+//import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.preference.IPreferenceStore;

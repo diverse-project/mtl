@@ -1,3 +1,10 @@
+/*
+* $Id: MTLCompletionProcessor.java,v 1.4 2004-05-19 09:22:25 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.completion;
 
 import java.util.ArrayList;

@@ -1,3 +1,10 @@
+/*
+* $Id: BuildsMTL.java,v 1.3 2004-05-19 09:21:51 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.wizards;
 
 import java.util.ArrayList;

@@ -1,9 +1,10 @@
 /*
- * Created on 6 mai 2004
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
+* $Id: MTLEditorActionDefinitionIds.java,v 1.3 2004-05-19 09:21:02 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.actions;
 
 /**

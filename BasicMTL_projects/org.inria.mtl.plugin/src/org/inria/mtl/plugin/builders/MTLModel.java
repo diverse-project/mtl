@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.2 2004-05-17 10:17:00 sdzale Exp $
+* $Id: MTLModel.java,v 1.3 2004-05-19 09:22:20 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.QualifiedName;
-
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;

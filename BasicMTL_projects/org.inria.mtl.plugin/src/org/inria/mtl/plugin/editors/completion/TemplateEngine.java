@@ -1,17 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: TemplateEngine.java,v 1.2 2004-05-19 09:22:31 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.editors.completion;
 
 import java.util.ArrayList;
-
-import org.inria.mtl.plugin.editors.completion.template.ContextType;
-import org.inria.mtl.plugin.editors.completion.template.DocumentTemplateContext;
-import org.inria.mtl.plugin.editors.completion.template.Template;
-import org.inria.mtl.plugin.editors.completion.template.Templates;
-import org.inria.mtl.plugin.editors.completion.template.CompilationUnitContextType;
-import  org.inria.mtl.plugin.MTLPlugin;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -19,7 +15,12 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Region;
 import org.eclipse.swt.graphics.Point;
-import org.inria.mtl.plugin.editors.completion.link.LinkedPositionManager;
+import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.editors.completion.template.CompilationUnitContextType;
+import org.inria.mtl.plugin.editors.completion.template.ContextType;
+import org.inria.mtl.plugin.editors.completion.template.DocumentTemplateContext;
+import org.inria.mtl.plugin.editors.completion.template.Template;
+import org.inria.mtl.plugin.editors.completion.template.Templates;
 
 public class TemplateEngine {
 
