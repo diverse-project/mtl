@@ -553,8 +553,16 @@
            class="org.inria.mtl.popup.actions.buildprojectAction"	
 	       enablesFor="1">
 	    </action>
+	    <action id="org.inria.mtl.popIproject.fullcompile"
+	       label="Force compile MTL project"
+	       tooltip="Force compile MTL project"
+	       menubarPath="additions"
+           class="org.inria.mtl.popup.actions.buildfullprojectAction"	
+	       enablesFor="1">
+	    </action>
 	 </objectContribution>
  	</extension>
+ 	
     <extension point = "org.eclipse.ui.popupMenus">
      <objectContribution
         id="org.inria.mtl.popIFolder"
@@ -571,6 +579,7 @@
 	    </action>
 	 </objectContribution>
  	</extension>
+
    <extension
          point="org.eclipse.ui.views">
          <category
@@ -588,8 +597,8 @@
             name="%mtlModelConsoleView"
             icon="icons/xz.gif"
             category="MTLPlugin"
-            class="org.inria.mtl.views.ProjectExploreView"
-            id="org.inria.mtl.views.projectexplore">
+            class="org.inria.mtl.views.projectexplorer.ProjectExplorerView"
+            id="org.inria.mtl.views.projectexplorer.ProjectExplorerView">
       </view>
    </extension>
    <extension
