@@ -1,4 +1,4 @@
-<!-- $Id: outOfEclipsebuild.xml,v 1.2 2004-10-14 13:05:36 jpthibau Exp $ -->
+<!-- $Id: outOfEclipsebuild.xml,v 1.3 2004-10-18 14:59:31 jpthibau Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MDRDriver" default="dist" basedir=".">
 	<description>
@@ -6,6 +6,7 @@
 	</description>
 	<!-- set global properties for this build -->
 	<property name="mdr"  location="ThirdParty/MDR/official"/>
+	<property name="ModelManager" location="ModelManager"/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
 	<property name="dist"  location="dist"/>
@@ -34,22 +35,12 @@
 	    <ant antfile="${RepositoryAPI}\build.xml" dir="${RepositoryAPI}" target="dist" inheritAll="false"/>
 	    <echo>"RepositoryAPI" project built.</echo> -->
 	</target>
+
 	<target name="compile_mtl" depends="init"
         description="compile the mtl driver manager" >
- 		<java jar="${ANTLR2JavaCode}" 
-						fork="true"
-	           			failonerror="true">
-		         <arg value="${src}/ModelManager/MDR/"/>
-	         	<arg value="-TLLLoadingPaths"/>
-		         <arg value="${BasicMtlTLLs}/"/>  
-	         	<arg value="-TLLPath"/> 
-	         	<arg value="${src}/ModelManager/TLL/"/>  
-		         <arg value="-PackageName"/> 
-		         <arg value="MDRDriver"/> 
-		         <arg value="-BinPath"/> 
-		         <arg value="${src}/ModelManager/build/"/> 
-	       	</java>
+	    <ant antfile="${ModelManager}/MDR/build.xml" dir="${ModelManager}/MDR/" target="compile_mtl" inheritAll="false"/>
 		</target>
+
 	<target name="compile_java" depends="compile_mtl"
         description="compile the source " >
     	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->

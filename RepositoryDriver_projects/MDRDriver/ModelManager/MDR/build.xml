@@ -1,24 +1,25 @@
-<!-- $Id: build.xml,v 1.1 2004-10-13 14:24:37 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.1 2004-10-18 14:59:27 jpthibau Exp $ -->
 <project name="MDRDriver modelmanager" default="compile_mtl" basedir=".">
 	<description>
         Compile the BasicMtl wraper to generate code to access MDRDriver.
 	</description>
 	<!-- set global properties for this build -->
-	<property name="src" location=".."/>
+	<property name="base" location=".."/>
+	<property name="src" location="../../src"/>
 	
 	<!-- This compilation depends on the org.inria.BasicMtl.runtime project -->
 	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
 
 	<!-- Compiler and standard TLLs are supposed to be already built -->
-	<property name="ANTLR2JavaCode" location="..\..\..\..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
-	<property name="BasicMtlTLLs" location="..\..\..\..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
+	<property name="ANTLR2JavaCode" location="..\..\..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
+	<property name="BasicMtlTLLs" location="..\..\..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
 
 	<target name="compile_mtl"
         description="compile the mtl driver manager" >
  		<java jar="${ANTLR2JavaCode}" 
 						fork="true"
 	           			failonerror="true">
-		         <arg value="${src}/MDR/"/>
+		         <arg value="${base}/MDR/"/>
 	         	<arg value="-TLLLoadingPaths"/>
 		         <arg value="${BasicMtlTLLs}/"/>  
 	         	<arg value="-TLLPath"/> 
@@ -26,7 +27,10 @@
 		         <arg value="-PackageName"/> 
 		         <arg value="MDRDriver"/> 
 		         <arg value="-BinPath"/> 
-		         <arg value="${src}/build/"/> 
+		         <arg value="${src}/MDRDriver/"/> 
 	       	</java>
+		<copy todir="${src}/MDRDriver">
+			<fileset file="${base}\MDRDriver\MDRModelManager.java"/>
+		</copy>
 		</target>
 </project>

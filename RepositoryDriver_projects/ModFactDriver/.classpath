@@ -10,5 +10,6 @@
 	<classpathentry kind="src" path="/MDRDriver"/>
 	<classpathentry kind="lib" path="/MDRDriver/bin"/>
 	<classpathentry kind="lib" path="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+	<classpathentry kind="src" path="/org.inria.BasicMTL.runtime"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -5,18 +5,6 @@
 	<classpathentry sourcepath="BasicMtl2Java/LibAssociation/src" kind="lib" path="LibAssociation/dist/bin/BasicMTLruntime.jar"/>
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ANTLR/antlrfull.jar"/>
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/log4j/log4j.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/jmi.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/jmiutils.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/mdrapi.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/mof.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/nbmdr.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/MDR/openide-lookup.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/antlr.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_CORE_RUNTIME"/>
 	<classpathentry kind="var" path="EMF_COMMON"/>
 	<classpathentry kind="var" path="EMF_EDIT"/>
@@ -26,6 +14,7 @@
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/JUnit/junit.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_OSGI"/>
 	<classpathentry kind="var" path="ECLIPSE_UI_WORKBENCH"/>
-	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/JMI/jmi.jar"/>
+	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/JMI/mof.jar"/>
 	<classpathentry kind="output" path="LibAssociation/bin"/>
 </classpath>
