@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.7 2003-12-16 08:13:11 jpthibau Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.8 2004-02-13 13:14:17 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -25,6 +25,7 @@
 	<property name="MTDataTypes"  location="${base}\MTDataTypes"/>
 	<property name="RepositoryAPI"  location="${base}\RepositoryAPI"/>
 	<property name="MDRDriver"  location="${base}\MDRDriver"/>
+	<property name="ModFactDriver"  		location="${base}\ModFactDriver"/>
 	<property name="BasicMTLRuntime"  location="${base}\BasicMTLRuntime"/>
 	<property name="BasicMTLAstJava"  location="${base}\BasicMtlAstJava"/>
 	<property name="BasicMtlAntlr"  location="${base}\BasicMtlAntlr"/>
@@ -111,6 +112,9 @@
   		<copy  todir="${dist}/bin/ThirdParty/MDR">
   			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
   		</copy>
+  		<copy  todir="${dist}/bin/ThirdParty/ModFact">
+  			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
+  		</copy>
   		<!-- update classpath for compiling the compiler -->
 		<path id="compileCompiler.class.path">
 	    	<pathelement path="${compileCompiler.class.path}/"/>
@@ -139,6 +143,9 @@
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${MDRDriver}/src"/>
+  		</copy>
+  		<copy  todir="${src}">
+  			<fileset dir="${ModFactDriver}/src"/>
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${BasicMTLRuntime}/src"/>
@@ -255,6 +262,7 @@
    			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
+    			<pathelement path="${dist}\bin\ThirdParty\ModFact\v1_0_0\JMIRepository.jar"/>
    				<path refid="compileCompiler.class.path"/> 
    			</classpath>
    		</javac>
@@ -320,6 +328,10 @@
   			<fileset dir="${dist}/Runtime/src"/>
   		</copy> 
   		<copy file="src/sample_build.xml" todir="${dist}/sample"/>
+  		
+  		<!-- add the legal notice -->
+  		<copy file="src/legal_notice.txt" todir="${dist}"/>
+  		<copy file="src/LGPL_license.txt" todir="${dist}"/>
   		
   		<copy todir="${dist}/ThirdParty">
   			<fileset dir="${base}/BasicMtl2Java/ThirdParty"/>
