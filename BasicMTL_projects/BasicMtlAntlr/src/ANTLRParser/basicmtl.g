@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.19 2004-04-06 07:46:27 dvojtise Exp $ 			*/
+/* $Id: basicmtl.g,v 1.20 2004-04-06 08:06:56 dvojtise Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -483,9 +483,8 @@ andExpression returns [Object tree=null;]
 	String lineNumber = null;
 }
 :
-	 (relationalExpression andKeyword) => tree=relationalExpression lineNumber=andKeyword expr=relationalExpression
-	  		{System.out.println("and keyword ");
-	  		 tree=walker.exprOpExpr(tree,"and",expr,lineNumber); }
+	 (relationalExpression andKeyword) => tree=relationalExpression (lineNumber=andKeyword expr=relationalExpression)+
+	  		{tree=walker.exprOpExpr(tree,"and",expr,lineNumber); }
 	 | expr=relationalExpression
 	  		{tree=expr; }
 exception catch [RecognitionException ex] {
