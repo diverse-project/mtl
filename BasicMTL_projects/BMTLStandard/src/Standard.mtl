@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.7 2004-07-08 07:41:05 edrezen Exp $
+// $Id: Standard.mtl,v 1.8 2004-10-08 12:14:34 fchauvel Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -1162,10 +1162,6 @@ tag DoNotGenerate := booleantag true;
 	}
 
 	put (key : OclAny;  value : OclAny) : OclAny
-	{
-	}
-	
-	keySet () : Set
 	{
 	}
 }

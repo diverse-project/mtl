@@ -6,6 +6,9 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.java2mtl.DefaultJava2MtlInstanciableType;
 import org.irisa.triskell.MT.BasicMTL.java2mtl.DefaultJava2MtlMappingObject;
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
@@ -38,34 +41,28 @@ public class BMTLHashtable extends DefaultJava2MtlMappingObject
 	//////////////////////////////////////////////////////////////////////////
 	protected java.util.Hashtable theHashtable = new java.util.Hashtable ();
 	 
-	public BooleanValue BMTL_contains (Value value)
+	public BMTLBooleanInterface BMTL_contains (Value value)
 	{
-		return new BooleanValueImpl (false, null, theHashtable.contains(value));
+		return new BMTLBoolean (theHashtable.contains(value));
 	}
 
-	public BooleanValue BMTL_containsKey (Value key)
+	public BMTLBooleanInterface BMTL_containsKey (Value key)
 	{
-		return new BooleanValueImpl (false, null, theHashtable.containsKey(key));
+		return new BMTLBoolean (theHashtable.containsKey(key));
 	}
 
-	public BooleanValue BMTL_containsValue (Value value)
+	public BMTLBooleanInterface BMTL_containsValue (Value value)
 	{
-		return new BooleanValueImpl (false, null, theHashtable.containsValue(value));
+		return new BMTLBoolean (theHashtable.containsValue(value));
 	}
 
-	public Value BMTL_get (Value key)
+	public BMTLOclAnyInterface BMTL_get (Value key)
 	{
-		return (Value) theHashtable.get(key);
+		return (BMTLOclAnyInterface) CommonFunctions.toBMTLDataType ((Value) theHashtable.get (key));
 	}
 
-	public Value BMTL_put (Value key, Value value)
+	public BMTLOclAnyInterface BMTL_put (Value key, Value value)
 	{
-		return (Value) theHashtable.put(key,value);
+		return (BMTLOclAnyInterface) CommonFunctions.toBMTLDataType ((Value) theHashtable.put (key,value));
 	}
-
-	public CollectionValue BMTL_keySet ()
-	{
-		return new SetValueImpl (false,null, theHashtable.keySet());
-	}
-
 }
