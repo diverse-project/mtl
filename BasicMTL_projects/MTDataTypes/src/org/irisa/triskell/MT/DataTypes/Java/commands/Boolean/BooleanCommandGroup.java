@@ -26,8 +26,11 @@ public class BooleanCommandGroup extends CommandGroupImpl {
 	
 	static {
 		TheInstance = new BooleanCommandGroup();
-		TheInstance.addCommand(Boolean_or.TheInstance);
 		TheInstance.addCommand(Boolean_not.TheInstance);
+		TheInstance.addCommand(Boolean_or.TheInstance);
+		TheInstance.addCommand(Boolean_xor.TheInstance);
+		TheInstance.addCommand(Boolean_and.TheInstance);
+		TheInstance.addCommand(Boolean_implies.TheInstance);
 	}
 	
 	private BooleanCommandGroup() {
