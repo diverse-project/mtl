@@ -1,0 +1,39 @@
+<!-- $Id: copy_build.xml,v 1.1 2004-10-12 14:58:22 jpthibau Exp $ -->
+<project name="Copy_build MDR" default="get all" basedir=".">
+	<description>
+        Build file for the MDR driver common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
+	</description>
+	<!-- set global properties for this build -->
+	<!-- the following properties must be set by the caller -->
+	<property name="src" location="build/src"/>
+	<property name="bin" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+	<property name="base"  location=".."/>
+	<!--
+	the following refid must be set for target compile : <path refid="compileCompiler.class.path"
+	-->
+	<property name="MTLcompiler.jar.path" location="../bin"/>
+	<property name="MTLcompiler.Runtime.path" location="../Runtime"/>
+	
+	<property file="build.properties"/>
+	<!-- The compilation tool -->
+	<property name="ANTLR2JavaCode" location="LibInheritance\dist\bin\BasicMTLc.jar"/>
+	
+	
+	<property name="LibAssociation"  location="${base}\BasicMtl2Java\LibAssociation"/>
+		
+	
+	  	
+	
+  	
+  	<target name="get_sources" description="copy sources files from the different projects">
+  		
+  		<copy  todir="${src}/MDRDriver">
+  			<fileset dir="${LibAssociation}/src/MDRDriver"/>
+  		</copy>  		
+  	</target>
+  	
+  	<target name="get all" description="get all sources and jars" depends="get_sources">  	  	
+  	</target> 
+</project>

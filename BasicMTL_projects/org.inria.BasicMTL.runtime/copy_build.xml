@@ -1,4 +1,4 @@
-<!-- $Id: copy_build.xml,v 1.3 2004-08-19 11:39:09 dvojtise Exp $ -->
+<!-- $Id: copy_build.xml,v 1.4 2004-10-12 15:03:04 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="get all" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -25,7 +25,7 @@
 	<property name="Utils"  				location="${base}\Utils"/>
 	<property name="MTDataTypes"  			location="${base}\MTDataTypes"/>
 	<property name="RepositoryAPI"  		location="${base}\RepositoryAPI"/>
-	<property name="MDRDriver"  			location="${base}\MDRDriver"/>
+<!--	<property name="MDRDriver"  			location="${base}\MDRDriver"/> -->
 	<property name="ModFactDriver"  		location="${base}\ModFactDriver"/>
 	<property name="EMFDriver"  			location="${base}\org.inria.EMFDriver"/>
 	<property name="BasicMTLRuntime"  		location="${base}\BasicMTLRuntime"/>
@@ -95,9 +95,9 @@
   		<copy  todir="ThirdParty/ANTLR">
   			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
   		</copy>
-  		<copy  todir="ThirdParty/MDR">
+<!--  		<copy  todir="ThirdParty/MDR">
   			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
-  		</copy>
+  		</copy> -->
   		<copy  todir="ThirdParty/ModFact">
   			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
   		</copy>
@@ -123,9 +123,9 @@
   		<copy  todir="${src}/io">
   			<fileset dir="${LibAssociation}/src/io"/>
   		</copy>
-  		<copy  todir="${src}/MDRDriver">
+ <-- 		<copy  todir="${src}/MDRDriver">
   			<fileset dir="${LibAssociation}/src/MDRDriver"/>
-  		</copy>
+  		</copy> -->
   		<copy  todir="${src}/ModFactDriver">
   			<fileset dir="${LibAssociation}/src/ModFactDriver"/>
   		</copy>

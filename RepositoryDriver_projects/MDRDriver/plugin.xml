@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="MDRDriver"
+   name="MDRDriver"
+   version="1.0.0">
+   <requires>
+      <import plugin="org.inria.BasicMTL.runtime"/>
+   </requires>
+
+</plugin>
