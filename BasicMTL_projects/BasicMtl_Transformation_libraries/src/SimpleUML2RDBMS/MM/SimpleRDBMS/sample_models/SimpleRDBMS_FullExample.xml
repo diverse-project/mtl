@@ -1,0 +1,53 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Mon Aug 25 11:30:12 CEST 2003'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <SimpleRdbmsMM.Table xmi.id = 'a1' name = 'table_oeuvre'/>
+    <SimpleRdbmsMM.Table xmi.id = 'a2' name = 'table_compositeur'/>
+    <SimpleRdbmsMM.Column xmi.id = 'a3' name = 'column_opus' kind = 'integer'/>
+    <SimpleRdbmsMM.Column xmi.id = 'a4' name = 'column_date_jour' kind = 'integer'/>
+    <SimpleRdbmsMM.ForeignKey xmi.id = 'a5' name = 'fkey_composer'/>
+    <SimpleRdbmsMM.Column xmi.id = 'a6' name = 'column_date_annee' kind = 'integer'/>
+    <SimpleRdbmsMM.Key xmi.id = 'a7' name = 'key_oeuvre'/>
+    <SimpleRdbmsMM.Key xmi.id = 'a8' name = 'key_compositeur'/>
+    <SimpleRdbmsMM.Column xmi.id = 'a9' name = 'column_date_mois' kind = 'integer'/>
+    <SimpleRdbmsMM.Column xmi.id = 'a10' name = 'personId' kind = 'integer'/>
+    <SimpleRdbmsMM.owner_foreignKey>
+      <SimpleRdbmsMM.ForeignKey xmi.idref = 'a5'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+    </SimpleRdbmsMM.owner_foreignKey>
+    <SimpleRdbmsMM.referredBy_refersTo>
+      <SimpleRdbmsMM.Key xmi.idref = 'a7'/>
+      <SimpleRdbmsMM.ForeignKey xmi.idref = 'a5'/>
+    </SimpleRdbmsMM.referredBy_refersTo>
+    <SimpleRdbmsMM.owner_key>
+      <SimpleRdbmsMM.Key xmi.idref = 'a7'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a1'/>
+      <SimpleRdbmsMM.Key xmi.idref = 'a8'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+    </SimpleRdbmsMM.owner_key>
+    <SimpleRdbmsMM.belongsTo_column>
+      <SimpleRdbmsMM.Column xmi.idref = 'a3'/>
+      <SimpleRdbmsMM.Key xmi.idref = 'a7'/>
+      <SimpleRdbmsMM.Column xmi.idref = 'a10'/>
+      <SimpleRdbmsMM.Key xmi.idref = 'a8'/>
+    </SimpleRdbmsMM.belongsTo_column>
+    <SimpleRdbmsMM.owner_column>
+      <SimpleRdbmsMM.Column xmi.idref = 'a3'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a1'/>
+      <SimpleRdbmsMM.Column xmi.idref = 'a4'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+      <SimpleRdbmsMM.Column xmi.idref = 'a6'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+      <SimpleRdbmsMM.Column xmi.idref = 'a9'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+      <SimpleRdbmsMM.Column xmi.idref = 'a10'/>
+      <SimpleRdbmsMM.Table xmi.idref = 'a2'/>
+    </SimpleRdbmsMM.owner_column>
+  </XMI.content>
+</XMI>

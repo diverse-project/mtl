@@ -11,6 +11,8 @@
  *
  */
  
+
+ 
 model rdbms;  // should be a  SimpleRDBMS model throught the repository
 
 
@@ -29,9 +31,9 @@ creation make(a_rdbms_model : Model)
     UML2RDBMSlib.RDBSM2SimpleUML();
 
 	// this doesn't work because :
-	//		simpleuml2rdbms use the associate instruction which has currently no meanings for a bmtl lib !
+	//		simpleuml2rdbms use the associate instruction which has currently no meanings for a bmtl lib ! (only on the repository)
 	//		this lib doesn't know about the rdbms_related_set that should be set correctly while transforming
-	// TO DO rewrite this transformation in this adapter !
+	// TO DO rewrite this RDBSM2SimpleUML transformation directly in this adapter !
 }
  
 class ModelElement
@@ -46,7 +48,8 @@ class ModelElement
 	rdbms_related_me_set : Standard::Set;  // Model element from the rdbms side that are related to this simple uml model element
 		
 	creation make()
-	{		
+	{
+		// TO DO ???		
 	}
 	
 	// overwrite the standard get and setter for the attribute in order to do the job on the RDBMS repository
@@ -55,6 +58,10 @@ class ModelElement
 		rdbms_me : rdbms::ModelElement;
 		rdbms_related_iterator : Standard::Iterator;
 		
+		
+		/* Do nothing condition */
+		// should we have a do nothing condition for attribute setter ? it makes sense for association reification but for the attributes ?
+		 
 		if rdbms_related_me_set.size().=(0)
 		{
 			// store on the UML side
@@ -87,11 +94,34 @@ class ModelElement
 	
 	set_name(newName : Standard::string)
 	{
-		// code similar to set_kind
+		rdbms_me : rdbms::ModelElement;
+		rdbms_related_iterator : Standard::Iterator;
+		
+		if rdbms_related_me_set.size().=(0)
+		{
+			// store on the UML side
+			name = newName;
+		}
+		else
+		{
+			// store on the RDBMS side
+				//find the element on the rdms side
+			rdbms_me = retreive_related();
+			rdbms_me.kind = kind;
+		}
 	}
 	get_name() : Standard::string
 	{
-		// code similar to get_kind
+		// if there is no related (0) this  may be because this is a non persistent class 
+		// so return the duplicated string
+		if rdbms_related_me_set.size().=(0)
+		{
+			return (name);
+		}
+		else
+		{		
+			return (retreive_related().name);
+		}
 	}
 	
 	
@@ -103,26 +133,19 @@ class ModelElement
 		{
 			rdbms_related_iterator = rdbms_related_me_set.get_new_iterator();
 			rdbms_related_iterator.start();
-			rdbms_me = rdbms_related_iterator.item();
-			rdbms_me.kind = kind;
+			return ( rdbms_related_iterator.item());
 		}
 		else
 		{
-			throw new Standard::Exception.make('unable to set kind on the rdbms modelelement, either because there is no rdbms element or more than one rdbms element is associated to this simpleuml modelelemnt');
+			throw new Standard::Exception.make('there is no rdbms element or there is more than one rdbms element is associated to this simpleuml modelelemnt');
 		}
 	}
 }
 
 class Classifier
 {
-	// set attribute should not be done here as its behaviour changes depending on the concret Classifier : Class or PrimitiveDataType
-	get_Attribute() : Standard::Set
-	{
-		// TO DO
-	}
-	
-	
-
+	// set_Attribute : should not be done here as its behaviour changes depending on the concret Classifier : Class or PrimitiveDataType
+	// get_Attribute : simply use the standard version : nothing to specify here	
 }
 
 class Class
@@ -181,15 +204,12 @@ class Class
 				attribute_it.next();
 			}
 	}
-	/* nothing special with the get, simply use the standard one.
-	get_attribute() : Standard::Set
-	{
-		// TO DO		
-	}
-	*/
+	// get_attribute : nothing special with the get, simply use the standard one.
 	
 	
-	// associations or members from parents
+	
+	// eventual associations or members from parents
+	
 	//		associations or members from Classifier
 	set_Attribute( anAttributeSet : Standard::Set)
 	{
@@ -205,12 +225,8 @@ class Class
 		//  make a kind of diff between the previous and the new set contents ?	
 		
 	}
-	/* nothing special with the get, simply use the standard one.
-	get_attribute() : Standard::Set
-	{
-		// TO DO		
-	}
-	*/
+	// get_Attribute : nothing special with the get, simply use the standard one.
+	
 	// 		associations or members from ModelElement
 	set_kind(aKindString : Standard::String)
 	{	
@@ -231,23 +247,54 @@ class Class
 			this.oclAsType(ModelElement).set_kind(aKindString);
 		}
 	}
+	set_name(newName : Standard::string)
+	{	// this must be specialized as name must be put in 2 places : table.name and key.name
+		rdbms_me : rdbms::ModelElement;
+		rdbms_related_iterator : Standard::Iterator;
+		
+		if rdbms_related_me_set.size().=(0)
+		{
+			// store on the UML side
+			name = newName;
+		}
+		else
+		{
+			// store on the RDBMS side
+				//find the element on the rdms side
+			rdbms_me = retreive_related();
+			rdbms_me.name = newName;
+			rdbms_me.key
+		}
+	}
+	
+	delete()
+	{
+		// TO DO
+	}
 	
 	// 
 	create_related()
 	{
 		aTable : target_model::Table;
 		asClassifier : Classifier;
+		aKey : target_model::Key;
 		
 		aTable = new rdbms::Table();
 		
 		// this table is related to this class
 		rdbms_related_me_set = rdbms_related_me_set.including(aTable);
 		
+		// other objects that must be created with the table
+		aKey = new rdbms::Key();
+		aKey.name = name;
+		associate (owner = aTable,  key = aKey);
+		
 		// set all available data with available info
 		// from parents
 		//		from UMLModelElement
 		aTable.name = name;  
 		aTable.kind = kind;
+				
 		//		from Classifier
 		// TO DO : Attribute-type
 		asClassifier = this.oclAsType(Classifier);
@@ -270,6 +317,8 @@ class Class
 			}
 			attribute_it.next();
 		}
+		
+		
 
 		
 	}
@@ -294,11 +343,12 @@ class Attribute
 		// if type has changed /* Do nothing condition */
 		if this.type.<>(aType)
 		{
-			type = aType;
+			
 			if( rdbms_related_me_set.size().=(1) )
 			{
 				unset_related();
 			}
+			type = aType;
 				// the related object was not set or changed
 				// now we know which type is the attribute we can create it
 			create_related();
@@ -311,6 +361,12 @@ class Attribute
 		// TO DO		
 	}
 	
+	set_kind(aKind : Standard::String)
+	{
+		// if attribute kind is primary, the column is bound to the key
+		// TO DO
+	}
+	
 	set_owner(aClass : Class) // TODO
 	{
 	}
@@ -318,6 +374,13 @@ class Attribute
 	get_owner() : Class // TO DO
 	{
 	}
+	
+	
+	delete()
+	{
+		// TO DO
+	}
+	
 	/**
 	  * Depending of the moment where the informations are precise enought, we can eventually 
 	  * create a corresponding rdbms object 
@@ -378,6 +441,21 @@ class Attribute
 	unset_related()
 	{
 		// TO DO
+		// depending of the previous type remove associations 
+		// this is almost the opposite of create_related
+		// 		pb: what to do with element that are no more connected ?
+		if type.oclIsKindOf('PrimitiveDataType')
+		{
+			// simply remove the related column
+			aColumn : target_model::Column;
+			aColumn = retrieve_related();
+			
+			delete (aColumn); // note the delete shall dissociate from any associated elements
+		}
+		else
+		{
+			// TO DO
+		}			
 	}
 }
 
@@ -416,6 +494,13 @@ class PrimitiveDataType
 			}
 			else { // do nothing if equal 
 		}
+		
+	
+	delete()
+	{
+		// TO DO
+	}
+	
 }
 
 
