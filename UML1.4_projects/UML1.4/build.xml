@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.6 2003-12-01 17:00:42 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.7 2003-12-16 13:30:39 dvojtise Exp $ -->
 <project name="UML14" default="run all UML14_Transformations" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
@@ -21,9 +21,9 @@
   	<target name="run TP_IM" > 
   		<description>
   		</description> 
-  		<ant antfile="Utils_build.xml" dir="." target="compile"/>
-  		<ant antfile="TP_IM_build.xml" dir="." target="compile"/>
-  		<ant antfile="TP_IM_build.xml" dir="." target="run"/>
+  		<ant antfile="Utils_build.xml" dir="src/TP_IM" target="compile"/>
+  		<ant antfile="TP_IM_build.xml" dir="src/TP_IM" target="compile"/>
+  		<ant antfile="TP_IM_build.xml" dir="src/TP_IM" target="run"/>
   	</target>	
   	<target name="run PL derivation" > 
   		<description>
