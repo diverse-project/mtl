@@ -45,7 +45,7 @@
   	
     <!-- customize this to your Poseidon directory -->
     <!--<property name="poseidon.dir" value="/usr/local/poseidon/poseidonPE-2.5.0"/>-->
-  	<property name="poseidon.dir" value="C:\Program Files\Poseidon For UML PE 3.0"/>
+  	<property name="poseidon.dir" location="..\..\..\..\Program Files\Poseidon For UML PE 3.0"/>
     <property name="poseidon.lib.dir" value="${poseidon.dir}/lib"/> 
     <property name="lib.dir" value="./lib"/>
 	<property name="helpers.dir" value="${poseidon.lib.dir}"/>
@@ -130,6 +130,14 @@
     <mkdir dir="${bin.dir}"/>   
 
 	<echo message="${classpath}"/>
+ 	 <javac srcdir="${src.java.dir}"
+ 	           	destdir="${bin.dir}"
+ 	           	debug="${debug}"
+ 	           	deprecation="${deprecation}"
+ 		   		classpath="${classpath}"
+ 	           	optimize="${optimize}"
+	   			failonerror="true"
+ 	    />
     <javac srcdir="${build.src}"
            destdir="${bin.dir}"
            debug="${debug}"
@@ -138,14 +146,6 @@
            optimize="${optimize}"
     	   failonerror="true"
     />
-  	 <javac srcdir="${src.java.dir}"
-  	           	destdir="${bin.dir}"
-  	           	debug="${debug}"
-  	           	deprecation="${deprecation}"
-  		   		classpath="${classpath}"
-  	           	optimize="${optimize}"
- 	   			failonerror="true"
-  	    />
   </target>
   <target name="compile_mtl" depends="init"
 	        description="compile the mtl code" >
