@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.23 2004-11-04 16:32:49 edrezen Exp $
+ * $Id: allReferedTypes.java,v 1.24 2004-11-05 15:40:18 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -384,7 +384,12 @@ public class allReferedTypes extends CompilerObservable
 				}
 				else //type which is not a model element and has more than 2 components
 					//Certainly a mistake !
-				{ 
+				{
+					aType.setIsModelType(true);
+					aType.setDeclarationName("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLModelElementInterface");
+					return true;
+					}
+/*				{ 
 					String  typeComponentMsg;
 					log.error("Undeclared model or extern class type having more than 2 components !");;
 					log.error(firstName+" may be the undeclared model");
@@ -397,7 +402,7 @@ public class allReferedTypes extends CompilerObservable
 					CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownExternType (aType));
 					
 					errors++;
-				}
+				}*/
 		return false;
 	}
 

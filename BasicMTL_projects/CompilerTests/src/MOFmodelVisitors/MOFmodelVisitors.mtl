@@ -37,7 +37,7 @@ main() : Standard::Void
 		'MOF_model', 
 		inputFilename,
 		outputFilename
-	).oclAsType(!Standard::RepositoryAPI!);
+	);
 //	MOF:=MOFModel.oclAsType(!Standard::RepositoryAPI!);
 
 	test := new Test1 ();
