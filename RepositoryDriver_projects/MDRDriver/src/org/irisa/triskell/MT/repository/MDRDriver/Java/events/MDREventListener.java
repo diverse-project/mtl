@@ -4,7 +4,9 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
+import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
+import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 
 
@@ -24,10 +26,10 @@ import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 abstract public class MDREventListener implements EventListener
 {
 	private MDRAPI api;
-	private MDREventListenerCommand cmd;
+	private EventListenerCommand cmd;
 	
 	/** */
-	public MDREventListener (MDRAPI api, MDREventListenerCommand cmd) 
+	public MDREventListener (MDRAPI api, EventListenerCommand cmd) 
 	{
 		this.api = api;
 		this.cmd = cmd;
@@ -36,7 +38,7 @@ abstract public class MDREventListener implements EventListener
 	/** */
 	public void update (org.irisa.triskell.MT.repository.API.Java.Event event)
 	{
-		cmd.execute (event);
+		cmd.update (event);
 	}
 	
 	/** */

@@ -6,6 +6,8 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
+import org.irisa.triskell.MT.repository.API.Java.API;
+import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.AttributeEvent;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
@@ -26,7 +28,7 @@ import org.netbeans.api.mdr.events.MDRChangeListener;
 public class MDRAttributeEventListener extends MDREventListener implements MDRChangeListener
 {
 	/** */
-	public MDRAttributeEventListener (MDRAPI api, MDREventListenerCommand cmd) 
+	public MDRAttributeEventListener (MDRAPI api, EventListenerCommand cmd) 
 	{
 		super (api, cmd);
 	}

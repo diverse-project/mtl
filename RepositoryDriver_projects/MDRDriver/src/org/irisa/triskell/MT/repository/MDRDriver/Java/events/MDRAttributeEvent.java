@@ -6,6 +6,7 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
+import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.AttributeEventKind;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.MDRChangeEvent;

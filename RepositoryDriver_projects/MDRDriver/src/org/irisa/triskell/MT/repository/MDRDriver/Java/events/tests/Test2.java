@@ -11,18 +11,18 @@ import org.irisa.triskell.MT.repository.API.Java.AssociationEvent;
 import org.irisa.triskell.MT.repository.API.Java.AttributeEvent;
 import org.irisa.triskell.MT.repository.API.Java.Event;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
-import org.irisa.triskell.MT.repository.API.Java.InstanceEvent;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDRAssociationEvent;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDRAttributeEvent;
 
 
 
 /**
  */
-public class Test1 extends TestCommand 
+public class Test2 extends TestCommand 
 {
 	/** */
 	public Object mainExecute (Object context) throws Exception  
@@ -47,10 +47,19 @@ public class Test1 extends TestCommand
 		
 
 		////////////////////////////////////////////////////////////////////////////////
-        // we add an Attribute listener on one element
+        // we perform some actions with the metaclass; we should have notifications
+		////////////////////////////////////////////////////////////////////////////////
+        ModelElement me_compositeur   = mc_Class.instanciate (null,null);
+        ModelElement me_interprete    = mc_Class.instanciate (null,null);
+        ModelElement me_oeuvre        = mc_Class.instanciate (null,null);
+        ModelElement me_date          = mc_Class.instanciate (null,null);
+        ModelElement me_date_creation = mc_Attribute.instanciate (null,null);
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // we add a listener on one element
 		////////////////////////////////////////////////////////////////////////////////
         getAPI().addListenerToElement (
-    		mc_Class, 
+        	me_oeuvre, 
 			getAPI().getEventListenerFactory().createAttributeEventListener (
 				new EventListenerCommand () {
         			public void update (Event e) {
@@ -60,46 +69,18 @@ public class Test1 extends TestCommand
 			)
 		);
 
-        
-        ////////////////////////////////////////////////////////////////////////////////
-        // we add an Instance listener on one element
-		////////////////////////////////////////////////////////////////////////////////
         getAPI().addListenerToElement (
-        	mc_Class,
-			getAPI().getEventListenerFactory().createInstanceEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("INSTANCE kind : " + ((InstanceEvent)e).getKind());
-        			}
-        		}
-			)
-		);
+        	me_oeuvre,
+			getAPI().getEventListenerFactory().createAssociationEventListener (
+   				new EventListenerCommand () {
+           			public void update (Event e) {
+           				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
+           			}
+           		}
+   			)
+   		);
 
         
-        ////////////////////////////////////////////////////////////////////////////////
-        // we add an Association listener on one element
-		////////////////////////////////////////////////////////////////////////////////
-        getAPI().addListenerToElement (
-        	mc_Class,
-        	getAPI().getEventListenerFactory().createAssociationEventListener (
-				new EventListenerCommand () {
-        			public void update (Event e) {
-        				getAPI().getLog().info ("ASSOCIATION kind : " + ((AssociationEvent)e).getKind());
-        			}
-        		}
-			)
-		);
-
-        
-		////////////////////////////////////////////////////////////////////////////////
-        // we perform some actions with the metaclass; we should have notifications
-		////////////////////////////////////////////////////////////////////////////////
-        ModelElement me_compositeur   = mc_Class.instanciate (null,null);
-        ModelElement me_interprete    = mc_Class.instanciate (null,null);
-        ModelElement me_oeuvre        = mc_Class.instanciate (null,null);
-        ModelElement me_date          = mc_Class.instanciate (null,null);
-        ModelElement me_date_creation = mc_Attribute.instanciate (null,null);
-
         me_compositeur.setAttributeValue (me_compositeur,ma_name,new StringValueImpl(false,null,"compositeur"));
         me_compositeur.setAttributeValue (me_compositeur,ma_kind,new StringValueImpl(false,null,"persistent"));
         me_interprete.setAttributeValue  (me_interprete,ma_name,new StringValueImpl(false,null,"interprete"));
