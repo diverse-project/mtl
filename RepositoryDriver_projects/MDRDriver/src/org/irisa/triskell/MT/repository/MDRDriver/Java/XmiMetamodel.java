@@ -1,17 +1,18 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import javax.jmi.model.*;
-import org.netbeans.api.mdr.CreationFailedException;
-import org.netbeans.api.mdr.MDRObject;
-import org.netbeans.api.mdr.MDRepository;
+import java.util.List;
+
+import javax.jmi.model.ModelPackage;
+import javax.jmi.model.MofPackage;
+
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
+import org.netbeans.api.mdr.CreationFailedException;
+import org.netbeans.api.mdr.MDRepository;
 
 public class XmiMetamodel 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel
@@ -21,8 +22,8 @@ public class XmiMetamodel
         return this.xmiFiles;
     }
 
-    public final String rootPackage;
-    public String getRootPackage () {
+    public final String [] rootPackage;
+    public String [] getRootPackage () {
         return this.rootPackage;
     }
 
@@ -41,7 +42,7 @@ public class XmiMetamodel
 
 
     public XmiMetamodel(
-        String xmiFile, String rootPackage)
+        String xmiFile, String [] rootPackage)
     {
 		this(new String [] {xmiFile}, rootPackage);
     }
@@ -53,7 +54,7 @@ public class XmiMetamodel
 	 */
     public XmiMetamodel(
         String [] xmiFiles,
-        String rootPackage)
+        String [] rootPackage)
     {
 		if (xmiFiles.length > 1 && rootPackage == null)
 			throw new IllegalArgumentException();
@@ -81,10 +82,12 @@ public class XmiMetamodel
 			MofPackage metaPackageToInstanciate = null;
 			/**/Object o;
 			Iterator it = readen.iterator();
-			while (it.hasNext() && (metaPackageToInstanciate == null || this.getRootPackage() == null)) {
+			String [] rpa = this.getRootPackage();
+			List rp = rpa == null ? null : Arrays.asList(rpa);
+			while (it.hasNext() && (metaPackageToInstanciate == null || rp == null)) {
 				o = it.next();
 				if (	(o instanceof MofPackage)
-					&&	((this.getRootPackage() == null) || (((MofPackage)o).getName().equalsIgnoreCase(this.getRootPackage())))
+					&&	((rp == null) || (((MofPackage)o).getQualifiedName().equals(rp)))
 					&&	(((MofPackage)o).getContainer() == null)
 					) {
 					if (metaPackageToInstanciate != null)

@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.5 2003-09-05 12:39:03 dvojtise Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.6 2003-09-23 17:15:42 ffondeme Exp $
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
@@ -26,7 +26,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -168,7 +168,56 @@ public class SimpleStandaloneModelManager {
 		return api;
 	}
 	
+	/**
+	 * Returns a metamodel described by a (MOF-based) XMI file.
+	 * @param file
+	 * @param metaPackageToInstanciate
+	 * @return XmiMetamodel
+	 */
+	public XmiMetamodel getMdrXMIMetaModel (String file, String [] metaPackageToInstanciate) {
+		return new XmiMetamodel(file, metaPackageToInstanciate);
+	}
 	
+	/**
+	 * Returns the mof metamodel.
+	 * @return MofMetamodel
+	 */
+	public MofMetamodel getMdrMOFMetaModel () {
+		return MofMetamodel.getTheInstance();
+	}
+	
+	/**
+	 * Returns a metamodel the have already been loaded as a model.
+	 * @param metamodelPackageName
+	 * @param metaPackageToInstanciate
+	 * @return LoadedMetamodel
+	 */
+	public LoadedMetamodel getMdrLoadedMetamodel (String metamodelPackageName, String [] metaPackageToInstanciate) {
+		return new LoadedMetamodel(metamodelPackageName, metaPackageToInstanciate);
+	}
+	
+	/**
+	 * Returns a metamodel that have already been loaded and implemented by another repository.
+	 * WARNING: this will make the dependent model use an alredy existing MDR extend according to the model name;
+	 * be sure this extent can accept the model you want. 
+	 * @return ImplementedMetamodel
+	 */
+	public ImplementedMetamodel getMdrImplementedMetamodel () {
+		return new ImplementedMetamodel();
+	}
+	
+	/**
+	 * Returns a model described by a XMI file (that should complies with the latter givem metamodel)
+	 * and wich will be stored in another or the same XMI file (that will complies with the latter gven metamodel).
+	 * If the loading file is null, the model will be empty;
+	 * if the storing file is null, the model will not be saved.
+	 * @param loadingFile
+	 * @param storingFile
+	 * @return XmiModel
+	 */
+	public XmiModel getMdrXMIModel (String loadingFile, String storingFile) {
+		return new XmiModel(loadingFile, storingFile);
+	}
 
 	/**
 	 * getModelFromXMI return a model from a XMI MM and a XMI model files
@@ -213,7 +262,7 @@ public class SimpleStandaloneModelManager {
 		
 		Model xmiModel = new XmiModel(modelXmiInputFileName, modelXmiOuputFileName);
 		MDRAPI api = new MDRAPI(null, 
-								new XmiMetamodel(metamodelXmiFileName, metaPackageToInstanciate),
+								new XmiMetamodel(metamodelXmiFileName, new String [] {metaPackageToInstanciate}),
 								modelName, 
 								xmiModel);
 		saveHookForModel(api, xmiModel);

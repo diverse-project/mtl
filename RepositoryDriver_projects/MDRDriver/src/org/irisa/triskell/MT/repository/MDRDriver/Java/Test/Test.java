@@ -751,7 +751,7 @@ public class Test
 	}
 	
 	public static void testErwan () throws Exception {
-        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/MOFmetamodel.xml","SimpleUmlMM"), "MyModel", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
+        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/MOFmetamodel.xml",new String [] {"SimpleUmlMM"}), "MyModel", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
         
         api.startup(null); 
 
