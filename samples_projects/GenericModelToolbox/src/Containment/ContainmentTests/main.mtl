@@ -7,16 +7,13 @@ library ContainmentTests;
 
 main (args : Standard::Sequence) : Standard::Void
 {
-	theContainer : Containment4MOF::Container;
-	theContainer := new Containment4MOF::Container().init('../../Models/MOF/UML_model.xmi');
-
-	//theContainer : Containment4UML::Container;
-	//theContainer := new Containment4UML::Container().init('../../Models/UML/SimpleUml_model.xmi');
+	path : Standard::String;
+	path := '../../';
 	
-	//theContainer : Containment4SimpleRDBMS::Container;
-	//theContainer := new Containment4SimpleRDBMS::Container().init('../../Models/SimpleRDBMS/SimpleRDBMS_model.xmi');
+	new TestingClass().init('MOF',   path.concat('Models/MOF/UML_model.xmi')).execute();
+//	new TestingClass().init('UML',   path.concat('Models/UML/SimpleUml_model.xmi')).execute();
+//	new TestingClass().init('RDBMS', path.concat('Models/SimpleRDBMS/SimpleRDBMS_model.xmi')).execute();
 
-	new TestingClass().main (theContainer);
 }
 
 
@@ -26,107 +23,62 @@ main (args : Standard::Sequence) : Standard::Void
 
 class TestingClass
 {
-	cmd : ContainmentCommands::CommandFactory;
+	adapter : ContainmentFactory::AdapterFactory;
+	cmd     : ContainmentFactory::CommandFactory;
+	root    : ContainmentView::Container;
 
 	/** */
-	main (theContainer : ContainmentView::Container) : Standard::Void
+	init (adapterKind : Standard::String;  modelPath : Standard::String) : TestingClass
 	{
 		// we define a factory for getting commands instances
-		cmd := new ContainmentCommands::CommandFactory();
+		cmd := new ContainmentFactory::CommandFactory();
 
-		test1 (theContainer);
+		// we define a factory for getting an adapter
+		adapter := new ContainmentFactory::AdapterFactory();
+
+		// we choose the adapter to be used
+		root := adapter.getInstance (adapterKind, modelPath);
 	
-		test2 (theContainer, '_', '');
-	
-		test3 (theContainer);
-		
-		test4 (theContainer, '_', '+', ''); // It adds a prefix to all Class containers 
-		
+		// we return the instance
+		return this;
 	}
-	
-	
-	/** */
-	test1 (theContainer : ContainmentView::Container)
-	{
-		begin ('test 1');
 
-		theContainer.execute (cmd.toStringDeep()).toOut();
 
-		end ('test 1');
-	}
-	
-	
 	/** */
-	test2 (
-		theContainer : ContainmentView::Container;
-		nameExp : Standard::String;
-		roleExp : Standard::String
-	)
+	execute () : Standard::OclAny
 	{
-		begin ('test 2');
-	
-		foreach (c : ContainmentView::Container) in (theContainer.execute (cmd.find(nameExp,roleExp)))
+		'\n****************************************************************************************************'.toOut();
+		// we display a hierarchical representation of the container
+		root.execute (cmd.toStringDeep()).toOut();
+		
+		'\n****************************************************************************************************'.toOut();
+		// we search all containers whose name contains '_' and whose role contains 'as'	
+		foreach (c : ContainmentView::Container) in (root.execute (cmd.find('', 'as')))
 		{
-			c.execute (new ContainmentCommands::QualifiedName()).toOut();
+			// we show the qualified name of the current container
+			c.execute (cmd.qualifiedName()).toOut();
 		}
-	
-		end ('test 2');
-	}
-	
-	
-	
-	/** */
-	test3 (theContainer : ContainmentView::Container)
-	{
-		begin ('test 3');
-	
-		foreach (c : ContainmentView::Container) in (theContainer.execute (cmd.find('visibility','Attribute')))
+		
+		'\n****************************************************************************************************'.toOut();
+		// we search all containers whose name contains 'visibility' and whose role contains 'Attribute'
+		// we display for each of them their hierarchy	
+		foreach (c0 : ContainmentView::Container) in (root.execute (cmd.find('visibility','Attribute')))
 		{
-			c.execute (cmd.toString(false)).toOut();
-			'----------------------------------------------------------------------'.toOut();
-	
-			foreach (c1 : ContainmentView::Container) in (c.execute (cmd.hierarchy()))
+			c0.execute (cmd.toString(false)).toOut();
+			'--------------------------------------------------'.toOut();
+			foreach (c1 : ContainmentView::Container) in (c0.execute (cmd.hierarchy()))
 			{
 				'    '.concat (c1.execute (cmd.toString(false)).oclAsType(!Standard::String!)).toOut();
 			}
-			
 			''.toOut();
 		}
-	
-		end ('test 3');
-	}
-	
-	
-	/** */
-	test4 (
-		theContainer : ContainmentView::Container;
-		searchExp  : Standard::String;
-		replaceExp : Standard::String;
-		roleExp    : Standard::String
-	)
-	{
-		begin ('test 4');
-	
-		theContainer.execute (cmd.replace(searchExp,replaceExp,roleExp));
-		theContainer.execute (cmd.toStringDeep().init(false)).toOut();
 		
-		end ('test 4');
+		'\n****************************************************************************************************'.toOut();
+		// we search all containers whose name contains '_' and whose role can be anything.
+		// for all found containers, we replace the '_' by a '+'	
+		root.execute (cmd.replace('_', '+', ''));
+		root.execute (cmd.toStringDeep()).toOut();
+		
+		return null;
 	}
-	
-	
-	/** */
-	begin (str : Standard::String)
-	{
-		'--------------------------------------------------------------------------------'.toOut();
-		str.toOut();
-		'--------------------------------------------------------------------------------'.toOut();
-	}
-	
-	/** */
-	end (str : Standard::String)
-	{
-		'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'.toOut();
-		''.toOut();
-	}
-
 }

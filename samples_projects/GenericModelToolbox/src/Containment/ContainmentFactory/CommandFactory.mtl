@@ -1,4 +1,4 @@
-library ContainmentCommands;
+library ContainmentFactory;
 
 class CommandFactory
 {

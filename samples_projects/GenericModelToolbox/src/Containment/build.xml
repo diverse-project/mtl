@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2004-06-22 17:04:53 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-06-24 16:54:09 edrezen Exp $ -->
 
 <project name="Containment" default="run Containment test" basedir=".">
 	<description>
@@ -12,6 +12,7 @@
 		<ant antfile="Containment4MOF_build.xml"     dir="." target="clean"/>
 		<ant antfile="Containment4UML_build.xml"     dir="." target="clean"/>
 		<ant antfile="Containment4SimpleRDBMS_build.xml"    dir="." target="clean"/>
+		<ant antfile="ContainmentFactory_build.xml"    dir="." target="clean"/>
 		<ant antfile="ContainmentTests_build.xml"    dir="." target="clean"/>
 	</target>
 
@@ -23,6 +24,7 @@
 		<ant antfile="Containment4MOF_build.xml"     dir="." target="compile"/>
 		<ant antfile="Containment4UML_build.xml"     dir="." target="compile"/>
 		<ant antfile="Containment4SimpleRDBMS_build.xml"    dir="." target="compile"/>
+		<ant antfile="ContainmentFactory_build.xml"    dir="." target="compile"/>
 		<ant antfile="ContainmentTests_build.xml"    dir="." target="compile"/>
 	</target>
 	
