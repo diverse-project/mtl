@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.1 2003-07-11 08:25:06 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.2 2003-07-16 10:12:28 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -6,9 +6,11 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes) { return null; }
 
-	public Object libraryHeader(String lineNumber,String libName,Object inheritance,java.util.Vector tags) { return null; }
+	public Object libraryHeader(String lineNumber,Object libNeader,java.util.Vector tags) {return null; }
 
-	public Object nativeLibHeader(String lineNumber,String libName,java.util.Vector tags) { return null; }
+	public Object bmtllibraryHeader(String libName,Object inheritance) {return null; }
+
+	public Object nativeLibHeader(String libName) {return null; }
 
 	public Object model(String lineNumber,String modelName,String viewName) { return null; }
 
@@ -64,6 +66,8 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object variableName(String value) { return null; }
 
+	public Object directOperationCalls(java.util.Vector theCalls) { return null; }
+	
 	public Object operationCall(String operationName,Object arguments,String lineNumber) { return null; }
 
 	public Object oclAsType(Object type,String lineNumber) { return null; }

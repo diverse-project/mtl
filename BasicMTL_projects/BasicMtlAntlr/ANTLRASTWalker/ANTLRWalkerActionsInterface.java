@@ -1,13 +1,15 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.1 2003-07-11 08:25:05 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.2 2003-07-16 10:12:28 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
 
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes);
 
-public Object libraryHeader(String lineNumber,String libName,Object inheritance,java.util.Vector tags);
+public Object libraryHeader(String lineNumber,Object libNeader,java.util.Vector tags);
 
-public Object nativeLibHeader(String lineNumber,String libName,java.util.Vector tags);
+public Object bmtllibraryHeader(String libName,Object inheritance);
+
+public Object nativeLibHeader(String libName);
 
 public Object model(String lineNumber,String modelName,String viewName);
 
@@ -62,6 +64,8 @@ public Object libraryOrVariable(Object type,java.util.Vector operationCalls);
 public Object attributeGetter(String classVarName,java.util.Vector gotAttributes);
 
 public Object variableName(String value);
+
+public Object directOperationCalls(java.util.Vector theCalls);
 
 public Object operationCall(String operationName,Object arguments,String lineNumber);
 
