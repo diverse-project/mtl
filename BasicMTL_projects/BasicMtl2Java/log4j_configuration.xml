@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl2Java/log4j_configuration.xml,v $ -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 2003-08-27 10:01:07 $ -->
+<!-- $Author: dvojtise $ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{ISO8601}] %p %c - %m @ [%t] %l%n"/>
+<!--      <param name="ConversionPattern" value="%C %d{ISO8601} %l  %M %-4r %-5p %x - %m%n"/>-->
+    </layout>
+  </appender>
+  
+  <appender name="CSOUT" class="org.apache.log4j.net.SocketAppender">
+    <param name="RemoteHost" value="localhost"/>
+    <param name="Port" value="4445"/>
+    <param name="LocationInfo" value="true"/>
+  </appender>
+
+  <logger name="BMTLParser">
+    <level value="DEBUG"/>
+  </logger>
+  <logger name="BMTLAntlr2TLLJava">
+    <level value="DEBUG"/>
+  </logger>
+  <logger name="BMTLTLLTypeChecker">
+    <level value="WARN"/>
+  </logger>
+  <logger name="MDRDriver">
+    <level value="INFO"/>
+  </logger>
+  <root>
+    <level value="WARN"/>
+    <appender-ref ref="STDOUT"/>
+<!--    <appender-ref ref="CSOUT"/> -->
+  </root>
+
+</log4j:configuration>
