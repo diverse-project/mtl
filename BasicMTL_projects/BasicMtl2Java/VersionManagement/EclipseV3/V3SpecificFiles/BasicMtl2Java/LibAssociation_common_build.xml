@@ -1,5 +1,5 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.3 2004-07-07 14:15:16 edrezen Exp $ -->
-<project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
+<!-- $Id: LibAssociation_common_build.xml,v 1.4 2004-08-05 11:53:50 dvojtise Exp $ -->
+<project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
 	</description>
@@ -368,7 +368,8 @@
 			<!-- files to include in the jar -->
 			<fileset dir="${bin}">
 				<patternset id="basicmtl.runtime.class">					
-    				<include name="MDRDriver/**"/>
+    				<include name="MDRDriver/**"/>					
+    				<include name="ModFactDriver/**"/>
     				<include name="EMFDriver/**"/>
     				<include name="org/irisa/triskell/MT/repository/**"/>
     				<include name="org/inria/**"/>
@@ -387,7 +388,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -402,7 +403,8 @@
 			<!-- files to include in the jar -->
 			<fileset dir="${bin}">
 				<patternset id="basicmtl.compiler.class">					
-    				<exclude name="MDRDriver/**"/>					
+    				<exclude name="MDRDriver/**"/>							
+    				<exclude name="ModFactDriver/**"/>			
     				<exclude name="org/irisa/triskell/MT/repository/**"/>
     				<exclude name="org/irisa/triskell/MT/utils/**"/>
     				<exclude name="org/irisa/triskell/MT/DataTypes/**"/>
@@ -415,7 +417,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="BasicMTLruntime.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="BasicMTLruntime.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
