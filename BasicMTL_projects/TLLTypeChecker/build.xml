@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-09-05 12:13:49 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-10-14 07:13:22 jpthibau Exp $ -->
 <project name="TLLTypeChecker" default="dist" basedir=".">
 	<description>
         Known directories for the TLLTypeChecker
@@ -36,7 +36,7 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"
+   			classpath=".;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"
    			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
@@ -47,7 +47,7 @@
             nodeprecatedlist="false" nodeprecated="false"
             packagenames="OperationCallChecker,TypeChecker"
             sourcepath="src"
-            classpath="bin;${Utils}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Basic MTL TLL type checker internal Documentation">
+            classpath="bin;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Basic MTL TLL type checker internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
         </javadoc>

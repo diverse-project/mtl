@@ -1,21 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.7 2003-09-23 17:16:25 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.8 2003-10-14 07:08:48 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.BasicMtlLibrary;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedOpSignature;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.KnownClasses;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserClass;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserDefinedClass;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.ComputedSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAccessor;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 
 /**
  * @author jpthibau
@@ -55,7 +47,9 @@ public class inheritedSignatures {
 		limit=aClass.cardInheritedSignatures();
 		for(i=0;i<limit;i++) {
 			if ( (parentSignature.getOpName().equals(aClass.getInheritedSignatures(i).getOpName())) //same operation name
-				&& (parentSignature.getArgsCount()==aClass.getInheritedSignatures(i).getArgsCount())) //same number of arguments
+				&& (parentSignature.getArgsCount()==aClass.getInheritedSignatures(i).getArgsCount()) //same number of arguments
+				&& (parentSignature.getOpMangle()==null || aClass.getInheritedSignatures(i).getOpMangle()==null
+					|| parentSignature.getOpMangle().equals(aClass.getInheritedSignatures(i).getOpMangle())))
 				{	present=true;
 					if (! areIdentical(parentSignature.getTypeWhichDefineOp(),aClass.getInheritedSignatures(i).getTypeWhichDefineOp()))
 						{	compatible=false;
@@ -79,16 +73,16 @@ public class inheritedSignatures {
 			boolean isAlreadyPresent=((Boolean)compatible_present.get(1)).booleanValue();
 			if (! isRedefined) {
 				if (isCompatible) {
-					if ((! isAlreadyPresent)
-						|| (parentSignature.getOpName().startsWith("getRef_"))) //a same great-parent ref may be accepted from several direct parents 
+					if (! isAlreadyPresent)
+//						|| (parentSignature.getOpName().startsWith("getRef_"))) //a same great-parent ref may be accepted from several direct parents 
 						aClass.appendInheritedSignatures(parentSignature);
 				}
 				else if (! parentSignature.getOpName().startsWith("getRef_"))
-					{	TLLtypechecking.getLog().error("parent signtaure is incompatible with already inherited signatures");
-						TLLtypechecking.getLog().info(parentSignature.getOpName());
-						TLLtypechecking.getLog().info(Integer.toString(parentSignature.getArgsCount()));
-						TLLtypechecking.getLog().info("origin 1:"+parentSignature.getTypeWhichDefineOp());
-						TLLtypechecking.getLog().info("origin 2:"+compatible_present.get(2)); }
+					{	TLLtypechecking.getLog().warn("parent signtaure is incompatible with already inherited signatures");
+						TLLtypechecking.getLog().warn(parentSignature.getOpName());
+						TLLtypechecking.getLog().warn("Arguments count :"+Integer.toString(parentSignature.getArgsCount()));
+						TLLtypechecking.getLog().warn("origin 1:"+parentSignature.getTypeWhichDefineOp());
+						TLLtypechecking.getLog().warn("origin 2:"+compatible_present.get(2)); }
 				}  
 		}
 		return true;//no error
@@ -100,7 +94,7 @@ public class inheritedSignatures {
 			//make the inherited signature from the parent local signature
 			OpSignature localSignature=(OpSignature)parentClass.getLocalSignatures(i);
 			InheritedOpSignature parentSignature=new InheritedOpSignature(localSignature.getOpName(),localSignature.getOpMangle());
-			if (!(localSignature instanceof ComputedSignature))
+			if (!((localSignature instanceof AttributeAccessor) || (localSignature instanceof GetReferenceSignature)))
 				parentSignature.setThrowsException(true);
 			parentSignature.setArgsCount(localSignature.getArgsCount());
 			parentSignature.setReturnedType(localSignature.getReturnedType());
@@ -185,22 +179,29 @@ public class inheritedSignatures {
 //		allReferedTypes.checkLocalClass(relayer, aClass.getName(), theLib);
 		for (int i=0;i<parents.size();i++) {
 			QualifiedName parentType=(QualifiedName)parents.get(i);
-			allReferedTypes.checkType(parentType, theLib);
-			String parentName=(String)parentType.get(0);
-			if (parentType.size()==1)
-				{ if (unSolvedSingleNameParent(parentName,aClass,theLib,parentType))
-				  	  return true;
-				}
-		   else {
-				String className=(String)parentType.get(1);
-		   		if (parentName.equals(theLib.getName())) {
-					if (unSolvedSingleNameParent(className,aClass,theLib,parentType))
-						return true;
-		   		} else {
-					if (unsolvedExternTLLParent(parentName,className,aClass,parentType, theLib))
-						return true;
-				}
+			if (parentType.getNotAlreadySolvedBy()==null)
+				parentType.setNotAlreadySolvedBy(new java.util.Vector());
+			if (! parentType.getNotAlreadySolvedBy().contains(aClass.getName())) {
+				allReferedTypes.checkType(parentType, theLib);
+				String parentName=(String)parentType.get(0);
+				if (parentType.size()==1)
+					{ if (unSolvedSingleNameParent(parentName,aClass,theLib,parentType))
+					  	  return true;
+					  else parentType.getNotAlreadySolvedBy().addElement(aClass.getName());
+					}
+		   		else {
+					String className=(String)parentType.get(1);
+		   			if (parentName.equals(theLib.getName())) {
+						if (unSolvedSingleNameParent(className,aClass,theLib,parentType))
+							return true;
+						else parentType.getNotAlreadySolvedBy().addElement(aClass.getName());
+		   			} else {
+						if (unsolvedExternTLLParent(parentName,className,aClass,parentType, theLib))
+							return true;
+						else parentType.getNotAlreadySolvedBy().addElement(aClass.getName());
+					}
 		   	}
+			}
 		}
 		aClass.setCompletedInheritedSignatures(true);
 		return false;

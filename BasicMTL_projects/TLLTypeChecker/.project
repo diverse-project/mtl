@@ -3,6 +3,7 @@
 	<name>TLLTypeChecker</name>
 	<comment></comment>
 	<projects>
+		<project>BasicMtlAntlr</project>
 		<project>BasicMtlAntlr2TLLJava</project>
 		<project>BasicMtlTLLJava</project>
 		<project>Utils</project>
