@@ -1,0 +1,81 @@
+<!-- $Id: LibAssociation_boot_build.xml,v 1.1 2003-10-28 10:38:04 dvojtise Exp $ -->
+<project name="BasicMtl2Java_LibAssociation_boot" default="dist" basedir=".">
+	<description>
+        Build file for the BasicMTL2Java compiler with support for association
+        This build is the first pass for the bootstrap, it compiles mtl files using LibInheritance version of the compiler
+	</description>
+	<!-- set global properties for this build -->
+	<property name="distname" location="LibAssociationBoot"/>
+	<property name="src" location="${distname}/src"/>
+	<property name="bin" location="${distname}/bin"/>
+	<property name="build" location="${distname}/build"/>
+	<property name="dist"  location="${distname}/dist"/>
+	<property name="base"  location=".."/>
+	
+	<!-- The compilation tool (link to the BasicMTL compiler used to compile this version) -->
+	<property name="MTLcompiler.jar.path" location="LibInheritance/dist/bin"/>
+	<property name="MTLcompiler.Runtime.path" location="LibInheritance/dist/bin/Runtime"/>
+	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTL.jar"/>
+	
+	<!-- classpath for compiling the compiler -->
+	<path id="compileCompiler.class.path">
+    	<pathelement path="${dist}\bin\Thirdparty\ANTLR\antlrfull.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\log4j\log4j.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmi.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\jmiutils.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\mdrapi.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\mof.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\nbmdr.jar"/>
+    	<pathelement path="${dist}\bin\Thirdparty\MDR\openide-lookup.jar"/>
+  	</path>
+	
+	<target name="init">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="init common" inheritAll="true"/>
+		<!-- specific initialization -->
+	</target>    
+	<target name="clean">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="clean common" inheritAll="true"/>
+		<!-- specific cleanup -->
+	</target>    
+	<target name="clean all">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="clean all common" inheritAll="true"/>
+		<!-- specific cleanup -->
+	</target>   
+	<target name="get_jars">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="get_jars common" inheritAll="true"/>
+		<!-- specific jar files to get in this distribution -->
+	</target>   
+	<target name="get_sources">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="get_sources common" inheritAll="true"/>
+		<!-- specific source files to get in this distribution -->
+	</target>	
+	<target name="generate_java" depends="get_sources, get_jars">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="generate_java common" inheritAll="true"/>
+		<!-- specific java generation steps -->				
+	</target>  
+	<target name="compile" depends="init, generate_java">
+		<!-- call common part -->
+		<!--<echo> classpath = ${compileCompiler.class.path}</echo>-->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="compile common" inheritAll="true" inheritrefs="true">
+			<reference refid="compileCompiler.class.path"/>
+		</ant>
+		<!-- specific compile steps -->				
+	</target>
+	<target name="create_jar" depends="compile">
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="create_jar common" inheritAll="true"/>
+		<!-- specific jar creation steps -->				
+	</target>
+	<target name="dist" >
+		<!-- call common part -->
+		<ant antfile="LibAssociation_common_build.xml" dir="." target="dist common" inheritAll="true"/>
+		<!-- specific jar creation steps -->				
+	</target>
+	
+</project>
