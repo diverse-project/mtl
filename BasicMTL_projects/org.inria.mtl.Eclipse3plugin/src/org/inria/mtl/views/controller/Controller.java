@@ -1,5 +1,5 @@
 /*
-* $Id: Controller.java,v 1.1 2004-07-30 14:10:26 sdzale Exp $
+* $Id: Controller.java,v 1.2 2004-08-26 12:40:57 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -95,7 +95,6 @@ public class Controller
 
 					logfile.add(e);
 					fireUpdate(e);
-					//System.out.println("add entry");
 				}
 			}
 		});
@@ -129,7 +128,6 @@ public class Controller
 		logfile.clear();
 		System.out.println("VIEW REFRESH");
 		view.refresh();
-		//System.out.println("Nb elts dans la vue :"+view.g)
 	}
 
 	//
@@ -149,7 +147,7 @@ public class Controller
 
 	public void fireUpdate(Entry entry)
 	{	
-		//System.out.println("LISTENER ");
+		System.out.println("LISTENER ");
 		for (Iterator iter = listeners.iterator(); iter.hasNext(); )
 			((IControllerListener) iter.next()).update(entry);
 	}

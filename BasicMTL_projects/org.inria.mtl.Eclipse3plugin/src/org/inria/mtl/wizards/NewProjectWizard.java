@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.1 2004-07-30 14:08:37 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.2 2004-08-26 12:40:14 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,6 +13,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -25,6 +26,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.wizards.NewJavaProjectWizardPage;
@@ -38,6 +40,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.inria.mtl.builders.MTLBuilder;
+import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.core.MTLCore;
 import org.inria.mtl.MTLPlugin;
@@ -52,6 +55,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IWorkspaceRu
 	
 	private IWorkbench workbench;
 	private IStructuredSelection selection;
+	private String RuntimetllFolder;
  
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	   this.workbench = workbench;
@@ -217,42 +221,62 @@ public boolean finish(IProgressMonitor monitor) {
 					fJavaPage.setDefaultOutputFolder(binjava.getFullPath());
 					fJavaPage.getRunnable().run(null);
 					
+					//Insertion des librairies de base
+					IClasspathEntry[] newcpe2 = new IClasspathEntry[]{} ;
+					String filesList[]=new File("").list();
+					if (!( MTLcompiler_path.charAt(MTLcompiler_path.length()-1)=='/' || MTLcompiler_path.charAt(MTLcompiler_path.length()-1)=='\\'))
+							MTLcompiler_path=MTLcompiler_path+'/';
+					RuntimetllFolder=MTLcompiler_path.concat("Runtime\\src\\TLL\\");
+					System.out.println("Runtime :"+RuntimetllFolder);
+					java.util.Vector tllfilenames=new java.util.Vector();
+					//System.out.println("Runtime :"+(new Path(RuntimetllFolder)).isValidPath());
+					if (!(RuntimetllFolder==null)){
+							filesList=new java.io.File(RuntimetllFolder).list();
+							System.out.println("Filelist :"+filesList);
+							if(!((filesList == null) || (filesList.length==0))){
+								newcpe2 = new IClasspathEntry[filesList.length+1] ;
+								for (int i=0;i<filesList.length;i++)
+								{
+									if (filesList[i].endsWith(".tll"))
+									 {
+																			
+										File aFile = new File(RuntimetllFolder+filesList[i]);
+										if (! aFile.exists()) System.err.println("Cannot find fileName :"+aFile);
+										else{
+											newcpe2[i]=MTLCore.newLibraryEntry(new Path(aFile.getPath()),null,null);
+											}
+									 }
+					
+								}
+							}
+					}
+/////////////////////////////////////////////////////
 					MTLCore.setProject(newProject);
-					try{
-						newcpe1[0]=MTLCore.newSourceEntry(mtlsrc.getFullPath()/*,MtlClasspathEntry.NO_EXCLUSION_PATTERNS,output.getFullPath()*/);			
-					}catch (Exception E){System.out.println("Ajout source incorrect");
-					}
-				
-					boolean bol=MTLCore.saveClasspath(newcpe1,null);
-					
-					try{
-					
+			 if (!(filesList==null)){// Aucun fichier ne se trouve dans le repertoire du compilateur
+					if (filesList.length==0){
+						newcpe1[0]=MTLCore.newSourceEntry(mtlsrc.getFullPath());
+						boolean bol=MTLCore.saveClasspath(newcpe1,null);}
+					else{
+						newcpe2[filesList.length]=MTLCore.newSourceEntry(mtlsrc.getFullPath());
+						boolean bol=MTLCore.saveClasspath(newcpe2,null);
+						}
+			 }else{
+				newcpe1[0]=MTLCore.newSourceEntry(mtlsrc.getFullPath());
+				boolean bol=MTLCore.saveClasspath(newcpe1,null);}
+	
+			 }	
+			try{
 					IClasspathEntry[] entries = MTLCore.readClasspathFile();
-					} catch(Exception E){
+				} catch(Exception E){
 						System.out.println("Nom de projet inexistant");
-					}
-		  }
-		
-		
-		
-		
-		
-		
+				}
+					
 		//Settings MTL folder output and input
-		
-//		store.setValue(PreferenceConstants.FJAVA_SRCNAME,javasrc.getFullPath().toString());
-//		store.setValue(PreferenceConstants.FJAVA_BINNAME,binjava.getFullPath().toString());
-//		store.setValue(PreferenceConstants.FMTL_BINNAME,binmtl.getFullPath().toString());
-//		store.setValue(PreferenceConstants.FMTL_SRCNAME,mtlsrc.getFullPath().toString());
-//		store.setValue(PreferenceConstants.OUTPUT_BUILDNAME,output.getFullPath().toString());
 		setBuilder(newProject);
-		
-//		System.out.println("jsrc :"+javasrc.getFullPath().toString());
-//		System.out.println("jcl :"+binjava.getFullPath().toString());
-//		System.out.println("smtl :"+mtlsrc.getFullPath().toString());
-//		System.out.println("tll :"+binmtl.getFullPath().toString());
+		//Stocker le chemin des tll
+		newProject.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.MTL_TLLFolder), binmtl.getFullPath().toString());
+		newProject.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_RUNTIMEFOLDER), RuntimetllFolder);
 		MTLCore.loadMtlClasspath();
-		
 		} catch (Exception e) {
 		e.printStackTrace();
 		return false;
@@ -314,8 +338,8 @@ private void setBuilder(IProject newProject) throws Exception {
  protected void initializeDefaultPageImageDescriptor() {
 	String iconPath = "icons/";//$NON-NLS-1$		
 	try {
-		URL installURL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
-		URL url = new URL(installURL, iconPath + "wizban/fmtl.gif");//$NON-NLS-1$
+		//URL installURL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
+		URL url = new URL(MTLPlugin.getBaseURL(), iconPath + "wizban/fmtl.gif");//$NON-NLS-1$
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		setDefaultPageImageDescriptor(desc);
 	}

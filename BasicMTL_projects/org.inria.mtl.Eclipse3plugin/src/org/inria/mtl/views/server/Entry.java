@@ -1,5 +1,5 @@
 /*
-* $Id: Entry.java,v 1.1 2004-07-30 14:08:56 sdzale Exp $
+* $Id: Entry.java,v 1.2 2004-08-26 12:40:25 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -12,9 +12,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * @author tcn
- * 
- * To change the template for this generated type comment go to Window - Preferences - Java - Code Generation - Code and Comments
+  * To change the template for this generated type comment go to Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class Entry
 {	

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+import org.inria.mtl.views.ProjectExploreView;
 
 /**
  * To change this generated comment edit the template variable "typecomment":
@@ -29,6 +30,13 @@ public class MTLOutlinerPage extends ContentOutlinePage
 		super();
 		this.input = input;
 		System.out.println("Outline lancée");
+		try{
+			ProjectExploreView.refresh();
+			ProjectExploreView.update();
+			}catch(Exception e)
+			{
+				//To do
+			}	
 	}
 
 	/**
@@ -42,8 +50,6 @@ public class MTLOutlinerPage extends ContentOutlinePage
 		TreeViewer viewer = getTreeViewer();
 		viewer.setContentProvider(new WorkbenchContentProvider());
 		viewer.setLabelProvider(new WorkbenchLabelProvider());
-
-		// Faire attention de placer l'entrée ici maintenant 
 		viewer.setSorter(new MTLNameSorter());
 	}
 
@@ -68,7 +74,7 @@ public class MTLOutlinerPage extends ContentOutlinePage
 			getTreeViewer().expandAll();
 		}
 		
-		
+		 
 		//Attempt to determine which nodes are already expanded bearing in mind that the object is not the same.
 		for(int i= 0; i< expanded.length; i++)
 		{
@@ -86,8 +92,8 @@ public class MTLOutlinerPage extends ContentOutlinePage
 	 * Sets the input of the outline page
 	 * @param input The Input for the outline page
 	 */
-	public final void setInput(final Object input) {
-		fInput = input;
-		update();
-	}
+//	public final void setInput(final Object input) {
+//		fInput = input;
+//		update();
+//	}
 }

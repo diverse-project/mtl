@@ -1,5 +1,5 @@
 /*
-* $Id: ServerAction.java,v 1.1 2004-07-30 14:11:02 sdzale Exp $
+* $Id: ServerAction.java,v 1.2 2004-08-26 12:41:02 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,18 +9,13 @@ package org.inria.mtl.views.actions;
 
 import java.io.IOException;
 
+import org.eclipse.jface.action.Action;
 import org.inria.mtl.views.MTLConsole;
 import org.inria.mtl.views.Utility;
 import org.inria.mtl.views.controller.Controller;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.resource.ImageDescriptor;
-
 /**
- * @author tcn
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+* Action that start or stop the server
  */
 public class ServerAction extends Action
 {
@@ -34,8 +29,7 @@ public class ServerAction extends Action
 	{
 		this.view = fview;
 		setRunning(false);
-		//System.out.println("ConsServerAction");
-	}
+		}
 	
 	public static ServerAction getInstance() {
 			return instance;
@@ -45,7 +39,6 @@ public class ServerAction extends Action
 	{
 		
 		Controller controller = Controller.getInstance();
-		System.out.println("Server is running :" + isRunning);
 		if (isRunning)
 		{
 			try
@@ -78,13 +71,9 @@ public class ServerAction extends Action
 	 */
 	public  void setRunning(boolean b)
 	{
-		//System.out.println("SET RUUNNING");
 		isRunning = b;
-		//System.out.println("IsRunning :"+b);
-
-		if (isRunning)
+				if (isRunning)
 		{
-			//System.out.println("IsRunning true 0 ");
 			setText(STOP);
 			setToolTipText(STOP);
 			setImageDescriptor(Utility.getImageDescriptor("stop"));
@@ -94,9 +83,6 @@ public class ServerAction extends Action
 		{
 			setText(START);
 			setToolTipText(START);
-			//System.out.println("IsRunning False");
-			//ImageDescriptor i=Utility.getImageDescriptor("start");
-			//System.out.println("ImageDesc :"+(i==null?"nulle":"non null"));
 			setImageDescriptor(Utility.getImageDescriptor("start"));
 		}
 	}

@@ -1,5 +1,5 @@
 /*
-* $Id: ResourceChangeListener.java,v 1.1 2004-07-30 14:09:28 sdzale Exp $
+* $Id: ResourceChangeListener.java,v 1.2 2004-08-26 12:40:31 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -35,8 +35,8 @@ public class ResourceChangeListener
 	 */
 	public ResourceChangeListener() {
 		super();
-		Auto_build=MTLPlugin.getDefault().getPreferenceStore().getBoolean(PreferencesConstants.AUTO_COMPILE);	
-	}
+		Auto_build=MTLPlugin.getDefault().getPreferenceStore().getBoolean(PreferencesConstants.AUTO_COMPILE);
+		}
 
 	/**
 	 *  Constructor for the ResourceChangeListener object
@@ -46,9 +46,7 @@ public class ResourceChangeListener
 	public ResourceChangeListener(String fileOwner) {
 		super();
 		this.fileOwner = fileOwner;
-	}
-
-
+		}
 	/**
 	 *  Sets the fileOwner attribute of the ResourceChangeListener object
 	 *
@@ -57,18 +55,14 @@ public class ResourceChangeListener
 	public void setFileOwner(String fileOwner) {
 		this.fileOwner = fileOwner;
 	}
-
-
 	/**
 	 *@param  event  
-	 *@see           IResourceChangeListener#resourceChanged(IResourceChangeEvent)
+	 *@see    IResourceChangeListener#resourceChanged(IResourceChangeEvent)
 	 */
 	public void resourceChanged(IResourceChangeEvent event) {
-
-		System.out.print("Resource Changed " + event.getResource().getName());
-
 		try {
 			IResource res = event.getResource();
+			MTLPlugin.videConsole=true;
 			switch (event.getType()) {
 				case IResourceChangeEvent.PRE_CLOSE:
 					break;
@@ -79,19 +73,17 @@ public class ResourceChangeListener
 						event.getDelta().accept(this);
 					//}
 					break;
-				case IResourceChangeEvent.PRE_AUTO_BUILD:
+				case IResourceChangeEvent.PRE_BUILD:
 					break;
-				case IResourceChangeEvent.POST_AUTO_BUILD:
+				case IResourceChangeEvent.POST_BUILD:
 					break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-
 	/**
-	 *  Passes the event on to the MTLModel object for the attached project
+	 *Passes the event on to the MTLModel object for the attached project
 	 *
 	 *@param  delta  the change
 	 *@return        
@@ -104,12 +96,9 @@ public class ResourceChangeListener
 		} else {
 			return true;
 		}
-
 	}
-
 	/**
 	 *  Passes the resource to be handled onto the MTLModel object for the attached project
-	 *
 	 *@param  res  
 	 *@return      
 	 */
@@ -121,5 +110,4 @@ public class ResourceChangeListener
 			return true;
 		}
 	}
-
 }

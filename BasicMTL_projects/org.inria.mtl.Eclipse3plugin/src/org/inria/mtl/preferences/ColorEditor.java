@@ -1,5 +1,5 @@
 /*
-* $Id: ColorEditor.java,v 1.1 2004-07-30 14:09:34 sdzale Exp $
+* $Id: ColorEditor.java,v 1.2 2004-08-26 12:40:36 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

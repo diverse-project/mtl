@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditor.java,v 1.1 2004-07-30 14:10:07 sdzale Exp $
+* $Id: MTLEditor.java,v 1.2 2004-08-26 12:40:40 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -11,12 +11,13 @@ package org.inria.mtl.editors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jdt.internal.ui.text.JavaPairMatcher;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.BadLocationException;
@@ -24,7 +25,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.ITextViewerExtension3;
+import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.source.IOverviewRuler;
@@ -32,6 +33,7 @@ import org.eclipse.jface.text.source.ISharedTextColors;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.OverviewRuler;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -41,19 +43,13 @@ import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.editors.text.DefaultEncodingSupport;
 import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.texteditor.AddTaskAction;
-import org.eclipse.ui.texteditor.ContentAssistAction;
-import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IEditorStatusLine;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-import org.eclipse.ui.texteditor.ResourceAction;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -94,7 +90,7 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 	/** Preference key for showing print marging ruler */
 	protected final static String PRINT_MARGIN= PreferencesConstants.EDITOR_PRINT_MARGIN;
 	/** Preference key for print margin ruler color */
-	protected final static String PRINT_MARGIN_COLOR= org.eclipse.jdt.ui.PreferenceConstants.EDITOR_PRINT_MARGIN_COLOR;
+	protected final static String PRINT_MARGIN_COLOR= org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_PRINT_MARGIN_COLOR;
 	/** Preference key for print margin ruler column */
 	protected final static String PRINT_MARGIN_COLUMN= PreferencesConstants.EDITOR_PRINT_MARGIN_COLUMN;
 	/** Preference key for highlighting current line */	
@@ -130,9 +126,9 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 	 * Laissée telle quelle
 	 */	
 	public void dispose() {
-		if (outlinePage != null) {
-			outlinePage.setInput(null);
-		}
+//		if (outlinePage != null) {
+//			outlinePage.setInput(null);
+//		}
 		colorManager.dispose();
 		super.dispose();
 	}
@@ -216,43 +212,36 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 //	   resAction = new InformationDispatchAction(MTLEditorMessages.getResourceBundle(), "ShowJavaDoc.", (TextOperationAction) resAction); //$NON-NLS-1$
 //	   resAction.setActionDefinitionId(MTLEditorActionDefinitionIds.SHOW_JAVADOC);
 //	   setAction("ShowJavaDoc", resAction); //$NON-NLS-1$
+	   
+	   	Action action;
+//	    action = new FormatAction();
+//		setAction(FormatAction.ID, action);
+//		action = new CompactFormatAction();
+//		setAction(CompactFormatAction.ID, action);
+		action = new CommentAction();
+		setAction(CommentAction.ID, action);
+		action = new UncommentAction();
+		setAction(UncommentAction.ID, action);
+		//
 //	  
-	   Action action;
+	   
 
 	   setAction( "ContentAssistTip", new TextOperationAction(  MTLEditorMessages.getResourceBundle(),
 		   "ContentAssistTip.",
 		   this,
-		   ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
+	   ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
 	   setAction("ContentAssistProposal", new TextOperationAction(MTLEditorMessages.getResourceBundle(),
 			"ContentAssistProposal.", this, ISourceViewer.CONTENTASSIST_PROPOSALS));
 
-	
-
-//	   action = new ContentAssistAction(MTLEditorMessages.getResourceBundle(), "ContentAssistProposal.", this); //$NON-NLS-1$
-//	   action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-//	   setAction("ContentAssistProposal", action); //$NON-NLS-1$
-//	   markAsStateDependentAction("ContentAssistProposal", true); //$NON-NLS-1$
-	
 	   fEncodingSupport = new DefaultEncodingSupport();
 	   fEncodingSupport.initialize(this);
-
-	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Comment.", this, ITextOperationTarget.PREFIX); //$NON-NLS-1$
-	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.COMMENT);
-	   setAction("Comment", action); //$NON-NLS-1$
-	   markAsStateDependentAction("Comment", true); //$NON-NLS-1$
-	  
 
 	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Uncomment.", this, ITextOperationTarget.STRIP_PREFIX); //$NON-NLS-1$
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.UNCOMMENT);
 	   setAction("Uncomment", action); //$NON-NLS-1$
 	   markAsStateDependentAction("Uncomment", true); //$NON-NLS-1$
 	  
-	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Format.", this, ISourceViewer.FORMAT); //$NON-NLS-1$
-	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.FORMAT);
-	   setAction("Format", action); //$NON-NLS-1$
-	   markAsStateDependentAction("Format", true); //$NON-NLS-1$
-	   markAsSelectionDependentAction("Format", true); //$NON-NLS-1$		
-	  
+
 	   action = new GotoMatchingBracketAction(this);
 	   
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.GOTO_MATCHING_BRACKET);
@@ -269,7 +258,7 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 
 	/**
 			 * Jumps to the matching bracket.
-			 */
+	 */
 			public void gotoMatchingBracket() {
 		
 				ISourceViewer sourceViewer= getSourceViewer();
@@ -308,8 +297,8 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 				int targetOffset= (JavaPairMatcher.RIGHT == anchor) ? offset : offset + length - 1;
 		
 				boolean visible= false;
-				if (sourceViewer instanceof ITextViewerExtension3) {
-					ITextViewerExtension3 extension= (ITextViewerExtension3) sourceViewer;
+				if (sourceViewer instanceof ITextViewerExtension5) {
+					ITextViewerExtension5 extension= (ITextViewerExtension5) sourceViewer;
 					visible= (extension.modelOffset2WidgetOffset(targetOffset) > -1);
 				} else {
 					IRegion visibleRegion= sourceViewer.getVisibleRegion();
@@ -509,8 +498,8 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 							int lineOffset;
 						
 							ISourceViewer sourceViewer= getSourceViewer();
-							if (sourceViewer instanceof ITextViewerExtension3) {
-								ITextViewerExtension3 extension= (ITextViewerExtension3) sourceViewer;
+							if (sourceViewer instanceof ITextViewerExtension5) {
+								ITextViewerExtension5 extension= (ITextViewerExtension5) sourceViewer;
 								lineOffset= extension.widgetOffset2ModelOffset(widgetLineOffset);
 							} else {
 								IRegion visible= sourceViewer.getVisibleRegion();
@@ -592,20 +581,117 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 					outlinePage.update();
 				}
 			}
-			
-			/** The <code>MTLEditor</code> implementation of this
-			 * <code>AbstractTextEditor</code> method performs sets the
-			 * input of the outline page after AbstractTextEditor has set input.
-			 *
-			 * @param input The input for the output page to review.
-			 * @throws CoreException if fOutlinePage throws
+			class CommentAction extends Action {
+				public static final String ID = "org.inria.mtl.editors.CommentAction";
+				public CommentAction() {
+					setEnabled(true);
+					setId(ID);
+					setText("&Comment");
+				}
+				public void run() {
+					
+					ISourceViewer sourceViewer= getSourceViewer();
+					IDocument document= sourceViewer.getDocument();
+					Point p = sourceViewer.getSelectedRange();
+					int start = p.x;
+					int end = p.x + p.y;
+					try {
+						start = document.getLineOffset(document.getLineOfOffset(start));
+						int len = end - start;
+						StringBuffer buf = new StringBuffer(document.get(start, len));
+						int index = 0;
+						do {
+							buf.insert(index, "//");
+							index = buf.indexOf("\n", index);
+							if (index < 0)
+								break;
+							++index;
+						} while (index < buf.length());
+						document.replace(start, len, buf.toString());
+						//System.out.println("COMMENT :"+buf.toString());
+					} catch (BadLocationException e) {
+						MTLPlugin.log(e);
+						return;
+					}
+					//sourceViewer.setSelection(new TextSelection(start, 0));
+					//validateAfterAction();
+				}
+			}
+
+			class UncommentAction extends Action {
+				public static final String ID = "org.inria.mtl.editors.UnCommentAction";
+				public UncommentAction() {
+					setEnabled(true);
+					setId(ID);
+					setText("&Uncomment");
+				}
+				public void run() {
+					ISourceViewer sourceViewer= getSourceViewer();
+					IDocument document= sourceViewer.getDocument();
+					Point p = sourceViewer.getSelectedRange();
+					int start = p.x;
+					int end = p.x + p.y;
+					try {
+						start = document.getLineOffset(document.getLineOfOffset(p.x));
+						StringBuffer buf = new StringBuffer(document.get(start, end - start));
+						System.out.println(buf.length());
+						
+						int index = -1;
+						char c;
+						do {
+							int i = index + 1;
+							index = buf.indexOf("\n", i);
+							if (index < 0)
+								index = buf.length();
+							for (; i < index; ++i) {
+								c = buf.charAt(i);
+								if (Character.isWhitespace(c))
+									continue;
+								if (c != '/')
+									break;
+								if (i + 1 < index && buf.charAt(i + 1) == '/') {
+									buf.delete(i, i + 2);
+									index -= 2;
+								}
+										break;
+							}
+							
+						} while (index < buf.length() - 1);
+						document.replace(start, end - start, buf.toString());
+						
+					} catch (BadLocationException e) {
+						MTLPlugin.log(e);
+						return;
+					}
+					//viewer.setSelection(new TextSelection(start, 0));
+					//validateAfterAction();
+				}
+			}
+
+			/**
+			 * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
 			 */
-//			public final void doSetInput(final IEditorInput input) throws CoreException {
-//				super.doSetInput(input);
-//				if (outlinePage != null) {
-//					outlinePage.setInput(input);
-//				}
-//			}
+			protected void initializeEditor() {
+				super.initializeEditor();
+			}
+			
+			/**
+			 * @see org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow(IMenuManager)
+			 */
+			protected void editorContextMenuAboutToShow(IMenuManager menu) {
+				super.editorContextMenuAboutToShow(menu);
+				SourceViewer viewer = (SourceViewer) getSourceViewer();
+				IAction action;
+				//
+				action = getAction(CommentAction.ID);
+				action.setEnabled(true);
+				menu.appendToGroup(ITextEditorActionConstants.MB_ADDITIONS, action);
+				//
+				action = getAction(UncommentAction.ID);
+				action.setEnabled(true);
+				menu.appendToGroup(ITextEditorActionConstants.MB_ADDITIONS, action);
+			}
+
 
 				
 

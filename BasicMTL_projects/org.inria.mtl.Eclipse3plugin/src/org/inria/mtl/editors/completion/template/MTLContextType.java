@@ -26,23 +26,7 @@ public class MTLContextType extends CompilationUnitContextType {
 		addVariable(new GlobalVariables.Time());
 		addVariable(new GlobalVariables.User());
 		
-		// compilation unit
-	/*	addVariable(new File());
-		addVariable(new ReturnType());
-		addVariable(new Method());
-		addVariable(new Type());
-		addVariable(new Package());
-		addVariable(new Project());
-		addVariable(new Arguments());
-
-		// java
-		addVariable(new Array());
-		addVariable(new ArrayType());
-		addVariable(new ArrayElement());
-		addVariable(new Index());
-		addVariable(new Iterator());
-		addVariable(new Collection());*/
-	}
+		}
 	
 	/*
 	 * @see ContextType#createContext()

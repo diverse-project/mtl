@@ -1,26 +1,22 @@
 
 package org.inria.mtl.editors.actions;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.*;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.SWT;
-import org.eclipse.ui.*;
-import org.eclipse.ui.part.MessagePage;
-import org.eclipse.ui.texteditor.*;
-import org.eclipse.ui.views.tasklist.TaskList;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.texteditor.TextEditorAction;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
-import org.inria.mtl.editors.MTLEditor;
 import org.inria.mtl.editors.MTLUnitEditor;
-import org.inria.mtl.core.MTLCore;
 
 /**
  * Class that defines the action of compiling the current MTL file

@@ -1,40 +1,34 @@
 /*
-* $Id: CPListLabelProvider.java,v 1.1 2004-07-30 14:08:37 sdzale Exp $
+* $Id: CPListLabelProvider.java,v 1.2 2004-08-26 12:40:13 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
 */ 
 package org.inria.mtl.wizards; 
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.*;
-
 import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-
-import org.eclipse.swt.graphics.Image;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.LabelProvider;
-
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbench;
-
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-
-import org.eclipse.jdt.ui.JavaElementImageDescriptor;
-
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.viewsupport.ImageDescriptorRegistry;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
+import org.eclipse.jdt.internal.ui.wizards.buildpaths.ArchiveFileFilter;
+import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
+import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
+import org.eclipse.jdt.ui.JavaElementImageDescriptor;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IWorkbench;
 
 class CPListLabelProvider extends LabelProvider {
 		
@@ -59,7 +53,7 @@ class CPListLabelProvider extends LabelProvider {
 		fVariableImage= JavaPluginImages.DESC_OBJS_ENV_VAR;
 
 		IWorkbench workbench= JavaPlugin.getDefault().getWorkbench();
-		fProjectImage= workbench.getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_PROJECT);
+		fProjectImage= workbench.getSharedImages().getImageDescriptor(org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJ_PROJECT);
 	}
 	
 	public String getText(Object element) {

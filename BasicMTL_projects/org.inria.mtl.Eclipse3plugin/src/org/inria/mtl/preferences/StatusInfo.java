@@ -1,5 +1,5 @@
 /*
-* $Id: StatusInfo.java,v 1.1 2004-07-30 14:09:35 sdzale Exp $
+* $Id: StatusInfo.java,v 1.2 2004-08-26 12:40:37 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

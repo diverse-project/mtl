@@ -1,10 +1,20 @@
 /*
-* $Id: AddTaskAction.java,v 1.1 2004-07-30 14:08:44 sdzale Exp $
+* $Id: AddTaskAction.java,v 1.2 2004-08-26 12:40:17 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
 */ 
+/*******************************************************************************
+ * Copyright (c) 2002 International Business Machines Corp. and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Common Public License v0.5 
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v05.html
+ * 
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ ******************************************************************************/
 package org.inria.mtl.editors.actions;
 
 import org.eclipse.core.resources.IResource;

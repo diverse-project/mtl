@@ -1,5 +1,5 @@
 /*
-* $Id: IControllerListener.java,v 1.1 2004-07-30 14:10:24 sdzale Exp $
+* $Id: IControllerListener.java,v 1.2 2004-08-26 12:40:57 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,9 +10,7 @@ package org.inria.mtl.views.controller;
 import org.inria.mtl.views.server.*;
 
 /**
- * @author tcn
- *
- * To change the template for this generated type comment go to
+  * To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public interface IControllerListener

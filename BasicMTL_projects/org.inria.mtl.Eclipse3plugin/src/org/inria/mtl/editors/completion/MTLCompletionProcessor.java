@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCompletionProcessor.java,v 1.1 2004-07-30 14:09:29 sdzale Exp $
+* $Id: MTLCompletionProcessor.java,v 1.2 2004-08-26 12:40:31 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -150,72 +150,6 @@ public class MTLCompletionProcessor implements IContentAssistProcessor {
 	   return internalComputeCompletionProposals(viewer, documentOffset, contextInformationPosition);
 	 }
 
-//	 private int getLastToken(ITextViewer viewer, int completionPosition, MTLUnitContext context) {
-//	   IDocument document = viewer.getDocument();
-//	   int start = context.getStart();
-//	   int end = context.getEnd();
-//
-//	   String startText;
-//	  // int lastSignificantToken = ITerminalSymbols.TokenNameEOF;
-//
-//	   try {
-//		 // begin search 2 lines behind of this
-//		 int j = start;
-//		 if (j != 0) {
-//		   char ch;
-//		   while (j-- > 0) {
-//			 ch = document.getChar(j);
-//			 if (ch == '\n') {
-//			   break;
-//			 }
-//		   }
-//		   while (j-- > 0) {
-//			 ch = document.getChar(j);
-//			 if (ch == '\n') {
-//			   break;
-//			 }
-//		   }
-//		 }
-//		 if (j != start) {
-//		   // scan the line for the dereferencing operator '->'
-//		   startText = document.get(j, start - j);
-//		   //						System.out.println(startText);
-//		   Scanner scanner = ToolFactory.createScanner(false, false, false);
-//		   scanner.setSource(startText.toCharArray());
-//		   scanner.setPHPMode(true);
-//		   int token = ITerminalSymbols.TokenNameEOF;
-//		   int beforeLastToken = ITerminalSymbols.TokenNameEOF;
-//		   int lastToken = ITerminalSymbols.TokenNameEOF;
-//
-//		   try {
-//			 token = scanner.getNextToken();
-//			 lastToken = token;
-//			 while (token != ITerminalSymbols.TokenNameERROR && token != ITerminalSymbols.TokenNameEOF) {
-//			   beforeLastToken = lastToken;
-//			   lastToken = token;
-//			   //								System.out.println(scanner.toStringAction(lastToken));
-//			   token = scanner.getNextToken();
-//			 }
-//		   } catch (InvalidInputException e1) {
-//		   }
-//		   switch (lastToken) {
-//			 case ITerminalSymbols.TokenNameMINUS_GREATER :
-//			   // dereferencing operator '->' found
-//			   lastSignificantToken = ITerminalSymbols.TokenNameMINUS_GREATER;
-//			   if (beforeLastToken == ITerminalSymbols.TokenNamethis) {
-//				 lastSignificantToken = ITerminalSymbols.TokenNamethis;
-//			   }
-//			   break;
-//			 case ITerminalSymbols.TokenNamenew :
-//			   lastSignificantToken = ITerminalSymbols.TokenNamenew;
-//			   break;
-//		   }
-//		 }
-//	   } catch (BadLocationException e) {
-//	   }
-//	   return lastSignificantToken;
-//	 }
-//
 	 private ICompletionProposal[] internalComputeCompletionProposals(ITextViewer viewer, int offset, int contextOffset) {
 	   IDocument document = viewer.getDocument();
 	   Object[] identifiers = null;
@@ -327,9 +261,8 @@ public class MTLCompletionProcessor implements IContentAssistProcessor {
 	  * Method declared on IContentAssistProcessor
 	  */
 	 public char[] getCompletionProposalAutoActivationCharacters() {
-	   return fProposalAutoActivationSet;
-	   //    return null; // new char[] { '$' };
-	 }
+        return  new char[] { '(','.',':' };
+ }
 
 	 /* (non-Javadoc)
 	  * Method declared on IContentAssistProcessor

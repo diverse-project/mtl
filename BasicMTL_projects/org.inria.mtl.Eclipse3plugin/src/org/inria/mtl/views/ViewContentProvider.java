@@ -1,5 +1,5 @@
 /*
-* $Id: ViewContentProvider.java,v 1.1 2004-07-30 14:10:28 sdzale Exp $
+* $Id: ViewContentProvider.java,v 1.2 2004-08-26 12:40:46 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * @author tcn
  * 
  * The content provider class is responsible for providing objects to the view.
  * It can wrap existing objects in adapters or simply return objects as-is.

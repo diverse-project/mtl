@@ -14,13 +14,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.WizardNewFolderMainPage;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.inria.mtl.MTLPlugin;
 
 /**
  * Standard workbench wizard that create a new folder resource in the workspace.
@@ -72,8 +70,8 @@ public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 protected void initializeDefaultPageImageDescriptor() {
 	String iconPath = "icons/full/";//$NON-NLS-1$
 	try {
-		URL installURL = Platform.getPlugin(PlatformUI.PLUGIN_ID).getDescriptor().getInstallURL();
-		URL url = new URL(installURL, iconPath + "wizban/newfolder_wiz.gif");//$NON-NLS-1$
+		//URL installURL = Platform.getPlugin(PlatformUI.PLUGIN_ID).getDescriptor().getInstallURL();
+		URL url = new URL(MTLPlugin.getBaseURL(), iconPath + "wizban/newfolder_wiz.gif");//$NON-NLS-1$
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		setDefaultPageImageDescriptor(desc);
 	}

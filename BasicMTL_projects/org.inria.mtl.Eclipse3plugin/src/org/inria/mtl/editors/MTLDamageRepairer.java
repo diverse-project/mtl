@@ -1,5 +1,5 @@
 /*
-* $Id: MTLDamageRepairer.java,v 1.1 2004-07-30 14:10:04 sdzale Exp $
+* $Id: MTLDamageRepairer.java,v 1.2 2004-08-26 12:40:39 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -25,7 +25,6 @@ public class MTLDamageRepairer extends DefaultDamagerRepairer {
 	}
 	
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent event, boolean documentPartitioningChanged){
-		System.out.println("Called Damager");
 		try{
 			if(event.getText().length()==1){
 				return fDocument.getLineInformationOfOffset(event.getOffset());
@@ -33,8 +32,7 @@ public class MTLDamageRepairer extends DefaultDamagerRepairer {
 				return super.getDamageRegion(partition,event,documentPartitioningChanged);
 			}
 		} catch (BadLocationException x) {
-			System.out.println("Hmmmm its all ballsed up!");
-			return partition;
+				return partition;
 		}
 		
 	} 

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLUnitEditor.java,v 1.1 2004-07-30 14:10:05 sdzale Exp $
+* $Id: MTLUnitEditor.java,v 1.2 2004-08-26 12:40:40 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -11,11 +11,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -29,8 +30,8 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewerExtension;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.IWidgetTokenKeeper;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -51,9 +52,8 @@ import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.editors.text.IStorageDocumentProvider;
 import org.eclipse.ui.help.WorkbenchHelp;
 import org.eclipse.ui.texteditor.IDocumentProvider;
-
-import org.inria.mtl.editors.completion.ContentAssistPreferences;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.editors.completion.ContentAssistPreferences;
 import org.inria.mtl.editors.completion.link.LinkedPositionManager;
 import org.inria.mtl.editors.completion.link.LinkedPositionUI;
 import org.inria.mtl.editors.completion.link.LinkedPositionUI.ExitFlags;
@@ -550,7 +550,7 @@ public class MTLUnitEditor extends MTLEditor {
   private BracketInserter fBracketInserter = new BracketInserter();
 
   /* Preference key for code formatter tab size */
-  private final static String CODE_FORMATTER_TAB_SIZE = JavaCore.FORMATTER_TAB_SIZE;
+  private final static String CODE_FORMATTER_TAB_SIZE =DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE;// JavaCore.FORMATTER_TAB_SIZE;
   /** Preference key for matching brackets */
   private final static String MATCHING_BRACKETS = PreferencesConstants.EDITOR_MATCHING_BRACKETS;
   /** Preference key for matching brackets color */
@@ -562,7 +562,7 @@ public class MTLUnitEditor extends MTLEditor {
   /** Preference key for showing print marging ruler */
   private final static String PRINT_MARGIN = PreferencesConstants.EDITOR_PRINT_MARGIN;
   /** Preference key for print margin ruler color */
-  private final static String PRINT_MARGIN_COLOR = org.eclipse.jdt.ui.PreferenceConstants.EDITOR_PRINT_MARGIN_COLOR;
+  private final static String PRINT_MARGIN_COLOR =org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_PRINT_MARGIN_COLOR;
   /** Preference key for print margin ruler column */
   private final static String PRINT_MARGIN_COLUMN = PreferencesConstants.EDITOR_PRINT_MARGIN_COLUMN;
   /** Preference key for inserting spaces rather than tabs */
@@ -664,13 +664,9 @@ public class MTLUnitEditor extends MTLEditor {
 	IPreferenceStore preferenceStore = getPreferenceStore();
 	boolean closeBracketsMTL = preferenceStore.getBoolean(CLOSE_BRACKETS_MTL);
 	boolean closeStringsMTL = preferenceStore.getBoolean(CLOSE_STRINGS_MTL);
-	//boolean closeBracketsHTML = preferenceStore.getBoolean(CLOSE_BRACKETS_HTML);
-	//boolean closeStringsHTML = preferenceStore.getBoolean(CLOSE_STRINGS_HTML);
 
 	fBracketInserter.setCloseBracketsMTLEnabled(closeBracketsMTL);
 	fBracketInserter.setCloseStringsMTLEnabled(closeStringsMTL);
-	//fBracketInserter.setCloseBracketsHTMLEnabled(closeBracketsHTML);
-	//fBracketInserter.setCloseStringsHTMLEnabled(closeStringsHTML);
 
 	ISourceViewer sourceViewer = getSourceViewer();
 	if (sourceViewer instanceof ITextViewerExtension)
@@ -709,9 +705,9 @@ public class MTLUnitEditor extends MTLEditor {
 	 */
   protected void doSetInput(IEditorInput input) throws CoreException {
 	super.doSetInput(input);
-	if (outlinePage != null) {
-		outlinePage.setInput(input);
-	}
+//	if (outlinePage != null) {
+//		outlinePage.setInput(input);
+//	}
 	configureTabConverter();
   }
 
@@ -742,13 +738,11 @@ public class MTLUnitEditor extends MTLEditor {
 	  ISourceViewer sourceViewer = getSourceViewer();
 	  fLinePainter = new LinePainter(sourceViewer);
 	  fLinePainter.setHighlightColor(getColor(CURRENT_LINE_COLOR));
-	  //      fPaintManager.addPainter(fLinePainter);
 	}
   }
 
   private void stopLineHighlighting() {
 	if (fLinePainter != null) {
-	  //      fPaintManager.removePainter(fLinePainter);
 	  fLinePainter.deactivate(true);
 	  fLinePainter.dispose();
 	  fLinePainter = null;
@@ -765,13 +759,11 @@ public class MTLUnitEditor extends MTLEditor {
 	  fPrintMarginPainter = new PrintMarginPainter(getSourceViewer());
 	  fPrintMarginPainter.setMarginRulerColor(getColor(PRINT_MARGIN_COLOR));
 	  fPrintMarginPainter.setMarginRulerColumn(getPreferenceStore().getInt(PRINT_MARGIN_COLUMN));
-	  //      fPaintManager.addPainter(fPrintMarginPainter);
 	}
   }
 
   private void hidePrintMargin() {
 	if (fPrintMarginPainter != null) {
-	  //      fPaintManager.removePainter(fPrintMarginPainter);
 	  fPrintMarginPainter.deactivate(true);
 	  fPrintMarginPainter.dispose();
 	  fPrintMarginPainter = null;
@@ -807,7 +799,6 @@ public class MTLUnitEditor extends MTLEditor {
 	  fTabConverter.setNumberOfSpacesPerTab(getTabSize());
 	  AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
 	  asv.addTextConverter(fTabConverter);
-	  // http://dev.eclipse.org/bugs/show_bug.cgi?id=19270
 	  asv.updateIndentationPrefixes();
 	}
   }
@@ -816,7 +807,6 @@ public class MTLUnitEditor extends MTLEditor {
 	if (fTabConverter != null) {
 	  AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
 	  asv.removeTextConverter(fTabConverter);
-	  // http://dev.eclipse.org/bugs/show_bug.cgi?id=19270
 	  asv.updateIndentationPrefixes();
 	  fTabConverter = null;
 	}
@@ -858,10 +848,6 @@ public class MTLUnitEditor extends MTLEditor {
 
 	try {
 		ISourceViewer test=getSourceViewer();
-//		if (test==null){
-//			System.out.println("Test null"+test.toString());
-//		}
-//		System.out.println(test.toString());
 	  AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
 	  if (asv != null) {
 
@@ -968,7 +954,6 @@ public class MTLUnitEditor extends MTLEditor {
 		  fTabConverter.setNumberOfSpacesPerTab(getTabSize());
 	  }
 	}
-	//super.handlePreferencePropertyChanged(event);
   }
 
    /*
@@ -1068,7 +1053,6 @@ public class MTLUnitEditor extends MTLEditor {
 		 * of deletion of input element) there is a way to report back to the caller.
 		 */
 		//					 performSaveAs(progressMonitor);
-		System.out.println("SAVE");
 		super.doSave(progressMonitor);
 	  } else {
 
@@ -1076,7 +1060,6 @@ public class MTLUnitEditor extends MTLEditor {
 		 * 1GF5YOX: ITPJUI:ALL - Save of delete file claims it's still there
 		 * Missing resources.
 		 */
-		System.out.println("SAVEELSE");
 		Shell shell = getSite().getShell();
 		MessageDialog.openError(shell, MTLEditorMessages.getString("MTLUnitEditor.error.saving.title1"), MTLEditorMessages.getString("MTLUnitEditor.error.saving.message1")); //$NON-NLS-1$ //$NON-NLS-2$
 	  }

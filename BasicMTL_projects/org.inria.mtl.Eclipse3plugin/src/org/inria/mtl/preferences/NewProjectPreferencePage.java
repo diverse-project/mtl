@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectPreferencePage.java,v 1.1 2004-07-30 14:09:35 sdzale Exp $
+* $Id: NewProjectPreferencePage.java,v 1.2 2004-08-26 12:40:38 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -38,7 +38,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.inria.mtl.MTLPlugin;
 
-
+/**
+ * The page for setting the new Project folders names.
+ */
 public class NewProjectPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private static final String OUTPUT_BUILDNAME= PreferencesConstants.OUTPUT_BUILDNAME;
 	private static final String JAVA_SRCNAME= PreferencesConstants.FJAVA_SRCNAME;
@@ -251,10 +253,27 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 			String binMtlName= fMtlBinFolderNameText.getText();
 			String ModelName= fModelFolderNameText.getText();
 			String MetaModelName= fMetaModelFolderNameText.getText();
-			if (srcJavaName.length() + binJavaName.length()+ binMtlName.length()+ srcMtlName.length() == 0) {
+			if (ModelName.length()+MetaModelName.length()+OutputName.length()+srcJavaName.length() + binJavaName.length()+ binMtlName.length()+ srcMtlName.length() == 0) {
 				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesempty"))); //$NON-NLS-1$
 				return;
 			}
+			if ((ModelName.length()==0)||(MetaModelName.length()==0)||(OutputName.length()==0)||(srcJavaName.length()==0)||(binJavaName.length()==0)||(binMtlName.length()==0)||(srcMtlName.length() == 0)) {
+				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesempty"))); //$NON-NLS-1$
+				return;
+			}
+			if ((ModelName.equals(MetaModelName))||(MetaModelName.equals(srcMtlName))||(ModelName.equals(srcMtlName))){
+				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesequals"))); //$NON-NLS-1$
+				return;
+			}
+			if ((ModelName.equals(OutputName))||(MetaModelName.equals(OutputName))||(OutputName.equals(srcMtlName))){
+				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesequals"))); //$NON-NLS-1$
+				return;
+			}
+			if ((srcJavaName.equals(binJavaName))||(binMtlName.equals(srcJavaName))||(binMtlName.equals(binJavaName)) ){
+				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesequalsbuild"))); //$NON-NLS-1$
+				return;
+			}
+			
 			IWorkspace workspace= MTLPlugin.getWorkspace();
 			IProject currProject= workspace.getRoot().getProject("project"); //$NON-NLS-1$
 			
@@ -312,9 +331,9 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 			}
 			
 			
-		    IPath modelPath= currProject.getFullPath().append(OutputName);
-			if (OutputName.length() != 0) {
-				status= workspace.validatePath(binPath.toString(), IResource.FOLDER);
+		    IPath modelPath= currProject.getFullPath().append(ModelName);
+			if (ModelName.length() != 0) {
+				status= workspace.validatePath(modelPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
 					String message= MTLMessages.getFormattedString("NewJavaProjectPreferencePage.folders.error.invalidbinname", status.getMessage()); //$NON-NLS-1$
 					updateStatus(new StatusInfo(IStatus.ERROR, message));
@@ -323,9 +342,9 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 			}
 			
 			
-			IPath metamodelPath= currProject.getFullPath().append(OutputName);
-			if (OutputName.length() != 0) {
-				status= workspace.validatePath(binPath.toString(), IResource.FOLDER);
+			IPath metamodelPath= currProject.getFullPath().append(MetaModelName);
+			if (MetaModelName.length() != 0) {
+				status= workspace.validatePath(metamodelPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
 					String message= MTLMessages.getFormattedString("NewJavaProjectPreferencePage.folders.error.invalidbinname", status.getMessage()); //$NON-NLS-1$
 					updateStatus(new StatusInfo(IStatus.ERROR, message));

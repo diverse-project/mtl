@@ -1,5 +1,5 @@
 /*
-* $Id: MTLDocumentProviders.java,v 1.1 2004-07-30 14:10:08 sdzale Exp $
+* $Id: MTLDocumentProviders.java,v 1.2 2004-08-26 12:40:42 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -18,7 +18,7 @@ import org.eclipse.jface.text.DefaultLineTracker;
 
 
 /** 
- * The MTLDocumentProvider provides the IDocuments used by c sharp editors.
+ * The MTLDocumentProvider provides the IDocuments used by MTL editors.
  */
 
 public class MTLDocumentProviders extends FileDocumentProvider {
@@ -45,14 +45,14 @@ public class MTLDocumentProviders extends FileDocumentProvider {
 	}
 	
 	/**
-	 * Return a partitioner for .cs files.
+	 * Return a partitioner for .mtl files.
 	 */
 	 private DefaultPartitioner createMTLPartitioner() {
 		return new DefaultPartitioner(getMTLPartitionScanner(), TYPES);
 	}
 	
 	/**
-	 * Return a scanner for creating c sharp partitions.
+	 * Return a scanner for creating MTL partitions.
 	 */
 	 private MTLPartitionScanner getMTLPartitionScanner() {
 		if (scanner == null)

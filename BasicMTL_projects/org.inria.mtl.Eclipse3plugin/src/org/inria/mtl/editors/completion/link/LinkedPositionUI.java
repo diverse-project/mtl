@@ -1,5 +1,5 @@
 /*
-* $Id: LinkedPositionUI.java,v 1.1 2004-07-30 14:10:46 sdzale Exp $
+* $Id: LinkedPositionUI.java,v 1.2 2004-08-26 12:40:55 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,9 +8,6 @@
 package org.inria.mtl.editors.completion.link;
 
 import java.lang.reflect.InvocationTargetException;
-
-import org.inria.mtl.preferences.PreferencesConstants;
-import org.inria.mtl.MTLPlugin;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -27,7 +24,7 @@ import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension;
 import org.eclipse.jface.text.ITextViewerExtension2;
-import org.eclipse.jface.text.ITextViewerExtension3;
+import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.TextEvent;
@@ -51,6 +48,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.preferences.PreferencesConstants;
 
 /**
  * A user interface for <code>LinkedPositionManager</code>, using <code>ITextViewer</code>.
@@ -332,8 +331,8 @@ public class LinkedPositionUI implements LinkedPositionListener,
 				Position[] positions= document.getPositions(CARET_POSITION);
 				if ((positions != null) && (positions.length != 0)) {
 					
-					if (fViewer instanceof ITextViewerExtension3) {
-						ITextViewerExtension3 extension3= (ITextViewerExtension3) fViewer;
+					if (fViewer instanceof ITextViewerExtension5) {
+						ITextViewerExtension5 extension3= (ITextViewerExtension5) fViewer;
 						int widgetOffset= extension3.modelOffset2WidgetOffset(positions[0].getOffset());
 						if (widgetOffset >= 0)
 							text.setSelection(widgetOffset, widgetOffset);
@@ -452,8 +451,8 @@ public class LinkedPositionUI implements LinkedPositionListener,
 		int offset= 0;
 		int length= 0;
 		
-		if (fViewer instanceof ITextViewerExtension3) {
-			ITextViewerExtension3 extension= (ITextViewerExtension3) fViewer;
+		if (fViewer instanceof ITextViewerExtension5) {
+			ITextViewerExtension5 extension= (ITextViewerExtension5) fViewer;
 			IRegion modelRange= extension.widgetRange2ModelRange(new Region(event.start, event.end - event.start));
 			if (modelRange == null)
 				return;
@@ -504,9 +503,9 @@ public class LinkedPositionUI implements LinkedPositionListener,
 	}
 	
 	protected IRegion asWidgetRange(Position position) {
-		if (fViewer instanceof ITextViewerExtension3) {
+		if (fViewer instanceof ITextViewerExtension5) {
 			
-			ITextViewerExtension3 extension= (ITextViewerExtension3) fViewer;
+			ITextViewerExtension5 extension= (ITextViewerExtension5) fViewer;
 			return extension.modelRange2WidgetRange(new Region(position.getOffset(), position.getLength()));
 		
 		} else {

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.1 2004-07-30 14:10:28 sdzale Exp $
+* $Id: MTLConsole.java,v 1.2 2004-08-26 12:40:47 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,22 +8,18 @@
 package org.inria.mtl.views;
 
 import org.apache.log4j.Level;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,7 +33,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -49,7 +44,6 @@ import org.inria.mtl.views.actions.ServerAction;
 import org.inria.mtl.views.controller.Controller;
 import org.inria.mtl.views.controller.ControllerAdapter;
 import org.inria.mtl.views.server.Entry;
-import org.inria.mtl.views.server.Logfile;
 
 /**
  * The MTLConsole is used to display the output if you start 
@@ -60,7 +54,7 @@ public class MTLConsole extends ViewPart {
   public static final String CONSOLE_ID = "org.inria.mtl.views.mtlconsoleview";
   public static ServerAction serverAction;
   public static  ClearAction clearAction;
-  private Display display;
+  private static Display display;
   private ViewContentProvider contentProvider;
   private static TableViewer viewer;
   
@@ -75,8 +69,7 @@ public class MTLConsole extends ViewPart {
 	makeActions();
 	serverAction.run();
 	serverAction.setRunning(true);
-	//serverAction.setRunning(true);
-  }
+}
 	
   class SelectionSortAdapter extends SelectionAdapter
   {
@@ -118,6 +111,7 @@ public class MTLConsole extends ViewPart {
 
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(contentProvider);
+		viewer.getTable().setLinesVisible(true);
 		viewer.setLabelProvider(new ViewLabelProvider()); // must be AFTER columns!
 		viewer.setUseHashlookup(true);
 		viewer.setInput(Controller.getInstance().getLogfile());
@@ -149,18 +143,11 @@ public class MTLConsole extends ViewPart {
 					int k=Controller.getInstance().getLogfile().toArray().length;	
 					Object[] oo = contentProvider.getElements(null);
 					int i = viewer.getTable().getItemCount();
-//					System.out.println(viewer.getTable().getItems().toString());
-					System.out.println("run MTLConsole :Contents :"+oo.length+" viewer :"+i+"  nb in log :"+k);
-					System.out.println("test-1 ");
+					System.out.println(viewer.getTable().getItems().toString());
 					Object o = oo[i];
-					System.out.println("test0 ");
 					viewer.add(o);
-					System.out.println("test1 ");
-					//viewer.getTable().getItem(i-1).setBackground(new Color(getDisplay(),rgb2));
 					viewer.getTable().getItem(i).setBackground(new Color(getDisplay(), getRowBackgroundRGB((Entry) o, i)));
-					//System.out.println("test2 :"+((Entry) o).toString()+"   "+((Entry) o).getMessage()+"  "+((Entry) o).getLevel());;
 					viewer.reveal(o);
-					//System.out.println("test3 :"+getRowBackgroundRGB((Entry) o, i));
 					}catch(Exception E){
 						System.out.println("MTLConsole Run error:"+E);
 						
@@ -313,9 +300,9 @@ public class MTLConsole extends ViewPart {
 		/**
 		 * @return Returns the display.
 		 */
-		public Display getDisplay()
+		public static Display getDisplay()
 		{
-			return this.display;
+			return display;
 		}
 
 		/**
@@ -323,21 +310,16 @@ public class MTLConsole extends ViewPart {
 		 */
 		public void refresh()
 		{
+			//System.out.println("IN REFRESH0 :"+ (getDisplay()==null));
+		 try{
 			getDisplay().syncExec(new Runnable()
 					{
 						public void run()
-						{				
+						{	
+							//System.out.println("IN REFRESH0");
 							try{
-			
 								if (viewer!=null){
-									System.out.println("REFRESH BEFORE");
-					//viewer.refresh();
-									Logfile file=Controller.getInstance().getLogfile();
-									System.out.println("REFRESH LOG");
-									viewer.setInput(file);
-									viewer.setSorter(new Sorter(TableModel.TIME));
-					//viewer.u
-									System.out.println("REFRESH AFTER");
+					                viewer.refresh();
 					
 								}else{
 									System.out.println("VIEWER NULL");
@@ -351,36 +333,13 @@ public class MTLConsole extends ViewPart {
 		}
 					}
 			);
+		 }catch(Exception e){
+		 	System.out.println("PBS  :"+e);
+		 	e.printStackTrace();
+		 }
 		
 	}
-							
-//							 */
-//								public void refresh()
-//								{
-//									try{
-//										if (viewer!=null){
-//											System.out.println("REFRESH BEFORE");
-//											//viewer.refresh();
-//											Logfile file=Controller.getInstance().getLogfile();
-//											System.out.println("REFRESH LOG");
-//											viewer.setInput(file);
-//											viewer.setSorter(new Sorter(TableModel.TIME));
-//											//viewer.u
-//											System.out.println("REFRESH AFTER");
-//											
-//										}else{
-//											System.out.println("VIEWER NULL");
-//										}
-//									}catch (Exception E){
-//										System.out.println("PBS WITH VIEW REFRESH :"+E);
-//										// A voir
-//									}
-//									
-//											
-//								}
-//								
-						
-						
+		
 		
 		public static MTLConsole getConsole() {
 		IWorkbenchPage page =
@@ -397,18 +356,17 @@ public class MTLConsole extends ViewPart {
 			try{
 				System.out.println("Server Actif? :"+!(serverAction==null));
 			  if (!(serverAction==null)){
-			  	System.out.println("DEBBBBB");
+			  	
 				if (serverAction.isRunning){
 					serverAction.run();
 					serverAction.setRunning(false);
 				}
 				
 				Controller.getInstance().clear();
-				//System.out.println("ELTS CONSOLE :"+ viewer.getTable().getItemCount());
 				
+							
 			  }
-			 // System.out.println("ELSEEDDD");
-		
+			  
 			}catch (Exception E){
 				
 				System.out.println("Erreur Console clear :"+E);

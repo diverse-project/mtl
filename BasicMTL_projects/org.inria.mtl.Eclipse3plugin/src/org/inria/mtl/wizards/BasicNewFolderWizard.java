@@ -1,20 +1,22 @@
+/*
+* $Id: BasicNewFolderWizard.java,v 1.2 2004-08-26 12:40:12 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/
 package org.inria.mtl.wizards;
 
-/*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFolderMainPage;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.inria.mtl.MTLPlugin;
 
 /**
  * Standard workbench wizard that create a new folder resource in the workspace.
@@ -66,8 +68,8 @@ public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 protected void initializeDefaultPageImageDescriptor() {
 	String iconPath = "icons/full/";//$NON-NLS-1$
 	try {
-		URL installURL = Platform.getPlugin(PlatformUI.PLUGIN_ID).getDescriptor().getInstallURL();
-		URL url = new URL(installURL, iconPath + "wizban/newfolder_wiz.gif");//$NON-NLS-1$
+		//URL installURL = Platform.getPlugin(PlatformUI.PLUGIN_ID).getDescriptor().getInstallURL();
+		URL url = new URL(MTLPlugin.getBaseURL(), iconPath + "wizban/newfolder_wiz.gif");//$NON-NLS-1$
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		setDefaultPageImageDescriptor(desc);
 	}
@@ -84,20 +86,7 @@ public boolean performFinish() {
 		return false;
 
 	selectAndReveal(folder);
-	
-//	IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;	
-//	try{
-//		newcpe1[0]=MTLCore.newSourceEntry(folder.getFullPath());			
-//	}catch (Exception E){
-//		System.out.println("Ajout source incorrect");
-//		}
-//	try{
-//	
-//		boolean bol=MTLCore.saveClasspath(newcpe1,null);
-//	}catch (Exception e){
-//		e.printStackTrace();
-//	}
-							
+						
 	return true;
 }
 }

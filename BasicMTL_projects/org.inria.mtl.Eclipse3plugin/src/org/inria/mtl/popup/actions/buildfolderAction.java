@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.1 2004-07-30 14:08:43 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.2 2004-08-26 12:40:22 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -22,15 +22,7 @@ import org.inria.mtl.builders.MTLModel;
 
 /**
  * @author sdzale
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-/**
- * @author sdzale
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Build a folder source 
  */
 public class buildfolderAction implements IObjectActionDelegate {
 	private StructuredSelection currentSelection = null;

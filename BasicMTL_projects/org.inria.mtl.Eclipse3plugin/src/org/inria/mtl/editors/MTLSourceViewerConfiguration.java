@@ -1,5 +1,5 @@
 /*
-* $Id: MTLSourceViewerConfiguration.java,v 1.1 2004-07-30 14:10:08 sdzale Exp $
+* $Id: MTLSourceViewerConfiguration.java,v 1.2 2004-08-26 12:40:41 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,38 +9,32 @@ package org.inria.mtl.editors;
 
 import java.util.Vector;
 
-
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
-
-import org.eclipse.jdt.internal.ui.text.java.JavaAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.java.JavaStringAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.java.JavaStringDoubleClickSelector;
-import org.eclipse.jdt.internal.ui.text.javadoc.JavaDocAutoIndentStrategy;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jdt.internal.ui.text.java.JavaDoubleClickSelector;
+import org.eclipse.jdt.internal.ui.text.java.JavaStringDoubleClickSelector;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.DefaultTextDoubleClickStrategy;
 import org.eclipse.jface.text.IAutoIndentStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-
-import org.inria.mtl.editors.completion.MTLCompletionProcessor;
-import org.inria.mtl.editors.completion.ContentAssistPreferences;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.editors.completion.ContentAssistPreferences;
+import org.inria.mtl.editors.completion.MTLCompletionProcessor;
 import org.inria.mtl.editors.utils.IColorManager;
 import org.inria.mtl.editors.utils.MTLAutoIndentStrategy;
 import org.inria.mtl.editors.utils.MTLEditorEnvironment;
 import org.inria.mtl.editors.utils.MTLPartitionScanner;
-import org.inria.mtl.editors.utils.MTLDoubleClickSelector;
 import org.inria.mtl.preferences.PreferencesConstants;
 /**
  * Configuration for an <code>SourceViewer</code> which shows MTL code.
@@ -205,7 +199,7 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 	   // prefix[0] is either '\t' or ' ' x tabWidth, depending on useSpaces
 				
 	   Preferences preferences= JavaCore.getPlugin().getPluginPreferences();
-	   int tabWidth= preferences.getInt(JavaCore.FORMATTER_TAB_SIZE);
+	   int tabWidth= preferences.getInt(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
 	   boolean useSpaces= getPreferenceStore().getBoolean(SPACES_FOR_TABS);
 		
 	   for (int i= 0; i <= tabWidth; i++) {

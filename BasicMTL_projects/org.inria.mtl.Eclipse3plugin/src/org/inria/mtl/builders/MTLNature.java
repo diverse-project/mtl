@@ -1,5 +1,5 @@
 /*
-* $Id: MTLNature.java,v 1.1 2004-07-30 14:09:28 sdzale Exp $
+* $Id: MTLNature.java,v 1.2 2004-08-26 12:40:30 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

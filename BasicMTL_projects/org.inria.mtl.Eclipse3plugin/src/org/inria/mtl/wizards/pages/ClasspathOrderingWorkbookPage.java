@@ -1,5 +1,5 @@
 /*
-* $Id: ClasspathOrderingWorkbookPage.java,v 1.1 2004-07-30 14:11:20 sdzale Exp $
+* $Id: ClasspathOrderingWorkbookPage.java,v 1.2 2004-08-26 12:40:49 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -21,9 +21,6 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
 import org.inria.mtl.wizards.BuildPathBasePage;
-//import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
-
-
 public class ClasspathOrderingWorkbookPage extends BuildPathBasePage {
 	
 	private ListDialogField fClassPathList;

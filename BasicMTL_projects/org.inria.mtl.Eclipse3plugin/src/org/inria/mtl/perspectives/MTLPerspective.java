@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPerspective.java,v 1.1 2004-07-30 14:11:30 sdzale Exp $
+* $Id: MTLPerspective.java,v 1.2 2004-08-26 12:40:10 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -39,17 +39,29 @@ public class MTLPerspective implements IPerspectiveFactory
 	private void defineActions(IPageLayout layout)
 	{
 		//add new wizards
-		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");
+		//layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");
 		//layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");
 		
 
 		// Add "show views".
+//		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
+//		layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);
+//		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
+//		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
+		//layout.addShowViewShortcut(IPageLayout.);
+		
+//		 Add "new wizards".
+//		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
+//		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
+
+		// Add "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);
-		//layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
+		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
-		//layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
+		
+//		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
   
 	}
     
@@ -62,28 +74,27 @@ public class MTLPerspective implements IPerspectiveFactory
 	{
 		//on récupère l'éditeur
 		String editorArea = layout.getEditorArea();
-
-		//		navigator
-		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.20f, editorArea); //$NON-NLS-1$
+		
+//		 Top left.
+		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, (float)0.26, editorArea);//$NON-NLS-1$
 		topLeft.addView(IPageLayout.ID_RES_NAV);
-		topLeft.addView(IPageLayout.ID_BOOKMARKS);
-		
-		//		Outline
-		IFolderLayout topRight =
-					layout.createFolder(
-						"topRight",
-						IPageLayout.RIGHT,
-						0.80f,
-						editorArea);
-				topRight.addView(IPageLayout.ID_OUTLINE);
-				
-		
+		topLeft.addPlaceholder(IPageLayout.ID_BOOKMARKS);
+
+		// Bottom left.
+		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, (float)0.50,//$NON-NLS-1$
+			"topLeft");//$NON-NLS-1$
+		bottomLeft.addView(IPageLayout.ID_OUTLINE);
+		bottomLeft.addPlaceholder("org.inria.mtl.views.ProjectExploreView");
+
+		// Bottom right.
+		//layout.addView(IPageLayout.ID_TASK_LIST, IPageLayout.BOTTOM, (float)0.66, editorArea);
+
 		//		console at bottom
 			  IFolderLayout bottom =
 				  layout.createFolder(
 					  "bottom",
 					  IPageLayout.BOTTOM,
-					  0.80f,
+					  (float)0.66,
 					  editorArea);
 			  bottom.addView("org.inria.mtl.views.mtlconsoleview");
 		

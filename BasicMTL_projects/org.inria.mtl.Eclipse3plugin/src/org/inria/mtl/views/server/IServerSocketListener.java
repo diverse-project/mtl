@@ -1,5 +1,5 @@
 /*
-* $Id: IServerSocketListener.java,v 1.1 2004-07-30 14:08:56 sdzale Exp $
+* $Id: IServerSocketListener.java,v 1.2 2004-08-26 12:40:24 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -11,9 +11,7 @@ import java.net.Socket;
 import java.util.EventListener;
 
 /**
- * @author tcn
- *
- * To change the template for this generated type comment go to
+  * To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public interface IServerSocketListener extends EventListener

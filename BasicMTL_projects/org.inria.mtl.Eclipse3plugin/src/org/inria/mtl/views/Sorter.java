@@ -1,5 +1,5 @@
 /*
-* $Id: Sorter.java,v 1.1 2004-07-30 14:10:27 sdzale Exp $
+* $Id: Sorter.java,v 1.2 2004-08-26 12:40:46 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -12,19 +12,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 /**
- * @author tcn
- * 
- * Sorter for the TableViewerExample that displays items of type <code>ExampleTask</code>.
- * The sorter supports three sort criteria:
- * <p>
- * <code>DESCRIPTION</code>: Task description (String)
- * </p>
- * <p>
- * <code>OWNER</code>: Task Owner (String)
- * </p>
- * <p>
- * <code>PERCENT_COMPLETE</code>: Task percent completed (int).
- * </p>
+  * Sorter for the TableViewer that displays items 
  */
 public class Sorter extends ViewerSorter
 {

@@ -1,5 +1,5 @@
 /*
-* $Id: buildAllAction.java,v 1.1 2004-07-30 14:08:43 sdzale Exp $
+* $Id: buildAllAction.java,v 1.2 2004-08-26 12:40:22 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -24,6 +24,7 @@ import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.core.MTLCore;
 import org.inria.mtl.preferences.PreferencesConstants;
+import org.inria.mtl.views.ProjectExploreView;
 
 
 public class buildAllAction implements IObjectActionDelegate {
@@ -40,7 +41,7 @@ public class buildAllAction implements IObjectActionDelegate {
 		super();
 		store=MTLPlugin.getDefault().getPreferenceStore();
 		auto_build=store.getBoolean(PreferencesConstants.AUTO_COMPILE);
-		System.out.println("auto build :"+auto_build);
+		//System.out.println("auto build :"+auto_build);
 			}
 
 	/**
@@ -86,7 +87,14 @@ public class buildAllAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-			
+//		MAJ Console
+		try{
+			ProjectExploreView.refresh();
+			ProjectExploreView.update();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}	
 	}
 	
    

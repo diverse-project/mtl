@@ -1,5 +1,5 @@
 /*
-* $Id: MTLProjectPropertyPage.java,v 1.1 2004-07-30 14:11:41 sdzale Exp $
+* $Id: MTLProjectPropertyPage.java,v 1.2 2004-08-26 12:41:00 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -38,9 +38,7 @@ import org.inria.mtl.preferences.MTLMessages;
 import org.inria.mtl.wizards.BuildsMTL;
 
 /**
- * @author sdzale
- * @version 1.0.0
- * Property page for configuring the MTL build path
+  * Property page for configuring the MTL build path
  */
 public class MTLProjectPropertyPage extends PropertyPage implements IStatusChangeListener {
 		
@@ -61,7 +59,9 @@ public class MTLProjectPropertyPage extends PropertyPage implements IStatusChang
 		
 		IProject project= getProject();
 		MTLCore.setProject(project);
-		MTLModel.setProject(project);
+		MTLPlugin.instance().getModel(project).setProject(project);
+	//	MTLModel.setProject(project);
+		
 		System.out.println("Prop :"+project.getName());
 		if (project == null || !isJavaProject(project)) {
 			return createWithoutJava(parent);

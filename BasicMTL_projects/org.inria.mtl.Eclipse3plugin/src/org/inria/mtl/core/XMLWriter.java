@@ -9,7 +9,6 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.inria.mtl.core;
-import org.eclipse.jdt.internal.core.*;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Collections;

@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.1 2004-07-30 14:11:13 sdzale Exp $
+ * $Id: AboutAction.java,v 1.2 2004-08-26 12:40:16 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */

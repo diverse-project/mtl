@@ -1,5 +1,5 @@
 /*
-* $Id: TableModel.java,v 1.1 2004-07-30 14:10:28 sdzale Exp $
+* $Id: TableModel.java,v 1.2 2004-08-26 12:40:47 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,10 +13,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 
 /**
- * @author tcn
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ * Output table Model 
  */
 public class TableModel
 {

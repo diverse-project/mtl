@@ -16,7 +16,7 @@ public class log {
 	public static String dir = "C:\\logs\\log.txt";
 	public static String dire = "C:\\logs\\log_.txt";
 
-	/**Ecriture dans le fichier log.
+	/**Write in a log file.
 	 * @param towrite String à écrire dans le fichier log
 	 */
 	public static void log_this(String towrite) {

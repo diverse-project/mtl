@@ -1,5 +1,5 @@
 /*
-* $Id: MTLMarkers.java,v 1.1 2004-07-30 14:12:12 sdzale Exp $
+* $Id: MTLMarkers.java,v 1.2 2004-08-26 12:41:04 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -27,7 +27,7 @@ public abstract class MTLMarkers {
   public static final int INFO = 0;
   public static final int TASK = 3;
   
-  public static boolean cleanMarkers=false;
+  public static boolean cleanMarkers=true;
   
   /**
    * Java model problem marker type (value <code>"org.eclipse.jdt.core.problem"</code>).

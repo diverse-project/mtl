@@ -13,8 +13,13 @@ package org.inria.mtl.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceStatus;
@@ -268,7 +273,8 @@ public IFile createNewFile() {
 		fileName=fileName.concat(".mtl");
 	IPath newFilePath = containerPath.append(fileName);
 	final IFile newFileHandle = createFileHandle(newFilePath);
-	final InputStream initialContents = getInitialContents();
+	//final InputStream initialContents = getInitialContents();
+	final InputStream initialContents = openContentStreamClass(fileName);
 		
 	createLinkTarget();
 	WorkspaceModifyOperation op = new WorkspaceModifyOperation(null) {
@@ -398,6 +404,7 @@ protected void initialPopulateContainerNameField() {
 	if (initialContainerFullPath != null)
 		resourceGroup.setContainerFullPath(initialContainerFullPath);
 	else {
+		if (!(currentSelection==null)){
 		Iterator enum = currentSelection.iterator();
 		if (enum.hasNext()) {
 			Object object = enum.next();
@@ -414,7 +421,42 @@ protected void initialPopulateContainerNameField() {
 					resourceGroup.setContainerFullPath(selectedResource.getFullPath());
 			}
 		}
+		}
 	}
+}
+
+private InputStream openContentStreamClass(String mtlfileName) {
+	Calendar c = Calendar.getInstance();
+	IPath containerPath = resourceGroup.getContainerFullPath();
+	Date maintenant = c.getTime();
+	String DATE =
+		DateFormat
+			.getDateTimeInstance(
+				DateFormat.LONG,
+				DateFormat.LONG,
+				Locale.ENGLISH)
+			.format(maintenant);
+  StringBuffer contents = new StringBuffer("/************************************************\n");
+  contents.append("***   File : ");
+  contents.append(mtlfileName);
+  contents.append("\n");
+  contents.append("***   Library : ");
+  contents.append(containerPath.lastSegment());
+  contents.append("\n");
+  contents.append("***   Version : ");
+  contents.append("1.0 \n");
+  contents.append("***   Author :Your Name here \n");
+  contents.append("***   Date : ");
+  contents.append(DATE);
+  contents.append("\n");
+  contents.append("*************************************************/");
+  contents.append("\n\n");
+  //contents.append("library "+containerPath.lastSegment()+";");
+  
+  
+  
+  
+  return new ByteArrayInputStream(contents.toString().getBytes());
 }
 /**
  * Sets the value of this page's container name field, or stores

@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.1 2004-07-30 14:11:15 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.2 2004-08-26 12:40:15 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -84,14 +84,13 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
 						boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 										
-//						System.out.println("FOLDER ACTION COMPILE:"+srcFolder.getFullPath()+"   "+ oldGen+"  new gen "+newGen);
-//						System.out.println("*******************************************************");
 					}
 				}
 			}
 		
 	}catch(Exception E){
-		System.out.println(E.getMessage());
+		MTLPlugin.log(E);
+		//System.out.println(E.getMessage());
 	}
 	}
 
@@ -114,8 +113,9 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 				if (item instanceof IFolder){
 			
 					currentProject=item.getProject();
+					MTLPlugin.instance().getModel(item.getProject()).setProject(currentProject);
 					MTLCore.setProject(currentProject);
-					MTLModel.setProject(currentProject);
+					//MTLModel.setProject(currentProject);
 				}
 				}else{
 					it.next();

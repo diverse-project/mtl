@@ -1,5 +1,5 @@
 /*
-* $Id: ViewLabelProvider.java,v 1.1 2004-07-30 14:10:28 sdzale Exp $
+* $Id: ViewLabelProvider.java,v 1.2 2004-08-26 12:40:48 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -18,11 +18,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author tcn
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
+  */
 public class ViewLabelProvider extends LabelProvider implements ITableLabelProvider
 {
 	private final static SimpleDateFormat SDF = new SimpleDateFormat("HH:mm:ss.S");

@@ -1,5 +1,5 @@
 /*
-* $Id: AbstractMTLScanner.java,v 1.1 2004-07-30 14:08:13 sdzale Exp $
+* $Id: AbstractMTLScanner.java,v 1.2 2004-08-26 12:40:05 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

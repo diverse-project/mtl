@@ -1,5 +1,5 @@
 /*
-* $Id: MTLActionContributor.java,v 1.1 2004-07-30 14:10:08 sdzale Exp $
+* $Id: MTLActionContributor.java,v 1.2 2004-08-26 12:40:42 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -71,7 +71,7 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 //	character encoding
 	fEncodingActionGroup = new EncodingActionGroup();
 
-  }
+  } 
 
   protected final void markAsPartListener(RetargetAction action) {
 	fPartListeners.add(action);
@@ -93,10 +93,12 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 
 	}
 
-	IMenuManager gotoMenu = menu.findMenuUsingPath("navigate/goTo"); //$NON-NLS-1$
+	//IMenuManager gotoMenu = menu.findMenuUsingPath("navigate/goTo"); //$NON-NLS-1$
+	IMenuManager gotoMenu = menu.findMenuUsingPath(IWorkbenchActionConstants.GO_TO);
 	if (gotoMenu != null) {
 	  gotoMenu.add(new Separator("additions2")); //$NON-NLS-1$
 	  gotoMenu.appendToGroup("additions2", fGotoMatchingBracket); //$NON-NLS-1$
+	  System.out.println("MTLActioncontrib");
 	}
   }
   /*
@@ -131,8 +133,8 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	if (editMenu != null) {
 	  editMenu.add(new Separator());
 	  editMenu.add(fContentAssist);
-	  // editMenu.add(fGotoMatchingBracket);
-	  //   editMenu.add(fContentAssistTip);
+	  editMenu.add(fGotoMatchingBracket);
+	  editMenu.add(fContentAssistTip);
 	}
 
 	bars.setGlobalActionHandler(MTLActionConstants.CONTENT_ASSIST, fContentAssist);
@@ -159,13 +161,14 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 
 	bars.setGlobalActionHandler(MTLActionConstants.SHIFT_RIGHT, getAction(textEditor, "ShiftRight")); //$NON-NLS-1$
 	bars.setGlobalActionHandler(MTLActionConstants.SHIFT_LEFT, getAction(textEditor, "ShiftLeft")); //$NON-NLS-1$
-	// character encoding
-	fEncodingActionGroup.retarget(textEditor);
-
 	bars.setGlobalActionHandler(MTLActionConstants.COMMENT, getAction(textEditor, "Comment"));
 	bars.setGlobalActionHandler(MTLActionConstants.UNCOMMENT, getAction(textEditor, "Uncomment"));
 	bars.setGlobalActionHandler(MTLActionConstants.FORMAT, getAction(textEditor, "Format"));
 
+	// character encoding
+	fEncodingActionGroup.retarget(textEditor);
+
+	
 	if (part instanceof MTLEditor) { 
 	  MTLEditor mtlEditor = (MTLEditor) part;
 	  mtlEditor.getActionGroup().fillActionBars(getActionBars());

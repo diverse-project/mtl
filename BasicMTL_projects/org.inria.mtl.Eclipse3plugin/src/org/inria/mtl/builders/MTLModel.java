@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.1 2004-07-30 14:09:28 sdzale Exp $
+* $Id: MTLModel.java,v 1.2 2004-08-26 12:40:30 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -34,7 +34,6 @@ import org.inria.mtl.views.MTLConsole;
  *@created    20 April 2004
  */
 public class MTLModel {
-
 	/**
 	 *  property name attached to MTL tll files used to indicate the 
 	 * association with mtl files. 
@@ -45,15 +44,21 @@ public class MTLModel {
 	 * last used in java file generation
 	 */
 	public final static String TLL_LASTGENTIME = "tlllastgen";
-	
 	/**
-		 *  property name attached to project used to indicate the name of the main class
+	 *  property name attached to project used to indicate the name of the main class
 	 */
 	public final static String MTL_MAINCLASS = "mtlmainclass";
-	
 	/**
-			 *  property name attached to project used to indicate the name of the main class
-		 */
+	 *  property name attached to project used to indicate the name of the TLL Folder path
+	 */
+	public final static String MTL_TLLFolder = "prjtllfolder";
+	/**
+	 *  property name attached to project used to indicate the name of the TLL Runtime Folder path
+	 */
+	public final static String TLL_RUNTIMEFOLDER = "prjtllruntime";
+	/**
+	*  property name attached to project used to indicate the name of the main class
+	*/
    public static boolean PROCESS_REFERENCE = false;
 
 	private  static IProject proj;
@@ -71,17 +76,13 @@ public class MTLModel {
 	private IFolder srcTagFolder;
 	//MTL output
 	private IFolder output;
-	
 	//	MTL Main Class Folder
 	private String mainClassFolder="";
-	
-	//
+	private boolean refFolder =false;
 	public static IPath[] srcFolders ;
 	public static IPath[] libFolders ;
 	public static IPath[] projFolders ;
-	
 	public static ArrayList cFolders = new ArrayList();
-	
 	static IProgressMonitor   monitor;
 	
 	 /**
@@ -92,48 +93,33 @@ public class MTLModel {
 		super();
 		MTLModel.proj = proj;
 		IPreferenceStore store=PreferencesConstants.getPreferenceStore();
-		
 		//Permanent output folder
 		IPath outputFolder=new Path(store.getString( PreferencesConstants.OUTPUT_BUILDNAME));
 		output =proj.getFolder(outputFolder);
-		
 		//permanent mtl source folder
 		IPath srcMtl=new Path(store.getString( PreferencesConstants.FMTL_SRCNAME));
 		srcMtlFolder =proj.getFolder(srcMtl);
-		
-		
 		IPath tll=new Path(store.getString( PreferencesConstants.FMTL_BINNAME));
 		tllFolder =output.getFolder(tll);
-		
-			
 		IPath binJava=new Path(store.getString( PreferencesConstants.FJAVA_BINNAME));
 		binJavaFolder =output.getFolder(binJava);
-		
 		IPath srcJava=new Path(store.getString( PreferencesConstants.FJAVA_SRCNAME));
 		srcJavaFolder =output.getFolder(srcJava);
-		
-		
-		
-				 
 		mtlclasspath = proj.getFile(".mtlclasspath");
-		
 	}
-	
 	/**
-		 *  Gets the project attribute of the MTLProjectModel object
-		 *@return    The project value
-		 **/
+	*  Gets the project attribute of the MTLProjectModel object
+	*  @return    The project value
+	**/
 		public static IProject getProject() {
 			return proj; 
 		}
-		public static void setProject(IProject project) {
+		public  void setProject(IProject project) {
 			proj = project;
 		}
-		
 		public IFolder getJavaFolder() {
 				return srcJavaFolder;
 		}
-		
 		public IFolder getMtlFolder() {
 				return srcMtlFolder;
 			}
@@ -149,19 +135,15 @@ public class MTLModel {
 		public String getMainClassFolder() {
 					return mainClassFolder;
 			}
-			
 		public void setMainClassFolder(String mcf) {
 			 mainClassFolder=mcf;
 				}
 	 /**
-	 *  removes all tll files that were  generated  for
-	 * this project.
+	 *  removes all tll files that were  generated  for this project.
 	 **/
 	public void prepareFullBuild() {
-		System.out.println("PREPARE FULL BUILD ");
 		try {
 			resetMTLGenerateFiles(srcMtlFolder);
-			//MTLConsole.cleanConsole();
 		} catch (Exception e) {
 			System.out.println("Warning: deleting MTL resources: " + e.getMessage());
 		}
@@ -186,7 +168,7 @@ public class MTLModel {
 	}
 
  /**
-	 *  processes incremental events from resources and directs the generation of java
+	 * Processes incremental events from resources and directs the generation of java
 	 * files from mtl files or the removal of tll and java files
 	 *
 	 *@param  delta  
@@ -194,9 +176,14 @@ public class MTLModel {
 	 **/
 	public boolean processDelta(IResourceDelta delta) {
 		IResource res = delta.getResource();
+		// verify if the ressource is in source folders 
+		if (findResource(res.getFullPath()))MTLConsole.cleanConsole();
+		//on est dans la même compil
+		MTLBuilder.acceptClean=false;
 		int kind = delta.getKind();
 		if (kind == IResourceDelta.ADDED || kind == IResourceDelta.CHANGED || kind == IResourceDelta.REPLACED) {
 			processResource(res);
+			refFolder=false;
 		} else if (kind == IResourceDelta.REMOVED) {
 			removeResource(res);
 		}
@@ -224,27 +211,20 @@ public class MTLModel {
 			e.printStackTrace();
 		}
 		return true;
-//		// visit the children
+//		 visit the children
 	}
-	
-	/**
-		*  processes events from mtl files and directs the generation of tll files 
-		*@param  res  Description of the Parameter
-		*@return      Description of the Return Value
-		**/
 	public boolean findResource(IPath res) {
 			MTLCore.loadMtlClasspath();
 			int taille =MTLModel.srcFolders.length;
 			
 			try {
 					for (int i=0;i<MTLModel.srcFolders.length;i++){
-						//System.out.println("Find res :"+res.toString()+"   srfFolder :"+MTLModel.srcFolders[i].toString());
 							if (res.equals(MTLModel.srcFolders[i])) return true;
 					}
 				
 			} catch (Exception e) {
 				System.out.println("Erreur find ressource");
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			return false;
 	}
@@ -254,25 +234,19 @@ public class MTLModel {
 	 *@return      Description of the Return Value
 	 **/
 	public boolean processResource(IResource res) {
-		//System.out.println("Process ressources "+res.getType()+" respath "+res.getFullPath().toString());
 		try {
 			if (res.getType() == IResource.FOLDER) {
 				if (findResource(res.getFullPath())) {
-					//System.out.println("A COMPILER ressources "+res.getFullPath());
 					referencesSourceFolders((IFolder)res);
 					processTll((IFolder) res); 
-					
-					
 					} 
 			}
 			if (res.getType() == IResource.FILE) {
 				//Change the timestamp of the parent folder
 				if (res.getParent().getType()==IResource.FOLDER){
-				//System.out.println("Tag1");
-				IFolder fld = (IFolder)res.getParent();
+					IFolder fld = (IFolder)res.getParent();
 				if (findResource(fld.getFullPath())) {
-					//System.out.println("A COMPILER ressources 2 "+res.getFullPath());
-				referencesSourceFolders((IFolder)fld);
+					referencesSourceFolders((IFolder)fld);
 				String newGen = new Long(fld.getModificationStamp()-1).toString();
 				fld.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
 				processTll((IFolder) fld);
@@ -291,6 +265,7 @@ public class MTLModel {
 	 *@exception  Exception  Description of the Exception
 	 **/
 	public void processTll(IFolder mtlFolder) throws Exception {
+		MTLPlugin.videConsole=false;
 		System.out.println("Process TLL:"+mtlFolder.toString());
 		if(!cFolders.contains(mtlFolder)){
 			cFolders.add(mtlFolder);
@@ -302,8 +277,7 @@ public class MTLModel {
 	}
 	  
 	/**
-	 *  removes all tll and files generated by the mtl file
-	 * given
+	 *  removes all tll and files generated by the mtl file given
 	 *@param  file           mtl file resource
 	 *@exception  Exception
 	 **/  
@@ -388,12 +362,11 @@ public class MTLModel {
 	 		IResource[] res = destFolder.members();
 		
 			for (int i = 0; i < res.length; i++) {
-			//System.out.println("Src concern"+res[i].getFullPath());
 			if (res[i].getType() == IResource.FILE) {
 				String propVal = null;
 				propVal = res[i].getPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.MTL_OWNER_PROP));
-				//System.out.println("Proval :"+propVal+"   nom rep source :"+mtl.getName());
 				if (propVal != null && propVal.equals(mtl.getName())) {
+					if (!refFolder)
 					res[i].delete(true, null);
 				}
 			} else if (res[i].getType() == IResource.FOLDER) {
@@ -412,8 +385,8 @@ public class MTLModel {
 	*@param  srcFolder      the selected source  folder
 	**/
 	public void referencesSourceFolders(IFolder srcFolder){
+		refFolder=true;
 		int i=0;
-		//System.out.println("References folders ");
 		while (i<MTLModel.srcFolders.length){
 		if (MTLModel.srcFolders[i].toString().equals(srcFolder.getFullPath().toString())){
 				return;
@@ -421,27 +394,24 @@ public class MTLModel {
 			IFolder srcRefFolder=proj.getFolder(MTLModel.srcFolders[i].removeFirstSegments(1));
 			try{
 			long oldGen = srcRefFolder.getModificationStamp();
-			//long oldGen = srcRefFolder.getModificationStamp();
 			String lastGen = srcRefFolder.getPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME));
 			
 			//On fait en sorte que le fichier soit obligatoirement compilé
 			String newGen=((oldGen==5)?new Long(oldGen-1).toString():new Long(oldGen+2).toString());
 			srcRefFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
-			processTll(srcRefFolder);
+			processResource(srcRefFolder);
 			//
 			}catch (Exception E){
 				System.out.println(E.getMessage());
 			}
 			i++;
 		}
-	  
 	}
 	
 	/**
-	*  Compile all source folders wich are after the selected source folder
-	* (recursive method)
+	*  Find and build all projects referenced in the project classpath
 	*
-	*@param  srcFolder      the selected source  folder
+	*@param  project      the selected project
 	**/
 	public static void buildReferencesProjects(IProject project){ 
 		MTLCore.loadMtlClasspath();
@@ -452,14 +422,9 @@ public class MTLModel {
 			try{
 				IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 				refProject=workspaceRoot.getProject(prjPath[i].lastSegment());
-				System.out.println("BUILD : "+refProject);
 				refProject.build(IncrementalProjectBuilder.FULL_BUILD,monitor);
 			}catch (Exception E){
 			}
-			
 		}
-	
-	  
 	}
-	
 }

@@ -1,5 +1,5 @@
 /*
-* $Id: IContextMenuConstants.java,v 1.1 2004-07-30 14:08:20 sdzale Exp $
+* $Id: IContextMenuConstants.java,v 1.2 2004-08-26 12:40:09 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

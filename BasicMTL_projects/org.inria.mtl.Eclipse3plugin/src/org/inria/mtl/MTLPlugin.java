@@ -1,21 +1,27 @@
 package org.inria.mtl;
 
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.plugin.*;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.editors.MTLDocumentProviders;
@@ -26,32 +32,38 @@ import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.views.controller.Controller;
 import org.osgi.framework.BundleContext;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
-
 /**
  * The main plugin class to be used in the desktop.
+ * @author     serge DZALE
+ * @created    20 March 2004
  */
 public class MTLPlugin extends AbstractUIPlugin {
-	//The shared instance.
+	 /** The shared instance. */
 	private static MTLPlugin plugin;
-	//Resource bundle.
+	 /** Resource bundle */
 	private ResourceBundle resourceBundle; 
-	
 	private MTLEditorEnvironment fMTLEditorEnvironment;
 	
 	//private IWorkingCopyManager fWorkingCopyManager;
 	
+	/**
+	   * The id of the MTL plugin (value <code>"org.irisa.mtl"</code>).
+	   */
+	public final static String PLUGIN_ID = "org.inria.mtl";
 	
-	public final static String PLUGIN_ID = "org.irisa.mtl";
+	public final static String MTL_PROBLEM = "org.inria.mtl.MTLPlugin.mtlproblem";
 	
-	public final static String MTL_PROBLEM = "org.irisa.mtl.MTLPlugin.mtlproblem";
-	
-//	Flag qui permet de savoir que la compilation a été déclenchée par une action du Menu 
+	/**
+	   * Flag which detect if the compilation was initiate by an action menu
+	   */ 
 	public static boolean MenuAction =false;
 	
-	//
+	/**
+	   * Flag which detect if the compilation was initiate by an action menu
+	   */ 
+	public static boolean videConsole =true;
+	
+	 /** URL of the MTL plugin */
 	private static  URL baseURL;
 	
 	/**
@@ -72,6 +84,7 @@ public class MTLPlugin extends AbstractUIPlugin {
 	public MTLPlugin() {
 		super();
 		plugin = this;
+		Controller.getInstance().acquaint(this);
 		try {
 			resourceBundle = ResourceBundle.getBundle("org.inria.mtl.MTLPluginResources");
 		} catch (MissingResourceException x) {
@@ -97,19 +110,38 @@ public class MTLPlugin extends AbstractUIPlugin {
 	 * Creates the MTLPlugin and caches its default instance
 	 * @param descriptor the plugin descriptor which the receiver is made from
 	 */
-	public MTLPlugin(IPluginDescriptor descriptor) {
-		super(descriptor);
-		plugin = this;
-		initializeDefaultPluginPreferences();
-		baseURL = MTLPlugin.instance().getDescriptor().getInstallURL();
-		Controller.getInstance().acquaint(this);
-		try {
-			resourceBundle= ResourceBundle.getBundle("org.irisa.mtl.MTLPluginResources");
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
-		}
-		
-	}
+//	public MTLPlugin(IPluginDescriptor descriptor) {
+//		super(descriptor);
+//		plugin = this;
+//		initializeDefaultPluginPreferences();
+//		baseURL = MTLPlugin.instance().getDescriptor().getInstallURL();
+//		Controller.getInstance().acquaint(this);
+//		try {
+//			resourceBundle= ResourceBundle.getBundle("org.irisa.mtl.MTLPluginResources");
+//		} catch (MissingResourceException x) {
+//			resourceBundle = null;
+//		}
+//		
+//	}
+	
+	/**
+	 * The constructor.
+	 * Creates the MTLPlugin and caches its default instance
+	 * @param descriptor the plugin descriptor which the receiver is made from
+	 */
+//	public MTLPlugin() {
+//		super();
+//		plugin = this;
+//		initializeDefaultPluginPreferences();
+//		baseURL = MTLPlugin.instance().getDescriptor().getInstallURL();
+//		
+//		try {
+//			resourceBundle= ResourceBundle.getBundle("org.irisa.mtl.MTLPluginResources");
+//		} catch (MissingResourceException x) {
+//			resourceBundle = null;
+//		}
+//		
+//	}
 	
 	/**
 	 * Returns the workspace instance.
@@ -182,11 +214,11 @@ public static MTLPlugin instance() {
 	}
 	
 	/**
-	 * @see AbstractUIPlugin#initializeDefaultPreferences
+	 * MTL Plugin initialization preferences
 	 */
 	 protected void initializeDefaultPreferences(IPreferenceStore store) {
 		super.initializeDefaultPreferences(store);
-		store.setDefault(PreferencesConstants.AUTO_COMPILE, false);
+	 	store.setDefault(PreferencesConstants.AUTO_COMPILE, false);
 		store.setDefault(PreferencesConstants.SHOW_OUTPUT_IN_CONSOLE, false);
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MULTI_LINE_COMMENT_COLOR, MTLEditorColorProvider.MULTI_LINE_COMMENT);
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR, MTLEditorColorProvider.SINGLE_LINE_COMMENT);
@@ -210,7 +242,7 @@ public static MTLPlugin instance() {
 	}
 	 
 		/**
-		 * Gestion des erreurs
+		 * Error management
 		 */
 
 	 public static void error(String message, Throwable t){
@@ -278,5 +310,16 @@ public static MTLPlugin instance() {
 				  throws java.io.IOException {
 			 return new URL(getBaseURL(), filename).openStream();
 		 }
-
+		 
+		 public static ImageDescriptor getImageDescriptor(String name) {
+			String iconPath = "icons/";
+			try {
+				//URL installURL = getDefault().getDescriptor().getInstallURL();
+				URL url = new URL(getBaseURL(), iconPath + name);
+				return ImageDescriptor.createFromURL(url);
+			} catch (MalformedURLException e) {
+				// should not happen
+				return ImageDescriptor.getMissingImageDescriptor();
+			}
+		}
 }

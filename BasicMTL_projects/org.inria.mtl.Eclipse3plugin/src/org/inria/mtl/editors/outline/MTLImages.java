@@ -10,7 +10,8 @@ import java.net.URL;
 public class MTLImages 
 {
 	
-	static final URL BASE_URL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
+	//static final URL BASE_URL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
+	static final URL BASE_URL=MTLPlugin.instance().getBundle().getEntry("/");
 	static final ImageDescriptor ICON_LIBRARY;
 	static final ImageDescriptor ICON_MODEL;
 	static final ImageDescriptor ICON_EDITOR;

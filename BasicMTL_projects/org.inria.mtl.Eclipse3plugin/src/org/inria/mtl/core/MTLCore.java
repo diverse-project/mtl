@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.1 2004-07-30 14:09:57 sdzale Exp $
+* $Id: MTLCore.java,v 1.2 2004-08-26 12:40:29 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -21,12 +21,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-//import org.apache.xerces.dom.DocumentImpl;
-//import org.apache.xml.serialize.Method;
-//import org.apache.xml.serialize.OutputFormat;
-//import org.apache.xml.serialize.Serializer;
-//import org.apache.xml.serialize.SerializerFactory;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -34,8 +28,11 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModelStatusConstants;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -45,10 +42,9 @@ import org.eclipse.jdt.internal.core.JavaModel;
 import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.core.util.Util;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.preferences.PreferencesConstants;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -61,7 +57,7 @@ public  class MTLCore  {
 
 	/**
 		 * Value of the mtlclasspath extension. 
-		 */
+	*/
 
 	public static final String MTLCLASSPATH_FILENAME = ".mtlclasspath";  //$NON-NLS-1$
 	
@@ -94,8 +90,6 @@ public  class MTLCore  {
 		} catch(CoreException e) {
 			// file does not exist (or not accessible)
 			System.out.println("File does not exists");
-		//	JavaCore
-	
 		}
 		return null;
 	}
@@ -457,46 +451,6 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 		/**
 		 * Returns the XML String encoding of the class path.
 		 */
-//		public static String encodeClasspath(IClasspathEntry[] classpath, IPath outputLocation, boolean useLineSeparator) throws JavaModelException {
-//
-//			Document document = new DocumentImpl();
-//			Element cpElement = document.createElement("classpath"); //$NON-NLS-1$
-//			document.appendChild(cpElement);
-//
-//			for (int i = 0; i < classpath.length; ++i) {
-//					cpElement.appendChild(((MtlClasspathEntry)classpath[i]).elementEncode(document, getProject().getFullPath()));
-//			}
-//
-//			if (outputLocation != null) {
-//				outputLocation = outputLocation.removeFirstSegments(1);
-//				outputLocation = outputLocation.makeRelative();
-//				Element oElement = document.createElement("classpathentry"); //$NON-NLS-1$
-//				oElement.setAttribute("kind", MtlClasspathEntry.kindToString(MtlClasspathEntry.K_OUTPUT));	//$NON-NLS-1$
-//				oElement.setAttribute("path", outputLocation.toString()); //$NON-NLS-1$
-//				cpElement.appendChild(oElement);
-//			}
-//
-//			// produce a String output
-//			try {
-//				ByteArrayOutputStream s = new ByteArrayOutputStream();
-//				OutputFormat format = new OutputFormat();
-//				if (useLineSeparator) {
-//					format.setIndenting(true);
-//					format.setLineSeparator(System.getProperty("line.separator"));  //$NON-NLS-1$
-//				} else {
-//					format.setPreserveSpace(true);
-//				}			
-//				Serializer serializer =
-//					SerializerFactory.getSerializerFactory(Method.XML).makeSerializer(
-//						new OutputStreamWriter(s, "UTF8"), //$NON-NLS-1$
-//						format);
-//				serializer.asDOMSerializer().serialize(document);
-//				return s.toString("UTF8"); //$NON-NLS-1$
-//			} catch (IOException e) {
-//				throw new JavaModelException(e, IJavaModelStatusConstants.IO_EXCEPTION);
-//			}
-//		}
-//
 		/**
 		 * Returns the XML String encoding of the class path.
 		 */
@@ -529,34 +483,28 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 			}
 		}
 		
-		/**
-		 * @see IJavaProject
-		 */
-public static IClasspathEntry[] getRawClasspath() throws JavaModelException {
-
-			IClasspathEntry[] classpath = readClasspathFile();
-		
-			// extract out the output location
-			IPath outputLocation = null;
-			if (classpath != null && classpath.length > 0) {
-				IClasspathEntry entry = classpath[classpath.length - 1];
-				if (entry.getContentKind() == MtlClasspathEntry.K_OUTPUT) {
-					outputLocation = entry.getPath();
-					IClasspathEntry[] copy = new IClasspathEntry[classpath.length - 1];
-					System.arraycopy(classpath, 0, copy, 0, copy.length);
-					classpath = copy;
-				}
-			}
-			return classpath;
-		}
-
-		/**
-		 * @see IJavaProject#getRequiredProjectNames
-		 */
-//		public String[] getRequiredProjectNames() throws JavaModelException {
+	
+//public static IClasspathEntry[] getRawClasspath() throws JavaModelException {
 //
-//			return projectPrerequisites(getResolvedClasspath(true));
+//			IClasspathEntry[] classpath = readClasspathFile();
+//		
+//			// extract out the output location
+//			IPath outputLocation = null;
+//			if (classpath != null && classpath.length > 0) {
+//				IClasspathEntry entry = classpath[classpath.length - 1];
+//				if (entry.getContentKind() == MtlClasspathEntry.K_OUTPUT) {
+//					outputLocation = entry.getPath();
+//					IClasspathEntry[] copy = new IClasspathEntry[classpath.length - 1];
+//					System.arraycopy(classpath, 0, copy, 0, copy.length);
+//					classpath = copy;
+//				}
+//			}
+//			return classpath;
 //		}
+
+		/**
+		 * Find all MTL projects referenced in mtlclasspath file
+		 */
 
 
 public static String[] projectPrerequisites(IClasspathEntry[] entries)
@@ -672,7 +620,6 @@ public static String checkPathEnd(String path)
 	
 /**
 * this method read the mtlclasspath file and find all mtl source folders
-*@param  mtlclasspath  .mtlclasspath file
 *@return srcMtlFolderList 
 *@exception  Exception  all errors reported by
 */

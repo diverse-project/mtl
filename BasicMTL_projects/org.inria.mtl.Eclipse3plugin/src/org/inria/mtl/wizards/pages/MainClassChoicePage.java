@@ -1,5 +1,5 @@
 /*
-* $Id: MainClassChoicePage.java,v 1.1 2004-07-30 14:11:19 sdzale Exp $
+* $Id: MainClassChoicePage.java,v 1.2 2004-08-26 12:40:49 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,29 +10,25 @@ package org.inria.mtl.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jface.viewers.StructuredSelection;
-
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.util.PixelConverter;
-import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
+import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
+import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementSorter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.CheckedListDialogField;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
-//import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementSorter;
-import org.inria.mtl.builders.MTLModel;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.wizards.BuildPathBasePage;
 
 

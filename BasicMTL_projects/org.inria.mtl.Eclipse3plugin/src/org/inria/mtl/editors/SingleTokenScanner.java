@@ -1,5 +1,5 @@
 /*
-* $Id: SingleTokenScanner.java,v 1.1 2004-07-30 14:10:08 sdzale Exp $
+* $Id: SingleTokenScanner.java,v 1.2 2004-08-26 12:40:42 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -15,7 +15,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 
 /**
- * 
+ * Single token scanner
  */
 public final class SingleTokenScanner extends AbstractMTLScanner{
 	

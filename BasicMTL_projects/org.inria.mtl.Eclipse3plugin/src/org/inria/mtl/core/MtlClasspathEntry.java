@@ -1,5 +1,5 @@
 /*
-* $Id: MtlClasspathEntry.java,v 1.1 2004-07-30 14:09:57 sdzale Exp $
+* $Id: MtlClasspathEntry.java,v 1.2 2004-08-26 12:40:29 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -9,18 +9,16 @@ package org.inria.mtl.core;
 
 import java.util.HashMap;
 
-import org.eclipse.jdt.internal.core.*;
-import org.eclipse.jdt.internal.core.ClasspathEntry;
-import org.eclipse.jdt.internal.core.util.Util;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.compiler.CharOperation;
-import org.w3c.dom.Document;
+import org.eclipse.jdt.internal.core.Assert;
+import org.eclipse.jdt.internal.core.ClasspathEntry;
+import org.eclipse.jdt.internal.core.util.Util;
 import org.w3c.dom.Element;
 
 /**

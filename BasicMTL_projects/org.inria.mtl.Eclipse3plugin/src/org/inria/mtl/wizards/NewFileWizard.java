@@ -1,5 +1,5 @@
 /*
-* $Id: NewFileWizard.java,v 1.1 2004-07-30 14:08:38 sdzale Exp $
+* $Id: NewFileWizard.java,v 1.2 2004-08-26 12:40:13 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -63,12 +63,12 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		
 		final String containerName = page.getContainerName();
 		String fileEnter=page.getFileName();
-		System.out.println("Fichier :"+fileEnter);
+		//System.out.println("Fichier :"+fileEnter);
 		if (!fileEnter.endsWith(".mtl"))
 		{
 			fileEnter=fileEnter.concat(".mtl");
 		}
-		System.out.println("Fichier :"+fileEnter);
+		//System.out.println("Fichier :"+fileEnter);
 		final String fileName = fileEnter;
 		
 		IRunnableWithProgress op = new IRunnableWithProgress() {
@@ -114,7 +114,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			throwCoreException("Container \"" + containerName + "\" does not exist.");
 		}
 		IContainer container = (IContainer) resource;
-		System.out.println("Fichier :"+fileName);
+		//System.out.println("Fichier :"+fileName);
 		if (!fileName.endsWith(".mtl"))
 			{
 			fileName.concat(".mtl");

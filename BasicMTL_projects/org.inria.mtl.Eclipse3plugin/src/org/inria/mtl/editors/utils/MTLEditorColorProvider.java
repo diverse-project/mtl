@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditorColorProvider.java,v 1.1 2004-07-30 14:08:16 sdzale Exp $
+* $Id: MTLEditorColorProvider.java,v 1.2 2004-08-26 12:40:08 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -30,11 +30,6 @@ public class MTLEditorColorProvider {
   public static final RGB CONSTANT = new RGB(127, 0, 85);
   public static final RGB BACKGROUND = new RGB(255, 255, 255);
 
- // public static final RGB LINKED_POSITION_COLOR = new RGB(0, 0, 0);
-
-//	public static final RGB LINE_NUMBER_COLOR = new RGB(0, 0, 0);
-//	public static final RGB BACKGROUND_COLOR = new RGB(255, 255, 255);
-  
   public static final RGB MTLDOC_TAG = new RGB(63, 127, 95);
   public static final RGB PHPDOC_LINK = new RGB(63, 63, 191);
   public static final RGB MTLDOC_DEFAULT = new RGB(63, 95, 191);

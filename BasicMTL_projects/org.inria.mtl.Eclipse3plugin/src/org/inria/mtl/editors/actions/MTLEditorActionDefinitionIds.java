@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditorActionDefinitionIds.java,v 1.1 2004-07-30 14:08:45 sdzale Exp $
+* $Id: MTLEditorActionDefinitionIds.java,v 1.2 2004-08-26 12:40:17 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

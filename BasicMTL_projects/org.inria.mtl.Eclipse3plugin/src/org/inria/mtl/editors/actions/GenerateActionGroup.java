@@ -1,10 +1,20 @@
 /*
-* $Id: GenerateActionGroup.java,v 1.1 2004-07-30 14:08:46 sdzale Exp $
+* $Id: GenerateActionGroup.java,v 1.2 2004-08-26 12:40:18 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
 */ 
+/*******************************************************************************
+ * Copyright (c) 2002 International Business Machines Corp. and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Common Public License v0.5 
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v05.html
+ * 
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ ******************************************************************************/
 package org.inria.mtl.editors.actions;
 
 import java.util.ArrayList;
@@ -21,13 +31,12 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.actions.AddBookmarkAction;
+import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.ConvertLineDelimitersAction;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.IUpdate;
 import org.inria.mtl.editors.MTLEditor;
 import org.inria.mtl.preferences.PreferencesConstants;
@@ -39,8 +48,6 @@ import org.inria.mtl.preferences.PreferencesConstants;
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
- * 
- * @since 2.0
  */
 public class GenerateActionGroup extends ActionGroup {
 	
@@ -68,17 +75,6 @@ public class GenerateActionGroup extends ActionGroup {
 		ISelectionProvider provider= fSite.getSelectionProvider();
 		ISelection selection= provider.getSelection();
 		
-		fConvertToWindows= new ConvertLineDelimitersAction(editor, "\r\n"); //$NON-NLS-1$
-		fConvertToWindows.setActionDefinitionId( ITextEditorActionDefinitionIds .CONVERT_LINE_DELIMITERS_TO_WINDOWS);
-		editor.setAction("ConvertLineDelimitersToWindows", fConvertToWindows); //$NON-NLS-1$		
-		
-		fConvertToUNIX= new ConvertLineDelimitersAction(editor, "\n"); //$NON-NLS-1$
-		fConvertToUNIX.setActionDefinitionId( ITextEditorActionDefinitionIds .CONVERT_LINE_DELIMITERS_TO_UNIX);
-		editor.setAction("ConvertLineDelimitersToUNIX", fConvertToUNIX); //$NON-NLS-1$		
-
-		fConvertToMac= new ConvertLineDelimitersAction(editor, "\r"); //$NON-NLS-1$
-		fConvertToMac.setActionDefinitionId( ITextEditorActionDefinitionIds .CONVERT_LINE_DELIMITERS_TO_MAC);
-		editor.setAction("ConvertLineDelimitersToMac", fConvertToMac); //$NON-NLS-1$		
 	}
 	
 	/**
@@ -195,13 +191,10 @@ public class GenerateActionGroup extends ActionGroup {
 	}
 	
 	private void setGlobalActionHandlers(IActionBars actionBar) {
-		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_WINDOWS, fConvertToWindows);
-		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_UNIX, fConvertToUNIX);
-		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_MAC, fConvertToMac);
 		if (!isEditorOwner()) {
 			// editor provides its own implementation of these actions.
-			actionBar.setGlobalActionHandler(IWorkbenchActionConstants.BOOKMARK, fAddBookmark);
-			actionBar.setGlobalActionHandler(IWorkbenchActionConstants.ADD_TASK, fAddTaskAction);
+			actionBar.setGlobalActionHandler(IDEActionFactory.BOOKMARK.getId(), fAddBookmark);
+			actionBar.setGlobalActionHandler(IDEActionFactory.ADD_TASK.getId(), fAddTaskAction);
 		}
 	}
 	

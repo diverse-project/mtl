@@ -1,5 +1,5 @@
 /*
-* $Id: SourcesPage.java,v 1.1 2004-07-30 14:11:19 sdzale Exp $
+* $Id: SourcesPage.java,v 1.2 2004-08-26 12:40:48 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -325,29 +325,6 @@ public class SourcesPage extends BuildPathBasePage {
 			fFoldersList.replaceElement(elem, res);
 		}
 	}
-//
-// Version 2.1
-//	private void editAttributeEntry(CPListElementAttribute elem) {
-//		String key= elem.getKey();
-//		if (key.equals(CPListElement.OUTPUT)) {
-//			CPListElement selElement= (CPListElement) elem.getParent();
-//			OutputLocationDialog dialog= new OutputLocationDialog(getShell(), selElement);
-//			if (dialog.open() == OutputLocationDialog.OK) {
-//				selElement.setAttribute(CPListElement.OUTPUT, dialog.getOutputLocation());
-//				fFoldersList.refresh();
-//				fClassPathList.dialogFieldChanged(); // validate
-//			}
-//		} else if (key.equals(CPListElement.EXCLUSION)) {
-//			CPListElement selElement= (CPListElement) elem.getParent();
-//			ExclusionPatternDialog dialog= new ExclusionPatternDialog(getShell(), selElement);
-//			if (dialog.open() == OutputLocationDialog.OK) {
-//				selElement.setAttribute(CPListElement.EXCLUSION, dialog.getExclusionPattern());
-//				fFoldersList.refresh();
-//				fClassPathList.dialogFieldChanged(); // validate
-//			}		
-//		}
-//	}
-	//
 //	 Version 3.0
 	private void editAttributeEntry(CPListElementAttribute elem) {
 		String key= elem.getKey();

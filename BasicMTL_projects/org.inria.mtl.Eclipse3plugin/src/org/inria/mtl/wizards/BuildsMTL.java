@@ -1,5 +1,5 @@
-/*
-* $Id: BuildsMTL.java,v 1.1 2004-07-30 14:08:37 sdzale Exp $
+*
+* $Id: BuildsMTL.java,v 1.2 2004-08-26 12:40:14 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -40,7 +40,6 @@ import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
-//import org.eclipse.jdt.internal.ui.wizards.buildpaths.ClasspathOrderingWorkbookPage;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.FolderSelectionDialog;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.CheckedListDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
@@ -63,20 +62,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.help.WorkbenchHelp;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.core.MTLCore;
 import org.inria.mtl.core.MtlClasspathEntry;
-import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.wizards.pages.ClasspathOrderingWorkbookPage;
 import org.inria.mtl.wizards.pages.LibrairiesPage;
-import org.inria.mtl.wizards.pages.MainClassChoicePage;
 import org.inria.mtl.wizards.pages.ProjectsPage;
 import org.inria.mtl.wizards.pages.SourcesPage;
 
@@ -197,7 +194,7 @@ public class BuildsMTL {
 		
 				
 		IWorkbench workbench= MTLPlugin.getDefault().getWorkbench();	
-		Image projectImage= workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
+		Image projectImage= workbench.getSharedImages().getImage(org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJ_PROJECT);
 		
 		fProjectsPage= new ProjectsPage(fClassPathList);		
 		item= new TabItem(folder, SWT.NONE);
@@ -219,7 +216,7 @@ public class BuildsMTL {
 		
 		ClasspathOrderingWorkbookPage ordpage= new ClasspathOrderingWorkbookPage(fClassPathList);		
 		item= new TabItem(folder, SWT.NONE);
-		item.setText(NewWizardMessages.getString("BuildPathsBlock.tab.order")); //$NON-NLS-1$
+		item.setText("Order"); //$NON-NLS-1$
 		item.setImage(cpoImage);
 		item.setData(ordpage);
 		item.setControl(ordpage.getControl(folder));

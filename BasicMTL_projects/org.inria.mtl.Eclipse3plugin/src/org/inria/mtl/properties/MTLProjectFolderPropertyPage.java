@@ -1,5 +1,5 @@
 /*
-* $Id: MTLProjectFolderPropertyPage.java,v 1.1 2004-07-30 14:11:41 sdzale Exp $
+* $Id: MTLProjectFolderPropertyPage.java,v 1.2 2004-08-26 12:41:00 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -33,15 +33,12 @@ import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.preferences.MTLMessages;
-import org.inria.mtl.wizards.BuildsMTL;
 import org.inria.mtl.wizards.BuildsMainClass;
 
 
 
 
 /**
- * @author sdzale
- * @version 1.0.0
  * Property page for configuring the MTL build path
  */
 public class MTLProjectFolderPropertyPage extends PropertyPage implements IStatusChangeListener {

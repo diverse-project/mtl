@@ -1,5 +1,5 @@
 /*
-* $Id: MTLSyntax.java,v 1.1 2004-07-30 14:11:07 sdzale Exp $
+* $Id: MTLSyntax.java,v 1.2 2004-08-26 12:40:58 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,10 +25,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-//import org.apache.xalan.templates.OutputProperties;
-//import org.apache.xml.serialize.OutputFormat;
-//import org.apache.xml.serialize.Serializer;
-//import org.apache.xml.serialize.SerializerFactory;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -279,15 +274,6 @@ public class MTLSyntax {
 
 		transformer.transform(source, result);
 		
-//	  OutputFormat format = new OutputFormat();
-//	  format.setPreserveSpace(true);
-//	  try {
-//		//org.apache.xalan.serialize.Serializer serializer = org.apache.xalan.serialize.SerializerFactory..getSerializerFactory("xml").makeSerializer(stream, format);
-//	  	org.apache.xalan.serialize.Serializer serializer = org.apache.xalan.serialize.SerializerFactory.getSerializer(OutputProperties.getDefaultMethodProperties("xml"));
-//		serializer.asDOMSerializer().serialize(document);
-//	  } catch (UnsupportedEncodingException e) {
-//	  } catch (IOException e) {
-//	  } //$NON-NLS-1$
 	} catch (ParserConfigurationException e) {
 	  throwWriteException(e);
 	} catch (TransformerException e) {

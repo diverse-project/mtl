@@ -1,5 +1,5 @@
 /*
-* $Id: MTLActionConstants.java,v 1.1 2004-07-30 14:08:47 sdzale Exp $
+* $Id: MTLActionConstants.java,v 1.2 2004-08-26 12:40:18 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -56,24 +56,7 @@ public class MTLActionConstants {
    */
   public static final String FORMAT = "org.inria.mtl.mtleditor.Format "; //$NON-NLS-1$
 
-  /**
-   * Source menu: name of standard Convert Line Delimiters To Windows global action
-   * (value <code>"org.inria.mtl.editors.ConvertLineDelimitersToWindows"</code>).
-   */
-  public static String CONVERT_LINE_DELIMITERS_TO_WINDOWS = "org.inria.mtl.editors.ConvertLineDelimitersToWindows"; //$NON-NLS-1$
-
-  /**
-   * Source menu: name of standard Convert Line Delimiters To UNIX global action
-   * (value <code>"org.inria.mtl.editors.ConvertLineDelimitersToUNIX"</code>).
-   */
-  public static String CONVERT_LINE_DELIMITERS_TO_UNIX = "org.inria.mtl.editors.ConvertLineDelimitersToUNIX"; //$NON-NLS-1$
-
-  /**
-   * Source menu: name of standardConvert Line Delimiters ToMac global action
-   * (value <code>"org.inria.mtl.editors.ConvertLineDelimitersToMac"</code>).
-   */
-  public static String CONVERT_LINE_DELIMITERS_TO_MAC = "org.inria.mtl.editors.ConvertLineDelimitersToMac"; //$NON-NLS-1$
-
+ 
   /**
    * Navigate menu: name of standard Open global action
    * (value <code>"org.inria.mtl.editors.Open"</code>).

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLWhitespaceDetector.java,v 1.1 2004-07-30 14:08:17 sdzale Exp $
+* $Id: MTLWhitespaceDetector.java,v 1.2 2004-08-26 12:40:09 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -22,7 +22,4 @@ public class MTLWhitespaceDetector implements IWhitespaceDetector {
 		return Character.isWhitespace(character);
 	}
 	
-//	public boolean isWhitespace(char c) {
-//			return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
-//		}
 }

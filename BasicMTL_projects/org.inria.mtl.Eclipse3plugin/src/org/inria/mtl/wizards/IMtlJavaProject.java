@@ -1,5 +1,5 @@
 /*
-* $Id: IMtlJavaProject.java,v 1.1 2004-07-30 14:08:38 sdzale Exp $
+* $Id: IMtlJavaProject.java,v 1.2 2004-08-26 12:40:12 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}

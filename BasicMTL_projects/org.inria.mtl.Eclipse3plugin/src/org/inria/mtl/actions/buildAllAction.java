@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.1 2004-07-30 14:11:15 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.2 2004-08-26 12:40:16 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -10,24 +10,21 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.action.IAction;
-//import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.core.MTLCore;
-import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.views.MTLConsole;
+import org.inria.mtl.views.ProjectExploreView;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -116,6 +113,7 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection=selection;
+		System.out.println("Selection ");
 		try{
 				
 			if (selection instanceof StructuredSelection){
@@ -128,7 +126,8 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 						if (item instanceof IProject){
 							currentProject=item.getProject();
 							MTLCore.setProject(currentProject);
-							MTLModel.setProject(currentProject);
+							MTLPlugin.instance().getModel(item.getProject()).setProject(currentProject);
+//							MTLModel.setProject(currentProject);
 							//System.out.println("PROJET :"+currentProject.getName());
 						}else{
 								it.next();
@@ -139,20 +138,20 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 				}
 			}	
 		}catch (Exception E){
-				System.out.println("Erreur build all Action");
+			MTLPlugin.log(E);
+			System.out.println("Erreur build all Action");
 				//System.out.println(E.getMessage());
 		}
+	//MAJ Console
+		try{
+			ProjectExploreView.refresh();
+			ProjectExploreView.update();
+			}catch(Exception e)
+			{
+				//To do
+			}
 		
-//		IAdaptable adaptable= getElement();
-//			if (adaptable != null) {
-//				IJavaElement elem= (IJavaElement) adaptable.getAdapter(IJavaElement.class);
-//				if (elem instanceof IJavaProject) {
-//					((IJavaProject) elem).getProject();
-//				}
-//			}
-			
 		
-
 	}
 	
 		/**

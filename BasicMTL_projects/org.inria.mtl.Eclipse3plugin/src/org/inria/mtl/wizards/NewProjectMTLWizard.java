@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectMTLWizard.java,v 1.1 2004-07-30 14:08:38 sdzale Exp $
+* $Id: NewProjectMTLWizard.java,v 1.2 2004-08-26 12:40:12 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -326,8 +326,8 @@ private void setBuilder(IProject newProject) throws Exception {
  protected void initializeDefaultPageImageDescriptor() {
 	String iconPath = "icons/";//$NON-NLS-1$		
 	try {
-		URL installURL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
-		URL url = new URL(installURL, iconPath + "wizban/fmtl.gif");//$NON-NLS-1$
+		//URL installURL = MTLPlugin.getDefault().getDescriptor().getInstallURL();
+		URL url = new URL(MTLPlugin.getBaseURL(), iconPath + "wizban/fmtl.gif");//$NON-NLS-1$
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		setDefaultPageImageDescriptor(desc);
 	}

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPreferencePageEditor.java,v 1.1 2004-07-30 14:09:36 sdzale Exp $
+* $Id: MTLPreferencePageEditor.java,v 1.2 2004-08-26 12:40:37 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -46,7 +46,7 @@ import org.eclipse.jface.preference.FontFieldEditor;
 import org.inria.mtl.MTLPlugin;
 
 
-/*
+/**
  * The page for setting the editor options.
  */
 public class MTLPreferencePageEditor

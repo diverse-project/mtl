@@ -1,5 +1,5 @@
 /*
-* $Id: runProjectAction.java,v 1.1 2004-07-30 14:11:15 sdzale Exp $
+* $Id: runProjectAction.java,v 1.2 2004-08-26 12:40:16 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,30 +7,22 @@
 */ 
 package org.inria.mtl.actions;
 
-import org.eclipse.core.resources.IFolder;  
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot; 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.jdt.launching.*;
+import org.eclipse.ui.IActionDelegate;
+import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.inria.mtl.builders.MTLModel;
-import org.inria.mtl.core.MTLCore;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.core.MTLCore;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 
 
@@ -92,8 +84,7 @@ public class runProjectAction implements IWorkbenchWindowActionDelegate {
 							 
 						  }else{
 							it.next();
-							System.out.println("main class action 6");
-						  }
+							  }
 					  }
 					}
 		}catch (Exception E){

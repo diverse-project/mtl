@@ -1,5 +1,5 @@
 /*
-* $Id: BracketPainter.java,v 1.1 2004-07-30 14:08:16 sdzale Exp $
+* $Id: BracketPainter.java,v 1.2 2004-08-26 12:40:08 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,7 +8,7 @@
 package org.inria.mtl.editors.utils;
 
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.ITextViewerExtension3;
+import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -79,8 +79,8 @@ public final class BracketPainter implements IPainter, PaintListener {
 		if (length < 1)
 			return;
 			
-		if (fSourceViewer instanceof ITextViewerExtension3) {
-			ITextViewerExtension3 extension= (ITextViewerExtension3) fSourceViewer;
+		if (fSourceViewer instanceof ITextViewerExtension5) {
+			ITextViewerExtension5 extension= (ITextViewerExtension5) fSourceViewer;
 			IRegion widgetRange= extension.modelRange2WidgetRange(new Region(offset, length));
 			if (widgetRange == null)
 				return;

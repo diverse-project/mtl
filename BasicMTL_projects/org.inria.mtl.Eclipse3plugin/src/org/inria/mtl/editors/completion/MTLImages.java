@@ -1,5 +1,5 @@
 /*
-* $Id: MTLImages.java,v 1.1 2004-07-30 14:09:30 sdzale Exp $
+* $Id: MTLImages.java,v 1.2 2004-08-26 12:40:32 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -28,13 +28,7 @@ public class MTLImages {
 	static {
 		String pathSuffix = "icons/";
 		try {
-			iconBaseURL =
-				new URL(
-					MTLPlugin
-						.getDefault()
-						.getDescriptor()
-						.getInstallURL(),
-					pathSuffix);
+			iconBaseURL = new URL(MTLPlugin.instance().getBundle().getEntry("/"),pathSuffix );
 		} catch (MalformedURLException e) {
 			MTLPlugin.log(e);
 		}

@@ -16,10 +16,22 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceStatus;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -30,7 +42,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ContainerGenerator;
 import org.eclipse.ui.help.WorkbenchHelp;
@@ -88,7 +104,7 @@ public class WizardNewFolderPage extends WizardPage implements Listener {
 public WizardNewFolderPage(String pageName, IStructuredSelection selection) {
 	super("newFolderPage1");//$NON-NLS-1$
 	setTitle(pageName);
-	setDescription(IDEWorkbenchMessages.getString("WizardNewFolderMainPage.description")); //$NON-NLS-1$
+	setDescription("Create a New MTL Source Folder"); //$NON-NLS-1$
 	this.currentSelection = selection;
 }
 /**

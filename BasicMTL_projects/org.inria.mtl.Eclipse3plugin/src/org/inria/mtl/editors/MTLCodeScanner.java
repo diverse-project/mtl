@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeScanner.java,v 1.1 2004-07-30 14:10:05 sdzale Exp $
+* $Id: MTLCodeScanner.java,v 1.2 2004-08-26 12:40:40 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -52,7 +52,7 @@ public final class MTLCodeScanner extends AbstractMTLScanner /*implements MTLWor
 	public  static Token TOKEN_TYPE =new Token(PreferencesConstants.MTL_TYPE);
 	
 
-	private static String memberToken=  ".prototype";
+	private static String memberToken=  ".extension";
 
 	
 	
@@ -138,43 +138,34 @@ public final class MTLCodeScanner extends AbstractMTLScanner /*implements MTLWor
 	//		Add rule for character constants and strings.
 	  TOKEN_M_COMMENT= getToken(PreferencesConstants.MTL_MULTILINE_COMMENT);
 	  rules.add(new MultiLineRule("/*", "*/", TOKEN_M_COMMENT)); //$NON-NLS-2$ //$NON-NLS-1$
-	  //System.out.println("MultiLine :"+TOKEN_M_COMMENT);
+	
 
 
 	  TOKEN_S_COMMENT= getToken(PreferencesConstants.MTL_SINGLELINE_COMMENT);
 	  rules.add(new EndOfLineRule("//", TOKEN_S_COMMENT)); //$NON-NLS-2$ //$NON-NLS-1$
-	  //System.out.println("Single  :"+TOKEN_S_COMMENT);
-			
-		
-		
-		// Add rule for character constants and strings.
+	  
+	// Add rule for character constants and strings.
 	  TOKEN_STRING= getToken(PreferencesConstants.MTL_STRING);
 	  rules.add(new SingleLineRule("'", "'", TOKEN_STRING, '\\')); //$NON-NLS-2$ //$NON-NLS-1$
-	  //System.out.println("String :"+TOKEN_STRING);
-				
-		
-		// Add generic whitespace rule.
+	
+	// Add generic whitespace rule.
 	rules.add(new WhitespaceRule(new MTLWhitespaceDetector()));
 		
-		//		Add word rule for keywords, types, and constants.
+	//		Add word rule for keywords, types, and constants.
 		TOKEN_DEFAULT= getToken(PreferencesConstants.MTL_DEFAULT);
 		WordRule wordRule= new WordRule(new MTLWordDetector(), TOKEN_DEFAULT);
-		//System.out.println("Default :"+TOKEN_DEFAULT);
+	
 		
 		TOKEN_MEMBER= getToken(PreferencesConstants.MTL_MEMBER);
 		rules.add(new PredicateWordRuleOutline(new MTLReferenceDetector(), memberToken, TOKEN_MEMBER));
-		//System.out.println("Member :"+TOKEN_MEMBER);
+	
 		
 		
 		TOKEN_KEYWORD = getToken(PreferencesConstants.MTL_KEYWORD);
-		//System.out.println("Keyword :"+TOKEN_KEYWORD);
-	    TOKEN_FUNCTION=getToken(PreferencesConstants.MTL_FUNCTIONNAME);
-		//System.out.println("Function :"+TOKEN_FUNCTION);
+		TOKEN_FUNCTION=getToken(PreferencesConstants.MTL_FUNCTIONNAME);
 		TOKEN_TYPE = getToken(PreferencesConstants.MTL_TYPE);
-		//System.out.println("Type :"+TOKEN_TYPE);
 		TOKEN_CONSTANT = getToken(PreferencesConstants.MTL_CONSTANT);
-		//System.out.println("Constant :"+TOKEN_CONSTANT);
-		
+			
 		ArrayList buffer = MTLSyntax.getSyntaxData();
 		MTLObject elbuffer = null;
 				
