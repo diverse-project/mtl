@@ -166,7 +166,7 @@ class DOMAntimtl(BaseProcess) :
     # the path name where the .jar needed for the compilation .mtl
     COMPILERJARPATH = "MTLcompiler.jar.path"
     
-    def __init__(self, ftemplate, inclasspath, inmtlclasspath, inbuild,
+    def __init__(self, ftemplate, inbuild, inclasspath, inmtlclasspath, 
     output=""):
         """
             ftemplate : the template build for each MTL library
@@ -469,25 +469,29 @@ def usage(code, msg=''):
 def main():
 
     import getopt, os
-    tll_build = "templates/tll_build.template.xml"
-    build = "templates/build.template.xml"
-  
+    
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hdc:m:o:", ["help","demo",
-        "cp=","mtlcp=","output="])
+        opts, args = getopt.getopt(sys.argv[1:], "hdt:c:m:o:", ["help","demo",
+        "templates_path=","cp=","mtlcp=","output="])
     except getopt.GetoptError:
         # print help information and exit:
         usage(2)
         sys.exit(2)
 
     
+    # The path where we can find the build templates (set to current by default)
+    templates_path = "."
     output = "."
     mtlcp, cp = None, None
     demo = False
+    # boolean that is set to true if we can process our generation:)
+    can_process = 0
     for o, value in opts:
         if o in ("-h", "--help"):
             usage(1)
             sys.exit(1)
+        if o == "--templates_path":
+            templates_path = value
         if o == "--cp":
             cp = value
         if o == "--mtlcp":
@@ -510,7 +514,7 @@ def main():
 
         if os.path.isfile(mtlcp) and os.path.isfile(cp):
             # FIXME dirty
-            commonfile = open("templates/common_build.xml")
+            commonfile = open(templates_path+"common_build.xml")
             data = commonfile.read()
             commonfile.close()
     
@@ -520,12 +524,25 @@ def main():
             newfile.write(data)
             newfile.close()
             print "Done"
-
-            processor = DOMAntimtl(tll_build, cp, mtlcp, build, output)
-            processor.run()
+            can_process = 1
         else:
-            print "The given files do not exist"
-            sys.exit()
+            print >> sys.stderr, "The given files do not exist"
+            print >> sys.stdout, "The given files do not exist"
+            sys.exit(2)
+        
+    else :
+        can_process = 1
+
+    if can_process == 1:
+          
+        tll_build = templates_path+"tll_build.template.xml"
+        build = templates_path+"build.template.xml"
+  
+        print "Look for .mtlclasspath and .classpath in %s"%output
+        print "Look for templates of ant files in %s"%templates_path
+        processor = DOMAntimtl(tll_build, build, output+"/.classpath", output+"/.mtlclasspath", output)
+        processor.run()
+        
         
         
 if __name__ == "__main__":
