@@ -448,7 +448,7 @@ class DOMAntimtl(BaseProcess) :
             index+=1
 #            dom_build.documentElement.appendChild(t)
 
-        self.finishOutput( "build.xml", dom_build)
+        self.finishOutput( "main_build.xml", dom_build)
 
     def setMTLcompilerJarPathProperty(self):
         """We set here a specific property, that allows to access to the .jar
@@ -528,17 +528,6 @@ def main():
     elif mtlcp is not None and cp is not None:
 
         if os.path.isfile(mtlcp) and os.path.isfile(cp):
-            # FIXME dirty
-            commonfile = open(templates_path+"common_build.xml")
-            data = commonfile.read()
-            commonfile.close()
-    
-
-            print "Creating/Overriding the common_build.xml..."
-            newfile = open("%s/common_build.xml"%output,"w+")
-            newfile.write(data)
-            newfile.close()
-            print "Done"
             can_process = 1
         else:
             print >> sys.stderr, "The given files do not exist"
@@ -549,6 +538,17 @@ def main():
         can_process = 1
 
     if can_process == 1:
+        commonfile = open(templates_path+"common_build.xml")
+        data = commonfile.read()
+        commonfile.close()
+
+        print "Creating/Overriding the common_build.xml..."
+        newfile = open("%s/common_build.xml"%output,"w+")
+        newfile.write(data)
+        newfile.close()
+        print "Done"
+
+
           
         tll_build = templates_path+"tll_build.template.xml"
         build = templates_path+"build.template.xml"
