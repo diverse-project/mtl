@@ -1,4 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-07-24 09:54:33 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-05 12:39:40 dvojtise Exp $ -->
+<!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="BasicMtlAntlr" default="compile_java" basedir=".">
 	<description>
         Build file for the Antlr Parser
@@ -34,7 +35,7 @@
     	<!-- Compile the java code from ${src};${build}\src into ${bin} -->
 	    <javac srcdir="${src};${build}\src" 
     	    destdir="${bin}"
-   			classpath="ThirdParty\ANTLR\antlrfull.jar;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;ThirdParty\ANTLR\antlrfull.jar;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">
@@ -76,9 +77,9 @@
 	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
 	    <copy file="ThirdParty/log4j/log4j_configuration"
 	    	todir="${dist}/bin/ThirdParty/log4j"/>
-	    <copy file="ThirdParty/log4j/log4j.jar"
+	    <copy file="../Utils/ThirdParty/log4j/log4j.jar"
 	    	todir="${dist}/bin"/>
-	    <copy file="ThirdParty/junit/junit.jar"
+	    <copy file="../Utils/ThirdParty/junit/junit.jar"
 	    	todir="${dist}/bin"/>
 	    <copy file="ThirdParty/ANTLR/antlrfull.jar"
 	    	todir="${dist}/bin"/>
@@ -93,5 +94,16 @@
 			</fileset>    		
     	</delete>
     	<delete dir="${dist}"/> 
+  	</target>
+  	<target name="echo eclipse data">
+  		<echo>
+  			${toto}
+  			${dist}
+  			${working_set}
+  			${container}
+  			${project}
+  			${resource}
+  			${workspace}
+  		</echo>
   	</target>
 </project>
