@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 
 /**
@@ -58,7 +59,7 @@ public class GetReferenceSignature extends ComputedSignature {
 	}
 
 	public String getOpMangle() {
-		return this.getPrefix() + Mangler.mangle("BMTL_", (String)this.getReferenceType().get(this.getReferenceType().size()-1));
+		return this.getPrefix() + Mangler.mangle("BMTL_", AWK.mergeCollection(this.getReferenceType(), "_")/*(String)this.getReferenceType().get(this.getReferenceType().size()-1)*/);
 	}
 
 	public String getOpName() {
