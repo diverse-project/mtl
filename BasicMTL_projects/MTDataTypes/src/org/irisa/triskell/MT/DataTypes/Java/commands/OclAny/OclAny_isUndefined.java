@@ -1,7 +1,12 @@
+/*
+ * $Id: OclAny_isUndefined.java,v 1.2 2004-02-16 17:01:55 dvojtise Exp $
+ * @author : ffondemen 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OclAny;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import java.util.*;
 
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;

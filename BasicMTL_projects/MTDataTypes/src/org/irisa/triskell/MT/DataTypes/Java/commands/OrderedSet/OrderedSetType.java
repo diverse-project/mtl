@@ -1,26 +1,22 @@
-/* $Id: OrderedSetType.java,v 1.4 2004-01-22 12:39:21 dvojtise Exp $
- * Created on May 28, 2003
- *
+/*
+ * $Id: OrderedSetType.java,v 1.5 2004-02-16 17:02:14 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Hashtable;
 
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Represent the Type of OrderedSet objects
  */
 public class OrderedSetType extends CollectionType implements InstanciableType {
 	public static final String OrderedSetName = "OrderedSet";

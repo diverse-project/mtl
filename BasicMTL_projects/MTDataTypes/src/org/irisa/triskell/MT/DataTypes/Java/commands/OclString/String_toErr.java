@@ -1,16 +1,16 @@
 /* 
- * $Id: String_toErr.java,v 1.1 2003-11-24 13:38:29 dvojtise Exp $
  * Created on May 27, 2003
- *
- **/
+ * $Id: String_toErr.java,v 1.2 2004-02-16 17:02:06 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OclString;
 
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IntegerValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 
 /**

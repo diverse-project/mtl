@@ -1,27 +1,21 @@
 /*
  * Created on 3 déc. 2003
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * $Id: ModelElement_getType.java,v 1.2 2004-02-16 17:02:17 dvojtise Exp $
+ * @author : edrezen 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement;
 
 import org.irisa.triskell.MT.DataTypes.Java.ModelElementValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
-import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.TypeValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 
 /**
  * @author edrezen
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Action to do when receiving a getType command
  */
 public class ModelElement_getType extends AbstractCommand
 {

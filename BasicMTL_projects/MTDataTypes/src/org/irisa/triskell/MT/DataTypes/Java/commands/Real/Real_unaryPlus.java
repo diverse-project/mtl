@@ -1,22 +1,21 @@
 /*
- * Created on May 27, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: Real_unaryPlus.java,v 1.2 2004-02-16 17:02:01 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Real;
 
-import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+// import org.irisa.triskell.MT.DataTypes.Java.RealValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
+// import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
 
 /**
  * @author ffondeme
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * unaryPlus command for Real objects
  */
 public class Real_unaryPlus extends AbstractCommand {
 	public static final Real_unaryPlus TheInstance = new Real_unaryPlus();

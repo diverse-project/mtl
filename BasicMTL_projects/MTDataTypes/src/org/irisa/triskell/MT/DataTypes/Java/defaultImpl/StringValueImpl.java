@@ -1,25 +1,22 @@
+/*
+ * $Id: StringValueImpl.java,v 1.3 2004-02-16 17:02:00 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.defaultImpl;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
 
-import java.io.*;
-import java.util.*;
-
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue;
-import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
-import org.irisa.triskell.MT.DataTypes.Java.RealValue;
-import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
-import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
-import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
-import org.irisa.triskell.MT.DataTypes.Java.TupleValue;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 
+/**
+ * 
+ * Default implementation for StringValue
+ */
 public class StringValueImpl 
     extends org.irisa.triskell.MT.DataTypes.Java.defaultImpl.PrimitiveValueImpl
     implements org.irisa.triskell.MT.DataTypes.Java.StringValue

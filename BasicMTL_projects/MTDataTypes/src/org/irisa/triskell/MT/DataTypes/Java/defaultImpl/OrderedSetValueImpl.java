@@ -1,3 +1,9 @@
+/*
+ * $Id: OrderedSetValueImpl.java,v 1.2 2004-02-16 17:01:58 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.defaultImpl;
 
 import java.util.*;
@@ -7,20 +13,13 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType;
 
-import java.io.*;
-
-import org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue;
-import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
-import org.irisa.triskell.MT.DataTypes.Java.StringValue;
-import org.irisa.triskell.MT.DataTypes.Java.RealValue;
-import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
-import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
-import org.irisa.triskell.MT.DataTypes.Java.TupleValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 
+/**
+ * 
+ * Default implementation for OrderedSetValue
+ */
 public class OrderedSetValueImpl 
     extends org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl
 {

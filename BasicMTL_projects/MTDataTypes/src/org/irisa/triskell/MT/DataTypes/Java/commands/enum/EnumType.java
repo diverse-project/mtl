@@ -1,13 +1,11 @@
 /*
  * Created on May 28, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: EnumType.java,v 1.4 2004-02-16 17:02:15 dvojtise Exp $
+ * @author : ffondeme 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.enum;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
@@ -20,6 +18,9 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.EnumValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 
+/**
+ * Object representing the type of an Enum object
+ */
 public class EnumType extends PrimitiveType {
 	private static String makeName (String [] parts) {
 		StringBuffer sb = new StringBuffer();

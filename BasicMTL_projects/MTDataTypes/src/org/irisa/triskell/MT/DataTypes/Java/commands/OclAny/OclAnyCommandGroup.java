@@ -1,25 +1,17 @@
 /*
- * Created on May 22, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: OclAnyCommandGroup.java,v 1.4 2004-02-16 17:01:54 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OclAny;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Command;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.Type;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
-
-import java.util.List;
-import java.util.Arrays;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Definition of the commands callable from OclAny objects
  */
 public class OclAnyCommandGroup extends CommandGroupImpl {
 	public static final CommandGroup TheInstance;

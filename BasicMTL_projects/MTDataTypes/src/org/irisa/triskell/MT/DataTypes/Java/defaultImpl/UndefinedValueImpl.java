@@ -1,9 +1,13 @@
+/*
+ * $Id: UndefinedValueImpl.java,v 1.2 2004-02-16 17:01:58 dvojtise Exp $
+ * @author : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.defaultImpl;
 
-import java.util.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.*;
-import java.io.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
+
 
 public class UndefinedValueImpl extends ValueImpl
 {

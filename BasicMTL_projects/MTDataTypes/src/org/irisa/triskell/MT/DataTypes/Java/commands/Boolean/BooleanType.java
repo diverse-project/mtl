@@ -1,15 +1,16 @@
 /*
  * Created on May 28, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: BooleanType.java,v 1.3 2004-02-16 17:02:19 dvojtise Exp $
+ * @author : ffondeme 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Boolean;
 
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractType;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 

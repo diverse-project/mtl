@@ -1,15 +1,21 @@
+/*
+ * $Id: ModelElement_oclUid.java,v 1.2 2004-02-16 17:02:17 dvojtise Exp $
+ * @author : ffondemen 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement;
 
 import org.irisa.triskell.MT.DataTypes.Java.ModelElementValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
-import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 
+/**
+ * 
+ * Action to don when receiving a oclUid command
+ */
 public class ModelElement_oclUid 
     extends AbstractCommand
 {

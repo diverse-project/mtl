@@ -1,24 +1,22 @@
-/*
+/**
  * Created on May 28, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: PrimitiveType.java,v 1.2 2004-02-16 17:01:50 dvojtise Exp $
+ * @author : ffondeme 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
+// import java.util.Arrays;
+// import java.util.Collection;
 
 import org.irisa.triskell.MT.DataTypes.Java.*;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 /**
- * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Base for all Primitive MTL Type
  */
 public abstract class PrimitiveType extends AbstractType implements Serializable {
 	private transient CollectionValue allInstances;

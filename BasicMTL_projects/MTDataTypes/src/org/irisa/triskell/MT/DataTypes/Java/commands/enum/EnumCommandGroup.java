@@ -1,26 +1,20 @@
 /*
  * Created on May 22, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: EnumCommandGroup.java,v 1.4 2004-02-16 17:02:16 dvojtise Exp $
+ * @author : ffondeme 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.enum;
 
 import java.util.Arrays;
 
-import org.irisa.triskell.MT.DataTypes.Java.Type;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
-import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
- * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Declaration of callable command on Enum objects
  */
 public class EnumCommandGroup extends CommandGroupImpl {
 	

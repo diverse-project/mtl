@@ -1,23 +1,21 @@
 /*
  * Created on May 27, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: Boolean_xor.java,v 1.2 2004-02-16 17:02:19 dvojtise Exp $
+ * @author : ffondeme 
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Boolean;
 
-import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
+//import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_equals;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
+//import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
 
 /**
- * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Definition of xor as a command for boolean
  */
 public class Boolean_xor extends AbstractCommand {
 	public static Boolean_xor TheInstance = new Boolean_xor();
