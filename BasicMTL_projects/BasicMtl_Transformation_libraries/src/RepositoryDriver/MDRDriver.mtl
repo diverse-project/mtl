@@ -1,0 +1,106 @@
+// -----------------------------------------------------------------------------
+// $Id: MDRDriver.mtl,v 1.1 2003-08-01 16:59:27 dvojtise Exp $
+//
+// This native library is used to provide the specific functions needed to open, load, save models
+// with the MDR repository
+
+
+library MDRDriver
+// as native, it is not allowed to inherit from another lib
+// Lib parameters :
+// No parameter for this lib 
+
+/**
+  * this class hold the different initialization part of the driver and methods that enable to get 
+  * a MDR RepositoryModel
+  */
+class MDRModelManager
+tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandAloneModelManager]
+tag DoNotGenerate = BooleanTag True
+{
+	// allthis is only comments, the real definition is in the real java file
+	// however here is the available methods of this class according to the mangle adopted for the 
+	// different classes in this library
+	/**
+	  * initialize the driver so the driver could run properly
+	  * Must be call for a correct behavior
+	  */	  
+	/* init()
+	{
+	}
+	*/
+	/**
+	  * return a model (ie. equivalent to a library)
+	  * needs a lot of parameters specific to this Repository
+	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
+	  */
+	/*getModel ( repository : String;
+	           aMdrMetamodel : MdrMetamodel;
+	           modelName : String;
+	           aMdrModel : MdrModel ): RepositoryModel
+	// syntax to map to a Java Native operation to be defined !! (something taht looks like eiffel ?
+	// needs to define more precisely the mapping between the java side spec and the 
+	// the special tag java replace the content of this method by this string which should return the correct type.
+	// in this case it call a staic method of MDRAPI class	
+	{
+	}*/
+	
+	/* one of the simpliest way to get started
+	getModelFromXMI(
+		metamodelXmiFileName, modelName, 
+		modelXmiInputFileName, modelXmiOuputFileName : String ) : RepositoryModel
+	{	
+	}*/
+	
+	/**
+	  * Simpliest way to get started but need user manipulation
+	  * open a GUI to ask the user which model he wants, the GUI may be very complex
+	  * return a model (ie. equivalent to a library)
+	  * the message is used to inform the user for which purpose this model will be used
+	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
+	  */
+	GUIGetModel(String UserMessage) : RepositoryModel
+	{
+	}
+}
+
+//*************************************************************************
+//   here are some classe used by the GetModel method of the ModelManager
+
+/**
+  *  a metamodel in the Mdr context (abstract)
+  */
+class MdrMetamodel
+// maps to org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel, 
+// and doesn't generate it as it will use the java version of it.
+tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel]
+tag DoNotGenerate = BooleanTag True
+]
+{	
+	// look in the java file for description
+}
+
+/**
+  *  model in the MDR context (abstract)
+  */
+class MdrModel
+// maps to org.irisa.triskell.MT.repository.MDRDriver.Java.Model
+tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.Model]
+tag DoNotGenerate = BooleanTag True
+{
+	// look in the java file for description
+}
+
+
+class XmiMetamodel extend MdrMetamodel
+tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetaModel]
+tag DoNotGenerate = BooleanTag True
+{
+	// look in the java file for description}
+}
+class XmiModel extend MdrModel
+tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiModel]
+tag DoNotGenerate = BooleanTag True
+{
+	// look in the java file for description
+}
