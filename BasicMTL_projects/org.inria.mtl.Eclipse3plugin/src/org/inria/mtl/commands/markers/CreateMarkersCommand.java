@@ -80,7 +80,6 @@ public class CreateMarkersCommand extends MTLCommand
 		//IFile currentFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
 		
     	IFile currentFile = MTLCore.getProject().getFile(cMessage.getFileName());
-System.out.println ("========================== " + currentFile);    	
     	
 		if (currentFile!=null && currentFile.exists())
 		{
