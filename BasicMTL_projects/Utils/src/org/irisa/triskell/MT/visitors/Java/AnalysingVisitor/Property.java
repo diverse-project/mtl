@@ -1,13 +1,19 @@
+/*
+ * $Id: Property.java,v 1.2 2004-02-16 17:12:05 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.visitors.Java.AnalysingVisitor;
 
-import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import java.lang.*;
-import java.io.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import java.lang.Class;
-import java.util.Map;
+//import java.util.*;
+//import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
+//import java.lang.*;
+//import java.io.*;
+//import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
+//import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
+//import java.lang.Class;
+//import java.util.Map;
 
 public class Property 
     implements java.io.Serializable
