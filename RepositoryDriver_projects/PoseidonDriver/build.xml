@@ -45,7 +45,7 @@
   	
     <!-- customize this to your Poseidon directory -->
     <!--<property name="poseidon.dir" value="/usr/local/poseidon/poseidonPE-2.5.0"/>-->
-  	<property name="poseidon.dir" value="C:\Program Files\Poseidon For UML PE 2.5.1"/>
+  	<property name="poseidon.dir" value="C:\Program Files\Poseidon For UML PE 3.0"/>
     <property name="poseidon.lib.dir" value="${poseidon.dir}/lib"/> 
     <property name="lib.dir" value="./lib"/>
 	<property name="helpers.dir" value="${poseidon.lib.dir}"/>
@@ -55,7 +55,7 @@
     <property name="poseidon.libs" value="${mdr.libs}:${poseidon.lib.dir}/uml14.jar:${poseidon.lib.dir}/services.jar:${poseidon.lib.dir}/poseidonCore.jar:${poseidon.lib.dir}/enhancedEditor.jar:${poseidon.lib.dir}/log4j.jar:${poseidon.lib.dir}/velocity.jar:${poseidon.lib.dir}/reveng.jar:${poseidon.lib.dir}/states.jar:${poseidon.lib.dir}/states_pres.jar:${poseidon.lib.dir}/codeGen.jar:${poseidon.lib.dir}/classes.jar:${poseidon.lib.dir}/usecase_pres.jar:${poseidon.lib.dir}/usecase.jar:${poseidon.lib.dir}/classes_pres.jar:${poseidon.lib.dir}/sequence.jar:${poseidon.lib.dir}/sequence_pres.jar:${poseidon.lib.dir}/jboogie.jar:${poseidon.lib.dir}/alloy.jar:${poseidon.lib.dir}/antlr.jar:${poseidon.lib.dir}/axis.jar:${poseidon.lib.dir}/batik-awt-util.jar:${poseidon.lib.dir}/commons-discovery.jar:${poseidon.lib.dir}/commons-logging.jar:${poseidon.lib.dir}/edit-on-javabean-sdk-swing.jar:${poseidon.lib.dir}/example.jar:${poseidon.lib.dir}/foxtrot.jar:${poseidon.lib.dir}/freehep-base.jar:${poseidon.lib.dir}/freehep-graphics2d.jar:${poseidon.lib.dir}/freehepgraphicsio.jar:${poseidon.lib.dir}/freehep-graphicsio-pdf.jar:${poseidon.lib.dir}/freehep-graphicsio-ps.jar:${poseidon.lib.dir}/J2PrinterWorks.jar:${poseidon.lib.dir}/jaxrpc.jar:${poseidon.lib.dir}/jboogie.jar:${poseidon.lib.dir}/jdom.jar:${poseidon.lib.dir}/jmi.jar:${poseidon.lib.dir}/jmitoolkit.jar:${poseidon.lib.dir}/jmiuml14di.jar:${poseidon.lib.dir}/jmiutils.jar:${poseidon.lib.dir}/mdr_service.jar:${poseidon.lib.dir}/mdrapi.jar:${poseidon.lib.dir}/mof.jar:${poseidon.lib.dir}/nb-editor.jar:${poseidon.lib.dir}/nbmdr.jar:${poseidon.lib.dir}/piccolo.jar:${poseidon.lib.dir}/piccolox.jar:${poseidon.lib.dir}/poseidon.jar:${poseidon.lib.dir}/poseidonAnt.jar:${poseidon.lib.dir}/revengutil.jar:${poseidon.lib.dir}/saaj.jar:${poseidon.lib.dir}/templates.jar:${poseidon.lib.dir}/trove.jar:${poseidon.lib.dir}/umldoc.jar:${poseidon.lib.dir}/umlplugin.jar:${poseidon.lib.dir}/umltojava.jar:${poseidon.lib.dir}/velocity-dep-1.2.jar:${poseidon.lib.dir}/openide-util.jar"/>
     <property name="manifest" value="${modulePath}/${shortname}.mf"/>
     <property name="layerfile" value="${modulePath}/layer.xml"/>
-  	<property name="mtl.libs" value="../org.inria.BasicMTL.runtime/runtime.jar"/>
+  	<property name="mtl.libs" value="../org.inria.BasicMTL.runtime/runtime.jar:../MDRDriver/lib/MDRDriver.jar"/>
   	<property name="classpath" value=".:${poseidon.libs}:${netbeans.libs}:${mtl.libs}:${bin.dir}"/>
 
 
@@ -179,7 +179,7 @@
 			<!-- manifest to include -->
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>  
-				<!-- <attribute name="Class-Path" value="RepositoryAPI.jar MTDataTypes.jar Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>-->
+				<attribute name="Class-Path" value="MDRDriver.jar BasicMTLruntime.jar"/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -192,7 +192,23 @@
 		</jar>
 	</target>
 	
-
+  <!-- =================================================================== -->
+  <!-- deploy the jars in Poseidon directory                                          -->
+  <!-- =================================================================== -->
+  <target name="deploy" depends="create_jar">
+    <copy todir="${poseidon.lib.dir}" >    
+    	<fileset dir="${dist.bin}"/>
+    </copy>
+  	<!-- Runtime is also needed -->
+  	<copy todir="${poseidon.lib.dir}" file="../BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar">    
+  	</copy>
+  	<!-- MDRDriver is also needed -->
+  	<copy todir="${poseidon.lib.dir}" file="../MDRDriver/lib/MDRDriver.jar">    
+  	</copy>
+  	<!-- a log4j_configuration is also needed -->
+  	<copy todir="${poseidon.lib.dir}" file="../BasicMtl2Java/LibAssociation/dist/bin/log4j_configuration.xml">    
+  	</copy>
+  </target>
  
   <!-- =================================================================== -->
   <!-- Clean targets                                                       -->
