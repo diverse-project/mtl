@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.6 2003-08-19 14:02:59 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.7 2003-08-21 20:20:43 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -47,23 +47,61 @@ public class allReferedTypes {
 		if (TLLtypechecking.loadedLibraries.containsKey(libName))
 			loadedTLL=(Library)TLLtypechecking.loadedLibraries.get(libName);
 		else {
-			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
-			if (loadedTLL == null) 
-			{ 
-				return null;
+			String name = null;
+			boolean isModel = false, isView = false;
+			ModelRef mr = null;
+			for (int i = 0; name == null  && i < theLib.cardUsedModels(); ++i) {
+				mr = theLib.getUsedModels(i);
+				if (mr.getName().equals(libName)) {
+					isModel = ((mr instanceof RepositoryRef) || (mr instanceof TypedModelRef) && ((TypedModelRef)mr).getType().equals("RepositoryModel"));
+					isView = !isModel;
+					if (isView)
+						name = ((TypedModelRef)mr).getView();
+					else
+						name = "API";
+				}
 			}
-			TLLtypechecking.loadedLibraries.put(libName,loadedTLL);
-			if ((checkIsnotAView(loadedTLL.getName(),theLib))
-				&& (checkIsnotAnInheritedLib(loadedTLL.getName(),theLib))) {
-				QualifiedName usedLib=new QualifiedName();
-				usedLib.add(loadedTLL.getName());
+			if (name == null)
+				name = libName;
+			if (isModel) {
+/*				QualifiedName usedLib=new QualifiedName();
+				usedLib.add(libName);
 				usedLib.setIsExternType(true);
-				usedLib.setExternMangledName(loadedTLL.getMangle());
-				usedLib.setExternCompleteName(loadedTLL.getPackageName()+'.'+usedLib.getExternMangledName());
-				usedLib.setExternLibMangledName(loadedTLL.getMangle());
-				usedLib.setExternLibCompleteName(loadedTLL.getPackageName()+usedLib.getExternLibMangledName());
-				usedLib.setDeclarationName(usedLib.getExternCompleteName()+"Interface");
-				theLib.appendUsedLibs(usedLib);
+				usedLib.setIsRepositoryModel(true);
+				usedLib.setIsModelType(true);
+				usedLib.setExternMangledName("API");
+				usedLib.setExternCompleteName("org.irisa.triskell.MT.repository.API.Java.API");
+				usedLib.setExternLibMangledName("API");
+				usedLib.setExternLibCompleteName("org.irisa.triskell.MT.repository.API.Java.API");
+				usedLib.setDeclarationName("org.irisa.triskell.MT.repository.API.Java.API");//*/
+			} else {
+				loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+name+TLLtypechecking.tllSuffix);
+				if (loadedTLL == null) 
+				{ 
+					return null;
+				}
+				TLLtypechecking.loadedLibraries.put(libName,loadedTLL);
+				if (isView) {
+/*					QualifiedName usedLib=new QualifiedName();
+					usedLib.add(libName);
+					usedLib.setIsExternType(true);
+					usedLib.setIsModelType(true);
+					usedLib.setExternMangledName(loadedTLL.getMangle());
+					usedLib.setExternCompleteName(loadedTLL.getPackageName()+'.'+usedLib.getExternMangledName());
+					usedLib.setExternLibMangledName(loadedTLL.getMangle());
+					usedLib.setExternLibCompleteName(loadedTLL.getPackageName()+usedLib.getExternLibMangledName());
+					usedLib.setDeclarationName(usedLib.getExternCompleteName()+"Interface");*/
+				} else if ((checkIsnotAnInheritedLib(loadedTLL.getName(),theLib))) {
+					QualifiedName usedLib=new QualifiedName();
+					usedLib.add(loadedTLL.getName());
+					usedLib.setIsExternType(true);
+					usedLib.setExternMangledName(loadedTLL.getMangle());
+					usedLib.setExternCompleteName(loadedTLL.getPackageName()+'.'+usedLib.getExternMangledName());
+					usedLib.setExternLibMangledName(loadedTLL.getMangle());
+					usedLib.setExternLibCompleteName(loadedTLL.getPackageName()+usedLib.getExternLibMangledName());
+					usedLib.setDeclarationName(usedLib.getExternCompleteName()+"Interface");
+					theLib.appendUsedLibs(usedLib);
+					}
 			}
 		}
 		return loadedTLL;
@@ -97,6 +135,11 @@ public class allReferedTypes {
 		{	ModelRef model=bmtlLib.getUsedModels(i);
 			if (model.getName().equals(typeName))
 				{	aType.setIsModelType(true);
+					QualifiedName met = new QualifiedName();
+					met.add("Standard");
+					met.add("ModelElement");
+					checkType(met, theLib);
+					aType.setDeclarationName(met.getDeclarationName());
 					return true;
 				}
 		}

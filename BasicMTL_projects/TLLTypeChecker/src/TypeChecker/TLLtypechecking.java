@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.5 2003-08-19 13:58:28 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.6 2003-08-21 20:20:43 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -114,9 +114,15 @@ public class TLLtypechecking {
 			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultUncheckedTLLPath+TLLName+tllSuffix);
 			//Prepare the KnownTypes Hashtable
 			KnownClasses knownClasses=new KnownClasses();
-			for (int i=0;i<theLib.cardClasses();i++)
-				knownClasses.put(theLib.getClasses(i).getName(),theLib.getClasses(i));				
 			theLib.setKnownTypes(knownClasses);
+			for (int i=0;i<theLib.cardClasses();i++) {
+				UserDefinedClass c = theLib.getClasses(i);
+				knownClasses.put(c.getName(),c);
+				QualifiedName qn = new QualifiedName();
+				qn.add(c.getName());
+				allReferedTypes.checkLocalClass(qn, c.getName(), theLib);
+				c.setQualifiedName(qn);
+			}
 			if (allReferedTypes.checkAllReferedTypes(theLib) ==0) {
 				if (inheritedSignatures.synthetizeInheritedSignatures(theLib)==0) {
 					java.util.Hashtable context=new java.util.Hashtable();

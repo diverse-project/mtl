@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.2 2003-08-08 15:49:26 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.3 2003-08-21 20:20:43 ffondeme Exp $
  * Created on 1 août 2003
  *
  */
@@ -23,16 +23,19 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 
 	public void OperationCallArgument(Object theOperationCall,Object arg,java.util.Map context) {}
 */
-	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context)
-	{	Expression theCaller=(Expression)expr;
-		if (theCaller.getClass().getName().equals("org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarCall"))
+/*	public void OperationCallCaller(Object theOperationCall,OperationCall node,Object expr, java.util.Map context)
+	{}*/
+
+	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context)
+	{	Expression theCaller=(Expression)ASTnode.getCaller();
+		if (theCaller instanceof org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarCall)
 			{	VarCall caller=(VarCall)theCaller;
 				if (caller.getModelEltVar())
-					((OperationCall)theOperationCall).setIsToInvoke(true);
+					ASTnode.setIsToInvoke(true);
 			}
+		if ((theCaller instanceof OperationCall) && ((OperationCall)theCaller).getIsToInvoke()) {
+			ASTnode.setIsToInvoke(true);
+		}
 	}
-
-/*	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context)
-	{}*/
 
 }
