@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/SimpleUML/src"
+    editDirectory="/SimpleUML.edit/src" editorDirectory="/SimpleUML.editor/src" modelPluginID="SimpleUML"
+    runtimeJar="true" modelName="SimpleUML" editPluginClass="SimpleUML.provider.SimpleUMLEditPlugin"
+    editorPluginClass="SimpleUML.presentation.SimpleUMLEditorPlugin" runtimeCompatibility="false">
+  <genPackages prefix="SimpleUML" ecorePackage="SimpleUML.ecore#/">
+    <genClasses ecoreClass="SimpleUML.ecore#//ModelElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleUML.ecore#//ModelElement/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleUML.ecore#//ModelElement/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//ModelElement/simpleUmlMM"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleUML.ecore#//Classifier">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Classifier/typed"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleUML.ecore#//Class">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleUML.ecore#//Class/attribute"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Class/forward"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Class/backward"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleUML.ecore#//PrimitiveDataType"/>
+    <genClasses ecoreClass="SimpleUML.ecore#//Attribute">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Attribute/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Attribute/owner"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleUML.ecore#//Association">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Association/source"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleUML.ecore#//Association/destination"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleUML.ecore#//SimpleUmlMM">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleUML.ecore#//SimpleUmlMM/modelElement"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
