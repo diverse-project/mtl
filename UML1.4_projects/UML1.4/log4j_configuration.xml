@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/UML1.4_projects/UML1.4/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2003-09-08 09:02:59 $ -->
-<!-- $Author: ffondeme $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2003-09-19 07:09:12 $ -->
+<!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
@@ -24,19 +24,18 @@
   <logger name="BMTLParser">
     <level value="DEBUG"/>
   </logger>
-
+  <logger name="BMTLAntlr2TLLJava">
+    <level value="DEBUG"/>
+  </logger>
+  <logger name="BMTLTLLTypeChecker">
+    <level value="WARN"/>
+  </logger>
   <logger name="MDRDriverTest">
     <level value="DEBUG"/>
   </logger>
-
   <logger name="MDRDriver">
     <level value="DEBUG"/>
   </logger>
-
-  <logger name="BMTLCompiler">
-    <level value="INFO"/>
-  </logger>
-
   <root>
     <level value="WARN"/>
     <appender-ref ref="STDOUT"/>
