@@ -1,0 +1,130 @@
+/**
+ * $Id $
+ *
+ *	This abstract library defines the view the transformation will use
+ *
+ * version written for BasicMtl 1.1
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
+ * 
+ * Last modification by : $Author $
+ * Authors : dvojtise
+ *
+ */
+ 
+// the difference with the SimpleUML MM is that every attributes and associations 
+ // are acessible only through automatic accessors. 
+ // so the adaptor car specialize the action by specializing the corresponding accessors
+ 
+ // 
+ // different type of views :
+ // read only
+ // read/write :
+  
+library  SimpleUML_view;  // read/write view
+
+
+// model level methods
+// model checking
+isValid() : Standard::Booleean
+{ 	// ask to a simple visitor to call all ModelElements IsValid()
+	// TO DO
+}
+
+ 
+class ModelElement
+{
+	/* Members */
+	kind : Standard::string;
+	name : Standard::string;  
+	
+	/* Associations */
+	// NONE	
+	
+	// model checking : verify the properties/contracts that any model element should verify
+	// a property is a set of conditions which may be interrresting at the user level : 
+	// ie. we can produce a message saying this contract is respected or not
+	// depending on how we will organize the contracts we will be able to get
+	// - valid/non valid answers
+	// - one or several contracts that succeed or fails
+	// - for a part or the whole model. (depending whether it stop before the end or not)
+	isValid()  : Standard::Boolean
+	{
+	}
+}
+
+class Classifier extends ModelElement
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	Attribute : Standard::Set;
+	owner : Standard::Set;
+	
+	// model checking : verify the properties that any model element should verify
+	isValid() : Standard::Boolean
+	{
+		oclAsType(ModelElement).isValid();
+		// must have a name
+		// TO DO	
+	}
+}
+
+class Class extends Classifier
+{
+	/* Members */
+	// NONE
+	/* Associations */	
+	attribute : Standard::Set;
+	forward : Standard::Set;		
+	reverse : Standard::Set;
+	
+	// model checking : verify the properties that any model element should verify
+	isValid() : Standard::Boolean
+	{
+		// must have a name
+		// TO DO
+		// name must be unique within the view
+		// TO DO
+	}
+}
+
+class Attribute extends ModelElement
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	owner : Standard::Set;
+	type : Standard::Set;
+
+	// model checking : verify the properties that any Attribute should verify
+	isValid() : Standard::Boolean
+	{
+		// must be owned by one and only one Class
+		// TO DO
+		// must be typed by one and only one Classifier
+		// TO DO
+		// must have a name
+		// TO DO
+		// name must be unique within the the class
+		// TO DO
+	}
+}
+
+
+class PrimitiveDataType extends ModelElement
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	// NONE
+}
+
+class Association extends ModelElement
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	source : Standard::set;
+	destination : Standard::set;
+}
+
