@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>UML1.4</name>
+	<comment></comment>
+	<projects>
+		<project>BasicMTLRuntime</project>
+		<project>MDRDriver</project>
+		<project>MTDataTypes</project>
+		<project>RepositoryAPI</project>
+		<project>Utils</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>

@@ -1,0 +1,235 @@
+<!-- $Id: build.xml,v 1.1 2003-09-03 15:04:48 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="run UML14_Transformations" basedir=".">
+	<description>
+        Sample Build file for using the BasicMTL compiler
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="transformations"/>
+	<property name="base" location="."/>
+	<property name="bin" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="MTLcompiler.jar.path" location="../BasicMtl2Java/dist/bin"/>
+	<property name="MTLcompiler.Runtime.path" location="../BasicMtl2Java/dist/Runtime"/>
+	
+	<!-- classpath for compiling and running MTL file -->
+	<path id="MTLcompiler.class.path">
+    	<pathelement path="${java.class.path}/"/>
+    	<pathelement path="."/>
+    	<pathelement path="${MTLcompiler.jar.path}\MTDataTypes.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\BasicMTLRuntime.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\RepositoryAPI.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\MDRDriver.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\Utils.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\Thirdparty\ANTLR\antlrfull.jar"/>
+    	<pathelement path="${MTLcompiler.jar.path}\Thirdparty\log4j\log4j.jar"/>
+    <!--	<pathelement path="${MTLcompiler.jar.path}\bin"/> -->
+  	</path>
+	
+	
+	<!-- tools -->
+	<property name="ANTLR2TLL" location="${MTLcompiler.jar.path}/TLLTypeChecker.jar"/>
+	<property name="CodeGenerator" location="${MTLcompiler.jar.path}/BasicMtlJavaCodeGenerator.jar"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/UncheckedTLL"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="clean" depends="clean test1, clean Standard, clean MDRDriver"
+        description="clean up " >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+  	</target>
+  	
+  	<target name="clean test1"
+        description="clean up test1" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/test1"/>    
+    	<delete file="${build}/src/TLL/aLibrary.tll"/>
+    	<delete file="${build}/src/TLL/AnotherLibrary.tll"/>    
+    	<delete file="${build}/src/UncheckedTLL/aLibrary.tll"/>
+    	<delete file="${build}/src/UncheckedTLL/AnotherLibrary.tll"/>
+  	</target>
+  	
+  	
+  	
+  	<target name="clean Standard"
+        description="clean up Standard lib" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/Standard"/>    
+    	<delete dir="${build}/src/UncheckedTLL/Standard.tll"/>
+    	<delete dir="${build}/src/TLL/Standard.tll"/>    
+  	</target>  	
+	<target name="clean MDRDriver"
+        description="clean up MDRDriver" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/MDRDriver"/>    
+    	<delete file="${build}/src/UncheckedTLL/MDRDriver.tll"/> 
+    	<delete file="${build}/src/TLL/MDRDriver.tll"/> 
+  	</target>
+  	
+  	
+  	<!-- transformations -->  	
+  	<target name="generate_UML14_transformations" depends="init,generate_UML14_Transformations">  	
+  		<description>
+  			generate the java code for transformations
+  		</description>
+  	</target>
+  	<target name="generate_UML14_Transformations" >
+  		<antcall target="Lazy_MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\UML14_Transformations.mtl" />  
+  			<param name="packagename" value="UML14_Transformations" /> 
+  			<param name="libname" value="UML14_Transformations" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_UML14_Transformations_generated_code" 
+  			depends="compile Standard and MDRDriver, generate_UML14_Transformations">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java/UML14_Transformations" 
+    	    destdir="${bin}"
+   			debug="true">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  	</target>
+  	<target name="run UML14_Transformations" depends="compile_UML14_Transformations_generated_code">
+  		<description>
+  			run the generated Java Code
+  		</description>
+  		<java classname="UML14_Transformations.BMTLLib_UML14_5fTransformations" fork="true">
+  			<arg value="-v"/>
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<pathelement path="${bin}/UML1.4_Transformations"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</java>
+  	</target>
+  	
+  	
+  	<!-- all the folowing may be put in another build file ...? -->
+  	
+  	
+  	<!-- compile Standard and repositoryDriver --> 
+  	<target name="init Standard and repositoryDriver">
+  		<mkdir dir="${bin}"/>
+  		<mkdir dir="${bin}/Standard"/>
+  		<mkdir dir="${bin}/RepositoryDriver"/>
+  		<mkdir dir="${bin}/MDRDriver"/>
+  	</target>
+  	<target name="generate_Standard" depends="init Standard and repositoryDriver">
+  		<antcall target="Lazy_MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${MTLcompiler.Runtime.path}\src\lang\src\Standard.mtl" /> 
+  			<param name="packagename" value="Standard" /> 
+  			<param name="libname" value="Standard" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_Standard_generated_code" depends="generate_Standard, compile MDRRepositoryModelManager">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java" 
+    	    destdir="${bin}"
+   			debug="true">
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</javac>
+  	</target>
+  	<target name="generate_MDRDriver" depends="generate_Standard">
+  		<antcall target="Lazy_MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${MTLcompiler.Runtime.path}\src\\RepositoryDriver\MDRDriver.mtl" /> 
+  			<param name="packagename" value="MDRDriver" /> 
+  			<param name="libname" value="MDRDriver" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile MDRRepositoryModelManager">  		  		
+  		<javac srcdir="${MTLcompiler.Runtime.path}\src" 
+    	    destdir="${bin}"
+   			debug="true">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  	</target>
+  	<target name="compile_MDRDriver_generated_code" depends="generate_MDRDriver,compile_Standard_generated_code">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java" 
+    	    destdir="${bin}"
+   			debug="true">
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</javac>
+  	</target>
+  	<target name="compile Standard and MDRDriver" depends="compile_MDRDriver_generated_code, compile MDRRepositoryModelManager">
+  		
+  	</target>
+  	
+  	<!-- generic tasks -->
+  	<target name="MTL2TLL" depends="init" unless="MTL2TLL.${libname}.notRequired"
+  	 	description="generic target mtl to a TLL">
+  	 	<echo>${libname}</echo>
+  	 	<!-- <echo> java -jar ${ANTLR2TLL} ${mtlsrcfile} -TLLPath ${build}/src/ -PackageName ${packagename}</echo>	 	-->
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${mtlsrcfile}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="${packagename}"/> 
+       </java> 
+	</target>
+  	<target name="TLL2Javacode" depends="MTL2TLL" unless="TLL2Javacode.${libname}.notRequired">
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>
+  	 	<echo>${libname}</echo>
+  		<mkdir dir="${build}\src\java\${packagename}"/>
+  		<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${libname}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/${packagename}/"/> 
+       </java>
+  	</target>
+  	
+  	<target name="MTL2Java" depends="TLL2Javacode" > 
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>  		
+  	</target>  	
+  	<!-- this a a lazy version that do not generate java file if not needed -->
+  	<target name="Lazy_MTL2Java" > 
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>  
+  		<uptodate property="TLL2Javacode.${libname}.notRequired" srcfile="${mtlsrcfile}" targetfile="${build}/src/TLL/${libname}.tll"/>
+  		<uptodate property="MTL2TLL.${libname}.notRequired" srcfile="${mtlsrcfile}" targetfile="${build}/src/UncheckedTLL/${libname}.tll"/>
+  	  		 		
+  		<antcall target="TLL2Javacode"/>
+  	</target>
+  	
+
+</project>

@@ -1,0 +1,8 @@
+<project name="poseidon import export" default="extract" basedir=".">
+	<description>
+        target for import export of poseidon files
+	</description>
+	<target name="extract">
+		<unzip src="testposeidon.zargo" dest="."/>
+	</target>
+</project>
