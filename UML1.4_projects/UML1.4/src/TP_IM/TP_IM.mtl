@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: TP_IM.mtl,v 1.4 2003-12-01 17:00:43 dvojtise Exp $
+ * $Id: TP_IM.mtl,v 1.5 2003-12-16 11:19:14 dvojtise Exp $
  * 
  *
  ******************************************************************************/
@@ -30,8 +30,8 @@ main() : Standard::Void
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
 	// inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
 	// outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
-	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/testmodel.xmi');
-	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/testmodel_modified.xmi');
+	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/tp_im2.xmi');
+	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/tp_im2_modified.xmi');
 
 
 
