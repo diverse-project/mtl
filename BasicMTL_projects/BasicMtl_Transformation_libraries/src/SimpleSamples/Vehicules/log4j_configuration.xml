@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleSamples/vehicules_Inheritance/log4j_configuration.xml,v $ -->
+<!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleSamples/Vehicules/log4j_configuration.xml,v $ -->
 <!-- $Revision: 1.1 $ -->
-<!-- $Date: 2003-08-06 15:47:33 $ -->
+<!-- $Date: 2003-08-08 16:43:08 $ -->
 <!-- $Author: jpthibau $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">

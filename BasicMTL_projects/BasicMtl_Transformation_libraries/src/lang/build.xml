@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-08 15:22:27 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-08 16:43:10 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -29,7 +29,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Vehicule"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Vehicule"/> 
        </java>
  
 	</target>
@@ -60,7 +60,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Aquatique"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Aquatique"/> 
        </java>
  
 	</target>
@@ -91,7 +91,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Terrestre"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Terrestre"/> 
        </java>
  
 	</target>
@@ -122,7 +122,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Amphibie"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Amphibie"/> 
        </java>
  
 	</target>
@@ -153,7 +153,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Amphibieherite"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Amphibieherite"/> 
        </java>
  
 	</target>
@@ -184,7 +184,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Caracteristiques"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Caracteristiques"/> 
        </java>
  
 	</target>
@@ -215,7 +215,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.vehicules_Inheritance.bin.Testvehicules"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.src.java.Testvehicules"/> 
        </java>
  
 	</target>
