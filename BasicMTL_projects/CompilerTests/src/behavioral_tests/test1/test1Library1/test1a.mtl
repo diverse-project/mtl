@@ -1,0 +1,323 @@
+// $Id $
+// This file is intend to verify various constructs that should work with the parser
+// this is a simple test approach, a better way should be to create various files and use them separately with junit
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library test1Library1;
+
+model aModel1;
+model aModel2 : test1Library2;
+
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{
+	aString 		: Standard::String;
+	anotherString 	: Standard::String;
+	anInteger 		: Standard::Integer;
+	aClass1			: TestClass1;
+	
+	
+	// aLogger : SimpleLogger;	
+	// aLogger := new SimpleLogger();
+	// aLogger.log('begin main():Standard::Void');
+	// aLogger.log('end   main():Standard::Void');
+	'begin main():Standard::Void'.toOut();
+	
+	// test the lib operation call
+	aLibMethod1();
+	aLibMethod2('aParameterString').toOut();
+	aLibMethod3(2).toOut();
+	aLibMethod4('aParameterString','anotherParameterString',2);
+	aString := 'aString';
+	anotherString := 'anotherString';
+	anInteger := 10;
+	aString.toOut();
+	anotherString.toOut();
+	anInteger.toOut();
+	aLibMethod2(aString).toOut();
+	aLibMethod3(anInteger).toOut();
+	aLibMethod4(aString,anotherString,anInteger);
+	aString.toOut();
+	anotherString.toOut();
+	anInteger.toOut();
+	
+	aClass1 := new TestClass1();
+	aClass1.verifyBug151();
+	
+	
+	'end   main():Standard::Void'.toOut();
+}
+
+// constructor library methods
+//----------------------------
+/*
+creation myConstructor1()
+{
+}
+
+creation myConstructor2(aString : Standard::String)
+{
+}
+
+creation myConstructor3(aModel : Model)
+{
+}
+
+creation myConstructor4(aString : Standard::String; aModel : aModel)
+{
+}
+
+creation myConstructor5(aString,anotherString : Standard::String; aModel : Model)
+{
+}
+*/
+// other library methods
+//----------------------------
+
+aLibMethod1()
+{
+	'begin aLibMethod1()'.toOut();	
+	'end   aLibMethod1()'.toOut();
+}
+
+
+aLibMethod2(aString : Standard::String) : Standard::String
+{	
+	'begin aLibMethod2(aString : Standard::String) : Standard::String'.toOut();
+	aString.toOut();
+	'end   aLibMethod2(aString : Standard::String) : Standard::String'.toOut();
+	return aString;		
+}
+
+aLibMethod3(anInteger : Standard::Integer) : Standard::Integer
+{
+	'begin aLibMethod3(anInteger : Standard::Integer) : Standard::Integer'.toOut();
+	anInteger.toOut();
+	'end   aLibMethod3(anInteger : Standard::Integer) : Standard::Integer'.toOut();
+	return anInteger;
+}
+
+aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer) 
+{
+	'begin aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)'.toOut();
+	aString.toOut();
+	anotherString.toOut();
+	anInteger.toOut();
+	aString := aString.concat('_changed');
+	anotherString := anotherString.concat('_changed');
+	anInteger := anInteger.[+](1);
+	aString.toOut();
+	anotherString.toOut();
+	anInteger.toOut();
+	'end   aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)'.toOut();
+}
+
+/*
+class SimpleLogger
+{
+ logString : Standard::String;
+ log(aMessage : Standard::String)
+ {
+ 	logString := logString.concat(aMessage);
+ } 
+}
+*/
+// Class definitions
+class TestClass1
+{
+
+	// class members
+	aMemberString : Standard::String;
+	aMemberInt1, aMemberInt2 :Standard::Integer;
+
+
+	// Class constructor
+	/*
+	creation make()
+	{
+	}
+	
+	creation make2(aString : Standard::String)
+	{
+	}
+	*/
+	aClassMethod1()
+	{	
+		
+		
+	}
+	
+	verifyBug151()
+	{
+		aString : Standard::String;
+		
+		'hop'.concat(aString);	// string is null but concat shouldn't fail
+		aString := 'hop2';
+		aString.concat(null);	// concat shouldn't fail
+		'Bug151 checked'.toOut();
+	}
+	
+/*	
+	aClassMethod2(aString : Standard::String) : Standard::String
+	{
+		return '';
+	}
+	
+	aClassMethod3(anInteger : Standard::Integer) : Standard::Integer
+	{
+		return 1;
+	}
+*/	
+	aClassMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer) 
+	{
+	}
+	
+}
+
+
+// expression test 
+
+methodWithLocal()
+{
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	aInt1 := 1;
+	
+	aBool1 := true;
+	
+}
+
+methodWithIf()
+{
+
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	aBool1:= true;
+	if aBool1
+	{		
+		aInt1 := 1;	
+	}
+	
+	if aBool1
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+/*	
+	if aBool1.[=](aBool2)
+	{
+		aInt1 := 1;
+	}
+	
+	if aBool1.[=](aBool2)
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+	
+	if aBool1.[=](aBool2).[not]()
+	{
+		aInt1 := 1;
+	}
+	
+	if aBool1.[=](aBool2).[not]()
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+*/	
+}
+
+methodWithWhile()
+{
+/*
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	aBool1 := true;
+	aBool2 := true;
+	
+	while aBool1
+	{
+		aBool1 := false;
+	}
+	
+	aBool1 := true;
+	while aBool1.[=](aBool2)
+	{
+		aBool1 := false;
+	}
+*/	
+}
+
+methodWithException()
+{
+/*
+	aBool1, aBool2 : Standard::Boolean;
+	
+
+	try 
+	{
+		aBool1 := false;
+		throws new Standard::Exception();
+	}
+		catch anException : Standard::Exception
+		{
+			aBool1 := true;		
+		}
+	}
+
+	try 
+	{
+		aBool1 := false;
+		throws new Standard::Exception();
+	}
+	catch anException : Standard::Exception
+	{
+			aBool1 := true;		
+	}
+	finally
+	{
+			aBool1 := false;
+	}
+	}
+	*/
+}
+
+methodWithAssociate()
+{
+/*
+	associate (column := aColumn : Column, belongsTo := aKey : Key);
+	// other syntax : (because the is enough information)
+	associate (aColumn, aKey);
+	associate (aColumn : Column, aKey : Key);
+	associate (column := aColumn, belongsTo := aKey);
+	*/
+}
+
+
+methodWithDissociate()
+{
+}
+

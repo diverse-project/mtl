@@ -1,0 +1,22 @@
+// $Id $
+// This file is intend to verify various constructs that should work with the parser
+// this is a simple test approach, a better way should be to create various files and use them separately with junit
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library test1Library2;
+
+
+aLibMethod1() : Standard::Void 
+{
+}
+
+
+class aClass2 {
+vitessemaxi:Standard::Integer;
+passagers:Standard::Integer;
+
+
+}
+
