@@ -1,6 +1,6 @@
 library SimpleUMLAdapterUsage;
 
-model SIMPLEUML : RepositoryModel;
+model MYMOF : RepositoryModel;
 model adapter    : MOFSimpleUMLAdapter;
 
 main() : Standard::Void
@@ -8,13 +8,14 @@ main() : Standard::Void
 	// local variables
 
 	adapter         : MOFSimpleUMLAdapter::AdapterModelManager;
+	SIMPLEUML		: Standard::RepositoryAPI;
     projectPath       : Standard::String;
 	inputFilename     : Standard::String;
 	outputFilename    : Standard::String;
-	test : Test1;
+	test : Test2;
 
 	// we define some filenames 
-	projectPath       := './';
+	projectPath       := '';
 	inputFilename     := projectPath.concat ('models/UML_model.xmi');
 	outputFilename    := projectPath.concat ('models/UML_model_MODIFIED.xmi');
 
@@ -28,7 +29,7 @@ main() : Standard::Void
 		outputFilename
 	);
 
-	test := new Test1 ();
+	test := new Test2 ();
 	test.run(SIMPLEUML);
 
 	'End of test !'.toOut();
@@ -38,23 +39,37 @@ main() : Standard::Void
 //
 //////////////////////////////////////////////////////////////////////
 
-class Test1
+class Test2
 {
 	/** */
-	run (SIMPLEUML : RepositoryModel)
+	run ( SIMPLEUML : RepositoryModel)
 	{
 		iterator : Standard::Iterator;
-		aClass : MOFSimpleUMLAdapter::SimpleUMLClass;
+		anAssoc : MYMOF::Model::AssociationEnd;
 		instances : Standard::Set;
+		associationEndType : Standard::OclType;
 
+		MYMOF := SIMPLEUML;
 		'allInstances'.toOut();
-		instances := !SIMPLEUML::SimpleUMLClass!.allInstances();
+		instances := !MYMOF::Model::AssociationEnd!.allInstances();
 		'allInstances passed'.toOut();
 		iterator := instances.getNewIterator();
 		while iterator.isOn() {
-			aClass := iterator.item();
-			aClass.name.toOut();
+			anAssoc := iterator.item();
+			anAssoc.toOut();
 			iterator.next();
 		}
+		'NOW working with SIMPLEUML repository variable'.toOut();
+		associationEndType := SIMPLEUML.getTypeFromName('Model::AssociationEnd');
+		instances :=associationEndType.allInstances();
+		iterator := instances.getNewIterator();
+		while iterator.isOn() {
+			anAssoc := iterator.item();
+			anAssoc.toOut();
+			iterator.next();
+		}
+		'allInstances passed'.toOut();
+		anAssoc := SIMPLEUML.instanciate(SIMPLEUML.getTypeFromName('Model::AssociationEnd'));
+		anAssoc.toOut();
 	}
 }

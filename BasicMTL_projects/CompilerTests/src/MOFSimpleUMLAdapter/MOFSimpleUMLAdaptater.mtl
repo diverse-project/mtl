@@ -49,12 +49,13 @@ class AdapterModelManager {
 
 	getModel(modelName:Standard::String;
 			inputFilename:Standard::String;
-			outputFilename    : Standard::String) : RepositoryModel {
+			outputFilename    : Standard::String) : Standard::RepositoryAPI {
     projectPath       : Standard::String;
 	metamodelFilename : Standard::String;
+	test : Test1;
 
 	// we define some filenames 
-	projectPath       := './';
+	projectPath       := '';
 	metamodelFilename := projectPath.concat ('metamodels/MOF_metamodel.xmi');
     // we initialize the MDR driver			
 	mdrdriver := new MDRDriver::MDRModelManager();
@@ -65,7 +66,9 @@ class AdapterModelManager {
 		modelName, 
 		inputFilename,
 		outputFilename);
-	return MOF;//.oclAsType();
+	test := new Test1 ();
+	test.run();
+	return MOF.oclAsType(!Standard::RepositoryAPI!);
 	}
 }
 
@@ -116,6 +119,31 @@ visitTag(instance : Standard::OclAny; context : Standard::OclAny) : Standard::Oc
 }
 
 }*/
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+
+class Test1
+{
+	/** */
+	run ()
+	{
+		iterator : Standard::Iterator;
+		anAssoc : MOF::Model::AssociationEnd;
+		instances : Standard::Set;
+
+		'allInstances'.toOut();
+		instances := !MOF::Model::AssociationEnd!.allInstances();
+		'allInstances passed'.toOut();
+		iterator := instances.getNewIterator();
+		while iterator.isOn() {
+			anAssoc := iterator.item();
+			anAssoc.toOut();
+			iterator.next();
+		}
+		anAssoc := new MOF::Model::AssociationEnd();
+	}
+}
 
 	
 		

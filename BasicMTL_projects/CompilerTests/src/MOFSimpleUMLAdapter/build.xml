@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2004-10-25 09:10:34 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-11-02 09:41:26 jpthibau Exp $ -->
 <project name="MOFSimpleUMLAdapter" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -19,7 +19,7 @@
 	
 	<path id="current.class.path">
 	  	<pathelement path="${MTLcompiler.Runtime}"/>
-		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+		<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -30,7 +30,7 @@
 	<!-- set sample properties for this build -->
 	<property name="Sample src Folder" value="${src}/"/>
 	<property name="Sample Package" value="MOFSimpleUMLAdapter"/>
-	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${builtsrc}/TLL/;${MDRDriver.path}/build/TLL/;${builtsrc}/TLL/"/>
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/dist/Runtime/src/TLL/;${MDRDriver.path}/build/TLL/;${builtsrc}/TLL/"/>
 	<property name="Sample built src" value="${builtsrc}/MOFSimpleUMLAdapter/"/>
 
 	<!-- ************************************************ -->
@@ -93,7 +93,13 @@
 		<classpath>
 			<pathelement path="${builtbin}/"/>
 			<pathelement path="${MTLcompiler.Runtime}"/>
-			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mof.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/nbmdr.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mdrapi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/openide-lookup.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmiutils.jar"/>
   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
