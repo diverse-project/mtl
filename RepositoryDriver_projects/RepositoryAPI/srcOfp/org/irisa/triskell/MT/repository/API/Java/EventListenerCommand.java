@@ -6,6 +6,6 @@ import java.lang.*;
 public interface EventListenerCommand 
 {
 
-     void update(
+     void execute(
         org.irisa.triskell.MT.repository.API.Java.Event event);
 }

@@ -7,4 +7,6 @@ public interface InstanceEvent
 {
 
      org.irisa.triskell.MT.repository.API.Java.InstanceEventKind getKind();
+
+     org.irisa.triskell.MT.DataTypes.Java.Value getInstance();
 }
