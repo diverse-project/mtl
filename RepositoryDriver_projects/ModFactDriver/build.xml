@@ -1,145 +1,244 @@
-<!-- $Id: build.xml,v 1.3 2004-10-13 14:31:59 jpthibau Exp $ -->
-<!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
-<project name="ModFactDriver" default="dist" basedir=".">
-	<description>
-        An adaptor of the RepositoryAPI API to the MDR tool.
-	</description>
-	<!-- set global properties for this build -->
-	<property name="modfact"  location="ThirdParty/ModFact/v1_0_0"/>
-	<property name="src" location="src"/>
-	<property name="bin" location="bin"/>
-	<property name="dist"  location="dist"/>
-	<property name="modfact.jars.src"  location="${modfact}/JMI1_0.jar;${modfact}/ModFactJmi.jar;${modfact}/ow_monolog.jar;${modfact}/ow_utils_commandline.jar;"/>
-	<property name="modfact.jars.dest"  location="${dist}/bin/JMI1_0.jar;${dist}/bin/ModFactJmi.jar;${dist}/bin/ow_monolog.jar;${dist}/bin/ow_utils_commandline.jar;"/>
-	
-	<!-- This project depends on the RepositoryAPI project -->
-	<property name="RepositoryAPI"  location="..\RepositoryAPI"/>
-	<!-- This project deeply depends on the MTDataTypes and Utils project -->
-	<property name="MTDataTypes"  location="..\MTDataTypes"/>
-	<property name="Utils"  location="..\Utils"/>
-	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
-	<property name="ANTLR2JavaCode" location="..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
-	<property name="BasicMtlTLLs" location="..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.inria.ModFactDriver" default="build.jars" basedir=".">
 
-	<target name="init">
-    	<!-- Create the time stamp -->
-    	<tstamp/>
-	    <!-- Create the build directory structure used by compile -->
-	    <mkdir dir="${bin}"/>
-	    <mkdir dir="${dist}"/>
-	    <mkdir dir="${dist}/bin"/>
-	    
-	    <!-- This project depends on the RepositoryAPI project -->
-<!--	    <echo>Building the "RepositoryAPI" project.</echo>
-	    <ant antfile="${RepositoryAPI}\build.xml" dir="${RepositoryAPI}" target="dist" inheritAll="false"/>
-	    <echo>"RepositoryAPI" project built.</echo> -->
+	<property name="bootclasspath" value=""/>
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="true"/>
+	<property name="javacSource" value="1.3"/>
+	<property name="javacTarget" value="1.2"/>
+	<property name="compilerArg" value=""/>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/ModFactDriver">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
 	</target>
-	<target name="compile_mtl" depends="init"
-        description="compile the mtl driver manager" >
- 		<java jar="${ANTLR2JavaCode}" 
-						fork="true"
-	           			failonerror="true">
-		         <arg value="${src}/ModelManager/ModFact/"/>
-	         	<arg value="-TLLLoadingPaths"/>
-		         <arg value="${BasicMtlTLLs}/"/>  
-	         	<arg value="-TLLPath"/> 
-	         	<arg value="${src}/ModelManager/TLL/"/>  
-		         <arg value="-PackageName"/> 
-		         <arg value="ModFactDriver"/> 
-		         <arg value="-BinPath"/> 
-		         <arg value="${src}/ModelManager/ModFact/"/> 
-	       	</java>
-		</target>
-	<target name="compile_java" depends="compile_mtl"
-        description="compile the source " >
-    	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
-<!--	    <javac srcdir="${src}"
-    	    destdir="${bin}"
-   			classpath=".;${modfact.jars.src};${RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;${Utils}\ThirdParty\junit\junit.jar;${Utils}\ThirdParty\log4j\log4j.jar"
-   			debug="true"/> -->
-	    <javac srcdir="${src}"
-    	    destdir="${bin}"
-   			classpath=".;${modfact.jars.src};${BasicMtlRuntime}\runtime.jar;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
-   			debug="true"/>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
 	</target>
-  	<target name="full_javadoc" 
-  		description="create a full javadoc document that describes all the classes of the project">
-	    <javadoc destdir="docs\javadoc" access="private" use="true"
-            notree="false" nonavbar="false" noindex="false"
-            splitindex="true" author="true" version="true"
-            nodeprecatedlist="false" nodeprecated="false"
-            sourcepath="src"
-            classpath="bin;${modfact.jars.src};{RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
-            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
-            <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
-        </javadoc>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: org.inria.ModFactDriver for an update site.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<zip zipfile="${plugin.destination}/org.inria.ModFactDriver_0.0.1.jar" basedir="${temp.folder}/org.inria.ModFactDriver_0.0.1" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
 	</target>
-	<target name="create_jar" depends="compile_java"
-		description="create the jar file">
-		<jar destfile="${dist}/bin/${ant.project.name}.jar">
-			<!-- files to include in the jar -->
-			<fileset dir="${bin}"/>
-			<!-- manifest to include -->
-		    <manifest>
-		    	<attribute name="Built-By" value="${user.name}"/>  
-				<attribute name="Class-Path" value="RepositoryAPI.jar MTDataTypes.jar Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar ThirdParty/ModFact/v1_0_0/ow_monolog.jar ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar "/>
-		    	<section name="${ant.project.name}">
-		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
-      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
-      				<attribute name="Specification-Vendor" value="ObjectWeb/ModFact"/>
-      				<attribute name="Implementation-Title" value="common"/>
-      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
-      				<attribute name="Implementation-Vendor" value="ObjectWeb/ModFact"/>
-    			</section>
-		    </manifest>
-		</jar>
-	</target>
-	<target name="dist" depends="create_jar"
-		description="create a distibution">
-		<mkdir dir="${dist}"/>
-		<!-- This project depends on the RepositoryAPI project -->
-		<copy todir="${dist}/bin">
-			<fileset dir="${RepositoryAPI}\dist\bin"/>
-		</copy>
-		
-		
-		<copy todir="${dist}/bin/ThirdParty/ModFact/v1_0_0">
-			<fileset dir="${modfact}"/>
-		</copy>
-		<copy todir="${dist}/bin/ThirdParty/ModFact/Test/models">
-			<fileset dir="ThirdParty/ModFact/Test/models"/>
-		</copy>
-	    <copy file="log4j_configuration.xml"
-	    	todir="${dist}/bin/"
-	    	overwrite="true"/>
-	    	
-	    	
-		<mkdir dir="${dist}/test"/>
-	    <!--<junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="false">
-	    	<classpath>
-			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
-			    <pathelement location="${dist}/bin/RepositoryAPI.jar"/>
-			    <pathelement location="${dist}/bin/MTDataTypes.jar"/>
-			    <pathelement location="${dist}/bin/Utils.jar"/>
-			    <pathelement path="${modfact.jars.dest}"/>
-			    <pathelement path="${classpath}"/>
+
+	<target name="lib/ModFactDriver.jar" depends="init" unless="lib/ModFactDriver.jar" description="Create jar: lib/ModFactDriver.jar.">
+		<delete dir="${temp.folder}/lib/ModFactDriver.jar.bin"/>
+		<mkdir dir="${temp.folder}/lib/ModFactDriver.jar.bin"/>
+		<!-- compile the source code -->
+		<javac destdir="${temp.folder}/lib/ModFactDriver.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
+			<compilerarg line="${compilerArg}"/>
+			<classpath>
+				<pathelement path="../org.inria.BasicMTL.runtime/bin"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmiutils.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mdrapi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mof.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/openide-lookup.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
+				<pathelement path="../../plugins/org.eclipse.core.runtime_3.0.0/runtime.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/core.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/console.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/osgi.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/resolver.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/defaultAdaptor.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/eclipseAdaptor.jar"/>
+				<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="../../plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/antlr.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="bin/"/>
 			</classpath>
-			<formatter type="plain"/>
-	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.repository.ModFact.Java.Test.JUnitAdapter"/>
-	    </junit>-->
-		<delete dir="${dist}/bin/ThirdParty/ModFact/Test"/>
+			<src path="build/src/java/"			/>
+			<src path="src/java/"			/>
+			</javac>
+		<!-- Copy necessary resources -->
+		<copy todir="${temp.folder}/lib/ModFactDriver.jar.bin" failonerror="true">
+			<fileset dir="build/src/java/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="src/java/" excludes="**/*.java, **/package.htm*"			/>
+		</copy>
+		<mkdir dir="${build.result.folder}/lib"/>
+		<jar jarfile="${build.result.folder}/lib/ModFactDriver.jar" basedir="${temp.folder}/lib/ModFactDriver.jar.bin"/>
+		<delete dir="${temp.folder}/lib/ModFactDriver.jar.bin"/>
 	</target>
-  	<target name="clean"
-        description="clean up" >
-    	<!-- Delete the {$bin} and ${dist} directory trees -->
-    	<delete dir="${bin}"/>
-    	<delete dir="${dist}"/> 
-  	</target>
 
-  	<target name="deep_clean" depends="clean"
-        description="deep clean up (including depending projects)" >
-	    
-	    <!-- This project depends on the RepositoryAPI project -->
-	    <ant antfile="${RepositoryAPI}\build.xml" dir="${RepositoryAPI}" target="deep_clean" inheritAll="false"/>
-    </target>
+	<target name="lib/ModFactDriversrc.zip" depends="init" unless="lib/ModFactDriversrc.zip">
+		<mkdir dir="${build.result.folder}/lib"/>
+		<zip zipfile="${build.result.folder}/lib/ModFactDriversrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="build/src/java/" includes="**/*.java"			/>
+			<fileset dir="src/java/" includes="**/*.java"			/>
+		</zip>
+	</target>
+
+	<target name="ModFactDriver.jar" depends="init" unless="ModFactDriver.jar" description="Create jar: ModFactDriver.jar.">
+		<delete dir="${temp.folder}/ModFactDriver.jar.bin"/>
+		<mkdir dir="${temp.folder}/ModFactDriver.jar.bin"/>
+		<!-- compile the source code -->
+		<javac destdir="${temp.folder}/ModFactDriver.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
+			<compilerarg line="${compilerArg}"/>
+			<classpath>
+				<pathelement path="../org.inria.BasicMTL.runtime/bin"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmiutils.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mdrapi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mof.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/openide-lookup.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
+				<pathelement path="../../plugins/org.eclipse.core.runtime_3.0.0/runtime.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/core.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/console.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/osgi.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/resolver.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/defaultAdaptor.jar"/>
+				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/eclipseAdaptor.jar"/>
+				<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="../../plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
+				<pathelement path="${build.result.folder}/bin/"/>
+				<pathelement path="${build.result.folder}/lib/ModFactDriver.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/antlr.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="bin/"/>
+			</classpath>
+			<src path="build/src/java/"			/>
+			<src path="src/java/"			/>
+			</javac>
+		<!-- Copy necessary resources -->
+		<copy todir="${temp.folder}/ModFactDriver.jar.bin" failonerror="true">
+			<fileset dir="build/src/java/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="src/java/" excludes="**/*.java, **/package.htm*"			/>
+		</copy>
+		<mkdir dir="${build.result.folder}"/>
+		<jar jarfile="${build.result.folder}/ModFactDriver.jar" basedir="${temp.folder}/ModFactDriver.jar.bin"/>
+		<delete dir="${temp.folder}/ModFactDriver.jar.bin"/>
+	</target>
+
+	<target name="ModFactDriversrc.zip" depends="init" unless="ModFactDriversrc.zip">
+		<mkdir dir="${build.result.folder}"/>
+		<zip zipfile="${build.result.folder}/ModFactDriversrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="build/src/java/" includes="**/*.java"			/>
+			<fileset dir="src/java/" includes="**/*.java"			/>
+		</zip>
+	</target>
+
+	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.inria.ModFactDriver.">
+		<available property="lib/ModFactDriver.jar" file="${build.result.folder}/lib/ModFactDriver.jar"/>
+		<antcall target="lib/ModFactDriver.jar"/>
+		<available property="ModFactDriver.jar" file="${build.result.folder}/ModFactDriver.jar"/>
+		<antcall target="ModFactDriver.jar"/>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="lib/ModFactDriversrc.zip" file="${build.result.folder}/lib/ModFactDriversrc.zip"/>
+		<antcall target="lib/ModFactDriversrc.zip"/>
+		<available property="ModFactDriversrc.zip" file="${build.result.folder}/ModFactDriversrc.zip"/>
+		<antcall target="ModFactDriversrc.zip"/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1"/>
+		<copy todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1" failonerror="true">
+			<fileset dir="${build.result.folder}" includes="lib/ModFactDriver.jar,ModFactDriver.jar"			/>
+		</copy>
+		<copy todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1" failonerror="true">
+			<fileset dir="${basedir}" includes="lib/ModFactDriver.jar,plugin.xml,ThirdParty/ModFact/v1_0_0/,ModFactDriver.jar"			/>
+		</copy>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1/lib"/>
+		<copy file="${build.result.folder}/lib/ModFactDriversrc.zip" todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1/lib" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1"/>
+		<copy file="${build.result.folder}/ModFactDriversrc.zip" todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1" failonerror="false"/>
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1/lib"/>
+		<copy file="${temp.folder}/lib/ModFactDriver.jar.bin.log" todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1/lib" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1"/>
+		<copy file="${temp.folder}/ModFactDriver.jar.bin.log" todir="${destination.temp.folder}/org.inria.ModFactDriver_0.0.1" failonerror="false"/>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: org.inria.ModFactDriver of all the zips, jars and logs created.">
+		<delete file="${build.result.folder}/lib/ModFactDriver.jar"/>
+		<delete file="${build.result.folder}/lib/ModFactDriversrc.zip"/>
+		<delete file="${build.result.folder}/ModFactDriver.jar"/>
+		<delete file="${build.result.folder}/ModFactDriversrc.zip"/>
+		<delete file="${plugin.destination}/org.inria.ModFactDriver_0.0.1.jar"/>
+		<delete file="${plugin.destination}/org.inria.ModFactDriver_0.0.1.zip"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="C:/eclipse3.0/eclipse/workspace/ModFactDriver" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.inria.ModFactDriver.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
+		</delete>
+		<zip zipfile="${plugin.destination}/org.inria.ModFactDriver_0.0.1.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
 </project>

@@ -37,15 +37,15 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip zipfile="${plugin.destination}/org.inria.EMFDriver_0.0.3.jar" basedir="${temp.folder}/org.inria.EMFDriver_0.0.3" filesonly="false" whenempty="skip" update="false"/>
+		<zip zipfile="${plugin.destination}/org.inria.EMFDriver_0.0.4.jar" basedir="${temp.folder}/org.inria.EMFDriver_0.0.4" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
-	<target name="EMFDriver.jar" depends="init" unless="EMFDriver.jar" description="Create jar: EMFDriver.jar.">
-		<delete dir="${temp.folder}/EMFDriver.jar.bin"/>
-		<mkdir dir="${temp.folder}/EMFDriver.jar.bin"/>
+	<target name="lib/EMFDriver.jar" depends="init" unless="lib/EMFDriver.jar" description="Create jar: lib/EMFDriver.jar.">
+		<delete dir="${temp.folder}/lib/EMFDriver.jar.bin"/>
+		<mkdir dir="${temp.folder}/lib/EMFDriver.jar.bin"/>
 		<!-- compile the source code -->
-		<javac destdir="${temp.folder}/EMFDriver.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
+		<javac destdir="${temp.folder}/lib/EMFDriver.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
 			<compilerarg line="${compilerArg}"/>
 			<classpath>
 				<pathelement path="../../plugins/org.eclipse.ui_3.0.0/ui.jar"/>
@@ -91,47 +91,46 @@
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
-				<pathelement path="BasicMTLruntime.jar"/>
-				<pathelement path="log4j.jar"/>
+				<pathelement path="EMFDriver.jar"/>
 			</classpath>
-			<src path="src/"			/>
-			<src path="build/src/"			/>
+			<src path="src/java/"			/>
+			<src path="build/src/java/"			/>
 			</javac>
 		<!-- Copy necessary resources -->
-		<copy todir="${temp.folder}/EMFDriver.jar.bin" failonerror="true">
-			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
-			<fileset dir="build/src/" excludes="**/*.java, **/package.htm*"			/>
+		<copy todir="${temp.folder}/lib/EMFDriver.jar.bin" failonerror="true">
+			<fileset dir="src/java/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="build/src/java/" excludes="**/*.java, **/package.htm*"			/>
 		</copy>
-		<mkdir dir="${build.result.folder}"/>
-		<jar jarfile="${build.result.folder}/EMFDriver.jar" basedir="${temp.folder}/EMFDriver.jar.bin"/>
-		<delete dir="${temp.folder}/EMFDriver.jar.bin"/>
+		<mkdir dir="${build.result.folder}/lib"/>
+		<jar jarfile="${build.result.folder}/lib/EMFDriver.jar" basedir="${temp.folder}/lib/EMFDriver.jar.bin"/>
+		<delete dir="${temp.folder}/lib/EMFDriver.jar.bin"/>
 	</target>
 
-	<target name="EMFDriversrc.zip" depends="init" unless="EMFDriversrc.zip">
-		<mkdir dir="${build.result.folder}"/>
-		<zip zipfile="${build.result.folder}/EMFDriversrc.zip" filesonly="false" whenempty="skip" update="false">
-			<fileset dir="src/" includes="**/*.java"			/>
-			<fileset dir="build/src/" includes="**/*.java"			/>
+	<target name="lib/EMFDriversrc.zip" depends="init" unless="lib/EMFDriversrc.zip">
+		<mkdir dir="${build.result.folder}/lib"/>
+		<zip zipfile="${build.result.folder}/lib/EMFDriversrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/java/" includes="**/*.java"			/>
+			<fileset dir="build/src/java/" includes="**/*.java"			/>
 		</zip>
 	</target>
 
 	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.inria.EMFDriver.">
-		<available property="EMFDriver.jar" file="${build.result.folder}/EMFDriver.jar"/>
-		<antcall target="EMFDriver.jar"/>
+		<available property="lib/EMFDriver.jar" file="${build.result.folder}/lib/EMFDriver.jar"/>
+		<antcall target="lib/EMFDriver.jar"/>
 	</target>
 
 	<target name="build.sources" depends="init">
-		<available property="EMFDriversrc.zip" file="${build.result.folder}/EMFDriversrc.zip"/>
-		<antcall target="EMFDriversrc.zip"/>
+		<available property="lib/EMFDriversrc.zip" file="${build.result.folder}/lib/EMFDriversrc.zip"/>
+		<antcall target="lib/EMFDriversrc.zip"/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3"/>
-		<copy todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3" failonerror="true">
-			<fileset dir="${build.result.folder}" includes="EMFDriver.jar"			/>
+		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4"/>
+		<copy todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4" failonerror="true">
+			<fileset dir="${build.result.folder}" includes="lib/EMFDriver.jar"			/>
 		</copy>
-		<copy todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3" failonerror="true">
-			<fileset dir="${basedir}" includes="plugin.xml,EMFDriver.jar"			/>
+		<copy todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4" failonerror="true">
+			<fileset dir="${basedir}" includes="plugin.xml,lib/EMFDriver.jar"			/>
 		</copy>
 	</target>
 
@@ -139,25 +138,25 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3"/>
-		<copy file="${build.result.folder}/EMFDriversrc.zip" todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4/lib"/>
+		<copy file="${build.result.folder}/lib/EMFDriversrc.zip" todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4/lib" failonerror="false"/>
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3"/>
-		<copy file="${temp.folder}/EMFDriver.jar.bin.log" todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.3" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4/lib"/>
+		<copy file="${temp.folder}/lib/EMFDriver.jar.bin.log" todir="${destination.temp.folder}/org.inria.EMFDriver_0.0.4/lib" failonerror="false"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: org.inria.EMFDriver of all the zips, jars and logs created.">
-		<delete file="${build.result.folder}/EMFDriver.jar"/>
-		<delete file="${build.result.folder}/EMFDriversrc.zip"/>
-		<delete file="${plugin.destination}/org.inria.EMFDriver_0.0.3.jar"/>
-		<delete file="${plugin.destination}/org.inria.EMFDriver_0.0.3.zip"/>
+		<delete file="${build.result.folder}/lib/EMFDriver.jar"/>
+		<delete file="${build.result.folder}/lib/EMFDriversrc.zip"/>
+		<delete file="${plugin.destination}/org.inria.EMFDriver_0.0.4.jar"/>
+		<delete file="${plugin.destination}/org.inria.EMFDriver_0.0.4.zip"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
-		<eclipse.convertPath fileSystemPath="C:/ECLIPSE3/eclipse/workspace/org.inria.EMFDriver" property="resourcePath"/>
+		<eclipse.convertPath fileSystemPath="C:/eclipse3.0/eclipse/workspace/org.inria.EMFDriver" property="resourcePath"/>
 		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
 	</target>
 
@@ -175,7 +174,7 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
 		</delete>
-		<zip zipfile="${plugin.destination}/org.inria.EMFDriver_0.0.3.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip zipfile="${plugin.destination}/org.inria.EMFDriver_0.0.4.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
