@@ -139,6 +139,18 @@ abstract public class UserDefinedClass
         else return 1;
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList refinement;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList getRefinement () {
+        return this.refinement;
+    }
+    public void setRefinement (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList value) {
+        this.refinement = value; 
+    }
+    public int cardRefinement () {
+        if ( this.refinement == null ) return 0;
+        else return 1;
+    }
+
 
     public UserDefinedClass(
         String name,

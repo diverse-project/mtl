@@ -10,18 +10,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 public class BasicMtlLibrary 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library
 {
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass libraryClass;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass getLibraryClass () {
-        return this.libraryClass;
-    }
-    public void setLibraryClass (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass value) {
-        this.libraryClass = value; 
-    }
-    public int cardLibraryClass () {
-        if ( this.libraryClass == null ) return 0;
-        else return 1;
-    }
-
     /**
       * A library used as an entry point must provide an interface to fill parameters values. These values may be transmitted to the used libraries (see Use).
       */
@@ -69,6 +57,18 @@ public class BasicMtlLibrary
     }
     public int cardClasses () {
         return this.classes.size();
+    }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass libraryClass;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass getLibraryClass () {
+        return this.libraryClass;
+    }
+    public void setLibraryClass (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass value) {
+        this.libraryClass = value; 
+    }
+    public int cardLibraryClass () {
+        if ( this.libraryClass == null ) return 0;
+        else return 1;
     }
 
     public Vector usedLibs = new Vector();

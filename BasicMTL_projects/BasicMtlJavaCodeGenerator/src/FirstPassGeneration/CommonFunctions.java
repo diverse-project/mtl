@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.4 2003-09-23 17:12:27 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.5 2003-10-14 07:43:21 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -41,6 +41,7 @@ public class CommonFunctions {
 		output.println("import org.irisa.triskell.MT.repository.API.Java.*;");
 		output.println("import org.irisa.triskell.MT.DataTypes.Java.*;");
 		output.println("import org.irisa.triskell.MT.utils.Java.*;");
+		output.println("import org.irisa.triskell.MT.DataTypes.Java.commands.*;");//for associations instances creation
 		output.println();
 	}
 }

@@ -24,4 +24,28 @@ abstract public class Expression
         else return 1;
     }
 
+    public String toBeCastedWithTypeVar = null;
+    public String getToBeCastedWithTypeVar () {
+        return this.toBeCastedWithTypeVar;
+    }
+    public void setToBeCastedWithTypeVar (String value) {
+        this.toBeCastedWithTypeVar = value; 
+    }
+
+    public String toBeCastedWithMethodVar;
+    public String getToBeCastedWithMethodVar () {
+        return this.toBeCastedWithMethodVar;
+    }
+    public void setToBeCastedWithMethodVar (String value) {
+        this.toBeCastedWithMethodVar = value; 
+    }
+
+    public String toBeCastedWithParameterVar;
+    public String getToBeCastedWithParameterVar () {
+        return this.toBeCastedWithParameterVar;
+    }
+    public void setToBeCastedWithParameterVar (String value) {
+        this.toBeCastedWithParameterVar = value; 
+    }
+
 }

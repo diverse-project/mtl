@@ -116,6 +116,30 @@ public class Operation
         return this.isConstructor;
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isGetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsGetterFor () {
+        return this.isGetterFor;
+    }
+    public void setIsGetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
+        this.isGetterFor = value; 
+    }
+    public int cardIsGetterFor () {
+        if ( this.isGetterFor == null ) return 0;
+        else return 1;
+    }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isSetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsSetterFor () {
+        return this.isSetterFor;
+    }
+    public void setIsSetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
+        this.isSetterFor = value; 
+    }
+    public int cardIsSetterFor () {
+        if ( this.isSetterFor == null ) return 0;
+        else return 1;
+    }
+
 
     public Operation(
         String name,

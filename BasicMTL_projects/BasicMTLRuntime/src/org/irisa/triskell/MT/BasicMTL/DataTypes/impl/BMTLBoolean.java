@@ -29,6 +29,10 @@ public class BMTLBoolean
 	public static BMTLBoolean TRUE = new BMTLBoolean(BooleanValueImpl.TRUE);
 	public static BMTLBoolean FALSE = new BMTLBoolean(BooleanValueImpl.FALSE);
 
+	public BMTLBoolean(boolean value) {
+		this(new BooleanValueImpl(false, null, value));
+	}
+
 	public BMTLBoolean(BooleanValue delegate) {
 		super(delegate);
 	}

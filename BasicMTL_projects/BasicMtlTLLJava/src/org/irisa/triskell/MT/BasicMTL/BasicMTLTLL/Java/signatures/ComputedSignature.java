@@ -25,7 +25,6 @@ public abstract class ComputedSignature extends OpSignature {
 		ret.setExternMangledName(qn.getExternMangledName());
 		ret.setIsExternType(qn.getIsExternType());
 		ret.setIsLocalType(qn.getIsLocalType());
-		ret.setIsLocalType(qn.getIsLocalType());
 		ret.setIsModelType(qn.getIsModelType());
 		ret.setIsRepositoryModel(qn.getIsRepositoryModel());
 		ret.setLocalMangledName(qn.getLocalMangledName());

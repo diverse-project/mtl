@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>FacadeAssociation</name>
+	<comment></comment>
+	<projects>
+		<project>BasicMtlAntlr</project>
+		<project>BasicMtlAntlr2ASTViewAssociation</project>
+		<project>BasicMtlAntlr2TLLJava</project>
+		<project>BasicMtlJavaCodeGenerator</project>
+		<project>BasicMtlTLLJava</project>
+		<project>TLLTypeChecker</project>
+		<project>Utils</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>

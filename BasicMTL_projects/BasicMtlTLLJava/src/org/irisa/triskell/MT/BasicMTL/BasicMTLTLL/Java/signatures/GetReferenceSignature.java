@@ -25,7 +25,7 @@ public class GetReferenceSignature extends ComputedSignature {
 		if (ret.getIsExternType())
 			ret.setDeclarationName(ret.getExternCompleteName());
 		else if (ret.getIsLocalType())
-			ret.setDeclarationName(ret.getExternLibCompleteName()+'.'+ret.getLocalMangledName());
+		ret.setDeclarationName(ret.getExternCompleteName());//ret.setDeclarationName(ret.getExternLibCompleteName()+'.'+ret.getLocalMangledName());
 		else if (ret.getIsRepositoryModel())
 			ret.setDeclarationName("API");
 		else if (ret.getIsModelType())
@@ -60,6 +60,10 @@ public class GetReferenceSignature extends ComputedSignature {
 
 	public String getOpMangle() {
 		return this.getPrefix() + Mangler.mangle("BMTL_", AWK.mergeCollection(this.getReferenceType(), "_")/*(String)this.getReferenceType().get(this.getReferenceType().size()-1)*/);
+	}
+
+	public String getOpLibMangle() {
+		return this.getPrefix() + Mangler.mangle("BMTLLib_", AWK.mergeCollection(this.getReferenceType(), "_")/*(String)this.getReferenceType().get(this.getReferenceType().size()-1)*/);
 	}
 
 	public String getOpName() {

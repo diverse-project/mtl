@@ -89,4 +89,12 @@ public class QualifiedName
         this.declarationName = value; 
     }
 
+    public java.util.Vector notAlreadySolvedBy = null;
+    public java.util.Vector getNotAlreadySolvedBy () {
+        return this.notAlreadySolvedBy;
+    }
+    public void setNotAlreadySolvedBy (java.util.Vector value) {
+        this.notAlreadySolvedBy = value; 
+    }
+
 }

@@ -8,6 +8,8 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIntegerInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
@@ -17,6 +19,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_exclu
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_excludesAll;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_getNewIterator;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_includes;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_at;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_includesAll;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_isEmpty;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_size;
@@ -53,7 +56,11 @@ public class BMTLCollection
 	public BMTLIteratorInterface BMTL_getNewIterator() {
 		return (BMTLIteratorInterface)CommonFunctions.toBMTLDataType(Collection_getNewIterator.TheInstance.invoke(this.getCollectionDelegate(), null));
 	}
-	
+
+	public BMTLOclAnyInterface BMTL_at(IntegerValue  position) {
+			return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Collection_at.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(position)}));
+		}
+		
 	public BMTLBooleanInterface BMTL_isEmpty() {
 		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_isEmpty.TheInstance.invoke(this.getCollectionDelegate(), null));
 	}

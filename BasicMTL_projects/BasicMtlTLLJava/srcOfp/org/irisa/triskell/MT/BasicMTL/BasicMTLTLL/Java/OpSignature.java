@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class OpSignature 
     implements java.io.Serializable
 {
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
+        return this.theOperation;
+    }
+    public int cardTheOperation () {
+        if ( this.theOperation == null ) return 0;
+        else return 1;
+    }
+
     public String opName;
     public String getOpName () {
         return this.opName;
@@ -20,15 +29,6 @@ public class OpSignature
     }
     public void setArgsCount (int value) {
         this.argsCount = value; 
-    }
-
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
-        return this.theOperation;
-    }
-    public int cardTheOperation () {
-        if ( this.theOperation == null ) return 0;
-        else return 1;
     }
 
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName returnedType;
@@ -66,6 +66,14 @@ public class OpSignature
     public String opMangle;
     public String getOpMangle () {
         return this.opMangle;
+    }
+
+    public boolean throwsException;
+    public boolean getThrowsException () {
+        return this.throwsException;
+    }
+    public void setThrowsException (boolean value) {
+        this.throwsException = value; 
     }
 
 

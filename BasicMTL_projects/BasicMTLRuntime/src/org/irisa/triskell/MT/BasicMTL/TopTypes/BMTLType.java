@@ -167,4 +167,7 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		return library == null ? null : library.getLibrary();
 	}
 
+	public Class getTheClass() {
+		return clazz;
+	}
 }

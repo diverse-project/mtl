@@ -22,4 +22,5 @@ public interface BMTLOclTypeInterface extends TypeValue, BMTLOclAnyInterface {
 	BMTLOrderedSetInterface BMTL_oclQualifiedName();
 	
 	BMTLStringInterface BMTL_oclName();
+	
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.2 2003-08-12 14:52:55 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.3 2003-10-14 07:42:56 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -30,6 +30,17 @@ public class BMTLCompiler {
 	public static org.apache.log4j.Logger getLog () {
 			return BMTLCompiler.log;
 	}
+
+	public static void compile(BasicMtlLibrary theLib,String defaultTLLPath,String defaultBinPath)
+	{	
+		java.util.Hashtable context=new java.util.Hashtable();
+		context.put("BaseFileName",defaultBinPath);
+		DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("FirstPassGeneration");
+		DefaultAnalysingVisitor visitor2 = new DefaultAnalysingVisitor("SecondPassGeneration");
+		visitor.visit(theLib,context);
+		visitor2.visit(theLib,context);
+		log.info("Code generation is over.");
+	}
 	
 	public static void main(String[] args)
 	{	try {
@@ -54,14 +65,8 @@ public class BMTLCompiler {
 			}
 			if (defaultBinPath==null) defaultBinPath=binPathName;
 			if (defaultTLLPath==null) defaultTLLPath=tllPrefix;
-			java.util.Hashtable context=new java.util.Hashtable();
-			context.put("BaseFileName",defaultBinPath);
-			DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("FirstPassGeneration");
-			DefaultAnalysingVisitor visitor2 = new DefaultAnalysingVisitor("SecondPassGeneration");
 			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultTLLPath+args[0]+tllSuffix);
-			visitor.visit(theLib,context);
-			visitor2.visit(theLib,context);
-			log.info("Code generation is over.");
+			compile(theLib,defaultTLLPath,defaultBinPath);
 		}
 		else log.error("USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
 	}

@@ -106,7 +106,7 @@ java.io.ObjectInputStream in;
 		try { in=new java.io.ObjectInputStream(new java.io.FileInputStream(Filename));
 					 Lib=(org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library)in.readObject();
 					 in.close();
-			  } catch(Exception e) { System.err.println("Load: inputstream problem=>"+Filename); e.printStackTrace();}	
+			  } catch(Exception e) { }//System.err.println("Load: inputstream problem=>"+Filename); }	
  return(Lib);
     }
 

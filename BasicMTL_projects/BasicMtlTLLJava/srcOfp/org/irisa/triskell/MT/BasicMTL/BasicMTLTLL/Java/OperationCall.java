@@ -102,6 +102,38 @@ public class OperationCall
         else return 1;
     }
 
+    public boolean noEndingBracket = false;
+    public boolean getNoEndingBracket () {
+        return this.noEndingBracket;
+    }
+    public void setNoEndingBracket (boolean value) {
+        this.noEndingBracket = value; 
+    }
+
+    public String oclAsTypeWithTypeVar = null;
+    public String getOclAsTypeWithTypeVar () {
+        return this.oclAsTypeWithTypeVar;
+    }
+    public void setOclAsTypeWithTypeVar (String value) {
+        this.oclAsTypeWithTypeVar = value; 
+    }
+
+    public String oclAsTypeWithMethodVar;
+    public String getOclAsTypeWithMethodVar () {
+        return this.oclAsTypeWithMethodVar;
+    }
+    public void setOclAsTypeWithMethodVar (String value) {
+        this.oclAsTypeWithMethodVar = value; 
+    }
+
+    public String oclAsTypeWithParameterVar;
+    public String getOclAsTypeWithParameterVar () {
+        return this.oclAsTypeWithParameterVar;
+    }
+    public void setOclAsTypeWithParameterVar (String value) {
+        this.oclAsTypeWithParameterVar = value; 
+    }
+
 
     public OperationCall(
         String name,
