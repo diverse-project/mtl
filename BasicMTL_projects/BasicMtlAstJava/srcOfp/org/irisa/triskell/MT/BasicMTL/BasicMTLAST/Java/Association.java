@@ -1,3 +1,9 @@
+/*
+ * $Id: Association.java,v 1.2 2004-04-29 13:38:49 edrezen Exp $
+ * Authors : modelware
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 
 import java.util.*;

@@ -1,3 +1,9 @@
+/*
+ * $Id: RepositoryRef.java,v 1.2 2004-04-29 13:38:54 edrezen Exp $
+ * Authors : modelware
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
