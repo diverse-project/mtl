@@ -94,7 +94,7 @@ public class MDRMetaAssociationEnd
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
     {
 		ExecutableFeature ret = super.retreiveRef(contextualElement, self, arguments, owner);
-    	if (ret == null && !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false").equalsIgnoreCase("true") && (owner instanceof javax.jmi.model.MofClass)) {
+    	if (ret == null && !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true") && (owner instanceof javax.jmi.model.MofClass)) {
 				javax.jmi.model.AssociationEnd me = null, tmp;
 				javax.jmi.model.Classifier retType = null, tmpType;
 			java.util.Collection involved = this.getSpecificAPI().getRelatedAssociationEnds((javax.jmi.model.MofClass)owner);
@@ -178,11 +178,9 @@ public class MDRMetaAssociationEnd
     	else {
     		String elName, aeName;
 			javax.jmi.model.AssociationEnd ae;
-			if (System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false").equalsIgnoreCase("true"))
-				ae = null;
-			else if (element instanceof javax.jmi.model.AssociationEnd)
+			if (element instanceof javax.jmi.model.AssociationEnd) {
 				ae = (javax.jmi.model.AssociationEnd)element;
-			else if (element instanceof javax.jmi.model.Reference)
+			} else if (element instanceof javax.jmi.model.Reference)
 				ae = ((javax.jmi.model.Reference)element).getReferencedEnd();
 			else
 				ae = null;

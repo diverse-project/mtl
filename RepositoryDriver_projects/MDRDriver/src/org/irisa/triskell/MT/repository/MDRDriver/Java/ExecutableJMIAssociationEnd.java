@@ -1,14 +1,12 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import java.lang.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
+import java.util.Iterator;
+
+import javax.jmi.model.MofClass;
+import javax.jmi.model.Reference;
+
+import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
 public class ExecutableJMIAssociationEnd 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature
@@ -35,6 +33,7 @@ public class ExecutableJMIAssociationEnd
     public org.irisa.triskell.MT.DataTypes.Java.Value execute()
         throws java.lang.Exception
     {
+    	this.ensureAssociationEndIgnore(null);
 		boolean isOrdered = this.getAssociationEnd().getMultiplicity().isOrdered();
 		boolean isUnique =  this.getAssociationEnd().getMultiplicity().isUnique();
 		int maxMultiplicity = this.getAssociationEnd().getMultiplicity().getUpper();
@@ -61,5 +60,19 @@ public class ExecutableJMIAssociationEnd
 			res = ((java.util.Collection)res).size() == 0 ? null : ((java.util.Collection)res).iterator().next();
 		}
 		return this.getApi().java2value(res, isOrdered, isUnique, false);
+    }
+    
+    protected void ensureAssociationEndIgnore (ModelElement contextualElement) throws org.irisa.triskell.MT.repository.API.Java.IllegalAccessException {
+        if (System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true")) {
+        	MofClass selfClazz = (MofClass)this.getSelf().getRefClass().refMetaObject();
+        	Iterator contentsIt = selfClazz.getContents().iterator();
+        	Object o;
+        	while (contentsIt.hasNext()) {
+        		o = contentsIt.next();
+        		if ((o instanceof Reference) && ((Reference)o).getReferencedEnd().equals(this.getAssociationEnd()))
+        			return;
+        	}
+        	throw new org.irisa.triskell.MT.repository.API.Java.IllegalAccessException (contextualElement, (MetaAssociationEnd)this.getSelf().getSpecificAPI().getElement(this.getAssociationEnd()));
+        }
     }
 }

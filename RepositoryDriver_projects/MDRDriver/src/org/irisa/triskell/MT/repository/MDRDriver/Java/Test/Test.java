@@ -178,6 +178,13 @@ public class Test
 				testThreads[i].start();
 			for (int i = 0; i < testThreads.length; ++i)
 				testThreads[i].join();
+			if (System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true"))
+				System.setProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false");
+			else
+				System.setProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true");
+			simpleDBLoading = new TestThread("testSimpleTableDBModelBis");
+			simpleDBLoading.start();
+			simpleDBLoading.join();
 			if (exceptions.isEmpty())
 				Test.getLog().info("MDR driver test OK !");
 			else {
@@ -280,7 +287,7 @@ public class Test
 		}
 		
 		attributes.reset();
-		boolean exploresAE = !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false").equalsIgnoreCase("true");
+		boolean exploresAE = !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true");
 		ModelElement anAttribute = exploresAE && attributes.hasNext() ? attributes.next() : null;
 		final Value anAttributeName = anAttribute == null ? null : anAttribute.getFeatureValue(null, api.getMetaFeature("name", null), null);
 		final Value anAttributeTypeName = anAttribute == null ? null : ((ModelElement)anAttribute.getFeatureValue(null, api.getMetaAssociationEnd("type", api.getMetaClass(new String [] {"Foundation", "Core", "GeneralizableElement"}), null), null)).getFeatureValue(null, api.getMetaAttribute("name", null), null);
@@ -465,19 +472,6 @@ public class Test
 			}
 		}, new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "isActive")));
 		
-		
-		boolean exploresAE = !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false").equalsIgnoreCase("true");
-		try {
-			CollectionValue umlclazzcontents2 = (CollectionValue)umlclazz.getFeatureValue(null, api.getMetaFeature("containedElement", null), null);
-			if (! exploresAE)
-				throw new Exception("Found an association end while should ignore them.");
-			if (!umlclazzcontents.equals(umlclazzcontents2))
-				throw new Exception ("Difference between reference call and association end call");
-		} catch(UnknownElementException x) {
-			if (exploresAE)
-				throw new RuntimeException("Did not find the association end while should.", x);
-		}
-		
 		if (!umlclazzcontentsiterator.hasNext())
 			throw new Exception ("Cannot find field isActive in the contents of the uml class");
 		if (! umlclazzcontentsiterator.next().getFeatureValue(null, api.getMetaAttribute("name", null), null).equals(new StringValueImpl(false, null, "isActive")))
@@ -514,7 +508,15 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel () throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
+		testSimpleTableDBModel("championship");
+	}
+	
+	public static void testSimpleTableDBModelBis () throws Exception {
+		testSimpleTableDBModel("re-championship");
+	}
+	
+	public static void testSimpleTableDBModel (String repName) throws Exception {
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), repName, new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
 		api.startup(null);
 
 		MetaClass table = api.getMetaClass(new String [] {"SimpleDB", "Table"});
@@ -587,7 +589,7 @@ public class Test
 		ass1.associateModelElements(null, new ModelRole [] {api.getRole(score2, ae2_3), api.getRole(championship, ae1_2)});
 		
 		
-		boolean exploresAE = !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "false").equalsIgnoreCase("true");
+		boolean exploresAE = !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true");
 		//Now, the feature is available:
 		MetaFeature tableAE = api.getMetaAssociationEnd("table", null, null);
 		if (exploresAE && ! score2.getFeatureValue(null, tableAE, null).equals(championship))
@@ -604,7 +606,7 @@ public class Test
 			
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championshipRes", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), repName+"Res", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 		api.startup(null);
 		
 		

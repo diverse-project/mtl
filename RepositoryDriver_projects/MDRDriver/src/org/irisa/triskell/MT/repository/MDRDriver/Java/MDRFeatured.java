@@ -251,7 +251,7 @@ abstract public class MDRFeatured
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof MDRFeatured) && (this.refFeatured == ((MDRFeatured)rhs).refFeatured) && (this.isUndefined() == ((MDRFeatured)rhs).isUndefined()) && (this.isUndefined() || (this.getErrorMessage() == null && ((MDRFeatured)rhs).getErrorMessage() == null) || (this.getErrorMessage().equals(((MDRFeatured)rhs).getErrorMessage()))));
+		return (this == rhs) || ((rhs instanceof MDRFeatured) ? (this.refFeatured == ((MDRFeatured)rhs).refFeatured) && (this.isUndefined() == ((MDRFeatured)rhs).isUndefined()) && (this.isUndefined() || (this.getErrorMessage() == null && ((MDRFeatured)rhs).getErrorMessage() == null) || (this.getErrorMessage().equals(((MDRFeatured)rhs).getErrorMessage()))) : rhs != null && rhs.equals(this));
     }
 
     public boolean equals(
