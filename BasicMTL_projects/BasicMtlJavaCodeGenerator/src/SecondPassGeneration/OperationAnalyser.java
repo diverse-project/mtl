@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.4 2003-08-19 13:37:25 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.5 2003-08-20 16:07:33 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -51,11 +51,16 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 		outputForInterface.print(',');
 	}
 	
-	public void OperationEndParameters(java.util.Map context)
+	public void OperationEndParameters(Object theOperation, java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
 		outputForClass.println(") {");
 		outputForInterface.print(')');
+		/*Operation theOp = (Operation)theOperation;
+		for (int i = 0; i < theOp.cardParameters(); ++i) {
+			VarDeclaration p = theOp.getParameters(i);
+			outputForClass.println(p.getMangle() + " = (" + p.getType().getDeclarationName() + ")CommonFunctions.toBMTLDataType(" + p.getMangle() + ");");
+		}*/
 	}
 
 	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {
@@ -67,7 +72,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			|| ((type.size() > 1 )
 				&& ((String)type.get(0)).equals("Standard")
 				&& ((String)type.get(1)).equals("Void")))
-				outputForClass.println("return VoidValueImpl.getTheInstance(); }\n\n");
+				outputForClass.println("return BMTLVoid.TheInstance; }\n\n");
 		else outputForClass.println("}\n\n");
 		outputForInterface.println(';');
 	}

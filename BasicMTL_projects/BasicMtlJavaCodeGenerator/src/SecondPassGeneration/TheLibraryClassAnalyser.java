@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TheLibraryClassAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TheLibraryClassAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -23,6 +23,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 
 	public Object TheLibraryClassBefore(TheLibraryClass ASTnode,java.util.Map context) {
 		int i,limit;
+		context.put("CurrentClass", ASTnode);
 		String packageName=(String)context.get("PackageName");
 		String baseFileName=(String)context.get("BaseFileName");
 		//Opening files for generating class code
@@ -71,6 +72,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 }
 
 	public void TheLibraryClassAfter(Object theClass,TheLibraryClass ASTnode,java.util.Map context) {
+	context.remove("CurrentClass");
 	PrintWriter outputForClass=(PrintWriter)context.get("OutputForClass");
 	PrintWriter outputForInterface=(PrintWriter)context.get("OutputForInterface");
 	outputForClass.println('}');

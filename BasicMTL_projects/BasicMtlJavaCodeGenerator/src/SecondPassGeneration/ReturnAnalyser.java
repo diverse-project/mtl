@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+import java.util.Map;
+
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
@@ -21,7 +23,12 @@ public class ReturnAnalyser extends TLLTopDownVisitor.ReturnAnalyser {
 		QualifiedName returnedType=theContainer.getFeatureType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.print("return ");
-		outputForClass.print("("+returnedType.getDeclarationName()+')');		
+		outputForClass.print("("+returnedType.getDeclarationName()+")CommonFunctions.toBMTLDataType(");		
 		return null; }
+
+	public void ReturnAfter(Object theReturn, Return ASTnode, Map context) {
+		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		outputForClass.print(')');
+	}
 
 }
