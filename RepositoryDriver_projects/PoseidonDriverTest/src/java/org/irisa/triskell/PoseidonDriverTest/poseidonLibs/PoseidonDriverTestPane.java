@@ -1,5 +1,5 @@
 /*
- * $Id: PoseidonDriverTestPane.java,v 1.1 2005-01-18 09:36:08 dvojtise Exp $
+ * $Id: PoseidonDriverTestPane.java,v 1.2 2005-01-18 16:47:00 dvojtise Exp $
  * Authors : dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -66,6 +66,7 @@ public class PoseidonDriverTestPane extends DetailsTab {
 	private JButton button4;
 	private JButton button5;
 	private JButton button6;
+	private JButton button7;
 	private JTextArea textArea;
 	private JFrame jFrame;
 	
@@ -118,6 +119,11 @@ public class PoseidonDriverTestPane extends DetailsTab {
 		button6.setPreferredSize(new Dimension(300, 25));
 		button6.setBounds(50, 145, 200, 25);
 		add(button6);
+		
+		button7 = new JButton("Save & Reload");
+		button7.setPreferredSize(new Dimension(300, 25));
+		button7.setBounds(50, 170, 200, 25);
+		add(button7);
 
 //		This is the creation of the text area
 		textArea = new JTextArea();
@@ -142,6 +148,7 @@ public class PoseidonDriverTestPane extends DetailsTab {
 		button4.addActionListener(myActionListener);
 		button5.addActionListener(myActionListener);
 		button6.addActionListener(myActionListener);
+		button7.addActionListener(myActionListener);
 		
 		initDirectoriesRootpath();
 		
@@ -170,6 +177,9 @@ public class PoseidonDriverTestPane extends DetailsTab {
 			}
 			if(e.getSource() == button6) {
 				button6Code();
+			}
+			if(e.getSource() == button6) {
+				button7Code();
 			}
 		}
 	}
@@ -325,6 +335,10 @@ public class PoseidonDriverTestPane extends DetailsTab {
 		textArea.append("end of relayout of diagrams \n");
 		
 	}
+	private void button7Code() {
+		SaveAndReload();
+		
+	}
 	
 	private void SaveAndReload()
 	{
@@ -409,14 +423,6 @@ public class PoseidonDriverTestPane extends DetailsTab {
 	public void ReDiPulizeModelElements(RefObject aRefObject, String tab)
 	{
 		ReDiPulize(aRefObject, tab);
-	/*	try
-		{
-			ReLayout(aRefObject, tab);
-		}
-		catch (Exception e)
-		{
-			textArea.append(tab + "problem with RElayout on " + aRefObject.toString()+"\n");
-		}*/
 		
 		// recursive call on owned elements
 		// try to cast to a namespace
@@ -430,10 +436,6 @@ public class PoseidonDriverTestPane extends DetailsTab {
 			{
 				ReDiPulizeModelElements((RefObject)it.next(), tab + "   ");
 			}
-//			for (int i = 0; i < ns.getOwnedElement().size(); i++)
-//			{
-//				ReDiPulizeModelElements(ns.getOwnedElement().iterator())
-//			}
 		}
 		catch (Exception e)
 		{
@@ -456,10 +458,6 @@ public class PoseidonDriverTestPane extends DetailsTab {
 				nbfeat++;
 				ReDiPulizeModelElements((RefObject)it2.next(), tab + "   ");
 			}
-//			for (int i = 0; i < ns.getOwnedElement().size(); i++)
-//			{
-//				ReDiPulizeModelElements(ns.getOwnedElement().iterator())
-//			}
 		}
 		catch (Exception e)
 		{
@@ -483,10 +481,6 @@ public class PoseidonDriverTestPane extends DetailsTab {
 				nbfeat++;
 				ReDiPulizeModelElements((RefObject)it2.next(), tab + "   ");
 			}
-//			for (int i = 0; i < ns.getOwnedElement().size(); i++)
-//			{
-//				ReDiPulizeModelElements(ns.getOwnedElement().iterator())
-//			}
 		}
 		catch (Exception e)
 		{
