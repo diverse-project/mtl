@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.3 2004-08-31 13:46:04 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.4 2005-01-30 05:33:49 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -146,27 +146,28 @@ public boolean finish(IProgressMonitor monitor) {
 		
 		//output folder
 		IFolder output = newProject.getFolder(store.getString(PreferencesConstants.OUTPUT_BUILDNAME));
-		output.create(true, true, null);
+		createFolder(output);
 		
 		//		model folder
 		IFolder model = newProject.getFolder(store.getString(PreferencesConstants.MODEL_NAME));
-		model.create(true, true, null);
+		createFolder(model);
 		
 		//		metamodel folder
 		IFolder metamodel = newProject.getFolder(store.getString(PreferencesConstants.METAMODEL_NAME));
-		metamodel.create(true, true, null);
+		createFolder(metamodel);
 		
 		
 		//
 		//store.s
 		IFolder javasrc =output.getFolder(store.getString(PreferencesConstants.FJAVA_SRCNAME));
-		javasrc.create(true,true,null);	
+		createFolder(javasrc);	
 		IFolder binjava = output.getFolder(store.getString(PreferencesConstants.FJAVA_BINNAME));
-		binjava.create(true, true, null);
+		createFolder(binjava);
 		IFolder mtlsrc = newProject.getFolder(store.getString(PreferencesConstants.FMTL_SRCNAME));
-		mtlsrc.create(true, true, null);
+		createFolder(mtlsrc);
+		
 		IFolder binmtl = output.getFolder(store.getString(PreferencesConstants.FMTL_BINNAME));
-		binmtl.create(true, true, null);
+		createFolder(binmtl);
 		
 		//A revoir
 		String pluginPath =MTLPlugin.getDefault().getLocation();
@@ -282,7 +283,16 @@ public boolean finish(IProgressMonitor monitor) {
 	}
 	return true;
 }
-
+/**
+ * helper method that recusrively create the requested folder
+ * @param folder
+ */
+private void createFolder(IFolder folder) throws CoreException
+{
+	if (! folder.getParent().exists()) createFolder((IFolder)folder.getParent());
+	folder.create(true, true, null);
+	
+}
 
 /**
  *  Helper method used to copy a resource from the plugin directory to the new
