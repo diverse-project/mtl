@@ -1,0 +1,31 @@
+<!-- $Id: dist_build.xml,v 1.1 2004-06-23 07:13:10 dvojtise Exp $ -->
+<project name="BasicMtl2Java" default="dist" basedir=".">
+	<description>
+	</description>
+	<property name="base"  location="..\..\"/>
+	<property name="dist.name"  value="downloaderInstallerDist"/>
+	<property name="dist"  location="${base}\${dist.name}"/>
+	<target name="dist" > 
+		<tstamp>
+    		<!--<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>-->
+    		<format property="TODAY_UK" pattern="dd-MM-yyyy" locale="en"/>
+  		</tstamp>   	
+		<copy  todir="${dist}\apache-ant-1.5.4">
+  			<fileset dir="T:\Soft\multiplatform\java\ant\apache-ant-1.5.4">
+  				<exclude name="**\docs\**"/>
+  			</fileset>
+  		</copy> 
+  		    	
+		<copy  todir="${dist}">
+  			<fileset dir=".">
+  				<!-- do not copy this script within the distribution itself -->
+  				<exclude name="dist_build.xml"/>
+  			</fileset>
+  		</copy>
+  		<!-- compress all in a zip file -->		
+  		<zip destfile="${dist}/downloaderInstaller_${TODAY_UK}.zip"
+  			basedir="${dist}"
+  			excludes="**/downloaderInstaller_**.zip">	
+  		</zip>
+  	</target> 	
+</project>

@@ -1,4 +1,4 @@
-<!-- $Id: 2.1.2_dist_install_build.xml,v 1.2 2004-04-06 14:52:33 dvojtise Exp $ -->
+<!-- $Id: 2.1.2_dist_install_build.xml,v 1.3 2004-06-23 07:13:10 dvojtise Exp $ -->
 <project name="BasicMtl2Java" default="install all" basedir=".">
 	<description>
         Helps to install the recommended versions of the different tools needed to run BasicMTL
@@ -14,16 +14,16 @@
 	<property name="xsd.url.path"  value="http://download.eclipse.org/tools/downloads/xsd/"/>
 	<property name="xsd.url.filename"  value="xsd_1.1.1.1_20031120_1149WL.zip"/>
 	
-	<property name="colorer.url.path"  value="http://cesnet.dl.sourceforge.net/sourceforge/colorer/"/>
+	<property name="colorer.url.path"  value="http://heanet.dl.sourceforge.net/sourceforge/colorer/"/>
 	<property name="colorer.url.filename"  value="EclipseColorer-take5_0.5.0.zip"/>
 	
-	<property name="errorlink.url.path"  value="http://cesnet.dl.sourceforge.net/sourceforge/sunshade/"/>
+	<property name="errorlink.url.path"  value="http://heanet.dl.sourceforge.net/sourceforge/sunshade/"/>
 	<property name="errorlink.url.filename"  value="errorlink_1.2.0.zip"/>
 	
 		
 	<target name="0. set dest dir" unless="base.path">    	
     	<input
-    		message="Please enter the location for your install(a eclipse and a MTLc directories will be created under it):"
+    		message="Please enter the location for your install. ( eclipse and MTL directories will be created there):"
     		addproperty="base.path"
   		/>
   		<property name="plugins.location" location="${base.path}/eclipse/plugins/"/>
