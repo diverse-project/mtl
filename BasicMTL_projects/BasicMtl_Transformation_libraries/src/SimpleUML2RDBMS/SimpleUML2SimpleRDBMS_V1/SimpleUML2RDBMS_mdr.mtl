@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleUML2RDBMS/SimpleUML2SimpleRDBMS_V1/SimpleUML2RDBMS_mdr.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleUML2RDBMS/SimpleUML2SimpleRDBMS_V1/SimpleUML2RDBMS_mdr.mtl,v 1.2 2003-07-11 15:00:28 jpthibau Exp $
  *
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.1)
@@ -17,12 +17,12 @@ library SimpleUML2SimpleRDBMS_MDR
 									// methods with a lot of parameter, or opening a GUI
 
 // Lib local model
-Model source_model;		// should be SimpleUML MetaModel
-Model target_model;		// must be SimpleRDBMS MetaModel
+model source_model;		// should be SimpleUML MetaModel
+model target_model;		// must be SimpleRDBMS MetaModel
 // they are not typed so this implies that any access to them will be done through "invoke"
 
 // Typed model 
-Model SUML2RDBMS_transform_lib is SimpleUML2RDBMS
+model SUML2RDBMS_transform_lib is SimpleUML2RDBMS
 
 // Library level methods
 // ---------------------

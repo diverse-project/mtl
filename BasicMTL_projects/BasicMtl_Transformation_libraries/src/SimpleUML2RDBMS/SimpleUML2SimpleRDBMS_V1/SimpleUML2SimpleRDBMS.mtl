@@ -1,5 +1,5 @@
 /**
- * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.2 2003-07-11 14:59:19 jpthibau Exp $
  *
  *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
  * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
@@ -10,13 +10,13 @@
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.1)
  * 
- * $Revision: 1.1 $ $Date: 2003-07-11 08:27:56 $
- * Last modification by : $Author: dvojtise $
+ * $Revision: 1.2 $ $Date: 2003-07-11 14:59:19 $
+ * Last modification by : $Author: jpthibau $
  * Authors : dvojtise
  *
  */
  
-library SimpleUML2SimpleRDBMS
+library SimpleUML2SimpleRDBMS ;
 // no extends for this lib
  
 // Use of other libs : this not needed anymore : for information only
@@ -27,7 +27,7 @@ library SimpleUML2SimpleRDBMS
 									
 // import shortcuts (like java import) are not currently supported
 
-// Lib local model
+// Lib local model 
 model source_model;		// should be SimpleUML MetaModel
 model target_model;		// must be SimpleRDBMS MetaModel
 // they are not typed so this implies that any access to them will be done through "invoke"
@@ -43,18 +43,18 @@ model target_model;		// must be SimpleRDBMS MetaModel
 // -------------------
 // main of the lib (also its constructor)
 
-creation make( Model a_source_model, Model a_target_model)
+creation make( a_source_model:Model; a_target_model:Model)
 {
 
-	source_model = a_source_model
-	target_model = a_target_model
+	source_model = a_source_model;
+	target_model = a_target_model;
 }
 
 
 // other library level methods
 // ---------------------------
 
-Standard::void UMLToRDBMS()
+UMLToRDBMS() : Standard::void
 {	
 	// Start the different phasis of the transformation
 	UMLClassesToRDBMS();
@@ -62,17 +62,17 @@ Standard::void UMLToRDBMS()
 }
 
 
-Standard::void UMLClassesToRDBMS()
+UMLClassesToRDBMS() : Standard::void
 {
 	// look for all the sources classes 
 		// this will be improved when the ocl select will be available
-	Standard::Iterator classIterator;
-	Standard::Set classSet;	
+	classIterator : Standard::Iterator;
+	classSet : Standard::Set;	
 	// Note : is  this the correct syntax for calling allInstance on a model ?
-	classSet = source_model::allInstances("Class");
+	classSet = source_model.allInstances('Class');
 	classIterator = classSet.get_new_iterator();
 	classIterator.start();
-	while (not classIterator.is_off()) 
+	while classIterator.is_off().not() 
 	{		
 		UMLClassToRDBMS(classIterator.item());  // return value not used
 		
@@ -83,7 +83,8 @@ Standard::void UMLClassesToRDBMS()
 	// for each attribute of type class
 	classIterator = classSet.get_new_iterator();
 	classIterator.start();
-	while (not classIterator.is_off()) {
+	while classIterator.is_off().not()
+	{
 		
 		UMLClassToRDBMS(classIterator.item());  // return value not used
 				
@@ -91,50 +92,57 @@ Standard::void UMLClassesToRDBMS()
 	}
 }
 
-target_model::Table UMLClassToRDBMS(source_model::Class sourceClass )
+UMLClassToRDBMS(sourceClass : source_model::Class) : target_model::Table
 {
 }
 
-target_model::Table UMLClassToRDBMS(sourceClass : source_model::Class  )
+UMLClassToRDBMS(sourceClass : source_model::Class  ) : target_model::Table
 {
-	target_model::Table aTable;
+	// local variable at thebeginning of the method
+	// (todo allow variable declaration anywhere ...
+	aTable : target_model::Table;
+	attributeIterator : Standard::Iterator;
+	attributeSet : Standard::Set;
+	aColumn : target_model::Column;
+	primitiveAttribute : source_model::Classifier;
+	aString : Standard::String;
+	
+	
 	// create a table for this class  (use the default constructor)
-	aTable = new target_model::Table;
+	aTable = new target_model::Table();
 	// there must probably exists a better syntax for modelElement creation
 	aTable.name = sourceClass.name;
 	aTable.kind = sourceClass.kind;
 
-	// for each attribute of primitive data type create a column for this type
-	Standard::Iterator attributeIterator;
-	Standard::Set attributeSet;	
+	// for each attribute of primitive data type create a column for this type	
 	attributeSet = classIterator.item().attribute();
 	attributeIterator.start();
-	while (not attributeIterator.is_off())
+	while attributeIterator.is_off().not()
 	{
-		if 	(attributeIterator.item().type.oclIsKindOf(source_model::PrimitiveDataType))
+		if 	attributeIterator.item().type().oclIsKindOf('source_model::PrimitiveDataType')
 		{
 			// create a new column to the table
-			source_model::Classifier primitiveAttribute = attributeIterator.item();
-			target_model::Column aColumn;
-			aColumn = new target_model::Column;
+			primitiveAttribute = attributeIterator.item();
+			aColumn = new target_model::Column();
 			aColumn.name = primitiveAttribute.name;
-			aColumn.kind = primitiveAttribute.kind
-			if ( primitiveAttribute.type.name = "int")
+			aColumn.kind = primitiveAttribute.kind;
+			aString = primitiveAttribute.type.name;
+			if  aString.equals('int')
 			{	
-				aColumn.type = "NUMBER";
+				aColumn.type = 'NUMBER';
 			}
 			else
 			{
-				aColumn.type = "VARCHAR";
+				aColumn.type = 'VARCHAR';
 			}
 			// associate : complete syntax	
-			associate column = aColumn : Column, owner = aTable : Table
-			
-			if ( primitiveAttribute.kind = "primary")
+			associate (column = aColumn : Column, owner = aTable : Table);
+			aString = primitiveAttribute.kind;
+			if  aString.equals('primary')
 			{
 				// if the attribute kind is primary, the cloumn is bound the the key
 				// associate : complete syntax	
-				associate column = aColumn : Column, belongsTo = aKey : Key
+				associate (column = aColumn : Column, belongsTo = aKey : Key);
 				// other syntax : (because the is enough information)
 				// associate aColumn, aKey
 				// associate aColumn : Column, aKey : Key
@@ -144,7 +152,7 @@ target_model::Table UMLClassToRDBMS(sourceClass : source_model::Class  )
 		}
 		attributeIterator.next();
 	}
-	return aTable;
+	return( aTable);
 }
 
 
