@@ -42,10 +42,20 @@ public class Associate
         return this.AssociationName;
     }
 
+    public boolean isAssociate;
+    public boolean getIsAssociate () {
+        return this.isAssociate;
+    }
+    public void setIsAssociate (boolean value) {
+        this.isAssociate = value; 
+    }
+
 
     public Associate(
-        int lineNumber)
+        int lineNumber,
+        boolean isAssociate)
     {
 this.lineNumber=lineNumber;
+this.isAssociate=isAssociate;
     }
 }

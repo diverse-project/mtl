@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.3 2003-08-22 18:27:46 ffondeme Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.4 2003-08-27 13:35:10 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -39,7 +39,7 @@ public Object throwsInstr(Object expression,String lineNumber);
 
 public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber);
 
-public Object associateInstr(java.util.Vector endPoints,String lineNumber);
+public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,String lineNumber);
 
 public Object associateEndPoint(String role,Object endObject,Object type);
 

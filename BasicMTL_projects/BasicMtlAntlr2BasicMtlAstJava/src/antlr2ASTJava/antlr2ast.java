@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.8 2003-08-22 18:27:29 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.9 2003-08-27 13:35:26 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -270,8 +270,8 @@ public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,ja
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 
-public Object associateInstr(java.util.Vector endPoints,String lineNumber)
-{	Associate node=new Associate();
+public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,String lineNumber)
+{	Associate node=new Associate(isAssociate);
 	for(int i=0;i<endPoints.size();i++)
 		node.appendRoles((Role)endPoints.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");

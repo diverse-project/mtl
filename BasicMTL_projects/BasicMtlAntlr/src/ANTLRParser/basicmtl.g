@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.9 2003-08-26 12:52:33 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.10 2003-08-27 13:35:10 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -255,6 +255,7 @@ instruction returns [Object tree=null;]
 	Object l4=null;
 	Object l5=null;
 	Object l6=null;
+	boolean isAssociate=false;
 }
 	: tree=expression (r:RECEIVES l1=expression {tree = walker.affectation(l1, tree, Integer.toString(r.getLine()));})? n=semicolon
 	  {tree=walker.expressionInstr(tree,n);}
@@ -278,9 +279,9 @@ instruction returns [Object tree=null;]
 	      theCatches.addElement(v); } )+ 
 	  ( "finally" OPENBRACE (l4=instruction {theElseInstructions.addElement(l4);} )+ CLOSEBRACE)? CLOSEBRACE
 	  {tree=walker.tryInstr(theInstructions,theCatches,theElseInstructions,n);}
-	| "associate" n=openbracket l5=associateEndPoint {theAssociatePoints.addElement(l5);} 
+	| ("dissociate" | "associate" {isAssociate=true; } ) n=openbracket l5=associateEndPoint {theAssociatePoints.addElement(l5);} 
 		( COMMA l6=associateEndPoint {theAssociatePoints.addElement(l6);} )+ CLOSEBRACKET SEMICOLON
-	  {tree=walker.associateInstr(theAssociatePoints,n); }
+	  {tree=walker.associateInstr(isAssociate,theAssociatePoints,n); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;

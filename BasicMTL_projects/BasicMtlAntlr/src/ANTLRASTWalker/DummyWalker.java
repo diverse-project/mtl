@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.3 2003-08-22 18:27:46 ffondeme Exp $
+//$Id: DummyWalker.java,v 1.4 2003-08-27 13:35:10 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -40,7 +40,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber) { return null; }
 
-	public Object associateInstr(java.util.Vector endPoints,String lineNumber) { return null; }
+	public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,String lineNumber) { return null; }
 
 	public Object associateEndPoint(String role,Object endObject,Object type) { return null; }
 
