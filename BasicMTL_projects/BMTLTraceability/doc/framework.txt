@@ -1,0 +1,5 @@
+
+First of all, we need to define a Traceable class; only objects of this class can be used 
+in the traceability framework.
+
+If we want involve MTL objects in traceability, the underlying class must 

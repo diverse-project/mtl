@@ -1,0 +1,106 @@
+
+API for the Traceability framework
+----------------------------------
+
+// one should be able to define an association between two objects
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TraceabilityFramework::AssociationEnd
+{
+	roleName : Standard::String;
+	
+	init (roleName : Standard::String);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TraceabilityFramework::Association
+{
+	source : Traceability::AssociationEnd;
+	target : Traceability::AssociationEnd;
+	
+	init (
+		source : Traceability::AssociationEnd;
+		target : Traceability::AssociationEnd
+	);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TraceabilityFramework::Traceability
+{
+	addAssociation (association : Traceability::Association);
+	
+	associateByRoleNames (
+		sourceElement : SourceMetamodel::Element;
+		sourceRole    : Standard::String;
+		targetElement : TargetMetamodel::Element;
+		targetRole    : Standard::String
+	);
+	
+	getAssociationSet (
+		element : Standard::ModelElement;
+		role    : Standard::String
+	) : Standard::Set
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TransientTraceability extends Traceability
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class PersistentTraceability extends Traceability
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TraceabilityFramework::Factory
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+sourceLinkEnd : Traceability::LinkEnd;
+targetLinkEnd : Traceability::LinkEnd;
+link : Traceability::Link;
+
+sourceLinkEnd := mgr.createLinkEnd();
+sourceLinkEnd.addAssociationEnd (mgr.createAssociationEnd (!PIM::Component!, "component", 1));
+
+targetLinkEnd := mgr.createLinkEnd();
+targetLinkEnd.addAssociationEnd (mgr.createAssociationEnd (!CCM::ComponentDef!, "componentDef", 1));
+targetLinkEnd.addAssociationEnd (mgr.createAssociationEnd (!CCM::HomeDef!, "homeDef", 1));
+
+link := mgr.createLink (sourceLinkEnd, targetLinkEnd);
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+class Component2ComponentDefAndHomeDef extends Traceability::Link
+{
+
+}
+
+
+
+
+
+
+
