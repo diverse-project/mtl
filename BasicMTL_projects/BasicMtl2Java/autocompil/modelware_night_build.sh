@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.1 2003-12-05 13:21:13 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.2 2003-12-05 13:22:59 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
