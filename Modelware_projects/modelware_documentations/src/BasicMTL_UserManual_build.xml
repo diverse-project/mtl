@@ -1,4 +1,4 @@
-<!-- $Id: BasicMTL_UserManual_build.xml,v 1.1 2005-03-16 13:16:15 dvojtise Exp $ -->
+<!-- $Id: BasicMTL_UserManual_build.xml,v 1.2 2005-03-16 15:51:50 dvojtise Exp $ -->
 <project name="BasicMTL_UserManual" default="all">
 	<!-- configuration properties -->
 	<!-- tool location -->
@@ -22,6 +22,7 @@
 	
 
 	<target name="OOo2dbk">
+		<mkdir dir="${build.docbook.dir}/${project.name}"/>
 		<!-- TODO tester l'appel ole en ajoutant les variables env et en appelant le python de OOo -->
 		<exec dir="${build.docbook.dir}/${project.name}" executable="${python.exe}">
 		  <arg line="${ooo2dbk.file} --book --verbose ${OOo.source.file}"/>
@@ -79,6 +80,44 @@
         <available property="tmp:chunked.ok" file="${build.dir}/html.chunked/${project.name}/index.html" />
         <fail message="not good: chunked HTML failed." unless="tmp:chunked.ok" />
 	</target>
+	<target name="html.help" depends="prepare_index.xml">
+		<antcall target="clean.html.help" />
+        <mkdir dir="${build.dir}/html.help/${project.name}" />
+        <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
+              target="html.help">
+             <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
+             <property name="docbook.resources.dir" location="${build.dir}/figures" />
+             <property name="distribution.dir" location="${build.dir}/html.help/${project.name}" />
+             <property name="build.dir" location="${build.docbook.dir}/${project.name}" />
+        </ant>
+
+        <available property="tmp:help.ok" file="${build.dir}/html.help/${project.name}/index.html" />
+        <fail message="not good: HTMLHelp failed." unless="tmp:help.ok" />
+	</target>
+	
+	<target name="eclipse.help" depends="prepare_index.xml">
+		<antcall target="clean.eclipse.help" />
+        <mkdir dir="${build.dir}/eclipse.help/${project.name}" />
+        <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
+              target="eclipse.help">
+             <property name="docbook.xml.dir" location="${build.docbook.dir}/${project.name}" />
+            <property name="docbook.resources.dir" location="${build.dir}/figures" />
+            <property name="distribution.dir" location="${build.dir}/eclipse.help/${project.name}" />
+            <property name="build.dir" location="${build.docbook.dir}/${project.name}" />
+            <property name="docbook.eclipse.plugin.name" value="MTL help" />
+            <property name="docbook.eclipse.plugin.id" value="fr.inria.mtl.help" />
+            <property name="docbook.eclipse.plugin.provider" value="INRIA/Irisa" />
+        </ant>
+
+		<condition property="tmp:Eclipsehelp.ok" value="true">
+	        <and>
+	        	<available file="${build.dir}/eclipse.help/${project.name}/help/html/index.html" />	        	
+	        	<available file="${build.dir}/eclipse.help/${project.name}/toc.xml" />	        	        
+	        </and>
+	    </condition>
+        <fail message="not good: Eclipse Help failed." unless="tmp:Eclipsehelp.ok" />
+	</target>
+	
 	<target name="pdf.fop"  depends="prepare_index.xml">
         <antcall target="clean.fop" />
     	        
@@ -124,6 +163,14 @@
 	<target name="clean.html.single">
 	        <delete dir="${project.base.dir}/build/html.single" failonerror="false" quiet="true" />
 	        <mkdir dir="${project.base.dir}/build/html.single" />
+	</target>
+	<target name="clean.html.help">
+	        <delete dir="${project.base.dir}/build/html.help" failonerror="false" quiet="true" />
+	        <mkdir dir="${project.base.dir}/build/html.help" />
+	</target>
+	<target name="clean.eclipse.help">
+	        <delete dir="${project.base.dir}/build/eclipse.help" failonerror="false" quiet="true" />
+	        <mkdir dir="${project.base.dir}/build/eclipse.help" />
 	</target>
 	
 	
