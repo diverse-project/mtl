@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: CollectionType.mtl,v 1.1 2004-02-02 17:20:40 edrezen Exp $
+ * $Id: CollectionType.mtl,v 1.2 2004-02-18 10:48:32 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -20,4 +20,10 @@ class CollectionType extends DataType
 
 	/** */
 	setMultiplicity (multiplicity : MOFview::MultiplicityType)   {}
+
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitCollectionType (this); }
 }

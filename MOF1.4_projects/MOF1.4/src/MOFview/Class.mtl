@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Class.mtl,v 1.1 2004-02-02 17:20:47 edrezen Exp $
+ * $Id: Class.mtl,v 1.2 2004-02-18 10:48:38 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -20,4 +20,11 @@ class Class extends Classifier
 
 	/** */
 	setIsSingleton (isSingleton : Standard::Boolean)   {}
+	
+	
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitClass (this); }
+	
 }

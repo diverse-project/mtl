@@ -1,10 +1,14 @@
 /******************************************************************************
- * $Id: BehavioralFeature.mtl,v 1.1 2004-02-02 17:20:46 edrezen Exp $
+ * $Id: BehavioralFeature.mtl,v 1.2 2004-02-18 10:48:37 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class BehavioralFeature	extends Feature
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitBehavioralFeature (this); }
 
 }

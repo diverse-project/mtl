@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Namespace.mtl,v 1.1 2004-02-02 17:20:41 edrezen Exp $
+ * $Id: Namespace.mtl,v 1.2 2004-02-18 10:48:33 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -20,4 +20,11 @@ class Namespace extends ModelElement
 
 	/**	*/	
 	addContent (content : MOFview::ModelElement)  {}
+
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitNamespace (this); }
+
 }

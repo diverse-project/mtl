@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: StructuralFeature.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ * $Id: StructuralFeature.mtl,v 1.2 2004-02-18 10:48:35 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -26,4 +26,11 @@ class StructuralFeature extends Feature, TypedElement
 	
 	/** */
 	setIsChangeable (isChangeable : Standard::Boolean)   {}
+	
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitStructuralFeature (this); }
+	
 }

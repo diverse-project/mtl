@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Reference.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ * $Id: Reference.mtl,v 1.2 2004-02-18 10:48:36 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -26,4 +26,11 @@ class Reference extends StructuralFeature
 
 	/** */
 	setReferencedEnd (referencedEnd : MOFview::AssociationEnd)   {}
+	
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitReference (this); }
+	
 }

@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Constraint.mtl,v 1.1 2004-02-02 17:20:42 edrezen Exp $
+ * $Id: Constraint.mtl,v 1.2 2004-02-18 10:48:34 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -38,4 +38,10 @@ class Constraint extends ModelElement
 	
 	/** */
 	addConstrainedElement (constrainedElement : MOFview::ModelElement) {}
+	
+	
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitConstraint (this); }
 }

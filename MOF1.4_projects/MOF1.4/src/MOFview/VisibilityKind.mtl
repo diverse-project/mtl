@@ -1,10 +1,14 @@
 /******************************************************************************
- * $Id: VisibilityKind.mtl,v 1.1 2004-02-02 17:20:45 edrezen Exp $
+ * $Id: VisibilityKind.mtl,v 1.2 2004-02-18 10:48:37 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class VisibilityKind extends EnumerationType
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitVisibilityKind (this); }
 
 }

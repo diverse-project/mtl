@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: GeneralizableElement.mtl,v 1.1 2004-02-02 17:20:39 edrezen Exp $
+ * $Id: GeneralizableElement.mtl,v 1.2 2004-02-18 10:48:32 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -44,4 +44,11 @@ class GeneralizableElement extends Namespace
 
 	/** */
 	addSupertype (superType : MOFview::GeneralizableElement)  {}
+	
+	
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitGeneralizableElement (this); }
+	
 }

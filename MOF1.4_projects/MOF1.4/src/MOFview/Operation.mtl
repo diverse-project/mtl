@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Operation.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ * $Id: Operation.mtl,v 1.2 2004-02-18 10:48:35 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -26,4 +26,10 @@ class Operation extends Feature
 
 	/** */
 	addException (exception : MOFview::Exception)  {}
+
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitOperation (this); }
 }

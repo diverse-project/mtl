@@ -1,10 +1,14 @@
 /******************************************************************************
- * $Id: DataType.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ * $Id: DataType.mtl,v 1.2 2004-02-18 10:48:36 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class DataType extends Classifier
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitDataType (this); }
 
 }

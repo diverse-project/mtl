@@ -1,11 +1,15 @@
 /******************************************************************************
- * $Id: DirectionKind.mtl,v 1.1 2004-02-02 17:20:45 edrezen Exp $
+ * $Id: DirectionKind.mtl,v 1.2 2004-02-18 10:48:37 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class DirectionKind extends EnumerationType
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitDirectionKind (this); }
 
 }
 

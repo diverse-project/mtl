@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: MultiplicityType.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ * $Id: MultiplicityType.mtl,v 1.2 2004-02-18 10:48:35 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -38,4 +38,11 @@ class MultiplicityType extends StructureType
 	
 	/** */
 	setIsUnique (isUnique : Standard::Boolean)   {}
+
+
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitMultiplicityType (this); }
+
 }

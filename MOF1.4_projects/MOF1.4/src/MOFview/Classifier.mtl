@@ -1,10 +1,14 @@
 /******************************************************************************
- * $Id: Classifier.mtl,v 1.1 2004-02-02 17:20:42 edrezen Exp $
+ * $Id: Classifier.mtl,v 1.2 2004-02-18 10:48:34 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class Classifier extends GeneralizableElement 
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitClassifier (this); }
 
 }

@@ -1,11 +1,15 @@
 /******************************************************************************
- * $Id: EvaluationKind.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ * $Id: EvaluationKind.mtl,v 1.2 2004-02-18 10:48:36 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class EvaluationKind extends EnumerationType
 {
+	/*********************************/
+	/**           VISITOR           **/
+	/*********************************/
+	//Accept (visitor : MOFvisitors::AbstractVisitor) { visitor.visitEvaluationKind (this); }
 
 }
 
