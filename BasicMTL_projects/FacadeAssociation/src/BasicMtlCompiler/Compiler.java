@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.3 2003-11-04 10:12:52 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.4 2003-11-24 15:02:11 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -107,7 +107,8 @@ public class Compiler {
 				antlrParserInterface parser=new antlr2astViewParser().newParser();
 				BasicMtlLibrary theLib=(BasicMtlLibrary)TLLtypechecking.checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,TLLLoadingPaths,parser);
 				if (theLib!=null)
-					BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);			
+					BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
+				else System.exit(-1);	
 			}
 		}
 		else showUsage();
