@@ -4,6 +4,7 @@ import java.util.*;
 
 
 public class Foreach 
+    extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Instruction
 {
     public Vector body = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Instruction getBody (int i) {
@@ -49,4 +50,9 @@ public class Foreach
         else return 1;
     }
 
+
+    public Foreach(
+        int lineNumber)
+    {
+    }
 }
