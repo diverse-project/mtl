@@ -37,9 +37,14 @@ main():Standard::Void
 						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\UML1.4\\Uml1.4Models\\testposeidon.xmi',
 						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\UML1.4\\Uml1.4Models\\testposeidon_modified.xmi');
 
-	'model connected'.toOut();
+	'model connected'.toOut();	
+	
+	//A bad hack to enable visibility enums...
+	!source_model::Data_Types::VisibilityKind!.allInstances();
+
 	aPrivatizeAttributes_Transformation := new PrivatizeAttributes_Transformation();
 	aPrivatizeAttributes_Transformation.processAllAttributes();
+	aPrivatizeAttributes_Transformation.findPublicVisibility('vk_public');
 	
 	'That s all folks !'.toOut();
 }
@@ -85,7 +90,7 @@ class PrivatizeAttributes_Transformation
 		aClass_Transformations : Class_Transformations;
 		
    		aPublicVisibility : source_model::Data_Types::VisibilityKind;
-   		aVisibility : source_model::Data_Types::VisibilityKind;
+   		aVisibility : Standard::OclAny;
 		
 		// create a tool class
 		aClass_Transformations :=  new Class_Transformations();
@@ -100,12 +105,14 @@ class PrivatizeAttributes_Transformation
 			anAttribute := attributeIterator.item().oclAsType(!source_model::Core::Attribute!);
 			// if attribute is public
 			anAttribute.toOut();
-			aPublicVisibility := new source_model::Data_Types::VisibilityKind();
-			aPublicVisibility.name := 'vk_public';
-			aPublicVisibility.toOut();
-			aVisibility := anAttribute.visibility;
+			aPublicVisibility := findPublicVisibility('vk_public');
+			// aPublicVisibility := new source_model::Data_Types::VisibilityKind();
+			// aPublicVisibility.name := 'vk_public';
+			// aPublicVisibility.toOut();			
+			// aPublicVisibility := anAttribute.visibility;
 			// anAttribute.visibility.toOut();  // DO NOT WORK ????!!!!
-			if aPublicVisibility.[=](aVisibility.oclAsType(!source_model::Data_Types::VisibilityKind!))
+			// if aPublicVisibility.oclIsTypeOf(!source_model::Data_Types::VisibilityKind::vk_public!))
+			if anAttribute.visibility.oclIsKindOf(!source_model::Data_Types::VisibilityKind::vk_public!))
 			{
 				'attribute with public visibility found'.toOut();
 			}
@@ -113,6 +120,7 @@ class PrivatizeAttributes_Transformation
 			{
 				'attribute with NON public visibility found'.toOut();
 			}
+			
 			// if owner is a class
 /*			if anAttribute.owneroclIsTypeOf(!vehiculeLib::vehicule!) {
 		throws 'OclAny.=(OclAny) has problems';
@@ -123,6 +131,33 @@ class PrivatizeAttributes_Transformation
 				
 			attributeIterator.next();
 		}
+	}
+	findPublicVisibility(name:Standard::String):source_model::Data_Types::VisibilityKind
+	{
+		visibilityKindIterator : Standard::Iterator;
+		visibilityKindSet : Standard::Set;
+		aVisibility : source_model::Data_Types::VisibilityKind;
+		anObject : Standard::OclAny;
+		
+		visibilityKindSet := !source_model::Data_Types::VisibilityKind!.allInstances();
+		visibilityKindIterator := visibilityKindSet.getNewIterator();
+		visibilityKindIterator.start();
+		
+		while visibilityKindIterator.isOn() 
+		{	
+			anObject := visibilityKindIterator.item();
+			anObject.toOut();
+			aVisibility := anObject.oclAsType(!source_model::Data_Types::VisibilityKind!);
+			if aVisibility.getName().[=](name) {
+				return anObject;
+			}
+			// aVisibility := anObject.oclAsType(!source_model::Data_Types::VisibilityKind!);
+			// aVisibility.toOut();
+			
+				
+			visibilityKindIterator.next();
+		}
+		return null;
 	}
 	processPackage(p : source_model::Package)
 	{
