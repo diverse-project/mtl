@@ -1,6 +1,6 @@
 /******************************************************************************
- * $Id: PIM2CMM_Transformation.mtl,v 1.1 2003-12-05 10:43:18 edrezen Exp $
- * Transform a UML+profile PIM model into a MOF PIM model
+ * $Id: PIM2CMM_Transformation.mtl,v 1.2 2004-01-29 10:53:10 edrezen Exp $
+ * Transform a PIM model into a PSM model
  *
  * Syntax used : BasicMTL beta
  *
@@ -8,10 +8,13 @@
 
 library PIM2CCM_Transformation;
 
-model DesignMetamodel : RepositoryModel;		// should be a PIM MetaModel
-model CidlMetamodel   : RepositoryModel;
+model PimMetamodel : RepositoryModel;		// should be a PIM MetaModel
+model PsmMetamodel   : RepositoryModel;
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 main():Standard::Void
 {
@@ -19,19 +22,20 @@ main():Standard::Void
 	mdrdriver         : MDRDriver::MDRModelManager;
     projectPath       : Standard::String;
 
-	DesignMetamodel_filename : Standard::String;
-	DesignModelIn_filename   : Standard::String;
+	PimMetamodel_filename : Standard::String;
+	PimModelIn_filename   : Standard::String;
+	PimModelOut_filename  : Standard::String;
 
-	CidlMetamodel_filename : Standard::String;
-	CidlModelOut_filename  : Standard::String;
+	PsmMetamodel_filename : Standard::String;
+	PsmModelIn_filename   : Standard::String;
+	PsmModelOut_filename  : Standard::String;
 
-	aTransformation   : TestTransformation;
+	aTransformation   : PIM2CCMTransformation;
 
 	//////////////////////////////////////////////////
 	// we define some filenames 
 	//////////////////////////////////////////////////
-	projectPath       := './';
-
+	projectPath := './';
 
 	//////////////////////////////////////////////////
     // we initialize the MDR driver			
@@ -43,361 +47,815 @@ main():Standard::Void
 	// we initialize the PIM Design metamodel
 	//////////////////////////////////////////////////
 
-	DesignMetamodel_filename := projectPath.concat ('MetaModels/PIM/DesignMetamodel_MOF.xml');
-	DesignModelIn_filename   := projectPath.concat ('Models/PIM/Sample1.xml');
+	PimMetamodel_filename := projectPath.concat ('MetaModels/PIM/DesignMetamodel_MOF.xml');
+	PimModelIn_filename   := projectPath.concat ('Models/PIM/Sample1.xml');
+	PimModelOut_filename  := projectPath.concat ('Models/PIM/SampleOut.xml');
 
-
-	DesignMetamodel := mdrdriver.getModelFromXMI (
-		DesignMetamodel_filename, 
+	PimMetamodel := mdrdriver.getModelFromXMI (
+		PimMetamodel_filename, 
 		'DesignMetaModel',
-		'm1', 
-		DesignModelIn_filename,
-		DesignModelIn_filename
+		'pim', 
+		PimModelIn_filename,
+		PimModelOut_filename
 	);
 
 	//////////////////////////////////////////////////
-	// we initialize the CIDL metamodel
+	// we initialize the PSM metamodel
 	//////////////////////////////////////////////////
 
-	CidlMetamodel_filename := projectPath.concat ('MetaModels/CCM/CidlMetaModel_MOF.xml');
-	CidlModelOut_filename  := projectPath.concat ('Models/CCM/SampleOut.xml');
+	PsmMetamodel_filename := projectPath.concat ('MetaModels/CCM/CidlMetaModel_MOF.xml');
+	PsmModelOut_filename  := projectPath.concat ('Models/CCM/SampleOut.xml');
 
-	CidlMetamodel:= mdrdriver.getModelFromXMI (
-		CidlMetamodel_filename, 
+	PsmMetamodel:= mdrdriver.getModelFromXMI (
+		PsmMetamodel_filename, 
 		'CIDLMetaModel',
-		'm2', 
-		null,
-		CidlModelOut_filename
+		'ccm', 
+		PsmModelIn_filename,
+		PsmModelOut_filename
 	);
 
 	//////////////////////////////////////////////////
 	// we launch the transformation
 	//////////////////////////////////////////////////
-	aTransformation := new TestTransformation ();
-	aTransformation.run();
+	aTransformation := new PIM2CCMTransformation ();
+	aTransformation.Init ();
+	aTransformation.Execute ();
 }
  
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// PIM2CCMTransformation class : implements the PIM to CCM transformation
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-/*****************************************************************************/
-
-class IdGenerator 
+class PIM2CCMTransformation
 {
-	theId : Standard::Integer;
+	out          : Output;
+	traceability : TraceabilityLibrary::Traceability;
 
+
+	/******************************************************************************
+	 * name       : Init
+	 * purpose    : Initialization of a PIM2CCMTransformation object
+	 * visibility : public
+	 * in         : none
+	 * out        : none
+	 * remark     : Must be called after the instanciation of an object
+	 * example    : 
+	 ******************************************************************************/
 	Init () 
 	{
-		theId := 0;
+		// we init the ouput (for debug purpose)
+		out := new Output ();
+
+		// we initialize the traceability feature
+	    traceability := new TraceabilityLibrary::Traceability ();
+	    traceability.init (PimMetamodel, PsmMetamodel);
 	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	getId () : Standard::Integer
+
+
+	/******************************************************************************
+	 * name       : Execute
+	 * purpose    : Launch the transformation
+	 * visibility : public
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	Execute () 
 	{
-		theId := theId.[+](1);
-		return theId;
-	}
-}
-
-
-/*****************************************************************************/
-
-class TestTransformation
-{
-	idGenerator : IdGenerator;
-	
-
-	///////////////////////////////////////////////////////////////////////////
-	getRootElement () : DesignMetamodel::Model
-	{
-		result : DesignMetamodel::Model;
-		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::ModelElement;	
-
-		aModelElementIterator := !DesignMetamodel::ModelElement!.allInstances().getNewIterator();
-		aModelElementIterator.start();
-
-		while aModelElementIterator.isOn() 
-		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::ModelElement!);
-
-			if (aModelElement.oclIsTypeOf (!DesignMetamodel::Model!) )
-			{
-				aModelElement.name.toOut();
-				result := aModelElement;
-			}
-			aModelElementIterator.next();
-		}
+		// we process the transformations 
+		ComponentTransformation ();
 		
-		return result;
+		PortIsProvidedTransformation ();
+		PortIsRequiredTransformation ();
+		PortEventIsRequiredTransformation ();
+		PortEventIsProvidedTransformation ();
+		
+		InterfaceTransformation ();
+		PropertyTransformation ();
+		OperationTransformation ();
+		
+		// note that xxxOwnerShipTransformation have to be processed at the end, when all elements have been created.
+		
+		PortOwnerShipTransformation ();
+		Port_InterfaceRelationShipTransformation ();
+
+		Interface_PropertyOwnerShipTransformation ();
+		Interface_OperationOwnerShipTransformation  ();
 	}
 
-
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
-	Design_AddTraceableElement (
-		owner  : DesignMetamodel::Element;
-		traced : CidlMetamodel::Element
-	)
-	{
-		traceableElement : DesignMetamodel::TraceableElement;
-		traceableElement := new DesignMetamodel::TraceableElement ();
-		traceableElement.linkedId := traced.oclUid();
-
-		associate ( 
-			tracer         := owner            : DesignMetamodel::Element,
-			tracedElements := traceableElement : DesignMetamodel::TraceableElement
-		);			
-	}
-
-
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
-	CCM_AddTraceableElement (
-		owner  : CidlMetamodel::Element;
-		traced : DesignMetamodel::Element
-	)
-	{
-		traceableElement : CidlMetamodel::TraceableElement;
-		traceableElement := new CidlMetamodel::TraceableElement ();
-		traceableElement.linkedId := traced.oclUid();
-
-		associate ( 
-			tracer         := owner            : CidlMetamodel::Element,
-			tracedElements := traceableElement : CidlMetamodel::TraceableElement
-		);			
-	}
-
-
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
-	AddTraceableElement (
-		design : DesignMetamodel::Element;
-		ccm    : CidlMetamodel::Element
-	)
-	{
-		design.id := design.oclUid();
-		ccm.id    := ccm.oclUid();
 	
-		Design_AddTraceableElement (design,ccm);
-		CCM_AddTraceableElement    (ccm,design);
-	}
-
-
-
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
+	/******************************************************************************
+	 * name       : ComponentTransformation
+	 * purpose    : Build PSM elements from PIM Component elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
 	ComponentTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::Component;	
+		aModelElement : PimMetamodel::Component;	
 		
-		aComponentDef : CidlMetamodel::ComponentDef;
-		aHomeDef      : CidlMetamodel::HomeDef;
+		aComponentDef : PsmMetamodel::ComponentDef;
+		aHomeDef      : PsmMetamodel::HomeDef;
 
-		aModelElementIterator := !DesignMetamodel::Component!.allInstances().getNewIterator();
+		out.Info ('ComponentTransformation');
+		
+		aModelElementIterator := !PimMetamodel::Component!.allInstances().getNewIterator();
 		aModelElementIterator.start();
 
 		while aModelElementIterator.isOn() 
 		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::Component!);
-						
-			// we build a new CIDL::ComponentDef object
-			aComponentDef := new CidlMetamodel::ComponentDef();
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::Component!);
+
+			// we look if this Component has already an associated ComponentDef
+			if (traceability.getAssociationSet (aModelElement,'componentDef').isEmpty())
+			{
+				// we build a new CIDL::ComponentDef object
+				aComponentDef := new PsmMetamodel::ComponentDef();
 	
-			// we build a new CIDL::HomeDef object
-			aHomeDef := new CidlMetamodel::HomeDef();
+				// we build a new CIDL::HomeDef object
+				aHomeDef := new PsmMetamodel::HomeDef();
+	
+				// we set the name of the CIDL::ComponentDef object
+				aComponentDef.name := aModelElement.name;
 
-			// we set the name of the CIDL::ComponentDef object
-			aComponentDef.name := aModelElement.name;
+				// we set the name of the CIDL::HomeDef object
+				aHomeDef.name := aModelElement.name;
 
-			// we set the name of the CIDL::HomeDef object
-			aHomeDef.name := aModelElement.name;
+				// we associate the CIDL::HomeDef object and the CIDL::ComponentDef object
+				associate ( 
+					component := aComponentDef : PsmMetamodel::ComponentDef ,
+					home      := aHomeDef      : PsmMetamodel::HomeDef
+				);			
 
-			// we associate the CIDL::HomeDef object and the CIDL::ComponentDef object
-			associate ( 
-				component := aComponentDef : CidlMetamodel::ComponentDef ,
-				home      := aHomeDef      : CidlMetamodel::HomeDef
-			);			
-
-			// we manage the tracability
-			AddTraceableElement (aModelElement, aComponentDef);
-			AddTraceableElement (aModelElement, aHomeDef);
-
+				// we manage the tracability
+				traceability.associateElementToElement (aModelElement,'component', aComponentDef,'componentDef');
+				traceability.associateElementToElement (aModelElement,'component', aHomeDef,     'homeDef');
+			}
+			else
+			{
+				'Element already processed in ComponentTransformation...'.toOut();
+			}
+	
 			aModelElementIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
+	/******************************************************************************
+	 * name       : PortIsProvidedTransformation
+	 * purpose    : Build PSM elements from PIM PortIsProvided elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
 	PortIsProvidedTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::PortIsProvided;	
+		aModelElement : PimMetamodel::PortIsProvided;	
 	
-		aProvidesDef : CidlMetamodel::ProvidesDef;
-	
+		aProvidesDef : PsmMetamodel::ProvidesDef;
+
+		out.Info ('PortIsProvidedTransformation');
 		
-		aModelElementIterator := !DesignMetamodel::PortIsProvided!.allInstances().getNewIterator();
+		aModelElementIterator := !PimMetamodel::PortIsProvided!.allInstances().getNewIterator();
 		aModelElementIterator.start();
 
 		while aModelElementIterator.isOn() 
 		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortIsProvided!);
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::PortIsProvided!);
 			
-			// we build a brand new CidlMetamodel::ProvidesDef object
-			aProvidesDef := new CidlMetamodel::ProvidesDef();
+			// we look if this Component has already an associated ComponentDef
+			if (traceability.getAssociationSet (aModelElement,'providesDef').isEmpty())
+			{
+				// we build a brand new PsmMetamodel::ProvidesDef object
+				aProvidesDef := new PsmMetamodel::ProvidesDef();
 			
-			// we set the name of the CidlMetamodel::ProvidesDef object
-			aProvidesDef.name := aModelElement.name;
+				// we set the name of the PsmMetamodel::ProvidesDef object
+				aProvidesDef.name := aModelElement.name;
 
-			// we manage the tracability
-			AddTraceableElement (aModelElement, aProvidesDef);
-
+				// we manage the tracability
+				traceability.associateElementToElement (aModelElement,'port', aProvidesDef,'providesDef');
+			}
+			else
+			{
+				'Element already processed in PortIsProvidedTransformation...'.toOut();
+			}
 			
 			aModelElementIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
+	/******************************************************************************
+	 * name       : PortIsRequiredTransformation
+	 * purpose    : Build PSM elements from PIM PortIsRequired elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
 	PortIsRequiredTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::PortIsRequired;	
+		aModelElement : PimMetamodel::PortIsRequired;	
 		
-		aUsesDef : CidlMetamodel::UsesDef;
+		aUsesDef : PsmMetamodel::UsesDef;
 				
-		aModelElementIterator := !DesignMetamodel::PortIsRequired!.allInstances().getNewIterator();
+		out.Info ('PortIsRequiredTransformation');
+		
+		aModelElementIterator := !PimMetamodel::PortIsRequired!.allInstances().getNewIterator();
 		aModelElementIterator.start();
 
 		while aModelElementIterator.isOn() 
 		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortIsRequired!);
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::PortIsRequired!);
 
-			// we build a new CidlMetamodel::UsesDef object
-			aUsesDef := new CidlMetamodel::UsesDef();
+			// we build a new PsmMetamodel::UsesDef object
+			aUsesDef := new PsmMetamodel::UsesDef();
 			
-			// we set the name of the CidlMetamodel::UsesDef object
+			// we set the name of the PsmMetamodel::UsesDef object
 			aUsesDef.name := aModelElement.name;
 
 			// we manage the tracability
-			AddTraceableElement (aModelElement, aUsesDef);
+			traceability.associateElementToElement (aModelElement,'port', aUsesDef,'usesDef');
 
 			aModelElementIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
+	/******************************************************************************
+	 * name       : PortEventIsRequiredTransformation
+	 * purpose    : Build PSM elements from PIM PortEventIsRequired elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
 	PortEventIsRequiredTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::PortEventIsRequired;	
+		aModelElement : PimMetamodel::PortEventIsRequired;	
 				
-		aConsumesDef : CidlMetamodel::ConsumesDef;
+		aConsumesDef : PsmMetamodel::ConsumesDef;
 		
-		type : Standard::OclType;
+		out.Info ('PortEventIsRequiredTransformation');
 				
-		aModelElementIterator := !DesignMetamodel::PortEventIsRequired!.allInstances().getNewIterator();
+		aModelElementIterator := !PimMetamodel::PortEventIsRequired!.allInstances().getNewIterator();
 		aModelElementIterator.start();
 
 		while aModelElementIterator.isOn() 
 		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::PortEventIsRequired!);
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::PortEventIsRequired!);
 
-			// we build a new CidlMetamodel::ConsumesDef object
-			aConsumesDef := new CidlMetamodel::ConsumesDef();
+			// we build a new PsmMetamodel::ConsumesDef object
+			aConsumesDef := new PsmMetamodel::ConsumesDef();
 
-			// we set the name of the CidlMetamodel::ConsumesDef object
+			// we set the name of the PsmMetamodel::ConsumesDef object
 			aConsumesDef.name := aModelElement.name;
 
 			// we manage the tracability
-			AddTraceableElement (aModelElement, aConsumesDef);
+			traceability.associateElementToElement (aModelElement,'port', aConsumesDef,'consumesDef');
 
 			aModelElementIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
-	Component_PortOwnerShipTransformation () 
+	/******************************************************************************
+	 * name       : PortEventIsProvidedTransformation
+	 * purpose    : Build PSM elements from PIM PortEventIsProvided elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	PortEventIsProvidedTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::Component;	
+		aModelElement : PimMetamodel::PortEventIsProvided;	
+				
+		aEmitsDef : PsmMetamodel::EmitsDef;
 		
-		portsIterator : Standard::Iterator;
-		aPort         : DesignMetamodel::Port;
-		
-		aModelElementIterator := !DesignMetamodel::Component!.allInstances().getNewIterator();
+		out.Info ('PortEventIsProvidedTransformation ');
+						
+		aModelElementIterator := !PimMetamodel::PortEventIsProvided!.allInstances().getNewIterator();
 		aModelElementIterator.start();
 
 		while aModelElementIterator.isOn() 
 		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::Component!);
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::PortEventIsProvided!);
 
-			portsIterator := aModelElement.OwnedPort.getNewIterator();
+			// we build a new PsmMetamodel::EmitsDef object
+			aEmitsDef := new PsmMetamodel::EmitsDef();
+
+			// we set the name of the PsmMetamodel::ConsumesDef object
+			aEmitsDef.name := aModelElement.name;
+
+			// we manage the tracability
+			traceability.associateElementToElement (aModelElement,'port', aEmitsDef,'emitsDef');
+
+			aModelElementIterator.next();
+		}
+	}
+
+
+	/******************************************************************************
+	 * name       : PortOwnerShipTransformation
+	 * purpose    : Manage associations between PSM elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	PortOwnerShipTransformation () 
+	{
+		componentsIterator : Standard::Iterator;
+		aComponent    : PimMetamodel::Component;	
+		aComponentDef : PsmMetamodel::ComponentDef;	
+		
+		portsIterator : Standard::Iterator;
+		aPort         : PimMetamodel::Port;
+		aProvidesDef  : PsmMetamodel::ProvidesDef;
+		aUsesDef      : PsmMetamodel::UsesDef;
+		aConsumesDef  : PsmMetamodel::ConsumesDef;		
+		aEmitsDef     : PsmMetamodel::EmitsDef;
+
+		out.Info ('PortOwnerShipTransformation');
+		
+		// we loop over all Components objects
+		componentsIterator := !PimMetamodel::Component!.allInstances().getNewIterator();
+		componentsIterator.start();
+		while componentsIterator.isOn() 
+		{		
+			// we retrieve the current PIM Component of the iterator
+			aComponent := componentsIterator.item().oclAsType (!PimMetamodel::Component!);
+
+			// we retrieve the associated PSM ComponentDef 
+			aComponentDef := getItem (traceability.getAssociationSet (aComponent,'componentDef')).oclAsType (!PsmMetamodel::ComponentDef!);
+			
+			// we loop over each port of the current Component element
+			portsIterator := aComponent.ownedPort.getNewIterator();
 			portsIterator.start();
 			while portsIterator.isOn()
 			{
-				aPort := portsIterator.item().oclAsType (!DesignMetamodel::Port!);
+				// we retrieve the current PIM Port element of the iterator
+				aPort := portsIterator.item().oclAsType (!PimMetamodel::Port!);
+
+				///////////////////////////////////////////////////////////				
+				// we deal the special case of PortIsProvided elements
+				///////////////////////////////////////////////////////////				
+				if (aPort.oclIsKindOf (!PimMetamodel::PortIsProvided!) )
+				{
+					// we retrieve the associated PSM ProvidesDef
+					aProvidesDef := getItem (traceability.getAssociationSet (aPort,'providesDef')).oclAsType (!PsmMetamodel::ProvidesDef!);
+
+					// we link the ComponentDef element to the ProvidesDef element
+					associate ( 
+						undefined := aComponentDef : PsmMetamodel::ComponentDef ,
+						facet     := aProvidesDef  : PsmMetamodel::ProvidesDef
+					);			
+				}
+
+				///////////////////////////////////////////////////////////				
+				// we deal the special case of PortIsRequired elements
+				///////////////////////////////////////////////////////////				
+				if (aPort.oclIsKindOf (!PimMetamodel::PortIsRequired!) )
+				{
+					// we retrieve the associated PSM UsesDef
+					aUsesDef := getItem (traceability.getAssociationSet (aPort,'usesDef')).oclAsType (!PsmMetamodel::UsesDef!);
+
+					// we link the ComponentDef element to the UsesDef element
+					associate ( 
+						undefined  := aComponentDef : PsmMetamodel::ComponentDef ,
+						receptacle := aUsesDef      : PsmMetamodel::UsesDef
+					);			
+				}
+
+				///////////////////////////////////////////////////////////				
+				// we deal the special case of PortEventIsRequired elements
+				///////////////////////////////////////////////////////////				
+				if (aPort.oclIsKindOf (!PimMetamodel::PortEventIsRequired!) )
+				{
+					// we retrieve the associated PSM ConsumesDef
+					aConsumesDef := getItem (traceability.getAssociationSet (aPort,'consumesDef')).oclAsType (!PsmMetamodel::ConsumesDef!);
+
+					// we link the ComponentDef element to the UsesDef element
+					associate ( 
+						undefined  := aComponentDef : PsmMetamodel::ComponentDef ,
+						consumes   := aConsumesDef  : PsmMetamodel::ConsumesDef
+					);			
+				}
+
+				///////////////////////////////////////////////////////////				
+				// we deal the special case of PortEventIsProvided elements
+				///////////////////////////////////////////////////////////				
+				if (aPort.oclIsKindOf (!PimMetamodel::PortEventIsProvided!) )
+				{
+					// we retrieve the associated PSM ConsumesDef
+					aEmitsDef := getItem (traceability.getAssociationSet (aPort,'emitsDef')).oclAsType (!PsmMetamodel::EmitsDef!);
+
+					// we link the ComponentDef element to the UsesDef element
+					associate ( 
+						undefined  := aComponentDef : PsmMetamodel::ComponentDef ,
+						emits      := aEmitsDef     : PsmMetamodel::EmitsDef
+					);			
+				}
 				
 				portsIterator.next();
 			}
 			
-			aModelElementIterator.next();
+			componentsIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	//
-	///////////////////////////////////////////////////////////////////////////
-	XXXTransformation () 
+	/******************************************************************************
+	 * name       : InterfaceTransformation
+	 * purpose    : Build PSM elements from PIM Interface elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	InterfaceTransformation () 
 	{
 		aModelElementIterator : Standard::Iterator;
-		aModelElement : DesignMetamodel::ModelElement;	
-		aType : Standard::OclType;
-		
-		aModelElementIterator := !DesignMetamodel::ModelElement!.allInstances().getNewIterator();
-		aModelElementIterator.start();
+		aModelElement         : PimMetamodel::Interface;	
+		aInterfaceDef         : PsmMetamodel::InterfaceDef;
 
+		out.Info ('InterfaceTransformation');
+		
+		// we loop over the Interface elements of the PIM model				
+		aModelElementIterator := !PimMetamodel::Interface!.allInstances().getNewIterator();
+		aModelElementIterator.start();
 		while aModelElementIterator.isOn() 
-		{		
-			aModelElement := aModelElementIterator.item().oclAsType (!DesignMetamodel::ModelElement!);
-			aType := aModelElement.getType();
-			aType.toOut();
+		{
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::Interface!);
+
+			// we build a new PsmMetamodel::InterfaceDef object
+			aInterfaceDef := new PsmMetamodel::InterfaceDef ();
+
+			// we set the name of the PsmMetamodel::InterfaceDef object
+			aInterfaceDef.name := aModelElement.name;
+
+			// we set the other attributes
+			aInterfaceDef.isAbstract := aModelElement.isAbstract;
+
+			// we manage the tracability
+			traceability.associateElementToElement (aModelElement,'interface', aInterfaceDef, 'interfaceDef');
+
 			aModelElementIterator.next();
 		}
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-	run ()
+	/******************************************************************************
+	 * name       : PropertyTransformation
+	 * purpose    : Build PSM elements from PIM Property elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	PropertyTransformation () 
 	{
-		// some initializations
-		idGenerator := new IdGenerator ();
-		idGenerator.Init();
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : PimMetamodel::Property;	
+		aAttributeDef         : PsmMetamodel::AttributeDef;
 
-		// we process the transformations 
-		ComponentTransformation ();
-		PortIsProvidedTransformation ();
-		PortIsRequiredTransformation ();
-		PortEventIsRequiredTransformation ();
+		out.Info ('PropertyTransformation');
+		
+		// we loop over the Property elements of the PIM model				
+		aModelElementIterator := !PimMetamodel::Property!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+		while aModelElementIterator.isOn() 
+		{
+			aModelElement := aModelElementIterator.item().oclAsType (!PimMetamodel::Property!);
+
+			// we build a new PsmMetamodel::AttributeDef object
+			aAttributeDef := new PsmMetamodel::AttributeDef ();
+
+			// we set the name of the PsmMetamodel::AttributeDef object
+			aAttributeDef.name := aModelElement.name;
+
+			// we set the other attributes
+			aAttributeDef.isReadOnly := aModelElement.isReadOnly;
+
+			// we manage the tracability
+			traceability.associateElementToElement (aModelElement,'property', aAttributeDef, 'attributeDef');
+
+			aModelElementIterator.next();
+		}
 	}
 
 
+	/******************************************************************************
+	 * name       : OperationTransformation
+	 * purpose    : Build PSM elements from PIM Operation elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	OperationTransformation () 
+	{
+		operationsIterator : Standard::Iterator;
+		aOperation         : PimMetamodel::Operation;	
+		aOperationDef      : PsmMetamodel::OperationDef;
+
+		out.Info ('OperationTransformation');
+		
+		// we loop over the Operation elements of the PIM model				
+		operationsIterator := !PimMetamodel::Operation!.allInstances().getNewIterator();
+		operationsIterator.start();
+		while (operationsIterator.isOn())
+		{
+			// we retrieve the current PIM Operation element of the iterator
+			aOperation := operationsIterator.item().oclAsType (!PimMetamodel::Operation!);
+
+			// we build a new PSM OperationDef element
+			aOperationDef := new PsmMetamodel::OperationDef ();
+
+			// we set the name of the PSM OperationDef element
+			aOperationDef.name := aOperation.name;
+
+			// we manage the tracability between PIM and PSM
+			traceability.associateElementToElement (aOperation,'operation', aOperationDef, 'operationDef');
+
+			operationsIterator.next();
+		}
+	}
+
+
+	/******************************************************************************
+	 * name       : Interface_PropertyOwnerShipTransformation
+	 * purpose    : Manage associations between PSM elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	Interface_PropertyOwnerShipTransformation () 
+	{
+		interfacesIterator : Standard::Iterator;
+		aInterface         : PimMetamodel::Interface;	
+
+		propertiesIterator : Standard::Iterator;
+		aProperty          : PimMetamodel::Property;	
+
+		aInterfaceDef      : PsmMetamodel::InterfaceDef;
+		aAttributeDef      : PsmMetamodel::AttributeDef;
+
+		out.Info ('Interface_PropertyOwnerShipTransformation');
+
+		// we loop over the all Interface elements of the PIM model				
+		interfacesIterator := !PimMetamodel::Interface!.allInstances().getNewIterator();
+		interfacesIterator.start();
+		while interfacesIterator.isOn() 
+		{
+			// we retrieve the current Interface element of the iterator
+			aInterface := interfacesIterator.item().oclAsType (!PimMetamodel::Interface!);
+
+			// we retrieve the associated InterfaceDef in the PSM model
+			aInterfaceDef := getItem (traceability.getAssociationSet (aInterface,'interfaceDef')).oclAsType (!PsmMetamodel::InterfaceDef!);
+			
+			// we loop over all Property elements of the current Interface element
+			propertiesIterator := aInterface.ownedAttribute.getNewIterator();
+			propertiesIterator.start ();
+			while (propertiesIterator.isOn())
+			{
+				// we retrieve the current Property element of the iterator
+				aProperty := propertiesIterator.item().oclAsType (!PimMetamodel::Property!);
+				
+				// we retrieve the associated AttributeDef element in the PSM model
+				aAttributeDef := getItem (traceability.getAssociationSet (aProperty, 'attributeDef')).oclAsType (!PsmMetamodel::AttributeDef!);
+
+				// Now, we can link the InterfaceDef element to the AttributeDef element
+				associate ( 
+					definedIn := aInterfaceDef : PsmMetamodel::Container,
+					contents  := aAttributeDef : PsmMetamodel::Contained
+				);			
+								
+				propertiesIterator.next();
+			}
+			
+			interfacesIterator.next();
+		}
+	}
+
+
+	/******************************************************************************
+	 * name       : Interface_OperationOwnerShipTransformation
+	 * purpose    : Manage associations between PSM elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	Interface_OperationOwnerShipTransformation () 
+	{
+		interfacesIterator : Standard::Iterator;
+		aInterface         : PimMetamodel::Interface;	
+
+		operationsIterator : Standard::Iterator;
+		aOperation         : PimMetamodel::Operation;	
+
+		aInterfaceDef      : PsmMetamodel::InterfaceDef;
+		aOperationDef      : PsmMetamodel::OperationDef;
+
+		out.Info ('Interface_OperationOwnerShipTransformation');
+		
+		// we loop over the all Interface elements of the PIM model				
+		interfacesIterator := !PimMetamodel::Interface!.allInstances().getNewIterator();
+		interfacesIterator.start();
+		while interfacesIterator.isOn() 
+		{
+			// we retrieve the current Interface element of the iterator
+			aInterface := interfacesIterator.item().oclAsType (!PimMetamodel::Interface!);
+
+			// we retrieve the associated InterfaceDef in the PSM model
+			aInterfaceDef := getItem (traceability.getAssociationSet (aInterface,'interfaceDef')).oclAsType (!PsmMetamodel::InterfaceDef!);
+			
+			// we loop over all Operation elements of the current Interface element
+			operationsIterator := aInterface.operation.getNewIterator();
+			operationsIterator.start ();
+			while (operationsIterator.isOn())
+			{
+				// we retrieve the current Operation element of the iterator
+				aOperation := operationsIterator.item().oclAsType (!PimMetamodel::Operation!);
+				
+				// we retrieve the associated OperationDef element in the PSM model
+				aOperationDef := getItem (traceability.getAssociationSet (aOperation, 'operationDef')).oclAsType (!PsmMetamodel::OperationDef!);
+
+				// Now, we can link the InterfaceDef element to the Operation element
+				associate ( 
+					definedIn := aInterfaceDef : PsmMetamodel::Container,
+					contents  := aOperationDef : PsmMetamodel::Contained
+				);			
+								
+				operationsIterator.next();
+			}
+			
+			interfacesIterator.next();
+		}
+	}
+
+
+	/******************************************************************************
+	 * name       : Port_InterfaceRelationShipTransformation
+	 * purpose    : Manage associations between PSM elements
+	 * visibility : private
+	 * in         : none
+	 * out        : none
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	Port_InterfaceRelationShipTransformation ()
+	{
+		portsIterator   : Standard::Iterator;
+		aPort           : PimMetamodel::Port;
+		aPortIsProvided : PimMetamodel::PortIsProvided;
+		aPortIsRequired : PimMetamodel::PortIsRequired;
+
+		interfacesIterator : Standard::Iterator;
+		aInterface         : PimMetamodel::Interface;
+		aInterfaceDef      : PsmMetamodel::InterfaceDef;
+
+		aProvidesDef  : PsmMetamodel::ProvidesDef;
+		aUsesDef      : PsmMetamodel::UsesDef;
+		
+		out.Info ('Port_InterfaceRelationShipTransformation');
+
+		// we loop over the PIM Port elements
+		portsIterator := !PimMetamodel::Port!.allInstances().getNewIterator();
+		portsIterator.start();
+		while (portsIterator.isOn())
+		{		
+			// we retrieve the current PIM Port element of the iterator
+			aPort := portsIterator.item().oclAsType (!PimMetamodel::Port!);
+
+			///////////////////////////////////////////////////////////				
+			// we deal the special case of PortIsProvided elements
+			///////////////////////////////////////////////////////////				
+			if (aPort.oclIsKindOf (!PimMetamodel::PortIsProvided!) )
+			{
+				aPortIsProvided := aPort.oclAsType (!PimMetamodel::PortIsProvided!);
+			
+				// we retrieve the associated PSM ProvidesDef
+				aProvidesDef := getItem (traceability.getAssociationSet (aPort,'providesDef')).oclAsType (!PsmMetamodel::ProvidesDef!);
+
+				// we retrieve the Interface elements for this kind of Port
+				interfacesIterator := aPortIsProvided.provided.getNewIterator();
+				interfacesIterator.start();
+				while (interfacesIterator.isOn())
+				{
+					// we retrieve the PIM Interface element of the iterator
+					aInterface := interfacesIterator.item().oclAsType(!PimMetamodel::Interface!);
+					
+					// we retrieve the associated PSM InterfaceDef element
+					aInterfaceDef:= getItem (traceability.getAssociationSet (aInterface,'interfaceDef')).oclAsType (!PsmMetamodel::InterfaceDef!);
+
+					// Now we link the PSM port to the PSM interface
+					associate ( 
+						provides  := aInterfaceDef : PsmMetamodel::InterfaceDef,
+						undefined := aProvidesDef  : PsmMetamodel::ProvidesDef
+					);			
+					
+					interfacesIterator.next();
+				}
+			}
+
+			///////////////////////////////////////////////////////////				
+			// we deal the special case of PortIsRequired elements
+			///////////////////////////////////////////////////////////				
+			if (aPort.oclIsKindOf (!PimMetamodel::PortIsRequired!) )
+			{
+				aPortIsRequired := aPort.oclAsType (!PimMetamodel::PortIsRequired!);
+
+				// we retrieve the associated PSM ProvidesDef
+				aUsesDef := getItem (traceability.getAssociationSet (aPort,'usesDef')).oclAsType (!PsmMetamodel::UsesDef!);
+
+				// we retrieve the Interface elements for this kind of Port
+				interfacesIterator := aPortIsRequired.required.getNewIterator();
+				interfacesIterator.start();
+				while (interfacesIterator.isOn())
+				{
+					// we retrieve the PIM Interface element of the iterator
+					aInterface := interfacesIterator.item().oclAsType(!PimMetamodel::Interface!);
+					
+					// we retrieve the associated PSM InterfaceDef element
+					aInterfaceDef:= getItem (traceability.getAssociationSet (aInterface,'interfaceDef')).oclAsType (!PsmMetamodel::InterfaceDef!);
+
+					// Now we link the PSM port to the PSM interface
+					associate ( 
+						uses      := aInterfaceDef : PsmMetamodel::InterfaceDef,
+						undefined := aUsesDef      : PsmMetamodel::UsesDef
+					);			
+					
+					interfacesIterator.next();
+				}
+			}
+
+			portsIterator.next();
+		}
+	}
+
+
+	/******************************************************************************
+	 * name       : getItem
+	 * purpose    : From a set, get the first item returned by an iterator
+	 * visibility : public
+	 * in         : set : the set
+	 * out        : 
+	 * remark     : Useful to retrieve the element of an association end when it is 
+	 *              known that this association end has a multiplicity 1
+	 * example    : 
+	 ******************************************************************************/
+	getItem (set : Standard::Set) : Standard::OclAny
+	{
+		result : Standard::OclAny;
+		iterator : Standard::Iterator;
+
+		iterator := set.getNewIterator();
+		iterator.start();
+		result := iterator.item();
+
+		return result;
+	}
+
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Output 
+{
+	Info (txt : Standard::String)
+	{
+		txt.toOut();
+	}
+}
+
+
