@@ -1,12 +1,12 @@
-<!-- $Id: build.xml,v 1.2 2003-08-08 15:22:09 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-08-08 16:11:10 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="./src"/>
-	<property name="bin" location="./bin"/>
-	<property name="build" location="./build"/>
+	<property name="bin" location="../../../bin/SimpleSamples"/>
+	<property name="build" location="../../../build/SimpleSamples"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -16,6 +16,7 @@
 	    <mkdir dir="${build}/src"/>
 	    <mkdir dir="${build}/src/UncheckedTLL"/>
 	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
 	    <mkdir dir="${bin}"/>
 	</target>
 	
@@ -36,7 +37,7 @@
 
 	<target name="compile vehicule" depends="vehicule_antlr2tll"
   	 	description="Generate code for vehicule.mtl">
-	    <mkdir dir="${bin}/Vehicule"/>
+	    <mkdir dir="${build}/src/java/Vehicule"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -45,7 +46,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Vehicule/"/> 
+         <arg value="${build}/src/java/Vehicule/"/> 
        </java>
  
 	</target>
@@ -67,7 +68,7 @@
 
 	<target name="compile aquatique" depends="aquatique_antlr2tll"
   	 	description="Generate code for aquatique.mtl">
-	    <mkdir dir="${bin}/Aquatique"/>
+	    <mkdir dir="${build}/src/java/Aquatique"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -76,7 +77,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Aquatique/"/> 
+         <arg value="${build}/src/java/Aquatique/"/> 
        </java>
  
 	</target>
@@ -98,7 +99,7 @@
 
 	<target name="compile terrestre" depends="terrestre_antlr2tll"
   	 	description="Generate code for terrestre.mtl">
-	    <mkdir dir="${bin}/Terrestre"/>
+	    <mkdir dir="${build}/src/java/Terrestre"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -107,7 +108,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Terrestre/"/> 
+         <arg value="${build}/src/java/Terrestre/"/> 
        </java>
  
 	</target>
@@ -129,7 +130,7 @@
 
 	<target name="compile amphibie" depends="amphibie_antlr2tll"
   	 	description="Generate code for amphibie.mtl">
-	    <mkdir dir="${bin}/Amphibie"/>
+	    <mkdir dir="${build}/src/java/Amphibie"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -138,7 +139,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Amphibie/"/> 
+         <arg value="${build}/src/java/Amphibie/"/> 
        </java>
  
 	</target>
@@ -160,7 +161,7 @@
 
 	<target name="compile amphibieherite" depends="amphibieherite_antlr2tll"
   	 	description="Generate code for amphibieherite.mtl">
-	    <mkdir dir="${bin}/Amphibieherite"/>
+	    <mkdir dir="${build}/src/java/Amphibieherite"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -169,7 +170,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Amphibieherite/"/> 
+         <arg value="${build}/src/java/Amphibieherite/"/> 
        </java>
  
 	</target>
@@ -191,7 +192,7 @@
 
 	<target name="compile caracteristiques" depends="caracteristiques_antlr2tll"
   	 	description="Generate code for caracteristiques.mtl">
-	    <mkdir dir="${bin}/Caracteristiques"/>
+	    <mkdir dir="${build}/src/java/Caracteristiques"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -200,7 +201,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Caracteristiques/"/> 
+         <arg value="${build}/src/java/Caracteristiques/"/> 
        </java>
  
 	</target>
@@ -222,7 +223,7 @@
 
 	<target name="compile testvehicules" depends="testvehicules_antlr2tll"
   	 	description="Generate code for testvehicules.mtl">
-	    <mkdir dir="${bin}/Testvehicules"/>
+	    <mkdir dir="${build}/src/java/Testvehicules"/>
 	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
@@ -231,7 +232,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
-         <arg value="${bin}/Testvehicules/"/> 
+         <arg value="${build}/src/java/Testvehicules/"/> 
        </java>
  
 	</target>
@@ -239,7 +240,7 @@
 	<target name="clean"
         description="clean up SimpleSamples" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
-    	<delete dir="${bin}"/>    
+    	<delete dir="${build}/src/java"/>    
     	<delete dir="${build}"/>    
   	</target>
 </project>
