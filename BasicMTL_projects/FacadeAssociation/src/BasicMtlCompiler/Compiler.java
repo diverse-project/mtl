@@ -1,16 +1,14 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.7 2004-04-22 13:04:12 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.8 2004-06-10 08:48:01 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
 package BasicMtlCompiler;
 
 import java.io.*;
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
+
 import ANTLRASTWalker.antlrParserInterface;
 import TypeChecker.TLLtypechecking;
 import CodeGeneration.BMTLCompiler;
@@ -25,7 +23,6 @@ import antlr2ASTView.antlr2astViewParser;
 public class Compiler {
 
 	static final String tllSuffix=".tll";
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
 
 	public static String checkPathEnd(String path)
 	{	if (path.charAt(path.length()-1)=='/'
@@ -38,14 +35,7 @@ public class Compiler {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args)
-	{
-		try {
-			String filePath = new java.io.File(Directories.getRootPath(Compiler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
-		catch(java.io.IOException e) {
-							System.err.println("Can't state log4j in BMTLParser"); }
-							
+	{	MSGHandler.init();
 		// parses the arguments in order to find the necessary data
 		if (args.length > 0) {
 			int argsEnd=args.length;
@@ -72,7 +62,7 @@ public class Compiler {
 			}
 			if (defaultPackagePrefix==null) defaultPackagePrefix="org.irisa.triskell.MT.ThirdParty.";
 			if (defaultTLLPath==null)
-				log.error("No -TLLPath option,don't known where to store produced TLL");
+				MSGHandler.error(Compiler.class,65,"No -TLLPath option,don't known where to store produced TLL");
 			sourcesDir=checkPathEnd(args[0]);
 			
 			// ok let's do the stuff...
@@ -136,7 +126,7 @@ public class Compiler {
 		String filesList[]=new java.io.File(sourcesDir).list();
 		if(filesList == null)
 		{
-			log.error("No file to process in "+sourcesDir);
+			MSGHandler.error(Compiler.class,129,"No file to process in "+sourcesDir);
 			showUsage();
 			System.exit(-1);				
 		}
@@ -145,18 +135,18 @@ public class Compiler {
 			// checks if file exists
 			if (filesList[i].endsWith(".mtl"))
 			 {
-				log.debug("Including file "+filesList[i]+"...");
+				MSGHandler.debug(Compiler.class,138,"Including file "+filesList[i]+"...");
 				File aFile = new File(sourcesDir+filesList[i]);
 				if (aFile.canRead())
 					filenamesArguments.addElement(sourcesDir+filesList[i]);
 				else				
-					log.warn("File not readable : "+sourcesDir+filesList[i]+" => file ignored !!!");
+					MSGHandler.warn(Compiler.class,143,"File not readable : "+sourcesDir+filesList[i]+" => file ignored !!!");
 			 }
-			else log.debug("EXCLUDING file "+filesList[i]+"!!!");
+			else MSGHandler.debug(Compiler.class,145,"EXCLUDING file "+filesList[i]+"!!!");
 		}
 		if (filenamesArguments.size() == 0)
 		{
-			log.error("No file to process");
+			MSGHandler.error(Compiler.class,149,"No file to process");
 			System.exit(-1);
 		}
 		else 
@@ -167,13 +157,13 @@ public class Compiler {
 	
 	static void showUsage()
 	{
-		log.error("USAGE : java -jar BasicMTLc.jar <sourcesDirectory> [-TLLPath <path>] [-TLLLoadingPaths <pathes>] [-PackageName <name>] [-BinPath <path>]");
-		log.error("where : pathes are list of path sepatate with ; ");
-		log.error("where : sourcesDirectory is the directory which contain your mtl files. (it will take all your mtl files) ");
-		log.error("where : TLLPath is the palce where the definition of your libraries are stored. kind of precompiled step for further compile");
-		log.error("where : TLLLoadingPaths is the palces which contains allready precompiled libraries, usaually the minimum is the path runtime TLL which contain the standard types and the driver definition");
-		log.error("where : PackageName indicates the name of the java package that will contain your library(/ies)");
-		log.error("where : BinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files");
+		MSGHandler.error(Compiler.class,160,"USAGE : java -jar BasicMTLc.jar <sourcesDirectory> [-TLLPath <path>] [-TLLLoadingPaths <pathes>] [-PackageName <name>] [-BinPath <path>]");
+		MSGHandler.error(Compiler.class,161,"where : pathes are list of path sepatate with ; ");
+		MSGHandler.error(Compiler.class,162,"where : sourcesDirectory is the directory which contain your mtl files. (it will take all your mtl files) ");
+		MSGHandler.error(Compiler.class,163,"where : TLLPath is the palce where the definition of your libraries are stored. kind of precompiled step for further compile");
+		MSGHandler.error(Compiler.class,164,"where : TLLLoadingPaths is the palces which contains allready precompiled libraries, usaually the minimum is the path runtime TLL which contain the standard types and the driver definition");
+		MSGHandler.error(Compiler.class,165,"where : PackageName indicates the name of the java package that will contain your library(/ies)");
+		MSGHandler.error(Compiler.class,166,"where : BinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files");
 	}
 }
 
