@@ -1,4 +1,4 @@
-/* $Id: EMFMetaFeature.java,v 1.1 2004-10-25 13:59:59 dvojtise Exp $
+/* $Id: EMFMetaFeature.java,v 1.2 2004-10-27 14:52:58 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -183,40 +183,6 @@ public class EMFMetaFeature
 		return "feature";
 	}
 
-	public org.inria.EMFDriver.ExecutableFeature retrieveRef(
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured contextualElement,
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
-		org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
-		Object owner)
-		throws ElementNotFoundException, MultipleDeclarationException, ScopeException
-	{
-			ExecutableFeature ret = null, tmp;
-/*			javax.jmi.model.ModelElement me;
-		if (this.cardDelegates() > 0) {
-			for (int i = 0; i < this.cardDelegates(); ++i) {
-				tmp = this.getDelegates(i).retrieveRef(contextualElement, self, arguments, owner);
-				if (tmp != null) {
-					if (ret == null)	
-						ret = tmp;
-					else
-						throw new MultipleDeclarationException();
-				}
-			}
-			return ret;
-		} else {
-			java.util.Iterator it = owner.getContents().iterator();
-			while (it.hasNext()) {
-				me = (javax.jmi.model.ModelElement)it.next();
-				if (this.checkAll(me, contextualElement, self, arguments)) {
-					if (ret != null)
-						throw new MultipleDeclarationException();
-					else
-						ret = this.toExecutableFeature(self, arguments, me);
-				}
-			}
-		}*/
-		return ret;
-	}
 
 	protected boolean checkName(
 		Object element)
@@ -225,30 +191,7 @@ public class EMFMetaFeature
 		return this.getName() == null || this.getName().length() == 0 || elementName == null || elementName.length() == 0 || this.getName().equals(elementName);
 	}
 
-	protected boolean checkVisibility(
-		Object element,
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context)
-	{
-/*		javax.jmi.model.ModelElement contextClassRef = context == null ? null : (javax.jmi.model.ModelElement)context.getRefClass().refMetaObject();
-		if ((contextClassRef != null) && (! contextClassRef.isVisible(element)))
-			throw new VisibilityException(context);
-		if (contextClassRef == null && (element instanceof javax.jmi.model.Feature)) {
-			VisibilityKind vis = ((javax.jmi.model.Feature)element).getVisibility();
-			if (!vis.toString().equals("public_vis"))
-				throw new VisibilityException(context, vis);
-		}*/
-		return true;
-	}
 
-	protected boolean checkScopeKind(
-		Object element,
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self)
-		throws ScopeException
-	{
-/*		if (self.isMetaObject() && (element instanceof javax.jmi.model.Feature) && (!(((javax.jmi.model.Feature)element).getScope().toString().equals("class_level"))))
-				throw new ScopeException();*/
-		return true;
-	}
 
 	protected boolean checkArguments(
 		Object element,
@@ -257,17 +200,6 @@ public class EMFMetaFeature
 		return arguments == null || arguments.length == 0;
 	}
 
-	protected boolean checkAll(
-		Object element,
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context,
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
-		org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
-		throws ElementNotFoundException, MultipleDeclarationException, ScopeException
-	{
-		if (this.cardDelegates() != 0)
-			throw new RuntimeException("Internal error.", new Exception("Only delegates can access this method."));
-		return this.checkKind(element) && this.checkName(element) && this.checkVisibility(element, context) && this.checkScopeKind(element, self) && this.checkArguments(element, arguments);
-	}
 
 	protected boolean checkKind(
 		Object element)
@@ -275,12 +207,5 @@ public class EMFMetaFeature
 		return true;
 	}
 
-	protected org.inria.EMFDriver.ExecutableFeature toExecutableFeature(
-		org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
-		org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
-		Object me)
-	{
-		throw new RuntimeException("Internal error.", new Exception("Only delegates can access this method."));
-	}
 
 }
