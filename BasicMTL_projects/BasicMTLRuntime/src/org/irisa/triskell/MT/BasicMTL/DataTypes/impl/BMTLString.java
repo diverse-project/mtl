@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLString.java,v 1.3 2003-11-24 13:38:24 dvojtise Exp $
+ * $Id: BMTLString.java,v 1.4 2004-07-08 07:39:45 edrezen Exp $
  * Created on 19 août 2003
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
@@ -10,13 +10,16 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_add;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_concat;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_size;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_substring;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toInteger;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toLowerCase;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toReal;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toOut;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toErr;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.String_toUpperCase;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 
 /**
@@ -73,4 +76,17 @@ public class BMTLString extends BMTLOclAny implements BMTLStringInterface {
 	public BMTLVoidInterface BMTL_toErr() {
 				return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(String_toErr.TheInstance.invoke(this.getOclAnyDelegate(),null));
 	}
+
+	public BMTLStringInterface BMTL__2b (BMTLStringInterface s) {
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_add.TheInstance.invoke(this.getStringDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+	
+	public BMTLStringInterface BMTL_toLowerCase () {
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_toLowerCase.TheInstance.invoke(this.getOclAnyDelegate(),null));
+	}
+
+	public BMTLStringInterface BMTL_toUpperCase () {
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_toUpperCase.TheInstance.invoke(this.getOclAnyDelegate(),null));
+	}
+	
 }

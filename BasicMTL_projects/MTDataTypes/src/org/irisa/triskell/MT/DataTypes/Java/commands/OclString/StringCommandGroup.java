@@ -1,5 +1,5 @@
 /*
- * $Id: StringCommandGroup.java,v 1.4 2004-02-16 17:02:07 dvojtise Exp $
+ * $Id: StringCommandGroup.java,v 1.5 2004-07-08 07:42:04 edrezen Exp $
  * @author : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -28,6 +28,9 @@ public class StringCommandGroup extends CommandGroupImpl {
 		TheInstance.addCommand(String_toInteger.TheInstance);
 		TheInstance.addCommand(String_toOut.TheInstance);
 		TheInstance.addCommand(String_toErr.TheInstance);
+		TheInstance.addCommand(String_add.TheInstance);
+		TheInstance.addCommand(String_toLowerCase.TheInstance);
+		TheInstance.addCommand(String_toUpperCase.TheInstance);
 	}
 	
 	private StringCommandGroup() {

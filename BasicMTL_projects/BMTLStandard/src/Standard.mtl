@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.6 2004-07-07 13:51:08 edrezen Exp $
+// $Id: Standard.mtl,v 1.7 2004-07-08 07:41:05 edrezen Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -455,7 +455,15 @@ tag DoNotGenerate := booleantag true;
 	{
 		//Writes this string to the standard output
 	}
+
+	[+] (s : String) : String
+	{}
 	
+	toLowerCase () : String
+	{}
+	
+	toUpperCase () : String
+	{}
 }
 
 class Boolean extends OclAny

@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLStringInterface.java,v 1.2 2003-11-24 13:38:22 dvojtise Exp $
+ * $Id: BMTLStringInterface.java,v 1.3 2004-07-08 07:39:44 edrezen Exp $
  * Created on 19 août 2003
  *
  */
@@ -27,4 +27,10 @@ public interface BMTLStringInterface
 	
 	BMTLVoidInterface BMTL_toOut();
 	BMTLVoidInterface BMTL_toErr();
+	
+	BMTLStringInterface BMTL__2b (BMTLStringInterface s);
+	
+	BMTLStringInterface BMTL_toLowerCase ();
+	BMTLStringInterface BMTL_toUpperCase ();
+	
 }
