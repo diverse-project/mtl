@@ -1,0 +1,84 @@
+/*
+ * $Id$
+ *
+ * Sample of use of SimpleUML2SimpleRDBMS with a MDR repository
+ */
+ 
+library SimpleUML2SimpleRDBMS4MDR;
+// no extends for this lib
+ 
+// Lib local model
+model source_model : RepositoryModel;		// should be SimpleUML MetaModel
+model target_model : RepositoryModel;		// must be SimpleRDBMS MetaModel
+// they are not typed so this implies that any access to them will be done through "invoke"
+
+// Typed model 
+model SimpleUMLSimpleRDBMS_lib : SimpleUMLSimpleRDBMS;
+
+// Library level methods
+// ---------------------
+
+// Library contructors
+// -------------------
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+	src_metamodelFilename : Standard::String;
+	src_inputFilename     : Standard::String;
+	src_outputFilename    : Standard::String;
+	dest_metamodelFilename : Standard::String;
+	dest_inputFilename     : Standard::String;
+	dest_outputFilename    : Standard::String;
+	SimpleUML2SimpleRDBMS_transfo : SimpleUMLSimpleRDBMS::SimpleUML2SimpleRDBMS;
+
+	// we define some filenames 
+	projectPath       := '';
+	src_metamodelFilename := projectPath.concat ('../SimpleUML/MetaModel/xmi_1.2/SimpleUmlMM_MOF.xml');
+	src_inputFilename     := projectPath.concat ('Models/SimpleUML_FullExample.xml');
+	src_outputFilename    := projectPath.concat ('Models/SimpleUML_FullExample_modified.xml');
+	dest_metamodelFilename := projectPath.concat ('MetaModels/xmi_1.2/SimpleRdbmsMM_MOF.xml');
+	dest_inputFilename     := projectPath.concat ('Models/SimpleRDBMS_FullExample_initial.xml');
+	dest_outputFilename    := projectPath.concat ('Models/SimpleRDBMS_FullExample_result.xml');
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	
+		
+	// intanciate the source model, no changes in the source model
+	source_model := mdrdriver.getModelFromXMI (
+		src_metamodelFilename, 
+		'SimpleUmlMM',		// name of the root package in the Uml1.4 metamodel
+		'SimpleUML_source_model', 
+		src_inputFilename,
+		null
+	);
+
+ 	'source model connected'.toOut();
+ 	
+	target_model := mdrdriver.getModelFromXMI(
+		dest_metamodelFilename, 
+		'SimpleRdbmsMM2',
+		'SimpleRDBMS_target_model', 
+		null,
+		dest_outputFilename );
+					// note : if the model xmi file is empty or doesn't exist, it create an empty model
+					// the xmi file name is then used to save the model at the end of the transformation
+	'destination model created'.toOut();
+	
+	// instanciate transformation lib
+	SimpleUMLSimpleRDBMS_lib := new SimpleUMLSimpleRDBMS();
+	// instanciate transformation tool class, and initialize the library models
+	SimpleUML2SimpleRDBMS_transfo := new SimpleUMLSimpleRDBMS_lib::SimpleUML2SimpleRDBMS();
+	SimpleUML2SimpleRDBMS_transfo.initmodels(source_model,target_model);
+	// start the tranformation
+	SimpleUML2SimpleRDBMS_transfo.UMLToRDBMS();
+
+}
+ 

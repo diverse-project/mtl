@@ -1,0 +1,13 @@
+/*
+ * $Id$
+ *
+ * Sample of use of SimpleRDBMS2SimpleUML with a MDR repository
+ */
+ 
+library SimpleRDBMS2SimpleUML_MDR;
+// no extends for this lib
+ 
+ main():Standard::Void
+{
+	// local variables
+}

@@ -1,0 +1,503 @@
+/******************************************************************************
+ * $Id $
+ * Part of the ModelLibrary that do the SimpleUML2SimpleRDBMS transformation
+ * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
+ * Note : this version uses foreign keys to handle non primitive attributes
+ *   it is not the way all other submissions does that, they uses a "drill down"
+ *	 that creates columns with heirarchical names.
+ *
+ ******************************************************************************/
+
+
+library SimpleUMLSimpleRDBMS;
+
+//-- Lib local models --
+//Repository models
+model source_UMLmodel : RepositoryModel;		// should be a SimpleUML MetaModel
+model target_RDBMSmodel : RepositoryModel;		// should be a SimpleRDBMS MetaModel
+// Typed models 
+
+/********************************************/
+// classe SimpleUML2SimpleRDBMS
+/********************************************/
+class SimpleUML2SimpleRDBMS 
+{
+	/**
+	  * Connects the input and output models to this library for future use
+	  */
+	initmodels( a_source_model:RepositoryModel; a_target_model:RepositoryModel)
+	{
+		'initmodels'.toOut();
+		source_UMLmodel := a_source_model;
+		target_RDBMSmodel := a_target_model;
+		/*test2();
+		test();*/		
+	}
+//-----------------------
+	/**
+	  * UMLToRDBMS 
+	  * Description : transform the SimpleUML notion into the RDBMS notions
+	  */	
+	UMLToRDBMS() : Standard::Void
+	{
+		UMLClassesToRDBMS();
+		UMLAssociationsToRDBMS();
+	}
+	
+	/**
+	  * UMLClassesToRDBMS 
+	  * Description : transform the SimpleUML notion of classes into the RDBMS notions
+	  *		it also transform the owned attributes (at least one of them 
+	  *		must be primary,TODO not checked)
+	  */
+	UMLClassesToRDBMS() : Standard::Void
+	{			
+		// look for all the sources classes 
+			// this will be improved when the ocl select will be available
+		classIterator : Standard::Iterator;
+		classSet : Standard::Set;	
+		
+		'UMLClassesToRDBMS'.toOut();
+		/* input model checks */
+		// TO DO
+		// we should check some well formness rules on the input model in order to 
+		// minimize errors handling in the transformation code. 
+		// The problem is : when to do this check in an homogeneous way ?
+		//	- best way seems to be : load the input model in a lib view of the expected MM with ocl constraints
+		//	and check the cosntraints : pb it oblige to have the MM
+		//	- another way is simply add at the beginning 
+		// 		every class should have unique name	
+		// 		every attribute of a class should have unique name in the class
+		//		every attribute must have a type
+		//		kind value = 'primary' is accepted only on attribute (not association)
+		//		an primary attribute must not be of a non persitent type.
+		
+		
+		classSet := !source_UMLmodel::Class!.allInstances();
+			
+		classIterator := classSet.getNewIterator();
+		while classIterator.isOn() 
+		{		
+			UMLClassToRDBMSfirstPass(classIterator.item().oclAsType(!source_UMLmodel::Class!));  // return value not used			
+			classIterator.next();
+		}
+				
+		// for each attribute of type class
+		
+		classIterator.start();
+		while classIterator.isOn()
+		{			
+			UMLClassToRDBMSsecondPass(classIterator.item().oclAsType(!source_UMLmodel::Class!));  // return value not used					
+			classIterator.next();
+		}		
+	}
+	/**
+	  * UMLClassToRDBMSfirstPass
+	  * Description : this first pass creates a table with a primary key for a class
+	  *	only persistent class are processed
+	  */
+	UMLClassToRDBMSfirstPass(sourceClass : source_UMLmodel::Class) 
+	{	
+		// pre : sourceClass.oclIsUndefined().not()
+		 
+		// the first pass creates the table and it associated primary key
+		// local variables
+		aTable 				: target_RDBMSmodel::Table;
+		attributeIterator 	: Standard::Iterator;
+		attributeSet 		: Standard::Set;
+		aColumn 			: target_RDBMSmodel::Column;
+		primitiveAttribute 	: source_UMLmodel::Classifier;
+		aString 			: Standard::String;
+		aKey 				: target_RDBMSmodel::Key;
+		
+		'UMLClassToRDBMSfirstPass'.toOut();
+		// input model checks 
+		// require sourceClass.oclIsUndefined().not()
+		if sourceClass.oclIsUndefined() 
+		{
+			throw 'Undefined class found.';
+		}
+		
+		
+		if sourceClass.kind.[=]('persistent')
+		{
+			// create a table for this class  (use the default constructor)
+			aTable := new target_RDBMSmodel::Table();
+			// there must probably exists a better syntax for modelElement creation
+			aTable.name := sourceClass.name;
+			//aTable.kind = ???;
+			// create the primary key
+			aKey := new target_RDBMSmodel::Key();
+			aKey.name := 'pk_'.concat(sourceClass.name.oclAsType(!Standard::String!));
+			aKey.kind := 'primitive';
+			associate (key := aKey : target_RDBMSmodel::Key, owner := aTable : target_RDBMSmodel::Table);
+			
+		}
+		else
+		{
+			// else : non persistent do nothing !
+			return null;
+		}
+	}
+	
+	
+	/**
+	  * UMLClassToRDBMSsecondPass
+	  * Description : this second pass processes the attributes of the class	  
+	  *	if primitive then creates a column
+	  *	else creates a foreign key, the column corresponding to the target primary attributes
+	  *		and link to the target primary key
+	  *	if primary then link the columns to the primary key 
+	  */
+	UMLClassToRDBMSsecondPass(sourceClass : source_UMLmodel::Class  ) 
+	{
+		// local variables
+		aTable 				: target_RDBMSmodel::Table;
+		attributeIterator 	: Standard::Iterator;
+		attributeSet 		: Standard::Set;
+		aColumn 			: target_RDBMSmodel::Column;
+		primitiveAttribute 	: source_UMLmodel::Classifier;
+		aString 			: Standard::String;
+		anException 		: Standard::OclAny;
+		associationIt		: Standard::Iterator;
+		associationSet 		: Standard::Set;
+		//classKind			: Standard::String;
+		
+		'UMLClassToRDBMSsecondPass'.toOut();
+		// input model checks 
+		if sourceClass.oclIsUndefined() 
+		{
+			throw 'Undefined class found.';
+		}
+		 		
+		if sourceClass.kind.[<>]('persistent')
+		{	// non persistent do nothing ! (as in the 1rst pass)
+			return null;
+		}
+		// retrieve the previously created table for this class	
+		//sourceClass.name.toOut();
+		aTable := getTableFromName(sourceClass.name.oclAsType(!Standard::String!));
+		if isNull(aTable)
+		{
+			anException := 'Could not find a table that be there';
+			throw anException;
+		}
+		
+		// for each attribute of primitive data type create a column for this type	
+		//		else create a foreignKey and the needed columns
+		attributeIterator := sourceClass.attribute.getNewIterator();
+		while attributeIterator.isOn()
+		{
+			if 	attributeIterator.item().oclAsType(!source_UMLmodel::Attribute!).type.oclIsKindOf(!source_UMLmodel::PrimitiveDataType!)
+			{
+				// create a new column to the table
+				primitiveAttribute := attributeIterator.item();
+				aColumn := new target_RDBMSmodel::Column();
+				aColumn.name := primitiveAttribute.name;
+				aColumn.kind := primitiveAttribute.kind;
+				aString := primitiveAttribute.type.name;
+				if  aString.[=]('int')
+				{	
+					aColumn.kind := 'NUMBER';
+				}
+				else
+				{
+					aColumn.kind := 'VARCHAR';
+				}
+				// associate : complete syntax	
+				associate (column := aColumn : target_RDBMSmodel::Column, owner := aTable : target_RDBMSmodel::Table);
+				aString := primitiveAttribute.kind;
+				if  aString.[=]('primary')
+				{
+					// if the attribute kind is primary, the column is bound the the key
+					// associate : complete syntax	
+					 associate (column := aColumn : target_RDBMSmodel::Column, belongsTo := aTable.key : target_RDBMSmodel::Key);
+					// other syntax : (because there is enough information)
+					// associate aColumn, aTable.key
+					// associate aColumn : Column, aTable.Key : Key
+					// associate column = aColumn, belongsTo = aTable.Key
+				}
+				
+			}
+			else
+			{
+				//aTable.toOut();
+				nonPrimitiveAtt2ForeignKey(aTable, attributeIterator.item().oclAsType(!source_UMLmodel::Attribute!));
+			}
+			attributeIterator.next();
+		}
+	
+		
+	}
+	
+	/**
+	 *
+	 */
+	UMLAssociationsToRDBMS()
+	{
+		associationIterator : Standard::Iterator;
+		associationSet 		: Standard::Set;
+		anAssociation		: target_RDBMSmodel::Association;
+		aTable 				: target_RDBMSmodel::Table;	
+		
+		'UMLAssociationsToRDBMS'.toOut();
+		// for each association create the 2 foreignKeys and the corresponding columns in each table
+		//  (this works because there is only binary associations that can be coded in a simple foreign key
+		// TO DO
+		associationSet := !source_UMLmodel::Association!.allInstances();
+			
+		associationIterator := associationSet.getNewIterator();
+		while associationIterator.isOn() 
+		{		
+			anAssociation := associationIterator.item().oclAsType(!source_UMLmodel::Class!); 
+			'processing association : '.concat(anAssociation.name.oclAsType(!Standard::String!)).toOut();
+			aTable := getTableFromName(anAssociation.destination.name.oclAsType(!Standard::String!));
+			createForeignKey(aTable, 
+					 anAssociation.source.oclAsType(!source_UMLmodel::Class!),	
+					 anAssociation.name.oclAsType(!Standard::String!).concat('_source').oclAsType(!Standard::String!),
+					 false);	// association cannot be used as primary key
+			
+			aTable := getTableFromName(anAssociation.source.name.oclAsType(!Standard::String!));			
+			createForeignKey(aTable, 
+					 anAssociation.destination.oclAsType(!source_UMLmodel::Class!),	
+					 anAssociation.name.oclAsType(!Standard::String!).concat('_destination').oclAsType(!Standard::String!),
+					 false);	// association cannot be used as primary key
+		
+			associationIterator.next();
+		}
+	}
+	
+	/**
+	  * getTableFromName
+	  * function that will be of no use when the select will be available
+	  */
+	getTableFromName(tableName : Standard::String) : target_RDBMSmodel::aTable
+	{
+		tableIterator : Standard::Iterator;
+		tableSet : Standard::Set;
+		aTable : target_RDBMSmodel::Table;
+		
+		
+		tableSet := !target_RDBMSmodel::Table!.allInstances();
+		tableIterator := tableSet.getNewIterator();
+		while tableIterator.isOn()
+		{
+			if tableIterator.item().oclAsType(!target_RDBMSmodel::Table!).name.[=](tableName)
+			{
+				return tableIterator.item();
+			}
+			tableIterator.next();
+		}
+		tableName.concat(' not  found').toErr();
+		return null;
+	}
+	/**
+	  * nonPrimitiveAtt2ForeignKey
+	  * Description : 
+	  *	for a non primitive attribute, creates a foreign key, 
+	  *		the column corresponding to the target primary attributes
+	  *		and link to the target primary key
+	  *	if primary then link the columns to the primary key 
+	  */
+	nonPrimitiveAtt2ForeignKey(aTable : target_RDBMSmodel::Table; nonPrimitiveAttribute : source_UMLmodel::Attribute)
+	{
+		// do nothing condition
+		if nonPrimitiveAttribute.type.kind.[=]('persistent').not()
+		{
+			'nonPrimitiveAtt2ForeignKey non persistent'.toOut();
+			return null;
+		}
+		'nonPrimitiveAtt2ForeignKey persistent'.toOut();
+		
+		
+		createForeignKey(aTable, 
+					 nonPrimitiveAttribute.type.oclAsType(!source_UMLmodel::Class!),	// 
+					 nonPrimitiveAttribute.name.oclAsType(!Standard::String!),
+					 nonPrimitiveAttribute.kind.[=]('primary').oclAsType(!Standard::Boolean!));	
+					 
+		
+		
+		
+		/*// get the table primary key (there should be only one)
+		aKey := aTable.key;
+		aKey.toOut();
+		aKey.name.toOut();
+		if aKey.oclIsUndefined() 
+		{
+			throw 'aKey is Undefined ';
+		}
+				
+		// create a foreign key	
+		aForeignKey := new target_RDBMSmodel::ForeignKey();
+			// set name, kind, owner
+		aForeignKey.name := nonPrimitiveAttribute.name;
+		aForeignKey.toOut();
+		aForeignKey.name.toOut();
+		// aForeignKey.kind = ????
+		associate (foreignKey := aForeignKey : target_RDBMSmodel::ForeignKey, owner := aTable : target_RDBMSmodel::Table);
+		// associate the new foreign key to the refered key
+			// retrieve the previously created table for this class	
+		referedTable := getTableFromName(nonPrimitiveAttribute.type.name.oclAsType(!Standard::String!));		
+		referedKey := referedTable.key;
+		'referedkey'.toOut();
+		referedKey.toOut();
+		associate (referredBy := aForeignKey : target_RDBMSmodel::ForeignKey, refersTo := referedKey : target_RDBMSmodel::Key);
+		
+					// TO DO verify model validity  (when to do that ???,  precheck before the transformation ? now ?
+					// for each primitive attribute of the type of this attribute				
+		typePrimaryAttribute_it := nonPrimitiveAttribute.type.attribute.getNewIterator();
+		while typePrimaryAttribute_it.isOn()
+		{	
+			if typePrimaryAttribute_it.item().oclAsType(!source_UMLmodel::Attribute!).kind.[=]('primary')
+			{
+				// create a column (name = attribute.name+_+primitive_attribute.name
+				aColumn := new target_RDBMSmodel::Column();
+				aColumn.name := nonPrimitiveAttribute.name.concat('_'.concat(typePrimaryAttribute_it.item().oclAsType(!source_UMLmodel::Attribute!).name.oclAsType(!Standard::String!)));
+				aColumn.kind := 'foreign';
+				aColumn.name.toOut();
+				associate (column := aColumn : target_RDBMSmodel::Column, owner := aTable : target_RDBMSmodel::Table);					
+				// add this column to the foreign key	
+				// seems to not work correctly ? only ownership are in the result model !!?
+				associate (column := aColumn : target_RDBMSmodel::Column, foreignKey := aForeignKey : target_RDBMSmodel::ForeignKey);
+				// if the attribute is primary, add its columns to the key
+				if nonPrimitiveAttribute.kind.[=]('primary')
+				{
+					associate (column := aColumn : target_RDBMSmodel::Column, key := aKey : target_RDBMSmodel::Key);
+				}
+			}
+			typePrimaryAttribute_it.next();
+		}
+		*/
+	}
+	/**
+	  * AssociationToForeignKey
+	  * Description : 
+	  *	for an association, creates a foreign key, 
+	  *		the column corresponding to the target primary attributes
+	  *		and link to the target primary key
+	  *	if primary then link the columns to the primary key 
+	  */
+	forwardAssociation2ForeignKey(aTable : target_RDBMSmodel::Table; anAssociation : source_UMLmodel::Association)
+	{		
+		// do nothing condition
+		if anAssociation.kind.[=]('persistent').not()
+		{
+			'ToForeignKey non persistent'.toOut();
+			return null;
+		}
+		'ToForeignKey persistent'.toOut();
+		createForeignKey(aTable, 
+					 anAssociation.forward.oclAsType(!source_UMLmodel::Class!),	// 
+					 anAssociation.name.oclAsType(!Standard::String!),
+					 false);	// association cannot be used as primary key
+					 
+		
+		
+	}
+	/**
+	 * create foreign keys corresponding to this class and add it to the table
+	 * it supposes that the classes had already been transformed into table
+	 * this must be done for each side of the association
+	 * 
+	 */
+	createForeignKey(aTable : target_RDBMSmodel::Table; 
+					 aClass : source_UMLmodel::Class;
+					 newKeyName   : Standard::String;
+					 isPrimary : Standard::Boolean) 
+	{
+		aForeignKey 	: target_RDBMSmodel::ForeignKey;
+		aColumn 		: target_RDBMSmodel::Column;
+		aKey, referedKey		: target_RDBMSmodel::Key;
+		attribute_it : Standard::Iterator;
+		anIt 			: Standard::Iterator;
+		referedTable	: target_RDBMSmodel::Table;
+		
+		
+		// get the table primary key (there should be only one)
+		aKey := aTable.key;
+		aKey.toOut();
+		aKey.name.toOut();
+		if aKey.oclIsUndefined() 
+		{
+			throw 'aKey is Undefined ';
+		}
+				
+		// create a foreign key	
+		aForeignKey := new target_RDBMSmodel::ForeignKey();
+			// set name, kind, owner
+		aForeignKey.name := newKeyName;
+		// aForeignKey.kind = ????
+		associate (foreignKey := aForeignKey : target_RDBMSmodel::ForeignKey, owner := aTable : target_RDBMSmodel::Table);
+		// associate the new foreign key to the refered key
+			// retrieve the previously created table for this class	
+		referedTable := getTableFromName(aClass.name.oclAsType(!Standard::String!));		
+		referedKey := referedTable.key;
+		'referedkey'.toOut();
+		referedKey.toOut();
+		associate (referredBy := aForeignKey : target_RDBMSmodel::ForeignKey, refersTo := referedKey : target_RDBMSmodel::Key);
+		
+					// TO DO verify model validity  (when to do that ???,  precheck before the transformation ? now ?
+					// for each primitive attribute of the type of this attribute				
+		attribute_it := aClass.attribute.getNewIterator();
+		while attribute_it.isOn()
+		{	
+			if attribute_it.item().oclAsType(!source_UMLmodel::Attribute!).kind.[=]('primary')
+			{
+				// create a column (name = attribute.name+_+primitive_attribute.name
+				aColumn := new target_RDBMSmodel::Column();
+				aColumn.name := newKeyName.concat('_'.concat(attribute_it.item().oclAsType(!source_UMLmodel::Attribute!).name.oclAsType(!Standard::String!)));
+				aColumn.kind := 'foreign';
+				aColumn.name.toOut();
+				associate (column := aColumn : target_RDBMSmodel::Column, owner := aTable : target_RDBMSmodel::Table);					
+				// add this column to the foreign key	
+				// seems to not work correctly ? only ownership are in the result model !!?
+				associate (column := aColumn : target_RDBMSmodel::Column, foreignKey := aForeignKey : target_RDBMSmodel::ForeignKey);
+				// if the attribute is primary, add its columns to the key
+				if isPrimary
+				{
+					associate (column := aColumn : target_RDBMSmodel::Column, key := aKey : target_RDBMSmodel::Key);
+				}
+			}
+			attribute_it.next();
+		}
+	}
+//-----------------------
+	test()
+	{
+		aTable : target_RDBMSmodel::Table;
+		aForeignKey 	: target_RDBMSmodel::ForeignKey;
+		aForeignKey2 	: target_RDBMSmodel::ForeignKey;
+		aColumn 		: target_RDBMSmodel::Column;
+		aKey 			: target_RDBMSmodel::Key;
+		anIt : Standard::Iterator;
+		
+		'test begin'.toOut();
+		aTable := new target_RDBMSmodel::Table();
+		aTable.toOut();
+		aTable.name.toOut();
+		aForeignKey := new target_RDBMSmodel::ForeignKey();
+		associate (foreignKey := aForeignKey : target_RDBMSmodel::ForeignKey, owner := aTable : target_RDBMSmodel::Table);
+		aForeignKey2 := aTable.foreignKey;
+		'test end'.toOut();
+	}
+	test2()
+	{
+		aClass : source_UMLmodel::Class;
+		anAttribute 	: source_UMLmodel::Attribute;
+		
+		anIt : Standard::Iterator;
+		
+		'test2 begin'.toOut();
+		aClass := new source_UMLmodel::Class();
+		aClass.toOut();
+		aClass.name.toOut();
+		anAttribute := new source_UMLmodel::Attribute();
+		associate (	attribute := anAttribute : source_UMLmodel::Attribute, 
+					owner := aClass : source_UMLmodel::Class);
+		anIt := aClass.attribute.getNewIterator();
+		'test2 end'.toOut();
+		
+	}
+}
+
+
