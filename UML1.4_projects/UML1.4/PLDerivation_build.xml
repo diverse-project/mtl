@@ -1,4 +1,4 @@
-<!-- $Id: PLDerivation_build.xml,v 1.1 2003-11-06 15:42:09 dvojtise Exp $ -->
+<!-- $Id: PLDerivation_build.xml,v 1.2 2004-10-14 13:12:26 jpthibau Exp $ -->
 <project name="PLDerivation" default="compile" basedir=".">
 	<description>
         Build file for compiling and running PLDerivation transformation
@@ -12,7 +12,8 @@
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL"/>
+	<property name="MDRDriver.path" location="../MDRDriver"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL/;${MDRDriver.path}/src/ModelManager/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	

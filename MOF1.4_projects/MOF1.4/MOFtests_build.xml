@@ -1,4 +1,4 @@
-<!-- $Id: MOFtests_build.xml,v 1.3 2004-03-19 10:15:00 edrezen Exp $ -->
+<!-- $Id: MOFtests_build.xml,v 1.4 2004-10-14 13:00:29 jpthibau Exp $ -->
 <project name="MOF tests" default="compile" basedir=".">
 	<description>
         Build file for compiling and running MOF tests
@@ -15,6 +15,7 @@
 	<property name="user.build.bin" location="${build.bin}/${library.name}"/>
 
 	<property name="BasicMTLRuntime.jar" location="../BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar"/>
+	<property name="MDRDriver.path" location="../MDRDriver"/>
 
 
 	<!-- ************************************************ -->
@@ -42,6 +43,7 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java>

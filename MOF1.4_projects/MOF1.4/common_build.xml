@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.4 2004-02-18 13:05:09 dvojtise Exp $ -->
+<!-- $Id: common_build.xml,v 1.5 2004-10-14 13:00:29 jpthibau Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -14,12 +14,14 @@
 	
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
-	<property name="Runtime.TLL.path" value="${MTLcompiler.path}/src/TLL"/>
+	<property name="MDRDriver.path" location="../MDRDriver"/>
+	<property name="Runtime.TLL.path" value="${MTLcompiler.path}/src/TLL/;${MDRDriver.path}/src/ModelManager/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
+		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -105,6 +107,7 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 

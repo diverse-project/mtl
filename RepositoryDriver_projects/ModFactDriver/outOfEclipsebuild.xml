@@ -1,4 +1,4 @@
-<!-- $Id: outOfEclipsebuild.xml,v 1.1 2004-10-13 14:31:59 jpthibau Exp $ -->
+<!-- $Id: outOfEclipsebuild.xml,v 1.2 2004-10-14 13:09:02 jpthibau Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="ModFactDriver" default="dist" basedir=".">
 	<description>
@@ -47,7 +47,7 @@
 		         <arg value="-PackageName"/> 
 		         <arg value="ModFactDriver"/> 
 		         <arg value="-BinPath"/> 
-		         <arg value="${src}/ModelManager/ModFact/"/> 
+		         <arg value="${src}/ModelManager/build/"/> 
 	       	</java>
 		</target>
 	<target name="compile_java" depends="compile_mtl"
