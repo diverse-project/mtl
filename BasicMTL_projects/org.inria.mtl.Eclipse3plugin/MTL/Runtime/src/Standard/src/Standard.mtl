@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.7 2004/07/08 07:41:05 edrezen Exp $
+// $Id: Standard.mtl,v 1.10 2004/11/05 09:06:08 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -161,6 +161,27 @@ tag DoNotGenerate := booleantag true;
 	}
 	oclUid() : String
 	tag mangle := specialtag [oclUid];
+	{
+	}
+}
+
+class RepositoryAPI extends OclAny
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLRepositoryAPIInterface]; 
+tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.RepositoryAPI.RepositoryAPIType.TheInstance];
+tag DoNotGenerate := booleantag true;
+{			
+	oclUid() : String
+	tag mangle := specialtag [oclUid];
+	{
+	}
+
+	getTypeFromName(name : String) : OclType
+	tag mangle := specialtag [getTypeFromName];
+	{
+	}
+
+	instanciate(type : OclType) : OclAny
+	tag mangle := specialtag [instanciate];
 	{
 	}
 }
@@ -1162,10 +1183,6 @@ tag DoNotGenerate := booleantag true;
 	}
 
 	put (key : OclAny;  value : OclAny) : OclAny
-	{
-	}
-	
-	keySet () : Set
 	{
 	}
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/org.inria.mtl.Eclipse3plugin/MTL/bin/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.4 $ 				-->
-<!-- $Date: 2004-09-14 15:10:49 $ 	-->
+<!-- $Revision: 1.5 $ 				-->
+<!-- $Date: 2004-11-09 16:17:48 $ 	-->
 <!-- $Author: dvojtise $ 		  	-->
 <!-- Description: This is the configuration file for log4j it allows to tune the level of log you will receive 
 	it also allows to tune where you will receive them. -->
