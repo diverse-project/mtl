@@ -1,4 +1,4 @@
-// $Id: Association.mtl,v 1.2 2003-12-03 04:29:52 ffondeme Exp $
+// $Id: Association.mtl,v 1.3 2004-06-17 12:26:25 jpthibau Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -664,7 +664,7 @@ makeRoleAttribute(anEndPoint : EndPoint) : Attribute
 	}
 
 
-linkTheUserClass(anEndPoint : EndPoint;associationName : Standard::String; userClasses : Standard::Set;otherEndPoints : Standard::Set; operationTemplates : Standard::Set) : Standard::Void
+linkTheUserClass(processedClassNames : Standard::Set;anEndPoint : EndPoint;associationName : Standard::String; userClasses : Standard::Set;otherEndPoints : Standard::Set; operationTemplates : Standard::Set) : Standard::Void
 	{
 	associationNameType : Standard::OrderedSet;
 	theAssociationRefAttribute : Attribute;
@@ -685,16 +685,20 @@ linkTheUserClass(anEndPoint : EndPoint;associationName : Standard::String; userC
 	while theknownClasses.isOn() {
 		aClass := theknownClasses.item().oclAsType(!UserClass!);
 		if aClass.name.[=](anEndPoint.className) {
-			aClass.appendDefinedAttributes(theAssociationRefAttribute);
+			if (processedClassNames.excludes(anEndPoint.className)) {
+				aClass.appendDefinedAttributes(theAssociationRefAttribute);
+			}
 			theOtherEnds := otherEndPoints.getNewIterator();
 			theOtherEnds.start();
 			while theOtherEnds.isOn() {
 				makeRoleGetterSetter(aClass,associationName,theOtherEnds.item().oclAsType(!EndPoint!),operationTemplates);
 				theOtherEnds.next();
 			}			
-		setLink := getNamedOperation('ASSOCIATIONNAMEsetLink',operationTemplates);
-		templateSetLink(setLink,associationName);
-		aClass.appendDefinedMethods(setLink);
+			if (processedClassNames.excludes(anEndPoint.className)) {
+			setLink := getNamedOperation('ASSOCIATIONNAMEsetLink',operationTemplates);
+			templateSetLink(setLink,associationName);
+			aClass.appendDefinedMethods(setLink);
+			}
 		}
 		theknownClasses.next();
 	}
@@ -707,6 +711,7 @@ walkEndPoints(theAssociationClass : UserClass;associationName : Standard::String
 	lowerMInstructions,upperMInstructions,isOrderedInstructions,getterInstructions,orderedGetterInstructions,setterInstructions,orderedSetterInstructions : Standard::OrderedSet;
 	lowerMultiplicityOp,upperMultiplicityOp,isOrderedOp,getterOp,orderedGetterOp,setterOp,orderedSetterOp : Operation;
 	lowerMInstr,upperMInstr,isOrderedTrueInstr,isOrderedFalseInstr,getterInstr,setterInstr: If;
+	processedClassNames : Standard::Set;
 	isOrderedOpinstr3,isOrderedOpinstr4 : Instruction;
 	returnNullInstr : Return;
 	anEndPoint,anotherEndPoint : EndPoint;
@@ -736,6 +741,7 @@ walkEndPoints(theAssociationClass : UserClass;associationName : Standard::String
 	getterInstr := getterOp.instructions.at(1).oclAsType(!If!);
 	returnNullInstr := getterOp.instructions.at(2).oclAsType(!Return!);
 	setterInstr := setterOp.instructions.at(1).oclAsType(!If!);
+	processedClassNames := new Standard::Set();
 	theEndPoints := endPoints.getNewIterator();
 	theEndPoints.start();
 	while theEndPoints.isOn() {
@@ -767,7 +773,8 @@ walkEndPoints(theAssociationClass : UserClass;associationName : Standard::String
 			theOtherEndPoints.next();
 		}
 		
-		linkTheUserClass(anEndPoint,associationName,userClasses,otherEndPoints,operationTemplates);
+		linkTheUserClass(processedClassNames,anEndPoint,associationName,userClasses,otherEndPoints,operationTemplates);
+		processedClassNames := processedClassNames.including(anEndPoint.className);
 		theEndPoints.next();
 	}
 	lowerMultiplicityOp.instructions := lowerMInstructions;
