@@ -1,5 +1,5 @@
 /*
-* $Id: PreferencesConstants.java,v 1.3 2004-08-31 13:46:11 sdzale Exp $
+* $Id: PreferencesConstants.java,v 1.4 2004-09-14 15:06:42 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,15 +7,19 @@
 */ 
 package org.inria.mtl.preferences;
 
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.editors.utils.MTLEditorColorProvider;
 
 /**
  * Preference constants used in the MTL-UI preference store. Clients should only read the
@@ -23,9 +27,10 @@ import org.inria.mtl.MTLPlugin;
  * preference store programmatically.
  * 
   */
-public class PreferencesConstants {
+public class PreferencesConstants extends AbstractPreferenceInitializer {
 
-  private PreferencesConstants() {
+  public PreferencesConstants() {
+  	super();
   }
 
   public final static String MTL = "__mtl"; //$NON-NLS-1$
@@ -1049,10 +1054,52 @@ public class PreferencesConstants {
    */
   public static String MTL_COMPILER_PATH="mtlcompilerpath" ; //$NON-NLS-1$
 
+  public void initializeDefaultPreferences() {
+  	//super().initializeDefaultPreferences();
+  	PreferencesConstants.initializeDefaultValues(getPreferenceStore());
+  }
+  
+  /**
+   * set the default values for the plugin and store them
+ * @param store
+ */
+public static void initializeDefaultValues(IPreferenceStore store) {
+    
+  	store = MTLPlugin.getDefault().getPreferenceStore();
+	store.setDefault(PreferencesConstants.AUTO_COMPILE, false);
+	store.setDefault(PreferencesConstants.SHOW_OUTPUT_IN_CONSOLE, false);
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MULTI_LINE_COMMENT_COLOR, MTLEditorColorProvider.MULTI_LINE_COMMENT);
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR, MTLEditorColorProvider.SINGLE_LINE_COMMENT);
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MTL_TAG_COLOR, MTLEditorColorProvider.MTLDOC_TAG);
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MTL_KEYWORD_COLOR, MTLEditorColorProvider.KEYWORD);
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MTL_VARIABLE_COLOR, MTLEditorColorProvider.VARIABLE);
+	PreferenceConverter.setDefault(store, PreferencesConstants.MTL_FUNCTIONNAME,MTLEditorColorProvider.FUNCTION_NAME);
+	PreferenceConverter.setDefault(store, PreferencesConstants.MTL_CONSTANT, MTLEditorColorProvider.CONSTANT);
+	PreferenceConverter.setDefault(store, PreferencesConstants.MTL_TYPE, MTLEditorColorProvider.TYPE);
+	PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_STRING_COLOR, MTLEditorColorProvider.STRING);
+	
+	// Log4j server settings
+	store.setDefault(Log4jPreferencePage.P_PORT, 4445);
+	
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(244, 244, 255));
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(255, 255, 255));
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(255, 255, 192));
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_PROBLEM_INDICATION_COLOR, new RGB(192, 255, 192));
+	//PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(255, 0, 0));
 
-  public static void initializeDefaultValues(IPreferenceStore store) {
-    //MTL Compiler Page
-	store.setDefault(PreferencesConstants.MTL_COMPILER_PATH, "");
+  	
+  	
+  	
+  	//MTL Compiler Page
+	String pluginPath = MTLPlugin.getDefault().getLocation();
+	// weird: getLocation() returns a string like "/c:/eclispse/...."
+	/*Shell shell = new Shell();
+	MessageDialog.openInformation(
+			shell,
+			"MTL Compiler",
+			pluginPath);*/
+	String compilerPath = pluginPath.concat("MTL");
+	store.setDefault(PreferencesConstants.MTL_COMPILER_PATH, compilerPath);
 	
 	//MTL Folder settings
 	store.setDefault(PreferencesConstants.FJAVA_BINNAME,"bin");
@@ -1082,25 +1129,25 @@ public class PreferencesConstants {
 	   //PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_PRINT_MARGIN_COLOR, new RGB(176, 180, 185));
 
 	   store.setDefault(PreferencesConstants.EDITOR_PROBLEM_INDICATION, true);
-	   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_PROBLEM_INDICATION_COLOR, new RGB(255, 0, 128));
+	   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_PROBLEM_INDICATION_COLOR, new RGB(255, 0, 64));
 	   store.setDefault(PreferencesConstants.EDITOR_ERROR_INDICATION_IN_OVERVIEW_RULER, true);
 
 	   store.setDefault(PreferencesConstants.EDITOR_WARNING_INDICATION, true);
-	   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(244, 200, 45));
+	   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(255, 128, 0));
 	   store.setDefault(PreferencesConstants.EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER, true);
 
 	store.setDefault(PreferencesConstants.EDITOR_FATAL_INDICATION, true);
-		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(244, 200, 45));
+		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(255, 0, 0));
 	store.setDefault(PreferencesConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER, true);
 	store.setDefault(PreferencesConstants.EDITOR_FATAL_SHOW_IN_CONSOLE, true);
 
 	store.setDefault(PreferencesConstants.EDITOR_INFO_INDICATION, true);
-		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(244, 200, 45));
+		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(255, 255, 255));
 		   store.setDefault(PreferencesConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER, true);
 	store.setDefault(PreferencesConstants.EDITOR_INFO_SHOW_IN_CONSOLE, true);
 
 	store.setDefault(PreferencesConstants.EDITOR_DEBUG_INDICATION, true);
-		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(244, 200, 45));
+		   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(244, 244, 255));
 		   store.setDefault(PreferencesConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER, true);
 	store.setDefault(PreferencesConstants.EDITOR_DEBUG_SHOW_IN_CONSOLE, true);
 
@@ -1148,6 +1195,7 @@ public class PreferencesConstants {
 	   store.setDefault(PreferencesConstants.EDITOR_TAB_WIDTH, 4);
 	   store.setDefault(PreferencesConstants.EDITOR_SPACES_FOR_TABS, false);
 
+	   
 	   PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MULTI_LINE_COMMENT_COLOR, new RGB(63, 127, 95));
 	   store.setDefault(PreferencesConstants.EDITOR_MULTI_LINE_COMMENT_BOLD, false);
 
