@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: CommonFunctions.java,v 1.10 2004-06-09 09:41:12 jpthibau Exp $
+ * $Id: CommonFunctions.java,v 1.11 2004-10-18 15:06:06 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -9,6 +9,7 @@ package SecondPassGeneration;
 
 import java.io.*;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression;
 //import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
@@ -24,6 +25,7 @@ import CodeGeneration.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class CommonFunctions {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	private static int genSymbolNumber=0;
 
@@ -36,9 +38,9 @@ public class CommonFunctions {
 	{	FileOutputStream outputFile=null;
 		try {
 			outputFile=new FileOutputStream(name+".java",append);
-			MSGHandler.debug(CommonFunctions.class,39,name+".java succesfully created.");
+			log.debug(name+".java succesfully created.");
 		}
-		catch (FileNotFoundException e) {MSGHandler.error(CommonFunctions.class,41,"Code generation : Can't open file "+name+".java");}
+		catch (FileNotFoundException e) {log.error("Code generation : Can't open file "+name+".java");}
 		PrintWriter output = new PrintWriter(outputFile);
 		return output;
 	}

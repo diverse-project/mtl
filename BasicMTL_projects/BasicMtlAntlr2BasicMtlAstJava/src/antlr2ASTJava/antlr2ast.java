@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.21 2004-06-29 08:31:41 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.22 2004-10-18 15:04:23 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -19,12 +19,15 @@ import java.util.Vector;
 
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
+
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.*;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerException;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 public class antlr2ast implements ANTLRWalkerActionsInterface {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	private static Library theBuiltAST=null; //<<<Accumulation>>>
 	private static String libraryName = null;
@@ -36,7 +39,7 @@ public static void main(String[] args)
 {	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2ast().buildLibraryFromText(args[i]);
-	else MSGHandler.error(antlr2ast.class,37,"USAGE : java BMTL <sourcefiles>");
+	else log.error("USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -161,7 +164,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
 	if (classSurname.equals(libraryName)) {
-		MSGHandler.error(antlr2ast.class,168,"The class name cannot have the library name"+classSurname);
+		log.error("The class name cannot have the library name"+classSurname);
 		classNames=new java.util.Vector();
 		classNames.add(classSurname+classSurname);
 	}
@@ -190,7 +193,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 			if (node.getDefinedMethods(j).getName().equals((String)theSetterGetter.get(2)))
 				theOperation = node.getDefinedMethods(j);
 		if (theAttribute == null | theOperation==null)
-			MSGHandler.error(antlr2ast.class,185,"Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
+			log.error("Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
 		else {
 			if (((Boolean)theSetterGetter.get(0)).booleanValue())
 				{	theAttribute.setGetter(theOperation);
@@ -291,7 +294,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 	} else if (destTree instanceof VarCall) {
 		node= new VarSetting(((VarCall)destTree).getVarName(),(Expression)sourceTree);
 	} else {
-		MSGHandler.error(antlr2ast.class,286,lineNumber + ": Can just affect variable or attributes.");
+		log.error(lineNumber + ": Can just affect variable or attributes.");
 		return null;
 	}
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
@@ -314,7 +317,7 @@ public Object whileInstr(Object expression,Object body)
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
 	if (thenBody == null) {
-		MSGHandler.error(antlr2ast.class,317,"If body has to contain at least one instruction.");
+		log.error("If body has to contain at least one instruction.");
 		return null;
 	}
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);

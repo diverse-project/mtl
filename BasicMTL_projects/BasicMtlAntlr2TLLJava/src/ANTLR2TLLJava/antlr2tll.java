@@ -1,6 +1,6 @@
 /*
  * Created on 22 juil. 2003
- * $Id: antlr2tll.java,v 1.10 2004-06-09 09:41:17 jpthibau Exp $
+ * $Id: antlr2tll.java,v 1.11 2004-10-18 15:05:12 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -8,6 +8,7 @@
 package ANTLR2TLLJava;
 
 //import java.io.*;
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
@@ -22,6 +23,7 @@ import antlr2ASTJava.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class antlr2tll {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	static final String tllPrefix=".\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
@@ -100,7 +102,7 @@ public class antlr2tll {
 			BasicMtlLibrary theCreatedLib=TLLProducer(filenamesArguments,defaultPackagePrefix,null);
 			Library.store(theCreatedLib.getName()+tllSuffix,theCreatedLib,tllPrefix);
 						}
-		else MSGHandler.error(antlr2tll.class,103,"USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
+		else log.error("USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 
 /*	public static void main(String[] args)

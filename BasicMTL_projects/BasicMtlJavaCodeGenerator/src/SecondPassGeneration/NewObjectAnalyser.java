@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.10 2004-06-09 09:41:12 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.11 2004-10-18 15:06:06 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
@@ -18,6 +20,7 @@ import CodeGeneration.BMTLCompiler;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	public Object NewObjectBefore(NewObject ASTnode,java.util.Map context)
 	{	QualifiedName type=ASTnode.getTypeToCreate();
@@ -47,7 +50,7 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 //		if (type.getIsLocalType())
 //			outputForClass.println("new "+type.getLocalMangledName()+"(this.getLibrary())");
 		if (ASTnode.cardArguments() > 0)
-			MSGHandler.error(NewObjectAnalyser.class,50,"new should not have arguments as you can't define your own constructors...");
+			log.error("new should not have arguments as you can't define your own constructors...");
 		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		return null; }
 

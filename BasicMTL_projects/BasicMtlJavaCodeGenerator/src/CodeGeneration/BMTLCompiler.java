@@ -1,11 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.7 2004-06-09 09:41:14 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.8 2004-10-18 15:06:07 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
 package CodeGeneration;
 
-import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -20,6 +20,7 @@ public class BMTLCompiler {
 	static final String binPathName="..\\BMTLTester\\ThirdParty\\BMTL_bin";
 	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	public static void compile(BasicMtlLibrary theLib,String defaultTLLPath,String defaultBinPath)
 	{	
@@ -29,7 +30,7 @@ public class BMTLCompiler {
 		DefaultAnalysingVisitor visitor2 = new DefaultAnalysingVisitor("SecondPassGeneration");
 		visitor.visit(theLib,context);
 		visitor2.visit(theLib,context);
-		MSGHandler.info(BMTLCompiler.class,32,"Code generation is over.");
+		log.info("Code generation is over.");
 	}
 	
 	public static void main(String[] args)
@@ -52,7 +53,7 @@ public class BMTLCompiler {
 			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultTLLPath+args[0]+tllSuffix);
 			compile(theLib,defaultTLLPath,defaultBinPath);
 		}
-		else MSGHandler.error(BMTLCompiler.class,55,"USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
+		else log.error("USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
 	}
 
 

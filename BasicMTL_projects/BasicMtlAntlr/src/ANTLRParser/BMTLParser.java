@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.10 2004-06-11 11:30:21 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.11 2004-10-18 15:02:47 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -14,6 +14,7 @@ package ANTLRParser;
 
 import java.io.*;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 import ANTLRASTWalker.*;
@@ -21,15 +22,16 @@ import ANTLRASTWalker.*;
 
 public class BMTLParser {
 	static DataInputStream input;
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 
 	public static Object Parse(String name,ANTLRWalkerActionsInterface aWalker)
-	{	MSGHandler.debug(BMTLParser.class,27,"Parsing : "+name);
+	{	log.debug("Parsing : "+name);
 		boolean noPb=true;
 		Object builtTree=null;
 		try { input=new DataInputStream(new FileInputStream(name)); }
 		catch (FileNotFoundException e) {
-			MSGHandler.error(BMTLParser.class,32,"PB opening input file : "+name);}
+			log.error("PB opening input file : "+name);}
 		try {
 			BasicmtlLexer lexer = new BasicmtlLexer(input);
 			BasicmtlParser parser = new BasicmtlParser(lexer);
@@ -37,17 +39,17 @@ public class BMTLParser {
 			}
 		catch (antlr.ANTLRException e) {
 			noPb=false;
-			MSGHandler.warn(BMTLParser.class,40,"ANTLRException on "+name+", "+e);
-			MSGHandler.warn(BMTLParser.class,41,"=> "+e.getMessage());
+			log.warn("ANTLRException on "+name+", "+e);
+			log.warn("=> "+e.getMessage());
 			e.printStackTrace();
 		}
 		catch(Exception e) {
 			noPb=false;
-			MSGHandler.warn(BMTLParser.class,46,"exception: "+e+"=>"+e.getMessage());
-			MSGHandler.warn(BMTLParser.class,47,"exception was raised when parsing : "+name+", ");
+			log.warn("exception: "+e+"=>"+e.getMessage());
+			log.warn("exception was raised when parsing : "+name+", ");
 			e.printStackTrace(); }				
-		MSGHandler.debug(BMTLParser.class,49,"For the file "+name+',');
-		MSGHandler.debug(BMTLParser.class,50,"parsing is over.");
+		log.debug("For the file "+name+',');
+		log.debug("parsing is over.");
 		if (noPb) return builtTree;
 		else return null;
 	}
@@ -58,8 +60,8 @@ public class BMTLParser {
 			for (int i=0;i<args.length;i++)
 				try { Parse(args[i],aWalker); }
 				catch (Exception e) {
-					MSGHandler.error(BMTLParser.class,61,e.getMessage());
+					log.error(e.getMessage());
 					e.printStackTrace();}
-		else MSGHandler.error(BMTLParser.class,63,"USAGE : java BMTL <sourcefiles>");
+		else log.error("USAGE : java BMTL <sourcefiles>");
 	}
 }

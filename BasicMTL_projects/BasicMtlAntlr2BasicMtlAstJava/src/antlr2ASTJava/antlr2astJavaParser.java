@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2astJavaParser.java,v 1.4 2004-06-11 11:34:05 jpthibau Exp $
+ * $Id: antlr2astJavaParser.java,v 1.5 2004-10-18 15:04:23 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -15,12 +15,14 @@ package antlr2ASTJava;
  */
 
 //
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 import ANTLRASTWalker.antlrParserInterface;
 import ANTLRParser.*;
 
 public class antlr2astJavaParser implements antlrParserInterface {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	private org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
 	private antlr2ast ASTproducer=null;
@@ -32,7 +34,7 @@ public class antlr2astJavaParser implements antlrParserInterface {
 
 	public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library buildLibraryFromTexts(java.util.Vector filenames)
 	{	
-		MSGHandler.info(antlr2astJavaParser.class,33,"Parsing "+filenames.size()+" file(s) for this library" );
+		log.info("Parsing "+filenames.size()+" file(s) for this library" );
 		for (int i=0;i<filenames.size();i++)
 			//to add the new parsed file to the TLL when several files are given
 			//the context contains the created  TLL that udpdates at each step

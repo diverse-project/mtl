@@ -1,6 +1,6 @@
 /*
  * Created on 24 juil. 2003
- * $Id: VarSettingAnalyser.java,v 1.10 2004-06-09 09:41:18 jpthibau Exp $
+ * $Id: VarSettingAnalyser.java,v 1.11 2004-10-18 15:05:13 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -10,6 +10,7 @@ package TLLBuilder;
 import java.util.Map;
 
 //import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
@@ -23,6 +24,8 @@ import ANTLR2TLLJava.antlr2tll;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
+	static final Logger log=Logger.getLogger("MSGHandler");
+
 /*
 	public Object VarSettingBefore(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarSetting ASTnode,java.util.Map context)
 	{	int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
@@ -79,9 +82,9 @@ public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
 			ret = (OperationCall)c;
 			((OperationCall)ret).setKind(OperationKind.getAttributeSet());
 		} else
-			{	MSGHandler.error(VarSettingAnalyser.class,82,"line " + lineNumber + ": Can just affect attributes or variables.");
-				if (c instanceof VarCall) MSGHandler.error(VarSettingAnalyser.class,83,"Probably undeclared variable... "+((VarCall)c).getVarName());
-				else MSGHandler.error(VarSettingAnalyser.class,84,"Probably undeclared variable... "+((OperationCall)c).getName());
+			{	log.error("line " + lineNumber + ": Can just affect attributes or variables.");
+				if (c instanceof VarCall) log.error("Probably undeclared variable... "+((VarCall)c).getVarName());
+				else log.error("Probably undeclared variable... "+((OperationCall)c).getName());
 			} 
 		return ret;
 	}

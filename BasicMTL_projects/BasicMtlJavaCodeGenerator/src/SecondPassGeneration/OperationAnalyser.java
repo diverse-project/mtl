@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.12 2004-06-09 09:42:07 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.13 2004-10-18 15:06:06 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
@@ -23,6 +24,7 @@ import CodeGeneration.BMTLCompiler;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 	public Object OperationBefore(Operation ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
@@ -70,7 +72,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 		QualifiedName type=ASTnode.getFeatureType();
 		if (type.getIsLocalType())
 			if (type.getLocalMangledName().equals(ASTnode.getMangle()))
-				MSGHandler.error(OperationAnalyser.class,73,"Constructors not allowed in BMTL : "+ASTnode.getName());
+				log.error("Constructors not allowed in BMTL : "+ASTnode.getName());
 			else {
 				outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
 				outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');

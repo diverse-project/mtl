@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.13 2004-06-29 08:31:36 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.14 2004-10-18 15:03:54 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -17,6 +17,7 @@ import ANTLRParser.*;
 //import BasicMtlASTView.BMTL_ASTNodeInterface;
 import BasicMtlASTWithAssociationView.*;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 //import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
@@ -46,6 +47,7 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 	private boolean hasAssociation=false;
 	private String currentFile;
 	private static String libraryName = null;
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { 
@@ -58,7 +60,7 @@ public static void main(String[] args)
 {	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2astView().buildLibraryFromText(args[i]);
-	else MSGHandler.error(antlr2astView.class,60,"USAGE : java BMTL <sourcefiles>");
+	else log.error("USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -103,7 +105,7 @@ private void putProperty (BMTL_ASTNodeInterface node,BMTLStringInterface name,Ob
 			node.BMTL_createNewBMTLTypeProperty(name,theType,new BMTLString(tagType));
 			return;
 		}
-		MSGHandler.error(antlr2astView.class,105,"PutProperty on an unknown tagType"+tagType);
+		log.error("PutProperty on an unknown tagType"+tagType);
 	}
 }
 
@@ -258,7 +260,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
 	if (classSurname.equals(libraryName)) {
-		MSGHandler.error(antlr2astView.class,265,"The class name cannot have the library name"+classSurname);
+		log.error("The class name cannot have the library name"+classSurname);
 		classNames=new java.util.Vector();
 		classNames.add(classSurname+classSurname);
 	}
@@ -403,7 +405,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 		createdNode.set_BMTL_value((BMTL_ExpressionInterface)sourceTree);
 		node=(BMTL_ASTNodeInterface)createdNode;
 	} else {
-		MSGHandler.error(antlr2astView.class,399,lineNumber + ": Can just affect variable or attributes."+sourceTree);
+		log.error(lineNumber + ": Can just affect variable or attributes."+sourceTree);
 		return null;
 	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
@@ -433,7 +435,7 @@ public Object whileInstr(Object expression,Object body)
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
 	if (thenBody == null) {
-		MSGHandler.error(antlr2astView.class,436,"If body has to contain at least one instruction.");
+		log.error("If body has to contain at least one instruction.");
 		return null;
 	}
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
