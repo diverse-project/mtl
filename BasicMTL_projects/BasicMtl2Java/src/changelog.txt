@@ -1,9 +1,22 @@
-$Id: changelog.txt,v 1.3 2004-11-10 10:58:08 dvojtise Exp $
+$Id: changelog.txt,v 1.4 2005-02-25 10:17:41 dvojtise Exp $
 List of the changes between different versions
 
 
 Current changes in the latest build
 -----------------------------
+
+V0.0.6
+-----------------------------
+- user can now configure for each MTL project where the java and tll files will be generated
+- Added ant build script generation from the project configuration.
+- MTL Perspective enhancement (default views, icons)
+- other perspective cleanup
+- Added Poseidon repository support
+- user can now define abstract classes (alpha)
+- some bug fixes (please refer to bugzilla base)
+- some change in the standard types
+	* oclany now has getTypeFromName and instanciate methods
+  
 
 V0.0.5
 -----------------------------
