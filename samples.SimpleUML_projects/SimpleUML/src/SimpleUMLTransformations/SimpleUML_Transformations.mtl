@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: SimpleUML_Transformations.mtl,v 1.1 2003-11-03 12:44:20 dvojtise Exp $
+ * $Id: SimpleUML_Transformations.mtl,v 1.1 2003-11-04 15:41:40 jpthibau Exp $
  * Simple transformations that apply to SimpleUML models
  *	includes : 
  *		Attribute_Privatize that privatize 
@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 
-library SimpleUML_Transformations;
+library SimpleUMLTransformations;
 
 //-- Lib local models --
 //Repository models
@@ -30,7 +30,7 @@ main():Standard::Void
 	outputFilename    : Standard::String;
 
 	// we define some filenames 
-	projectPath       := './';
+	projectPath       := '../../';
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/SimpleUmlMM_MOF.xml');
 	inputFilename     := projectPath.concat ('Models/SimpleUML_FullExample.xml');
 	outputFilename    := projectPath.concat ('Models/SimpleUML_FullExample_modified.xml');
