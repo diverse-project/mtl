@@ -15,9 +15,9 @@
     type="xmi"
     name="#FILE#"
   />
-  <!-- <member
+  <member
     type="pgml"
-    name="ClassDiagram1.pgml"
-  /> -->
+    name="Empty Class Diagram.pgml"
+  />
   <historyfile name="" />
 </argo>
