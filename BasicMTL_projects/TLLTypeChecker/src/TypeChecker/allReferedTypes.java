@@ -1,22 +1,22 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.13 2003-12-16 07:18:30 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.14 2003-12-16 15:04:50 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 
-import org.irisa.triskell.MT.utils.Java.AWK;
-import org.irisa.triskell.MT.utils.Java.Mangler;
+//import org.irisa.triskell.MT.utils.Java.AWK;
+//import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
  * @author jpthibau
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * This class give tools to verify that the types refered in a library exist 
+ * (either in this library or in another which has been allready compiled).
  */
 public class allReferedTypes {
 	
@@ -43,6 +43,14 @@ public class allReferedTypes {
 		return true;
 	}
 	
+	/**
+	 * Load an allready processed library from its serialisation (TLL files)
+	 * look for the TLL file in the defaultTLLPaths
+	 * 
+	 * @param libName  : name of the library to load
+	 * @param theLib	: 
+	 * @return Library : loaded library
+	 */
 	public static Library loadTLL(String libName,BasicMtlLibrary theLib)
 	{	Library loadedTLL=null;
 		if (TLLtypechecking.loadedLibraries.containsKey(libName))
@@ -249,6 +257,12 @@ public class allReferedTypes {
 		return errors+warnings;
 	}
 	
+	/**
+	 * Verify that a type is correctly declared before usage.
+	 * @param aType 	: type to verify declaration
+	 * @param theLib	:
+	 * @return boolean	: true is correctly declared
+	 */
 	public static boolean checkType (QualifiedName aType, BasicMtlLibrary theLib) {
 		String firstName=(String)aType.get(0);
 		if (checkModel(aType,firstName,theLib)) return true;
@@ -265,15 +279,18 @@ public class allReferedTypes {
 						else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName + "::" +aType.get(1));
 								errors++;} 
 				}
-				else //type which is not a model element and has more thn 2 components
+				else //type which is not a model element and has more than 2 components
 					//Certainly a mistake !
-						{ TLLtypechecking.getLog().error("or Undeclared model or extern class type having more than 2 components !");;
-							TLLtypechecking.getLog().info(firstName+"could be the undeclared model");
-							TLLtypechecking.getLog().info("The type components :");
-							for(int j=0;j<aType.size();j++)
-								TLLtypechecking.getLog().info(aType.get(j));
-							errors++;
-							}
+				{ 
+					String  typeComponentMsg;
+					TLLtypechecking.getLog().error("Undeclared model or extern class type having more than 2 components !");;
+					TLLtypechecking.getLog().error(firstName+" may be the undeclared model");
+					typeComponentMsg  = "The type components : ";
+					for(int j=0;j<aType.size();j++)
+						typeComponentMsg+="<"+aType.get(j)+"> ";
+					TLLtypechecking.getLog().error(typeComponentMsg);
+					errors++;
+				}
 		return false;
 	}
 
