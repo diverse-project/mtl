@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.3 2004-03-16 15:11:40 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.4 2004-04-05 14:51:03 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -429,8 +429,7 @@ implements org.irisa.triskell.MT.repository.API.Java.API
  	*/
 	public MetaAssociation getMetaAssociationWithAssociationEnds(MetaAssociationEnd[] arg0)
 		throws UnknownElementException {
-		// TODO Auto-generated method stub
-		return null;
+		return new EMFMetaAssociation(this,arg0);
 }
 
 	/* (non-Javadoc)
@@ -440,7 +439,9 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 		String arg0,
 		MetaClass arg1,
 		MetaClass arg2) {
-		// TODO Auto-generated method stub
+		EMFMetaClass mc = (EMFMetaClass)arg1;
+		EStructuralFeature assocEnd = mc.getAttribute(arg0);
+		if (assocEnd != null) return new EMFMetaAssociationEnd(this,arg0,null,assocEnd,mc);
 		return null;
 	}
 
@@ -448,8 +449,7 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 	 * @see org.irisa.triskell.MT.repository.API.Java.API#getRole(org.irisa.triskell.MT.repository.API.Java.ModelElement, org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd)
  	*/
 	public ModelRole getRole(ModelElement arg0, MetaAssociationEnd arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		return new EMFRole((EMFFeatured)arg0,(EMFMetaAssociationEnd)arg1);
 }
 
 	public org.irisa.triskell.MT.repository.API.Java.ModelElement getModelElement(
