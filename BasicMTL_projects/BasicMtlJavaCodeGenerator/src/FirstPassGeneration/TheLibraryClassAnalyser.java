@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.6 2003-08-26 13:00:15 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.7 2003-09-17 07:15:23 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -54,7 +54,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
 			String externParentName=aParentType.getExternMangledName();
 			String declarationName = aParentType.getDeclarationName();
-			outputForClass.println("private "+declarationName+" BMTLRef_"+externParentName+';');
+			outputForClass.println("public "+declarationName+" BMTLRef_"+externParentName+';');
 			outputForInterface.println(", "+declarationName);
 		}
 		outputForInterface.println('{');
@@ -247,8 +247,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		QualifiedName aParentType = ASTnode.getQualifiedName();
 		GetReferenceSignature signature = new GetReferenceSignature(aParentType);
 		String externParentName=aParentType.getExternMangledName();
-		outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "()");
-		outputForInterface.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "();");
+//=====> Interface added
+		outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + "Interface " + signature.getOpMangle() + "()");
+		outputForInterface.println("public "+signature.getReturnedType().getDeclarationName() + "Interface " + signature.getOpMangle() + "();");
+//======>
 		outputForClass.println("{ return this; }\n");
 		limit=ASTnode.getInheritance().size();
 		// Inheritance from other defined libraries
@@ -257,7 +259,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
 			signature = new GetReferenceSignature(aParentType);
 			externParentName=aParentType.getExternMangledName();
-			outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "()");
+			outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + "Interface " + signature.getOpMangle() + "()");
 			outputForClass.println("{ return this."+"BMTLRef_"+externParentName+"; }\n");
 		}
 		outputForClass.print("public static final org.irisa.triskell.MT.DataTypes.Java.Type myType=new BMTLLibraryType(\"" + JavaStringLiteralEncoder.encodeString(ASTnode.getName()) + "\", " + ASTnode.getMangle()+ "Interface.class, " + ASTnode.getMangle()+".class, java.util.Arrays.asList(new BMTLLibraryType [] {");
@@ -268,7 +270,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 				first = false;
 			else
 				outputForClass.print(", ");
-			outputForClass.print(((TheLibraryClass)inherited.next()).getMangle() + ".myType");
+			outputForClass.print("(BMTLLibraryType)"+((QualifiedName)inherited.next()).getExternCompleteName() + ".myType");
 		}
 		outputForClass.println("}));");
 		outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type getType()");
