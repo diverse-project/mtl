@@ -1,3 +1,10 @@
+/*
+ * $Id: WizardNewFilePage.java,v 1.4 2005-02-22 19:25:56 dvojtise Exp $
+ * Authors : sdzale, dvojtise
+ *
+ * Created on 30/07/2004
+ * Copyright 2004 - INRIA - LGPL license
+ */
 /*******************************************************************************
  * Copyright (c) 2000, 2004 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials 
@@ -438,7 +445,7 @@ private InputStream openContentStreamClass(String mtlfileName) {
 			.format(maintenant);
   StringBuffer contents = new StringBuffer("/************************************************\n");
 
-  contents.append("***   $Id: WizardNewFilePage.java,v 1.3 2005-02-08 15:41:31 dvojtise Exp $\n");
+  contents.append("***   $"+"Id:$\n");
   contents.append("***   File : ");
   contents.append(mtlfileName);
   contents.append("\n");
