@@ -1,21 +1,22 @@
-/*
+/* $Id: Directories.java,v 1.4 2004-04-06 15:23:21 dvojtise Exp $
  * Created on May 22, 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Authors : ffondemen
  */
 package org.irisa.triskell.MT.utils.Java;
 
 import java.io.File;
 
 /**
+ * Some usefull methods relative to directories
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Directories {
 
+	/**
+	 * Finds the user directory (from the system property/environment)
+	 * @return File
+	 */
 	public static File getUserPath () {
 		File ret = new File(System.getProperty("user.home"));
 		if (! ret.exists())
@@ -23,7 +24,12 @@ public class Directories {
 		return ret;
 	}
 
-    public static File getJar (String fromClass) {
+    /**
+     * Returns the jar file which contains that class 
+	 * @param fromClass
+	 * @return File
+	 */
+	public static File getJar (String fromClass) {
         String thisClassName = ClassLoader.getSystemResource(AWK.replace(fromClass,
                 ".", "/") + ".class").getFile();
         if (thisClassName.startsWith("file:")) {
@@ -33,7 +39,7 @@ public class Directories {
             else
                 thisClassName = thisClassName.substring(5, index);              // Eliminate file: and the class part
             try {
-                thisClassName = java.net.URLDecoder.decode(thisClassName);
+                thisClassName = java.net.URLDecoder.decode(thisClassName,"ISO-8859-1");
             } catch (Exception ex) {
             }
             return new File(thisClassName);
@@ -59,7 +65,7 @@ public class Directories {
             else
                 thisClassName = thisClassName.substring(5, index);              // Eliminate file: and the class part
             try {
-                thisClassName = java.net.URLDecoder.decode(thisClassName);
+                thisClassName = java.net.URLDecoder.decode(thisClassName,"ISO-8859-1");
             } catch (Exception ex) {
             }
         }
