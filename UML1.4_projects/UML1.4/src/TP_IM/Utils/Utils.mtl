@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Utils.mtl,v 1.1 2003-12-16 13:31:17 dvojtise Exp $
+ * $Id: Utils.mtl,v 1.2 2005-01-10 15:22:27 dvojtise Exp $
  * This library provides tools function to manipulate objects of UML1.4 metamodel
  * It is inspired by some usefull Objecteering J method for some metaclasses.
  * It should avoid to have some repetitive MTL code. 
@@ -179,19 +179,13 @@ class UMLDoc
 				{
 					visString := '+';		
 				}
-				else
+				elseif theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_private)
 				{
-					if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_private)
-					{
 						visString := '-';
-					}
-					else 
-					{
-						if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_protected)
-						{
+				}
+				elseif theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_protected)
+				{
 							visString := '#';
-						}
-					}
 				}
 			}		
 			
@@ -217,14 +211,11 @@ class UMLDoc
 					returnedString := returnedString.concat(typeName);			
 					// TODO find multiplicity
 				}
-				else
+				elseif theFeature.oclIsTypeOf(!UML::Core::Operation!)
 				{
-					if theFeature.oclIsTypeOf(!UML::Core::Operation!)
-					{
-						returnedString := returnedString.concat('()');									
-						// TODO find parameters, returned type
-					}
-				}				
+					returnedString := returnedString.concat('()');									
+					// TODO find parameters, returned type
+				}			
 				returnedString := returnedString.concat('\n');			
 			}
 			// TODO find visibility, type of feature,  etc
@@ -259,7 +250,7 @@ class UMLDoc
 		it := directSuperClasses(aClass).getNewIterator();
 		while it.isOn()
 		{
-			returnedString := returnedString.concat(flatShort(it.item().oclAsType (!UML::Core::Class!),tabsString.concat('   ')));
+			returnedString := returnedString.concat(flatShort(it.item().oclAsType (!UML::Core::Class!),tabsString.concat('___')));
 			it.next();
 		}
 		// we return the result
