@@ -1,4 +1,4 @@
-<!-- $Id: PureJava_build.xml,v 1.7 2004-06-30 14:37:38 jpthibau Exp $ -->
+<!-- $Id: PureJava_build.xml,v 1.8 2004-10-13 14:11:35 jpthibau Exp $ -->
 <project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -79,9 +79,9 @@
   		description="Compiles necessary libraries (if needed)">
 	    
 		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
-	    <echo>Building the "MDRDriver" project.</echo>
+<!--	    <echo>Building the "MDRDriver" project.</echo>
 	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="dist" inheritAll="false"/>
-	    <echo>"MDRDriver" project built.</echo>
+	    <echo>"MDRDriver" project built.</echo> -->
 	    <echo>Building the "BasicMTLRuntime" project.</echo>
 	    <ant antfile="${BasicMTLRuntime}\build.xml" dir="${BasicMTLRuntime}" target="dist" inheritAll="false"/>
 	    <echo>"BasicMTLRuntime" project built.</echo>
@@ -100,7 +100,7 @@
   		description="Completely recompiles necessary libraries">
 	    
 		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
-	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="deep_clean" inheritAll="false"/>
+<!--	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="deep_clean" inheritAll="false"/> -->
 	    <ant antfile="${BasicMTLRuntime}\build.xml" dir="${BasicMTLRuntime}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="deep_clean" inheritAll="false"/>
@@ -115,7 +115,7 @@
   		<copy file="${Utils}/dist/bin/Utils.jar" todir="${dist}/bin"/>
   		<copy file="${MTDataTypes}/dist/bin/MTDataTypes.jar" todir="${dist}/bin"/>
   		<copy file="${RepositoryAPI}/dist/bin/RepositoryAPI.jar" todir="${dist}/bin"/>
-  		<copy file="${MDRDriver}/dist/bin/MDRDriver.jar" todir="${dist}/bin"/>
+ <!-- 		<copy file="${MDRDriver}/dist/bin/MDRDriver.jar" todir="${dist}/bin"/> -->
   		<copy file="${BasicMTLRuntime}/dist/bin/BasicMTLRuntime.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMTLAstJava}/dist/bin/BasicMtlAstJava.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlAntlr}/dist/bin/BasicMtlAntlr.jar" todir="${dist}/bin"/>
@@ -136,16 +136,16 @@
   		<copy  todir="${dist}/bin/ThirdParty/ANTLR">
   			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
   		</copy>
-  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  <!--		<copy  todir="${dist}/bin/ThirdParty/MDR">
   			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
-  		</copy>
+  		</copy> -->
   		
   		<mkdir dir="${dist}/Runtime/"/>
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
   		<mkdir dir="${dist}/Runtime/src/DefaultVisitors"/>
   		<mkdir dir="${dist}/Runtime/src/DefaultObservers"/>
-  		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
+<!--  		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/> -->
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
@@ -155,9 +155,9 @@
   		<copy todir="${dist}/Runtime/src/DefaultObservers">
   			<fileset dir="${base}/BMTLDefaultVisitors/DefaultObservers"/>
   		</copy>
-  		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
+<!--  		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>
-  		</copy> 		
+  		</copy> --> 		
   		<!-- add the default log4j configuration file -->
   		<copy file="log4j_configuration.xml" todir="${dist}/bin"/>
   		<!-- preparing sample directory structure with sample build file -->

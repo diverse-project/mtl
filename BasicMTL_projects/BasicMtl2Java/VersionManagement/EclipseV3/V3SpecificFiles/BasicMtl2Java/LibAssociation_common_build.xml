@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.5 2004-09-28 13:03:24 edrezen Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.6 2004-10-13 14:11:36 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -114,7 +114,16 @@
   		<copy  todir="${dist}/bin/ThirdParty/ANTLR">
   			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
   		</copy>
-  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  		<copy  todir="${dist}/bin/ThirdParty/JMI">
+  			<fileset file="${MDRDriver}/ThirdParty/MDR/official/jmi.jar"/>
+  		</copy>
+<!--  		<copy  todir="${dist}/bin/ThirdParty/JMI">
+  			<fileset file="${MDRDriver}/ThirdParty/MDR/official/jmiutils.jar"/>
+  		</copy> -->
+  		<copy  todir="${dist}/bin/ThirdParty/JMI">
+  			<fileset file="${MDRDriver}/ThirdParty/MDR/official/mof.jar"/>
+  		</copy>
+<!--  		<copy  todir="${dist}/bin/ThirdParty/MDR">
   			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
   		</copy>
   		<copy  todir="${dist}/bin/ThirdParty/ModFact">
@@ -122,7 +131,7 @@
   		</copy>
   		<copy  todir="${dist}/bin/ThirdParty/EMF">
   			<fileset dir="${EMFDriver}/ThirdParty/EMF"/>
-  		</copy>
+  		</copy> -->
   		<!-- update classpath for compiling the compiler -->
 		<!--<path id="compileCompiler.class.path">
 	    	<pathelement path="${compileCompiler.class.path}/"/>
@@ -149,7 +158,10 @@
   			<fileset dir="${RepositoryAPI}/src"/>
   			<fileset dir="${RepositoryAPI}/srcOfp"/>
   		</copy>
-  		<copy  todir="${src}">
+ 		<copy  todir="${src}/org/irisa/triskell/MT/repository/genericJMIDriver">
+  			<fileset dir="${MDRDriver}/src/org/irisa/triskell/MT/repository/genericJMIDriver"/>
+  		</copy>
+ <!-- 		<copy  todir="${src}">
   			<fileset dir="${MDRDriver}/src"/>
   		</copy>
   		<copy  todir="${src}">
@@ -157,7 +169,7 @@
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${EMFDriver}/src"/>
-  		</copy>
+  		</copy> -->
   		<copy  todir="${src}">
   			<fileset dir="${BasicMTLRuntime}/src"/>
   		</copy>
@@ -183,12 +195,11 @@
   		</copy>
   		
   		
-  		<copy  todir="${src}">
+<!--  		<copy  todir="${src}">
   			<fileset dir="${BMTLRepositoryDriver}/src">
   				<include name="**/*.java"/>
 			</fileset> 
-  			<!--<fileset dir="${BMTLRepositoryDriver}/src"/>-->
-  		</copy>
+  		</copy> -->
   		<copy  todir="${src}">
   			<fileset dir="${BMTLIO}/src">
   				<include name="**/*.java"/>
@@ -232,7 +243,7 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/Standard/"/> 
        	</java> 
-  		<java jar="${ANTLR2JavaCode}" 
+ <!-- 		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
 	         <arg value="${base}/BMTLRepositoryDriver/src/MDR/"/>
@@ -264,7 +275,7 @@
 	         <arg value="EMFDriver"/> 
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/EMFDriver/"/> 
-       	</java>
+       	</java> -->
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
@@ -381,9 +392,9 @@
 			<!-- files to include in the jar -->
 			<fileset dir="${bin}">
 				<patternset id="basicmtl.runtime.class">					
-    				<include name="MDRDriver/**"/>					
+ <!--   				<include name="MDRDriver/**"/>					
     				<include name="ModFactDriver/**"/>
-    				<include name="EMFDriver/**"/>
+    				<include name="EMFDriver/**"/> -->
     				<include name="org/irisa/triskell/MT/repository/**"/>
     				<include name="org/inria/**"/>
     				<include name="org/irisa/triskell/MT/utils/**"/>
@@ -417,8 +428,8 @@
 			<!-- files to include in the jar -->
 			<fileset dir="${bin}">
 				<patternset id="basicmtl.compiler.class">					
-    				<exclude name="MDRDriver/**"/>							
-    				<exclude name="ModFactDriver/**"/>			
+ <!--   				<exclude name="MDRDriver/**"/>							
+    				<exclude name="ModFactDriver/**"/> -->			
     				<exclude name="org/irisa/triskell/MT/repository/**"/>
     				<exclude name="org/irisa/triskell/MT/utils/**"/>
     				<exclude name="org/irisa/triskell/MT/DataTypes/**"/>
@@ -449,15 +460,15 @@
   		<mkdir dir="${dist}/Runtime/"/>
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
-  		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
+ <!-- 		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/> -->
   		<mkdir dir="${dist}/Runtime/src/BasicMtlASTView"/>
   		<mkdir dir="${dist}/Runtime/src/TLL"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
-  		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
+  <!--		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>
-  		</copy> 		
+  		</copy> --> 		
   		<copy todir="${dist}/Runtime/src/io">
   			<fileset dir="${base}/BMTLIO"/>
   		</copy>
