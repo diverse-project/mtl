@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_build.xml,v 1.12 2004-10-26 09:55:39 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_build.xml,v 1.13 2004-10-26 12:31:03 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -27,6 +27,7 @@
 	<path id="compileCompiler.class.path">
     	<pathelement path="${dist}\bin\ThirdParty\ANTLR\antlrfull.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\log4j\log4j.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\JUnit\junit.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\JMI\jmi.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\JMI\mof.jar"/>
     	
