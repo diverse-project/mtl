@@ -27,7 +27,7 @@ runTransformation():Standard::Void
 	LibraryM := modelManager.loadModelFromXMI(
 									'LibraryInstance',
 									'library',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+									'./workspace/EMFDriverTest/InputModels/My.library');
 
 	//create a new model to copy in it all classes and associations of the loaded model
 	//use createModel method
@@ -35,7 +35,7 @@ runTransformation():Standard::Void
 	MyOwnLibraryM := modelManager.createModel(
 									'MyOwnLibrary',
 									'library',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
+									'./workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
 
 
 	//copy all Writers and their books from loaded model in following association Writer--books--> Book

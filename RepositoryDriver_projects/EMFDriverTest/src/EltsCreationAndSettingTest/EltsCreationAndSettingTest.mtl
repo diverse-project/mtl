@@ -26,7 +26,7 @@ runTransformation():Standard::Void
 	LibraryM := modelManager.loadModelFromXMI(
 									'LibraryInstance',
 									'library',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+									'./workspace/EMFDriverTest/InputModels/My.library');
 
 	//create a new model to copy in it all classes of the loaded model
 	//use createModel method
@@ -34,7 +34,7 @@ runTransformation():Standard::Void
 	MyOwnLibraryM := modelManager.createModel(
 									'MyOwnLibrary',
 									'library',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
+									'./workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
 
 
 	//add a book taht will be removed later
