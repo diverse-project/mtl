@@ -6,11 +6,14 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElement_delete;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElement_getType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElement_oclUid;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.TypeValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
 import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
@@ -50,6 +53,10 @@ public class BMTLModelElement
 
 	public BMTLStringInterface BMTL_oclUid() {
 		return new BMTLString(ModelElement_oclUid.TheInstance.invoke(this.getDelegate(), null));
+	}
+
+	public BMTLOclTypeInterface BMTL_getType () {
+		return new BMTLOclType ((TypeValueImpl) ModelElement_getType.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public boolean isMetaObject() {
