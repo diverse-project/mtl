@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: TheLibraryClassAnalyser.java,v 1.11 2004-02-16 17:36:44 dvojtise Exp $
+ * $Id: TheLibraryClassAnalyser.java,v 1.12 2004-07-15 16:00:40 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -88,12 +88,122 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("/* CLASS DEFINED FEATURES */");
 		outputForClass.println("/*==========================*/");
 		java.util.Vector associationsNames=new java.util.Vector();
+		boolean observableClass=false;
 		limit=theLib.cardClasses();
 		for (i=0;i<limit;i++) {
 			UserDefinedClass theClass=theLib.getClasses(i);
+			if (theClass.getProperty("ObservableClass")!= null && ((Boolean)theClass.getProperty("ObservableClass").getValue()).booleanValue())
+				observableClass=true;
 			if (! theClass.getName().equals(theLib.getName())
 				&& theClass.getName().startsWith("association"))
 				associationsNames.addElement(theClass.getName());
+		}
+		if (observableClass) {
+			outputForClass.println("/*=============================*/");
+			outputForClass.println("/* OBSERVERS REGISTRATION MAPS */");
+			outputForClass.println("/*============================*/");
+			outputForClass.println("private static java.util.HashMap observers=new java.util.HashMap();");
+			outputForClass.println("public static void addObserver(String observationPoint,DefaultObservers.BMTL_ObserverInterface obs,String typeName) {");
+			outputForClass.println("\tif (observers==null)");
+			outputForClass.println("\t\tobservers=new java.util.HashMap();");
+			outputForClass.println("\tif (! observers.containsKey(observationPoint))");
+			outputForClass.println("\t\tobservers.put(observationPoint,new java.util.HashMap());");
+			outputForClass.println("\tjava.util.HashMap obsPointMap = (java.util.HashMap)observers.get(observationPoint);");
+			outputForClass.println("\tif (obsPointMap.containsKey(typeName))");
+			outputForClass.println("\t\t((java.util.Vector)obsPointMap.get(typeName)).add(obs);");
+			outputForClass.println("\telse {");
+			outputForClass.println("\t\tjava.util.Vector v = new java.util.Vector();");
+			outputForClass.println("\t\tv.add(obs);");
+			outputForClass.println("\t\tobsPointMap.put(typeName,v);");
+			outputForClass.println("\t} }");
+			outputForClass.println("public static void removeObserver(String observationPoint,DefaultObservers.BMTL_ObserverInterface obs,String typeName) {");
+			outputForClass.println("\tif (observers!=null");
+			outputForClass.println("\t\t\t&& observers.containsKey(observationPoint)) {");
+			outputForClass.println("\t\tjava.util.HashMap obsPointMap = (java.util.HashMap)observers.get(observationPoint);");
+			outputForClass.println("\t\tif (obsPointMap.containsKey(typeName))");
+			outputForClass.println("\t\t\t((java.util.Vector)obsPointMap.get(typeName)).remove(obs);");
+			outputForClass.println("\t} }");
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
+			outputForClass.println("public java.util.Vector getPreObservsers(String observationPoint,String typeName) {");
+			outputForClass.println("\tif (observers!=null");
+			outputForClass.println("\t\t&& observers.get(observationPoint) != null) {");
+			outputForClass.println("\t\tjava.util.HashMap obsPointMap = (java.util.HashMap)observers.get(observationPoint);");
+			outputForClass.println("\t\tif (obsPointMap.containsKey(typeName))");
+			outputForClass.println("\t\treturn (java.util.Vector)obsPointMap.get(typeName); }");
+			outputForClass.println("\treturn null; }");
+			outputForInterface.println("public java.util.Vector getPreObservsers(String observationPoint,String typeName);");
+			outputForClass.println("/*private static java.util.HashMap SEToperationPostObservers=new java.util.HashMap();");
+			outputForClass.println("public static void addSetPostObserver(DefaultObservers.BMTL_ObserverInterface obs,String typeName) {");
+			outputForClass.println("\tif (SEToperationPostObservers==null)");
+			outputForClass.println("\t\tSEToperationPostObservers=new java.util.HashMap();");
+			outputForClass.println("\tif (SEToperationPostObservers.containsKey(typeName))");
+			outputForClass.println("\t\t((java.util.Vector)SEToperationPostObservers.get(typeName)).add(obs);");
+			outputForClass.println("\telse {");
+			outputForClass.println("\t\tjava.util.Vector v = new java.util.Vector();");
+			outputForClass.println("\t\tv.add(obs);");
+			outputForClass.println("\t\tSEToperationPostObservers.put(typeName,v);");
+			outputForClass.println("\t} }*/");
+			
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
+			outputForClass.println("public java.util.Vector getPostObservsers(String observationPoint,String typeName) {");
+			outputForClass.println("\tif (observers!=null");
+			outputForClass.println("\t\t&& observers.get(observationPoint) != null) {");
+			outputForClass.println("\t\tjava.util.HashMap obsPointMap = (java.util.HashMap)observers.get(observationPoint);");
+			outputForClass.println("\t\tif (obsPointMap.containsKey(typeName))");
+			outputForClass.println("\t\treturn (java.util.Vector)obsPointMap.get(typeName); }");
+			outputForClass.println("\treturn null; }");
+			outputForInterface.println("public java.util.Vector getPostObservsers(String observationPoint,String typeName);");
+
+			outputForClass.println("/*public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addPostObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection) {");
+			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
+			outputForClass.println("\twhile (it.hasNext()) {");
+			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removePostObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance; }");
+//			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
+			outputForClass.println("public java.util.Vector getSetPostObservsers(String typeName) {");
+			outputForClass.println("\tif (SEToperationPostObservers!=null)");
+			outputForClass.println("\t\treturn (java.util.Vector)SEToperationPostObservers.get(typeName);");
+			outputForClass.println("\telse return null; }*/");
+//			outputForInterface.println("public java.util.Vector getSetPostObservsers(String typeName);");
 		}
 		context.put("KnownAssociations",associationsNames);
 		context.put("OutputForClass",outputForClass);

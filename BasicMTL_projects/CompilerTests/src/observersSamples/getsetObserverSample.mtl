@@ -1,0 +1,62 @@
+library observersSamples;
+
+class Hello
+tag observable := booleantag true;
+{
+	msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		self.msg := msg;
+	}
+	
+	run() : Standard::Void {
+		self.msg.toOut();
+	}	
+}
+
+class HelloObserver extends DefaultObservers::Observer {
+}
+
+class HelloSetObserver extends DefaultObservers::Observer {
+
+	notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) : Standard::Boolean {
+		'SET will be done'.toOut();
+		object.toOut();
+		attributeName.toOut();
+		value.toOut();
+		return true;
+	}
+
+	notifyPostSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) : Standard::Void {
+		'SET has been done'.toOut();
+		object.toOut();
+		attributeName.toOut();
+		value.toOut();
+	}
+}
+
+main() : Standard::Void	{
+	hw : Hello;
+	obs : HelloObserver;
+	setObs : HelloSetObserver;
+	hw := new Hello();
+	obs := new HelloObserver();
+	hw.addPreObserver(obs,'S');
+	hw.addPostObserver(obs,'S');
+	hw.init('Hello.');
+	hw.run();
+	hw.removePreObserver(obs,'S');
+	hw.removePostObserver(obs,'S');
+	self.addPreObserver(obs,!observersSamples::Hello!,'S');
+	self.addPostObserver(obs,!observersSamples::Hello!,'S');
+	hw.init('Hi !');
+	hw.run();
+	self.removePreObserver(obs,!observersSamples::Hello!,'S');
+	self.removePostObserver(obs,!observersSamples::Hello!,'S');
+	setObs := new HelloSetObserver();
+	hw.addPreObserver(setObs,'S');
+	hw.addPostObserver(setObs,'S');
+	self.addPostObserver(setObs,!observersSamples::Hello!,'S');
+	hw.init('HELLO !!!');
+	hw.run();
+}

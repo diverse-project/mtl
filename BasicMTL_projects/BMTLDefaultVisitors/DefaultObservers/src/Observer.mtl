@@ -1,4 +1,13 @@
 library DefaultObservers;
 
 class Observer {
+	notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean
+	{
+		'Default "notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean" implemenattion. Redefine this method in your own observer. The boolean result,if false,inhibits the set operation.'.toOut();
+		return true;
+	}
+	notifyPostSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) : Standard::Void
+	{
+		'Default "notifyPostSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) : Standard::Void" implemenattion. Redefine this method in your own observer,if necessary.'.toOut();
+	}
 }
