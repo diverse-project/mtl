@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.9 2004-10-28 15:47:34 jpthibau Exp $
+// $Id: Standard.mtl,v 1.10 2004-11-05 09:06:08 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -172,6 +172,16 @@ tag DoNotGenerate := booleantag true;
 {			
 	oclUid() : String
 	tag mangle := specialtag [oclUid];
+	{
+	}
+
+	getTypeFromName(name : String) : OclType
+	tag mangle := specialtag [getTypeFromName];
+	{
+	}
+
+	instanciate(type : OclType) : OclAny
+	tag mangle := specialtag [instanciate];
 	{
 	}
 }

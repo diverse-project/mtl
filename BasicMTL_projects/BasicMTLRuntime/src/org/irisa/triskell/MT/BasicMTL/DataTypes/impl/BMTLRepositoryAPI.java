@@ -9,6 +9,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLRepositoryAPIInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
@@ -339,5 +340,24 @@ public class BMTLRepositoryAPI
 //	public Value getDelegate() {
 //		return this.d;
 //	}
+	
+	public BMTLOclTypeInterface BMTL_getTypeFromName(BMTLStringInterface name) {
+		String [] qn=this.toQualifiedName(name.getTheString());
+		MetaClass mc=null;
+		try {
+		mc=this.getRepositoryAPIDelegate().getMetaClass(qn);
+		} catch (UnknownElementException e) { System.err.println("Unknown element "+qn); }
+		return (BMTLOclTypeInterface)CommonFunctions.toBMTLDataType(new TypeValueImpl(false, null, mc));
+		
+	}
+	
+	public BMTLOclAnyInterface BMTL_instanciate(BMTLOclTypeInterface type) {
+		MetaClass mc=(MetaClass)type.getTheType();
+		Value instance=null;
+		try {
+		instance=CommonFunctions.toBMTLDataType(mc.instanciate(null,null));
+		} catch(Exception e) {}
+		return (BMTLOclAnyInterface)instance;
+	}
 
 }

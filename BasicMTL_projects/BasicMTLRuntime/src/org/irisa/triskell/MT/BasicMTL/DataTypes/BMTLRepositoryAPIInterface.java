@@ -21,5 +21,9 @@ public interface BMTLRepositoryAPIInterface extends API,BMTLOclAnyInterface {
 	BMTLStringInterface BMTL_oclUid();
 	
 	BMTLOclTypeInterface BMTL_getType();
+	
+	BMTLOclTypeInterface BMTL_getTypeFromName(BMTLStringInterface name);
+	
+	BMTLOclAnyInterface BMTL_instanciate(BMTLOclTypeInterface type);
 
 }

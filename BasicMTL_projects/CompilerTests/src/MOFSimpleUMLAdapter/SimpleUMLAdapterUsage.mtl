@@ -42,7 +42,7 @@ main() : Standard::Void
 class Test2
 {
 	/** */
-	run ( SIMPLEUML : RepositoryModel)
+	run ( SIMPLEUML : Standard::RepositoryAPI)
 	{
 		iterator : Standard::Iterator;
 		anAssoc : MYMOF::Model::AssociationEnd;
