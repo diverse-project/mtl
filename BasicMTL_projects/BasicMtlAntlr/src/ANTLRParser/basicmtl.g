@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.25 2004-04-28 17:31:01 edrezen Exp $ 			*/
+/* $Id: basicmtl.g,v 1.26 2004-11-03 08:53:33 jpthibau Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -207,7 +207,7 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 classDefinition
-	: classKeyword type (inheritance)? (refinement)?
+	: ("abstract")? classKeyword type (inheritance)? (refinement)?
 	(tag )*
 	 OPENBRACE ( attributesDef )* ( getSetDef )* ( methodDefinition )* CLOSEBRACE 
 ==================================================================*/
@@ -217,6 +217,7 @@ classDefinition returns [Object tree=null;]
 	java.util.Vector theGettersSetters=new java.util.Vector();
 	java.util.Vector theMethods=new java.util.Vector();
 	String n;
+	boolean isAbstract=false;
 	Object l1=null;
 	Object l2=null;
 	Object l3=null;
@@ -225,12 +226,12 @@ classDefinition returns [Object tree=null;]
 	Object l6=null;
 	Object s1 = null;
 }
-	: n=classKeyword s1=type { s1=this.addPacksPrefix(s1); } (l1=inheritance)? (l5=refinement)?
+	: ("abstract" {isAbstract=true;})? n=classKeyword s1=type { s1=this.addPacksPrefix(s1); } (l1=inheritance)? (l5=refinement)?
 	(l2=tag {theTags.addElement(l2); } )*
 	OPENBRACE ( l3=attributesDef {theAttributes.addElement(l3); } )*
 	( l6=getSetDef {theGettersSetters.addElement(l6); } )*
 	( l4=methodDefinition {theMethods.addElement(l4); } )* CLOSEBRACE 
-	{tree=walker.classDefinition(n,s1,l1,l5,theTags,theAttributes,theGettersSetters,theMethods); } 
+	{tree=walker.classDefinition(n,isAbstract,s1,l1,l5,theTags,theAttributes,theGettersSetters,theMethods); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -297,7 +298,20 @@ exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 /*===============================================================
-methodDefinition : ("creation")? (ident | "not" | "and")
+methodDefinition : realMethodDefinition | abstractMethodDefinition
+==================================================================
+methodDefinition returns [Object tree=null;]
+{	Object l1=null;
+	Object l2=null;
+}
+	:	"abstract" l1=abstractMethodDefinition"creation" {tree=l1; }
+	 |  l2=realMethodDefinition"creation" {tree=l2; }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;*/
+
+/*===============================================================
+realMethodDefinition : ("creation")? (ident | "not" | "and")
 		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
 		( "throwsException" )?
 		( tag )*
@@ -309,6 +323,7 @@ methodDefinition returns [Object tree=null;]
 	java.util.Vector theTags=new java.util.Vector();
 	java.util.Vector theVars=new java.util.Vector();
 	java.util.Vector theInstructions=new java.util.Vector();
+	boolean isAbstract=false;
 	String n;
 	Object l1=null;
 	Object l2=null;
@@ -318,17 +333,44 @@ methodDefinition returns [Object tree=null;]
 	Token s1 = null;
 	String methodName=null;
 }
-	:	("creation" {creation=new String("creation"); } )?
+	:	("abstract" {isAbstract=true;} )? ("creation" {creation=new String("creation"); } )?
 			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}| n=andKeyword {methodName="and";}) n=openbracket
 		    ( l1=parameterdef )? CLOSEBRACKET (COLON l2=type)?
 			( "throwsException" {throwsException=new String("throwsException"); } )?
 			( l3=tag {theTags.addElement(l3); } )*
 			OPENBRACE (l4=localVarDef {theVars.addElement(l4); } )*
 			(l5=instruction {theInstructions.addElement(l5); } )* CLOSEBRACE
-		{tree=walker.method(creation,methodName,n,l1,l2,throwsException,theVars,theInstructions,theTags); }
+		{tree=walker.method(creation,isAbstract,methodName,n,l1,l2,throwsException,theVars,theInstructions,theTags); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
+
+/*===============================================================
+abstractMethodDefinition : ("creation")? (ident | "not" | "and")
+		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
+		( "throwsException" )?
+		( tag )*
+==================================================================
+abstractMethodDefinition returns [Object tree=null;]
+{	String creation=null;
+	String throwsException=null;
+	java.util.Vector theTags=new java.util.Vector();
+	String n;
+	Object l1=null;
+	Object l2=null;
+	Object l3=null;
+	Token s1 = null;
+	String methodName=null;
+}
+	:	("creation" {creation=new String("creation"); } )?
+			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}| n=andKeyword {methodName="and";}) n=openbracket
+		    ( l1=parameterdef )? CLOSEBRACKET (COLON l2=type)?
+			( "throwsException" {throwsException=new String("throwsException"); } )?
+			( l3=tag {theTags.addElement(l3); } )*
+		{tree=walker.method(creation,true,methodName,n,l1,l2,throwsException,null,null,theTags); }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	; */
 
 /*===============================================================
 parameterdef : varDecl ( SEMICOLON varDecl )*

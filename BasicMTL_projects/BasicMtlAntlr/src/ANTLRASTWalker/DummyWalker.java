@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.10 2004-04-28 07:24:50 edrezen Exp $
+//$Id: DummyWalker.java,v 1.11 2004-11-03 08:53:31 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -20,7 +20,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object multiplicity (String lowerBound,String upperBound) { return null; } //+++Version1.1+++
 
-	public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods) { return null; } //+++Version1.1+++ Object refinement, Vector gettersSetters
+	public Object classDefinition(String lineNumber,boolean isAbstract,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods) { return null; } //+++Version1.1+++ Object refinement, Vector gettersSetters
 
 	public Object inheritance (Object typesList) { return null; }
 
@@ -28,7 +28,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object setterGetter(boolean isGetter,String AttributeName,String operationName) { return null; }//+++Version1.1+++
 
-	public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags) { return null; }
+	public Object method(String creation,boolean isAbstract,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags) { return null; }
 
 	public Object varsDeclaration(Object typedVars,String lineNumber) { return null; }
 

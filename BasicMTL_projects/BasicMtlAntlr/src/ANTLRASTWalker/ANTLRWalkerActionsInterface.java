@@ -1,5 +1,5 @@
 /*
- * $Id: ANTLRWalkerActionsInterface.java,v 1.11 2004-04-28 07:24:50 edrezen Exp $
+ * $Id: ANTLRWalkerActionsInterface.java,v 1.12 2004-11-03 08:53:32 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -27,7 +27,7 @@ public Object endPoint(String lineNumber,String roleName,String className,Object
 
 public Object multiplicity (String lowerBound,String upperBound); //+++Version1.1+++
 
-public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods); //+++Version1.1+++ Object refinement, Vector gettersSetters
+public Object classDefinition(String lineNumber,boolean isAbstract,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods); //+++Version1.1+++ Object refinement, Vector gettersSetters
 
 public Object inheritance (Object typesList);
 
@@ -35,7 +35,7 @@ public Object attribute(Object localVarDef,java.util.Vector tags);
 
 public Object setterGetter(boolean isGetter,String AttributeName,String operationName);//+++Version1.1+++
 
-public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags);
+public Object method(String creation,boolean isAbstract,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags);
 
 public Object varsDeclaration(Object typedVars,String lineNumber);
 
