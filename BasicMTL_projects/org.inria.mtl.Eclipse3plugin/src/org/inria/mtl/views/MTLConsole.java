@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.3 2004-09-10 13:46:41 dvojtise Exp $
+* $Id: MTLConsole.java,v 1.4 2004-10-19 11:46:48 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -88,7 +88,7 @@ public class MTLConsole extends ViewPart {
 	  }
   }
   /**
-   * Insert the method's description here.
+   * Create the MTL console layout
    * @see ViewPart#createPartControl
    */
   public void createPartControl(Composite parent) {
@@ -106,7 +106,26 @@ public class MTLConsole extends ViewPart {
 			column = new TableColumn(table, SWT.LEFT);
 			column.setText(TableModel.getColumnHeader(i));		
 			column.addSelectionListener(new SelectionSortAdapter(TableModel.getColumnId(i)));
-			column.setWidth(TableModel.getColumnHeader(i).length()*10+80);			
+			switch (i)
+			{
+			case TableModel.LEVEL :
+				column.setWidth(55);
+				break;
+			case TableModel.TIME :
+				column.setWidth(80);
+				break;
+			case TableModel.LOGGERNAME :
+				column.setWidth(100);
+				break;	
+			case TableModel.MESSAGE :
+				column.setWidth(400);
+				break;
+			case TableModel.LOCATION :
+				column.setWidth(400);
+				break;
+			default:				
+				column.setWidth(TableModel.getColumnHeader(i).length()*10+80);
+			}
 		}
 
 		viewer = new TableViewer(table);
@@ -117,6 +136,21 @@ public class MTLConsole extends ViewPart {
 		viewer.setInput(Controller.getInstance().getLogfile());
 		viewer.setSorter(new Sorter(TableModel.TIME));
 	
+		/* ****************/
+		/*for (int i = 0; i < TableModel.getColumnCount(); i++)
+		{
+			column = viewer.getTable().getColumn(i) ;
+			switch (i)
+			{
+			case TableModel.LEVEL :
+					column.setWidth(300);
+			case TableModel.MESSAGE :
+				column.setWidth(10000);
+			default:
+				column.setWidth(TableModel.getColumnHeader(i).length()*10+100);
+			}
+		}*/
+		/* ****************/
 
 		hookContextMenu();
 		contributeToActionBars();
