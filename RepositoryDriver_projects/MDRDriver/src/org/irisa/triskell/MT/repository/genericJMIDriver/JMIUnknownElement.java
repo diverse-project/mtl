@@ -1,8 +1,10 @@
 /*
- * $Id: JMIUnknownElement.java,v 1.1 2004-02-16 15:44:34 dvojtise Exp $
+ * $Id: JMIUnknownElement.java,v 1.2 2004-09-22 15:09:04 edrezen Exp $
  * Authors : ffondeme dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
+
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
 
 /**
  * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
@@ -33,4 +35,8 @@ public class JMIUnknownElement
     {
 		return this.description;
     }
+    
+    /** */
+	public void addListener    (EventListener listener) {}
+	public void removeListener (EventListener listener) {}
 }

@@ -1,8 +1,10 @@
 /**
- * $Id: JMIElement.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
+ * $Id: JMIElement.java,v 1.3 2004-09-22 15:09:05 edrezen Exp $
  * author : dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
+
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
 
 /**
  * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
@@ -45,4 +47,17 @@ abstract public class JMIElement
     protected abstract void cache();
 
     public abstract String toString();
+    
+    
+    /** Adding the listener is delegated to the API object.  */
+	public void addListener (EventListener listener) 
+	{
+		((JMIAPI)getAPI()).addListenerToElement (this, listener);
+	}
+	
+    /** Removing the listener is delegated to the API object.  */
+	public void removeListener (EventListener listener) 
+	{
+		((JMIAPI)getAPI()).removeListenerToElement (this, listener);
+	}
 }

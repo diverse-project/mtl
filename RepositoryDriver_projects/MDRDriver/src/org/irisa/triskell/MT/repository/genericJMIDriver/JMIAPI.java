@@ -1,5 +1,5 @@
 /*
- * $Id: JMIAPI.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
+ * $Id: JMIAPI.java,v 1.3 2004-09-22 15:09:05 edrezen Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -50,6 +50,8 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
+import org.irisa.triskell.MT.repository.API.Java.Element;
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
 import org.irisa.triskell.MT.utils.Java.AWK;
@@ -1232,6 +1234,14 @@ public JMIAPI(
 		throw new RuntimeException ("Unsupported collection kind.");
     }
 
+    
+    /** */
+	abstract public void addListenerToElement (Element element, EventListener listener); 
+
+	/** */
+	abstract public void removeListenerToElement (Element element, EventListener listener); 
+
+	
 /*  to remove : specific to MDR 
 static {
 		JMIAPI.getStaticLog().info("Setting up MDR.");
