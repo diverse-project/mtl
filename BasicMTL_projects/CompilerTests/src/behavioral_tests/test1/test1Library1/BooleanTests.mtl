@@ -15,6 +15,7 @@ class BooleanTests
 		'starting Boolean tests'.toOut();
 		testSerie1();
 		testSerie2();
+		testSerie3();
 		
 		if nbErrors.[>](0)
 		{
@@ -172,6 +173,34 @@ class BooleanTests
 		{
 			// must recognize (true or (true and false))
 			' precedence problem with "and" and "or"  !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+	}
+	testSerie3()	
+	{	
+		if not (true and true and true){
+			'true and true and true= false !!!'.toErr();
+			nbErrors := nbErrors.[+](1);
+		} 	
+		if (true and true and false){
+			'true and true and false= true !!!'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+	/*	if (true and false and true){
+			'true and false and true= true !!!'.toErr();
+			'bug 808 !!!'.toErr();
+			nbErrors := nbErrors.[+](1);
+		} */
+		if (true and false and false){
+			'true and false and false= true !!!'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		if (false and false and true){
+			'false and false and true= true !!!'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		if (false and false and false){
+			'false and false and false= true !!!'.toErr();
 			nbErrors := nbErrors.[+](1);
 		}
 		
