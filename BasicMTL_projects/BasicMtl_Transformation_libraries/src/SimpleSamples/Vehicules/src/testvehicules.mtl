@@ -1,19 +1,86 @@
 library testVehicules;
 
+model M : RepositoryModel;
+model N : vehiculeLib;
+
+class clazz {
+	vehicule:vehiculeLib::vehicule;
+	entier:Standard::Integer;
+	me:M::Classe;
+	wasInOp : Standard::Boolean;
+	
+	init ():clazz {
+		wasInOp := false;
+		return this;
+	}
+	
+	op (param : Standard::String) {
+		vm : N::vehicule;
+		theSelf : clazz;
+		wasInOp := true;
+		theSelf := self;
+	
+		theSelf.vehicule := new amphibieherite::vehiculeAmphibieHerite();
+		if vehicule.oclIsTypeOf(!amphibieherite::vehiculeAmphibieHerite!).not() {
+			throws 'Problem with attribute object affectation';
+		}
+		vehicule.toOut();
+		self.entier := param.toInteger();
+		if entier.[<>](789) {
+			throws 'Problem with attribute data type affectation';
+		}
+		entier.toOut();
+//		me := new M::Classe();
+		vehicule := new N::vehicule();
+		vm := theSelf.vehicule;
+		vm := new N::vehicule();
+		theSelf.vehicule := vm;
+//		me.toOut();
+		testVehicules.toto(null, null);
+		M;
+		N;
+		testVehicules.M;
+		testVehicules.N;
+	}
+	
+}
+
+class clazz2 extends clazz {
+	wasInOp2 : Standard::Boolean;
+
+	init () : clazz {
+		wasInOp2 := false;
+		return self.oclAsType(!clazz!).init();
+	}
+	
+	op (param : Standard::String) {
+		self.oclAsType(!clazz!).op(param);
+		self.wasInOp2 := true;
+		if self.wasInOp.not() {
+			throw 'oclAsType has problems';
+		}
+		oclAsType(!clazz2!).wasInOp := false;
+	}
+}
+
 /********************************************/
 // Entry point operation : main
 /********************************************/
 
 main():Standard::Void
 {
-	
 	vehicule : vehiculeLib::vehicule;
+	terrestre : terrestreLib::vehiculeTerrestre;
+	amphibie : amphibieherite::vehiculeAmphibieHerite;
 	o : Standard::OclAny;
 	t : Standard::OclType;
 	m : Standard::ModelElement;
 	r : Standard::Real;
 	i : Standard::Integer;
 	s : Standard::String;
+	c : clazz;
+	
+	N := new vehiculeLib();
 	
 	vehicule := new vehiculeLib::vehicule();
 	vehicule.vitessemaxi := 250;
@@ -175,6 +242,24 @@ main():Standard::Void
 	self.toto ('1234', vehicule);
 	toto ('1234', vehicule);
 	oclAsType(!testVehicules!).toto('123456', null);
+	
+	terrestre := new terrestreLib::vehiculeTerrestre();
+	amphibie := new amphibieherite::vehiculeAmphibieHerite();
+	terrestre.vitessemaxi := 123;
+	if terrestre.vitessemaxi.[<>](123) {
+		throws 'Problem affecting / accessing inherited fields';
+	}
+	terrestre.nbreroues := 4;
+	amphibie.vitessemaxi := terrestre.vitessemaxi;
+	if amphibie.vitessemaxi.[<>](123) {
+		throws 'Problem affecting / accessing deeply inherited fields';
+	}
+	
+	c := new clazz2();
+	c.op('789');
+	if c.oclAsType(!clazz2!).wasInOp2.not() {
+		throw 'oclAsType has problems';
+	}
 	
 	'testVehicule passed...'.toOut();
 	self.toOut();
