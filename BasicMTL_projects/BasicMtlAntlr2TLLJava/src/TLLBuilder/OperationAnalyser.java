@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationAnalyser.java,v 1.1 2003-08-06 16:18:45 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -36,6 +36,7 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 			BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 			QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)returnedType.getValue(),theCreatedLib);
 			theCreatedOp.setFeatureType(type);}
+		context.put("CurrentOperation",theCreatedOp);
 		context.put("DeclaredParametersandVars",new java.util.Vector());
 		return theCreatedOp;
 	}

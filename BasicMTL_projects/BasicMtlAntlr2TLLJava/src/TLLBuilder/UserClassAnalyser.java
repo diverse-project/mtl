@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.1 2003-08-06 16:18:46 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -29,9 +29,9 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		UserClass theCreatedClass=new UserClass(userClassName,mangle,lineNumber);
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		Property inheritance=(Property)ASTnode.getProperty("Inheritance");
+		InheritedTypesList parentsTypesList=new InheritedTypesList();
 		if (inheritance!=null) {
 		java.util.Vector parents=(java.util.Vector)inheritance.getValue();
-		InheritedTypesList parentsTypesList=new InheritedTypesList();
 		for (int i=0;i<parents.size();i++) {
 			QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)parents.get(i),theCreatedLib);
 			parentsTypesList.addElement(type);
@@ -42,10 +42,10 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 			getRefSignature.setArgsCount(0);
 			theCreatedClass.appendLocalSignatures(getRefSignature);
 		}
-		theCreatedClass.setInheritance(parentsTypesList);
 		}
 		else //set the flag "completed inheritedSignatures" for the typeChecker
 			theCreatedClass.setCompletedInheritedSignatures(true);
+		theCreatedClass.setInheritance(parentsTypesList);
 		QualifiedName theClassType=new QualifiedName();
 		theClassType.addElement(userClassName);
 		context.put("CurrentClassType",theClassType);

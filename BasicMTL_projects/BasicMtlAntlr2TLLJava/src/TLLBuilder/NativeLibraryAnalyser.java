@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/NativeLibraryAnalyser.java,v 1.1 2003-08-06 16:18:45 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/NativeLibraryAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -57,6 +57,7 @@ public class NativeLibraryAnalyser extends ASTTopDownVisitor.NativeLibraryAnalys
 			theLibraryClass.setCompletedInheritedSignatures(true);
 		  theCreatedLib.appendClasses(theLibraryClass);
 		  theCreatedLib.setLibraryClass(theLibraryClass);
+			theLibraryClass.setTheLibrary(theCreatedLib);
 		  context.put("TheCreatedLibrary",theCreatedLib);
 		  } 
 	QualifiedName theClassType=new QualifiedName();
