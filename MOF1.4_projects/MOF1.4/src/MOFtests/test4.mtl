@@ -1,0 +1,214 @@
+/******************************************************************************
+ * $Id: test4.mtl,v 1.1 2004-03-04 17:52:45 edrezen Exp $
+ ******************************************************************************/
+
+library MOFtests;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Transformation that displays the references in a metamodel that have no opposite reference
+// i.e. from the given reference, we get the referenceEnd AssociationEnd and the associated type.
+// then from this type, we look if its references have referenceEnd AssociationEnd type corresponding
+// to the type of the initial given reference
+//
+// Note the boolean argument of getReferencesWithoutOppositeReference :
+//	if true, don't take into account types involved in the association if they have different namespaces
+//  if false, take also into account types involved in the association if they have different namespaces
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Test4
+{
+	/** */
+	init ()
+	{
+	}
+
+	/** */
+	execute ()
+	{
+		referencesIterator : Standard::Iterator;
+		referenceItem : MOFview::Reference;
+		str : Standard::String;
+		
+		'BEGIN REQUEST'.toOut();
+
+		referencesIterator := getReferencesWithoutOppositeReference (true).getNewIterator();
+		referencesIterator.start();
+		while (referencesIterator.isOn())
+		{
+			referenceItem := referencesIterator.item().oclAsType(!MOFview::Reference!);
+			
+			str := '';
+			str := str.concat ('the reference ');
+			str := str.concat (quote (referenceItem.getName()));
+			str := str.concat (' (from ');
+			str := str.concat (qname (referenceItem.getContainer()));
+			str := str.concat (' to ');
+			str := str.concat (qname (referenceItem.getReferencedEnd().getType()));
+			str := str.concat (') has no opposite reference...');
+
+			str.toOut();
+			
+			referencesIterator.next();
+		}
+		
+		'END REQUEST'.toOut();
+	}
+	
+	
+	/** */
+	getReferencesWithoutOppositeReference (checkNamespace : Standard::Boolean) : Standard::Set
+	{
+		classIterator : Standard::Iterator;
+		classItem : MOFview::Class;
+
+		referenceIterator : Standard::Iterator;
+		referenceItem : MOFview::Reference;
+	
+		exposedEnd    : MOFview::AssociationEnd;
+		referencedEnd : MOFview::AssociationEnd;
+
+		referenceEndIterator : Standard::Iterator;
+		referenceEndItem : MOFview::Reference;
+
+		found : Standard::Boolean;
+		sameNamespace : Standard::Boolean;
+
+		str : Standard::String;
+
+		result : Standard::Set;
+		
+		result := new Standard::Set();
+	
+		classIterator := !MOFview::Class!.allInstances().getNewIterator();
+		classIterator.start ();
+		while (classIterator.isOn())
+		{
+			classItem := classIterator.item().oclAsType (!MOFview::Class!);
+			
+			// for each class, we retrieve the references
+			referenceIterator := helper.getReferences (classItem).getNewIterator();
+			referenceIterator.start();
+			while (referenceIterator.isOn())
+			{
+				referenceItem := referenceIterator.item().oclAsType (!MOFview::Reference!);
+
+				// for the current reference, we retrieve the association ends
+				debug ('---------------------');
+				str := 'CLASS ';
+				str := str.concat (classItem.getName());
+				str := str.concat (' and REFERENCE ');
+				str := str.concat (referenceItem.getName());
+				debug (str);
+
+				exposedEnd    := referenceItem.getExposedEnd ();
+				referencedEnd := referenceItem.getReferencedEnd();
+
+				str := exposedEnd.getName();
+				str := str.concat (' : ');
+				str := str.concat (exposedEnd.getType().getName());
+				debug (str);
+
+				str := referencedEnd.getName();
+				str := str.concat (' : ');
+				str := str.concat (referencedEnd.getType().getName());
+				debug (str);
+
+				found := false;
+				referenceEndIterator := helper.getReferences (referencedEnd.getType().oclAsType(!MOFview::Class!)).getNewIterator();
+				referenceEndIterator.start();
+				while (referenceEndIterator.isOn())
+				{
+					referenceEndItem := referenceEndIterator.item().oclAsType (!MOFview::Reference!);
+
+					str := '    ';
+					str := str.concat (referenceEndItem.getName());
+					str := str.concat (' : ');
+					str := str.concat (referencedEnd.getType().getName());
+					str := str.concat ('  referenced end is ');
+					str := str.concat (referenceEndItem.getReferencedEnd().getType().getName());
+					debug (str);
+
+					if (referenceEndItem.getReferencedEnd().getType().getName().[=](classItem.getName()))
+					{
+						found := true;
+					}
+					referenceEndIterator.next();
+				}
+
+				sameNamespace := true;
+				if (checkNamespace.[=](true))
+				{
+					if (classItem.getContainer().getName().[=] (
+						referenceEndItem.getReferencedEnd().getType().getContainer().getName()) )
+					{
+						sameNamespace := true;
+					}
+					else
+					{
+						sameNamespace := false;
+					}
+				}
+	
+				if (found.[=](false).[and](sameNamespace))
+				{
+					str := '';
+					str := str.concat ('the reference ');
+					str := str.concat (quote (referenceItem.getName()));
+					str := str.concat ('" (');
+					str := str.concat ('from ');
+					str := str.concat (qname (classItem));
+					str := str.concat (' to ');
+					str := str.concat (qname (referenceEndItem.getReferencedEnd().getType()));
+					str := str.concat (') has no opposite reference...');
+
+					debug (str);
+					result := result.including (referenceItem);
+				}
+
+				referenceIterator.next();
+			}
+
+			classIterator.next();
+		}
+		return result;
+	}
+	
+	
+	/** */
+	debug (str : Standard::String)
+	{
+		//str.toOut();
+	}
+	
+	/** */
+	error (str : Standard::String)
+	{
+		str.toOut();
+	}
+	
+	/** */
+	qname (elt : MOFview::ModelElement) : Standard::String
+	{
+		str : Standard::String;
+		str:= '';
+		str := str.concat (elt.getContainer().getName());
+		str := str.concat ('::');
+		str := str.concat (elt.getName());
+		return str;
+	}
+	
+	/** */
+	quote (str : Standard::String) : Standard::String
+	{
+		result : Standard::String;
+		result := '';
+		result := result.concat ('"');
+		result := result.concat (str);
+		result := result.concat ('"');
+		return result;
+	}
+}
+
+ 
