@@ -39,7 +39,7 @@ main():Standard::Void
 
 	// we define some filenames 
 	projectPath       := '';
-	src_metamodelFilename := projectPath.concat ('../SimpleUML/MetaModel/xmi_1.2/SimpleUmlMM_MOF.xml');
+	src_metamodelFilename := projectPath.concat ('../SimpleUML/model/XMI1.2_MOF1.4/SimpleUmlMM_MOF.xml');
 	src_inputFilename     := projectPath.concat ('Models/SimpleUML_FullExample.xml');
 	src_outputFilename    := projectPath.concat ('Models/SimpleUML_FullExample_modified.xml');
 	dest_metamodelFilename := projectPath.concat ('MetaModels/xmi_1.2/SimpleRdbmsMM_MOF.xml');
