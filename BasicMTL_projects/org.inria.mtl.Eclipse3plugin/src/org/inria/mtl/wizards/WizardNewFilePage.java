@@ -437,6 +437,8 @@ private InputStream openContentStreamClass(String mtlfileName) {
 				Locale.ENGLISH)
 			.format(maintenant);
   StringBuffer contents = new StringBuffer("/************************************************\n");
+
+  contents.append("***   $Id: WizardNewFilePage.java,v 1.3 2005-02-08 15:41:31 dvojtise Exp $\n");
   contents.append("***   File : ");
   contents.append(mtlfileName);
   contents.append("\n");
@@ -444,14 +446,16 @@ private InputStream openContentStreamClass(String mtlfileName) {
   contents.append(containerPath.lastSegment());
   contents.append("\n");
   contents.append("***   Version : ");
-  contents.append("1.0 \n");
-  contents.append("***   Author :Your Name here \n");
+  contents.append("0.1 \n");
+  contents.append("***   Author :");
+  contents.append(System.getProperty("user.name"));
+  contents.append("\n");
   contents.append("***   Date : ");
   contents.append(DATE);
   contents.append("\n");
   contents.append("*************************************************/");
   contents.append("\n\n");
-  //contents.append("library "+containerPath.lastSegment()+";");
+  contents.append("library "+containerPath.lastSegment()+";");
   
   
   
