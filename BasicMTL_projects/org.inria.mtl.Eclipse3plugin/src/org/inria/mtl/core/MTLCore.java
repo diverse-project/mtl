@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.2 2004-08-26 12:40:29 sdzale Exp $
+* $Id: MTLCore.java,v 1.3 2004-09-08 07:27:23 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -462,7 +462,10 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 				
 				xmlWriter.startTag("classpath", indent); //$NON-NLS-1$
 				for (int i = 0; i < classpath.length; ++i) {
-					((MtlClasspathEntry)classpath[i]).elementEncode(xmlWriter, getProject().getFullPath(), indent, true);
+					if (classpath[i] != null){ // simply ignore null entry in the classpath
+												// a cleaner way would have been to create a list without null in it :-)
+						((MtlClasspathEntry)classpath[i]).elementEncode(xmlWriter, getProject().getFullPath(), indent, true);
+					}
 				}
 		
 				if (outputLocation != null) {
