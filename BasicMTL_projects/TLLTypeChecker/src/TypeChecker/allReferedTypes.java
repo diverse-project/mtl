@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.5 2003-08-19 08:50:45 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.6 2003-08-19 14:02:59 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -62,6 +62,7 @@ public class allReferedTypes {
 				usedLib.setExternCompleteName(loadedTLL.getPackageName()+'.'+usedLib.getExternMangledName());
 				usedLib.setExternLibMangledName(loadedTLL.getMangle());
 				usedLib.setExternLibCompleteName(loadedTLL.getPackageName()+usedLib.getExternLibMangledName());
+				usedLib.setDeclarationName(usedLib.getExternCompleteName()+"Interface");
 				theLib.appendUsedLibs(usedLib);
 			}
 		}
@@ -72,12 +73,14 @@ public class allReferedTypes {
 	{	if (typeName.equals(theLib.getName()))
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(theLib.getMangle());
+			aType.setDeclarationName(theLib.getMangle()+"Interface");
 			return true;
 		}
 		KnownClasses knownClasses=theLib.getKnownTypes();
 		if (knownClasses.containsKey(typeName))
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(((UserClass)knownClasses.get(typeName)).getMangle());
+			aType.setDeclarationName(aType.getLocalMangledName()+"Interface");
 			return true;
 		}
 		return false;
@@ -86,6 +89,7 @@ public class allReferedTypes {
 	public static boolean checkModel(QualifiedName aType,String typeName,BasicMtlLibrary  theLib)
 	{ 	if (typeName.equals("RepositoryModel")) {
 			aType.setIsModelType(true);
+			aType.setDeclarationName("org.irisa.triskell.MT.repository.API.Java.API");
 			return true;
 		}
 		BasicMtlLibrary bmtlLib=(BasicMtlLibrary)theLib;
@@ -106,6 +110,7 @@ public class allReferedTypes {
 			aType.setExternCompleteName("org.irisa.triskell.MT.DataTypes.Java.defaultImpl;"+aType.getExternMangledName());
 			aType.setExternLibMangledName("DefaultImpl");
 			aType.setExternLibCompleteName("org.irisa.triskell.MT.DataTypes.Java.defaultImpl;DefaultImpl");
+			aType.setDeclarationName(aType.getExternCompleteName());
 			return true;
 		}
 		return false;
@@ -119,6 +124,7 @@ public class allReferedTypes {
 				aType.setExternCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternMangledName());
 				aType.setExternLibMangledName(theLoadedTll.getMangle());
 				aType.setExternLibCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternLibMangledName());
+				aType.setDeclarationName(aType.getExternCompleteName() + "Interface");
 				return true;
 		}
 		return false;
@@ -136,8 +142,10 @@ public class allReferedTypes {
 					aType.setExternMangledName(theClass.getMangle());
 					if (isManuallyMangled) {
 						aType.setExternCompleteName(theClass.getMangle());
+						aType.setDeclarationName(theClass.getMangle());
 					} else {
 						aType.setExternCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternMangledName());
+						aType.setDeclarationName(aType.getExternCompleteName()+"Interface");
 					}
 					aType.setExternLibMangledName(theLoadedTll.getMangle());
 					aType.setExternLibCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternLibMangledName());
@@ -173,7 +181,7 @@ public class allReferedTypes {
 				if (aType.size()==2) {
 					/*if (checkStandardLib(aType,firstName)) return true;
 					else*/ if (checkTLLClass(aType,firstName,theLib)) return true;
-						else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName+aType.get(1));
+						else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName + "::" +aType.get(1));
 								errors++;} 
 				}
 				else //type which is not a model element and has more thn 2 components

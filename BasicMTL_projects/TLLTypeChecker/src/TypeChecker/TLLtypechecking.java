@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.4 2003-08-19 09:26:28 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.5 2003-08-19 13:58:28 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -96,7 +96,7 @@ public class TLLtypechecking {
 				File aFile = new File(args[i]);
 				if (aFile.canRead())
 				{ 
-					filenamesArguments.addElement(args[i]);
+				filenamesArguments.addElement(args[i]);
 				}
 				else{				
 					log.warn("File not readable : "+args[i]+" => file ignored !!!");
@@ -109,35 +109,32 @@ public class TLLtypechecking {
 			}
 			else
 			{
-				String TLLName=antlr2tll.TLLProducer(filenamesArguments,defaultPackagePrefix,defaultUncheckedTLLPath);
-			
-				log.info("Opening the produced TLL "+tllPrefix+args[0]+tllSuffix);
-				BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultUncheckedTLLPath+TLLName+tllSuffix);
-				//Prepare the KnownTypes Hashtable
-				KnownClasses knownClasses=new KnownClasses();
-				for (int i=0;i<theLib.cardClasses();i++)
-					knownClasses.put(theLib.getClasses(i).getName(),theLib.getClasses(i));				
-				theLib.setKnownTypes(knownClasses);
-				if (allReferedTypes.checkAllReferedTypes(theLib) ==0) {
-					if (inheritedSignatures.synthetizeInheritedSignatures(theLib)==0) {
-						java.util.Hashtable context=new java.util.Hashtable();
-						DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("OperationCallChecker");
-						visitor.visit(theLib,context);
-						log.info("Writing the checked TLL to"+defaultTLLPath+TLLName+tllSuffix);
-						Library.store(TLLName+tllSuffix,theLib,defaultTLLPath);
-					}
+			String TLLName=antlr2tll.TLLProducer(filenamesArguments,defaultPackagePrefix,defaultUncheckedTLLPath);
+			log.info("Opening the produced TLL "+tllPrefix+args[0]+tllSuffix);
+			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultUncheckedTLLPath+TLLName+tllSuffix);
+			//Prepare the KnownTypes Hashtable
+			KnownClasses knownClasses=new KnownClasses();
+			for (int i=0;i<theLib.cardClasses();i++)
+				knownClasses.put(theLib.getClasses(i).getName(),theLib.getClasses(i));				
+			theLib.setKnownTypes(knownClasses);
+			if (allReferedTypes.checkAllReferedTypes(theLib) ==0) {
+				if (inheritedSignatures.synthetizeInheritedSignatures(theLib)==0) {
+					java.util.Hashtable context=new java.util.Hashtable();
+					DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("OperationCallChecker");
+					visitor.visit(theLib,context);
+					log.info("Writing the checked TLL to"+defaultTLLPath+TLLName+tllSuffix);
+					Library.store(TLLName+tllSuffix,theLib,defaultTLLPath);
 				}
-				else hasErrorOccured = true;
 			}
+				else hasErrorOccured = true;
+		}
 			if (hasErrorOccured) 
 			{
 				log.info("There are warnings or errors, TLL not synthetized !"); 
-			}
-				 
-		}
+	}
+}
 		else showUsage();
 	}
-	
 	static void showUsage()
 	{
 		log.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
