@@ -1,0 +1,286 @@
+/******************************************************************************
+ * $Id: UML_Utils.mtl,v 1.1 2003/11/04 12:48:22 dvojtise Exp $
+ * This library provides tools function to manipulate objects of UML1.4 metamodel
+ * It is inspired by some usefull Objecteering J method for some metaclasses.
+ * It should avoid to have some repetitive MTL code. 
+ * Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ ******************************************************************************/
+
+library Utils;
+
+model UML : RepositoryModel;		// must be a UML1.4 MetaModel
+
+
+/******************************************************************************
+ * category : 
+ * name     : init
+ * purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
+ * in       : aModel : a UML1.4 metamodel
+ * out      : the library itself
+ * remark   : 
+ ******************************************************************************/
+
+init (aModel : RepositoryModel) : Utils
+{
+	// we must have a reference to the UML metamodel and keep it
+	UML := aModel;
+	
+	return self;
+}
+/******************************************************************************
+ * category : 
+ * name     : setValues
+ * purpose  : present the values of a set in a string
+ * in       : 
+ * out      : string
+ * remark   : 
+ ******************************************************************************/
+setValues(theType : Standard::OclType; theMethod : Standard::String; theParameter:Standard::OclAny; theSet : Standard::Set) : Standard::String
+{	elements : Standard::Iterator;
+    returnedValue,elementValue : Standard::String;
+    elements := theSet.getNewIterator();
+    returnedValue := '< ';
+    while elements.isOn() {
+    	elementValue := elements.item().oclAsType(theType,theMethod,theParameter,!Standard::String!);
+		returnedValue := returnedValue.concat(elementValue);
+    	elements.next();
+    	if elements.isOn() {
+    		returnedValue := returnedValue.concat(',');
+    	}
+    }
+    returnedValue := returnedValue.concat(' >');
+    return returnedValue;
+}
+// creates a presentation of the set using the name attribute
+setValuesName(theSet : Standard::Set) : Standard::String
+{	elements : Standard::Iterator;
+    returnedValue,elementValue : Standard::String;
+    elements := theSet.getNewIterator();
+    returnedValue := '< ';
+    while elements.isOn() {
+//    	elementValue := elements.item().oclAsType(theType).name.oclAsType(!Standard::String!);
+		elementValue := elements.item().oclAsType(!UML::Core::ModelElement!).name.oclAsType(!Standard::String!);
+		returnedValue := returnedValue.concat(elementValue);
+    	elements.next();
+    	if elements.isOn() {
+    		returnedValue := returnedValue.concat(',');
+    	}
+    }
+    returnedValue := returnedValue.concat(' >');
+    return returnedValue;
+}
+/******************************************************************************
+ * category : UML::Core::Class
+ * name     : directSuperClasses 
+ * purpose  : return the superclasses of this class
+ * in       : name  : the name of the Operation instance
+ *          : owner : the classifier of the Operation instance to be created
+ * out      : a new Operation instance
+ * remark   : 
+ ******************************************************************************/
+
+directSuperClasses  (
+	aClass  : UML::Core::Class
+) : Standard::Set
+{
+	aClass.generalization.toOut();
+	// we return the result
+	return aClass.generalization.oclAsType(!UML::Core::Class!).parent;
+}
+
+		
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Method
+// name     : createMethod
+// purpose  : create a new Method
+// in       : theLanguage : the language associated to the Method instance to be created
+//          : theBody     : the code associated to the Method instance to be created
+// out      : a new Method instance
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+
+createMethod (
+	theLanguage  : Standard::String;
+	theBody      : Standard::String
+) : UML::Core::Method
+{
+	newMethod : UML::Core::Method;
+
+	newMethod               := new UML::Core::Method();
+	newMethod.body          := new UML::Data_Types::ProcedureExpression();
+	newMethod.body.body     := theBody;
+	newMethod.body.language := theLanguage;		
+		
+	return newMethod;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Method
+// name     : createAndLinkMethod
+// purpose  : create a new Method and link it to a specification
+// in       : theLanguage   : the language associated to the Method instance to be created
+//          : theBody       : the code associated to the Method instance to be created
+//          : specification : an Operation instance as the specification
+// out      : a new Method instance
+// remark   : the created Method instance is added to the same classifier as the specification 
+////////////////////////////////////////////////////////////////////////////////////
+
+createAndLinkMethod (
+	theLanguage   : Standard::String;
+	theBody       : Standard::String;
+	specification : UML::Core::Operation
+	
+) : UML::Core::Method
+{
+	newMethod : UML::Core::Method;
+	owner     : UML::Core::Classifier;
+
+	// we create a new method
+	newMethod := createMethod (theLanguage, theBody);
+	
+	// we retrieve the owner of the specification
+	owner := specification.owner;
+	
+	// we add the method to the classifier
+	addFeatureToClassifier (newMethod, owner);
+	
+	// we associate the method with the operation
+	associate ( 
+		specification := specification : UML::Core::Operation,
+		method        := newMethod     : UML::Core::Method
+	);
+		
+	// we return the result
+	return newMethod;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Feature
+// name     : addFeatureToClassifier
+// purpose  : add a feature into a classifier
+// in       : theFeature    : the feature
+//          : theClassifier : the classifier  
+// out      : 
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+
+addFeatureToClassifier (
+	theFeature    : UML::Core::Feature;
+	theClassifier : UML::Core::Classifier
+)
+{
+	// we put the feature into the classifier
+	associate ( 
+		feature := theFeature    : UML::Core::Feature, 
+		owner   := theClassifier : UML::Core::Classifier
+	);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Parameter
+// name     : createAndAddTypedReturnParameter
+// purpose  : create a return parameter and add it to a behavioral feature
+// in       : type  : the type of the Parameter instance to be created
+//          : owned : the BehavioralFeature to put the parameter into
+// out      : a new Parameter instance
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+
+createAndAddTypedReturnParameter (
+	type  : UML::Core::Classifier;
+	owner : UML::Core::BehavioralFeature
+) : UML::Core::Parameter
+{
+	returnParameter : UML::Core::Parameter;
+
+	// we create a new typed parameter
+	returnParameter      := new UML::Core::Parameter();
+	returnParameter.kind := !UML::Data_Types::ParameterDirectionKind!.pdk_return;
+
+	// we set the type of the return parameter
+	associate ( 
+		type           := type              : UML::Core::Classifier,
+		typedParameter := returnParameter   : UML::Core::Parameter
+	);
+	
+	// we add it to the owner
+	addParameterToBehavioralFeature (returnParameter, owner);
+	
+	// we return the result
+	return returnParameter;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Parameter
+// name     : createAndAddTypedParameter
+// purpose  : create a 'in' parameter and add it to a behavioral feature
+// in       : name  : name of the Parameter instance to be created
+//          : type  : the type of the Parameter instance to be created
+//          : owned : the BehavioralFeature to put the parameter into
+// out      : a new Parameter instance
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+
+createAndAddTypedParameter (
+	name  : Standard::String;
+	type  : UML::Core::Classifier;
+	owner : UML::Core::BehavioralFeature
+) : UML::Core::Parameter
+{
+	newParameter : UML::Core::Parameter;
+
+	// we create a new typed parameter
+	newParameter      := new UML::Core::Parameter();
+	newParameter.name := name;
+	newParameter.kind := !UML::Data_Types::ParameterDirectionKind!.pdk_in;
+
+	// we set the type of the return parameter
+	associate ( 
+		type           := type         : UML::Core::Classifier,
+		typedParameter := newParameter : UML::Core::Parameter
+	);
+	
+	// we add it to the owner
+	addParameterToBehavioralFeature (newParameter, owner);
+	
+	// we return the result
+	return newParameter;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : UML::Core::Parameter, UML::Core::BehavioralFeature
+// name     : addParameterToBehavioralFeature
+// purpose  : add a parameter into a behavioral feature
+// in       : aParameter         : the parameter
+//          : aBehavioralFeature : the behavioral feature
+// out      :
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////
+
+addParameterToBehavioralFeature (
+	aParameter         : UML::Core::Parameter;
+	aBehavioralFeature : UML::Core::BehavioralFeature
+)
+{
+	// we put the return parameter into the operation
+	associate ( 
+		parameter         := aParameter         : UML::Core::Parameter,
+		behavioralFeature := aBehavioralFeature : UML::Core::BehavioralFeature
+	);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// category : 
+// name     : 
+// purpose  : 
+// in       :
+// out      :
+// remark   : 
+////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,65 @@
+<!-- $Id: TP_IM_build.xml,v 1.1 2003-11-26 14:37:57 dvojtise Exp $ -->
+<project name="UML14_Transformations" default="compile" basedir=".">
+	<description>
+        Build file for compiling and running UML14_Transformations
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="build.bin" location="build/bin"/>
+	<property name="build.src" location="build/src"/>
+	
+	<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
+	<!-- The compilation tool -->
+	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL"/>
+	<!-- The runtime environment -->
+	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	
+	
+	  	
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	<!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+	<!--           ( and the project name )               -->
+	<!-- ************************************************ -->
+	<!-- set user properties for this build -->
+	<property name="library.name" value="TP_IM"/>
+	<property name="src" location="src"/>
+	<property name="user.src.path" location="${src}/${library.name}"/>
+	<property name="user.package.name" value="${library.name}"/>
+	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.needed.TLL.path" location="${Runtime.TLL.path}"/> <!-- other TLL needed in order to comile this one -->
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	
+	<target name="init"
+		description="specific initialization steps">
+	</target>
+				  
+	<target name="clean"
+        description="specific cleanup steps" >
+        <ant antfile="common_build.xml" dir="." target="clean common" inheritAll="true"/>
+  	</target>
+
+  	<target name="compile" description="compile all the sources in .class files" depends="init">
+  		<ant antfile="common_build.xml" dir="." target="compile common" inheritAll="true"/>
+  	</target>
+
+  	<target name="run" description="run the transformation">
+  		<!-- cannot run the default target due to the mangling of the _
+  			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
+  		<java classname="${user.package.name}.BMTLLib_TP_5fIM" fork="true">
+		<arg value="-h"/>
+		<classpath>
+			<pathelement path="${build.bin}/"/>
+			<pathelement path="${BasicMTLRuntime.jar}"/>
+   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
+		</classpath>
+       	</java>
+	</target>
+
+
+</project>

@@ -1,9 +1,10 @@
-<!-- $Id: build.xml,v 1.2 2003-11-04 12:59:12 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-11-26 14:37:59 dvojtise Exp $ -->
 <!-- §Usefull script to pack and unpack zargo files from poseidon or ArgoUML -->
 <project name="poseidon import export" default="extract" basedir=".">
 	<description>
         target for import export of poseidon files
 	</description>
+	
 	<target name="extract">
 		<unzip src="testposeidon.zargo" dest="."/>
 	</target>
