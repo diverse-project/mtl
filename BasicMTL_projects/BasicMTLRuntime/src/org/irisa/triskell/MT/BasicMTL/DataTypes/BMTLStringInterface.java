@@ -1,8 +1,7 @@
 /*
+ * $Id: BMTLStringInterface.java,v 1.2 2003-11-24 13:38:22 dvojtise Exp $
  * Created on 19 août 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
@@ -10,9 +9,7 @@ import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * BasicMTL implementation of the datatypes
  */
 public interface BMTLStringInterface
 	extends StringValue, BMTLOclAnyInterface {
@@ -27,4 +24,7 @@ public interface BMTLStringInterface
 	BMTLIntegerInterface BMTL_toInteger ();
 	
 	BMTLRealInterface BMTL_toReal ();
+	
+	BMTLVoidInterface BMTL_toOut();
+	BMTLVoidInterface BMTL_toErr();
 }

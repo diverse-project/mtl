@@ -1,8 +1,7 @@
 /*
+ * $Id: Iterator_start.java,v 1.3 2003-11-24 13:38:30 dvojtise Exp $
  * Created on May 27, 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Iterator;
 
@@ -18,8 +17,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 /**
  * @author ffondeme
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * action to do when receiving a start
  */
 public class Iterator_start extends AbstractCommand {
 	public static final Iterator_start TheInstance = new Iterator_start();
