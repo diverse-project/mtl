@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.8 2004-02-13 13:14:17 dvojtise Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.9 2004-02-27 08:24:37 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -9,6 +9,7 @@
 	<property name="build" location="LibInheritance/build"/>
 	<property name="dist"  location="LibInheritance/dist"/>
 	<property name="base"  location=".."/>
+	<property name="plugins"  location="../../plugins"/>
 	
 	<property name="MTLcompiler.jar.path" location="../bin"/>
 	<property name="MTLcompiler.Runtime.path" location="../Runtime"/>
@@ -26,6 +27,7 @@
 	<property name="RepositoryAPI"  location="${base}\RepositoryAPI"/>
 	<property name="MDRDriver"  location="${base}\MDRDriver"/>
 	<property name="ModFactDriver"  		location="${base}\ModFactDriver"/>
+	<property name="EMFDriver"  			location="${base}\org.inria.EMFDriver"/>
 	<property name="BasicMTLRuntime"  location="${base}\BasicMTLRuntime"/>
 	<property name="BasicMTLAstJava"  location="${base}\BasicMtlAstJava"/>
 	<property name="BasicMtlAntlr"  location="${base}\BasicMtlAntlr"/>
@@ -115,6 +117,9 @@
   		<copy  todir="${dist}/bin/ThirdParty/ModFact">
   			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
   		</copy>
+  		<copy  todir="${dist}/bin/ThirdParty/EMF">
+  			<fileset dir="${EMFDriver}/ThirdParty/EMF"/>
+  		</copy>
   		<!-- update classpath for compiling the compiler -->
 		<path id="compileCompiler.class.path">
 	    	<pathelement path="${compileCompiler.class.path}/"/>
@@ -146,6 +151,9 @@
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${ModFactDriver}/src"/>
+  		</copy>
+  		<copy  todir="${src}">
+  			<fileset dir="${EMFDriver}/src"/>
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${BasicMTLRuntime}/src"/>
@@ -263,6 +271,12 @@
    			<classpath >
    				<pathelement path="${bin}"/>
     			<pathelement path="${dist}\bin\ThirdParty\ModFact\v1_0_0\JMIRepository.jar"/>
+    			<pathelement path="${dist}\bin\ThirdParty\EMF\org.inria.EMFDriver.jar"/>
+     			<pathelement path="${plugins}/org.eclipse.core.runtime_2.1.1/runtime.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.ui.workbench_2.1.1/workbench.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.common_1.1.1/runtime/common.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.edit_1.1.1/runtime/edit.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.ecore_1.1.1/runtime/ecore.jar"/>
    				<path refid="compileCompiler.class.path"/> 
    			</classpath>
    		</javac>

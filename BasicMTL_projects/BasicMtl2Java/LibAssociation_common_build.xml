@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.15 2004-02-19 10:26:37 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.16 2004-02-27 08:24:37 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -15,6 +15,7 @@
 	-->
 	<property name="MTLcompiler.jar.path" location="../bin"/>
 	<property name="MTLcompiler.Runtime.path" location="../Runtime"/>
+	<property name="plugins"  location="../../plugins"/>
 	<!-- The compilation tool -->
 	<property name="ANTLR2JavaCode" location="LibInheritance\dist\bin\BasicMTLc.jar"/>
 	
@@ -25,6 +26,7 @@
 	<property name="RepositoryAPI"  		location="${base}\RepositoryAPI"/>
 	<property name="MDRDriver"  			location="${base}\MDRDriver"/>
 	<property name="ModFactDriver"  		location="${base}\ModFactDriver"/>
+	<property name="EMFDriver"  			location="${base}\org.inria.EMFDriver"/>
 	<property name="BasicMTLRuntime"  		location="${base}\BasicMTLRuntime"/>
 	<property name="BasicMTLAstJava"  		location="${base}\BasicMtlAstJava"/>
 	<property name="BasicMtlAntlr"  		location="${base}\BasicMtlAntlr"/>
@@ -117,6 +119,9 @@
   		<copy  todir="${dist}/bin/ThirdParty/ModFact">
   			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
   		</copy>
+  		<copy  todir="${dist}/bin/ThirdParty/EMF">
+  			<fileset dir="${EMFDriver}/ThirdParty/EMF"/>
+  		</copy>
   		<!-- update classpath for compiling the compiler -->
 		<!--<path id="compileCompiler.class.path">
 	    	<pathelement path="${compileCompiler.class.path}/"/>
@@ -148,6 +153,9 @@
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${ModFactDriver}/src"/>
+  		</copy>
+  		<copy  todir="${src}">
+  			<fileset dir="${EMFDriver}/src"/>
   		</copy>
   		<copy  todir="${src}">
   			<fileset dir="${BasicMTLRuntime}/src"/>
@@ -248,6 +256,17 @@
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
+	         <arg value="${base}/BMTLRepositoryDriver/src/EMF/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${src}/TLL/"/>  
+	         <arg value="-PackageName"/> 
+	         <arg value="EMFDriver"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${src}/EMFDriver/"/> 
+       	</java>
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
 	         <arg value="${base}/BMTLIO/src/"/> 
 	         <arg value="-TLLPath"/> 
 	         <arg value="${src}/TLL/"/>  
@@ -316,6 +335,11 @@
    			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
+     			<pathelement path="${plugins}/org.eclipse.core.runtime_2.1.1/runtime.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.ui.workbench_2.1.1/workbench.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.common_1.1.1/runtime/common.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.edit_1.1.1/runtime/edit.jar"/>
+    			<pathelement path="${plugins}/org.eclipse.emf.ecore_1.1.1/runtime/ecore.jar"/>
    				<path refid="compileCompiler.class.path"/> 
    			</classpath>
    		</javac>
@@ -328,7 +352,9 @@
 			<fileset dir="${bin}">
 				<patternset id="basicmtl.runtime.class">					
     				<include name="MDRDriver/**"/>
+    				<include name="EMFDriver/**"/>
     				<include name="org/irisa/triskell/MT/repository/**"/>
+    				<include name="org/inria/**"/>
     				<include name="org/irisa/triskell/MT/utils/**"/>
     				<include name="org/irisa/triskell/MT/DataTypes/**"/>
     				<include name="org/irisa/triskell/MT/BasicMTL/DataTypes/**"/>
