@@ -1,5 +1,5 @@
 /**
- * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.3 2003-07-31 09:13:11 dvojtise Exp $
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.4 2003-07-31 09:13:57 dvojtise Exp $
  *
  *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
  * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
@@ -10,7 +10,7 @@
  * version written for BasicMtl 1.1
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
  * 
- * $Revision: 1.3 $ $Date: 2003-07-31 09:13:11 $
+ * $Revision: 1.4 $ $Date: 2003-07-31 09:13:57 $
  * Last modification by : $Author: dvojtise $
  * Authors : dvojtise, jpthibau
  *
@@ -31,7 +31,6 @@ library SimpleUML2SimpleRDBMS ;
 model source_model : RepositoryModel;		// should be SimpleUML MetaModel
 model target_model : RepositoryModel;		// must be SimpleRDBMS MetaModel
 
-model source_model2 is MyLib;
 
 // they are not typed so this implies that any access to them will be done through "invoke"
 // no typed model 
@@ -46,12 +45,11 @@ model source_model2 is MyLib;
 // -------------------
 // main of the lib (also its constructor)
 
-creation make( a_source_model:RepositoryModel; a_target_model:RepositoryModel; a_source2 : MyLib)
+creation make( a_source_model:RepositoryModel; a_target_model:RepositoryModel)
 {
 
 	source_model = a_source_model;
 	target_model = a_target_model;
-	source_model2 = a_source2;
 }
 
 
