@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.4 2003-08-12 14:51:04 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.5 2003-08-14 20:35:59 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -230,7 +230,7 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 instruction
-	 : ((IDENTIFIER POINT)? IDENTIFIER EQUAL) => (IDENTIFIER POINT)? IDENTIFIER EQUAL expression semicolon
+	 : ((IDENTIFIER POINT)? IDENTIFIER RECEIVES) => (IDENTIFIER POINT)? IDENTIFIER RECEIVES expression semicolon
 	| expression n:semicolon
 	| "return" (OPENBRACKET expression CLOSEBRACKET)? semicolon
 	| "while" expression openbrace (instruction)* CLOSEBRACE
@@ -256,7 +256,7 @@ instruction returns [Object tree=null;]
 	Object l5=null;
 	Object l6=null;
 }
-	: ((IDENTIFIER POINT)? IDENTIFIER EQUAL) => (s1:IDENTIFIER POINT {classIdentifier=s1.getText();} )? s2:IDENTIFIER EQUAL tree=expression n=semicolon
+	: ((IDENTIFIER POINT)? IDENTIFIER RECEIVES) => (s1:IDENTIFIER POINT {classIdentifier=s1.getText();} )? s2:IDENTIFIER RECEIVES tree=expression n=semicolon
 	  {tree=walker.varSettingInstr(classIdentifier,s2.getText(),tree,n);}
 	| tree=expression n=semicolon
 	  {tree=walker.expressionInstr(tree,n);}
@@ -288,13 +288,13 @@ exception catch [RecognitionException ex] {
 	;
 
 /*===============================================================
-associateEndPoint : (IDENTIFIER EQUAL)? expression (COLON type)?
+associateEndPoint : (IDENTIFIER RECEIVES)? expression (COLON type)?
 ==================================================================*/
 associateEndPoint returns [Object tree=null;]
 {	String role=null;
 	Object t=null;
 }
-	: (s1:IDENTIFIER EQUAL {role=s1.getText(); })? tree=expression (COLON t=type)? 
+	: (s1:IDENTIFIER RECEIVES {role=s1.getText(); })? tree=expression (COLON t=type)? 
 	  {tree=walker.associateEndPoint(role,tree,t); }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -420,13 +420,13 @@ exception catch [RecognitionException ex] {
 		;
 
 /*===============================================================
-tag	: "tag" IDENTIFIER EQUAL taggedValue semicolon
+tag	: "tag" IDENTIFIER RECEIVES taggedValue semicolon
 ==================================================================*/
 tag  returns [Object tree=null;]
 {	String n;
 	Object l1=null;
 }
-	: "tag" s1:IDENTIFIER EQUAL l1=taggedValue n=semicolon
+	: "tag" s1:IDENTIFIER RECEIVES l1=taggedValue n=semicolon
 	{tree=walker.tag(n,s1.getText(),l1); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -690,8 +690,8 @@ TILDE :	'~'
 
 COMMA :	','
 	;
-	
-EQUAL : '='
+
+RECEIVES : ":="
 	;
 	
 DOUBLECOLON :	"::"

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.6 2003-08-12 14:51:04 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.7 2003-08-14 20:35:59 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -44,7 +44,7 @@ public class BMTLParser {
 			}
 		catch (antlr.ANTLRException e) {
 			noPb=false;
-			log.warn("ANTLRException on "+name+" "+e);
+			log.warn("ANTLRException on "+name+' '+e);
 			log.warn("=> "+e.getMessage());
 			e.printStackTrace();
 		}
@@ -52,7 +52,7 @@ public class BMTLParser {
 			noPb=false;
 			log.warn("exception: "+e+"=>"+e.getMessage());
 			e.printStackTrace(); }				
-		log.info("For the file "+name+",");
+		log.info("For the file "+name+',');
 		log.info("parsing is over.");
 		if (noPb) return builtTree;
 		else return null;
