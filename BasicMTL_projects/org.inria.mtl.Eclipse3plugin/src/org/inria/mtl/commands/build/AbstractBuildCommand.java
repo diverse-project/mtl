@@ -74,6 +74,11 @@ abstract public class AbstractBuildCommand extends MTLCommand
 		MTLConsole.cleanConsole();
 		
 		// we initialize the message handler
+		// WARNING ! Don't remove this debug call 
+		// it forces the initialization of log4j which is important for the console view. to be improved...
+		// it is due to a problem with the static method ClassLoader.getSystemResources under Eclipse.
+		MTLCommand.log().debug("starting the compilation...");
+		
 		MSGHandler.init();
 
 		// we clean the previous markers
