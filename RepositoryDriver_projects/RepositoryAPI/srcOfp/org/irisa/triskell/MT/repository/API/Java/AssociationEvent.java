@@ -7,4 +7,6 @@ public interface AssociationEvent
 {
 
      org.irisa.triskell.MT.repository.API.Java.AssociationEventKind getKind();
+
+     org.irisa.triskell.MT.DataTypes.Java.StringValue getEndName();
 }

@@ -7,6 +7,8 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
 
+import org.irisa.triskell.MT.DataTypes.Java.StringValue;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.AssociationEventKind;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.AssociationEvent;
@@ -56,9 +58,9 @@ public class MDRAssociationEvent extends MDREvent implements org.irisa.triskell.
 	}
 
 	/** */
-	public String getEndName ()
+	public StringValue getEndName ()
 	{
 		org.netbeans.api.mdr.events.AssociationEvent evt = (org.netbeans.api.mdr.events.AssociationEvent)getRef();
-		return evt.getEndName();
+		return new StringValueImpl (false,null,evt.getEndName());		
 	}
 }

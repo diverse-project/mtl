@@ -16,31 +16,41 @@ main() : Standard::Void
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-class MyCommand extends  EventManagement::EventCommand
+class MyAttributeEventListener extends EventManagement::AttributeEventListener
 {
 	update (event : EventManagement::Event)
 	{
-		'++++++++++++++++++++ My command ++++++++++++++++++++'.toOut();
-		event.getSource().toOut();
-		event.getKind().toOut();
+		theEvent : EventManagement::AttributeEvent;
+		theEvent := event.oclAsType (!EventManagement::AttributeEvent!);
+		
+		'++++++++++++++++++++ MyAttributeEventListener ++++++++++++++++++++'.toOut();
+		theEvent.getSource().toOut();
+		theEvent.getKind().toOut();
+		theEvent.getAttributeName().toOut();
+		theEvent.getOldValue().toOut();
+		theEvent.getNewValue().toOut();
 	}
 }
 
-class YourCommand extends  EventManagement::EventCommand
+class MyAssociationEventListener extends  EventManagement::AssociationEventListener
 {
 	update (event : EventManagement::Event)
 	{
-		'++++++++++++++++++++ Your command +++++++++++++++++++'.toOut();
-		event.getSource().toOut();
-		event.getKind().toOut();
+		theEvent : EventManagement::AssociationEvent;
+		theEvent := event.oclAsType (!EventManagement::AssociationEvent!);
+
+		'++++++++++++++++++++ MyAssociationEventListener +++++++++++++++++++'.toOut();
+		theEvent.getSource().toOut();
+		theEvent.getKind().toOut();
+		theEvent.getEndName().toOut();
 	}
 }
 
-class OurCommand extends  EventManagement::EventCommand
+class MyInstanceEventListener extends  EventManagement::InstanceEventListener
 {
 	update (event : EventManagement::Event)
 	{
-		'++++++++++++++++++++ Our command ++++++++++++++++++++'.toOut();
+		'++++++++++++++++++++ MyInstanceEventListener ++++++++++++++++++++'.toOut();
 		event.getSource().toOut();
 		event.getKind().toOut();
 	}
@@ -89,14 +99,15 @@ class Test1
 		aParameter := new source_model::Core::Parameter();
 
 		// we add some listeners to some model elements
-		new EventManagement::AttributeEventListener().init(new MyCommand()).connect (aClass);
-		new EventManagement::AssociationEventListener().init(new YourCommand()).connect (aParameter);
-		new EventManagement::InstanceEventListener().init(new OurCommand()).connect (aClass);
+		new MyAttributeEventListener().connect (aClass);
+		new MyAssociationEventListener().connect (aParameter);
+		new MyInstanceEventListener().connect (aClass);
 
 		// we perform some actions on the model elements.
 		// notifications should come since listeners have been defined on some of these model elements.
 		
 		aClass.name := 'MyClass';
+		aClass.name := 'YourClass';
 
 		associate ( 
 			type           := aClass     : source_model::Core::Classifier,
@@ -106,6 +117,3 @@ class Test1
 		aClass.delete ();
 	}
 }
-
-
-
