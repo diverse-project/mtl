@@ -59,8 +59,6 @@ public class MTLPartitionScanner extends RuleBasedPartitionScanner {
 		rules.add(new SingleLineRule("'", "'", Token.UNDEFINED, '\\')); //$NON-NLS-2$ //$NON-NLS-1$
 
 		// Add special case word rule.
-//		WordRule wordRule= new WordRule(new EmptyCommentDetector());
-//		wordRule.addWord("/**/", comment); //$NON-NLS-1$
 		WordPatternRule wordRule= new WordPatternRule(new EmptyCommentDetector(), "/*", "*/", comment); //$NON-NLS-2$ //$NON-NLS-1$
 		rules.add(wordRule);
 		

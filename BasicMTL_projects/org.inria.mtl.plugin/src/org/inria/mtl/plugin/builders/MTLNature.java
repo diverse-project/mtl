@@ -13,7 +13,7 @@ public class MTLNature implements IProjectNature {
 	/**
 	 *  The eclipse MTL id
 	 **/
-	public final static String NATURE_ID = "org.irisa.mtl.plugin.MTLNature";
+	public final static String NATURE_ID = "org.inria.mtl.plugin.MTLNature";
 	 /**
 	 *  Constructor for MTLNature
 	 **/

@@ -19,7 +19,7 @@ public interface MTLEditorActionDefinitionIds {
 	   *
 	   * @since 2.1
 	   */
-	  public static final String GOTO_MATCHING_BRACKET = "net.sourceforge.phpeclipse.ui.edit.text.php.goto.matching.bracket"; //$NON-NLS-1$
+	  public static final String GOTO_MATCHING_BRACKET = "org.inria.mtl.plugin.editors.matching.bracket"; //$NON-NLS-1$
 
 	  /**
 	   * Value: net.sourceforge.phpeclipse.phpeditor.comment
@@ -41,7 +41,7 @@ public interface MTLEditorActionDefinitionIds {
 	  * <code>"org.phpeclipse.phpdt.ui.edit.text.php.content.assist. proposals"
 	  * </code>).
 		 */
-	public static final String CONTENT_ASSIST_PROPOSALS = "org.inria.mtl.plugin.editors.assist.proposals"; //$NON-NLS-1$
+	public static final String CONTENT_ASSIST_PROPOSALS = "org.eclipse.ui.edit.text.contentAssist.proposals"; //$NON-NLS-1$
   
 	  /**
 		 * Action definition ID of the edit -> show Javadoc action

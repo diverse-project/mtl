@@ -134,7 +134,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
-			new Status(IStatus.ERROR, "org.irisa.mtl.plugin", IStatus.OK, message, null);
+			new Status(IStatus.ERROR, "org.inria.mtl.plugin", IStatus.OK, message, null);
 		throw new CoreException(status);
 	}
 

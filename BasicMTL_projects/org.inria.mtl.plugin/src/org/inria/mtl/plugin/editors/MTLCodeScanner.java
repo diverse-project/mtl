@@ -3,39 +3,28 @@ package org.inria.mtl.plugin.editors;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.jface.text.TextAttribute;
-import org.eclipse.jface.text.rules.EndOfLineRule;
-import org.eclipse.jface.text.rules.IRule;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.SingleLineRule;
-import org.eclipse.jface.text.rules.Token;
-import org.eclipse.jface.text.rules.WhitespaceRule;
-import org.eclipse.jface.text.rules.WordRule;
-import org.eclipse.swt.SWT;
-import org.inria.mtl.plugin.editors.utils.MTLEditorColorProvider;
-import org.inria.mtl.plugin.editors.utils.MTLWordDetector;
-import org.inria.mtl.plugin.editors.utils.MTLWhitespaceDetector;
-
 
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.ICharacterScanner;
-import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
-import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.MultiLineRule;
+import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
-import org.eclipse.jface.util.PropertyChangeEvent;
-
-//import org.eclipse.jdt.ui.text.IColorManager;
-
-import  org.inria.mtl.plugin.editors.utils.IColorManager;
-import  org.inria.mtl.plugin.editors.mtlsyntax.*;
-import  org.inria.mtl.plugin.editors.utils.AbstractMTLScanner;
-import  org.inria.mtl.plugin.preferences.PreferenceConstants;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLConstantObject;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLKeywordObject;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLMethodObject;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLObject;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLSyntax;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLTypeObject;
+import org.inria.mtl.plugin.editors.utils.AbstractMTLScanner;
+import org.inria.mtl.plugin.editors.utils.IColorManager;
+import org.inria.mtl.plugin.editors.utils.MTLWhitespaceDetector;
+import org.inria.mtl.plugin.editors.utils.MTLWordDetector;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 
 /**
@@ -164,6 +153,7 @@ public final class MTLCodeScanner extends AbstractMTLScanner implements MTLWords
 			   wordRule.addWord(elbuffer.getName(), constant);
 		   }
 		   rules.add(wordRule);
+		   System.out.println("Nb règles :"+rules.size());
 		   return rules;
 
 	}

@@ -5,24 +5,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//import net.sourceforge.phpdt.internal.ui.text.ContentAssistPreference;
-import org.inria.mtl.plugin.editors.utils.MTLCodeReader;
-import org.inria.mtl.plugin.editors.utils.MTLPairMatcher;
-import org.inria.mtl.plugin.editors.completion.link.LinkedPositionManager;
-import org.inria.mtl.plugin.editors.completion.link.LinkedPositionUI;
-import org.inria.mtl.plugin.editors.completion.link.LinkedPositionUI.ExitFlags;
-import org.inria.mtl.plugin.preferences.PreferenceConstants;
-import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
-import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.editors.utils.BracketPainter;
-import org.inria.mtl.plugin.editors.utils.LinePainter;
-import org.inria.mtl.plugin.editors.utils.PrintMarginPainter;
-
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -36,8 +23,8 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewerExtension;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.IWidgetTokenKeeper;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -58,6 +45,18 @@ import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.editors.text.IStorageDocumentProvider;
 import org.eclipse.ui.help.WorkbenchHelp;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+
+import org.inria.mtl.plugin.editors.completion.ContentAssistPreferences;
+import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.editors.completion.link.LinkedPositionManager;
+import org.inria.mtl.plugin.editors.completion.link.LinkedPositionUI;
+import org.inria.mtl.plugin.editors.completion.link.LinkedPositionUI.ExitFlags;
+import org.inria.mtl.plugin.editors.utils.BracketPainter;
+import org.inria.mtl.plugin.editors.utils.LinePainter;
+import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
+import org.inria.mtl.plugin.editors.utils.MTLPairMatcher;
+import org.inria.mtl.plugin.editors.utils.PrintMarginPainter;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 /**
  * MTL specific text editor.
@@ -313,7 +312,7 @@ public class MTLUnitEditor extends MTLEditor {
 
 	private boolean fCloseBracketsMTL = true;
 	private boolean fCloseStringsMTL = true;
-	private boolean fCloseBracketsCode = true;
+	private boolean fCloseBracketsHTML = true;
 	private boolean fCloseStringsHTML = true;
 
 	private int fOffset;
@@ -327,8 +326,8 @@ public class MTLUnitEditor extends MTLEditor {
 	  fCloseStringsMTL = enabled;
 	}
 
-	public void setCloseBracketsCodeEnabled(boolean enabled) {
-	  fCloseBracketsCode = enabled;
+	public void setCloseBracketsHTMLEnabled(boolean enabled) {
+	  fCloseBracketsHTML = enabled;
 	}
 
 	public void setCloseStringsHTMLEnabled(boolean enabled) {
@@ -409,8 +408,8 @@ public class MTLUnitEditor extends MTLEditor {
 			  // fall through
 
 			case '{' :
-			//  if (!fCloseBracketsCode)
-			//	return;
+			  if (!fCloseBracketsMTL)
+				return;
 			  if (hasIdentifierToTheRight(document, offset + length))
 				return;
 
@@ -420,6 +419,8 @@ public class MTLUnitEditor extends MTLEditor {
 			  if (event.character == '"') {
 				if (!fCloseStringsMTL)
 				  return;
+				// changed for statements like echo ""  print ""
+				//    if (hasIdentifierToTheLeft(document, offset) || hasIdentifierToTheRight(document, offset + length))
 				if (hasIdentifierToTheRight(document, offset + length))
 				  return;
 			  }
@@ -458,15 +459,15 @@ public class MTLUnitEditor extends MTLEditor {
 			  // fall through
 
 			case '{' :
-			  if (!fCloseBracketsCode)
+			  if (!fCloseBracketsHTML)
 				return;
 			  if (hasIdentifierToTheRight(document, offset + length))
 				return;
 
 			  // fall through
 
-			case '"' :
-			  if (event.character == '"') {
+			case '\'' :
+			  if (event.character == '\'') {
 				if (!fCloseStringsHTML)
 				  return;
 
@@ -630,11 +631,11 @@ public class MTLUnitEditor extends MTLEditor {
   /** Preference key for automatically closing strings */
   //private final static String CLOSE_STRINGS_HTML = PreferenceConstants.EDITOR_CLOSE_STRINGS_HTML;
   /** Preference key for automatically closing brackets and parenthesis */
-  private final static String CLOSE_BRACKETS_CODE = org.eclipse.jdt.ui.PreferenceConstants.EDITOR_CLOSE_BRACES;
+  //private final static String CLOSE_BRACKETS_HTML = PreferenceConstants.EDITOR_CLOSE_BRACKETS_HTML;
 
   /** Preference key for smart paste */
   private final static String SMART_PASTE = PreferenceConstants.EDITOR_SMART_PASTE;
-    /**
+	/**
    * Creates a new mtl unit editor.
    */
   public MTLUnitEditor() {
@@ -667,12 +668,12 @@ public class MTLUnitEditor extends MTLEditor {
 	IPreferenceStore preferenceStore = getPreferenceStore();
 	boolean closeBracketsMTL = preferenceStore.getBoolean(CLOSE_BRACKETS_MTL);
 	boolean closeStringsMTL = preferenceStore.getBoolean(CLOSE_STRINGS_MTL);
-	boolean closeBracketsCode = preferenceStore.getBoolean(CLOSE_BRACKETS_CODE);
+	//boolean closeBracketsHTML = preferenceStore.getBoolean(CLOSE_BRACKETS_HTML);
 	//boolean closeStringsHTML = preferenceStore.getBoolean(CLOSE_STRINGS_HTML);
 
 	fBracketInserter.setCloseBracketsMTLEnabled(closeBracketsMTL);
 	fBracketInserter.setCloseStringsMTLEnabled(closeStringsMTL);
-	fBracketInserter.setCloseBracketsCodeEnabled(closeBracketsCode);
+	//fBracketInserter.setCloseBracketsHTMLEnabled(closeBracketsHTML);
 	//fBracketInserter.setCloseStringsHTMLEnabled(closeStringsHTML);
 
 	ISourceViewer sourceViewer = getSourceViewer();
@@ -692,10 +693,10 @@ public class MTLUnitEditor extends MTLEditor {
 	  case '{' :
 		return '}';
 
-	  case ']' :
-		return '[';
+	  case '}' :
+		return '{';
 
-	  case '"' :
+	  case '\'' :
 		return character;
 
 	  default :
@@ -853,12 +854,15 @@ public class MTLUnitEditor extends MTLEditor {
   protected void handlePreferenceStoreChanged(PropertyChangeEvent event) {
 
 	try {
-
-	 // AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
-//	  if (asv != null) {
+		ISourceViewer test=getSourceViewer();
+		if (test==null){
+			System.out.println("Test null"+test.toString());
+		}
+		System.out.println(test.toString());
+	  AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
+	  if (asv != null) {
 
 		String p = event.getProperty();
-		System.out.println("propriété :"+p);
 
 		if (CLOSE_BRACKETS_MTL.equals(p)) {
 		  fBracketInserter.setCloseBracketsMTLEnabled(getPreferenceStore().getBoolean(p));
@@ -869,11 +873,6 @@ public class MTLUnitEditor extends MTLEditor {
 		  fBracketInserter.setCloseStringsMTLEnabled(getPreferenceStore().getBoolean(p));
 		  return;
 		}
-		
-		if (CLOSE_BRACKETS_CODE.equals(p)) {
-				  fBracketInserter.setCloseStringsMTLEnabled(getPreferenceStore().getBoolean(p));
-				  return;
-			}
 
 	
 		if (SPACES_FOR_TABS.equals(p)) {
@@ -943,10 +942,10 @@ public class MTLUnitEditor extends MTLEditor {
 		}
 
 
-//		IContentAssistant c = asv.getContentAssistant();
-//		if (c instanceof ContentAssistant)
-//		  ContentAssistPreference.changeConfiguration((ContentAssistant) c, getPreferenceStore(), event);
-//	  }
+		IContentAssistant c = asv.getContentAssistant();
+		if (c instanceof ContentAssistant)
+		  ContentAssistPreferences.changeConfiguration((ContentAssistant) c, getPreferenceStore(), event);
+	  }
 
 	} finally {
 	  super.handlePreferenceStoreChanged(event);
@@ -969,17 +968,10 @@ public class MTLUnitEditor extends MTLEditor {
 	//super.handlePreferencePropertyChanged(event);
   }
 
-  /**
-   * Handles a property change event describing a change
-   * of the MTL core's preferences and updates the preference
-   * related editor properties.
-   * 
-   * @param event the property change event
-   */
    /*
    * @see MTLEditor#createJavaSourceViewer(Composite, IVerticalRuler, int)
    */
-  protected ISourceViewer createJavaSourceViewer(
+  protected ISourceViewer createMTLSourceViewer(
 	Composite parent,
 	IVerticalRuler verticalRuler,
 	IOverviewRuler overviewRuler,
@@ -1033,9 +1025,9 @@ public class MTLUnitEditor extends MTLEditor {
 	super.editorContextMenuAboutToShow(menu);
 
 	ActionContext context = new ActionContext(getSelectionProvider().getSelection());
-//	fContextMenuGroup.setContext(context);
-//	fContextMenuGroup.fillContextMenu(menu);
-//	fContextMenuGroup.setContext(null);
+	fContextMenuGroup.setContext(context);
+	fContextMenuGroup.fillContextMenu(menu);
+	fContextMenuGroup.setContext(null);
  }
 
   /*

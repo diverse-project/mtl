@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 public class ActionMessages {
 
-	private static final String RESOURCE_BUNDLE= "org.irisa.mtl.plugin.editors.actions.ActionMessages";//$NON-NLS-1$
+	private static final String RESOURCE_BUNDLE= ActionMessages.class.getName();//$NON-NLS-1$
 
 	private static ResourceBundle fgResourceBundle= ResourceBundle.getBundle(RESOURCE_BUNDLE);
 

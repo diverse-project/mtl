@@ -2,8 +2,6 @@ package org.inria.mtl.plugin.editors.completion.template;
 
 import org.eclipse.core.runtime.CoreException;
 
-import org.eclipse.core.runtime.CoreException;
-
 /**
  * A template context. A template context is associated with a context type.
  */

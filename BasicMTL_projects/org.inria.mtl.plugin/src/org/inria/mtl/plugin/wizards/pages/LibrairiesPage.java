@@ -99,9 +99,6 @@ public class LibrairiesPage extends BuildPathBasePage {
 		
 		String[] buttonLabels= new String[] { 
 			/* IDX_ADDTLL*/ TabMessages.getString("LibrariesPage.libraries.addtll.button"),	//$NON-NLS-1$
-			/* IDX_ADDEXT */ //NewWizardMessages.getString("LibrariesWorkbookPage.libraries.addextjar.button"), //$NON-NLS-1$
-			/* IDX_ADDVAR */ //NewWizardMessages.getString("LibrariesWorkbookPage.libraries.addvariable.button"), //$NON-NLS-1$
-			/* IDX_ADDLIB */ //NewWizardMessages.getString("LibrariesWorkbookPage.libraries.addlibrary.button"), //$NON-NLS-1$
 			/* IDX_ADDFOL */ TabMessages.getString("LibrariesPage.libraries.addtllfolder.button"), //$NON-NLS-1$
 			/* */ null,  
 			/* IDX_EDIT */ TabMessages.getString("LibrariesPage.libraries.edit.button"), //$NON-NLS-1$

@@ -614,7 +614,15 @@ public class PreferenceConstants {
 	 * 
 	 */	
 	public static final String GROUP_SOURCE=	GROUP_GENERATE;
-	
+
+	/**
+		 * Pop-up menu: name of group for source actions. This is an alias for
+		 * <code>GROUP_GENERATE</code> to be more consistent with main menu
+		 * bar structure.
+		 * 
+		 */	
+		public static final String GROUP_ADDITIONS=	"group.additions";
+		
 	/**
 	 * A named preference that holds the color used for 'linked-mode' underline.
 	 * <p>

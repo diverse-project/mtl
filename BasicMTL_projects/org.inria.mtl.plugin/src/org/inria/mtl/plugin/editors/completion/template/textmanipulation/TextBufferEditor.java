@@ -11,14 +11,12 @@
 package org.inria.mtl.plugin.editors.completion.template.textmanipulation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextEditNode.RootNode;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.inria.mtl.plugin.editors.completion.template.textmanipulation.TextEditNode.RootNode;
 
 //import org.eclipse.jdt.core.IJavaModelStatusConstants;
 //import org.eclipse.jdt.core.JavaModelException;

@@ -20,7 +20,7 @@ public class GotoMatchingBracketAction extends Action {
 	private final MTLEditor fEditor;
 	
 	public GotoMatchingBracketAction(MTLEditor editor) {
-		super(MTLEditorMessages.getString("GotoMatchingBracket.label"));
+		super(ActionMessages.getString("GotoMatchingBracket.label"));
 		Assert.isNotNull(editor);
 		fEditor= editor;
 		setEnabled(null != fEditor);

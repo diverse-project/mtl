@@ -19,7 +19,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Region;
 import org.eclipse.swt.graphics.Point;
-//import org.eclipse.jdt.internal.ui.text.link.LinkedPositionManager;
+
 
 public class BuiltInEngine {
 

@@ -76,9 +76,9 @@
             default="true"
             icon="icons/sample.gif"
             extensions="mtl"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            contributorClass="org.inria.mtl.plugin.editors.MTLActionContributor"
             class="org.inria.mtl.plugin.editors.MTLUnitEditor"
-            id="org.inria.mtl.plugin.editors.MTLEditor">
+            id="org.inria.mtl.plugin.editors.MTLUnitEditor">
       </editor>
    </extension>
    <extension
@@ -131,7 +131,195 @@
 			   </selection>
          </action>
       </actionSet>
+            <actionSet
+            label="%CodingActionSet.label"
+            visible="false"
+            id="org.inria.mtl.plugin.CodingActionSet">
+<!-- =========================================================================== -->
+<!-- Source Menu                                                                 -->
+<!-- =========================================================================== -->
+         <menu
+               label="%SourceMenu.label"
+               path="edit"
+               id="org.inria.mtl.plugin.source.menu">
+         	<separator name="editGroup" />
+         </menu>
+         <action
+               definitionId="org.inria.mtl.plugin.mtleditor.Format"
+               label="%FormatAction.label"
+               retarget="true"
+               menubarPath="org.inria.mtl.plugin.source.menu/editGroup"
+               id="org.inria.mtl.plugin.mtleditor.Format">
+         </action>
+         <action
+               label="%ShiftLeftAction.label"
+               retarget="true"
+               menubarPath="org.inria.mtl.plugin.source.menu/editGroup"
+               id="org.inria.mtl.plugin.mtleditor.ShiftLeft">
+         </action>
+         <action
+               label="%ShiftRightAction.label"
+               retarget="true"
+               menubarPath="org.inria.mtl.plugin.source.menu/editGroup"
+               id="org.inria.mtl.plugin.mtleditor.ShiftRight">
+         </action>
+         <action
+               definitionId="org.inria.mtl.plugin.mtleditor.Uncomment"
+               label="%UncommentAction.label"
+               retarget="true"
+               menubarPath="org.inria.mtl.plugin.source.menu/editGroup"
+               id="org.inria.mtl.plugin.mtleditor.Uncomment">
+         </action>
+         <action
+               definitionId="org.inria.mtl.plugin.mtleditor.Comment"
+               label="%CommentAction.label"
+               retarget="true"
+               menubarPath="org.inria.mtl.plugin.source.menu/editGroup"
+               id="org.inria.mtl.plugin.mtleditor.Comment">
+         </action>
+      </actionSet>
    </extension>
+   <extension
+         point="org.eclipse.ui.actionSetPartAssociations">
+      <actionSetPartAssociation
+            targetID="org.inria.mtl.plugin.CodingActionSet">
+         <part id="org.inria.mtl.plugin.editors.MTLUnitEditor" />
+      </actionSetPartAssociation>
+   </extension>
+<!-- =========================================================================== -->
+<!-- MTL Editor Action Definition IDs -->
+<!-- =========================================================================== -->
+   <extension
+         point="org.eclipse.ui.actionDefinitions">
+<!-- edit -->
+      <actionDefinition
+            id="org.inria.mtl.plugin.contentAssist.proposals">
+      </actionDefinition>
+<!-- source -->
+      <actionDefinition
+            id="org.inria.mtl.plugin.mtleditor.Comment">
+      </actionDefinition>
+      <actionDefinition
+            id="org.inria.mtl.plugin.mtleditor.Uncomment">
+      </actionDefinition>
+      <actionDefinition
+            id="org.inria.mtl.plugin.mtleditor.Format">
+      </actionDefinition>
+      <actionDefinition
+            id="org.inria.mtl.plugin.editors.show.outline">
+      </actionDefinition>
+      <actionDefinition
+            id="org.inria.mtl.plugin.editors.show.next.problem">
+      </actionDefinition>
+      <actionDefinition
+            id="org.inria.mtl.plugin.editors.show.previous.problem">
+      </actionDefinition>
+   </extension>
+ <!-- =========================================================================== -->
+<!-- MTL Editor Key Bindings -->
+<!-- =========================================================================== -->
+   <extension
+         point="org.eclipse.ui.acceleratorSets">
+      <acceleratorSet
+            scopeId="org.eclipse.ui.textEditorScope"
+            configurationId="org.eclipse.ui.emacsAcceleratorConfiguration">
+<!-- edit -->
+         <accelerator
+               key="Ctrl+Shift+P"
+               id="org.inria.mtl.plugin.editors.matching.bracket">
+         </accelerator>
+         <accelerator
+               key="Ctrl+1"
+               id="org.eclipse.ui.edit.text.contentAssist.proposals">
+         </accelerator>
+<!-- source -->
+         <accelerator
+               key="Ctrl+/"
+               id="org.inria.mtl.plugin.mtleditor.Comment">
+         </accelerator>
+         <accelerator
+               key="Ctrl+\"
+               id="org.inria.mtl.plugin.mtleditor.Uncomment">
+         </accelerator> 
+         <accelerator
+               key="Ctrl+Shift+F"
+               id="org.inria.mtl.plugin.mtleditor.Format">
+         </accelerator>
+         <accelerator
+               key="Ctrl+O"
+               id="org.inria.mtl.plugin.editors.show.outline">
+         </accelerator>
+         <accelerator
+               key="Ctrl+F3"
+               id="org.inria.mtl.plugin.editors.open.structure">
+         </accelerator>
+      </acceleratorSet>
+      <acceleratorSet
+            scopeId="org.eclipse.ui.textEditorScope"
+            configurationId="org.eclipse.ui.defaultAcceleratorConfiguration">
+<!-- edit -->
+         <accelerator
+               key="Ctrl+Shift+P"
+               id="org.inria.mtl.plugin.editors.matching.bracket">
+         </accelerator>
+         <accelerator
+               key="Ctrl+Space"
+               id="org.eclipse.ui.edit.text.contentAssist.proposals">
+         </accelerator> 
+<!-- source -->
+         <accelerator
+               key="Ctrl+/"
+               id="org.inria.mtl.plugin.mtleditor.Comment">
+         </accelerator>
+         <accelerator
+               key="Ctrl+\"
+               id="org.inria.mtl.plugin.mtleditor.Uncomment">
+         </accelerator>
+         <accelerator
+               key="Ctrl+Shift+F"
+               id="org.inria.mtl.plugin.mtleditor.Format">
+         </accelerator>
+         <accelerator
+               key="Ctrl+F3"
+               id="org.inria.mtl.plugin.editors.open.structure">
+         </accelerator>
+         <accelerator
+               key="Ctrl+O"
+               id="net.sourceforge.phpeclipse.ui.edit.text.php.show.outline">
+         </accelerator>
+      </acceleratorSet>
+      <acceleratorSet
+            scopeId="org.eclipse.ui.textEditorScope"
+            configurationId="org.eclipse.ui.defaultAcceleratorConfiguration">
+<!-- edit -->
+         <accelerator
+               platform="carbon"
+               key="Command+Shift+P"
+               id="org.inria.mtl.plugin.editors.matching.bracket">
+         </accelerator>
+         <accelerator
+               platform="carbon"
+               key="Command+1"
+               id="org.eclipse.ui.edit.text.contentAssist.proposals">
+         </accelerator>
+<!-- source -->
+         <accelerator
+               platform="carbon"
+               key="Command+/"
+               id="org.inria.mtl.plugin.mtleditor.Comment">
+         </accelerator>
+         <accelerator
+               platform="carbon"
+               key="Command+\"
+               id="org.inria.mtl.plugin.mtleditor.Uncomment">
+         </accelerator> 
+      </acceleratorSet>
+   </extension>
+ 
+<!-- =========================================================================== -->
+<!-- MTL wizards -->
+<!-- =========================================================================== -->
+ 
    <extension
          point="org.eclipse.ui.newWizards">
       <category

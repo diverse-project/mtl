@@ -67,23 +67,23 @@ public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 		if (selection instanceof StructuredSelection)
 			{
 				currentSelection = (StructuredSelection)selection;
-				java.util.Iterator it = currentSelection.iterator();
-				while (it.hasNext())
-					{
-							IResource item = (IResource) it.next ();
-							if (item instanceof IProject){
-							    currentProject=item.getProject();
-								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-								MTLCore.findFolders();
-								IPath[] srcPaths=MTLModel.srcFolders;
-							    for (int i =0;i<srcPaths.length;i++){
-									IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
-									boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-									
-							    }
-							  
-							 }
-						}
+//				java.util.Iterator it = currentSelection.iterator();
+//				while (it.hasNext())
+//					{
+//							IResource item = (IResource) it.next ();
+//							if (item instanceof IProject){
+//							    currentProject=item.getProject();
+//								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+//								MTLCore.findFolders();
+//								IPath[] srcPaths=MTLModel.srcFolders;
+//							    for (int i =0;i<srcPaths.length;i++){
+//									IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
+//									boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+//									
+//							    }
+//							  
+//							 }
+//						}
 					}
 		
 	}

@@ -1,44 +1,27 @@
 package org.inria.mtl.plugin.editors.completion;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Shell;
-
-import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationExtension;
+import org.eclipse.jface.text.contentassist.IContextInformationPresenter;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
+import org.eclipse.swt.graphics.Image;
+import org.inria.mtl.plugin.editors.completion.template.CompilationUnitContextType;
+import org.inria.mtl.plugin.editors.completion.template.ContextType;
+import org.inria.mtl.plugin.editors.completion.template.ContextTypeRegistry;
+import org.inria.mtl.plugin.editors.completion.template.MTLUnitContext;
+import org.inria.mtl.plugin.editors.mtlsyntax.MTLSyntax;
 
-import org.eclipse.ui.IEditorPart;
-
-//import org.eclipse.jdt.core.ICompilationUnit;
-//import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
-
-import org.eclipse.jdt.ui.IWorkingCopyManager;
-//import org.eclipse.jdt.ui.PreferenceConstants;
-
-import org.eclipse.jdt.internal.corext.template.ContextType;
-import org.eclipse.jdt.internal.corext.template.ContextTypeRegistry;
-//import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.JavaUIMessages;
-import org.eclipse.jdt.internal.ui.text.JavaCodeReader;
-import org.eclipse.jdt.internal.ui.text.template.TemplateEngine;
-import org.eclipse.jdt.internal.ui.text.template.TemplateProposal;
-
-import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.preferences.PreferenceConstants;
-import org.inria.mtl.plugin.editors.completion.template.*;
 
 
 /**
@@ -46,330 +29,372 @@ import org.inria.mtl.plugin.editors.completion.template.*;
  */
 public class MTLCompletionProcessor implements IContentAssistProcessor {
 		
-	private static class ContextInformationWrapper implements IContextInformation, IContextInformationExtension {
-		
-		private final IContextInformation fContextInformation;
-		private int fPosition;
-		
-		public ContextInformationWrapper(IContextInformation contextInformation) {
-			fContextInformation= contextInformation;
-		}
-		
-		/*
-		 * @see IContextInformation#getContextDisplayString()
-		 */
-		public String getContextDisplayString() {
-			return fContextInformation.getContextDisplayString();
-		}
-
-			/*
-		 * @see IContextInformation#getImage()
-		 */
-		public Image getImage() {
-			return fContextInformation.getImage();
-		}
-
-		/*
-		 * @see IContextInformation#getInformationDisplayString()
-		 */
-		public String getInformationDisplayString() {
-			return fContextInformation.getInformationDisplayString();
-		}
-
-		/*
-		 * @see IContextInformationExtension#getContextInformationPosition()
-		 */
-		public int getContextInformationPosition() {
-			return fPosition;
-		}
-		
-		public void setContextInformationPosition(int position) {
-			fPosition= position;	
-		}
-	};
-	
-	
-	//private final static String VISIBILITY= JavaCore.CODEASSIST_VISIBILITY_CHECK;
-	private final static String ENABLED= "enabled"; //$NON-NLS-1$
-	private final static String DISABLED= "disabled"; //$NON-NLS-1$
-	
-		
-	protected IWorkingCopyManager fManager;
-	private IEditorPart fEditor;
-	private ResultCollector fCollector;
-	private IContextInformationValidator fValidator;
-	
-	private char[] fProposalAutoActivationSet;
-	private MTLCompletionProposalComparator fComparator;
-	private boolean fAllowAddImports;
-	
-	private TemplateEngine fTemplateEngine;
-	private ExperimentalResultCollector fExperimentalCollector;
-	
-	private int fNumberOfComputedResults= 0;
-	
-	
-	public MTLCompletionProcessor(IEditorPart editor) {
-		fEditor= editor;
-		fCollector= new ResultCollector();
-		fManager= MTLPlugin.getDefault().getWorkingCopyManager();
-		ContextType contextType= ContextTypeRegistry.getInstance().getContextType("java"); //$NON-NLS-1$
-		if (contextType != null)
-			fTemplateEngine= new TemplateEngine(contextType);
-		fExperimentalCollector= new ExperimentalResultCollector();
-		fAllowAddImports= true;
-		
-		fComparator= new JavaCompletionProposalComparator();
-	}
-	
 	/**
-	 * Sets this processor's set of characters triggering the activation of the
-	 * completion proposal computation.
-	 * 
-	 * @param activationSet the activation set
-	 */
-	public void setCompletionProposalAutoActivationCharacters(char[] activationSet) {
-		fProposalAutoActivationSet= activationSet;
-	}
-	
-	/**
-	 * Tells this processor to restrict its proposal to those element
-	 * visible in the actual invocation context.
-	 * 
-	 * @param restrict <code>true</code> if proposals should be restricted
-	 */
-	public void restrictProposalsToVisibility(boolean restrict) {
-		Hashtable options= JavaCore.getOptions();
-		Object value= options.get(VISIBILITY);
-		if (value instanceof String) {
-			String newValue= restrict ? ENABLED : DISABLED;
-			if ( !newValue.equals((String) value)) {
-				options.put(VISIBILITY, newValue);
-				JavaCore.setOptions(options);
-			}
-		}
-	}
-	
-	/**
-	 * Tells this processor to order the proposals alphabetically.
-	 * 
-	 * @param order <code>true</code> if proposals should be ordered.
-	 */
-	public void orderProposalsAlphabetically(boolean order) {
-		fComparator.setOrderAlphabetically(order);
-	}
-	
-	/**
-	 * Tells this processor to restrict is proposals to those
-	 * starting with matching cases.
-	 * 
-	 * @param restrict <code>true</code> if proposals should be restricted
-	 */
-	public void restrictProposalsToMatchingCases(boolean restrict) {
-		// not yet supported
-	}
-	
-	/**
-	 * Tells this processor to add import statement for proposals that have
-	 * a fully qualified type name
-	 * 
-	 * @param restrict <code>true</code> if import can be added
-	 */
-	public void allowAddingImports(boolean allowAddingImports) {
-		fAllowAddImports= allowAddingImports;
-	}	
-		
-	/**
-	 * @see IContentAssistProcessor#getErrorMessage()
-	 */
-	public String getErrorMessage() {
-		if (fNumberOfComputedResults == 0)
-			return JavaUIMessages.getString("JavaEditor.codeassist.noCompletions"); //$NON-NLS-1$
-		if (PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.CODEASSIST_FILL_ARGUMENT_NAMES)) {
-			return fExperimentalCollector.getErrorMessage();
-		} else {
-			return fCollector.getErrorMessage();
-		}
-	}
+	  * Simple content assist tip closer. The tip is valid in a range
+	  * of 5 characters around its popup location.
+	  */
+	 protected static class Validator implements IContextInformationValidator, IContextInformationPresenter {
 
-	/**
-	 * @see IContentAssistProcessor#getContextInformationValidator()
-	 */
-	public IContextInformationValidator getContextInformationValidator() {
-		if (fValidator == null)
-			fValidator= new JavaParameterListValidator();
-		return fValidator;
-	}
+	   protected int fInstallOffset;
 
-	/**
-	 * @see IContentAssistProcessor#getContextInformationAutoActivationCharacters()
-	 */
-	public char[] getContextInformationAutoActivationCharacters() {
-		return null;
-	}
+	   /*
+		* @see IContextInformationValidator#isContextInformationValid(int)
+		*/
+	   public boolean isContextInformationValid(int offset) {
+		 return Math.abs(fInstallOffset - offset) < 5;
+	   }
 
-	/**
-	 * @see IContentAssistProcessor#getCompletionProposalAutoActivationCharacters()
-	 */
-	public char[] getCompletionProposalAutoActivationCharacters() {
-		return fProposalAutoActivationSet;
-	}
-	
-	private boolean looksLikeMethod(JavaCodeReader reader) throws IOException {
-		int curr= reader.read();
-		while (curr != JavaCodeReader.EOF && Character.isWhitespace((char) curr))
-			curr= reader.read();
-			
-		if (curr == JavaCodeReader.EOF)
-			return false;
+	   /*
+		* @see IContextInformationValidator#install(IContextInformation, ITextViewer, int)
+		*/
+	   public void install(IContextInformation info, ITextViewer viewer, int offset) {
+		 fInstallOffset = offset;
+	   }
 
-		return Character.isJavaIdentifierPart((char) curr) || Character.isJavaIdentifierStart((char) curr);
-	}
-	
-	private int guessContextInformationPosition(ITextViewer viewer, int offset) {
-		int contextPosition= offset;
-			
-		IDocument document= viewer.getDocument();
-		
-		try {
+	   /*
+		* @see org.eclipse.jface.text.contentassist.IContextInformationPresenter#updatePresentation(int, TextPresentation)
+		*/
+	   public boolean updatePresentation(int documentPosition, TextPresentation presentation) {
+		 return false;
+	   }
+	 };
 
-			JavaCodeReader reader= new JavaCodeReader();
-			reader.configureBackwardReader(document, offset, true, true);
-	
-			int nestingLevel= 0;
+	 private static class ContextInformationWrapper implements IContextInformation, IContextInformationExtension {
 
-			int curr= reader.read();		
-			while (curr != JavaCodeReader.EOF) {
+	   private final IContextInformation fContextInformation;
+	   private int fPosition;
 
-				if (')' == (char) curr)
-					++ nestingLevel;
+	   public ContextInformationWrapper(IContextInformation contextInformation) {
+		 fContextInformation = contextInformation;
+	   }
 
-				else if ('(' == (char) curr) {
-					-- nestingLevel;
-				
-					if (nestingLevel < 0) {
-						int start= reader.getOffset();
-						if (looksLikeMethod(reader))
-							return start + 1;
-					}	
-				}
+	   /*
+		* @see IContextInformation#getContextDisplayString()
+		*/
+	   public String getContextDisplayString() {
+		 return fContextInformation.getContextDisplayString();
+	   }
 
-				curr= reader.read();					
-			}
-		} catch (IOException e) {
-		}
-		
-		return contextPosition;
-	}		
-	
-	private List addContextInformations(ITextViewer viewer, int offset) {
-		ICompletionProposal[] proposals= internalComputeCompletionProposals(viewer, offset, -1);
+	   /*
+	   * @see IContextInformation#getImage()
+	   */
+	   public Image getImage() {
+		 return fContextInformation.getImage();
+	   }
 
-		List result= new ArrayList();
-		for (int i= 0; i < proposals.length; i++) {
-			IContextInformation contextInformation= proposals[i].getContextInformation();
-			if (contextInformation != null) {
-				ContextInformationWrapper wrapper= new ContextInformationWrapper(contextInformation);
-				wrapper.setContextInformationPosition(offset);
-				result.add(wrapper);				
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * @see IContentAssistProcessor#computeContextInformation(ITextViewer, int)
-	 */
-	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
-		int contextInformationPosition= guessContextInformationPosition(viewer, offset);
-		List result= addContextInformations(viewer, contextInformationPosition);
-		return (IContextInformation[]) result.toArray(new IContextInformation[result.size()]);
-	}
-	
-	/**
-	 * Order the given proposals.
-	 */
-	private ICompletionProposal[] order(ICompletionProposal[] proposals) {
-		Arrays.sort(proposals, fComparator);
-		return proposals;	
-	}
-	
-	/**
-	 * @see IContentAssistProcessor#computeCompletionProposals(ITextViewer, int)
-	 */
-	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
-		int contextInformationPosition= guessContextInformationPosition(viewer, offset);
-		return internalComputeCompletionProposals(viewer, offset, contextInformationPosition);
-	}
-	
-	private ICompletionProposal[] internalComputeCompletionProposals(ITextViewer viewer, int offset, int contextOffset) {
-		
-		ICompilationUnit unit= fManager.getWorkingCopy(fEditor.getEditorInput());
-		IJavaCompletionProposal[] results;
+	   /*
+		* @see IContextInformation#getInformationDisplayString()
+		*/
+	   public String getInformationDisplayString() {
+		 return fContextInformation.getInformationDisplayString();
+	   }
 
-		ResultCollector collector;
-		if (PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.CODEASSIST_FILL_ARGUMENT_NAMES)) {
-			collector= fExperimentalCollector;
-		} else {
-			collector= fCollector;
-		}
-			
-		try {
-			if (unit != null) {
+	   /*
+		* @see IContextInformationExtension#getContextInformationPosition()
+		*/
+	   public int getContextInformationPosition() {
+		 return fPosition;
+	   }
 
-				collector.setPreventEating(false);	
-				collector.reset(offset, contextOffset, unit.getJavaProject(), fAllowAddImports ? unit : null);
-				collector.setViewer(viewer);
-				
-				Point selection= viewer.getSelectedRange();
-				if (selection.y > 0)
-				collector.setReplacementLength(selection.y);
-				
-				unit.codeComplete(offset, collector);
-			}
-		} catch (JavaModelException x) {
-			Shell shell= viewer.getTextWidget().getShell();
-			ErrorDialog.openError(shell, JavaTextMessages.getString("CompletionProcessor.error.accessing.title"), JavaTextMessages.getString("CompletionProcessor.error.accessing.message"), x.getStatus()); //$NON-NLS-2$ //$NON-NLS-1$
-		}				
+	   public void setContextInformationPosition(int position) {
+		 fPosition = position;
+	   }
+	 };
 
-		results= collector.getResults();
+	 private char[] fProposalAutoActivationSet;
+	 protected IContextInformationValidator fValidator = new Validator();
+	 private TemplateEngine fTemplateEngine;
+	 private MTLCompletionProposalComparator fComparator;
+	 private int fNumberOfComputedResults = 0;
 
-		if (fTemplateEngine != null) {
-			try {
-				fTemplateEngine.reset();
-				fTemplateEngine.complete(viewer, offset, unit);
-			} catch (JavaModelException x) {
-				Shell shell= viewer.getTextWidget().getShell();
-				ErrorDialog.openError(shell, JavaTextMessages.getString("CompletionProcessor.error.accessing.title"), JavaTextMessages.getString("CompletionProcessor.error.accessing.message"), x.getStatus()); //$NON-NLS-2$ //$NON-NLS-1$
-			}				
-			
-			TemplateProposal[] templateResults= fTemplateEngine.getResults();
-			
-			// update relavance of template proposals that match with a keyword
-			JavaCompletionProposal[] keyWordResults= collector.getKeywordCompletions();
-			for (int i= 0; i < keyWordResults.length; i++) {
-				String keyword= keyWordResults[i].getReplacementString();
-				for (int k= 0; k < templateResults.length; k++) {
-					TemplateProposal curr= templateResults[k];
-					if (keyword.equals(curr.getTemplate().getName())) {
-						curr.setRelevance(keyWordResults[i].getRelevance());
-					}
-				}
-			}
-	
-			// concatenate arrays
-			IJavaCompletionProposal[] total= new IJavaCompletionProposal[results.length + templateResults.length];
-			System.arraycopy(templateResults, 0, total, 0, templateResults.length);
-			System.arraycopy(results, 0, total, templateResults.length, results.length);
-			results= total;
-		}
-		
-		fNumberOfComputedResults= (results == null ? 0 : results.length);
-		
-		/*
-		 * Order here and not in result collector to make sure that the order
-		 * applies to all proposals and not just those of the compilation unit. 
-		 */
-		return order(results);
-	}
-}
+	 public MTLCompletionProcessor() {
+
+	   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("php"); //$NON-NLS-1$
+	   if (contextType != null)
+		 fTemplateEngine = new TemplateEngine(contextType);
+
+	   fComparator = new MTLCompletionProposalComparator();
+	 }
+
+	 /**
+	  * Tells this processor to order the proposals alphabetically.
+	  * 
+	  * @param order <code>true</code> if proposals should be ordered.
+	  */
+	 public void orderProposalsAlphabetically(boolean order) {
+	   fComparator.setOrderAlphabetically(order);
+	 }
+
+	 /**
+	  * Sets this processor's set of characters triggering the activation of the
+	  * completion proposal computation.
+	  * 
+	  * @param activationSet the activation set
+	  */
+	 public void setCompletionProposalAutoActivationCharacters(char[] activationSet) {
+	   fProposalAutoActivationSet = activationSet;
+	 }
+
+	 /* (non-Javadoc)
+	  * Method declared on IContentAssistProcessor
+	  */
+	 public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int documentOffset) {
+	   int contextInformationPosition = guessContextInformationPosition(viewer, documentOffset);
+	   return internalComputeCompletionProposals(viewer, documentOffset, contextInformationPosition);
+	 }
+
+//	 private int getLastToken(ITextViewer viewer, int completionPosition, MTLUnitContext context) {
+//	   IDocument document = viewer.getDocument();
+//	   int start = context.getStart();
+//	   int end = context.getEnd();
+//
+//	   String startText;
+//	  // int lastSignificantToken = ITerminalSymbols.TokenNameEOF;
+//
+//	   try {
+//		 // begin search 2 lines behind of this
+//		 int j = start;
+//		 if (j != 0) {
+//		   char ch;
+//		   while (j-- > 0) {
+//			 ch = document.getChar(j);
+//			 if (ch == '\n') {
+//			   break;
+//			 }
+//		   }
+//		   while (j-- > 0) {
+//			 ch = document.getChar(j);
+//			 if (ch == '\n') {
+//			   break;
+//			 }
+//		   }
+//		 }
+//		 if (j != start) {
+//		   // scan the line for the dereferencing operator '->'
+//		   startText = document.get(j, start - j);
+//		   //						System.out.println(startText);
+//		   Scanner scanner = ToolFactory.createScanner(false, false, false);
+//		   scanner.setSource(startText.toCharArray());
+//		   scanner.setPHPMode(true);
+//		   int token = ITerminalSymbols.TokenNameEOF;
+//		   int beforeLastToken = ITerminalSymbols.TokenNameEOF;
+//		   int lastToken = ITerminalSymbols.TokenNameEOF;
+//
+//		   try {
+//			 token = scanner.getNextToken();
+//			 lastToken = token;
+//			 while (token != ITerminalSymbols.TokenNameERROR && token != ITerminalSymbols.TokenNameEOF) {
+//			   beforeLastToken = lastToken;
+//			   lastToken = token;
+//			   //								System.out.println(scanner.toStringAction(lastToken));
+//			   token = scanner.getNextToken();
+//			 }
+//		   } catch (InvalidInputException e1) {
+//		   }
+//		   switch (lastToken) {
+//			 case ITerminalSymbols.TokenNameMINUS_GREATER :
+//			   // dereferencing operator '->' found
+//			   lastSignificantToken = ITerminalSymbols.TokenNameMINUS_GREATER;
+//			   if (beforeLastToken == ITerminalSymbols.TokenNamethis) {
+//				 lastSignificantToken = ITerminalSymbols.TokenNamethis;
+//			   }
+//			   break;
+//			 case ITerminalSymbols.TokenNamenew :
+//			   lastSignificantToken = ITerminalSymbols.TokenNamenew;
+//			   break;
+//		   }
+//		 }
+//	   } catch (BadLocationException e) {
+//	   }
+//	   return lastSignificantToken;
+//	 }
+//
+	 private ICompletionProposal[] internalComputeCompletionProposals(ITextViewer viewer, int offset, int contextOffset) {
+	   IDocument document = viewer.getDocument();
+	   Object[] identifiers = null;
+	   IFile file = null;
+	   IProject project = null;
+	   if (offset > 0) {
+//
+//		 MTLEditor editor = null;
+//		 AbstractContentOutlinePage outlinePage = null;
+//
+//		 IEditorPart targetEditor = MTLPlugin.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+//		 if (targetEditor != null && (targetEditor instanceof MTLEditor)) {
+//		   editor = (MTLEditor) targetEditor;
+//		   file = ((IFileEditorInput) editor.getEditorInput()).getFile();
+//		   project = file.getProject();
+//		   outlinePage = editor.getfOutlinePage();
+//		   if (outlinePage instanceof MTLContentOutlinePage) {
+//			 identifiers = ((MTLContentOutlinePage) outlinePage).getVariables();
+//		   }
+//		 }
+//	   }
+
+	   ContextType MTLContextType = ContextTypeRegistry.getInstance().getContextType("mtl"); //$NON-NLS-1$
+		((CompilationUnitContextType) MTLContextType).setContextParameters(document, offset, 0);
+
+	   MTLUnitContext context = (MTLUnitContext) MTLContextType.createContext();
+	   String prefix = context.getKey();
+//
+//	   int lastSignificantToken = getLastToken(viewer, offset, context);
+//	   boolean useClassMembers =
+//		 (lastSignificantToken == ITerminalSymbols.TokenNameMINUS_GREATER) || 
+//		 (lastSignificantToken == ITerminalSymbols.TokenNamethis) ||
+//			 (lastSignificantToken == ITerminalSymbols.TokenNamenew);
+	   boolean emptyPrefix = prefix == null || prefix.equals("");
+//
+	   if (fTemplateEngine != null) {
+		 IMTLCompletionProposal[] templateResults = new IMTLCompletionProposal[0];
+
+		 ICompletionProposal[] results;
+		 if (!emptyPrefix) {
+		   fTemplateEngine.reset();
+		   fTemplateEngine.complete(viewer, offset); //, unit);
+		   templateResults = fTemplateEngine.getResults();
+		 }
+	   
+
+		 IMTLCompletionProposal[] identifierResults = new IMTLCompletionProposal[0];
+//		 if ((!useClassMembers) && identifiers != null) {
+//		   IdentifierEngine identifierEngine;
+//
+//		   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("mtl"); //$NON-NLS-1$
+//		   if (contextType != null) {
+//			 identifierEngine = new IdentifierEngine(contextType);
+//			 identifierEngine.complete(viewer, offset, identifiers);
+//			 identifierResults = identifierEngine.getResults();
+//		   }
+//		 }
+
+		 // declarations stored in file project.index on project level
+//		 IMTLCompletionProposal[] declarationResults = new IMTLCompletionProposal[0];
+//		 if (project != null) {
+//		   DeclarationEngine declarationEngine;
+//
+//		   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("mtlp"); //$NON-NLS-1$
+//		   if (contextType != null) {
+//			 IdentifierIndexManager indexManager = MTLPlugin.getDefault().getIndexManager(project);
+//			 SortedMap sortedMap = indexManager.getIdentifierMap();
+//
+//			 declarationEngine = new DeclarationEngine(contextType, lastSignificantToken, file);
+//			 declarationEngine.complete(viewer, offset, sortedMap);
+//			 declarationResults = declarationEngine.getResults();
+//		   }
+//		 }
+
+		 // built in function names from MTLsyntax.xml
+		 ArrayList syntaxbuffer = MTLSyntax.getSyntaxData();
+		 IMTLCompletionProposal[] builtinResults = new IMTLCompletionProposal[0];
+		 boolean useClassMembers =false;
+		 if ((!useClassMembers) && syntaxbuffer != null) {
+		   BuiltInEngine builtinEngine;
+		   String proposal;
+
+		   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("mtl"); //$NON-NLS-1$
+		   if (contextType != null) {
+			 builtinEngine = new BuiltInEngine(contextType);
+			 builtinEngine.complete(viewer, offset, syntaxbuffer);
+			 builtinResults = builtinEngine.getResults();
+		   }
+		 }
+
+		 // concatenate the result arrays
+		 IMTLCompletionProposal[] total;
+		 total =
+		   new IMTLCompletionProposal[templateResults.length
+	//		 + identifierResults.length
+			 + builtinResults.length];
+	//		 + declarationResults.length];
+		 System.arraycopy(templateResults, 0, total, 0, templateResults.length);
+	//	 System.arraycopy(identifierResults, 0, total, templateResults.length, identifierResults.length);
+		 System.arraycopy(builtinResults, 0, total, templateResults.length /*+ identifierResults.length*/, builtinResults.length);
+	//	 System.arraycopy(
+//		   declarationResults,
+//		   0,
+//		   total,
+//		   templateResults.length + identifierResults.length + builtinResults.length,
+//		   declarationResults.length);
+
+		 results = total;
+
+		 fNumberOfComputedResults = (results == null ? 0 : results.length);
+		 /*
+		  * Order here and not in result collector to make sure that the order
+		  * applies to all proposals and not just those of the compilation unit. 
+		  */
+		 return order(results);
+	   }
+	   }
+	   return new IMTLCompletionProposal[0];
+	 }
+
+	 private int guessContextInformationPosition(ITextViewer viewer, int offset) {
+	   int contextPosition = offset;
+
+	   IDocument document = viewer.getDocument();
+	   return contextPosition;
+	 }
+
+		 /**
+	  * @see IContentAssistProcessor#computeContextInformation(ITextViewer, int)
+	  */
+	 public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
+	   int contextInformationPosition = guessContextInformationPosition(viewer, offset);
+	   List result = addContextInformations(viewer, contextInformationPosition);
+	   return (IContextInformation[]) result.toArray(new IContextInformation[result.size()]);
+	 }
+
+	 private List addContextInformations(ITextViewer viewer, int offset) {
+	   ICompletionProposal[] proposals = internalComputeCompletionProposals(viewer, offset, -1);
+
+	   List result = new ArrayList();
+	   for (int i = 0; i < proposals.length; i++) {
+		 IContextInformation contextInformation = proposals[i].getContextInformation();
+		 if (contextInformation != null) {
+		   ContextInformationWrapper wrapper = new ContextInformationWrapper(contextInformation);
+		   wrapper.setContextInformationPosition(offset);
+		   result.add(wrapper);
+		 }
+	   }
+	   return result;
+	 }
+
+	 /**
+	  * Order the given proposals.
+	  */
+	 private ICompletionProposal[] order(ICompletionProposal[] proposals) {
+	   Arrays.sort(proposals, fComparator);
+	   return proposals;
+	 }
+
+	 /* (non-Javadoc)
+	  * Method declared on IContentAssistProcessor
+	  */
+	 public char[] getCompletionProposalAutoActivationCharacters() {
+	   return fProposalAutoActivationSet;
+	   //    return null; // new char[] { '$' };
+	 }
+
+	 /* (non-Javadoc)
+	  * Method declared on IContentAssistProcessor
+	  */
+	 public char[] getContextInformationAutoActivationCharacters() {
+	   return new char[] {
+	   };
+	 }
+
+	 /* (non-Javadoc)
+	  * Method declared on IContentAssistProcessor
+	  */
+	 public IContextInformationValidator getContextInformationValidator() {
+	   return fValidator;
+	 }
+
+	 /* (non-Javadoc)
+	  * Method declared on IContentAssistProcessor
+	  */
+	 public String getErrorMessage() {
+	   return null;
+	 }
+   }

@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 public class MTLImportMessages {
 
-	private static final String RESOURCE_BUNDLE= "org.irisa.mtl.plugin.wizards.MTLImportMessages";//$NON-NLS-1$
+	private static final String RESOURCE_BUNDLE=MTLImportMessages.class.getName();//$NON-NLS-1$
 
 	private static ResourceBundle fgResourceBundle= ResourceBundle.getBundle(RESOURCE_BUNDLE);
 

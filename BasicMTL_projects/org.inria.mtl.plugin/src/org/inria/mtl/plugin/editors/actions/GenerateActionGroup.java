@@ -45,18 +45,8 @@ public class GenerateActionGroup extends ActionGroup {
 	private String fGroupName= PreferenceConstants.GROUP_SOURCE;
 	private List fRegisteredSelectionListeners;
 	
-//	private AddImportOnSelectionAction fAddImport;
-//	private OverrideMethodsAction fOverrideMethods;
-//	private AddGetterSetterAction fAddGetterSetter;
-//	private AddUnimplementedConstructorsAction fAddUnimplementedConstructors;
-//	private AddJavaDocStubAction fAddJavaDocStub;
 	private AddBookmarkAction fAddBookmark;
 	private AddTaskAction fAddTaskAction;
-//	private ExternalizeStringsAction fExternalizeStrings;
-//	private FindStringsToExternalizeAction fFindStringsToExternalize;
-//	private SurroundWithTryCatchAction fSurroundWithTryCatch;
-	
-	// private OrganizeImportsAction fOrganizeImports;
 
 	private ConvertLineDelimitersAction fConvertToWindows;
 	private ConvertLineDelimitersAction fConvertToUNIX;
@@ -72,45 +62,6 @@ public class GenerateActionGroup extends ActionGroup {
 				
 		ISelectionProvider provider= fSite.getSelectionProvider();
 		ISelection selection= provider.getSelection();
-
-//		fAddImport= new AddImportOnSelectionAction(editor);
-//		fAddImport.setActionDefinitionId(IJavaEditorActionDefinitionIds.ADD_IMPORT);
-//		fAddImport.update();
-//		editor.setAction("AddImport", fAddImport); //$NON-NLS-1$
-		
-//		fOrganizeImports= new OrganizeImportsAction(editor);
-//		fOrganizeImports.setActionDefinitionId(IJavaEditorActionDefinitionIds.ORGANIZE_IMPORTS);
-//		fOrganizeImports.editorStateChanged();
-//		editor.setAction("OrganizeImports", fOrganizeImports); //$NON-NLS-1$
-
-//		fOverrideMethods= new OverrideMethodsAction(editor);
-//		fOverrideMethods.setActionDefinitionId(IJavaEditorActionDefinitionIds.OVERRIDE_METHODS);
-//		fOverrideMethods.editorStateChanged();
-//		editor.setAction("OverrideMethods", fOverrideMethods); //$NON-NLS-1$
-		
-//		fAddGetterSetter= new AddGetterSetterAction(editor);
-//		fAddGetterSetter.setActionDefinitionId(IJavaEditorActionDefinitionIds.CREATE_GETTER_SETTER);
-//		fAddGetterSetter.editorStateChanged();
-//		editor.setAction("AddGetterSetter", fAddGetterSetter); //$NON-NLS-1$
-		
-//		fAddUnimplementedConstructors= new AddUnimplementedConstructorsAction(editor);
-//		fAddUnimplementedConstructors.setActionDefinitionId(IJavaEditorActionDefinitionIds.ADD_UNIMPLEMENTED_CONTRUCTORS);
-//		fAddUnimplementedConstructors.editorStateChanged();
-//		editor.setAction("AddUnimplementedConstructors", fAddUnimplementedConstructors); //$NON-NLS-1$		
-		
-//		fAddJavaDocStub= new AddJavaDocStubAction(editor);
-//		fAddJavaDocStub.editorStateChanged();
-//		
-//		fSurroundWithTryCatch= new SurroundWithTryCatchAction(editor);
-//		fSurroundWithTryCatch.setActionDefinitionId(IJavaEditorActionDefinitionIds.SURROUND_WITH_TRY_CATCH);
-//		fSurroundWithTryCatch.update(selection);
-//		provider.addSelectionChangedListener(fSurroundWithTryCatch);
-//		editor.setAction("SurroundWithTryCatch", fSurroundWithTryCatch); //$NON-NLS-1$		
-//		
-//		fExternalizeStrings= new ExternalizeStringsAction(editor);
-//		fExternalizeStrings.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTERNALIZE_STRINGS);
-//		fExternalizeStrings.editorStateChanged();
-//		editor.setAction("ExternalizeStrings", fExternalizeStrings); //$NON-NLS-1$		
 		
 		fConvertToWindows= new ConvertLineDelimitersAction(editor, "\r\n"); //$NON-NLS-1$
 		fConvertToWindows.setActionDefinitionId( ITextEditorActionDefinitionIds .CONVERT_LINE_DELIMITERS_TO_WINDOWS);
@@ -152,24 +103,9 @@ public class GenerateActionGroup extends ActionGroup {
 		ISelectionProvider provider= fSite.getSelectionProvider();
 		ISelection selection= provider.getSelection();
 		
-//		fOverrideMethods= new OverrideMethodsAction(site);
-//		fAddGetterSetter= new AddGetterSetterAction(site);
-//		fAddUnimplementedConstructors= new AddUnimplementedConstructorsAction(site);
-//		fAddJavaDocStub= new AddJavaDocStubAction(site);
 		fAddBookmark= new AddBookmarkAction(site.getShell());
 		fAddTaskAction= new AddTaskAction(site);
-//		fExternalizeStrings= new ExternalizeStringsAction(site);
-//		fFindStringsToExternalize= new FindStringsToExternalizeAction(site);
-//		fOrganizeImports= new OrganizeImportsAction(site);
-//		
-//		fOverrideMethods.update(selection);
-//		fAddGetterSetter.update(selection);
-//		fAddUnimplementedConstructors.update(selection);	
-//		fAddJavaDocStub.update(selection);
-//		fExternalizeStrings.update(selection);
-//		fFindStringsToExternalize.update(selection);
 		fAddTaskAction.update(selection);
-//		fOrganizeImports.update(selection);
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection ss= (IStructuredSelection)selection;
 			fAddBookmark.selectionChanged(ss);
@@ -177,14 +113,7 @@ public class GenerateActionGroup extends ActionGroup {
 			fAddBookmark.setEnabled(false);
 		}
 		
-//		registerSelectionListener(provider, fOverrideMethods);
-//		registerSelectionListener(provider, fAddGetterSetter);
-//		registerSelectionListener(provider, fAddUnimplementedConstructors);
-//		registerSelectionListener(provider, fAddJavaDocStub);
 		registerSelectionListener(provider, fAddBookmark);
-//		registerSelectionListener(provider, fExternalizeStrings);
-//		registerSelectionListener(provider, fFindStringsToExternalize);
-//		registerSelectionListener(provider, fOrganizeImports);
 		registerSelectionListener(provider, fAddTaskAction);
 	}
 	
@@ -223,24 +152,6 @@ public class GenerateActionGroup extends ActionGroup {
 	/* (non-Javadoc)
 	 * Method declared in ActionGroup
 	 */
-//	public void fillContextMenu(IMenuManager menu) {
-//		super.fillContextMenu(menu);
-//		if (fEditorIsOwner) {
-//			IMenuManager subMenu= createEditorSubMenu(menu);
-//			if (subMenu != null)
-//				menu.appendToGroup(fGroupName, subMenu);
-//		} else {
-////			appendToGroup(menu, fOrganizeImports);
-////			appendToGroup(menu, fOverrideMethods);
-////			appendToGroup(menu, fAddGetterSetter);
-////			appendToGroup(menu, fAddUnimplementedConstructors);
-////			appendToGroup(menu, fAddJavaDocStub);
-//			appendToGroup(menu, fAddBookmark);
-//		}
-//	}
-	/* (non-Javadoc)
-	 * Method declared in ActionGroup
-	 */
 	public void fillContextMenu(IMenuManager menu) {
 		super.fillContextMenu(menu);
 		IMenuManager subMenu= null;
@@ -258,19 +169,7 @@ public class GenerateActionGroup extends ActionGroup {
 	int added= 0;
 	added+= addEditorAction(result, "Comment"); //$NON-NLS-1$
 	added+= addEditorAction(result, "Uncomment"); //$NON-NLS-1$
-		added+= addEditorAction(result, "Format"); //$NON-NLS-1$
-//	  result.add(new Separator());
-//	  added+= addAction(result, fOrganizeImports);
-//	  added+= addAction(result, fAddImport);
-//	  result.add(new Separator());
-//	  added+= addAction(result, fOverrideMethods);
-//	  added+= addAction(result, fAddGetterSetter);
-//	  added+= addAction(result, fAddUnimplementedConstructors);
-//	  added+= addAction(result, fAddJavaDocStub);
-//	  added+= addAction(result, fAddBookmark);
-//	  result.add(new Separator());		
-//	  added+= addAction(result, fSurroundWithTryCatch);
-//	  added+= addAction(result, fExternalizeStrings);
+	added+= addEditorAction(result, "Format"); //$NON-NLS-1$
 	if (added == 0)
 	  result= null;
 	return result;
@@ -291,15 +190,6 @@ public class GenerateActionGroup extends ActionGroup {
 	}
 	
 	private void setGlobalActionHandlers(IActionBars actionBar) {
-//		actionBar.setGlobalActionHandler(JdtActionConstants.ADD_IMPORT, fAddImport);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.SURROUND_WITH_TRY_CATCH, fSurroundWithTryCatch);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.OVERRIDE_METHODS, fOverrideMethods);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.GENERATE_GETTER_SETTER, fAddGetterSetter);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.ADD_CONSTRUCTOR_FROM_SUPERCLASS, fAddUnimplementedConstructors);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.ADD_JAVA_DOC_COMMENT, fAddJavaDocStub);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.EXTERNALIZE_STRINGS, fExternalizeStrings);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.FIND_STRINGS_TO_EXTERNALIZE, fFindStringsToExternalize);
-//		actionBar.setGlobalActionHandler(JdtActionConstants.ORGANIZE_IMPORTS, fOrganizeImports);
 		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_WINDOWS, fConvertToWindows);
 		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_UNIX, fConvertToUNIX);
 		actionBar.setGlobalActionHandler(MTLActionConstants.CONVERT_LINE_DELIMITERS_TO_MAC, fConvertToMac);

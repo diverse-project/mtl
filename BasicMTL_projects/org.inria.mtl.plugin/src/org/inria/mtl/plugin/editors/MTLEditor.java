@@ -5,33 +5,25 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
-
-import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
-import org.eclipse.jdt.ui.actions.JavaSearchActionGroup;
-import org.eclipse.jdt.ui.actions.OpenEditorActionGroup;
-import org.eclipse.jdt.ui.actions.OpenViewActionGroup;
-import org.eclipse.jdt.ui.actions.ShowActionGroup;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.ui.texteditor.ContentAssistAction;
-
-
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
+import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
+import org.eclipse.jdt.internal.ui.text.HTMLTextPresenter;
+import org.eclipse.jdt.internal.ui.text.JavaPairMatcher;
+import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
+import org.eclipse.ui.actions.ActionContext;
+import org.eclipse.ui.actions.ActionGroup;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.ui.IEditorActionBarContributor;
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -45,12 +37,12 @@ import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.ITextInputListener;
+import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.jface.text.ITextViewerExtension3;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
-import org.eclipse.ui.part.EditorActionBarContributor;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.information.IInformationProvider;
 import org.eclipse.jface.text.information.InformationPresenter;
@@ -69,6 +61,7 @@ import org.eclipse.jface.text.source.OverviewRuler;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -88,45 +81,49 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorActionBarContributor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.editors.text.DefaultEncodingSupport;
 import org.eclipse.ui.editors.text.IEncodingSupport;
-import org.eclipse.ui.texteditor.AddTaskAction;
-import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
+import org.eclipse.ui.part.EditorActionBarContributor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IEditorStatusLine;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-import org.eclipse.ui.texteditor.ResourceAction;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 import org.eclipse.ui.texteditor.TextEditorAction;
 import org.eclipse.ui.texteditor.TextOperationAction;
-import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.text.HTMLTextPresenter;
+import org.eclipse.ui.texteditor.ResourceAction;
+import org.eclipse.ui.texteditor.AddTaskAction;
+import org.eclipse.ui.texteditor.ContentAssistAction;
+import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
 
 import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.preferences.*;
-import org.eclipse.jdt.internal.ui.text.JavaPairMatcher;
-import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
-import org.inria.mtl.plugin.editors.utils.IColorManager;
-import org.inria.mtl.plugin.editors.utils.FastMTLPartitionScanner; 
-import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
-import org.inria.mtl.plugin.editors.utils.IJavaAnnotation;
-import org.inria.mtl.plugin.editors.utils.AnnotationType;
 import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
-import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
+import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
+import org.inria.mtl.plugin.editors.actions.GenerateActionGroup;
+//import org.inria.mtl.plugin.editors.actions.
+import org.inria.mtl.plugin.editors.utils.AnnotationType;
+import org.inria.mtl.plugin.editors.utils.FastMTLPartitionScanner;
+import org.inria.mtl.plugin.editors.utils.IColorManager;
+import org.inria.mtl.plugin.editors.utils.IJavaAnnotation;
+import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
+import org.inria.mtl.plugin.editors.utils.IContextMenuConstants;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 
 public abstract class MTLEditor extends StatusTextEditor implements IViewPartInputProvider { // extends TextEditor {
@@ -136,6 +133,7 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 				//doSelectionChanged(event);
 			}
 		};
+		
 		/*
 		 * Link mode.  
 		 */
@@ -1012,7 +1010,11 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		private org.eclipse.core.runtime.Preferences.IPropertyChangeListener fPropertyChangeListener= new PropertyChangeListener();
 	
 		protected CompositeActionGroup fActionGroups;
-		private CompositeActionGroup fContextMenuGroup;
+		protected CompositeActionGroup fContextMenuGroup;
+		
+	/** The standard action groups added to the menu */
+  	    protected GenerateActionGroup fGenerateActionGroup;
+  
 
 		/**
 		 * Default constructor.
@@ -1454,26 +1456,79 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 				
 			super.dispose();
 		}
-	
-		protected void createActions() {
-			super.createActions();
-			
-		IAction action = new TextOperationAction(MTLEditorMessages.getResourceBundle(),"ContentAssistProposal.",this,ISourceViewer.CONTENTASSIST_PROPOSALS);
-		action.setActionDefinitionId(MTLEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-		setAction("ContentAssistProposal", action);
 		
-		//Action action;  
+	protected void createActions() {
+	   super.createActions();
+
+	   ResourceAction resAction = new AddTaskAction(MTLEditorMessages.getResourceBundle(), "AddTask.", this); //$NON-NLS-1$
+	   resAction.setHelpContextId(IAbstractTextEditorHelpContextIds.ADD_TASK_ACTION);
+	   resAction.setActionDefinitionId(ITextEditorActionDefinitionIds.ADD_TASK);
+	   setAction(ITextEditorActionConstants.ADD_TASK, resAction);
+	   //System.out.println(ITextEditorActionDefinitionIds.ADD_TASK);
+
+	   resAction = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "ShowJavaDoc.", this, ISourceViewer.INFORMATION, true); //$NON-NLS-1$
+	   resAction = new InformationDispatchAction(MTLEditorMessages.getResourceBundle(), "ShowJavaDoc.", (TextOperationAction) resAction); //$NON-NLS-1$
+	   resAction.setActionDefinitionId(MTLEditorActionDefinitionIds.SHOW_JAVADOC);
+	   setAction("ShowJavaDoc", resAction); //$NON-NLS-1$
+	   //System.out.println(MTLEditorActionDefinitionIds.SHOW_JAVADOC);
+	   //						WorkbenchHelp.setHelp(resAction, IJavaHelpContextIds.SHOW_JAVADOC_ACTION);
+
+	   Action action;
+
+	   setAction(
+		 "ContentAssistTip",
+		 new TextOperationAction(
+		   MTLEditorMessages.getResourceBundle(),
+		   "ContentAssistTip.",
+		   this,
+		   ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
+		//System.out.println(action.getActionDefinitionId());
+
+	   action = new ContentAssistAction(MTLEditorMessages.getResourceBundle(), "ContentAssistProposal.", this); //$NON-NLS-1$
+	   action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+	   setAction("ContentAssistProposal", action); //$NON-NLS-1$
+	   markAsStateDependentAction("ContentAssistProposal", true); //$NON-NLS-1$
+	 //  System.out.println(action.getActionDefinitionId());
+	   //	WorkbenchHelp.setHelp(action, IJavaHelpContextIds.CONTENT_ASSIST_ACTION);
+
+	   fEncodingSupport = new DefaultEncodingSupport();
+	   fEncodingSupport.initialize(this);
+
+	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Comment.", this, ITextOperationTarget.PREFIX); //$NON-NLS-1$
+	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.COMMENT);
+	   setAction("Comment", action); //$NON-NLS-1$
+	   markAsStateDependentAction("Comment", true); //$NON-NLS-1$
+	   //System.out.println(action.getActionDefinitionId());
+	   //		WorkbenchHelp.setHelp(action, IJavaHelpContextIds.COMMENT_ACTION);
+
+	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Uncomment.", this, ITextOperationTarget.STRIP_PREFIX); //$NON-NLS-1$
+	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.UNCOMMENT);
+	   setAction("Uncomment", action); //$NON-NLS-1$
+	   markAsStateDependentAction("Uncomment", true); //$NON-NLS-1$
+	   //System.out.println(action.getActionDefinitionId());
+	   //		WorkbenchHelp.setHelp(action, IJavaHelpContextIds.UNCOMMENT_ACTION);
+
+	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Format.", this, ISourceViewer.FORMAT); //$NON-NLS-1$
+	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.FORMAT);
+	   setAction("Format", action); //$NON-NLS-1$
+	   markAsStateDependentAction("Format", true); //$NON-NLS-1$
+	   markAsSelectionDependentAction("Format", true); //$NON-NLS-1$		
+	   //	WorkbenchHelp.setHelp(action, IJavaHelpContextIds.FORMAT_ACTION);
+
+	   action = new GotoMatchingBracketAction(this);
+	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.GOTO_MATCHING_BRACKET);
+	   setAction(GotoMatchingBracketAction.GOTO_MATCHING_BRACKET, action);
+
+	   fGenerateActionGroup = new GenerateActionGroup(this, ITextEditorActionConstants.GROUP_EDIT);
+
+	   fActionGroups = new CompositeActionGroup(new ActionGroup[] { fGenerateActionGroup });
+
+	   // We have to keep the context menu group separate to have better control over positioning
+	   fContextMenuGroup = new CompositeActionGroup(new ActionGroup[] { fGenerateActionGroup });
+	  
+	 }
+
 	
-		action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Comment.", this, ITextOperationTarget.PREFIX); //$NON-NLS-1$
-		action.setActionDefinitionId(MTLEditorActionDefinitionIds.COMMENT);
-		setAction("Comment", action); //$NON-NLS-1$
-		markAsStateDependentAction("Comment", true); //$NON-NLS-1$
-		
-		action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Uncomment.", this, ITextOperationTarget.STRIP_PREFIX); //$NON-NLS-1$
-		action.setActionDefinitionId(MTLEditorActionDefinitionIds.UNCOMMENT);
-		setAction("Uncomment", action); //$NON-NLS-1$
-		markAsStateDependentAction("Uncomment", true); //$NON-NLS-1$
-		}
 
 
 	/** The <code>MTLEditor</code> implementation of this 
@@ -1482,7 +1537,15 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 	 */
 	public void editorContextMenuAboutToShow(MenuManager menu) {
 		super.editorContextMenuAboutToShow(menu);
-		addAction(menu, "ContentAssistProposal"); //$NON-NLS-1$
+		//addAction(menu, "ContentAssistProposal"); //$NON-NLS-1$
+		menu.appendToGroup(ITextEditorActionConstants.GROUP_UNDO, new Separator(IContextMenuConstants.GROUP_OPEN));
+		menu.insertAfter(IContextMenuConstants.GROUP_OPEN, new GroupMarker(IContextMenuConstants.GROUP_SHOW));
+
+		ActionContext context = new ActionContext(getSelectionProvider().getSelection());
+		fContextMenuGroup.setContext(context);
+		fContextMenuGroup.fillContextMenu(menu);
+		fContextMenuGroup.setContext(null);
+ 
 	}
 	
 		public void updatedTitleImage(Image image) {
@@ -1594,13 +1657,13 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		 * 
 		 * @param event the property change event
 		 */
-//		protected void handlePreferencePropertyChanged(org.eclipse.core.runtime.Preferences.PropertyChangeEvent event) {
+		protected void handlePreferencePropertyChanged(org.eclipse.core.runtime.Preferences.PropertyChangeEvent event) {
 //			if (org.eclipse.jdt.ui.PreferenceConstants.COMPILER_TASK_TAGS.equals(event.getProperty())) {
 //				ISourceViewer sourceViewer= getSourceViewer();
 //				if (sourceViewer != null && affectsTextPresentation(new PropertyChangeEvent(event.getSource(), event.getProperty(), event.getOldValue(), event.getNewValue())))
 //					sourceViewer.invalidateTextPresentation();
 //			}
-//		}
+		}
 	
 		/**
 		 * Shows the line number ruler column.

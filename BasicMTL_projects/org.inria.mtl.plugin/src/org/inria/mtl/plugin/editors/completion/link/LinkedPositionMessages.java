@@ -19,7 +19,7 @@ public class LinkedPositionMessages {
 	public static String getString(String key) {
 		try {
 			return fgResourceBundle.getString(key);
-		} catch (MissingResourceException e) {
+		} catch (MissingResourceException e) { 
 			return '!' + key + '!';
 		}
 	}

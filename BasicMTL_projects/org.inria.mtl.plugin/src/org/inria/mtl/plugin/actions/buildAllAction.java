@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.1 2004-05-13 14:58:26 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.2 2004-05-17 10:17:08 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -66,22 +66,24 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
+		
 		for (int i=0;i<projects.length;i++){
 			try{
 			
-				if (projects[i].hasNature(MTLNature.NATURE_ID)){
-					
-					currentProject=projects[i].getProject();
-					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-					MTLCore.findFolders();
-					IPath[] srcPaths=MTLModel.srcFolders;
-					for (int j =0;j<srcPaths.length;j++){
-						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
-						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-					}			
-				}
+			//voir comment contrôler cette exécution
+//				if (projects[i].hasNature(MTLNature.NATURE_ID)){
+//					
+//					currentProject=projects[i].getProject();
+//					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+//					MTLCore.findFolders();
+//					IPath[] srcPaths=MTLModel.srcFolders;
+//					for (int j =0;j<srcPaths.length;j++){
+//						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+//						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+//					}			
+//				}
 			}catch (Exception E){
-				System.out.println("Error :");
+				System.out.println("Error :Build all");
 			}
 		}
 	

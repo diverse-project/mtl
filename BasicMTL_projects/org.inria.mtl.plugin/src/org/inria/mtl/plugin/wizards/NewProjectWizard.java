@@ -1,6 +1,13 @@
+/*
+* $Id: NewProjectWizard.java,v 1.2 2004-05-17 10:16:14 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
+
 package org.inria.mtl.plugin.wizards; 
  
-//import org.eclipse.jdt.internal.ui.wizards.*;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.ICommand;
@@ -31,7 +38,7 @@ import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 public class NewProjectWizard extends Wizard implements INewWizard, IWorkspaceRunnable {
-	public static final String NEW_PROJECT_WIZARD_ID= "org.irisa.mtl.plugin.wizards.NewProjectWizard"; //$NON-NLS-1$
+	public static final String NEW_PROJECT_WIZARD_ID= "org.inria.mtl.plugin.wizards.NewProjectWizard"; //$NON-NLS-1$
 		
 	private NewJavaProjectWizardPage fJavaPage;
 	private WizardNewProjectCreationPage fMainPage;

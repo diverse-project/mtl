@@ -2,27 +2,35 @@ package org.inria.mtl.plugin.editors;
 
 import java.util.Vector;
 
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.jface.text.*;
-import org.eclipse.jface.text.contentassist.*;
-import org.eclipse.jface.text.presentation.*;
-import org.eclipse.jface.text.rules.*;
-import org.eclipse.jface.text.source.*;
-import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jdt.internal.ui.text.java.JavaAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.java.JavaStringAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.javadoc.JavaDocAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.java.JavaStringDoubleClickSelector;
-import org.eclipse.jdt.internal.ui.text.java.JavaDoubleClickSelector;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 
+import org.eclipse.jdt.internal.ui.text.java.JavaAutoIndentStrategy;
+import org.eclipse.jdt.internal.ui.text.java.JavaDoubleClickSelector;
+import org.eclipse.jdt.internal.ui.text.java.JavaStringAutoIndentStrategy;
+import org.eclipse.jdt.internal.ui.text.java.JavaStringDoubleClickSelector;
+import org.eclipse.jdt.internal.ui.text.javadoc.JavaDocAutoIndentStrategy;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.DefaultTextDoubleClickStrategy;
+import org.eclipse.jface.text.IAutoIndentStrategy;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextDoubleClickStrategy;
+import org.eclipse.jface.text.presentation.IPresentationReconciler;
+import org.eclipse.jface.text.presentation.PresentationReconciler;
+import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
+import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
+
+import org.inria.mtl.plugin.editors.completion.MTLCompletionProcessor;
+import org.inria.mtl.plugin.editors.completion.ContentAssistPreferences;
 import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.editors.doc.*;
-import org.inria.mtl.plugin.editors.utils.*;
-import org.inria.mtl.plugin.editors.utils.MTLPartitionScanner;
+import org.inria.mtl.plugin.editors.utils.IColorManager;
 import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
+import org.inria.mtl.plugin.editors.utils.MTLPartitionScanner;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 /**
@@ -201,21 +209,25 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 	 * Returns the auto indentation strategy ready to be used with the given source viewer when manipulating text of the given content type.
 	 * 
 	 */
-//	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-//
-//		ContentAssistant assistant= new ContentAssistant();
-//		assistant.setContentAssistProcessor(new MTLCompletionProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
-//		assistant.setContentAssistProcessor(new MTLCompletionProcessor(), MTLPartitionScanner.MTL_DOC);
-//
-//		assistant.enableAutoActivation(true);
-//		assistant.setAutoActivationDelay(500);
-//		assistant.setProposalPopupOrientation(assistant.PROPOSAL_OVERLAY);
-//		assistant.setContextInformationPopupOrientation(assistant.CONTEXT_INFO_ABOVE);
-//		assistant.setContextInformationPopupBackground(MTLEditorEnvironment.getMTLColorProvider().getColor(new RGB(150, 150, 0)));
-//
-//		return assistant;
-//	}
-//	
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+
+		ContentAssistant assistant= new ContentAssistant();
+		IContentAssistProcessor processor = new MTLCompletionProcessor();
+		assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_DOC);
+		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_SINGLE_LINE_COMMENT);
+		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
+		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_STRING);
+		
+
+		ContentAssistPreferences.configure(assistant, getPreferenceStore());
+		//assistant.setProposalPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
+		assistant.setContextInformationPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
+		assistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
+		System.out.println("Passé par contentAssist");
+		return assistant; 
+	}
+	
 	/**
 	 * Returns the prefixes to be used by the line-shift operation
 	*/
@@ -270,10 +282,7 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 
 		// rule for multiline comments
 		// We just need a scanner that does nothing but returns a token with the corrresponding text attributes
-		//RuleBasedScanner multiLineScanner = new RuleBasedScanner();
-		//multiLineScanner.setDefaultReturnToken(new Token(new TextAttribute(MTLEditorEnvironment.getMTLColorProvider().getColor(MTLEditorColorProvider.MULTI_LINE_COMMENT))));
-//		rule for MTL multiple line comments
-		dr= new DefaultDamagerRepairer(getMultilineCommentScanner());
+			dr= new DefaultDamagerRepairer(getMultilineCommentScanner());
 		reconciler.setDamager(dr, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
 		reconciler.setRepairer(dr, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
 

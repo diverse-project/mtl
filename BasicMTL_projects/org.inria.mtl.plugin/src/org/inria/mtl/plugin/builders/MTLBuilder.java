@@ -1,13 +1,20 @@
+/*
+* $Id: MTLBuilder.java,v 1.2 2004-05-17 10:16:59 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
+
 package org.inria.mtl.plugin.builders;
 
-
 import java.util.Map;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.inria.mtl.plugin.MTLPlugin;
 
 /**
@@ -19,7 +26,7 @@ public class MTLBuilder extends IncrementalProjectBuilder {
 	/**
 	 *  The Id of the eclipse builder asscoiated with MTL projects
 	 */
-	public final static String BUILDER_ID ="org.irisa.mtl.plugin.MTLBuilder";
+	public final static String BUILDER_ID ="org.inria.mtl.plugin.MTLBuilder";
 
 	private final static int TOTAL_WORK=100;
 	/**

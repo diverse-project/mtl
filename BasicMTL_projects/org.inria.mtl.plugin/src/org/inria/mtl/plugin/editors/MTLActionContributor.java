@@ -5,20 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.inria.mtl.plugin.preferences.PreferenceConstants;
-import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
-import org.inria.mtl.plugin.editors.utils.MTLActionConstants;
-import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
-import org.inria.mtl.plugin.MTLPlugin;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.SWT;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -27,11 +19,14 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.editors.text.EncodingActionGroup;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.RetargetTextEditorAction;
+import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
+import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
+import org.inria.mtl.plugin.editors.utils.MTLActionConstants;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 /**
  * Contributes interesting MTL actions to the desktop's Edit menu and the toolbar.
  */
@@ -46,9 +41,6 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
   private List fRetargetToolbarActions = new ArrayList();
   private List fPartListeners = new ArrayList();
 
-  //protected PHPParserAction fParserAction;
-  //protected ShowExternalPreviewAction fShowExternalPreviewAction;
-
   private EncodingActionGroup fEncodingActionGroup;
   /**
    * Default constructor.
@@ -56,34 +48,24 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
   public MTLActionContributor() {
 	super();
 
-//	ResourceBundle b = MTLEditorMessages.getResourceBundle();
-//
-//	fRetargetContentAssist = new RetargetAction(MTLActionConstants.CONTENT_ASSIST, MTLEditorMessages.getString("ContentAssistProposal.label")); //$NON-NLS-1$
-//	fRetargetContentAssist.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-//	markAsPartListener(fRetargetContentAssist);
-//
-//	fContentAssist = new RetargetTextEditorAction(b, "ContentAssistProposal."); //$NON-NLS-1$
-//	fContentAssist.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-//
-//	fGotoMatchingBracket = new RetargetTextEditorAction(b, "GotoMatchingBracket."); //$NON-NLS-1$
-//	fGotoMatchingBracket.setActionDefinitionId(MTLEditorActionDefinitionIds.GOTO_MATCHING_BRACKET);
-//
-//	//	fContentAssist.setImageDescriptor(JavaPluginImages.DESC_CLCL_CODE_ASSIST);
-//	//	fContentAssist.setDisabledImageDescriptor(JavaPluginImages.DESC_DLCL_CODE_ASSIST);
-//
-//	// fContentAssist = new RetargetTextEditorAction(PHPEditorMessages.getResourceBundle(), "ContentAssistProposal."); //$NON-NLS-1$
-//	fContentAssistTip = new RetargetTextEditorAction(MTLEditorMessages.getResourceBundle(), "ContentAssistTip."); //$NON-NLS-1$
-//	//  fTogglePresentation = new PresentationAction();
-//
-//	//	character encoding
-//	fEncodingActionGroup = new EncodingActionGroup();
-//
-//	//fParserAction = PHPParserAction.getInstance();
+	ResourceBundle b = MTLEditorMessages.getResourceBundle();
 
-//	if (SWT.getPlatform().equals("win32")) {
-//	  // ExternalPreview only available as ActiveX on win32 (Eclipse2.1)
-//	  fShowExternalPreviewAction = ShowExternalPreviewAction.getInstance();
-//	}
+	fRetargetContentAssist = new RetargetAction(MTLActionConstants.CONTENT_ASSIST, MTLEditorMessages.getString("ContentAssistProposal.label")); //$NON-NLS-1$
+	fRetargetContentAssist.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+	markAsPartListener(fRetargetContentAssist);
+
+	fContentAssist = new RetargetTextEditorAction(b, "ContentAssistProposal."); //$NON-NLS-1$
+	fContentAssist.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+
+	fGotoMatchingBracket = new RetargetTextEditorAction(b, "GotoMatchingBracket."); //$NON-NLS-1$
+	fGotoMatchingBracket.setActionDefinitionId(MTLEditorActionDefinitionIds.GOTO_MATCHING_BRACKET);
+
+	fContentAssistTip = new RetargetTextEditorAction(MTLEditorMessages.getResourceBundle(), "ContentAssistTip."); //$NON-NLS-1$
+
+
+//	character encoding
+	fEncodingActionGroup = new EncodingActionGroup();
+
   }
 
   protected final void markAsPartListener(RetargetAction action) {
@@ -102,20 +84,13 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	if (editMenu != null) {
 	  editMenu.add(new Separator(PreferenceConstants.GROUP_OPEN));
 	  editMenu.add(new Separator(PreferenceConstants.GROUP_GENERATE));
-	//  editMenu.add(new Separator(PreferenceConstants.GROUP_ADDITIONS));
+	  editMenu.add(new Separator(PreferenceConstants.GROUP_ADDITIONS));
 
 	}
-
-	//			IMenuManager navigateMenu= menu.findMenuUsingPath(IWorkbenchActionConstants.M_NAVIGATE);
-	//			if (navigateMenu != null) {
-	//				navigateMenu.appendToGroup(IWorkbenchActionConstants.SHOW_EXT, fShowOutline);
-	//			}
 
 	IMenuManager gotoMenu = menu.findMenuUsingPath("navigate/goTo"); //$NON-NLS-1$
 	if (gotoMenu != null) {
 	  gotoMenu.add(new Separator("additions2")); //$NON-NLS-1$
-	  //				gotoMenu.appendToGroup("additions2", fGotoPreviousMemberAction); //$NON-NLS-1$
-	  //				gotoMenu.appendToGroup("additions2", fGotoNextMemberAction); //$NON-NLS-1$
 	  gotoMenu.appendToGroup("additions2", fGotoMatchingBracket); //$NON-NLS-1$
 	}
   }
@@ -137,7 +112,7 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	while (e.hasNext())
 	  page.addPartListener((RetargetAction) e.next());
 	// character encoding
-//	fEncodingActionGroup.fillActionBars(bars);
+	fEncodingActionGroup.fillActionBars(bars);
 	super.init(bars, page);
   }
   /*
@@ -156,12 +131,7 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	}
 
 	bars.setGlobalActionHandler(MTLActionConstants.CONTENT_ASSIST, fContentAssist);
-	//    IToolBarManager toolBarManager = bars.getToolBarManager();
-	//    if (toolBarManager != null) {
-	//      toolBarManager.add(new Separator());
-	//      toolBarManager.add(fTogglePresentation);
-	//    }
-  }
+	  }
 
   /*
    * @see IEditorActionBarContributor#setActiveEditor(IEditorPart)
@@ -192,8 +162,8 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	bars.setGlobalActionHandler(MTLActionConstants.FORMAT, getAction(textEditor, "Format"));
 
 	if (part instanceof MTLEditor) {
-	  MTLEditor phpEditor = (MTLEditor) part;
-	  phpEditor.getActionGroup().fillActionBars(getActionBars());
+	  MTLEditor mtlEditor = (MTLEditor) part;
+	  mtlEditor.getActionGroup().fillActionBars(getActionBars());
 	}
 	
 	if (textEditor != null) {
@@ -204,20 +174,6 @@ public class MTLActionContributor extends BasicTextEditorActionContributor {
 	  if (editorInput instanceof IFileEditorInput) {
 		file = ((IFileEditorInput) editorInput).getFile();
 	  }
-
-//	  PHPeclipsePlugin.getDefault().setLastEditorFile(file);
-//	  fParserAction.setEditor(textEditor);
-//	  fParserAction.update();
-//	  if (SWT.getPlatform().equals("win32") && textEditor instanceof AbstractTextEditor) {
-//		fShowExternalPreviewAction.setEditor(textEditor);
-//		fShowExternalPreviewAction.update();
-//		IPreferenceStore store = PHPeclipsePlugin.getDefault().getPreferenceStore();
-//		if (store.getBoolean(PHPeclipsePlugin.SHOW_EXTERNAL_PREVIEW_PREF)) {
-//		  IAction a = ShowExternalPreviewAction.getInstance();
-//		  if (a != null)
-//			a.run();
-//		}
-//	  }
 	}
   }
 

@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 public class MTLImages {
 
 	protected static final String NAME_PREFIX =
-		"org.inria.mtl.plugin.editors.competion";
+		"org.inria.mtl.plugin.editors.completion";
 	protected static final int NAME_PREFIX_LENGTH = NAME_PREFIX.length();
 
 	protected static URL iconBaseURL;

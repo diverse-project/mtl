@@ -1,7 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2000, 2001.
- * All Rights Reserved.
- */
+* $Id: CPListLabelProvider.java,v 1.2 2004-05-17 10:16:16 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.wizards; 
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.*;
 
