@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 /**
  * @author ffondeme
@@ -16,6 +17,14 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
+	
+	public BMTLSet() {
+		this(new Value [0]);
+	}
+	
+	public BMTLSet(Value [] collection) {
+		this(new SetValueImpl(false, null, collection, false));
+	}
 
 	/**
 	 * @param delegate

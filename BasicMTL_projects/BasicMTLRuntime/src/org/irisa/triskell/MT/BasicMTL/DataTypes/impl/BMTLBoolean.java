@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_not;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
 
 /**
@@ -54,12 +55,8 @@ public class BMTLBoolean
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface#BMTL_not()
-	 */
 	public BMTLBooleanInterface BMTL_not() {
-		// TODO Auto-generated method stub
-		return null;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_not.TheInstance.invoke(this, null));
 	}
 
 	/* (non-Javadoc)

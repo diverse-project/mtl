@@ -25,4 +25,8 @@ public interface BMTLOclAnyInterface extends Value, BMTLDataTypeInterface {
 	public BMTLBooleanInterface BMTL_oclIsTypeOf(TypeValue type);
 
 	public BMTLBooleanInterface BMTL_oclIsKindOf(TypeValue type);
+
+	public BMTLVoidInterface BMTL_toOut();
+
+	public BMTLVoidInterface BMTL_toErr();
 }

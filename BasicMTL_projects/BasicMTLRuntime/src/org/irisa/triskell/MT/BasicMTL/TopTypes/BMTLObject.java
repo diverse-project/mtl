@@ -16,6 +16,8 @@ import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
 public abstract class BMTLObject extends Throwable implements BMTLObjectInterface
@@ -119,11 +121,25 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 		return BMTLBoolean.FALSE;
 	}
 
+	public BMTLVoidInterface BMTL_toErr() {
+		OclAny_toErr.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
+	}
+
+	public BMTLVoidInterface BMTL_toOut() {
+		OclAny_toOut.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
+	}
+
 	public Value getOclAnyDelegate() {
 		return this;
 	}
 	public Value getDelegate() {
 		return this;
+	}
+
+	public String toString() {
+		return "" + Integer.toHexString(this.hashCode()) + " : " + this.getType();
 	}
 
 }

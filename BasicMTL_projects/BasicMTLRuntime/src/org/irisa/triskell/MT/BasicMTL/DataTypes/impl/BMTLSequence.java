@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
 
 /**
  * @author ffondeme
@@ -16,6 +17,14 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BMTLSequence extends BMTLCollection implements BMTLSequenceInterface {
+	
+	public BMTLSequence() {
+		this(new Value [0]);
+	}
+	
+	public BMTLSequence(Value [] values) {
+		this(new SequenceValueImpl(false, null, values));
+	}
 
 	/**
 	 * @param delegate

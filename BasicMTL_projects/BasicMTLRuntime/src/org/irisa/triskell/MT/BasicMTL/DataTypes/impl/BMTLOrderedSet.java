@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 
 /**
  * @author ffondeme
@@ -18,6 +19,14 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 public class BMTLOrderedSet
 	extends BMTLCollection
 	implements BMTLOrderedSetInterface {
+	
+	public BMTLOrderedSet() {
+		this(new Value [0]);
+	}
+	
+	public BMTLOrderedSet(Value [] values) {
+		this(new OrderedSetValueImpl(false, null, values));
+	}
 
 	/**
 	 * @param delegate

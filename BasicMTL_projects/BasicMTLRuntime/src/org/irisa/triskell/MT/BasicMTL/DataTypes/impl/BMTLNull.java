@@ -33,6 +33,8 @@ import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
@@ -434,6 +436,16 @@ public class BMTLNull extends BMTLDataType implements BMTLNullInterface {
 
 	public BMTLRealInterface BMTL_toReal() {
 		return NullPointer;
+	}
+
+	public BMTLVoidInterface BMTL_toErr() {
+		OclAny_toErr.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
+	}
+
+	public BMTLVoidInterface BMTL_toOut() {
+		OclAny_toOut.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
 	}
 
 }

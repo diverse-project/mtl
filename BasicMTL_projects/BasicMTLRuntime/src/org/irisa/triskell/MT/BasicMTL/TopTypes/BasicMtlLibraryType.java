@@ -23,7 +23,11 @@ public class BasicMtlLibraryType extends PrimitiveType {
 	}
 	
 	public boolean isKindOfInternal(Value v) {
-		return v instanceof RealValue;
+		return v instanceof BMTLLibInterface;
+	}
+
+	public String toString() {
+		return " BasicMTL library type " + this.getQualifiedNameAsString();
 	}
 
 }

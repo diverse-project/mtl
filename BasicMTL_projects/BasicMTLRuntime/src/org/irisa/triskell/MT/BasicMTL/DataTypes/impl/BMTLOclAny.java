@@ -10,6 +10,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
@@ -22,6 +23,8 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_isUndefined;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_notEquals;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsKindOf;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsTypeOf;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 
 /**
  * @author ffondeme
@@ -57,6 +60,16 @@ public class BMTLOclAny extends BMTLDataType implements BMTLOclAnyInterface, Val
 
 	public BMTLBooleanInterface BMTL_oclIsKindOf(TypeValue type) {
 		return ((BooleanValue)OclAny_oclIsKindOf.TheInstance.invoke(this.getDelegate(), new Value [] {type})).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
+	public BMTLVoidInterface BMTL_toErr() {
+		OclAny_toErr.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
+	}
+
+	public BMTLVoidInterface BMTL_toOut() {
+		OclAny_toOut.TheInstance.invoke(this,null);
+		return BMTLVoid.TheInstance;
 	}
 
 	public boolean isUndefined() {

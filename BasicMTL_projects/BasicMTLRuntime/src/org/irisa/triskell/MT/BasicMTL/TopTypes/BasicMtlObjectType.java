@@ -23,7 +23,11 @@ public class BasicMtlObjectType extends PrimitiveType {
 	}
 	
 	public boolean isKindOfInternal(Value v) {
-		return v instanceof RealValue;
+		return v instanceof BMTLObjectInterface;
+	}
+
+	public String toString() {
+		return "BasicMTL object type " + this.getQualifiedNameAsString();
 	}
 
 }

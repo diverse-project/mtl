@@ -7,6 +7,7 @@
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import java.util.WeakHashMap;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 import org.irisa.triskell.MT.utils.Java.FilteredCollection;
 import org.irisa.triskell.MT.utils.Java.FilteredIterator;
@@ -32,11 +34,11 @@ public class BMTLLibraryType extends BMTLType {
 	 * @param parents collection of CommandGroup
 	 */
 	public BMTLLibraryType(String name, Class itf, Class clazz, Collection parents) {
-		super(null, new String [] {name}, itf, clazz, parents);
+		super(null, new String [] {name}, itf, clazz, parents == null || parents.size() == 0 ? Arrays.asList(new CommandGroup [] {BasicMtlLibraryCommandGroup.TheInstance}) : parents);
 		allInstances = new LinkedList();
 	}
 	
-	public void register (BMTLLibrary lib) {
+	public void register (BMTLLibInterface lib) {
 		if (!this.itf.isInstance(lib))
 			throw new IllegalArgumentException();
 		allInstances.add(new WeakReference(lib));
@@ -71,6 +73,14 @@ public class BMTLLibraryType extends BMTLType {
 		} catch (InstantiationException x) {
 			throw new RuntimeException("Cannot instanciate a new object of class " + this.getQualifiedNameAsString() + " (environment said " + x.getMessage() + ")");
 		}
+	}
+
+	public String toString() {
+		return "BasicMTL library type " + this.getQualifiedNameAsString();
+	}
+
+	public CommandGroup getBaseCommandGroup() {
+		return BasicMtlLibraryCommandGroup.TheInstance;
 	}
 
 }
