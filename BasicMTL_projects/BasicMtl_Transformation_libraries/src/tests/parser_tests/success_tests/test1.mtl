@@ -1,0 +1,55 @@
+// $Id: test1.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+// This file is intend to verify various constructs that should work with the parser
+
+
+library aLibrary
+
+model aModel1;
+model aModel2 is AnotherLib;
+
+// constructor library methods
+//----------------------------
+
+creation myConstructor1()
+{
+}
+
+creation myConstructor2(Stantard::String aString)
+{
+}
+
+creation myConstructor3(Model aModel)
+{
+}
+
+creation myConstructor4(Stantard::String aString, Model aModel)
+{
+}
+
+
+// other library methods
+//----------------------------
+
+Stantard::Void aLibMethod1()
+{
+}
+
+Stantard::String aLibMethod2(Stantard::String aString)
+{
+}
+
+Stantard::Integer aLibMethod3(Stantard::Integer anInteger)
+{
+}
+
+Stantard::Void aLibMethod4(Stantard::String aString, Stantard::String aString, Stantard::Integer anInteger)
+{
+}
+
+
+
+// Class definitions
+class aClass1
+{
+
+}

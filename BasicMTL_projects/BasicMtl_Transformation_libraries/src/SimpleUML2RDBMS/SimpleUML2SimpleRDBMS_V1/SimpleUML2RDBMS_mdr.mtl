@@ -1,0 +1,67 @@
+/*
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleUML2RDBMS/SimpleUML2SimpleRDBMS_V1/SimpleUML2RDBMS_mdr.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+ *
+ * version written for BasicMtl 1.1
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.1)
+ * specific version that use mdr and the generic SimpleUML 2 RDBMS
+ */
+
+library SimpleUML2SimpleRDBMS_MDR
+// no extends for this lib
+ 
+// Use of other libs : this not needed anymore : for information only
+// use lang.Standard
+// 
+// use RepositoryDriver.MDRdriver		// this is a native lib that provides an access  to a driver
+									// this driver allows to instantiate, load models, either with
+									// methods with a lot of parameter, or opening a GUI
+
+// Lib local model
+Model source_model;		// should be SimpleUML MetaModel
+Model target_model;		// must be SimpleRDBMS MetaModel
+// they are not typed so this implies that any access to them will be done through "invoke"
+
+// Typed model 
+Model SUML2RDBMS_transform_lib is SimpleUML2RDBMS
+
+// Library level methods
+// ---------------------
+// Note : should be put into a class which name is the same as the library ? NO
+
+// Library contructors
+// -------------------
+// main of the lib (also its constructor)
+
+creation main()
+{
+	// instanciate the correct repository driver using a Native library for MDR
+	// driver = new MDRDriver() not needed as MDRDriver lib as no parameter 
+	//						in fact use the default instance of the lib as a singleton 
+	
+	// intanciate the source model
+	source_model = MDRDriver::getModel(null, 
+							  new MDRdriver::XmiMetamodel("ThirdParty/MDR/Test/models/SimpleUML_MM.xml"), 
+							  "source_model", 
+							  new MDRdriver::XmiModel("ThirdParty/MDR/Test/models/testModel4SimpleUML.xml", 
+							  MDRdriver::XmiModel.Read));
+	// or this kind !!! source_model = #MDRDriver:GUIGetModel("select your Source Model")
+	// create the target model
+	target_model = MDRDriver::getModel(null, 
+							  new MDRdriver::XmiMetamodel("ThirdParty/MDR/Test/models/SimpleRDBMS_MM.xml"), 
+							  "target_model", 
+							  new MDRdriver::XmiModel("ThirdParty/MDR/Test/models/resultModel4SimpleRDBMS.xml", 
+							  MDRdriver::XmiModel.Write));
+					// note : if the model xmi file is empty or doesn't exist, it create an empty model
+					// the xmi file name is then used to save the model at the end of the transformation
+	// or this kind !!! target_model = #MDRDriver:GUIGetModel("select your target Model")
+	
+	// instanciate transformation lib
+	SUML2RDBMS_transform_lib = new SimpleUML2RDBMS.make(source_model, target_model)
+	
+	// Start the transformation
+	// ou ? call SUML2RDBMS_transform_lib::transform()
+	SUML2RDBMS_transform_lib::UMLToRDBMS()
+	
+
+}
+

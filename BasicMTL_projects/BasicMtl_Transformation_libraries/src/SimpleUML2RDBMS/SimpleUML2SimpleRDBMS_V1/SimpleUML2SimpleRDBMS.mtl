@@ -1,0 +1,155 @@
+/**
+ * $Id: SimpleUML2SimpleRDBMS.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+ *
+ *	Standalone transformation that do the mapping between a SimpleUML metamodel and a SimpleRDBMS metamodel
+ * this version is the first and simpliest one, it neither try to be generalizable, nor to be well structured
+ * (see further versions of this transformation for that)
+ * this first variant use only the library operations structure (not the classes), this means that the 
+ * operations should be better structured in another version.
+ *
+ * version written for BasicMtl 1.1
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.1)
+ * 
+ * $Revision: 1.1 $ $Date: 2003-07-11 08:27:56 $
+ * Last modification by : $Author: dvojtise $
+ * Authors : dvojtise
+ *
+ */
+ 
+library SimpleUML2SimpleRDBMS
+// no extends for this lib
+ 
+// Use of other libs : this not needed anymore : for information only
+// use lang.Standard
+// use RepositoryDriver.MDRdriver		// this is a native lib that provides an access  to a driver
+									// this driver allows to instantiate, load models, either with
+									// methods with a lot of parameter, or opening a GUI
+									
+// import shortcuts (like java import) are not currently supported
+
+// Lib local model
+model source_model;		// should be SimpleUML MetaModel
+model target_model;		// must be SimpleRDBMS MetaModel
+// they are not typed so this implies that any access to them will be done through "invoke"
+// no typed model 
+// 		syntax for typed model :
+//			Model mymodel is LibraryName
+
+// Library level methods
+// ---------------------
+// Note : should be put into a class which name is the same as the library ? NO
+
+// Library contructors
+// -------------------
+// main of the lib (also its constructor)
+
+creation make( Model a_source_model, Model a_target_model)
+{
+
+	source_model = a_source_model
+	target_model = a_target_model
+}
+
+
+// other library level methods
+// ---------------------------
+
+Standard::void UMLToRDBMS()
+{	
+	// Start the different phasis of the transformation
+	UMLClassesToRDBMS();
+	UMLAssociationsToRDBMS();
+}
+
+
+Standard::void UMLClassesToRDBMS()
+{
+	// look for all the sources classes 
+		// this will be improved when the ocl select will be available
+	Standard::Iterator classIterator;
+	Standard::Set classSet;	
+	// Note : is  this the correct syntax for calling allInstance on a model ?
+	classSet = source_model::allInstances("Class");
+	classIterator = classSet.get_new_iterator();
+	classIterator.start();
+	while (not classIterator.is_off()) 
+	{		
+		UMLClassToRDBMS(classIterator.item());  // return value not used
+		
+		classIterator.next();
+	}
+	
+	
+	// for each attribute of type class
+	classIterator = classSet.get_new_iterator();
+	classIterator.start();
+	while (not classIterator.is_off()) {
+		
+		UMLClassToRDBMS(classIterator.item());  // return value not used
+				
+		classIterator.next();
+	}
+}
+
+target_model::Table UMLClassToRDBMS(source_model::Class sourceClass )
+{
+}
+
+target_model::Table UMLClassToRDBMS(sourceClass : source_model::Class  )
+{
+	target_model::Table aTable;
+	// create a table for this class  (use the default constructor)
+	aTable = new target_model::Table;
+	// there must probably exists a better syntax for modelElement creation
+	aTable.name = sourceClass.name;
+	aTable.kind = sourceClass.kind;
+
+	// for each attribute of primitive data type create a column for this type
+	Standard::Iterator attributeIterator;
+	Standard::Set attributeSet;	
+	attributeSet = classIterator.item().attribute();
+	attributeIterator.start();
+	while (not attributeIterator.is_off())
+	{
+		if 	(attributeIterator.item().type.oclIsKindOf(source_model::PrimitiveDataType))
+		{
+			// create a new column to the table
+			source_model::Classifier primitiveAttribute = attributeIterator.item();
+			target_model::Column aColumn;
+			aColumn = new target_model::Column;
+			aColumn.name = primitiveAttribute.name;
+			aColumn.kind = primitiveAttribute.kind
+			if ( primitiveAttribute.type.name = "int")
+			{	
+				aColumn.type = "NUMBER";
+			}
+			else
+			{
+				aColumn.type = "VARCHAR";
+			}
+			// associate : complete syntax	
+			associate column = aColumn : Column, owner = aTable : Table
+			
+			if ( primitiveAttribute.kind = "primary")
+			{
+				// if the attribute kind is primary, the cloumn is bound the the key
+				// associate : complete syntax	
+				associate column = aColumn : Column, belongsTo = aKey : Key
+				// other syntax : (because the is enough information)
+				// associate aColumn, aKey
+				// associate aColumn : Column, aKey : Key
+				// associate column = aColumn, belongsTo = aKey
+			}
+			
+		}
+		attributeIterator.next();
+	}
+	return aTable;
+}
+
+
+
+
+// classes for this library
+// ------------------------
+// None
