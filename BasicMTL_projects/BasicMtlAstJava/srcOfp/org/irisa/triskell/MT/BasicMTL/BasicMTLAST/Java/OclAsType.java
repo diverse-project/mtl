@@ -1,6 +1,8 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 
 import java.util.*;
+import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
+import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.lang.Object;
 public class OclAsType 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression
 {
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression expression;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression expression;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getExpression () {
         return this.expression;
     }
@@ -21,7 +23,7 @@ public class OclAsType
         else return 1;
     }
 
-    public Vector type = new Vector();
+    protected Vector type = new Vector();
     public String getType (int i) {
         return (String)this.type.elementAt(i);
     }

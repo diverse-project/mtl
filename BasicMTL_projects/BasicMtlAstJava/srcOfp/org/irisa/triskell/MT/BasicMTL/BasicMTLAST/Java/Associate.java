@@ -45,4 +45,18 @@ public class Associate
         return this.AssociationName;
     }
 
+    protected boolean isAssociate;
+    public boolean getIsAssociate () {
+        return this.isAssociate;
+    }
+    public void setIsAssociate (boolean value) {
+        this.isAssociate = value; 
+    }
+
+
+    public Associate(
+        boolean isAssociate)
+    {
+this.isAssociate=isAssociate;
+    }
 }
