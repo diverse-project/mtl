@@ -1,0 +1,21 @@
+<!-- $Id: build.xml,v 1.1 2004-06-02 08:51:01 fchauvel Exp $ -->
+<project name="Statecharts" default="run" basedir=".">
+	<description>
+	</description>
+	
+  	<target name="compile" > 
+  		<description>Compile the transformation</description>  
+ 		<delete dir="build"></delete>   		
+  		<ant antfile="testLib_build.xml" dir="." target="compile"/>  		
+  		<ant antfile="main_build.xml" dir="." target="compile"/>
+ 	</target> 
+ 	
+ 	<target name="run">
+ 		<ant antfile="main_build.xml" dir="." target="run"/>
+  	</target>
+
+  	<target name="clean">
+  		<delete dir="build"></delete>   		
+ 	</target>
+ 	
+</project>

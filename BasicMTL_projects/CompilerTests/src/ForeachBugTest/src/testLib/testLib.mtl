@@ -1,0 +1,26 @@
+/* 
+ *
+ */
+ 
+library testLib;
+
+
+model UML :	RepositoryModel;
+
+
+init(aModel : RepositoryModel)
+{
+	UML := aModel;
+}
+
+
+// a static library method
+testMethod(theClass : UML::Core::Class)
+{
+	theClass.name.toOut();
+}
+
+getSetOfElement() : Standard::Set
+	{
+		return null;
+	}

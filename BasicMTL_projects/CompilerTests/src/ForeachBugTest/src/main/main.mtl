@@ -1,0 +1,51 @@
+
+
+library main;
+
+
+model UML	:	RepositoryModel;
+model lib	:	testLib;
+
+
+main(){
+
+	metaModelFileName	:	Standard::String;
+	inputFileName		:	Standard::String;
+	outputFileName		:	Standard::String;
+	mdrdriver         	: 	MDRDriver::MDRModelManager;
+
+	// we define some filenames 
+	metaModelFileName := 'MetaModel/UML_metamodel';
+	inputFileName     := 'Model/model.xmi';
+	outputFileName	  := 'Model/model-updated.xmi';
+	
+	// we initialize the MDR driver		
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	UML := mdrdriver.getModelFromXMI (
+		metaModelFileName, 
+		'UML',			// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', // name of the new model in the repository
+		inputFileName,
+		outputFileName
+	);		
+	
+		
+	testForeach();
+	
+}
+class TestClass {
+
+
+	testForeach()
+	{
+		
+		foreach (aClass : UML::Core::Class) in ( lib.getSetOfElement() )
+		{
+			lib.testMethod(aClass);
+		}
+	
+	}
+}
