@@ -1,5 +1,5 @@
 /*
-* $Id: BuildsMTL.java,v 1.6 2004-06-22 08:39:29 sdzale Exp $
+* $Id: BuildsMainClass.java,v 1.1 2004-06-22 08:39:29 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -80,7 +80,7 @@ import org.inria.mtl.plugin.wizards.pages.MainClassChoicePage;
 import org.inria.mtl.plugin.wizards.pages.ProjectsPage;
 import org.inria.mtl.plugin.wizards.pages.SourcesPage;
 
-public class BuildsMTL {
+public class BuildsMainClass {
 
 	public static interface IRemoveOldBinariesQuery {
 		
@@ -113,29 +113,20 @@ public class BuildsMTL {
 	
 	private int fPageIndex;
 	
-	private SourcesPage fSourceContainerPage;
-	private ProjectsPage fProjectsPage;
-	private LibrairiesPage fLibrariesPage;
-		
+	private MainClassChoicePage fMainClassPage;
+	
 	private BuildPathBasePage fCurrPage;
 	
-	public static final String SOURCEATTACHMENT= "sourcepath"; //$NON-NLS-1$
-	public static final String SOURCEATTACHMENTROOT= "rootpath"; //$NON-NLS-1$
-	public static final String OUTPUT= "output"; //$NON-NLS-1$
-	public static final String EXCLUSION= "exclusion"; //$NON-NLS-1$
-
+	
 		
-	public BuildsMTL(IStatusChangeListener context, int pageToShow) {
+	public BuildsMainClass(IStatusChangeListener context, int pageToShow) {
 		fWorkspaceRoot= MTLPlugin.getWorkspace().getRoot();
 		fContext= context;
 		
 		fPageIndex= pageToShow;
 		
+		fMainClassPage=null;
 		
-		fSourceContainerPage= null;
-		fLibrariesPage= null;
-		fProjectsPage= null;
-			
 		fCurrPage= null;
 				
 		BuildPathAdapter adapter= new BuildPathAdapter();			
@@ -186,49 +177,18 @@ public class BuildsMTL {
 		ImageRegistry imageRegistry= JavaPlugin.getDefault().getImageRegistry();
 		
 		TabItem item;
-		
-				
-		fSourceContainerPage= new SourcesPage(fWorkspaceRoot, fClassPathList);		
+		fMainClassPage= new MainClassChoicePage(fClassPathList);		
 		item= new TabItem(folder, SWT.NONE);
-		item.setText(NewWizardMessages.getString("BuildPathsBlock.tab.source")); //$NON-NLS-1$
-		item.setImage(imageRegistry.get(JavaPluginImages.IMG_OBJS_PACKFRAG_ROOT));
-		item.setData(fSourceContainerPage);		
-		item.setControl(fSourceContainerPage.getControl(folder));
-		
-				
-		IWorkbench workbench= MTLPlugin.getDefault().getWorkbench();	
-		Image projectImage= workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
-		
-		fProjectsPage= new ProjectsPage(fClassPathList);		
-		item= new TabItem(folder, SWT.NONE);
-		item.setText(NewWizardMessages.getString("BuildPathsBlock.tab.projects")); //$NON-NLS-1$
-		item.setImage(projectImage);
-		item.setData(fProjectsPage);
-		item.setControl(fProjectsPage.getControl(folder));
-		
-		fLibrariesPage= new LibrairiesPage(fWorkspaceRoot, fClassPathList);		
-		item= new TabItem(folder, SWT.NONE);
-		item.setText(NewWizardMessages.getString("BuildPathsBlock.tab.libraries")); //$NON-NLS-1$
+		item.setText(MTLImportMessages.getString("BuildPathsBlock.tab.mainClass")); //$NON-NLS-1$
 		item.setImage(imageRegistry.get(JavaPluginImages.IMG_OBJS_LIBRARY));
-		item.setData(fLibrariesPage);
-		item.setControl(fLibrariesPage.getControl(folder));
+		item.setData(fMainClassPage);
+		item.setControl(fMainClassPage.getControl(folder));
 		
-		// a non shared image
-		Image cpoImage= JavaPluginImages.DESC_TOOL_CLASSPATH_ORDER.createImage();
-		composite.addDisposeListener(new ImageDisposer(cpoImage));	
-		
-		ClasspathOrderingWorkbookPage ordpage= new ClasspathOrderingWorkbookPage(fClassPathList);		
-		item= new TabItem(folder, SWT.NONE);
-		item.setText(NewWizardMessages.getString("BuildPathsBlock.tab.order")); //$NON-NLS-1$
-		item.setImage(cpoImage);
-		item.setData(ordpage);
-		item.setControl(ordpage.getControl(folder));
-				
-		if (fCurrJProject != null) {
-			fSourceContainerPage.init(fCurrJProject);
-			fLibrariesPage.init(fCurrJProject);
-			fProjectsPage.init(fCurrJProject);
-		}		
+		if (fMainClassPage != null) {
+			fMainClassPage.init(fCurrJProject);
+		}else{
+			System.out.println("'Main class page null");		
+		}
 						
 
 		WorkbenchHelp.setHelp(composite, IJavaHelpContextIds.BUILD_PATH_BLOCK);				
@@ -280,10 +240,7 @@ public class BuildsMTL {
 		} catch (CoreException e) {
 			MTLPlugin.log(e);
 		}
-	//	if (newClassPath == null) {
-	//		newClassPath= (List)MTLCore.defaultClasspath();
-	//	}
-		
+	
 		List exportedEntries = new ArrayList();
 		for (int i= 0; i < newClassPath.size(); i++) {
 			CPListElement curr= (CPListElement) newClassPath.get(i);
@@ -296,12 +253,11 @@ public class BuildsMTL {
 		fClassPathList.setElements(newClassPath);
 		fClassPathList.setCheckedElements(exportedEntries);
 		
-		
-		if (fSourceContainerPage != null) {
-			fSourceContainerPage.init(fCurrJProject);
-			fProjectsPage.init(fCurrJProject);
-			fLibrariesPage.init(fCurrJProject);
-
+		//System.out.println("Proj avant source :"+fCurrJProject.getProject().getName());
+		if (fMainClassPage != null) {
+			fMainClassPage.init(fCurrJProject);
+		}else{
+			System.out.println("Projet vide ");
 		}
 
 		doStatusLineUpdate();
@@ -322,61 +278,19 @@ public class BuildsMTL {
 	 * Returns the Java project. Can return <code>null<code> if the page has not
 	 * been initialized.
 	 */
-	public IMtlJavaProject getMtlProject() {
-		return fCurrMtlProject;
-	}
 	
 	public IJavaProject getProject() {
 			return fCurrJProject;
 		}
 		
-	/**
-	 * Returns the current output location. Note that the path returned must not be valid.
-	 */	
-//	public IPath getOutputLocation() {
-//		return new Path(fBuildPathDialogField.getText()).makeAbsolute();
-//	}
-//	
-	/**
-	 * Returns the current class path (raw). Note that the entries returned must not be valid.
-	 */	
-	public IClasspathEntry[] getRawClassPath() {
-		List elements=  fClassPathList.getElements();
-		int nElements= elements.size();
-		IClasspathEntry[] entries= new IClasspathEntry[elements.size()];
 
-		for (int i= 0; i < nElements; i++) {
-			CPListElement currElement= (CPListElement) elements.get(i);
-			entries[i]= currElement.getClasspathEntry();
-		}
-		return entries;
-	}
 	
 	public int getPageIndex() {
 		return fPageIndex;
 	}
 	
 	
-	// -------- evaluate default settings --------
-	
-	private List getDefaultClassPath() {
-		List list= new ArrayList();
-		IFolder srcFolder;
-		IProject proj =getProject().getProject();
-		IPreferenceStore store= PreferenceConstants.getPreferenceStore();
-		String sourceFolderName= store.getString(PreferenceConstants.FMTL_SRCNAME);
-	//	if (sourceFolderName.length() > 0) {
-			srcFolder= proj.getFolder(sourceFolderName);
-//		} else {
-//			srcFolder= proj.getProject();
-//		}
 
-		list.add(new CPListElement(getProject(), IClasspathEntry.CPE_SOURCE, srcFolder.getFullPath(), srcFolder));
-
-		return list;
-	}
-	
-		
 	private class BuildPathAdapter implements IStringButtonAdapter, IDialogFieldListener {
 
 		// -------- IStringButtonAdapter --------
@@ -391,21 +305,11 @@ public class BuildsMTL {
 	}
 	
 	private void buildPathChangeControlPressed(DialogField field) {
-		/*if (field == fBuildPathDialogField) {
-			IContainer container= chooseContainer();
-			if (container != null) {
-				fBuildPathDialogField.setText(container.getFullPath().toString());
-			}
-		}*/
+	
 	}
 	
 	private void buildPathDialogFieldChanged(DialogField field) {
-		/*if (field == fClassPathList) {
-			updateClassPathStatus();
-		} else if (field == fBuildPathDialogField) {
-			updateOutputLocationStatus();
-		}
-		doStatusLineUpdate();*/
+	
 	}	
 	
 
@@ -462,194 +366,10 @@ public class BuildsMTL {
 			}
 		}
 				
-/*		if (fCurrJProject.hasClasspathCycle(entries)) {
-			fClassPathStatus.setWarning(NewWizardMessages.getString("BuildPathsBlock.warning.CycleInClassPath")); //$NON-NLS-1$
-		}
-		
-*/		
+	
 
 	}
 
-	/**
-	 * Validates output location & build path.
-	 */	
-	
-	// -------- creation -------------------------------
-	
-	public static void createProject(IProject project, IPath locationPath, IProgressMonitor monitor) throws CoreException {
-		if (monitor == null) {
-			monitor= new NullProgressMonitor();
-		}				
-		monitor.beginTask(NewWizardMessages.getString("BuildPathsBlock.operationdesc_project"), 10); //$NON-NLS-1$
-
-		// create the project
-		try {
-			if (!project.exists()) {
-				IProjectDescription desc= project.getWorkspace().newProjectDescription(project.getName());
-				if (Platform.getLocation().equals(locationPath)) {
-					locationPath= null;
-				}
-				desc.setLocation(locationPath);
-				project.create(desc, monitor);
-				monitor= null;
-			}
-			if (!project.isOpen()) {
-				project.open(monitor);
-				monitor= null;
-			}
-		} finally {
-			if (monitor != null) {
-				monitor.done();
-			}
-		}
-	}
-
-	public static void addJavaNature(IProject project, IProgressMonitor monitor) throws CoreException {
-		if (!project.hasNature(JavaCore.NATURE_ID)) {
-			IProjectDescription description = project.getDescription();
-			String[] prevNatures= description.getNatureIds();
-			String[] newNatures= new String[prevNatures.length + 1];
-			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
-			newNatures[prevNatures.length]= JavaCore.NATURE_ID;
-			description.setNatureIds(newNatures);
-			project.setDescription(description, monitor);
-		} else {
-			monitor.worked(1);
-		}
-	}
-	
-	public void configureMTLProject(IProgressMonitor monitor) throws CoreException, InterruptedException {
-		if (monitor == null) {
-			monitor= new NullProgressMonitor();
-		}				
-		monitor.beginTask(NewWizardMessages.getString("BuildPathsBlock.operationdesc_java"), 10); //$NON-NLS-1$
-
-		try {
-			Shell shell= null;
-			if (fSWTWidget != null && !fSWTWidget.getShell().isDisposed()) {
-				shell= fSWTWidget.getShell();
-			}
-				internalConfigureMTLProject(fClassPathList.getElements(), shell, monitor);
-		} finally {
-			monitor.done();
-		}
-	}
-	
-	/**
-	 * Creates the MTL project and sets the configured build path and output location.
-	 * If the project already exists only build paths are updated.
-	 */
-	private void internalConfigureMTLProject(List classPathEntries , Shell shell, IProgressMonitor monitor) throws CoreException, InterruptedException {
-		// 10 monitor steps to go
-		
-		IRemoveOldBinariesQuery reorgQuery= null;
-		if (shell != null) {
-			reorgQuery= getRemoveOldBinariesQuery(shell);
-		}
-
-					
-		int nEntries= classPathEntries.size();
-		IClasspathEntry[] classpath= new IClasspathEntry[nEntries];
-		IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
-
-		
-		// create and set the class path
-		for (int i= 0; i < nEntries; i++) {
-			CPListElement entry= ((CPListElement)classPathEntries.get(i));
-			
-			IResource res= entry.getResource();
-			if ((res instanceof IFolder) && !res.exists()) {
-				CoreUtility.createFolder((IFolder)res, true, true, null);
-			}
-			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					classpath[i]=MTLCore.newSourceEntry(entry.getPath());
-			}else{
-						
-			classpath[i]= findClasspathEntry(entry);
-			}
-						
-			
-		}
-		boolean bol=MTLCore.saveClasspath(classpath,null);
-		
- 
-		monitor.worked(1);
-				
-	}
-	
-	private IClasspathEntry findClasspathEntry(CPListElement entry) {
-	switch (entry.getEntryKind()) {
-		case IClasspathEntry.CPE_SOURCE:
-			IPath outputLocation= (IPath) entry.getAttribute(OUTPUT);
-			IPath[] exclusionPattern= (IPath[]) entry.getAttribute(EXCLUSION);
-			return MTLCore.newSourceEntry(entry.getPath(), exclusionPattern, outputLocation);
-		case IClasspathEntry.CPE_LIBRARY:
-			IPath attach= (IPath) entry.getAttribute(SOURCEATTACHMENT);
-			return MTLCore.newLibraryEntry(entry.getPath(), attach, null, entry.isExported());
-		case IClasspathEntry.CPE_PROJECT:
-			//Insert the project in the Java Builder Classpath
-			//JavaCore.newProjectEntry(entry.getPath(), entry.isExported());
-			//JavaCore.run();
-			return MTLCore.newProjectEntry(entry.getPath(), entry.isExported());
-		case MtlClasspathEntry.K_COMP:
-			return MTLCore.newContainerEntry(entry.getPath());
-		default:
-			return null;
-	}
-}
-	
-	
-	
-	public static boolean hasClassfiles(IResource resource) throws CoreException {
-		if (resource.isDerived()) { //$NON-NLS-1$
-			return true;
-		}		
-		if (resource instanceof IContainer) {
-			IResource[] members= ((IContainer) resource).members();
-			for (int i= 0; i < members.length; i++) {
-				if (hasClassfiles(members[i])) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-
-	public static void removeOldTLLfiles(IResource resource) throws CoreException {
-		if (resource.isDerived()) {
-			resource.delete(false, null);
-		} else if (resource instanceof IContainer) {
-			IResource[] members= ((IContainer) resource).members();
-			for (int i= 0; i < members.length; i++) {
-				removeOldTLLfiles(members[i]);
-			}
-		}
-	}
-	
-	public static IRemoveOldBinariesQuery getRemoveOldBinariesQuery(final Shell shell) {
-		return new IRemoveOldBinariesQuery() {
-			public boolean doQuery(final IPath oldOutputLocation) throws InterruptedException {
-				final int[] res= new int[] { 1 };
-				shell.getDisplay().syncExec(new Runnable() {
-					public void run() {
-						String title= NewWizardMessages.getString("BuildPathsBlock.RemoveBinariesDialog.title"); //$NON-NLS-1$
-						String message= NewWizardMessages.getFormattedString("BuildPathsBlock.RemoveBinariesDialog.description", oldOutputLocation.toString()); //$NON-NLS-1$
-						MessageDialog dialog= new MessageDialog(shell, title, null, message, MessageDialog.QUESTION, new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL }, 2);
-						res[0]= dialog.open();
-					}
-				});
-				if (res[0] == 0) {
-					return true;
-				} else if (res[0] == 1) {
-					return false;
-				}
-				throw new InterruptedException();
-			}
-		};
-	}	
-
-	
 	// ---------- util method ------------
 		
 	private IContainer chooseContainer() {
@@ -705,10 +425,7 @@ public class BuildsMTL {
 		}
 	}
 	
-	private void test() {
-		
-			
-	}
+	
 	
 
 }

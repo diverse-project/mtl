@@ -1,5 +1,5 @@
 /*
-* $Id: MtlClasspathEntry.java,v 1.2 2004-05-19 09:22:40 sdzale Exp $
+* $Id: MtlClasspathEntry.java,v 1.3 2004-06-22 08:39:31 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -473,7 +473,7 @@ public class MtlClasspathEntry implements IClasspathEntry {
 
 		switch (kind) {
 			case IClasspathEntry.CPE_PROJECT :
-				return "src"; // backward compatibility //$NON-NLS-1$
+				return "prj"; // backward compatibility //$NON-NLS-1$
 			case IClasspathEntry.CPE_SOURCE :
 				return "src"; //$NON-NLS-1$
 			case IClasspathEntry.CPE_LIBRARY :

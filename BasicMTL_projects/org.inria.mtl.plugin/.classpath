@@ -23,5 +23,7 @@
     <classpathentry exported="true" kind="var" path="APACHE_XERCES_XMLAPI"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_UI"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_SWT_WIN32"/>
+    <classpathentry kind="var" path="ECLIPSE_DEBUG_CORE"/>
+    <classpathentry kind="var" path="ECLIPSE_JDT_LAUNCHING"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

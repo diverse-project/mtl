@@ -1,5 +1,5 @@
 /*
-* $Id: LibrairiesPage.java,v 1.4 2004-06-15 15:13:15 sdzale Exp $
+* $Id: LibrairiesPage.java,v 1.5 2004-06-22 08:39:27 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.ArchiveFileFilter;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
+//import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementSorter;
@@ -63,6 +63,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.wizards.BuildPathBasePage;
 
 public class LibrairiesPage extends BuildPathBasePage {
 	

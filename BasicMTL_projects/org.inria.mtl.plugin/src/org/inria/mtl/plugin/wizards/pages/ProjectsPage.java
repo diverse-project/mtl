@@ -1,5 +1,5 @@
 /*
-* $Id: ProjectsPage.java,v 1.3 2004-06-15 15:13:14 sdzale Exp $
+* $Id: ProjectsPage.java,v 1.4 2004-06-22 08:39:25 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -16,7 +16,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.util.PixelConverter;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
+//import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementSorter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.CheckedListDialogField;
@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import org.inria.mtl.plugin.builders.MTLNature;
+import org.inria.mtl.plugin.wizards.BuildPathBasePage;
 
 
 

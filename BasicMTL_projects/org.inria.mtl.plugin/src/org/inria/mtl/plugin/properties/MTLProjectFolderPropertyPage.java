@@ -1,5 +1,5 @@
 /*
-* $Id: MTLProjectPropertyPage.java,v 1.3 2004-06-22 08:39:28 sdzale Exp $
+* $Id: MTLProjectFolderPropertyPage.java,v 1.1 2004-06-22 08:39:28 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -34,6 +34,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.preferences.MTLMessages;
 import org.inria.mtl.plugin.wizards.BuildsMTL;
+import org.inria.mtl.plugin.wizards.BuildsMainClass;
 
 
 
@@ -43,19 +44,19 @@ import org.inria.mtl.plugin.wizards.BuildsMTL;
  * @version 1.0.0
  * Property page for configuring the MTL build path
  */
-public class MTLProjectPropertyPage extends PropertyPage implements IStatusChangeListener {
+public class MTLProjectFolderPropertyPage extends PropertyPage implements IStatusChangeListener {
 		
 		
-	private static final String PAGE_SETTINGS= "MTLPropertyPage"; //$NON-NLS-1$
+	private static final String PAGE_SETTINGS= "MTLPropertyFolderPage"; //$NON-NLS-1$
 	private static final String INDEX= "pageIndex"; //$NON-NLS-1$
 		
-	private BuildsMTL fBuildPathsBlock;
+	private BuildsMainClass fBuildPathsBlock;
+	
 	
 	/*
 	 * @see PreferencePage#createControl(Composite)
 	 */
 	protected Control createContents(Composite parent) {
-		//WorkbenchHelp.setHelp(parent, IJavaHelpContextIds.BUILD_PATH_PROPERTY_PAGE);
 
 		// ensure the page has no special buttons
 		noDefaultAndApplyButton();		
@@ -86,7 +87,7 @@ public class MTLProjectPropertyPage extends PropertyPage implements IStatusChang
 	 */
 	private Control createWithJava(Composite parent, IProject project) {
 		IJavaProject proj=JavaCore.create(project);
-		fBuildPathsBlock= new BuildsMTL(this, getSettings().getInt(INDEX));
+		fBuildPathsBlock= new BuildsMainClass(this, 0);
 		fBuildPathsBlock.init(proj, null, null);
 		return fBuildPathsBlock.createControl(parent);
 	}
@@ -145,11 +146,11 @@ public class MTLProjectPropertyPage extends PropertyPage implements IStatusChang
 			Shell shell= getControl().getShell();
 			IRunnableWithProgress runnable= new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)	throws InvocationTargetException, InterruptedException {
-					try {
-				fBuildPathsBlock.configureMTLProject(monitor);
-					} catch (CoreException e) {
-						throw new InvocationTargetException(e);
-					} 
+//					try {
+//						fBuildPathsBlock.configureMTLProject(monitor);
+//					} catch (CoreException e) {
+//						throw new InvocationTargetException(e);
+//					} 
 				}
 			};
 			IRunnableWithProgress op= new WorkspaceModifyDelegatingOperation(runnable);

@@ -1,5 +1,5 @@
 /*
-* $Id: SourcesPage.java,v 1.4 2004-06-18 14:20:58 sdzale Exp $
+* $Id: SourcesPage.java,v 1.5 2004-06-22 08:39:26 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -27,7 +27,7 @@ import org.eclipse.jdt.internal.ui.util.PixelConverter;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
+//import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementSorter;
@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.wizards.BuildPathBasePage;
 
 public class SourcesPage extends BuildPathBasePage {
 
@@ -77,8 +78,8 @@ public class SourcesPage extends BuildPathBasePage {
 	
 	private final int IDX_ADD= 0;
 	private final int IDX_EDIT= 2;
-	private final int IDX_REMOVE= 3;	
-
+	private final int IDX_REMOVE= 3;
+	
 	public SourcesPage(IWorkspaceRoot root, ListDialogField classPathList) {
 		fWorkspaceRoot= root;
 		fClassPathList= classPathList;
@@ -255,7 +256,6 @@ public class SourcesPage extends BuildPathBasePage {
 					CPListElement[] srcentries= openSourceContainerDialog(null);
 					if (srcentries != null) {
 						for (int i= 0; i < srcentries.length; i++) {
-							//System.out.println(i+"   "+ srcentries.toString()+ " sur "+ srcentries.length);
 							elementsToAdd.add(srcentries[i]);
 						}
 					}						
@@ -438,7 +438,7 @@ public class SourcesPage extends BuildPathBasePage {
 	private void updateClasspathList() {
 		List cpelements= fClassPathList.getElements();
 		List srcelements= fFoldersList.getElements();
-		//System.out.println("Avant :"+fClassPathList.getSize());
+		
 		boolean changeDone= false;
 		CPListElement lastSourceFolder= null;
 		// backwards, as entries will be deleted
@@ -579,6 +579,7 @@ public class SourcesPage extends BuildPathBasePage {
 		Assert.isNotNull(res);
 		return new CPListElement(fCurrJProject, IClasspathEntry.CPE_SOURCE, res.getFullPath(), res);
 	}
+	
 	
 	/*
 	 * @see BuildPathBasePage#getSelection

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.6 2004-06-18 14:20:34 sdzale Exp $
+* $Id: MTLModel.java,v 1.7 2004-06-22 08:39:32 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -34,10 +34,15 @@ public class MTLModel {
 	 */
 	public final static String MTL_OWNER_PROP = "mtlowner";
 	/**
-	 *  property name attached to schema files used to indicate when they were
+	 *  property name attached to files used to indicate when they were
 	 * last used in java file generation
 	 */
 	public final static String TLL_LASTGENTIME = "tlllastgen";
+	
+	/**
+		 *  property name attached to project used to indicate the name of the main class
+	 */
+	public final static String MTL_MAINCLASS = "mtlmainclass";
 
 	private  static IProject proj;
 	// tll folder root
@@ -54,6 +59,9 @@ public class MTLModel {
 	private IFolder srcTagFolder;
 	//MTL output
 	private IFolder output;
+	
+	//	MTL Main Class Folder
+	private String mainClassFolder="";
 	
 	//
 	public static IPath[] srcFolders ;
@@ -122,6 +130,13 @@ public class MTLModel {
 		public IFolder getOutputFolder() {
 					return output;
 			}
+		public String getMainClassFolder() {
+					return mainClassFolder;
+			}
+			
+		public void setMainClassFolder(String mcf) {
+			 mainClassFolder=mcf;
+				}
 	 /**
 	 *  removes all tll files that were  generated  for
 	 * this project.

@@ -143,21 +143,25 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            label="MTL "
+            label="%MTLMenu"
             visible="true"
             id="org.inria.mtl.plugin.actionSet">
          <menu
                label="%MTL.menu"
                id="org.inria.mtl.plugin.MTLMenu">
+             <separator
+                  name="maj_separator">
+            </separator>
             <separator
-                  name="MTLGroup">
+                  name="MTLGroup"  >
             </separator>
              <separator
-                  name="second_separator">
+                  name="RunGroup">
             </separator>
              <separator
-                  name="third_separator">
+                  name="about_separator">
             </separator>
+            
          </menu>
          <action 
                label="%build.all.projects" 
@@ -166,7 +170,7 @@
                class="org.inria.mtl.plugin.actions.buildAllAction"
                menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
                toolbarPath="Normal"
-               id="org.inria.mtl.plugin.popup.actions.buildAllAction">
+               id="org.inria.mtl.plugin.actions.buildAllAction">
                enablesFor="+">
 			   <selection class="org.eclipse.core.resources.IProject">
 			   </selection>
@@ -195,11 +199,23 @@
 			   <selection class="org.eclipse.core.resources.IFolder">
 			   </selection>
          </action>
+       <!--  <action 
+               label="%run.project"
+               icon="icons/start.gif"
+               tooltip="%tooltip.run.project"
+               class="org.inria.mtl.plugin.actions.runProjectAction"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/RunGroup"
+               toolbarPath="Normal"
+               id="org.inria.mtl.plugin.actions.runProjectAction">
+               enablesFor="1">
+			   <selection class="org.eclipse.core.resources.IProject">
+			   </selection>
+         </action>-->
          <action
                label="%menu.about"
                tooltip="%menu.tooltip.about"
                class="org.inria.mtl.plugin.actions.AboutAction"
-               menubarPath="org.inria.mtl.plugin.MTLMenu/second_separator"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/about_separator"
                id="org.inria.mtl.plugin.AboutAction">
          </action>
           <action
@@ -207,7 +223,7 @@
                icon="icons/fmtl2.gif"
                tooltip="%menu.tooltip.newProject"
                class="org.inria.mtl.plugin.actions.NewProjectWizardAction"
-               menubarPath="org.inria.mtl.plugin.MTLMenu/third_separator"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.plugin.actions.newprojectAction">
          </action>
@@ -501,24 +517,19 @@
                value="org.inria.mtl.plugin.MTLNature">
          </filter>
       </page>
+       <page
+            objectClass="org.eclipse.core.resources.IProject"
+            name="MTL Main Folder Property"
+            nameFilter="*"
+            class="org.inria.mtl.plugin.properties.MTLProjectFolderPropertyPage"
+            id="org.inria.mtl.plugin.mtlfolderpropertypage">
+         <filter
+               name="nature"
+               value="org.inria.mtl.plugin.MTLNature">
+         </filter>
+      </page>
    </extension>
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="plugin.xml"
-            id="org.inria.mtl.contribution1">
-         <menu
-               label="New Submenu"
-               path="additions"
-               id="org.inria.mtl.menu1">
-            <separator
-                  name="group1">
-            </separator>
-         </menu>
-      </objectContribution>
-   </extension>
-   <extension point = "org.eclipse.ui.popupMenus">
+     <extension point = "org.eclipse.ui.popupMenus">
      <objectContribution
         id="org.inria.mtl.plugin.popIproject"
         objectClass="org.eclipse.core.resources.IProject">
@@ -526,8 +537,8 @@
             value="org.inria.mtl.plugin.MTLNature">
         </filter>
        <menu label="%MTLMenu" path="additions" 
-        id="org.inria.mtl.plugin.menu">
-	<separator name="org.inria.mtl.plugin.menu/additions" /> 
+        	id="org.inria.mtl.plugin.menu">
+			<separator name="org.inria.mtl.plugin.menu/additions" /> 
   		</menu>
 	    <action id="org.inria.mtl.plugin.popIproject.compile"
 	       label="%compile.project.action"

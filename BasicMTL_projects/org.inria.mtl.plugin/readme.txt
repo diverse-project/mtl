@@ -1,4 +1,4 @@
-$Id: readme.txt,v 1.3 2004-06-15 15:13:19 sdzale Exp $
+$Id: readme.txt,v 1.4 2004-06-22 08:39:33 sdzale Exp $
 Description :
 This project is an Eclipse plugin for MTL.
 It will support:
@@ -11,6 +11,9 @@ It will support:
 History :
 ---------
 $Log: not supported by cvs2svn $
+Revision 1.3  2004/06/15 15:13:19  sdzale
+Version assez stable
+
 Revision 1.2  2004/06/03 12:54:27  sdzale
 Version 1
 MAJ images
@@ -38,5 +41,8 @@ ECLIPSE_JFACE
 ECLIPSE_UI_WORKBENCH
 ECLIPSE_TEXT
 ECLIPSE_UI_VIEWS
+ECLIPSE_DEBUG_CORE
+ECLIPSE_JDT_LAUNCHING
 
+	
 
