@@ -1,16 +1,18 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.6 2003-12-16 07:51:46 jpthibau Exp $
  * Created on 21 juil. 2003
- *
+ * $Id: CommonFunctions.java,v 1.7 2004-02-16 17:36:43 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package SecondPassGeneration;
 
 import java.io.*;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
+//import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
+//import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
 
 import CodeGeneration.*;
 

@@ -1,14 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/IntLiteralAnalyser.java,v 1.5 2003-12-16 07:51:45 jpthibau Exp $
  * Created on 8 août 2003
- *
+ * $Id: IntLiteralAnalyser.java,v 1.6 2004-02-16 17:36:43 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package SecondPassGeneration;
 
 import java.io.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
-import TLLTopDownVisitor.OclTypeLiteralAnalyser;
+// import TLLTopDownVisitor.OclTypeLiteralAnalyser;
 
 /**
  * @author jpthibau

@@ -1,14 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.9 2003-12-08 11:15:43 jpthibau Exp $
  * Created on 23 juil. 2003
- *
+ * $Id: UserClassAnalyser.java,v 1.10 2004-02-16 17:32:58 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TLLBuilder;
 
 import java.util.Arrays;
 import java.util.Vector;
 
-import org.irisa.triskell.MT.utils.Java.AWK;
+// import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;

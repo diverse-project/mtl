@@ -1,13 +1,15 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarSettingAnalyser.java,v 1.7 2003-11-24 13:32:42 dvojtise Exp $
  * Created on 24 juil. 2003
- *
+ * $Id: VarSettingAnalyser.java,v 1.8 2004-02-16 17:32:59 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TLLBuilder;
 
 import java.util.Map;
 
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
+//import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 

@@ -1,20 +1,22 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/UserClassAnalyser.java,v 1.7 2003-11-03 12:19:15 jpthibau Exp $
  * Created on 21 juil. 2003
- *
+ * $Id: UserClassAnalyser.java,v 1.8 2004-02-16 17:36:44 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package FirstPassGeneration;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Vector;
+//import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserClass;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
-import org.irisa.triskell.MT.utils.Java.Mangler;
+//import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 

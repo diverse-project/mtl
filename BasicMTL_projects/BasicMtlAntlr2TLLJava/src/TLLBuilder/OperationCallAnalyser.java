@@ -1,12 +1,17 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationCallAnalyser.java,v 1.6 2003-10-14 15:15:33 jpthibau Exp $
  * Created on 24 juil. 2003
- *
+ * $Id: OperationCallAnalyser.java,v 1.7 2004-02-16 17:32:59 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TLLBuilder;
 
-import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationCall;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.SelfLiteral;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**

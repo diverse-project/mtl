@@ -1,12 +1,14 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ThrowsAnalyser.java,v 1.7 2003-12-19 15:24:39 jpthibau Exp $
  * Created on 7 août 2003
- *
+ * $Id: ThrowsAnalyser.java,v 1.8 2004-02-16 17:36:43 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package SecondPassGeneration;
 
 import java.io.*;
-import java.util.Map;
+// import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 

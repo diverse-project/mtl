@@ -1,14 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.10 2003-11-03 12:19:15 jpthibau Exp $
  * Created on 21 juil. 2003
- *
+ * $Id: TheLibraryClassAnalyser.java,v 1.11 2004-02-16 17:36:44 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package FirstPassGeneration;
 
 import java.io.*;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+//import java.util.List;
 import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;

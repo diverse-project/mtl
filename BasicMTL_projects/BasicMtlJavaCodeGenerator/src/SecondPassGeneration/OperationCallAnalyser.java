@@ -1,14 +1,16 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.10 2003-12-16 07:51:44 jpthibau Exp $
  * Created on 8 août 2003
- *
+ * $Id: OperationCallAnalyser.java,v 1.11 2004-02-16 17:36:43 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package SecondPassGeneration;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Vector;
+//import java.util.Iterator;
+//import java.util.Map;
+//import java.util.Vector;
 
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;

@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.7 2003-11-14 17:29:52 jpthibau Exp $
  * Created on 22 juil. 2003
- *
+ * $Id: antlr2tll.java,v 1.8 2004-02-16 17:33:00 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package ANTLR2TLLJava;
 
-import java.io.*;
+//import java.io.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;

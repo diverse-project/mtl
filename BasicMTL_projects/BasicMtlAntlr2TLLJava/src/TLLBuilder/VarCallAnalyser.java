@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarCallAnalyser.java,v 1.4 2003-08-22 18:26:29 ffondeme Exp $
  * Created on 25 juil. 2003
- *
+ * $Id: VarCallAnalyser.java,v 1.5 2004-02-16 17:32:59 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TLLBuilder;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;

@@ -1,13 +1,15 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/JavaCodeLiteralAnalyser.java,v 1.1 2003-08-28 16:51:37 jpthibau Exp $
  * Created on 8 août 2003
- *
+ * $Id: JavaCodeLiteralAnalyser.java,v 1.2 2004-02-16 17:36:42 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package SecondPassGeneration;
 
 import java.io.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
+// import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
 
 /**
  * @author jpthibau

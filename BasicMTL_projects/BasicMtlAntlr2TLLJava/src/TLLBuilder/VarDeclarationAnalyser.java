@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarDeclarationAnalyser.java,v 1.2 2003-08-09 15:16:08 jpthibau Exp $
  * Created on 23 juil. 2003
- *
+ * $Id: VarDeclarationAnalyser.java,v 1.3 2004-02-16 17:32:59 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TLLBuilder;
 
-import org.irisa.triskell.MT.utils.Java.AWK;
+//import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
