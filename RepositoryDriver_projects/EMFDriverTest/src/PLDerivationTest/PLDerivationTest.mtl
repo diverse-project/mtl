@@ -31,12 +31,12 @@ runTransformation():Standard::Void
    fullMercure := emfdriver.loadModelFromXMI(
 									'fullMercure',
 									'ecore',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+									'./workspace/EMFDriverTest/InputModels/mercurePL.ecore');
 	
 //	emfdriver.displayModelInformation('fullMercure');								
 	//set the derived products output files
 	emfdriver.saveModelAsXMI('fullMercure',
-							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/fullMercure.ecore');
+							'./workspace/EMFDriverTest/OutputModels/fullMercure.ecore');
 	
    source_model := fullMercure;
    derivePL(findClass('FullMercure'));
@@ -50,10 +50,10 @@ runTransformation():Standard::Void
    customMercure := emfdriver.loadModelFromXMI(
 									'customMercure',
 									'ecore',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+									'./workspace/EMFDriverTest/InputModels/mercurePL.ecore');
 									
 	emfdriver.saveModelAsXMI('customMercure',
-							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/customMercure.ecore');
+							'./workspace/EMFDriverTest/OutputModels/customMercure.ecore');
 
    source_model := customMercure;
    derivePL(findClass('CustomMercure'));
@@ -65,10 +65,10 @@ runTransformation():Standard::Void
    miniMercure := emfdriver.loadModelFromXMI(
 									'miniMercure',
 									'ecore',
-									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+									'./workspace/EMFDriverTest/InputModels/mercurePL.ecore');
 									
 	emfdriver.saveModelAsXMI('miniMercure',
-							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/miniMercure.ecore');
+							'./workspace/EMFDriverTest/OutputModels/miniMercure.ecore');
 
    source_model := miniMercure;
    derivePL(findClass('MiniMercure'));
