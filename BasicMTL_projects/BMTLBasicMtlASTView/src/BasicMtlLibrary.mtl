@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.6 2004-04-07 16:40:58 jpthibau Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.7 2004-11-03 09:12:52 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -85,6 +85,7 @@
 	theName := names.item().oclAsType(!Standard::String!);
 	names.next(); 
 	theCreatedClass := new UserClass();
+	theCreatedClass.isAbstract := false; //TODO find the real value of isAbstract of the inherited class
 	theCreatedClass.name := theName;
 	theInheritance := new Standard::Set();
 	anInheritedParent := new Standard::OrderedSet();

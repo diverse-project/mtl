@@ -1,5 +1,5 @@
 /*
- * $Id: UserClass.java,v 1.4 2004-04-29 13:55:34 edrezen Exp $
+ * $Id: UserClass.java,v 1.5 2004-11-03 09:11:21 jpthibau Exp $
  * Authors : modelware
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -22,4 +22,13 @@ public class UserClass
     {
 super(name,mangle,lineNumber);
     }
+
+    public boolean isAbstract;
+    public boolean getIsAbstract () {
+        return this.isAbstract;
+    }
+    public void setIsAbstract (boolean value) {
+        this.isAbstract = value; 
+    }
+
 }

@@ -1,4 +1,4 @@
-// $Id: Operation.mtl,v 1.2 2003-12-03 04:30:15 ffondeme Exp $
+// $Id: Operation.mtl,v 1.3 2004-11-03 09:12:52 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -16,6 +16,7 @@
 	throwsExceptionValue : Standard::Boolean;
 	isGetterFor : Attribute;
 	isSetterFor : Attribute;
+	isAbstract : Standard::Boolean;
 
 	appendParameters(param : VarDeclaration) : Standard::Void
 	{	if isNull(Parameters)
@@ -71,6 +72,9 @@
 	}
 	if throwsExceptionValue {
 		JavaCode [theOperation.setThrowsException(true)];
+	} 
+	if isAbstract {
+		JavaCode [theOperation.setIsAbstract(true)];
 	} 
 	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 	properties.start();

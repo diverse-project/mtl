@@ -1,5 +1,5 @@
 /*
- * $Id: Operation.java,v 1.7 2004-04-29 13:55:35 edrezen Exp $
+ * $Id: Operation.java,v 1.8 2004-11-03 09:11:21 jpthibau Exp $
  * Authors : modelware
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -112,6 +112,14 @@ public class Operation
     }
     public void setThrowsException (boolean value) {
         this.throwsException = value; 
+    }
+
+    public boolean isAbstract;
+    public boolean getIsAbstract () {
+        return this.isAbstract;
+    }
+    public void setIsAbstract (boolean value) {
+        this.isAbstract = value; 
     }
 
     public boolean isConstructor;

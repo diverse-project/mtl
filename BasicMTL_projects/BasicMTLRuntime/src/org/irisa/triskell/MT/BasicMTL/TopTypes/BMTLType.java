@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLType.java,v 1.9 2004-10-15 12:41:48 jpthibau Exp $
+ * $Id: BMTLType.java,v 1.10 2004-11-03 09:11:28 jpthibau Exp $
  * Created on 18 juin 2003
  *
  */
@@ -113,6 +113,10 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 	
 	private transient Constructor directConstructor = null;
 	public Constructor getDirectConstructor () {
+		try {
+		if (this.clazz.getDeclaredMethod("isAbstract",null)!=null)
+			System.err.println("You are trying to create an instance of abstract class"+clazz.getName());
+		} catch(NoSuchMethodException e) {}
 		if (this.directConstructor == null) {
 			Constructor [] cs = this.clazz.getConstructors();
 			Class [] pt;
