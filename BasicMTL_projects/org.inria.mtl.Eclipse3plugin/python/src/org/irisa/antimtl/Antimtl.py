@@ -13,22 +13,6 @@
 #                     implementation.
 # Creation date		:	15-Jan-2005
 # Last mod.			:
-# History			:	
-#   - 16-Jan-2005 : parse a simple build file with <properties> tag
-#   - 16-Jan-2005 : parse a more complex config file that integer many declarations of MTL
-#   libraries -> generate one build per library, each based on the main
-#   "build.xml" template (app. : samples/build_part1.xml)
-#   - 19-Jan-2005 : the antimtl is now complete, and tested with a small
-#   project.
-#
-# Todo				:
-#   - in .mtlclasspath we normally have (which should be changed later): 
-#   <classpathentry kind="prj" path="./TP1"/> TP1 project
-#   in .classpath :
-#   	<classpathentry kind="src" path="./TP1"/>
-#	<classpathentry kind="lib" path="./TP1/build/bin"/>
-#   - Integer unittests?
-#   
 # NOTES : 
 #    - Use XPath (with libxml2) instead of DOM implementation methods?
 #
@@ -61,81 +45,7 @@ import sys, getopt, string, re, os
 import xml.dom.minidom
 import xml
 
-class BaseProcess:
-    """Base class for the conversion processors.  Each concrete subclass
-    must provide the following methods:
-
-    initOutput()
-        Initialize the output dom and any internal data structures
-        that the conversion process needs.
-
-
-    finishOutput()
-        Finish all output generation.  If all work has been on internal
-        data structures, this is where dom should be converted to text
-        and written out.
-
-    run()
-        The main method that calls all the others to generate the ant files
-    """
-
-    def __init__(self, ftemplate, inclasspath, inmtlclasspath, outputpath="."):
-        """Store the input and output streams for later use.
-           Store the properties defined in "main" text block to add them later
-           in each build file to construct.
-        """
-        self.outputpath = outputpath
-        self.incp = inclasspath
-        self.inmtlcp = inmtlclasspath
-        self.ftemplate = ftemplate
-        self.lib_list = []
-
-    def run(self):
-        """Get info from classpath, mtlclasspath, and an environment variable 
-        () to construct the following ant files :
-            - <lib[i]>_build.xml for each mtl library lib[i] defined in the
-              project
-        """
-        # Get the libs for which we must create a lib_build.xml file
-        self.lib_list = self.getProjectLibs()
-        for lib in self.lib_list :
-            # Read the lib_build.xml template and 
-            # initialize the dom for the build (infp)
-            self.initOutput()
-        
-            lib_name = lib.split("/")[-1]
-            # The build filename
-            ofname = lib_name+"_build.xml"
-            # Set the common properties
-            self.process_classpath()   
-         
-            # Set the ant targets (only common_build to add)
-            self.setTargets(lib_name, "common_build.xml", " common")
-
-            # Set the user.needed.TLL.path property
-            tll_path_str = self.process_mtlclasspath()
-            self.setProperty("Runtime.TLL.path", tll_path_str)
-
-            # Set the {library.name} property
-            self.setProperty("library.name", lib_name, type="value")
-
-            self.setProperty("user.package.name", lib+"/${library.name}", type="value")
-
-            # Deprecated : Add target to recompile the depend"ed" project
-            #for prj_path in prj_path_list :
-            #    prj_name = prj_path[:prj_path.rfind("/")-len(prj_path)]
-            #    self.setTargets(prj_name, prj_path)
-
-            # Set the compiler.jar.path that allow to access the basic jars for
-            # the compilation (and log display) of the .mtl
-            self.setMTLcompilerJarPathProperty()
-        
-            # Create the <lib>_build.xml output file 
-            self.finishOutput(ofname, self.ftemplate_dom)
-
-        self.createGlobalBuild()
-
-class DOMAntimtl(BaseProcess) :
+class DOMAntimtl :
     """
     Ant file generator for a MTL project.
 
@@ -154,7 +64,7 @@ class DOMAntimtl(BaseProcess) :
 
     - the common_build.xml (in fact, it is simply copied in the output directory as
       the other *_build.xml file
-    - the build.xml main file
+    - the main_build.xml main file
     - a <lib>_build.xml for each MTL library (seen also as a folder)
  
     Some notes : 
@@ -176,14 +86,57 @@ class DOMAntimtl(BaseProcess) :
             inmtlclasspath : the .mtlclasspath template
             inbuild : the template for the global build
         """
-        BaseProcess.__init__(self, ftemplate, inclasspath, inmtlclasspath,
-        output)
+        self.outputpath = os.path.normpath(output)
+        self.incp = os.path.normpath(inclasspath)
+        self.inmtlcp = os.path.normpath(inmtlclasspath)
+        self.ftemplate = os.path.normpath(ftemplate)
+        self.lib_list = []
+        
         self.ftemplate_dom = None
         self.dom_mtlclasspath = self.initDom(self.inmtlcp)
         self.dom_classpath = self.initDom(self.incp)
-        self.inbuild = inbuild
+        self.inbuild = os.path.normpath(inbuild)
         self.BASICMTL_BIN = ""
         
+    def run(self):
+        """
+        The main method that calls all the others to generate the ant files
+        Get info from classpath, mtlclasspath, and an environment variable 
+        () to construct the following ant files :
+            - <lib[i]>_build.xml for each mtl library lib[i] defined in the
+              project
+        """
+        # Get the libs for which we must create a lib_build.xml file
+        self.lib_list = self.getProjectLibs()
+        for lib in self.lib_list :
+            # Read the lib_build.xml template and 
+            # initialize the dom for the build (infp)
+            self.initOutput()
+        
+            lib_name = lib.split("/")[-1]
+            # The build filename
+            ofname = lib_name+"_build.xml"
+            # Set the common properties
+            self.process_classpath()   
+         
+            # Set the ant targets (only common_build to add)
+            self.setTargets(lib_name, "common_build.xml", " common")
+
+            # Set the user.needed.TLL.path property and others
+            tll_path_str = self.process_mtlclasspath()
+            self.setProperty("Runtime.TLL.path", tll_path_str)
+            self.setProperty("library.name", lib_name, type="value")
+            self.setProperty("user.src.path", lib, type="location")
+
+            # Set the compiler.jar.path that allow to access the basic jars for
+            # the compilation (and log display) of the .mtl
+            self.setMTLcompilerJarPathProperty()
+        
+            # Create the <lib>_build.xml output file 
+            self.finishOutput(ofname, self.ftemplate_dom)
+
+        self.createGlobalBuild()
+
 
     def setBasicMTLBin(self, env_var):
         """This method set the directory where we can find the .jars necessary for the compilation and
@@ -193,9 +146,9 @@ class DOMAntimtl(BaseProcess) :
         """
         self.BASICMTL_BIN = env_var
         
-
+    
     def initOutput(self):
-        # TODO : test if file was not already loaded
+        """Initialize the output dom for an ant build output file"""
         self.ftemplate_dom = self.initDom(self.ftemplate)
 
     def initDom(self, filename):
@@ -472,8 +425,9 @@ class DOMAntimtl(BaseProcess) :
 
 
     def finishOutput(self, ofilename, doc):
-        """Close properly the input files
-           Save the dom document in ofilename
+        """
+        Close properly the input files and convert the dom document *doc* to text,
+        and write it in *ofilename*
            Params :
                 ofilename : the name of the build file
         """
@@ -549,18 +503,16 @@ def main():
 
     if can_process == 1:
         
-        commonfile = open(templates_path+"/common_build.xml")
+        commonfile = open(os.path.abspath(os.path.join(templates_path,"common_build.xml")))
         data = commonfile.read()
         commonfile.close()
 
         print "Creating/Overriding the common_build.xml..."
-        newfile = open("%s/common_build.xml"%output,"w+")
+        newfile = open(os.path.abspath(os.path.join(output, "common_build.xml")),"w+")
         newfile.write(data)
         newfile.close()
         print "Done"
 
-
-          
         tll_build = templates_path+"/tll_build.template.xml"
         build = templates_path+"/build.template.xml"
   
