@@ -1,4 +1,4 @@
-/* $Id: SetCommandGroup.java,v 1.5 2004-01-22 12:35:58 dvojtise Exp $
+/* $Id: SetCommandGroup.java,v 1.6 2004-04-14 17:11:59 ffondeme Exp $
  * Created on May 22, 2003
  *
  */
@@ -37,6 +37,7 @@ public class SetCommandGroup extends CommandGroupImpl {
 			ret.addCommand(Set_union.TheInstance);
 			ret.addCommand(Set_intersection.TheInstance);
 			ret.addCommand(Set_including.TheInstance);
+			ret.addCommand(Set_excluding.TheInstance);
 			ret.addCommand(Set_symmetricDifference.TheInstance);
 		}
 		return ret;

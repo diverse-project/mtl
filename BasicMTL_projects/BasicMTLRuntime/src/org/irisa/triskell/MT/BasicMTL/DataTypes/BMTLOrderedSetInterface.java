@@ -20,4 +20,5 @@ public interface BMTLOrderedSetInterface extends BMTLCollectionInterface {
 	BMTLOrderedSetInterface BMTL_prepend (Value s);
 	BMTLOrderedSetInterface BMTL_insertAt (IntegerValue index, Value s);
 	BMTLOrderedSetInterface BMTL_including (Value s);
+	BMTLOrderedSetInterface BMTL_excluding (Value s);
 }

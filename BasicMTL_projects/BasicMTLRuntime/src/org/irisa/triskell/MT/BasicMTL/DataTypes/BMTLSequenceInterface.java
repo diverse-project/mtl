@@ -20,4 +20,5 @@ public interface BMTLSequenceInterface extends BMTLCollectionInterface {
 	BMTLSequenceInterface BMTL_prepend (Value s);
 	BMTLSequenceInterface BMTL_insertAt (IntegerValue index, Value s);
 	BMTLSequenceInterface BMTL_including (Value s);
+	BMTLSequenceInterface BMTL_excluding (Value s);
 }

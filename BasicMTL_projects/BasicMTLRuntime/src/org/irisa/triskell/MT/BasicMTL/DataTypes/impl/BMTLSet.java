@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLSet.java,v 1.5 2004-01-22 10:58:04 dvojtise Exp $
+ * $Id: BMTLSet.java,v 1.6 2004-04-14 17:11:53 ffondeme Exp $
  * Created on 19 août 2003
  *
  */
@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 // import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_excluding;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_including;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_intersection;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.Set_union;
@@ -45,6 +46,11 @@ public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
 	public BMTLSetInterface BMTL_including(Value s) {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
+
+	public BMTLSetInterface BMTL_excluding(Value s) {
+		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_excluding.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+	
 	public BMTLSetInterface BMTL_symmetricDifference(BMTLSetInterface s) {
 		System.out.println("class BMTLSet BMTL_symmetricDifference(BMTLSetInterface s)");
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_symmetricDifference.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));

@@ -1,6 +1,6 @@
 /*
  * Created on May 22, 2003
- * $Id: BagCommandGroup.java,v 1.6 2004-02-16 17:02:20 dvojtise Exp $
+ * $Id: BagCommandGroup.java,v 1.7 2004-04-14 17:12:07 ffondeme Exp $
  * @author : ffondeme 
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -33,6 +33,7 @@ public class BagCommandGroup extends CommandGroupImpl {
 			ret = new BagCommandGroup(bagType, CollectionCommandGroup.getCollectionCommandGroup(bagType));
 			bagCommandGroups.put(bagType, ret);
 			ret.addCommand(Bag_including.TheInstance);
+			ret.addCommand(Bag_excluding.TheInstance);
 		}
 		return ret;
 	}

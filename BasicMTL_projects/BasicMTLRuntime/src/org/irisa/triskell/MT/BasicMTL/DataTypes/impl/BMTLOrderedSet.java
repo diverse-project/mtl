@@ -10,6 +10,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSet_append;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSet_excluding;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSet_including;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSet_insertAt;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSet_prepend;
@@ -51,6 +52,10 @@ public class BMTLOrderedSet
 
 	public BMTLOrderedSetInterface BMTL_including(Value s) {
 		return (BMTLOrderedSetInterface)CommonFunctions.toBMTLDataType(OrderedSet_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+
+	public BMTLOrderedSetInterface BMTL_excluding(Value s) {
+		return (BMTLOrderedSetInterface)CommonFunctions.toBMTLDataType(OrderedSet_excluding.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 }

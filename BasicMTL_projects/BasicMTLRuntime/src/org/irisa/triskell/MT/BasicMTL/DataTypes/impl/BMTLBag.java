@@ -1,6 +1,6 @@
 /*
  * Created on 19 août 2003
- * $Id: BMTLBag.java,v 1.4 2004-02-17 08:58:25 dvojtise Exp $
+ * $Id: BMTLBag.java,v 1.5 2004-04-14 17:11:53 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -9,6 +9,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.Bag_excluding;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.Bag_including;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 
@@ -36,6 +37,10 @@ public class BMTLBag extends BMTLCollection implements BMTLBagInterface {
 
 	public BMTLBagInterface BMTL_including(Value s) {
 		return (BMTLBagInterface)CommonFunctions.toBMTLDataType(Bag_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+
+	public BMTLBagInterface BMTL_excluding(Value s) {
+		return (BMTLBagInterface)CommonFunctions.toBMTLDataType(Bag_excluding.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 }

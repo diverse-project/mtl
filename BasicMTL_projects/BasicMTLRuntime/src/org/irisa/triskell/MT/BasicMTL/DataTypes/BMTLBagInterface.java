@@ -16,4 +16,5 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
  */
 public interface BMTLBagInterface extends BMTLCollectionInterface {
 	BMTLBagInterface BMTL_including (Value s);
+	BMTLBagInterface BMTL_excluding (Value s);
 }

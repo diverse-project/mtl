@@ -1,5 +1,5 @@
 /*
- * $Id: OrderedSetCommandGroup.java,v 1.7 2004-04-14 03:56:13 ffondeme Exp $
+ * $Id: OrderedSetCommandGroup.java,v 1.8 2004-04-14 17:12:02 ffondeme Exp $
  * @author : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -32,6 +32,7 @@ public class OrderedSetCommandGroup extends CommandGroupImpl {
 			ret.addCommand(OrderedSet_prepend.TheInstance);
 			ret.addCommand(OrderedSet_insertAt.TheInstance);
 			ret.addCommand(OrderedSet_including.TheInstance);
+			ret.addCommand(OrderedSet_excluding.TheInstance);
 		}
 		return ret;
 	}
