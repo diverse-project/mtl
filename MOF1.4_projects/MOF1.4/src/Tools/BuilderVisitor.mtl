@@ -1,0 +1,62 @@
+/******************************************************************************
+ * $Id: BuilderVisitor.mtl,v 1.1 2004-03-17 15:43:28 edrezen Exp $
+ ******************************************************************************/
+
+library Tools;
+
+/******************************************************************************/
+
+class BuilderVisitor 
+{
+	table : HashTable;
+
+	/** */
+	build (
+		createVisitor : DefaultVisitors::InvokableVisitor;
+		context       : Standard::OclAny
+	) : Standard::OclAny
+	{
+		result : Standard::OclAny;
+		item   : HashTableItem;
+
+		result := getTable().exists (this);
+		if (isNull(result))
+		{
+			item := getTable().add (this, null);		
+			result := this.accept (createVisitor,context);
+			item.setValue (result);
+		}
+
+		return result;
+	}
+
+	/** */
+	set (
+		value : Standard::OclAny
+	) 
+	{
+		if (isNull(getTable().exists (this)) )
+		{
+			getTable().add (this, value);		
+		}
+		else
+		{
+			'ALREADY EXISTS...'.toOut();
+		}
+	}
+
+
+	/** */
+	getTable () : HashTable
+	{
+		if (isNull(this.table))
+		{
+			this.table := new HashTable().init();
+		}
+		return this.table;
+	}
+
+}
+
+
+/******************************************************************************/
