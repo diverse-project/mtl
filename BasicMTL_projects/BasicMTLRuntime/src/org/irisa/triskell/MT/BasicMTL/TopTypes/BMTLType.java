@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLType.java,v 1.8 2004-03-19 17:56:21 edrezen Exp $
+ * $Id: BMTLType.java,v 1.9 2004-10-15 12:41:48 jpthibau Exp $
  * Created on 18 juin 2003
  *
  */
@@ -129,10 +129,16 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		try {
 			return (BMTLObject)this.getDirectConstructor().newInstance(new Object [] {this.getLibrary()});
 		} catch(IllegalAccessException x) {
+			System.err.println("IllegalAccessException");
+			x.printStackTrace();
 			throw new RuntimeException("Unknown error", x);
 		} catch(InvocationTargetException x) {
+			System.err.println("InvocationTargetException");
+			x.printStackTrace();
 			throw new RuntimeException("Unknown error", x);
 		} catch (InstantiationException x) {
+			System.err.println("InstantiationException");
+			x.printStackTrace();
 			throw new RuntimeException("Cannot instanciate a new object of class " + this.getQualifiedNameAsString() + " (environment said " + x.getMessage() + ")");
 		}
 	}
