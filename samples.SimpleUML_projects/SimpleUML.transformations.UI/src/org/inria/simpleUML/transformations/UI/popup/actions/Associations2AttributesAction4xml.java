@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesAction4xml.java,v 1.2 2004-09-13 12:17:47 dvojtise Exp $
+/* $Id: Associations2AttributesAction4xml.java,v 1.3 2004-10-26 10:05:02 dvojtise Exp $
  * Authors : dvojtise
  * Created on 01/08/2004
  * Copyright 2003 - INRIA - LGPL license
@@ -12,35 +12,17 @@ package org.inria.simpleUML.transformations.UI.popup.actions;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.ui.plugin.*;
-//import org.eclipse.core.runtime.QualifiedName;
-import SimpleUmlTransformationsWithModelLoader.BMTLLib_SimpleUmlTransformationsWithModelLoader;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.inria.BasicMTL.runtime.JarClassLoader;
-import org.inria.BasicMTL.runtime.RuntimePlugin;
 import org.inria.simpleUML.transformations.UI.UIPlugin;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager;
-
-
-import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.core.runtime.ILibrary;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
-import org.inria.simpleUML.transformations.UI.dialogs.*;
+import org.inria.simpleUML.transformations.UI.dialogs.XMLDriverChoice;
 
 
 
@@ -74,6 +56,9 @@ public class Associations2AttributesAction4xml implements IObjectActionDelegate 
 		
 		anIFile = getIFileFromSelection();	
 		sourceFileName = anIFile.getLocation().toString();
+		
+		// activate debug messages
+	//	org.eclipse.osgi.framework.debug.Debug.DEBUG_LOADER = true;
 		
 		XMLDriverChoice mydialog = new XMLDriverChoice(
 				sourceFileName,

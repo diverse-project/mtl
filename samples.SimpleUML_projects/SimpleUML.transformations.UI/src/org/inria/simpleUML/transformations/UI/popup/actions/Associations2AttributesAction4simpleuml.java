@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesAction4simpleuml.java,v 1.3 2004-09-13 12:18:05 dvojtise Exp $
+/* $Id: Associations2AttributesAction4simpleuml.java,v 1.4 2004-10-26 10:05:01 dvojtise Exp $
  * Authors : dvojtise
  * Created on 01/08/2004
  * Copyright 2003 - INRIA - LGPL license
@@ -8,32 +8,27 @@ package org.inria.simpleUML.transformations.UI.popup.actions;
 
 import java.util.Map;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-//import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.emf.ecore.EPackage;
-//import org.eclipse.emf.ecore.EcoreFactory;
-//import org.eclipse.emf.ecore.EcorePackage;
-//import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
-import SimpleUML.*;
-import SimpleUML.provider.SimpleUMLItemProviderAdapterFactory;
-import SimpleUmlTransformationsWithModelLoader.BMTLLib_SimpleUmlTransformationsWithModelLoader;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.inria.EMFDriver.EMFDriver;
 import org.inria.EMFDriver.EditingDomainProvider;
 import org.inria.simpleUML.transformations.UI.UIPlugin;
-import org.inria.simpleUML.transformations.UI.dialogs.*;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
+import org.inria.simpleUML.transformations.UI.dialogs.DestFileDialog;
+
+import SimpleUML.SimpleUMLFactory;
+import SimpleUML.SimpleUMLPackage;
+import SimpleUML.provider.SimpleUMLItemProviderAdapterFactory;
 
 public class Associations2AttributesAction4simpleuml implements IObjectActionDelegate {
 	private StructuredSelection currentSelection = null;

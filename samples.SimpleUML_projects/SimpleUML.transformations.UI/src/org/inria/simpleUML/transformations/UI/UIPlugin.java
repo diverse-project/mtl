@@ -1,15 +1,10 @@
 package org.inria.simpleUML.transformations.UI;
 
-import org.eclipse.core.runtime.ILibrary;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
-import org.eclipse.ui.plugin.*;
-import org.inria.BasicMTL.runtime.JarClassLoader;
-import org.osgi.framework.BundleContext;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.

@@ -1,26 +1,25 @@
-/* $Id: Associations2AttributesActions.java,v 1.3 2004-09-15 12:50:50 dvojtise Exp $
+/* $Id: Associations2AttributesActions.java,v 1.4 2004-10-26 10:05:01 dvojtise Exp $
  * Created on 16 août 2004
  * Authors: dvojtise
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.inria.simpleUML.transformations.UI.popup.actions;
 
-import org.eclipse.core.resources.IFile;
-import org.inria.simpleUML.transformations.UI.UIPlugin;
-import SimpleUmlTransformationsWithModelLoader.*;
-
-import org.eclipse.core.runtime.IPluginDescriptor;
-import org.eclipse.core.runtime.ILibrary;
-import org.eclipse.core.runtime.IPath;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.ILibrary;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IPluginDescriptor;
 import org.inria.BasicMTL.runtime.JarClassLoader;
 import org.inria.BasicMTL.runtime.RuntimePlugin;
+import org.inria.simpleUML.transformations.UI.UIPlugin;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 
-import java.net.MalformedURLException;
-import java.io.*;
+import SimpleUmlTransformationsWithModelLoader.BMTLLib_SimpleUmlTransformationsWithModelLoader;
 
 /**
  * @author dvojtise
@@ -32,8 +31,22 @@ public class Associations2AttributesActions {
 	{
 		thePlugin = aPlugin;
 		// initialize the  Directories.RootPath property so the log4j logger will find its configuration file
-		// TODO look for the rootpath from BasicMTL runtime plugin installation dir
-		System.setProperty("Directories.RootPath","C:\\eclipse3.0\\eclipse\\plugins\\org.inria.BasicMTL.runtime_0.0.3");
+		// Looks for the rootpath from BasicMTL.runtime plugin installation
+		URL theURL;
+		try{
+			theURL = org.eclipse.core.runtime.Platform.asLocalURL(RuntimePlugin.getDefault().getBundle().getEntry("/"));			
+			java.io.File aFile = new java.io.File(theURL.getFile()); // convert it into system specific string
+			String systemSpecificPath = aFile.getPath();
+			System.setProperty("Directories.RootPath",
+					systemSpecificPath);
+		}
+		catch (java.io.IOException e)
+		{
+			// not able to find runtime plugin, let the Directories.RootPath empty ...
+		}
+		
+		
+		
 	}
 	/**
 	 * @param anIFile
