@@ -1,0 +1,85 @@
+// $Id: test2a.mtl,v 1.1 2003-08-27 09:34:10 dvojtise Exp $
+// This file is intend to verify various constructs that should work with the parser
+// this is a simple test approach, a better way should be to create various files and use them separately with junit
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library Test2LibraryA;
+
+// Lib local model
+model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
+
+// Typed model 
+model mdrdriver : MDRDriver;
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{	
+	mdrdriver : MDRDriver::MDRModelManager;
+	
+	'begin main():Standard::Void'.toOut();
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	
+	// intanciate the source model
+	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\MM\\SimpleUML\\SimpleUmlMM_MOF.xml', 
+						'SimpleUmlMM',
+						'SimpleUML_source_model', 
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML2RDBMS\\MM\\SimpleUML\\sample_models\\SimpleUML_FullExample.xml',
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\tests\\behavioral_tests\\SimpleUML_FullExample_modified.xml');
+
+	transform();
+	
+	'end   main():Standard::Void'.toOut();
+}
+
+
+
+transform():Standard::Void
+{
+	classIterator : Standard::Iterator;
+	classSet : Standard::Set;
+	aClass : source_model::Class;	
+	
+	classSet := !source_model::Class!.allInstances();
+	
+	classIterator := classSet.getNewIterator();
+	classIterator.start();
+	
+	while classIterator.isOn() 
+	{		
+		aClass := classIterator.item().oclAsType(!source_model::Class!);
+		ModifyClass(aClass); 
+		
+			
+		classIterator.next();
+	}
+	
+		
+}
+
+ModifyClass(sourceClass : source_model::Class) 
+{
+	anAttribute : source_model::Attribute;
+	className : Standard::String;
+	
+	
+	// create new attribute for this class
+	anAttribute := new source_model::Attribute();
+	className := sourceClass.name; 
+	
+	anAttribute.name := 'new_attribute'.concat(className);
+	
+	//associate (owner := sourceClass : source_model::Class, attribute := anAttribute : source_model::Attribute);
+	associate ( attribute := anAttribute : source_model::Attribute, owner := sourceClass : source_model::Class);
+	
+	
+	// change class name
+	sourceClass.name := className.concat('_changed');
+	
+}

@@ -1,0 +1,51 @@
+// $Id: test3a.mtl,v 1.1 2003-08-27 09:34:09 dvojtise Exp $
+// This file is intend to verify various constructs that should work with the parser
+// this is a simple test approach, a better way should be to create various files and use them separately with junit
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library Test3LibraryA;
+
+// Lib local model
+// NONE
+
+// Typed model 
+// NONE
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{
+	
+	'begin main():Standard::Void'.toOut();
+	
+	
+	
+	associate (anotherMembre := ?? : T3LAClass1, 
+	'end   main():Standard::Void'.toOut();
+}
+
+
+/********************************************/
+// Library classes
+/********************************************/
+
+class T3LAClass1
+{	
+	aMember:Standard::Integer;
+	anotherMembre : T3LAClass3
+}
+
+class T3LAClass2 extend T3LAClass1
+{
+	
+}
+
+class T3LAClass3
+{	
+	aMember:Standard::Integer;
+	anotherMembre : T3LAClass3
+}

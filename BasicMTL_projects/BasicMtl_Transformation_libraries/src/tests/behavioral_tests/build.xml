@@ -1,0 +1,208 @@
+<!-- $Id: build.xml,v 1.1 2003-08-27 09:34:10 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="run test1" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project simpleUML2RDBMS V1
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="."/>
+	<property name="base" location="../../.."/>
+	<property name="bin" location="${base}/bin"/>
+	<property name="build" location="${base}/build"/>
+	
+	<!-- classpath for compiling and running MTL file -->
+	<path id="MTLcompiler.class.path">
+    	<pathelement path="${java.class.path}/"/>
+    	<pathelement path="."/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MTDataTypes\dist\bin\MTDataTypes.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMTLRuntime\dist\bin\BasicMTLRuntime.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\RepositoryAPI\dist\bin\RepositoryAPI.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MDRDriver\dist\bin\MDRDriver.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\dist\bin\Utils.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\ThirdParty\log4j\log4j.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\bin"/>
+  	</path>
+	
+	
+	<!-- tools -->
+	<property name="ANTLR2TLL" location="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar"/>
+	<property name="CodeGenerator" location="../../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/UncheckedTLL"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="clean" depends="clean test1,clean test2"
+        description="clean up " >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+  	</target>
+  	
+  	<target name="clean test1"
+        description="clean up test1" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/test1"/>    
+    	<delete file="${build}/src/TLL/aLibrary.tll"/>
+    	<delete file="${build}/src/TLL/AnotherLibrary.tll"/>    
+    	<delete file="${build}/src/UncheckedTLL/aLibrary.tll"/>
+    	<delete file="${build}/src/UncheckedTLL/AnotherLibrary.tll"/>
+  	</target>
+  	
+  	<target name="clean test2"
+        description="clean up test2" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/test2"/>    
+    	<delete file="${build}/src/TLL/Test2LibraryA.tll"/>    	
+    	<delete file="${build}/src/UncheckedTLL/Test2LibraryA.tll"/>
+    	
+  	</target>
+  	
+  	
+  	
+  	<!-- test1 -->  	
+  	<target name="generate_test1" depends="init,generate_test1a,generate_test1b">  	
+  		<description>
+  			generate the java code for test1
+  		</description>
+  	</target>
+  	<target name="generate_test1a" depends="generate_test1b">
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\test1\test1a.mtl" />  
+  			<param name="packagename" value="test1" /> 
+  			<param name="libname" value="aLibrary" /> 
+  		</antcall>
+  	</target>
+  	<target name="generate_test1b" >
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\test1\test1b.mtl" /> 
+  			<param name="packagename" value="test1" /> 
+  			<param name="libname" value="AnotherLibrary" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_test1_generated_code" depends="generate_test1">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java/test1" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  	</target>
+  	<target name="run test1" depends="compile_test1_generated_code">
+  		<description>
+  			run the generated Java Code
+  		</description>
+  		<java classname="test1.BMTLLib_aLibrary">
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</java>
+  	</target>
+  	
+  	<!-- test2 -->
+  	<target name="generate_test2" depends="init,generate_test2a">
+  		<description>
+  			generate the java code for test2
+  		</description>
+  	</target>
+  	<target name="generate_test2a" >
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\test2\test2a.mtl" /> 
+  			<param name="packagename" value="test2" /> 
+  			<param name="libname" value="Test2LibraryA" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_test2_generated_code" depends="generate_test2">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}/src/java/test2" 
+    	    destdir="${bin}">
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</javac>
+  	</target>
+	<target name="run test2" depends="compile_test2_generated_code">
+  	<!--<target name="run test2" >-->
+  		<description>
+  			run the generated Java Code
+  		</description>
+  		<java classname="test2.BMTLLib_Test2LibraryA" fork="yes" >
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</java>
+  	</target>
+  	
+  	<!-- generic tasks -->
+  	<target name="MTL2TLL" depends="init"
+  	 	description="generic target mtl to a TLL">
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${mtlsrcfile}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="${packagename}"/> 
+       </java> 
+	</target>
+  	<target name="TLL2Javacode" depends="MTL2TLL">
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>
+  		<mkdir dir="${build}\src\java\${packagename}"/>
+  		<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${libname}"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/${packagename}/"/> 
+       </java>
+  	</target>
+  	<target name="MTL2Java" depends="TLL2Javacode"> 
+  		<description>
+  			generic target : 
+  			inputs : mtlsrcfile, packagename, libname
+  			
+  		</description>
+  		
+  	</target>
+  	
+  	<!-- targets specific to junit -->
+  	<target name="compile junit classes" depends="compile_test1_generated_code,compile_test2_generated_code">
+  		<mkdir dir="${bin}/tests/java"/>
+  		<javac srcdir="${base}/src/tests/java/" 
+    	    destdir="${bin}/tests/java">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>  		
+  	</target>
+  	<target name="run all junit tests" depends="compile junit classes">		
+  	<!-- <target name="run all junit tests" >	-->
+  		<mkdir dir="${bin}/tests/reports"/>	
+  		<junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" newenvironment="true" showoutput="yes">
+	    	<classpath>
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+			</classpath>
+			<formatter type="plain"/>
+	    	<test todir="${bin}/tests/reports" name="tests.java.AllCompilerTests"/>
+	    </junit>
+  	</target>
+</project>

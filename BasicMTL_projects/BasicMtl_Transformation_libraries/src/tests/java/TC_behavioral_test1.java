@@ -1,5 +1,5 @@
 /*
- * $Id: TC_behavioral_test1.java,v 1.1 2003-08-25 14:50:07 dvojtise Exp $
+ * $Id: TC_behavioral_test1.java,v 1.2 2003-08-27 09:34:09 dvojtise Exp $
  * Created on 25 août 2003
  *
  * Testcase for behavioral test1
@@ -30,6 +30,7 @@ public class TC_behavioral_test1 extends TC_generic_behavioral
 	public void callTestMethod() 
 	{       
 		// call the Main of the behavorial_test1
+		//	If you have a "Test1 cannot be resolved" error, this is because you need to generate the test1 example first 		
 		test1.BMTLLib_aLibrary.main(null);  
 	}	
 	

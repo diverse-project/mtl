@@ -1,0 +1,42 @@
+"begin main():Standard::Void" : primitive type String
+"begin aLibMethod1()" : primitive type String
+"end   aLibMethod1()" : primitive type String
+"begin aLibMethod2(aString : Standard::String) : Standard::String" : primitive type String
+"aParameterString" : primitive type String
+"end   aLibMethod2(aString : Standard::String) : Standard::String" : primitive type String
+"aParameterString" : primitive type String
+"begin aLibMethod3(anInteger : Standard::Integer) : Standard::Integer" : primitive type String
+2 : primitive type Integer
+"end   aLibMethod3(anInteger : Standard::Integer) : Standard::Integer" : primitive type String
+2 : primitive type Integer
+"begin aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)" : primitive type String
+"aParameterString" : primitive type String
+"anotherParameterString" : primitive type String
+2 : primitive type Integer
+"aParameterString_changed" : primitive type String
+"anotherParameterString_changed" : primitive type String
+3 : primitive type Integer
+"end   aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)" : primitive type String
+"aString" : primitive type String
+"anotherString" : primitive type String
+10 : primitive type Integer
+"begin aLibMethod2(aString : Standard::String) : Standard::String" : primitive type String
+"aString" : primitive type String
+"end   aLibMethod2(aString : Standard::String) : Standard::String" : primitive type String
+"aString" : primitive type String
+"begin aLibMethod3(anInteger : Standard::Integer) : Standard::Integer" : primitive type String
+10 : primitive type Integer
+"end   aLibMethod3(anInteger : Standard::Integer) : Standard::Integer" : primitive type String
+10 : primitive type Integer
+"begin aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)" : primitive type String
+"aString" : primitive type String
+"anotherString" : primitive type String
+10 : primitive type Integer
+"aString_changed" : primitive type String
+"anotherString_changed" : primitive type String
+11 : primitive type Integer
+"end   aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer)" : primitive type String
+"aString" : primitive type String
+"anotherString" : primitive type String
+10 : primitive type Integer
+"end   main():Standard::Void" : primitive type String
