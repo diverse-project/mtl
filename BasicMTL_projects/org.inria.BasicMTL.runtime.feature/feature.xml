@@ -2,7 +2,7 @@
 <feature
       id="org.inria.BasicMTL.runtime"
       label="BasicMTL runtime"
-      version="0.0.4"
+      version="0.0.6"
       provider-name="INRIA">
 
    <install-handler/>
@@ -62,24 +62,24 @@ Content and is also available at http://www.gnu.org/copyleft/lesser.html.
          id="org.inria.BasicMTL.runtime"
          download-size="0"
          install-size="0"
-         version="0.0.4"/>
+         version="0.0.6"/>
 
    <plugin
          id="org.inria.EMFDriver"
          download-size="0"
          install-size="0"
-         version="0.0.4"/>
+         version="0.0.6"/>
 
    <plugin
          id="org.inria.BasicMTL.MDRDriver"
          download-size="0"
          install-size="0"
-         version="0.0.1"/>
+         version="0.0.6"/>
 
    <plugin
          id="org.inria.ModFactDriver"
          download-size="0"
          install-size="0"
-         version="0.0.1"/>
+         version="0.0.6"/>
 
 </feature>

@@ -3,7 +3,7 @@
 <plugin
    id="org.inria.BasicMTL.compiler"
    name="Compiler Plug-in"
-   version="0.0.1"
+   version="0.0.6"
    provider-name="INRIA"
    class="org.inria.BasicMTL.compiler.CompilerPlugin">
 

@@ -1,2 +1,2 @@
 # compiler version
-beta3 - build $Build$
+0.0.6 - build $Build$

@@ -2,7 +2,7 @@
 <feature
       id="org.inria.UmlautNG"
       label="UmlautNG Framework and compilers"
-      version="0.0.5"
+      version="0.0.6"
       provider-name="INRIA"
       image="umlaut_ng_medium.gif">
 
@@ -53,13 +53,18 @@ Content and is also available at http://www.gnu.org/copyleft/lesser.html.
    </url>
 
    <includes
+         id="fr.irisa.triskell.traceability.feature"
+         version="0.0.1"
+         name="fr.irisa.triskell.traceability.feature"/>
+
+   <includes
          id="org.inria.BasicMTL.runtime"
-         version="0.0.4"
+         version="0.0.6"
          name="BasicMTL runtime"/>
 
    <includes
          id="org.inria.BasicMTLc"
-         version="0.0.5"
+         version="0.0.6"
          name="BasicMTL compiler and editors"/>
 
 </feature>

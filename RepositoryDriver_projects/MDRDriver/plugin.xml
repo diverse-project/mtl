@@ -3,9 +3,10 @@
 <plugin
    id="org.inria.BasicMTL.MDRDriver"
    name="MDRDriver"
-   version="0.0.1"
+   version="0.0.6"
    provider-name="INRIA"
    class="org.inria.BasicMTL.MDRDriver.MDRDriverPlugin">
+
    <runtime>
       <library name="ThirdParty/MDR/official/jmi.jar">
          <export name="*"/>
@@ -29,6 +30,7 @@
          <export name="*"/>
       </library>
    </runtime>
+
    <requires>
       <import plugin="org.inria.BasicMTL.runtime"/>
       <import plugin="org.eclipse.core.runtime"/>

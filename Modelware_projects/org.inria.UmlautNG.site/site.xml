@@ -6,14 +6,14 @@
 It proposes:
 - BasicMTL compiler (with its Eclipse editors, builder, perspective, etc)
    </description>
-   <feature url="features/org.inria.UmlautNG_0.0.5.jar" id="org.inria.UmlautNG" version="0.0.5">
+   <feature url="features/fr.irisa.triskell.traceability.feature_0.0.1.jar" id="fr.irisa.triskell.traceability.feature" version="0.0.1"/>
+   <feature url="features/org.inria.UmlautNG_0.0.6.jar" id="org.inria.UmlautNG" version="0.0.6">
       <category name="AllInOne"/>
    </feature>
-   <feature url="features/fr.irisa.triskell.traceability.feature_0.0.1.jar" id="fr.irisa.triskell.traceability.feature" version="0.0.1"/>
-   <feature url="features/org.inria.BasicMTL.runtime_0.0.4.jar" id="org.inria.BasicMTL.runtime" version="0.0.4">
+   <feature url="features/org.inria.BasicMTLc_0.0.6.jar" id="org.inria.BasicMTLc" version="0.0.6">
       <category name="BasicMTL"/>
    </feature>
-   <feature url="features/org.inria.BasicMTLc_0.0.5.jar" id="org.inria.BasicMTLc" version="0.0.5">
+   <feature url="features/org.inria.BasicMTL.runtime_0.0.6.jar" id="org.inria.BasicMTL.runtime" version="0.0.6">
       <category name="BasicMTL"/>
    </feature>
    <category-def name="BasicMTL" label="BasicMTL features">

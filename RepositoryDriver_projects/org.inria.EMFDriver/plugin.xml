@@ -3,7 +3,7 @@
 <plugin
    id="org.inria.EMFDriver"
    name="EMFDriver Plug-in"
-   version="0.0.4"
+   version="0.0.6"
    provider-name="INRIA"
    class="org.inria.EMFDriver.EMFDriverPlugin">
 
@@ -12,6 +12,7 @@
          <export name="*"/>
       </library>
    </runtime>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime.compatibility"/>
@@ -19,6 +20,5 @@
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
       <import plugin="org.inria.BasicMTL.runtime" export="true"/>
    </requires>
-
 
 </plugin>
