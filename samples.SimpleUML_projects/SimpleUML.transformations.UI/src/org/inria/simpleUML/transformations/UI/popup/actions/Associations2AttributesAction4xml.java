@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesAction4xml.java,v 1.1 2004-08-19 10:18:45 dvojtise Exp $
+/* $Id: Associations2AttributesAction4xml.java,v 1.2 2004-09-13 12:17:47 dvojtise Exp $
  * Authors : dvojtise
  * Created on 01/08/2004
  * Copyright 2003 - INRIA - LGPL license
@@ -117,7 +117,7 @@ public class Associations2AttributesAction4xml implements IObjectActionDelegate 
 			MessageDialog.openInformation(
 					shell,
 					"SimpleUML transformations UI Plug-in",
-					"Associations2AttributesAction4xml was executed on \n" + anIFile.getLocation().toString() + anIFile.getName());
+					"Associations2AttributesAction4xml was executed on \n" + sourceFileName);
 		}
 		else
 		{

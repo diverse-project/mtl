@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesActions.java,v 1.1 2004-08-19 10:18:43 dvojtise Exp $
+/* $Id: Associations2AttributesActions.java,v 1.2 2004-09-13 12:17:47 dvojtise Exp $
  * Created on 16 août 2004
  * Authors: dvojtise
  * Copyright 2003 - INRIA - LGPL license
@@ -57,6 +57,7 @@ public class Associations2AttributesActions {
 				catch(Exception e)
 				{
 					System.err.println("Exception: "+ e.getMessage());
+					e.printStackTrace();
 				}
 				finally {
 					  cur.setContextClassLoader(save);
@@ -105,12 +106,12 @@ public class Associations2AttributesActions {
 			
 				BMTLString [] params = new BMTLString [3];
 				params[0] = new BMTLString(sourceFileName);
-				params[1] = new BMTLString(sourceFileName);
+				params[1] = new BMTLString(destFileName);
 				params[2] = new BMTLString(driverName);
 				Thread cur = Thread.currentThread();
 				ClassLoader save = cur.getContextClassLoader();			
-				//cur.setContextClassLoader(getClass().getClassLoader());
-				cur.setContextClassLoader(getBasicMTLRuntimeClassLoader());
+				cur.setContextClassLoader(getClass().getClassLoader());
+				//cur.setContextClassLoader(getBasicMTLRuntimeClassLoader());
 				try {
 				    BMTLLib_SimpleUmlTransformationsWithModelLoader.TheInstance.BMTL_main(new BMTLSequence(params));
 				   
