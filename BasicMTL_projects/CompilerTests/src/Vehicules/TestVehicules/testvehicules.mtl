@@ -279,10 +279,10 @@ main(args : Standard::Sequence):Standard::Void
 	}
 	
 	c := new clazz2();
-//TODO	c.op('789');
-//TODO	if c.oclAsType(!clazz2!).wasInOp2.not() {
-//TODO		throw 'oclAsType has problems';
-//TODO	}
+	c.op('789');
+	if c.oclAsType(!clazz2!).wasInOp2.not() {
+		throw 'oclAsType has problems';
+	}
 	
 	'testVehicule passed...'.toOut();
 	self.toOut();

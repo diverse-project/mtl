@@ -1,0 +1,37 @@
+<!-- $Id: build.xml,v 1.1 2003-11-04 15:30:31 jpthibau Exp $ -->
+<project name="Build,run all tests" default="run all" basedir=".">
+	<description>
+        Build and run all tests of the CompilerTests project
+	</description>
+
+	<target name="build all">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+
+	    <!-- call successively each builder -->
+	    <echo>Building "Vehicules" test.</echo>
+	    <ant antfile="${basedir}/Vehicules/Vehicule/build.xml" dir="${basedir}/Vehicules/Vehicule" target="compile" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/Aquatique/build.xml" dir="${basedir}/Vehicules/Aquatique" target="compile" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/Terrestre/build.xml" dir="${basedir}/Vehicules/Terrestre" target="compile" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/Amphibie/build.xml" dir="${basedir}/Vehicules/Amphibie" target="compile" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/AmphibieHerite/build.xml" dir="${basedir}/Vehicules/AmphibieHerite" target="compile" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="compile" inheritAll="false"/>
+	    <echo>Building "AssociationTry" test.</echo>
+	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="compile" inheritAll="false"/>
+	</target>
+  
+	<target name="clean"
+        description="clean up built files" >
+    	<!-- Delete the ${build}, {$bin}  directory trees -->
+    	<delete dir="${basedir}/bin"/>    
+    	<delete dir="${basedir}/build"/>    
+  	</target>
+
+  	<target name="run all" > <!-- depends="build all"> -->
+	    <!-- call successively each runner -->
+	    <echo>Running "Vehicules" test.</echo>
+	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="run sample" inheritAll="false"/>
+	    <echo>Running "AssociationTry" test.</echo>
+	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="run sample" inheritAll="false"/>
+  	</target>
+</project>

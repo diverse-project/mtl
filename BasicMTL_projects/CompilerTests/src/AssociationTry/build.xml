@@ -1,13 +1,13 @@
-<!-- $Id: buildCaracteristiques.xml,v 1.1 2003-11-03 12:17:32 jpthibau Exp $ -->
-<project name="Caracteristiques" default="compile" basedir=".">
+<!-- $Id: build.xml,v 1.1 2003-11-04 15:30:27 jpthibau Exp $ -->
+<project name="AssociationTry" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
 	</description>
 
 	<!-- set global properties for this build -->
-	<property name="src" location="src"/>
+	<property name="src" location="."/>
 	<property name="builtbin" location="../../bin"/>
-	<property name="builtsrc" location="../../src"/>
+	<property name="builtsrc" location="../../build/src"/>
 	
 	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation"/>
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
@@ -26,10 +26,10 @@
 	<!--           ( and the project name )               -->
 	<!-- ************************************************ -->
 	<!-- set sample properties for this build -->
-	<property name="Sample src Folder" value="${src}/Caracteristiques/"/>
-	<property name="Sample Package" value="Caracteristiques"/>
+	<property name="Sample src Folder" value="${src}/"/>
+	<property name="Sample Package" value="AssociationTry"/>
 	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/"/>
-	<property name="Sample built src" value="${builtsrc}/Caracteristiques/"/>
+	<property name="Sample built src" value="${builtsrc}/AssociationTry/"/>
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->
@@ -51,6 +51,7 @@
     	<!-- Delete the ${builtsrc}, {$builtbin} and  directory trees -->
     	<delete file="${builtsrc}/TLL/${Sample Package}.tll"/>    
     	<delete dir="${Sample built src}"/>    
+    	<delete dir="${builtbin}/${Sample Package}"/>    
   	</target>
 
   	<target name="compile" description="compile all the sources in .class files" depends="init">

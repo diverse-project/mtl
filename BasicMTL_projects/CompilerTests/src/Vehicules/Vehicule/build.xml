@@ -1,15 +1,15 @@
-<!-- $Id: buildAquatique.xml,v 1.1 2003-11-03 12:17:33 jpthibau Exp $ -->
-<project name="Aquatique" default="compile" basedir=".">
+<!-- $Id: build.xml,v 1.1 2003-11-04 15:30:30 jpthibau Exp $ -->
+<project name="Vehicule" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
 	</description>
 
 	<!-- set global properties for this build -->
-	<property name="src" location="src"/>
-	<property name="builtbin" location="../../bin"/>
-	<property name="builtsrc" location="../../src"/>
+	<property name="src" location="."/>
+	<property name="builtbin" location="../../../bin"/>
+	<property name="builtsrc" location="../../../build/src"/>
 	
-	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation"/>
+	<property name="MTLcompiler.path" location="../../../../BasicMtl2Java/LibAssociation"/>
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/>
 	<!-- The compilation tool -->
 	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
@@ -26,10 +26,10 @@
 	<!--           ( and the project name )               -->
 	<!-- ************************************************ -->
 	<!-- set sample properties for this build -->
-	<property name="Sample src Folder" value="${src}/Aquatique/"/>
-	<property name="Sample Package" value="Aquatique"/>
-	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${builtsrc}/TLL/"/>
-	<property name="Sample built src" value="${builtsrc}/Aquatique/"/>
+	<property name="Sample src Folder" value="${src}/"/>
+	<property name="Sample Package" value="Vehicule"/>
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/"/>
+	<property name="Sample built src" value="${builtsrc}/Vehicule/"/>
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->
@@ -51,6 +51,7 @@
     	<!-- Delete the ${builtsrc}, {$builtbin} and  directory trees -->
     	<delete file="${builtsrc}/TLL/${Sample Package}.tll"/>    
     	<delete dir="${Sample built src}"/>    
+    	<delete dir="${builtbin}/${Sample Package}"/>    
   	</target>
 
   	<target name="compile" description="compile all the sources in .class files" depends="init">

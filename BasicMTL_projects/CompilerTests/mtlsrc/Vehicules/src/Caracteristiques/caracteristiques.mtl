@@ -1,7 +1,0 @@
-library caracteristiquesVehicule;
-
-/********************************************/
-// classe caracteristiques
-/********************************************/
-class caracteristiques {
-}
