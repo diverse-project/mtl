@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
     <classpathentry kind="src" path="src"/>
-    <classpathentry kind="src" path="build/src/java"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="src" path="/BasicMtlAntlr"/>
     <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
@@ -10,5 +9,6 @@
     <classpathentry kind="src" path="/BasicMTLRuntime"/>
     <classpathentry kind="src" path="/BasicMtlAstJava"/>
     <classpathentry kind="src" path="/RepositoryAPI"/>
+    <classpathentry kind="lib" path="/BasicMtl2Java/LibAssociation/bin"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
