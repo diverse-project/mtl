@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.13 2004-08-18 14:09:07 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.14 2004-08-18 14:11:54 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -147,10 +147,8 @@ public class Compiler {
 			// ignore files in CVS directories
 			boolean isWithCVSDir = false; 
 			String[] result = filesList[i].split("\\\\|/");
-			MSGHandler.info(Compiler.class,149,"looking for CVS folder");			
-		    for (int x=0; x<result.length; x++)
+			for (int x=0; x<result.length; x++)
 		    {
-		    	System.out.println(result[x]);
 		    	if(result[x].equalsIgnoreCase("CVS"))
 		    	{
 		    		isWithCVSDir = true;
