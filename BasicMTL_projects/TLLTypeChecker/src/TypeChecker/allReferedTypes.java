@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.9 2003-08-26 13:09:59 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.10 2003-09-18 16:02:30 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -124,6 +124,8 @@ public class allReferedTypes {
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(((UserClass)knownClasses.get(typeName)).getMangle());
 			aType.setDeclarationName(theLib.getPackageName() + '.' + aType.getLocalMangledName()+"Interface");
+			if (aType.size() == 1)
+				aType.insertElementAt(theLib.getName(), 0);
 			return true;
 		}
 		return false;
@@ -230,8 +232,8 @@ public class allReferedTypes {
 	public static boolean checkType (QualifiedName aType, BasicMtlLibrary theLib) {
 		String firstName=(String)aType.get(0);
 		if (checkModel(aType,firstName,theLib)) return true;
-		else if (aType.size()==1) { //a single name
-				if (checkLocalClass(aType,firstName,theLib)) return true;
+		else if (aType.size()==1 || firstName.equals(theLib.getName())) { //a single name
+				if (checkLocalClass(aType,(String)aType.get(aType.size() - 1),theLib)) return true;
 				else	if (checkExternLibName(aType,firstName,theLib)) return true;
 						else {TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
 								errors++;} 

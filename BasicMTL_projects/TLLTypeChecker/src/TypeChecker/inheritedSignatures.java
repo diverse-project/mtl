@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.5 2003-09-17 06:39:50 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.6 2003-09-18 16:02:52 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -185,8 +185,13 @@ public class inheritedSignatures {
 				}
 		   else {
 				String className=(String)parentType.get(1);
-				if (unsolvedExternTLLParent(parentName,className,aClass,parentType, theLib))
-					return true;
+		   		if (parentName.equals(theLib.getName())) {
+					if (unSolvedSingleNameParent(className,aClass,theLib,parentType))
+						return true;
+		   		} else {
+					if (unsolvedExternTLLParent(parentName,className,aClass,parentType, theLib))
+						return true;
+				}
 		   	}
 		}
 		aClass.setCompletedInheritedSignatures(true);
@@ -213,7 +218,7 @@ public class inheritedSignatures {
 		if (remainingUnsolved.size()!=0)
 			{	TLLtypechecking.getLog().error("There are errors or there is an inheritance loop between following classes");
 				for (int i=0;i<remainingUnsolved.size();i++)
-					TLLtypechecking.getLog().info(((UserDefinedClass)remainingUnsolved.get(i)).getName());
+					TLLtypechecking.getLog().error(((UserDefinedClass)remainingUnsolved.get(i)).getName());
 			} 
 		return remainingUnsolved.size();
 	}
