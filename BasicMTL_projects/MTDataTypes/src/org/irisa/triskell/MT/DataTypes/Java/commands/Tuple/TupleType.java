@@ -11,10 +11,10 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.irisa.triskell.MT.DataTypes.Java.TupleValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 
@@ -67,17 +67,25 @@ public class TupleType extends PrimitiveType {
 		return CollectionValueImpl.compareSet(t1.getParts(), t2.getParts());
 	}
 	
-	protected final TreeMap parts;
+	protected final TreeMap parts = new TreeMap();
 	
-	private TupleType (Collection parts) {
-		super(makeName(parts), new Type [] {OclAnyType.TheInstance});
-		this.parts = new TreeMap();
+	private void registerParts (Collection parts) {
 		Iterator it = parts.iterator();
 		TupleTypePart p;
 		while (it.hasNext()) {
 			p = (TupleTypePart)it.next();
 			this.parts.put(p.getName(), p);
 		}
+	}
+	
+	protected TupleType (Collection parts) {
+		super(makeName(parts), new Type [] {OclAnyType.TheInstance});
+		this.registerParts(parts);
+	}
+	
+	protected TupleType (String [] name, Type [] parents, Collection parts) {
+		super(name, parents);
+		this.registerParts(parts);
 	}
 
 	public Collection getParts() {
@@ -88,7 +96,7 @@ public class TupleType extends PrimitiveType {
 		return (TupleTypePart)this.parts.get(name);
 	}
 	
-	public boolean isInstance (Value v) {
+	public boolean isKindOfInternal (Value v) {
 		if (! (v instanceof TupleValue))
 			return false;
 		String [] vpartNames = ((TupleValue)v).getPartNames();
@@ -97,7 +105,7 @@ public class TupleType extends PrimitiveType {
 		TupleTypePart p;
 		for (int i = 0; i < vpartNames.length; ++i) {
 			p = this.getPart(vpartNames[i]);
-			if (p == null || (!p.getType().isOfType(((TupleValue)v).getPart(vpartNames[i]))))
+			if (p == null || (!p.getType().isKindOf(((TupleValue)v).getPart(vpartNames[i]))))
 				return false;
 		}
 		return true;

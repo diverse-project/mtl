@@ -19,7 +19,17 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealCommandGroup;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class IntegerCommandGroup extends CommandGroupImpl {
-	public static final CommandGroup TheInstance = new IntegerCommandGroup();
+	public static final CommandGroup TheInstance;
+	
+	static {
+		TheInstance = new IntegerCommandGroup();
+		TheInstance.addCommand(Integer_unaryMinus.TheInstance);
+		TheInstance.addCommand(Integer_add.TheInstance);
+		TheInstance.addCommand(Integer_sub.TheInstance);
+		TheInstance.addCommand(Integer_mul.TheInstance);
+		TheInstance.addCommand(Integer_idiv.TheInstance);
+		TheInstance.addCommand(Integer_mod.TheInstance);
+	}
 	
 	private IntegerCommandGroup() {
 		super(IntegerType.TheInstance, Arrays.asList(new CommandGroup [] {RealCommandGroup.TheInstance}));

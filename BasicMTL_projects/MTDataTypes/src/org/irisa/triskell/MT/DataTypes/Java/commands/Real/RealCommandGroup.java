@@ -10,10 +10,10 @@ import java.util.Arrays;
 
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -23,14 +23,28 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class RealCommandGroup extends CommandGroupImpl {
-	public static final CommandGroup TheInstance = new RealCommandGroup();
+	public static final CommandGroup TheInstance;
 	
-	private RealCommandGroup() {
-		/*@TODO heritage de RealCommandGroup*/
+	static {
+		TheInstance = new RealCommandGroup();
+		TheInstance.addCommand(Real_unaryPlus.TheInstance);
+		TheInstance.addCommand(Real_unaryMinus.TheInstance);
+		TheInstance.addCommand(Real_add.TheInstance);
+		TheInstance.addCommand(Real_sub.TheInstance);
+		TheInstance.addCommand(Real_mul.TheInstance);
+		TheInstance.addCommand(Real_div.TheInstance);
+		TheInstance.addCommand(Real_abs.TheInstance);
+		TheInstance.addCommand(Real_floor.TheInstance);
+		TheInstance.addCommand(Real_round.TheInstance);
+		TheInstance.addCommand(Real_max.TheInstance);
+		TheInstance.addCommand(Real_min.TheInstance);
+		TheInstance.addCommand(Real_lt.TheInstance);
+		TheInstance.addCommand(Real_gt.TheInstance);
+		TheInstance.addCommand(Real_le.TheInstance);
+		TheInstance.addCommand(Real_ge.TheInstance);
+	}
+	
+	protected RealCommandGroup() {
 		super(RealType.TheInstance, Arrays.asList(new CommandGroup [] {OclAnyCommandGroup.TheInstance}));
-		this.addCommand(Real_mul.TheInstance);
-		this.addCommand(Real_div.TheInstance);
-		this.addCommand(Real_floor.TheInstance);
-		this.addCommand(Real_lt.TheInstance);
 	}
 }

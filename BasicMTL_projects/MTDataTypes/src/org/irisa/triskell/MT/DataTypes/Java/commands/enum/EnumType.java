@@ -9,13 +9,15 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.enum;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.EnumValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 
 public class EnumType extends PrimitiveType {
@@ -32,6 +34,7 @@ public class EnumType extends PrimitiveType {
 	}
 	
 	protected final String [] parts;
+	private transient CollectionValue allInstances = null;
 	
 	public EnumType (String [] parts) {
 		super(makeName(parts), new Type [] {OclAnyType.TheInstance});
@@ -50,7 +53,7 @@ public class EnumType extends PrimitiveType {
 		return false;
 	}
 	
-	public boolean isInstance (Value v) {
+	public boolean isKindOfInternal (Value v) {
 		if (! (v instanceof EnumValue))
 			return false;
 		return CollectionValueImpl.compareSet(this.getParts(), ((EnumValue)v).getEnumeration());
@@ -60,13 +63,16 @@ public class EnumType extends PrimitiveType {
 		return this == o || ((o instanceof EnumType) && CollectionValueImpl.compareSet(this.getParts(), ((EnumType)o).getParts()));
 	}
 
-	public Collection allInstances() {
-		String [] ps = this.getParts();
-		Collection ret = new ArrayList(ps.length);
-		for (int i = 0; i < ps.length; ++i) {
-			ret.add(new EnumValueImpl(false, null, ps [i], ps));
+	public CollectionValue allInstances() throws Exception {
+		if (this.allInstances == null) {
+			String [] ps = this.getParts();
+			EnumValue [] ret = new EnumValue [ps.length];
+			for (int i = 0; i < ps.length; ++i) {
+				ret[i] = new EnumValueImpl(false, null, ps[i], this.getQualifiedName());
+			}
+			this.allInstances = new SetValueImpl(false, null, ret, false);
 		}
-		return ret;
+		return this.allInstances;
 	}
 
 }

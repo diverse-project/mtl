@@ -6,10 +6,10 @@
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Void;
 
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 
 
 public class VoidType extends PrimitiveType {
@@ -20,11 +20,11 @@ public class VoidType extends PrimitiveType {
 		super(Name, null);
 	}
 	
-	public boolean isOfType(Value v) {
-		return this.isInstance(v);
+	public boolean isKindOf(Value v) {
+		return this.isKindOfInternal(v);
 	}
 	
-	public boolean isInstance(Value v) {
+	public boolean isKindOfInternal(Value v) {
 		return v instanceof VoidValue;
 	}
 

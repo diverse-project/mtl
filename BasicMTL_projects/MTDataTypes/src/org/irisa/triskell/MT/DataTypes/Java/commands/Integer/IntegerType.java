@@ -7,9 +7,9 @@
 package org.irisa.triskell.MT.DataTypes.Java.commands.Integer;
 
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
 
 
@@ -21,7 +21,7 @@ public class IntegerType extends PrimitiveType {
 		super(Name, new Type[] {RealType.TheInstance});
 	}
 	
-	public boolean isInstance(Value v) {
+	public boolean isKindOfInternal(Value v) {
 		return v instanceof RealValue;
 	}
 

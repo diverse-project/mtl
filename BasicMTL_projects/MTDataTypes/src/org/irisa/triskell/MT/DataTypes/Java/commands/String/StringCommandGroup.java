@@ -10,10 +10,10 @@ import java.util.Arrays;
 
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -23,10 +23,13 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class StringCommandGroup extends CommandGroupImpl {
-	public static final CommandGroup TheInstance = new StringCommandGroup();
+	public static final CommandGroup TheInstance;
+	
+	static {
+		TheInstance = new StringCommandGroup();
+	}
 	
 	private StringCommandGroup() {
-		/*@TODO heritage de RealCommandGroup*/
 		super(StringType.TheInstance, Arrays.asList(new CommandGroup [] {OclAnyCommandGroup.TheInstance}));
 	}
 }

@@ -7,9 +7,9 @@
 package org.irisa.triskell.MT.DataTypes.Java.commands.OclAny;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Void.VoidType;
 
@@ -22,8 +22,8 @@ public class OclAnyType extends PrimitiveType {
 		super(Name, null);
 	}
 	
-	public boolean isInstance(Value v) {
-		return (! VoidType.TheInstance.isOfType(v)) && (! (v instanceof CollectionValue));
+	public boolean isKindOfInternal(Value v) {
+		return (! VoidType.TheInstance.isKindOf(v)) && (! (v instanceof CollectionValue));
 	}
 
 	public boolean conformsTo(Type type) throws UnsupportedOperationException {

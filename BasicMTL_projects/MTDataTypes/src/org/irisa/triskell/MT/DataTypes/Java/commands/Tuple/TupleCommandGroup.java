@@ -8,11 +8,11 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.Tuple;
 
 import java.util.Arrays;
 
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**

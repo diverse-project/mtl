@@ -1,9 +1,6 @@
 package org.irisa.triskell.MT.DataTypes.Java;
 
 import java.util.*;
-import java.io.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 
 public interface Value 
 {
@@ -24,4 +21,6 @@ public interface Value
 
      void accept(
         org.irisa.triskell.MT.DataTypes.Java.ValueVisitor visitor);
+
+     org.irisa.triskell.MT.DataTypes.Java.Type getType();
 }

@@ -11,10 +11,10 @@ import java.util.Hashtable;
 
 import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**

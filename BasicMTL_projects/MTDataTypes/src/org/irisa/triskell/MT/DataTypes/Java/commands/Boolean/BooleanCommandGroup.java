@@ -9,10 +9,10 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.Boolean;
 import java.util.Arrays;
 
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -22,12 +22,16 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BooleanCommandGroup extends CommandGroupImpl {
-	public static final CommandGroup TheInstance = new BooleanCommandGroup();
+	public static final CommandGroup TheInstance;
+	
+	static {
+		TheInstance = new BooleanCommandGroup();
+		TheInstance.addCommand(Boolean_or.TheInstance);
+		TheInstance.addCommand(Boolean_not.TheInstance);
+	}
 	
 	private BooleanCommandGroup() {
 		super(BooleanType.TheInstance, Arrays.asList(new CommandGroup [] {OclAnyCommandGroup.TheInstance}));
-		this.addCommand(Boolean_or.TheInstance);
-		this.addCommand(Boolean_not.TheInstance);
 	}
 
 }

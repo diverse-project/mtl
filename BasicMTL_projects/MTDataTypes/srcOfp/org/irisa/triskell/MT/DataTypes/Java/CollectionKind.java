@@ -1,9 +1,7 @@
 package org.irisa.triskell.MT.DataTypes.Java;
 
 import java.util.*;
-import java.io.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.*;
+import java.io.Serializable;
 
 public final class CollectionKind 
     implements java.io.Serializable

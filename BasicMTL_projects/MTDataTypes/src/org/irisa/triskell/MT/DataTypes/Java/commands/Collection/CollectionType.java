@@ -11,10 +11,11 @@ import java.util.Collection;
 import java.util.Hashtable;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 /**
  * @author ffondeme
@@ -47,25 +48,29 @@ public class CollectionType extends AbstractType {
 		this(CollectionName, elementType, new Type [0]);
 	}
 
-	public boolean isInstance(Value c) {
+	public boolean isKindOfInternal(Value c) {
 		if (! (c instanceof CollectionValue))
 			return false;
 		if (c instanceof CollectionValueImpl) {
 			try {
-				return this.conformsTo(((CollectionValueImpl)c).getTypeAsType());
+				return this.conformsTo(((CollectionValueImpl)c).getType());
 			} catch (UnsupportedOperationException x) {
 			}
 		}
 		Value [] values = ((CollectionValue)c).getTheCollection();
 		Type elt = this.getElementType();
 		for (int i = 0; i < values.length; ++i)
-			if (! elt.isOfType(values[i]))
+			if (! elt.isKindOf(values[i]))
 				return false;
 		return true;
 	}
 
-	public Collection allInstances() {
-		return Arrays.asList(new Value [0]);
+	private static CollectionValue allInstances;
+	public CollectionValue allInstances() {
+		if (allInstances == null) {
+			allInstances = new SetValueImpl(false, null, new Value [0], false);
+		}
+		return allInstances;
 	}
 	
 	public Type getElementType() {

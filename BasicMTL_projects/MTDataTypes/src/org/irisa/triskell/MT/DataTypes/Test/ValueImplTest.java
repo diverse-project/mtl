@@ -39,21 +39,21 @@ public class ValueImplTest extends TestCase {
 	}
 
 	public void testBmtlEquals () {
-		BooleanValue ret;
+		Value ret;
 		
 		ret = value1.bmtl_equals(value1);
 		assertFalse(ret.isUndefined());
-		assertTrue(ret.getTheBoolean());
+		assertTrue(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,ok);
 		
 		ret = value1.bmtl_equals(value2);
 		assertFalse(ret.isUndefined());
-		assertTrue(ret.getTheBoolean());
+		assertTrue(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,ok);
 		
 		ret = value1.bmtl_equals(valueA);
 		assertFalse(ret.isUndefined());
-		assertFalse(ret.getTheBoolean());
+		assertFalse(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,nok);
 		
 		ret = value1.bmtl_equals(valueUndef1);
@@ -70,21 +70,21 @@ public class ValueImplTest extends TestCase {
 	}
 
 	public void testBmtlNotEquals () {
-		BooleanValue ret;
+		Value ret;
 		
 		ret = value1.bmtl_notEquals(value1);
 		assertFalse(ret.isUndefined());
-		assertFalse(ret.getTheBoolean());
+		assertFalse(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,nok);
 		
 		ret = value1.bmtl_notEquals(value2);
 		assertFalse(ret.isUndefined());
-		assertFalse(ret.getTheBoolean());
+		assertFalse(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,nok);
 		
 		ret = value1.bmtl_notEquals(valueA);
 		assertFalse(ret.isUndefined());
-		assertTrue(ret.getTheBoolean());
+		assertTrue(((BooleanValue)ret).getTheBoolean());
 		assertEquals(ret,ok);
 		
 		ret = value1.bmtl_notEquals(valueUndef1);

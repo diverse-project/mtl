@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.Hashtable;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 

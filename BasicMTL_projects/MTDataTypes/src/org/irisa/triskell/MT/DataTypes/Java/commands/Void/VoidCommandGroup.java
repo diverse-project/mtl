@@ -9,7 +9,7 @@ package org.irisa.triskell.MT.DataTypes.Java.commands.Void;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Command;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 import java.util.List;
@@ -22,7 +22,11 @@ import java.util.Arrays;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class VoidCommandGroup extends CommandGroupImpl {
-	public static final CommandGroup TheInstance = new VoidCommandGroup();
+	public static final CommandGroup TheInstance;
+	
+	static {
+		TheInstance = new VoidCommandGroup();
+	}
 	
 	private VoidCommandGroup() {
 		super(VoidType.TheInstance, null);

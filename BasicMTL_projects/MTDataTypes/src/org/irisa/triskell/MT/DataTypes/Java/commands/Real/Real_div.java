@@ -7,9 +7,9 @@
 package org.irisa.triskell.MT.DataTypes.Java.commands.Real;
 
 import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
 
 /**
@@ -19,20 +19,21 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Real_div extends AbstractCommand {
-	public static Real_div TheInstance = new Real_div();
+	public static final  Real_div TheInstance = new Real_div();
+	public static final String ZeroDivisionMessage = "Null division error.";
+	public static final RealValue PositiveZeroDivisionValue = new RealValueImpl(true, ZeroDivisionMessage, Float.MAX_VALUE);
+	public static final RealValue NegativeZeroDivisionValue = new RealValueImpl(true, ZeroDivisionMessage, Float.MIN_VALUE);
+	
+	public static final RealValue zero = new RealValueImpl(false, null, 0);
 
-	private Real_div() {
+	protected Real_div() {
 		super("/", new Type [] {RealType.TheInstance}, null);
 	}
 
-	public Value invoke(Value invoker, Value[] arguments) {
-		if (invoker.isUndefined()) {	
-			return invoker;
-		} else if (arguments[0].isUndefined()) {
-			return arguments[0];
-//		} else if (arguments[0].equals(new RealValueImpl(false, null, (float)0.0))) {
-//			return new RealValueImpl(true, "Null division error", (((RealValue)invoker).getTheReal() / ((RealValue)arguments[0]).getTheReal()));
-		} else
+	protected Value invokeInternal(Value invoker, Value[] arguments) {
+		if (zero.equals(arguments[0]))
+			return ((RealValue)invoker).getTheReal() >= 0 ? PositiveZeroDivisionValue : NegativeZeroDivisionValue;
+		else
 			return new RealValueImpl(false, null, (((RealValue)invoker).getTheReal() / ((RealValue)arguments[0]).getTheReal()));
 	}
 }
