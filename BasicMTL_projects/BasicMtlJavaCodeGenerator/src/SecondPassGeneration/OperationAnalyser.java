@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.14 2004-10-18 16:01:25 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.15 2004-11-03 09:42:24 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -74,7 +74,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			if (type.getLocalMangledName().equals(ASTnode.getMangle()))
 				log.error("Constructors not allowed in BMTL : "+ASTnode.getName());
 			else {
-				outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
+				outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');
 				outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');
 			}
 		else { //Extern library type
@@ -107,6 +107,8 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
+		if (ASTnode.isAbstract)
+			outputForClass.print("System.err.println(\""+ASTnode.getMangle()+" : This method is abstract and should not be called.\");");
 		QualifiedName type=ASTnode.getFeatureType();
 		if (((type.size()==1)
 				&& ((String)type.get(0)).equals("Void"))

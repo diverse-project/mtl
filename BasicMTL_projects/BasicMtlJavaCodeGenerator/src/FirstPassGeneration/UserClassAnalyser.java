@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.11 2004-07-16 13:41:34 jpthibau Exp $
+ * $Id: UserClassAnalyser.java,v 1.12 2004-11-03 09:42:23 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -163,6 +163,9 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		String generatedLibCompleteMangledName=(String)context.get("GeneratedLibCompleteMangledName");
 		PrintWriter outputForClass=(PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface=(PrintWriter)context.get("OutputForInterface");
+		if (ASTnode.isAbstract) {
+			outputForClass.println("\t public static boolean isAbstract() {return true; }\n\n");
+		}
 		outputForClass.println("/*====================*/");
 		outputForClass.println("/* CLASS CONSTRUCTORS */");
 		outputForClass.println("/*====================*/");

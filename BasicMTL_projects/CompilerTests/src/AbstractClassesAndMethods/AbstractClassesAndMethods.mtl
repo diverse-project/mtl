@@ -1,0 +1,30 @@
+library AbstractClassesAndMethods;
+
+abstract class Hello {
+	_msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		_msg := msg;
+	}
+	
+	abstract run() : Standard::Void {
+//		_msg.toOut();
+	}
+	
+}
+
+class myHello extends Hello {
+	run() : Standard::Void {
+		self.oclAsType(!Hello!)._msg.toOut();
+	}
+}
+
+main() : Standard::Void	{
+	h : Hello;
+	hw : myHello;
+	hw := new myHello();
+	h := new Hello();
+	h.run();
+	hw.init('plop');
+	hw.run();
+}
