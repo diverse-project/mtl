@@ -1,5 +1,5 @@
 /*
- * $Id: JMIModelElement.java,v 1.1 2004-02-16 15:44:38 dvojtise Exp $
+ * $Id: JMIModelElement.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
  * Authors : ffondeme dvojtise
  */
  package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -47,7 +47,7 @@ public class JMIModelElement
     {
 		if (this.refObject != null) {
 			this.refObject.refDelete();
-			this.getSpecificAPI().removeElement(this);
+			this.getSpecificAPI().removeCachedModelElement(this);
 		} else
 			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(this);
 
@@ -103,6 +103,10 @@ public class JMIModelElement
 
 	protected CommandGroup getBaseCommandGroup() {
 		return ModelElementCommandGroup.TheInstance;
+	}
+
+	protected void cache() {
+		this.getSpecificAPI().setCachedModelElement(this);
 	}
 
 }

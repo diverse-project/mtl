@@ -1,5 +1,5 @@
 /**
- * $Id: JMIUndefinedModelElement.java,v 1.1 2004-02-16 15:44:34 dvojtise Exp $
+ * $Id: JMIUndefinedModelElement.java,v 1.2 2004-07-30 13:20:13 ffondeme Exp $
  * Authors : ffondeme dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -24,8 +24,6 @@ abstract public class JMIUndefinedModelElement
         if ( JMIUndefinedModelElement.NullPointerCommonException == null ) return 0;
         else return 1;
     }
-
-
     JMIUndefinedModelElement(
         org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
@@ -108,4 +106,7 @@ abstract public class JMIUndefinedModelElement
     {
 		visitor.visitModelElementValue(this);
     }
+
+	protected void cache() {
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: JMIStruct.java,v 1.1 2004-02-16 15:44:35 dvojtise Exp $
+ * $Id: JMIStruct.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
  * Authors : ffondeme dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -75,9 +75,9 @@ public class JMIStruct
     	} catch (UnknownElementException x) {
     		local = false;
     	}
-	    boolean get = true; //elsewhere: set
+	    boolean get = true; //otherwise: set
     	if (local) {
-	    	List discs = Arrays.asList(discriminants);
+	    	List discs = discriminants == null ? Arrays.asList(new String[0]) : Arrays.asList(discriminants);
 	    	if (discs.contains(AttributeDiscriminant))
 	    		get = true;
 	    	else if (discs.contains(AssociationDiscriminant))
@@ -216,6 +216,10 @@ public class JMIStruct
 
 	public Type getType() {
 		return this.type.getStructType();
+	}
+
+	protected void cache() {
+		this.getSpecificAPI().setCachedModelElement(this);
 	}
 
 }

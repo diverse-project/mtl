@@ -1,5 +1,5 @@
 /*
- * $Id: JMIMetaObject.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * $Id: JMIMetaObject.java,v 1.2 2004-07-30 13:20:13 ffondeme Exp $
  * Authors : ffondeme dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -101,6 +101,9 @@ public class JMIMetaObject
 	 */
 	public String getValue() {
 		return this.getMetaClass().getQualifiedNameAsString();
+	}
+
+	protected void cache() {
 	}
 
 }

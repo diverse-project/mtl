@@ -1,5 +1,5 @@
 /*
- * $Id: JMIMetaAssociation.java,v 1.1 2004-02-16 15:44:37 dvojtise Exp $
+ * $Id: JMIMetaAssociation.java,v 1.2 2004-07-30 13:20:11 ffondeme Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -178,6 +178,10 @@ public class JMIMetaAssociation
 		
 		return null;
     }
+    
+	protected void cache() {
+		this.getSpecificAPI().setCachedMetaElement(this);
+	}
 }
     
 abstract class EndPointCriterium

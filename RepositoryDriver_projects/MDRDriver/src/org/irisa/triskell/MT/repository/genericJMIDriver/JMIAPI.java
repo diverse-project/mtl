@@ -1,5 +1,5 @@
 /*
- * $Id: JMIAPI.java,v 1.1 2004-02-16 15:44:34 dvojtise Exp $
+ * $Id: JMIAPI.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -33,8 +33,6 @@ import javax.jmi.reflect.RefEnum;
 import javax.jmi.reflect.RefObject;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.reflect.RefStruct;
-// import javax.jmi.xmi.XmiReader;
-// import javax.jmi.xmi.XmiWriter;
 
 import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
@@ -174,7 +172,8 @@ public abstract class JMIAPI
 
 	// these Map are here to create a sort of cache of the objects in the JMI repository
 	// it helps accessing them quickier 
-    protected final Map elements = new Hashtable();
+    protected final Map metaElements = new Hashtable();
+    protected final Map modelElements = new Hashtable();
 
     protected final Map refPackages = new Hashtable();
 
@@ -651,6 +650,9 @@ public JMIAPI(
     		public String toString () {
     			return "association composed of " + associationEndsToString.toString();
     		}
+
+			protected void cache() {
+			}
     	}
     	
     	JMIMetaAssociationEnd [] ends;
@@ -716,24 +718,39 @@ public JMIAPI(
 		return new JMIRole((JMIFeatured)element, (JMIMetaAssociationEnd)associationEnd);
     }
 
-    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement getElement(
+    public JMIElement getCachedMetaElement(
         java.lang.Object ref)
     {
-		return (JMIElement) this.elements.get(ref);
+		return (JMIMetaElement) this.metaElements.get(ref);
     }
 
-    public void setElement(
-        org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement element,
+    public JMIElement getCachedModelElement(
         java.lang.Object ref)
     {
-		this.elements.put(ref, element);
+		return (JMIElement) this.modelElements.get(ref);
+    }
+
+    public void setCachedMetaElement(
+    	JMIElement element)
+    {
+    	Object ref = element.getRef();
+    	if (ref != null)
+    		this.metaElements.put(ref, element);
+    }
+
+    public void setCachedModelElement(
+    	JMIElement element)
+    {
+    	Object ref = element.getRef();
+    	if (ref != null)
+    		this.modelElements.put(ref, element);
     }
 
     public org.irisa.triskell.MT.repository.API.Java.MetaClass getMetaClass(
         javax.jmi.reflect.RefClass ref)
     {
 
-		JMIMetaClass ret = (JMIMetaClass) this.getElement(ref);
+		JMIMetaClass ret = (JMIMetaClass) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaClass(this, ref);
 			this.refClasses.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);
@@ -746,7 +763,7 @@ public JMIAPI(
         javax.jmi.reflect.RefAssociation ref)
     {
 
-		JMIMetaAssociation ret = (JMIMetaAssociation) this.getElement(ref);
+		JMIMetaAssociation ret = (JMIMetaAssociation) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaAssociation(this, ref);
 			this.refAssociations.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);
@@ -762,7 +779,7 @@ public JMIAPI(
 		if (ref == null)
 			ret = null;
 		else {
-			ret = (org.irisa.triskell.MT.repository.API.Java.ModelElement)this.getElement(ref);
+			ret = (org.irisa.triskell.MT.repository.API.Java.ModelElement)this.getCachedModelElement(ref);
 			if (ret == null)
 				ret = new JMIModelElement(false, null, this, ref);
 		}
@@ -784,7 +801,7 @@ public JMIAPI(
         javax.jmi.reflect.RefPackage owner)
     {
 
-		JMIMetaEnumeration ret = (JMIMetaEnumeration) this.getElement(ref);
+		JMIMetaEnumeration ret = (JMIMetaEnumeration) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaEnumeration(this, ref, owner);
 			this.refEnumerations.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);
@@ -798,7 +815,7 @@ public JMIAPI(
         javax.jmi.reflect.RefClass owner)
     {
 
-		JMIMetaEnumeration ret = (JMIMetaEnumeration) this.getElement(ref);
+		JMIMetaEnumeration ret = (JMIMetaEnumeration) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaEnumeration(this, ref, owner);
 			this.refEnumerations.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);
@@ -833,7 +850,7 @@ public JMIAPI(
 			return new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl(false, null, ((Float)object).floatValue());
 		
 		//Model types
-		Object me = this.getElement(object);
+		Object me = this.getCachedModelElement(object);
 		if (me instanceof org.irisa.triskell.MT.DataTypes.Java.Value)	
 			return (org.irisa.triskell.MT.DataTypes.Java.Value)me;
 		 
@@ -1023,7 +1040,7 @@ public JMIAPI(
     public org.irisa.triskell.MT.repository.genericJMIDriver.JMIEnumered getEnumered(
         javax.jmi.reflect.RefEnum ref)
     {
-		JMIEnumered ret = (JMIEnumered) this.getElement(ref);
+		JMIEnumered ret = (JMIEnumered) this.getCachedModelElement(ref);
 		if (ret == null) {
 			try {
 				java.util.List enumerationQualifiedNameAsList = patched_refTypeName(ref);
@@ -1090,11 +1107,17 @@ public JMIAPI(
 	}
 
 
-    public void removeElement(
+    public void removeCachedMetaElement(
         org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement element)
     {
-    	this.elements.remove(element);
+    	this.metaElements.remove(element);
     }
+    
+    public void removeCachedModelElement(
+            org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement element)
+        {
+        	this.modelElements.remove(element);
+        }
 
     public javax.jmi.reflect.RefObject getPrimitiveType(
         String name)
@@ -1118,7 +1141,7 @@ public JMIAPI(
     public org.irisa.triskell.MT.repository.genericJMIDriver.JMIStruct getStruct(
         javax.jmi.reflect.RefStruct ref)
     {
-		JMIStruct ret = (JMIStruct) this.getElement(ref);
+		JMIStruct ret = (JMIStruct) this.getCachedModelElement(ref);
 		if (ret == null) {
 			try {
 				java.util.List structureQualifiedNameAsList = ref.refTypeName();
@@ -1137,7 +1160,7 @@ public JMIAPI(
         javax.jmi.reflect.RefPackage owner)
     {
 
-		JMIMetaStructure ret = (JMIMetaStructure) this.getElement(ref);
+		JMIMetaStructure ret = (JMIMetaStructure) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaStructure(this, ref, owner);
 			this.refStructures.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);
@@ -1151,7 +1174,7 @@ public JMIAPI(
         javax.jmi.reflect.RefClass owner)
     {
 
-		JMIMetaStructure ret = (JMIMetaStructure) this.getElement(ref);
+		JMIMetaStructure ret = (JMIMetaStructure) this.getCachedMetaElement(ref);
 		if (ret == null) {
 			ret = new JMIMetaStructure(this, ref, owner);
 			this.refStructures.put(java.util.Arrays.asList(ret.getQualifiedName()), ref);

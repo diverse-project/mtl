@@ -1,5 +1,5 @@
 /**
- * $Id: JMIElement.java,v 1.1 2004-02-16 15:44:34 dvojtise Exp $
+ * $Id: JMIElement.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
  * author : dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -29,8 +29,7 @@ abstract public class JMIElement
     {
 		this.ref = ref;
 		this.api = api;
-		if (ref != null)
-			api.setElement(this, ref);
+		this.cache();
     }
 
     public org.irisa.triskell.MT.repository.API.Java.API getAPI()
@@ -42,6 +41,8 @@ abstract public class JMIElement
     {
 		return this.api;
     }
+    
+    protected abstract void cache();
 
     public abstract String toString();
 }

@@ -1,5 +1,5 @@
 /**
- * $Id: JMIMetaElement.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * $Id: JMIMetaElement.java,v 1.2 2004-07-30 13:20:12 ffondeme Exp $
  * author : dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -49,4 +49,8 @@ abstract public class JMIMetaElement
     		this.qualifiedNameAsString = AWK.merge(this.getQualifiedName(), Type.PackageIndirection);
 		return this.qualifiedNameAsString;
     }
+    
+	protected void cache() {
+		this.getSpecificAPI().setCachedMetaElement(this);
+	}
 }

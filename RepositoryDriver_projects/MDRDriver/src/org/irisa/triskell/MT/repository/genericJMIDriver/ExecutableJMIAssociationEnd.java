@@ -1,5 +1,5 @@
 /*
- * $Id: ExecutableJMIAssociationEnd.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * $Id: ExecutableJMIAssociationEnd.java,v 1.2 2004-07-30 13:20:13 ffondeme Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -81,7 +81,7 @@ public class ExecutableJMIAssociationEnd
         		if ((o instanceof Reference) && ((Reference)o).getReferencedEnd().equals(this.getAssociationEnd()))
         			return;
         	}
-        	throw new org.irisa.triskell.MT.repository.API.Java.IllegalAccessException (contextualElement, (MetaAssociationEnd)this.getSelf().getSpecificAPI().getElement(this.getAssociationEnd()));
+        	throw new org.irisa.triskell.MT.repository.API.Java.IllegalAccessException (contextualElement, (MetaAssociationEnd)this.getSelf().getSpecificAPI().getCachedMetaElement(this.getAssociationEnd()));
         }
     }
 }
