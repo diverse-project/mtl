@@ -1,4 +1,4 @@
-/* $Id: MDRModelManager.java,v 1.4 2004-09-20 14:54:31 dvojtise Exp $
+/* $Id: MDRModelManager.java,v 1.5 2004-10-07 12:08:03 edrezen Exp $
  * Created on 25 août 2003
  */
 package MDRDriver;
@@ -20,6 +20,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLObjectInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
+import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
@@ -123,7 +124,7 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 		StringValue modelName,
 		Model model)
 		throws Exception {
-		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model);
+		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model, false);
 	}
 
 	/* (non-Javadoc)
@@ -140,13 +141,16 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 		StringValue metamodelXmiFileName,
 		StringValue modelName,
 		StringValue modelXmiInputFileName,
-		StringValue modelXmiOuputFileName)
+		StringValue modelXmiOuputFileName
+	)
 		throws Exception {
 		return this.getModelFromXMI(
 			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
 			modelName == null ? null : modelName.getTheString(),
 			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
-			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString());
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString(),
+			this.getIsSynchronized()
+		);
 	}
 
 	/* (non-Javadoc)
@@ -157,14 +161,17 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 		StringValue metaPackageToInstanciate,
 		StringValue modelName,
 		StringValue modelXmiInputFileName,
-		StringValue modelXmiOuputFileName)
+		StringValue modelXmiOuputFileName
+	)
 		throws Exception {
 		return this.getModelFromXMI(
 			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
 			metaPackageToInstanciate == null ? null : metaPackageToInstanciate.getTheString(),
 			modelName == null ? null : modelName.getTheString(),
 			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
-			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString());
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString(),
+			this.getIsSynchronized()
+		);
 	}
 
 	/* (non-Javadoc)
@@ -182,6 +189,17 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 		this.storeModel(modelName == null ? null : modelName.getTheString());
 	}
 
+	
+	/** */
+	private boolean isSynchronized = false;
+	public boolean getIsSynchronized ()               { return this.isSynchronized; }
+	public void    setIsSynchronized (boolean value)  { this.isSynchronized=value; System.out.println ("isSynchro : " + getIsSynchronized()); }
+	
+	public void BMTL_setIsSynchronized (BooleanValue value)
+	{
+		setIsSynchronized (value.getTheBoolean());
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#disposeModel()
 	 */
