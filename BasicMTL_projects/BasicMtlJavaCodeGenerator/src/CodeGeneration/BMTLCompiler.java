@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.4 2003-11-14 17:30:06 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.5 2004-03-17 10:56:47 dvojtise Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -25,7 +25,7 @@ public class BMTLCompiler {
 	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
+	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLJavaCodeGen");
 
 	public static org.apache.log4j.Logger getLog () {
 			return BMTLCompiler.log;

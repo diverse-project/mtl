@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.5 2004-01-23 15:02:40 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.6 2004-03-17 10:56:21 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -84,14 +84,14 @@ public class Compiler {
 				// checks if file exists
 				if (filesList[i].endsWith(".mtl"))
 				 {
-					log.info("Including file "+filesList[i]+"...");
+					log.debug("Including file "+filesList[i]+"...");
 					File aFile = new File(args[0]+filesList[i]);
 					if (aFile.canRead())
 						filenamesArguments.addElement(args[0]+filesList[i]);
 					else				
 						log.warn("File not readable : "+args[i]+" => file ignored !!!");
 				 }
-				else log.info("EXCLUDING file "+filesList[i]+"!!!");
+				else log.debug("EXCLUDING file "+filesList[i]+"!!!");
 			}
 			if (filenamesArguments.size() == 0)
 			{

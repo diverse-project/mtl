@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.14 2003-12-16 15:04:50 dvojtise Exp $
+ * $Id: allReferedTypes.java,v 1.15 2004-03-17 10:56:16 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -253,7 +253,7 @@ public class allReferedTypes {
 			if (checkType((QualifiedName)allReferedTypes.get(i), theLib))
 				correctlyChecked++;
 			}
-		TLLtypechecking.getLog().info(correctlyChecked+" types correctly checked.");
+		TLLtypechecking.getLog().debug(correctlyChecked+" types correctly checked.");
 		return errors+warnings;
 	}
 	

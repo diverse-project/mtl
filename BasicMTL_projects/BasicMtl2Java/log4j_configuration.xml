@@ -2,8 +2,8 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl2Java/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.4 $ -->
-<!-- $Date: 2004-02-17 16:53:43 $ -->
+<!-- $Revision: 1.5 $ -->
+<!-- $Date: 2004-03-17 10:56:23 $ -->
 <!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -29,6 +29,9 @@
     <level value="INFO"/>
   </logger>
   <logger name="BMTLTLLTypeChecker">
+    <level value="INFO"/>
+  </logger>
+  <logger name="BMTLJavaCodeGen">
     <level value="INFO"/>
   </logger>
   <logger name="MDRDriver">

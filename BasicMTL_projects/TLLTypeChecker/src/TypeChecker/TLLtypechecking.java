@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.10 2003-12-08 11:20:09 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.11 2004-03-17 10:56:16 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -200,7 +200,7 @@ public class TLLtypechecking {
 				context.put("Error", Boolean.FALSE);
 				visitor.visit(theLib,context);
 				errorOccured = errorOccured || ((Boolean)context.get("Error")).booleanValue();
-				log.info("Writing the checked TLL to"+defaultTLLPath+theLib.getName()+tllSuffix);
+				log.info("Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
 				Library.store(theLib.getName()+tllSuffix,theLib,defaultTLLPath);
 			}
 		}

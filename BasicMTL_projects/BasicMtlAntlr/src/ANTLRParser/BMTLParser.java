@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.7 2003-08-14 20:35:59 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.8 2004-03-17 10:56:18 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -31,12 +31,12 @@ public class BMTLParser {
 	}
 
 	public static Object Parse(String name,ANTLRWalkerActionsInterface aWalker)
-	{	log.info("Opening source file : "+name);
+	{	log.info("Parsing : "+name);
 		boolean noPb=true;
 		Object builtTree=null;
 		try { input=new DataInputStream(new FileInputStream(name)); }
 		catch (FileNotFoundException e) {
-			log.error("PB input file opening");}
+			log.error("PB opening input file : "+name);}
 		try {
 			BasicmtlLexer lexer = new BasicmtlLexer(input);
 			BasicmtlParser parser = new BasicmtlParser(lexer);
@@ -44,16 +44,17 @@ public class BMTLParser {
 			}
 		catch (antlr.ANTLRException e) {
 			noPb=false;
-			log.warn("ANTLRException on "+name+' '+e);
+			log.warn("ANTLRException on "+name+", "+e);
 			log.warn("=> "+e.getMessage());
 			e.printStackTrace();
 		}
 		catch(Exception e) {
 			noPb=false;
 			log.warn("exception: "+e+"=>"+e.getMessage());
+			log.warn("exception was raised when parsing : "+name+", ");
 			e.printStackTrace(); }				
-		log.info("For the file "+name+',');
-		log.info("parsing is over.");
+		log.debug("For the file "+name+',');
+		log.debug("parsing is over.");
 		if (noPb) return builtTree;
 		else return null;
 	}
