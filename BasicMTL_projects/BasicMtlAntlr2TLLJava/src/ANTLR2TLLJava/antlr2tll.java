@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.3 2003-08-19 09:26:25 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.4 2003-08-22 18:26:29 ffondeme Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -43,6 +43,7 @@ public class antlr2tll {
 			//the context contains the created  TLL that udpdates at each step
 			if (theCreatedLib != null) context.put("TheCreatedLibrary",theCreatedLib);
 			parsedLib=ASTproducer.buildLibraryFromText((String)filenames.get(i));
+			context.put("visitor", visitor);
 			visitor.visit(parsedLib,context);
 			theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		}

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationCallAnalyser.java,v 1.4 2003-08-21 20:03:08 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationCallAnalyser.java,v 1.5 2003-08-22 18:26:29 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -7,6 +7,7 @@ package TLLBuilder;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**
  * @author jpthibau
@@ -21,8 +22,11 @@ public class OperationCallAnalyser extends ASTTopDownVisitor.OperationCallAnalys
 		//TODO memorize the line number for each operation call
 		int lineNumber=-1000;
 		OperationCall theCreatedOpCall=new OperationCall(ASTnode.getName(),lineNumber);
-		if (ASTnode.getProperty("ClassOfGetAttribute") != null)
+		Property kindProp = ASTnode.getProperty("kind");
+		if (kindProp != null && kindProp.getValue().equals("AttributeGetter"))
 			theCreatedOpCall.setKind(OperationKind.getAttributeCall());
+		else if (kindProp != null && kindProp.getValue().equals("AttributeSetter"))
+			theCreatedOpCall.setKind(OperationKind.getAttributeSet());
 		return theCreatedOpCall;
 	}
 

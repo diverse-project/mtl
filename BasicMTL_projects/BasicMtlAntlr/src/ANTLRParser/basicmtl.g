@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.7 2003-08-21 19:59:40 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.8 2003-08-22 18:27:46 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -256,18 +256,16 @@ instruction returns [Object tree=null;]
 	Object l5=null;
 	Object l6=null;
 }
-	: ((IDENTIFIER POINT)? IDENTIFIER RECEIVES) => (s1:IDENTIFIER POINT {classIdentifier=s1.getText();} )? s2:IDENTIFIER RECEIVES tree=expression n=semicolon
-	  {tree=walker.varSettingInstr(classIdentifier,s2.getText(),tree,n);}
-	| tree=expression n=semicolon
+	: tree=expression (r:RECEIVES l1=expression {tree = walker.affectation(l1, tree, Integer.toString(r.getLine()));})? n=semicolon
 	  {tree=walker.expressionInstr(tree,n);}
-	| "return" (OPENBRACKET tree=expression CLOSEBRACKET)? n=semicolon
+	| "return" ((OPENBRACKET)? tree=expression (CLOSEBRACKET)?)? n=semicolon
 	  {tree=walker.returnInstr(tree,n);}
 	| "while" tree=expression n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
 	  {tree=walker.whileInstr(tree,theInstructions,n);}	
-	| "if" tree=expression n=openbrace (l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
+	| "if" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 		( "else" OPENBRACE (l2=instruction {theElseInstructions.addElement(l2);} )+ CLOSEBRACE)?
 	  {tree=walker.ifInstr(tree,theInstructions,theElseInstructions,n);}
-	| "throws" tree=expression n=semicolon
+	| ("throws"|"throw") (OPENBRACKET)? tree=expression (CLOSEBRACKET)?  n=semicolon
 	  {tree=walker.throwsInstr(tree,n);}
 	| "try" n=openbrace ( l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 	  ({theCatchInstructions=new java.util.Vector();}
@@ -302,17 +300,17 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 expression :
-	 "new" type (POINT IDENTIFIER)? openbracket (arguments)? CLOSEBRACKET (operationCall)*
-	| CHARORSTRING (operationCall)*
-	| NUM_INT (operationCall)*
-	| NUM_FLOAT (operationCall)*
-	| EXCLAM type EXCLAM (operationCall)*
-	| "self" (operationCall)*
-	| "null" (operationCall)*
-	| "true" (operationCall)*
-	| "false" (operationCall)*
-	| (type POINT IDENTIFIER OPENBRACKET) => type (POINT operationCall)+ //variable.method() or library.staticmethod() 
-	| (IDENTIFIER OPENBRACKET) => (operationCall)+ //direct operation call
+	 "new" type (POINT IDENTIFIER)? openbracket (arguments)? CLOSEBRACKET (propertyCall)*
+	| CHARORSTRING (propertyCall)*
+	| NUM_INT (propertyCall)*
+	| NUM_FLOAT (propertyCall)*
+	| EXCLAM type EXCLAM (propertyCall)*
+	| "self" (propertyCall)*
+	| "null" (propertyCall)*
+	| "true" (propertyCall)*
+	| "false" (propertyCall)*
+	| (type POINT IDENTIFIER OPENBRACKET) => type (POINT propertyCall)+ //variable.method() or library.staticmethod() 
+	| (IDENTIFIER OPENBRACKET) => (propertyCall)+ //direct operation call
 	| (IDENTIFIER POINT IDENTIFIER) => IDENTIFIER (POINT IDENTIFIER)+ //attribute getter
 	| IDENTIFIER // variable reference 
 ==================================================================*/
@@ -325,37 +323,45 @@ expression returns [Object tree=null;]
 	Object l2=null;
 }
 :
-	("new") => "new" tree=type (POINT s1:IDENTIFIER {methodName=s1.getText(); })? n=openbracket (l1=arguments)? CLOSEBRACKET  (POINT l2=operationCall {theCalls.addElement(l2); })*
+	  "new" tree=type (POINT s1:IDENTIFIER {methodName=s1.getText(); })? n=openbracket /*(l1=arguments)?*/ CLOSEBRACKET  (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.newExpr(tree,methodName,l1,n,theCalls); }
-	| (CHARORSTRING) => s2:CHARORSTRING (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| s2:CHARORSTRING (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.stringLiteral(s2.getText(),theCalls); }
-	| (NUM_INT) => s3:NUM_INT (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| s3:NUM_INT (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.intLiteral(s3.getText(),theCalls); }
-	| (NUM_FLOAT) => s4:NUM_FLOAT (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| s4:NUM_FLOAT (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.realLiteral(s4.getText(),theCalls); }
-	| EXCLAM tree=type EXCLAM (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| EXCLAM tree=type EXCLAM (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.oclTypeLiteral(tree,theCalls); }
-	| ("self") => "self" (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| ("self"|"this") (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.selfLiteral(theCalls); }
-	| ("null") => "null" (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| "null" (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.nullLiteral(theCalls); }
-	| ("true") => "true" (POINT l2=operationCall {theCalls.addElement(l2); })* 
+	| "true" (POINT l2=propertyCall {theCalls.addElement(l2); })* 
 		{tree=walker.trueLiteral(theCalls); }
-	| ("false") => "false" (POINT l2=operationCall {theCalls.addElement(l2); })* 
+	| "false" (POINT l2=propertyCall {theCalls.addElement(l2); })* 
 		{tree=walker.falseLiteral(theCalls); }
-	| (IDENTIFIER POINT (IDENTIFIER||"oclAsType") b:OPENBRACKET) => tree=type (POINT l2=operationCall {theCalls.addElement(l2); })+ /*variable.method() or library.staticmethod() */
-		{tree=walker.libraryOrVariable(tree,theCalls); } 
-	| (IDENTIFIER OPENBRACKET) => (l1=operationCall {theCalls.addElement(l1); })+
-		{tree=walker.directOperationCalls(theCalls); }
-	| (IDENTIFIER POINT IDENTIFIER) => s5:IDENTIFIER (POINT s6:IDENTIFIER {theAttributes.addElement(s6.getText());})+ /*attribute getter*/
-		{tree=walker.attributeGetter(s5.getText(),theAttributes); }
-	| s7:IDENTIFIER /* variable reference */
-		{tree=walker.variableName(s7.getText()); } 
-	| l1=operationCall {theCalls.addElement(l1);} (POINT l2=operationCall {theCalls.addElement(l2); })*
+	| id:IDENTIFIER (POINT l2=propertyCall {theCalls.addElement(l2); })* /*variable.method() or library.staticmethod() */
+		{tree=walker.attributeOrVariable(id.getText(),theCalls); }
+	| l1=operationCall {theCalls.addElement(l1);} (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.selfLiteral(theCalls); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	; 
+
+/*===============================================================
+propertyCall :	( attributeCall
+				| operationCall	)
+==================================================================*/
+propertyCall returns [Object tree=null;]
+{	Object l1=null;
+}
+	:	( l1=attributeCall
+		| l1=operationCall	)
+		{tree=l1; }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
 
 /*===============================================================
 operationCall :	( simpleOperationCall
@@ -378,6 +384,17 @@ simpleOperationCall returns [Object tree=null;]
 { String n; }
 	: s1:IDENTIFIER  n=openbracket (tree=arguments)? CLOSEBRACKET
 	{tree=walker.operationCall(s1.getText(),tree,n);}
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+
+/*===============================================================
+attributeCall : IDENTIFIER
+==================================================================*/
+attributeCall returns [Object tree=null;]
+{ String n; }
+	: s1:IDENTIFIER
+	{tree=walker.attributeGetter(s1.getText());}
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.6 2003-08-21 20:03:07 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.7 2003-08-22 18:26:29 ffondeme Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -25,7 +25,8 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSi
 public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 
 	public Object UserClassBefore(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass ASTnode,java.util.Map context)
-	{	String userClassName=ASTnode.getName();
+	{	context.put("InClass", Boolean.TRUE);
+		String userClassName=ASTnode.getName();
 		String mangle=null;
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		boolean manualMangling = mangling != null;
@@ -109,5 +110,6 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 	public void UserClassAfter(Object theUserClass,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass ASTnode,java.util.Map context)
 	{	UserClass theCreatedClass=(UserClass)theUserClass;
 		context.put("UserClass",theCreatedClass);
+		context.remove("InClass");
 	}
 }

@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.2 2003-08-05 12:12:42 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.3 2003-08-22 18:27:46 ffondeme Exp $
 
 package ANTLRASTWalker;
 
@@ -28,7 +28,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object expressionInstr(Object expression,String lineNumber) { return null; }
 
-	public Object varSettingInstr(String classVarName,String varOrAttributeName,Object expression,String lineNumber) { return null; }
+	public Object affectation(Object sourceTree,Object destTree, String line) { return null; }
 
 	public Object returnInstr(Object expression,String lineNumber) { return null; }
 
@@ -62,9 +62,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object falseLiteral(java.util.Vector operationCalls) { return null; }
 
-	public Object libraryOrVariable(Object type,java.util.Vector operationCalls) { return null; }
-
-	public Object attributeGetter(String classVarName,java.util.Vector gotAttributes) { return null; }
+	public Object attributeOrVariable(String name,java.util.Vector operationCalls) { return null; }
 
 	public Object variableName(String value) { return null; }
 
@@ -91,5 +89,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 	public Object stringTagValue(String value) { return null; }
 
 	public Object specialTagValue(String value) { return null; }
+
+	public Object attributeGetter(String attributeName) {return null;}
 
 }

@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.2 2003-08-05 12:12:42 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.3 2003-08-22 18:27:46 ffondeme Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -27,7 +27,7 @@ public Object typedVars(java.util.Vector vars,Object type);
 
 public Object expressionInstr(Object expression,String lineNumber);
 
-public Object varSettingInstr(String classVarName,String varOrAttributeName,Object expression,String lineNumber);
+public Object affectation(Object sourceTree,Object destTree,String lineNumber);
 
 public Object returnInstr(Object expression,String lineNumber);
 
@@ -43,27 +43,27 @@ public Object associateInstr(java.util.Vector endPoints,String lineNumber);
 
 public Object associateEndPoint(String role,Object endObject,Object type);
 
-public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls);
+public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector propertyCalls);
 
-public Object intLiteral(String value,java.util.Vector operationCalls);
+public Object intLiteral(String value,java.util.Vector propertyCalls);
 
-public Object realLiteral(String value,java.util.Vector operationCalls);
+public Object realLiteral(String value,java.util.Vector propertyCalls);
 
-public Object stringLiteral(String value,java.util.Vector operationCalls);
+public Object stringLiteral(String value,java.util.Vector propertyCalls);
 
-public Object oclTypeLiteral(Object type,java.util.Vector operationCalls);
+public Object oclTypeLiteral(Object type,java.util.Vector propertyCalls);
 
-public Object selfLiteral(java.util.Vector operationCalls);
+public Object selfLiteral(java.util.Vector propertyCalls);
 
-public Object nullLiteral(java.util.Vector operationCalls);
+public Object nullLiteral(java.util.Vector propertyCalls);
 
-public Object trueLiteral(java.util.Vector operationCalls);
+public Object trueLiteral(java.util.Vector propertyCalls);
 
-public Object falseLiteral(java.util.Vector operationCalls);
+public Object falseLiteral(java.util.Vector propertyCalls);
 
-public Object libraryOrVariable(Object type,java.util.Vector operationCalls);
+public Object attributeOrVariable(String name,java.util.Vector propertyCalls);
 
-public Object attributeGetter(String classVarName,java.util.Vector gotAttributes);
+public Object attributeGetter(String attributeName);
 
 public Object variableName(String value);
 
