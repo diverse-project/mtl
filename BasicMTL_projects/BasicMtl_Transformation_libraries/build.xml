@@ -1,0 +1,52 @@
+<!-- $Id: build.xml,v 1.1 2003-07-24 13:38:51 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="verif_SimpleUML2RDBMS_V1_syntax" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	</target>
+
+	<target name="verif_SimpleUML2RDBMS_V1_syntax" depends="init"
+  	 	description="check the syntax of SimpleUML2RDBMS_V1 sample ">
+	 	<java jar="../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\SimpleUML2RDBMS\SimpleUML2SimpleRDBMS_V1\SimpleUML2SimpleRDBMS.mtl"/> 
+         <arg value="${src}\SimpleUML2RDBMS\SimpleUML2SimpleRDBMS_V1\SimpleUML2RDBMS_mdr.mtl"/> 
+       <!--  <classpath>
+           <pathelement location="dist/test.jar"/>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+  
+	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+    	<delete >
+    		<fileset dir="${build}/src">
+  				<include name="**/*"/>
+			</fileset>    		
+    	</delete>
+    	<delete dir="${dist}"/> 
+  	</target>
+</project>
