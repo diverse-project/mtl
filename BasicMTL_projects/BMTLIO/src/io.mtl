@@ -1,0 +1,62 @@
+// $Id: io.mtl,v 1.1 2003-12-05 10:12:33 edrezen Exp $
+//
+// This library is used to wrap some classes from java.io
+//
+
+
+library io;
+
+
+/************************************************************************************************/
+/*                                                                                              */
+/*  class FileOuput : minimalist class for writting strings into a file                         */
+/*                                                                                              */
+/*  The IO library should be enhanced according to emerging needs.                              */
+/*                                                                                              */
+/*                                                                                              */
+/*  Example of use :                                                                            */
+/*                                                                                              */
+/*     file : io::FileOutput;                                                                   */
+/*		                                                                                        */
+/*     file := new io::FileOutput ();                                                           */
+/*     file.setName ('C:/temp/test.out');                                                       */
+/*                                                                                              */
+/*     file.write   ('hello');                                                                  */
+/*     file.write   (' ');                                                                      */
+/*     file.write   ('world');                                                                  */
+/*     file.writeln ('!');                                                                      */
+/*     file.writeln ('hello world!');                                                           */
+/*                                                                                              */
+/*     file.close ();                                                                           */
+/*                                                                                              */
+/************************************************************************************************/
+
+class FileOutput
+
+tag mangle := specialtag [io.FileOutput];
+tag type   := specialtag [io.FileOutput.TheType];
+tag DoNotGenerate := booleantag true;
+
+{
+
+	setName (filename : Standard::String)
+	tag mangle := specialtag [BMTL_setName];
+	{
+	}
+
+	close ()
+	tag mangle := specialtag [BMTL_close];
+	{
+	}
+	
+	write (str : Standard::String)
+	tag mangle := specialtag [BMTL_write];
+	{
+	}
+
+	writeln (str : Standard::String)
+	tag mangle := specialtag [BMTL_writeln];
+	{
+	}
+	
+}
