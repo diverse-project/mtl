@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.2 2003-07-11 14:52:39 jpthibau Exp $
+// $Id: Standard.mtl,v 1.3 2003-07-30 13:31:13 dvojtise Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -71,12 +71,12 @@ class OclAny {
 	infix "<>" (value : OclAny) : boolean {
 	}
 
-	oclIsNew() : Boolean
+	/* oclIsNew() : Boolean
 	{
 		// Can only be used in a postcondition. Evaluates to true if the self is created during performing the operation.
 		// I.e. it didn’t exist at precondition time.
 		// post: self@pre.oclIsUndefined()
-	}
+	}*/
 	
 	oclIsUndefined() : Boolean
 	{
@@ -91,6 +91,12 @@ class OclAny {
 		// post: (result = self) and result.oclIsTypeOf( typeName )
 	}
 	
+	oclIsTypeOf(typename : String) : Boolean
+	{
+		// Evaluates to true if the self is of the type identified by typename. Typename may be in the format
+		// Package::subPackage::classifier.
+		// post: -- TBD
+	}
 	oclIsTypeOf(typename : OclType) : Boolean
 	{
 		// Evaluates to true if the self is of the type identified by typename. Typename may be in the format
@@ -111,14 +117,15 @@ class OclAny {
 		// post: -- TBD
 	}
 	
-	oclIsInState(statename : OclState) : Boolean
+	/* oclIsInState(statename : OclState) : Boolean
 	{
 		// Evaluates to true if the self is in the state indentified by statename. Statename may be in the format
 		// Class::State::subState.
 		// post: -- TBD
-	}
+	}*/
 	
-	allInstances() : Set( T )
+	/* the allInstances is a static method implemented on every library
+	allInstances() : Set( )
 	{
 		// Returns all instances of self. Type T is equal to self. May only be used for classifiers that have a finite
 		// number of instances. This is the case for, for instance, user defined classes because instances need to be
@@ -128,6 +135,49 @@ class OclAny {
 		// -- it depends on the UML 2.0 metamodel how this can be
 		// -- expressed
 		// post: -- TBD
+	}
+	*/
+	
+}
+
+
+class OclType extends OclAny
+{
+	newInstance() : OclAny
+	{
+	}
+	
+	allInstances() : Set
+	{
+	}
+	getQualifiedName() : Sequence
+	{
+	}
+}
+
+class ModelElement extends OclAny
+{	
+
+	/*
+	associate(role1 : String, type1 : String, role2 : String, associatedME : OclAny, type2 : String) : Void
+	{
+		// Does the reifycation between this element with associatedME getting informations from rolename and type name
+		// this.role2 = associatedME
+		// associatedME.role1 = this
+	}
+	dissociate(role1 : String, type1 : String, role2 : String, dissociatedME : OclAny, type2 : String) : Void
+	{
+		// Does the reifycation between this element with associatedME getting informations from rolename and type name
+		// this.role2 = associatedME
+		// associatedME.role1 = this
+	}	
+	*/
+	
+	delete()
+	{
+	}
+	getuid() : String
+	{
 	}
 }
 
@@ -172,12 +222,13 @@ class real extends OclAny{
 	/**
 	  * The value of the multiplication of self and r.
 	infix "*" (r : real) : real 
+	java [ this * r]
 	{}
 
 	/**
 	  * The negative value of self.
 	  */
-	prefix "-" : real 
+	prefix "-" : real 	
 	{}
 	
 	/**
