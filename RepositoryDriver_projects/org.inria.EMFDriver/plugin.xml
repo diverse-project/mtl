@@ -3,8 +3,8 @@
 <plugin
    id="org.inria.EMFDriver"
    name="EMFDriver Plug-in"
-   version="1.0.0"
-   provider-name=""
+   version="0.0.3"
+   provider-name="INRIA"
    class="org.inria.EMFDriver.EMFDriverPlugin">
 
    <runtime>
