@@ -1,5 +1,5 @@
 /*
-* $Id: PreferenceConstants.java,v 1.5 2004-05-28 16:53:06 sdzale Exp $
+* $Id: PreferenceConstants.java,v 1.6 2004-06-03 13:08:51 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -1035,7 +1035,7 @@ public class PreferenceConstants {
 
   public static void initializeDefaultValues(IPreferenceStore store) {
     //MTL Compiler Page
-	store.setDefault(PreferenceConstants.MTL_COMPILER_PATH, " ");
+	store.setDefault(PreferenceConstants.MTL_COMPILER_PATH, "");
 	
 	//MTL Folder settings
 	store.setDefault(PreferenceConstants.FJAVA_BINNAME,"bin");

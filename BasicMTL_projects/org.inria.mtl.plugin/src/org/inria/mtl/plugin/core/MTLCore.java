@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.4 2004-05-28 16:53:07 sdzale Exp $
+* $Id: MTLCore.java,v 1.5 2004-06-03 13:08:52 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -681,7 +681,7 @@ public static void findFolders() {
 				}
 				for (int i= 0; i < lProj.size(); i++) {
 						MTLPlugin.projFolders[i]=(IPath)lProj.get(i);
-					    MTLModel.projFolders[i]=(IPath)lProj.get(i);
+						MTLModel.projFolders[i]=(IPath)lProj.get(i);
 					//	System.out.println("Proj :"+((IPath)lProj.get(i)).makeAbsolute());			  
 				}
 				for (int i= 0; i < lLib.size(); i++) {

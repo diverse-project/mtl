@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.4 2004-05-28 16:52:47 sdzale Exp $
+* $Id: MTLModel.java,v 1.5 2004-06-03 13:08:50 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -46,6 +46,8 @@ public class MTLModel {
 	private IFolder srcMtlFolder;
 	//java source folder root
 	private IFolder srcJavaFolder;
+	//	java bin folder root
+	private IFolder binJavaFolder;
 	//MTL classpath
 	private IFile mtlclasspath;
 	//Source Folder 
@@ -64,13 +66,16 @@ public class MTLModel {
 	 **/
 	public MTLModel(IProject proj) {
 		super();
-		this.proj = proj;
+		MTLModel.proj = proj;
 		IPreferenceStore store=PreferenceConstants.getPreferenceStore();
 		IPath tll=new Path(store.getString( PreferenceConstants.FMTL_BINNAME));
 		tllFolder =proj.getFolder(tll);
 		//System.out.println("tll :"+tllFolder);
 		IPath srcMtl=new Path(store.getString( PreferenceConstants.FMTL_SRCNAME));
 		srcMtlFolder =proj.getFolder(srcMtl);
+		
+		IPath binJava=new Path(store.getString( PreferenceConstants.FJAVA_BINNAME));
+		binJavaFolder =proj.getFolder(binJava);
 		//System.out.println("srcMtl :"+srcMtl);
 		IPath srcJava=new Path(store.getString( PreferenceConstants.FJAVA_SRCNAME));
 		srcJavaFolder =proj.getFolder(srcJava);
@@ -93,7 +98,23 @@ public class MTLModel {
 		public void setProject(IProject project) {
 			proj = project;
 		}
-	
+		
+		public IFolder getJavaFolder() {
+				return srcJavaFolder;
+		}
+		
+		public IFolder getMtlFolder() {
+				return srcMtlFolder;
+			}
+		public IFolder getTllFolder() {
+				return tllFolder;
+				}
+		public IFolder getBinJavaFolder() {
+					return binJavaFolder;
+			}
+		public IFolder getOutputFolder() {
+					return output;
+			}
 	 /**
 	 *  removes all tll files that were  generated  for
 	 * this project.
@@ -174,7 +195,7 @@ public class MTLModel {
 		*@return      Description of the Return Value
 		**/
 	public boolean findResource(IPath res) {
-		    MTLCore.findFolders();
+			MTLCore.findFolders();
 			int taille =MTLModel.srcFolders.length;
 			try {
 					for (int i=0;i<MTLModel.srcFolders.length;i++){
@@ -302,3 +323,4 @@ public class MTLModel {
 		}
 	}
 }
+

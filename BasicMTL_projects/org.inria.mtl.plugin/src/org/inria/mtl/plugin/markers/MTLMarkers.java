@@ -1,17 +1,17 @@
+/*
+* $Id: MTLMarkers.java,v 1.2 2004-06-03 13:08:53 sdzale Exp $
+* Authors : ${user}
+*
+* Created on ${date}
+* Copyright 2004 - INRIA - LGPL license
+*/ 
 package org.inria.mtl.plugin.markers;
 
-import java.text.MessageFormat;
 import java.util.Hashtable;
-
-//import net.sourceforge.phpdt.internal.compiler.parser.PHPOutlineInfo;
-//import net.sourceforge.phpdt.internal.ui.util.StringUtil;
-//import net.sourceforge.phpeclipse.PHPeclipsePlugin;
-//import net.sourceforge.phpeclipse.actions.PHPStartApacheAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
 /**
@@ -28,98 +28,7 @@ public abstract class MTLMarkers {
   
   protected static IFile fileToParse;
 
-  /**
-   * Call the php parse command ( php -l -f &lt;filename&gt; )
-   * and create markers according to the external parser output.
-   * @param file the file that will be parsed
-   */
-//  public static void phpExternalParse(final IFile file) {
-//	//IFile file = (IFile) resource;
-//	//  final IPath path = file.getFullPath();
-//	final IPreferenceStore store = PHPeclipsePlugin.getDefault().getPreferenceStore();
-//	final String filename = file.getLocation().toString();
-//
-//	final String[] arguments = {filename};
-//	final MessageFormat form = new MessageFormat(store.getString(PHPeclipsePlugin.EXTERNAL_PARSER_PREF));
-//	final String command = form.format(arguments);
-//
-//	final String parserResult = PHPStartApacheAction.getParserOutput(command, "External parser: ");
-//
-//	try {
-//	  // parse the buffer to find the errors and warnings
-//	  createMarkers(parserResult, file);
-//	} catch (CoreException e) {
-//	}
-//  }
-
-  /**
-   * Create markers according to the external parser output.
-   * @param output the external parser output
-   * @param file the file that was parsed.
-   */
-//  protected static void createMarkers(final String output, final IFile file) throws CoreException {
-//	// delete all markers
-//	file.deleteMarkers(IMarker.PROBLEM, false, 0);
-//
-//	int indx = 0;
-//	int brIndx;
-//	boolean flag = true;
-//	while ((brIndx = output.indexOf("<br />", indx)) != -1) {
-//	  // newer php error output (tested with 4.2.3)
-//	  scanLine(output, file, indx, brIndx);
-//	  indx = brIndx + 6;
-//	  flag = false;
-//	}
-//	if (flag) {
-//	  while ((brIndx = output.indexOf("<br>", indx)) != -1) {
-//		// older php error output (tested with 4.2.3)
-//		scanLine(output, file, indx, brIndx);
-//		indx = brIndx + 4;
-//	  }
-//	}
-//  }
-
-//  private static void scanLine(final String output, final IFile file, final int indx, final int brIndx) throws CoreException {
-//	String current;
-//	//  String outLineNumberString; never used
-//	final StringBuffer lineNumberBuffer = new StringBuffer(10);
-//	char ch;
-//	current = output.substring(indx, brIndx);
-//
-//	if (current.indexOf(PARSE_WARNING_STRING) != -1 || current.indexOf(PARSE_ERROR_STRING) != -1) {
-//	  final int onLine = current.indexOf("on line <b>");
-//	  if (onLine != -1) {
-//		lineNumberBuffer.delete(0, lineNumberBuffer.length());
-//		for (int i = onLine; i < current.length(); i++) {
-//		  ch = current.charAt(i);
-//		  if ('0' <= ch && '9' >= ch) {
-//			lineNumberBuffer.append(ch);
-//		  }
-//		}
-//
-//		final int lineNumber = Integer.parseInt(lineNumberBuffer.toString());
-//
-//		final Hashtable attributes = new Hashtable();
-//
-//		current = StringUtil.replaceAll(current, "\n", "");
-//		current = StringUtil.replaceAll(current, "<b>", "");
-//		current = StringUtil.replaceAll(current, "</b>", "");
-//		MarkerUtilities.setMessage(attributes, current);
-//
-//		if (current.indexOf(PARSE_ERROR_STRING) != -1)
-//		  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-//		else if (current.indexOf(PARSE_WARNING_STRING) != -1)
-//		  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
-//		else
-//		  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO));
-//		MarkerUtilities.setLineNumber(attributes, lineNumber);
-//		MarkerUtilities.createMarker(file, attributes, IMarker.PROBLEM);
-//	  }
-//	}
-//  }
-//
-
-  /**
+   /**
    * This will change the file to parse.
    * @param fileToParse the file that should be parsed
    */
