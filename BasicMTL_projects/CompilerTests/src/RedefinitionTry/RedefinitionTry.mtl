@@ -1,0 +1,29 @@
+library RedefinitionTry;
+
+class A {
+
+method1() : Standard::Void
+{	'method1'.toOut();
+}
+}
+
+class B extends A {
+
+method1() : Standard::Void
+{	'method1 (from B)'.toOut();
+}
+
+method2() : Standard::Void
+{	'method2'.toOut();
+}
+}
+
+main() : Standard::Void	{
+	aA : A;
+	aB : B;
+	aA := new A();
+	aB := new B();
+	aA.method1();
+	aB.method1();
+	aB.method2();
+}

@@ -1,0 +1,224 @@
+library acceptSamples;
+
+	/***********************************************************
+	 * ACCEPT FOR CALLABLE VISITOR
+	 * ****************************
+	 *
+	accept (v : DefaultVisitors::CallableVisitor; context : Standard::OclAny) : Standard::OclAny
+	{	try {
+			return v.visit('CLASSNAME',self,context);
+		}
+		catch w:DefaultVisitors::CallableVisitor {
+			return v.visitOclAny(self,context);
+			}
+	} */
+	/***********************************************************
+	 * ACCEPT FOR INVOKABLE VISITOR
+	 * ****************************
+	 *
+	accept (v : DefaultVisitors::InvokableVisitor; context : Standard::OclAny) : Standard::OclAny
+	{	vFather : DefaultVisitors::CallableVisitor;
+		JavaCode [try { java.lang.reflect.Method m = BMTL_v.getClass().getMethod("BMTL_visitCLASSNAME",new Class[\]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class})];
+		JavaCode [return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)m.invoke(BMTL_v,new Object[\]{this,BMTL_context})];
+		JavaCode [} catch (Exception e) {} BMTL_vFather=null];
+		vFather := v.getParent();
+		if isNull(vFather).[not]()
+			{ return self.accept(vFather,context); }
+		else
+			{ return v.visitOclAny(self,context); }
+	}
+	} */
+
+class A {
+
+name : Standard::String;
+
+}
+
+class B {
+
+name : Standard::String;
+
+}
+
+class C {
+
+name : Standard::String;
+
+}
+
+class CV1 extends DefaultVisitors::CallableVisitor {
+
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV1 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitB(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV1 visit '.concat(instance.oclAsType(!B!).name).toOut();
+	return null;
+}
+
+visit(className :Standard::String; instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	if className.[=]('B')
+	{	return visitB(instance,context); }
+	throw self.oclAsType(!CV1!);
+}
+}
+
+class CV2 extends CV1 {
+
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV2 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitC(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV2 visit '.concat(instance.oclAsType(!C!).name).toOut();
+	return null;
+}
+
+visit(className :Standard::String; instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	if className.[=]('B')
+	{	return visitB(instance,context); }
+	if className.[=]('C')
+	{	return visitC(instance,context); }
+	throw self.oclAsType(!CV2!);
+}
+}
+
+class CV3 extends CV2 {
+
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV3 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitA(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV3 visit '.concat(instance.oclAsType(!A!).name).toOut();
+	return null;
+}
+
+visit(className :Standard::String; instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	if className.[=]('A')
+	{	return visitA(instance,context); }
+	else { return self.oclAsType(!CV2!).visit(className,instance,context); }
+}
+}
+
+class IV1 extends DefaultVisitors::InvokableVisitor {
+
+getPArent() : Standard::OclAny
+{	 return null; }
+ 
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV1 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitB(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV1 visit '.concat(instance.oclAsType(!B!).name).toOut();
+	return null;
+}
+
+}
+
+class IV2 extends IV1 {
+
+getPArent() : Standard::OclAny
+{	 return self.oclAsType(!IV1!); }
+ 
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV2 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitC(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV2 visit '.concat(instance.oclAsType(!C!).name).toOut();
+	return null;
+}
+
+}
+
+class IV3 extends IV2 {
+
+getPArent() : Standard::OclAny
+{	 return self.oclAsType(!IV2!); }
+ 
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV3 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitA(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV3 visit '.concat(instance.oclAsType(!A!).name).toOut();
+	return null;
+}
+
+}
+
+
+main() : Standard::Void	{
+	defaultVisitor : DefaultVisitors::CallableVisitor;
+	aA : A;
+	aB : B;
+	aC : C;
+	aCV1 : CV1;
+	aCV2 : CV2;
+	aCV3 : CV3;
+	aIV1 : IV1;
+	aIV2 : IV2;
+	aIV3 : IV3;
+	
+	aA := new A();
+	aB := new B();
+	aC := new C();
+	aA.name := 'Amsterdam';
+	aB.name := 'Bruxelles';
+	aC.name := 'Cadix';
+	'******** DefaultVisitor ********'.toOut();
+	defaultVisitor := new DefaultVisitors::CallableVisitor();
+	aA.accept(defaultVisitor,null);
+	aB.accept(defaultVisitor,null);
+	aC.accept(defaultVisitor,null);
+	'******** CALLABLE VISITORS *****'.toOut();
+	'================================'.toOut();
+	'********** CV1 Visitor *********'.toOut();
+	aCV1 := new CV1();
+	aA.accept(aCV1,null);
+	aB.accept(aCV1,null);
+	aC.accept(aCV1,null);
+	'********** CV2 Visitor *********'.toOut();
+	aCV2 := new CV2();
+	aA.accept(aCV2,null);
+	aB.accept(aCV2,null);
+	aC.accept(aCV2,null);
+	'********** CV3 Visitor *********'.toOut();
+	aCV3 := new CV3();
+	aA.accept(aCV3,null);
+	aB.accept(aCV3,null);
+	aC.accept(aCV3,null);
+	'******* INVOKABLE VISITORS *****'.toOut();
+	'================================'.toOut();
+	'********** IV1 Visitor *********'.toOut();
+	aIV1 := new IV1();
+	aA.accept(aIV1,null);
+	aB.accept(aIV1,null);
+	aC.accept(aIV1,null);
+	'********** IV2 Visitor *********'.toOut();
+	aIV2 := new IV2();
+	aA.accept(aIV2,null);
+	aB.accept(aIV2,null);
+	aC.accept(aIV2,null);
+	'********** IV3 Visitor *********'.toOut();
+	aIV3 := new IV3();
+	aA.accept(aIV3,null);
+	aB.accept(aIV3,null);
+	aC.accept(aIV3,null);
+}
