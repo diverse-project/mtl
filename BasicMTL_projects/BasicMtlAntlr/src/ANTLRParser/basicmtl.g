@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.24 2004-04-28 07:24:51 edrezen Exp $ 			*/
+/* $Id: basicmtl.g,v 1.25 2004-04-28 17:31:01 edrezen Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -787,7 +787,7 @@ foreachInstruction returns [Object tree=null;]
 	Object s4 = null; 
 }
  :	
- 	"foreach" OPENBRACKET  s1=varDecl  CLOSEBRACKET  "in"  OPENBRACKET s2=expression CLOSEBRACKET  ("where" OPENBRACKET s3=expression CLOSEBRACKET)?   s4=bodyinstr  
+ 	"foreach" OPENBRACKET  s1=varDecl  CLOSEBRACKET  ("in"  OPENBRACKET s2=expression CLOSEBRACKET)?  ("where" OPENBRACKET s3=expression CLOSEBRACKET)?   s4=bodyinstr  
 	{ 
 		tree = walker.foreachInstr (s1,s2,s3,s4);
 	}

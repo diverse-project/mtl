@@ -1,6 +1,6 @@
 library Foreach;
 
-model source_model : RepositoryModel;
+model UML : RepositoryModel;
  
  
 /********************************************/
@@ -44,7 +44,7 @@ test1a ()
 	mdrdriver.init();
 	 
 	// intanciate the model, save result in another file
-	source_model := mdrdriver.getModelFromXMI (
+	UML := mdrdriver.getModelFromXMI (
 		metamodelFilename, 
 		'UML',		// name of the root package in the Uml1.4 metamodel
 		'foo', 
@@ -54,15 +54,15 @@ test1a ()
     
     '******************************************** TEST 1a ********************************************'.toOut();
 
-    foreach (p : source_model::Model_Management::Package) in (!source_model::Model_Management::Package!.allInstances())
+    foreach (p : UML::Model_Management::Package)
 	{
 		'PACKAGE '.concat (p.name.oclAsType(!Standard::String!)).toOut();
 		
-		foreach (c : source_model::Core::ModelElement) in (p.ownedElement) where (c.oclIsKindOf (!source_model::Core::Class!))
+		foreach (c : UML::Core::ModelElement) in (p.ownedElement) where (c.oclIsKindOf (!UML::Core::Class!))
 		{
 			'    CLASS '.concat(c.name.oclAsType(!Standard::String!)).toOut();
 			
-		    foreach (f : source_model::Core::Feature) in (c.feature) 
+		    foreach (f : UML::Core::Feature) in (c.feature) 
 			{
 				'        FEATURE '.concat(f.name.oclAsType(!Standard::String!)).toOut();
 			}			

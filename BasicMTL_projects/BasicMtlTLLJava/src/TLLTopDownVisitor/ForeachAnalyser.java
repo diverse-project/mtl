@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/ForeachAnalyser.java,v 1.2 2004-04-28 13:39:21 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/ForeachAnalyser.java,v 1.3 2004-04-28 17:32:48 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -21,21 +21,31 @@ public class ForeachAnalyser extends Analyser {
 	{	super(Foreach.class);
 	}
 
+	/** GOF template method for visiting a foreach node 
+	 */
 	public void analyse (Visitable node, Visitor visitor,java.util.Map context)
 	{	
 		Foreach ASTnode = (Foreach) node;
+		
+		// primitive method before other treatments
 		Object theCreatedObject = ForeachBefore (ASTnode,context);
 
-		ASTnode.getCollection().accept (visitor,context);
+		// we visit the collection and call the primitive method for the collection
+		if (ASTnode.getCollection() != null)
+		{		
+			ASTnode.getCollection().accept (visitor,context);
+		}
 		this.ForeachCollection (ASTnode, theCreatedObject, context);
 
+		// we call the primitive method for the variable declaration
 		this.ForeachVarDeclaration (ASTnode, theCreatedObject, context);
 
+		// we visit the condition and call the primitive method for the condition
 		if (ASTnode.getCondition() != null)
 		{
 			ASTnode.getCondition().accept (visitor,context);
-			this.ForeachCondition (ASTnode, theCreatedObject, context);
 		}
+		this.ForeachCondition (ASTnode, theCreatedObject, context);
 
 		// we loop over the instructions of the foreach body
 		for (int i=0; i<ASTnode.cardBody(); i++) 
@@ -44,6 +54,7 @@ public class ForeachAnalyser extends Analyser {
 			this.ForeachBodyInstruction ((Instruction)ASTnode.getBody(i), theCreatedObject, context);
 		}
 
+		// we call the primitive method for post processing
 		ForeachAfter (ASTnode, theCreatedObject, context);
 	}
 
@@ -55,7 +66,6 @@ public class ForeachAnalyser extends Analyser {
 	{	
 		return null; 
 	}
-
 
 
 	/** */

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.3 2004-04-28 15:44:50 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.4 2004-04-28 17:35:40 edrezen Exp $
  * Created on 7 août 2003
  *
  */
@@ -80,6 +80,22 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 	{
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		
+		// if there is no specified collection, we use an allinstances of the mute variable type
+		if (ASTnode.getCollection() == null)
+		{
+			outputForClass.print ("new BMTLOclType(this.getLibrary(), new String [] {");
+			for (int i=0; i<ASTnode.getVarDeclaration().getType().size(); i++)
+			{
+				if (i>0)
+				{
+					outputForClass.print (',');
+				}
+				outputForClass.print ('"' + ASTnode.getVarDeclaration().getType().get(i).toString() + '"');
+			}
+			outputForClass.print ("})");
+			outputForClass.print (".invoke (null,\"allInstances\",new Value[]{},new String[]{ModelElement.OperationDiscriminant})");
+		}
+
 		outputForClass.println (".invoke (null, \"getNewIterator\",	new Value[]{}, new String[]{ModelElement.OperationDiscriminant}	) );" );
 
 		outputForClass.println ("while (" + (String)createdObject + ".BMTL_isOn().getTheBoolean())");

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ForeachAnalyser.java,v 1.2 2004-04-28 07:27:16 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ForeachAnalyser.java,v 1.3 2004-04-28 17:31:18 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -29,8 +29,11 @@ public class ForeachAnalyser extends Analyser {
 		ASTnode.getVarDeclaration().accept (visitor,context);
 		this.ForeachVarDeclaration (theCreatedForeach, context.get("VarDeclaration"), context);
 
-		ASTnode.getCollection().accept (visitor,context);
-		this.ForeachCollection (theCreatedForeach, context.get("Instruction"), context);
+		if (ASTnode.getCollection() != null)
+		{
+			ASTnode.getCollection().accept (visitor,context);
+			this.ForeachCollection (theCreatedForeach, context.get("Instruction"), context);
+		}
 
 		if (ASTnode.getCondition() != null)
 		{
