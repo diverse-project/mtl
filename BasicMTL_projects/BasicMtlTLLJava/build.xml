@@ -1,0 +1,74 @@
+<!-- $Id: build.xml,v 1.1 2003-08-06 16:13:28 jpthibau Exp $ -->
+<project name="BasicMtlTLLJava" default="compile_java" basedir=".">
+	<description>
+        Known directories for the BAsicMtlTLL
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="srcOfp" location="srcOfp"/>
+	<property name="bin" location="bin"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the bin and dist directories -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	</target>
+
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src} and ${srcOfp} into ${bin} -->
+	    <javac srcdir="${src};${srcOfp}" 
+    	    destdir="${bin}"
+   			classpath="."/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            packagenames="TLLTopDownVisitor"
+            sourcepath="src"
+            classpath="bin" doctitle="Basic MTL TLLJava internal Documentation">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+            <link href="file:/T"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/BasicMtlTLLJava.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>   
+		    	<attribute name="Main-Class" value="TLLTopDownVisitor.topDownVisitor"/>
+				<attribute name="Class-Path" value="."/>
+		    	<section name="BasicMTLTLLJava">
+		      		<attribute name="Specification-Title" value="BasicMTLTLLJava"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+	</target>
+
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+      	<delete dir="${dist}"/> 
+  	</target>
+</project>
