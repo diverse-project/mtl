@@ -32,9 +32,10 @@ test1a ()
 	it : Standard::Iterator;
 
 	// we define some filenames 
-	projectPath       := './';
-	metamodelFilename := projectPath.concat ('MOF_metamodel.xmi');
-	inputFilename     := projectPath.concat ('MOF_metamodel.xmi');
+	projectPath       := '../../';
+
+	metamodelFilename := projectPath.concat ('MetaModels/UML_metamodel.xmi');
+	inputFilename     := projectPath.concat ('Models/UML_model.xmi');
 	outputFilename    := null; 
 
     // we initialize the MDR driver			
@@ -44,20 +45,32 @@ test1a ()
 	// intanciate the model, save result in another file
 	source_model := mdrdriver.getModelFromXMI (
 		metamodelFilename, 
-		'Model',		// name of the root package in the Uml1.4 metamodel
+		'UML',		// name of the root package in the Uml1.4 metamodel
 		'foo', 
 		inputFilename,
 		outputFilename
 	);
     
     '******************************************** TEST 1a ********************************************'.toOut();
+
     
-    foreach (x : source_model::Class) in (!source_model::Class!.allInstances())
+    foreach (p : source_model::Model_Management::Package) in (!source_model::Model_Management::Package!.allInstances())
 	{
-		x.name.toOut();
+		'PACKAGE '.concat (p.name.oclAsType(!Standard::String!)).toOut();
+		
+		foreach (c : source_model::Core::ModelElement) in (p.ownedElement)
+		{
+			if (c.oclIsKindOf (!source_model::Core::Class!) )
+			{
+				'    CLASS '.concat(c.name.oclAsType(!Standard::String!)).toOut();
+
+			    foreach (f : source_model::Core::Feature) in (c.feature)
+				{
+					'        FEATURE '.concat(f.name.oclAsType(!Standard::String!)).toOut();
+				}			
+			}
+		}
 	}
-    
- 	'model connected'.toOut();
 }
 
 
