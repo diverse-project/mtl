@@ -1,11 +1,11 @@
- /* $Id: generateAntfilesAction.java,v 1.4 2005-02-28 15:40:05 dvojtise Exp $
+ /* $Id: generateAntfilesAction.java,v 1.5 2005-03-01 09:46:18 zdrey Exp $
  * Project  : org.inria.mtl.Eclipse3plugin
  * Filename : $File:$
  * License  : LGPL
  * Authors  : zdrey@irisa.fr
  * 
  * Creation date     : Jan 19, 2005
- * Modification date : $Date: 2005-02-28 15:40:05 $
+ * Modification date : $Date: 2005-03-01 09:46:18 $
  * 
  * Description       : 
  * This code creates a Button that is associated to this action :
@@ -102,7 +102,8 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 	}
 	
 	/**
-	 * // sometime on windows system, the path still start with / even if has C:  ex: /C:/mydir
+	 * // sometimes on windows system, the path still start with / even if has C:  ex: /C:/mydir
+	 * // and under linux nP.getDevice() (see code) is null...
 	 *  PATCH: we really want an OSString ...
 	 * @param path
 	 * @return
@@ -113,7 +114,8 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		Path nP = new Path(path);
 
 		osPath = nP.toOSString();
-		if (nP.getDevice().endsWith(":") && nP.getDevice().startsWith("/"))
+		String dev = nP.getDevice();
+		if (dev!=null && dev.endsWith(":") && dev.startsWith("/"))
 		{	// windows system but start with / ??? PATCH: we really want an OSString ...
 			osPath = osPath.substring(1);
 		}
