@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.15 2004-10-18 16:00:00 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.16 2004-10-27 14:50:00 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -286,6 +286,8 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Inheritance"),(java.util.Vector)inheritance,"InheritanceTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Refinement"),(java.util.Vector)refinement,"InheritanceTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("FileName"),new BMTLString(currentFile),"StringTag");
+	
 	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
