@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astViewParser.java,v 1.3 2003-11-14 17:30:02 jpthibau Exp $
+ * $Id: antlr2astViewParser.java,v 1.4 2004-03-17 13:59:08 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -8,15 +8,15 @@ package antlr2ASTView;
 /**
  * @author jpthibau
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * This class allows to load a library from a set of mtl files
+ * It also deals with associations and inheritance
  */
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.xml.DOMConfigurator;
 
-import ANTLRASTWalker.ANTLRWalkerActionsInterface;
+//import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRASTWalker.antlrParserInterface;
 import ANTLRParser.*;
 import BasicMtlASTWithAssociationView.*;
@@ -39,6 +39,8 @@ public class antlr2astViewParser implements antlrParserInterface {
 	public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library buildLibraryFromTexts(java.util.Vector filenames)
 	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
 		BMTL_LibraryInterface parsedAssociationTemplatesLib=null;
+		
+		log.info("Parsing "+filenames.size()+" file(s) for this library" );
 		for (int i=0;i<filenames.size();i++)
 			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i));
 		if (parsedBMTLLib.get_BMTL_hasAssociation().getTheBoolean()) {

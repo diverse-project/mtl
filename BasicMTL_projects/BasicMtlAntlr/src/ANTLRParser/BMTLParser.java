@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.8 2004-03-17 10:56:18 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.9 2004-03-17 13:59:05 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -31,7 +31,7 @@ public class BMTLParser {
 	}
 
 	public static Object Parse(String name,ANTLRWalkerActionsInterface aWalker)
-	{	log.info("Parsing : "+name);
+	{	log.debug("Parsing : "+name);
 		boolean noPb=true;
 		Object builtTree=null;
 		try { input=new DataInputStream(new FileInputStream(name)); }

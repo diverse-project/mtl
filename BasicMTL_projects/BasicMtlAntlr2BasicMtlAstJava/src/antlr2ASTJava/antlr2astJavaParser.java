@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2astJavaParser.java,v 1.2 2004-02-16 17:27:08 dvojtise Exp $
+ * $Id: antlr2astJavaParser.java,v 1.3 2004-03-17 13:59:03 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -38,7 +38,9 @@ public class antlr2astJavaParser implements antlrParserInterface {
 	}
 
 	public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library buildLibraryFromTexts(java.util.Vector filenames)
-	{	for (int i=0;i<filenames.size();i++)
+	{	
+		log.info("Parsing "+filenames.size()+" file(s) for this library" );
+		for (int i=0;i<filenames.size();i++)
 			//to add the new parsed file to the TLL when several files are given
 			//the context contains the created  TLL that udpdates at each step
 			parsedLib=ASTproducer.buildLibraryFromText((String)filenames.get(i));
