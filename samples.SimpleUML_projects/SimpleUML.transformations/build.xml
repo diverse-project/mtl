@@ -67,22 +67,21 @@
 				<pathelement path="../SimpleUML.edit/runtime"/>
 				<pathelement path="../SimpleUML.edit/runtime/SimpleUML.edit.jar"/>
 				<pathelement path="../../plugins/org.eclipse.emf.edit_2.0.0/runtime/edit.jar"/>
-				<pathelement path="../BasicMTL.runtime/bin"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/jmiutils.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/mdrapi.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/mof.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/MDR/openide-lookup.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
-				<pathelement path="../BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
-				<pathelement path="../BasicMTL.runtime/BasicMTLruntime.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/bin"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmiutils.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mdrapi.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/mof.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/openide-lookup.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
 				<pathelement path="../org.inria.EMFDriver/bin"/>
 				<pathelement path="../org.inria.EMFDriver/EMFDriver.jar"/>
 				<pathelement path="../org.inria.EMFDriver/BasicMTLruntime.jar"/>
@@ -101,10 +100,12 @@
 				<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.0.0/runtime/ecore.xmi.jar"/>
 			</classpath>
 			<src path="build/src/"			/>
+			<src path="src/Java/"			/>
 			</javac>
 		<!-- Copy necessary resources -->
 		<copy todir="${temp.folder}/SimpleUML_transformations.jar.bin" failonerror="true">
 			<fileset dir="build/src/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="src/Java/" excludes="**/*.java, **/package.htm*"			/>
 		</copy>
 		<mkdir dir="${build.result.folder}"/>
 		<jar jarfile="${build.result.folder}/SimpleUML_transformations.jar" basedir="${temp.folder}/SimpleUML_transformations.jar.bin"/>
@@ -115,6 +116,7 @@
 		<mkdir dir="${build.result.folder}"/>
 		<zip zipfile="${build.result.folder}/SimpleUML_transformationssrc.zip" filesonly="false" whenempty="skip" update="false">
 			<fileset dir="build/src/" includes="**/*.java"			/>
+			<fileset dir="src/Java/" includes="**/*.java"			/>
 		</zip>
 	</target>
 

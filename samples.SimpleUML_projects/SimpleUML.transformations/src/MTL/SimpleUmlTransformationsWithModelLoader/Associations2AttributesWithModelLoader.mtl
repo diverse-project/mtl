@@ -1,5 +1,5 @@
 /*
- * $Id: Associations2AttributesWithModelLoader.mtl,v 1.1 2004-08-10 12:14:47 dvojtise Exp $
+ * $Id: Associations2AttributesWithModelLoader.mtl,v 1.1 2004-08-16 11:46:27 dvojtise Exp $
  *
  * Sample of use of associations2attribute with a MDR repository
  */
@@ -116,7 +116,7 @@ class sourceModelLoader
 	}
 	loadSourceModelInEMF(src_inputFilename, src_outputFilename : Standard::String )
 	{
-		modelManager : EMFDriver::EMFModelManager;
+/*		modelManager : EMFDriver::EMFModelManager;
 		
 		modelManager := new EMFDriver::EMFModelManager();
 
@@ -130,7 +130,7 @@ class sourceModelLoader
 
 		modelManager.saveModelAsXMI('SimpleUmlMM',
 								src_outputFilename);
-	
+	*/
 	}
 }
 

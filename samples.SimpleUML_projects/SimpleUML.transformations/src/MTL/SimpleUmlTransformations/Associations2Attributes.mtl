@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Associations2Attributes.mtl,v 1.1 2004-08-10 12:14:48 dvojtise Exp $
+ * $Id: Associations2Attributes.mtl,v 1.1 2004-08-16 11:46:37 dvojtise Exp $
  * Repository independent transformations that apply to SimpleUML models
  *	includes : 
  *		association 2 attributes 

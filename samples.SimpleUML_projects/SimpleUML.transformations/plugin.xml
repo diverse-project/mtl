@@ -6,7 +6,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004-08-10 12:14:41 dvojtise Exp $
+ * $Id: plugin.xml,v 1.2 2004-08-16 11:46:22 dvojtise Exp $
  */
 -->
 
@@ -21,6 +21,7 @@
      <import plugin="SimpleUML.edit"/>
      <import plugin="org.inria.BasicMTL.runtime" export="true"/>
      <import plugin="org.inria.EMFDriver"/>
+     <import plugin="org.eclipse.core.runtime"/>
   </requires>
 
   <runtime>

@@ -7,6 +7,7 @@
 	<!-- set global properties for this build -->
 	<property name="build.bin" location="build/bin"/>
 	<property name="build.src" location="build/src"/>
+	<property name="build.tll" location="build/tll"/>
 	
 	
 	<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation/dist"/>
@@ -27,7 +28,7 @@
 	<!-- ************************************************ -->
 	<!-- set user properties for this build -->
 	<property name="library.name" value="SimpleUmlTransformations4MDR"/>
-	<property name="src" location="src"/>
+	<property name="src" location="src/MTL"/>
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
