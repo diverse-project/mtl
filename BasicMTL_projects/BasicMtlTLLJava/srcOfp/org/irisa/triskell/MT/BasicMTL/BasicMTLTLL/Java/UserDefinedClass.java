@@ -127,6 +127,18 @@ abstract public class UserDefinedClass
         this.completedInheritedSignatures = value; 
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName qualifiedName;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName getQualifiedName () {
+        return this.qualifiedName;
+    }
+    public void setQualifiedName (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName value) {
+        this.qualifiedName = value; 
+    }
+    public int cardQualifiedName () {
+        if ( this.qualifiedName == null ) return 0;
+        else return 1;
+    }
+
 
     public UserDefinedClass(
         String name,

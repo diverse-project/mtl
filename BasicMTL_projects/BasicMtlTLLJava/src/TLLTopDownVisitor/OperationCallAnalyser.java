@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.3 2003-08-19 13:47:33 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.4 2003-08-21 20:16:55 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -29,9 +29,9 @@ public class OperationCallAnalyser extends Analyser {
 			ASTnode.getCaller().accept(visitor,context);
 			//this.OperationCallCaller(theOperationCall,context.get("Instruction"),context);
 			//@TODO this is a Frd hack... Plese, check its correctness !
-			this.OperationCallCaller(theOperationCall,ASTnode.getCaller(),context);
+			this.OperationCallCaller(theOperationCall, ASTnode,ASTnode.getCaller(), context);
 		}
-		else this.OperationCallCaller(theOperationCall,null,context);
+		else this.OperationCallCaller(theOperationCall, ASTnode,null, context);
 		limit=ASTnode.cardArguments();
 		for (i=0;i<limit;i++) {
 			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
@@ -48,7 +48,7 @@ public class OperationCallAnalyser extends Analyser {
 
 	public void OperationCallArgSeparator(java.util.Map context) {}
 
-	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context) {}
+	public void OperationCallCaller(Object theOperationCall,OperationCall node,Object expr, java.util.Map context) {}
 
 	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context) {}
 

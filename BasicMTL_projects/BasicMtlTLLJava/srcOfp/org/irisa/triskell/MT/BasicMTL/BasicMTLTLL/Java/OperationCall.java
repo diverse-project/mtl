@@ -90,6 +90,18 @@ public class OperationCall
         else return 1;
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName oclAsType;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName getOclAsType () {
+        return this.oclAsType;
+    }
+    public void setOclAsType (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName value) {
+        this.oclAsType = value; 
+    }
+    public int cardOclAsType () {
+        if ( this.oclAsType == null ) return 0;
+        else return 1;
+    }
+
 
     public OperationCall(
         String name,
