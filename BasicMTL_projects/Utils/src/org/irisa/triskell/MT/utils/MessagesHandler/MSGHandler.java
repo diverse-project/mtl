@@ -1,4 +1,4 @@
-/* $Id: MSGHandler.java,v 1.7 2004-10-18 16:15:01 jpthibau Exp $
+/* $Id: MSGHandler.java,v 1.8 2004-10-19 06:57:46 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -25,11 +25,11 @@ public class MSGHandler {
 
 	public static Vector allMessages=null;
 	
-	public static final org.apache.log4j.Logger log = Logger.getLogger("MSGHandler");
+/*	public static final org.apache.log4j.Logger log = Logger.getLogger("MSGHandler");
 
 	public static org.apache.log4j.Logger getLog () {
 			return MSGHandler.log;
-	}
+	}*/
 	
 	
 	/**
@@ -37,16 +37,17 @@ public class MSGHandler {
 	 */
 	public static Logger init() {
 		String filePath="";
-		Logger logger=Logger.getLogger("MSGHandler");
-		if (logger==null) {
+		Logger logger=null;
+		if (allMessages==null) {
 		allMessages=new Vector();
 			
 		try {
 			filePath = new java.io.File(Directories.getRootPath(MSGHandler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			
 			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); 
-			LogManager.getRootLogger().error("looking for log4jconfiguration file here: "+filePath);
+			DOMConfigurator.configure(filePath);
+			//put getRootLogger.error(.. instead of debug if you want to stop on the configuration file loaded.
+			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
 			logger=Logger.getLogger("MSGHandler");
 			if (logger.getAppender("MSGHandlerAppender")==null)
 				logger.addAppender(new MSGHandlerAppender());
@@ -56,6 +57,7 @@ public class MSGHandler {
 			System.err.println("looking for log4jconfiguration file here: "+filePath); 
 		}
 		}
+		else logger=Logger.getLogger("MSGHandler");
 		return logger;
 	}
 	
