@@ -57,8 +57,7 @@ __version__ = "0.1"
 
 # in an __init__ file?
 import sys, getopt, string, re, os
-from xml.dom.DOMImplementation import implementation
-from xml.dom.ext.reader import PyExpat
+import xml.dom.minidom
 import xml
 
 class BaseProcess:
@@ -201,10 +200,8 @@ class DOMAntimtl(BaseProcess) :
         Create a DOM file from filename (XML file)
         """
         import os
-        #build a DOM tree from the file
-        reader = PyExpat.Reader()
-        # fixme : aboslute path instead
-        xml_dom_object = reader.fromUri(os.path.abspath(filename))
+       
+        xml_dom_object = xml.dom.minidom.parse(os.path.abspath(filename))
         return xml_dom_object 
 
     def setTargets(self, lib, build_file, keyword=""):
