@@ -1,16 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.2 2004-04-28 07:29:13 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.3 2004-04-28 15:44:50 edrezen Exp $
  * Created on 7 août 2003
  *
  */
 package SecondPassGeneration;
 
-import java.io.*;
-import java.util.Map;
-
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-
-import CodeGeneration.BMTLCompiler;
+import java.io.PrintWriter;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Foreach;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Instruction;
 
 /**
  * @author jpthibau
