@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.7 2004-04-06 07:52:36 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.8 2004-04-21 18:17:34 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -710,5 +710,62 @@ public Object specialTagValue(String value)
 	tag.addElement("SpecialTag");
 	tag.addElement(value);
 	return tag; }
+
+/**
+	 * Build a node for the Foreach instruction
+	 * @param varDeclaration the mute variable used in the foreach loop
+	 * @param expression     the expression of the collection the foreach loop over
+	 * @param body           the body of the foreach, i.e. the instructions to be done
+	 * @return the Foreach node
+	 */
+public Object foreachInstr (Object typedVars, Object expression, Object body) 
+{
+	// we build the node for the foreach statement
+	 BMTL_Foreach node = (BMTL_Foreach) ((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Foreach"})).instanciate();
+
+	try {
+		////////////////////////////////////////////////////////////
+		// we retrieve information from arguments (after some casts)
+		////////////////////////////////////////////////////////////
+		java.util.Vector instructions = (java.util.Vector)((java.util.Vector)body).get(0);
+		String lineNumber=(String)((java.util.Vector)body).get(1);
+
+		String varName = (String) (((java.util.Vector)typedVars).get(1));		
+		java.util.Vector type = (java.util.Vector) ((java.util.Vector)typedVars).get(0);
+
+		////////////////////////////////////////////////////////////
+		// we build a node for the variable declaration 
+		////////////////////////////////////////////////////////////
+		BMTL_VarDeclaration varDeclaration = (BMTL_VarDeclaration)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"VarDeclaration"})).instanciate();
+		varDeclaration.set_BMTL_name (new BMTLString(varName));
+		varDeclaration.set_BMTL_isFormalParameter (BMTLBoolean.FALSE);
+		putProperty ((BMTL_ASTNodeInterface)varDeclaration, new BMTLString("Type"), type,"TypeTag");
+		node.set_BMTL_varDeclaration (varDeclaration);
+
+		////////////////////////////////////////////////////////////
+		// we set the expression (of the collection) for the foreach node 
+		////////////////////////////////////////////////////////////
+		node.set_BMTL_expression ((BMTL_ExpressionInterface)expression);
+
+		////////////////////////////////////////////////////////////
+		// we set the instruction body for the foreach node 
+		////////////////////////////////////////////////////////////
+		for (int i=0; i<instructions.size(); i++)
+		{
+			node.BMTL_appendBody ((BMTL_InstructionInterface)instructions.get(i));
+		}
+
+		////////////////////////////////////////////////////////////
+		// we set the properties of the foreach node
+		////////////////////////////////////////////////////////////
+		putProperty ((BMTL_ASTNodeInterface)node, new BMTLString("LineNumber"), new BMTLString(lineNumber),"StringTag");
+	
+	} 
+	catch (Throwable e) {
+		e.printStackTrace();
+	}
+
+	return node; 
+}
 
 }
