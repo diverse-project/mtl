@@ -1,6 +1,14 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.8 2003-12-08 11:13:16 jpthibau Exp $
+/*
+ * $Id: ANTLRWalkerActionsInterface.java,v 1.9 2004-04-06 07:50:25 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package ANTLRASTWalker;
 
+/**
+ * Defines the actions that the ANTLR parser fires.
+ */
 public interface ANTLRWalkerActionsInterface {
 
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes);
@@ -79,8 +87,22 @@ public Object attributeGetter(String attributeName);
 
 public Object variableName(String value);
 
+/**
+ * called when a not is parsed
+ * @param expr : expression to negate
+ * @param lineNumber
+ * @return Object : created node
+ */
 public Object negateExpr(Object expr,String lineNumber);
 
+/**
+ * called when parsing an operator in an expression
+ * @param expr1 : first sub expression
+ * @param operator
+ * @param expr2 : second sub expression
+ * @param lineNumber
+ * @return Object
+ */
 public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber);
 
 public Object directOperationCalls(java.util.Vector theCalls);
