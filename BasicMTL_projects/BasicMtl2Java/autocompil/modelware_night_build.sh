@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.9 2004-06-04 12:02:24 jpthibau Exp $
+# $Id: modelware_night_build.sh,v 1.10 2004-06-15 12:01:05 jpthibau Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -44,7 +44,8 @@ setenv CLASSPATH $BASE/Utils/ThirdParty/JUnit/junit.jar:$BASE/BasicMtlAntlr/Thir
 
 
 #copy the correct version files (according to eclipse and emf version)
-ant VersionManagement/EclipseV2/2.1.0_build.xml
+pwd
+ant -f VersionManagement/EclipseV2/2.1.0_build.xml "selectThisVersion" |& tee $BASE/ant_SelectVersion.log
 
 
 #echo $CLASSPATH
