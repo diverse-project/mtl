@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.10 2004-09-22 15:13:29 edrezen Exp $
+ * $Id: MDRAPI.java,v 1.11 2004-09-28 12:48:51 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -13,6 +13,9 @@ import javax.jmi.xmi.XmiWriter;
 import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
+import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDREventListenerFactory;
 import org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRObject;
@@ -445,31 +448,34 @@ public class MDRAPI
 	/** */
 	public void addListenerToElement (Element element, EventListener listener)
 	{
-		MDRObject obj = (MDRObject)((JMIElement)element).getRef();
-		if (obj!=null)
-        {
-			obj.addListener ((MDRChangeListener)listener);
-        }
-		else
+		if (element instanceof ModelElement)
 		{
-			getLog().warn ("Null MDR reference when adding a listener...");
+			ModelElement me = (ModelElement)element;
+
+			MDRObject obj = (MDRObject)((JMIElement)element).getRef();
+			if (obj!=null)
+	        {
+				obj.addListener ((MDRChangeListener)listener);
+	        }
+			else
+			{
+				getLog().warn ("Null MDR reference when adding a listener...");
+			}
 		}
 	}
 	
 	public void removeListenerToElement (Element element, EventListener listener)
 	{
-		MDRObject obj = (MDRObject)((JMIElement)element).getRef();
-		if (obj!=null)
-        {
-			obj.removeListener ((MDRChangeListener)listener);
-        }
-		else
-		{
-			getLog().warn ("Null MDR reference when removing a listener...");
-		}
 	}
 
-    
+
+	private EventListenerFactory eventListenerFactory = new MDREventListenerFactory (this);
+	/** */
+	public EventListenerFactory getEventListenerFactory() 
+	{
+		return this.eventListenerFactory;
+	}
+
 
 
 static {
@@ -487,4 +493,5 @@ static {
 	
 
 }
+
 }
