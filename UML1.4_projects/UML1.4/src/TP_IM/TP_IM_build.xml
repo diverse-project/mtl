@@ -1,4 +1,4 @@
-<!-- $Id: TP_IM_build.xml,v 1.2 2004-10-14 13:12:45 jpthibau Exp $ -->
+<!-- $Id: TP_IM_build.xml,v 1.3 2004-10-19 10:06:03 jpthibau Exp $ -->
 <project name="UML14_Transformations" default="compile" basedir=".">
 	<description>
         Build file for compiling and running UML14_Transformations
@@ -13,7 +13,7 @@
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<property name="MDRDriver.path" location="../../../MDRDriver"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL/;${MDRDriver.path}/src/ModelManager/TLL/"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/src/TLL/;${MDRDriver.path}/build/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	
