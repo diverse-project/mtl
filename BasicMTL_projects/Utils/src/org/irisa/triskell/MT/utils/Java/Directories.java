@@ -44,8 +44,12 @@ public class Directories {
     }
 
     /**Get the path where the program is installed, class or jar
+     * By fixing the system property Directories.RootPath to the value you want, you can force this method to respond it.
      */
     public static String getRootPath (String fromClass) {
+    	String ret = System.getProperty("Directories.RootPath");
+    	if (ret != null && ret.length() > 0)
+    		return new File(ret).getAbsolutePath();
         String thisClassName = ClassLoader.getSystemResource(AWK.replace(fromClass,
                 ".", "/") + ".class").getFile();
         if (thisClassName.startsWith("file:")) {
