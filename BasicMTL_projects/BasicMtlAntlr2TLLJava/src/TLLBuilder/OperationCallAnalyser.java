@@ -1,10 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationCallAnalyser.java,v 1.3 2003-08-19 13:32:51 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OperationCallAnalyser.java,v 1.4 2003-08-21 20:03:08 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
 package TLLBuilder;
 
+import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
@@ -34,7 +35,10 @@ public class OperationCallAnalyser extends ASTTopDownVisitor.OperationCallAnalys
 	public void OperationCallCaller(Object theOpCall,Object objectExpr,java.util.Map context)
 	{	OperationCall theCreatedOpCall=(OperationCall)theOpCall;
 		Expression expr=(Expression)objectExpr;
+		if (expr == null)
+			expr = new SelfLiteral();
 		theCreatedOpCall.setCaller(expr);
+		theCreatedOpCall.setOclAsType(expr.getToBeCasted());
 	}
 
 	public void OperationCallAfter(Object theOpCall,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OperationCall ASTnode,java.util.Map context)

@@ -1,9 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclTypeLiteralAnalyser.java,v 1.2 2003-08-14 20:47:46 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclTypeLiteralAnalyser.java,v 1.3 2003-08-21 20:03:07 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
 package TLLBuilder;
+
+import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -18,9 +20,11 @@ public class OclTypeLiteralAnalyser extends ASTTopDownVisitor.OclTypeLiteralAnal
 	public void OclTypeLiteralAction(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclTypeLiteral ASTnode,java.util.Map context)
 	{	java.util.Vector typeValue=ASTnode.getTypeValue();
 		OclTypeLiteral theCreatedLiteral=new OclTypeLiteral();
-		theCreatedLiteral.setTheType(new QualifiedName());
+		Vector type = new Vector();
 		for(int i=0;i<typeValue.size();i++)
-			theCreatedLiteral.getTheType().addElement(typeValue.get(i));
+			type.addElement(typeValue.get(i));
+		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		theCreatedLiteral.setTheType(CommonFunctions.findOrAddType(type, theCreatedLib));
 		theCreatedLiteral.setContainerOp((Operation)context.get("CurrentOperation"));
 		context.put("Instruction",theCreatedLiteral);
 	}

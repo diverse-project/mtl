@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.5 2003-08-19 13:32:51 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.6 2003-08-21 20:03:07 ffondeme Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -49,7 +49,7 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 			parentsTypesList.addElement(type);
 /*			String name = type.size()>1 ? (String) type.get(1) : (String) type.get(0);
 			String getRefOpName="getRef_"+name;
-			//@TODO cette opération devrait être faite au controle des types...
+			//@DONE cette opération devrait être faite au controle des types...
 			String getRefOpMangle ="getRef_"+Mangler.mangle("BMTL_", name);
 			OpSignature getRefSignature=new OpSignature(getRefOpName,getRefOpMangle);
 			getRefSignature.setReturnedType(type);
