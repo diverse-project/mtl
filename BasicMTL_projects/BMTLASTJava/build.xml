@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.2 2003-10-17 14:29:14 jpthibau Exp $ -->
-<project name="BasicMtl_Transformation_libraires" default="compile Standard" basedir=".">
+<!-- $Id: build.xml,v 1.1 2003-10-17 14:35:56 jpthibau Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="compile ASTJava" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
 	</description>
@@ -33,8 +33,8 @@
 	    <mkdir dir="${bin}"/>
 	</target>
 	
-	<target name="compile Standard" depends="init"
-  	 	description="Generate code for Standard.mtl">
+	<target name="compile ASTJava" depends="init"
+  	 	description="Generate code for ASTJava.mtl">
 	 	<java jar="../BasicMtl2Java/PureJava/dist/bin/Facade.jar" 
            fork="true"
            failonerror="true"
@@ -43,15 +43,15 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="Standard"/> 
+         <arg value="ASTJava"/> 
          <arg value="-BinPath"/> 
-         <arg value="${build}/src/java/Standard/"/> 
+         <arg value="${build}/src/java/ASTJava/"/> 
        </java>
  
 	</target>
 
 	
-	<target name="compile generated code" depends="compile Standard">
+	<target name="compile generated code" depends="compile ASTJava">
 		<description>
   			compile the generated Java Code
   		</description>		
@@ -60,17 +60,17 @@
     	    destdir="${bin}">
    			<classpath refid="MTLcompiler.class.path"/>
    		</javac>
-  		<javac srcdir="${build}/src/java/Standard" 
+  		<javac srcdir="${build}/src/java/ASTJava" 
     	    destdir="${bin}">
    			<classpath refid="MTLcompiler.class.path"/>
    		</javac>		
 	</target>
 	
 	<target name="clean"
-        description="clean up Standard lib" >
+        description="clean up ASTJava lib" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
-    	<delete dir="${build}/src/java/Standard"/>    
-    	<delete dir="${build}/src/UncheckedTLL/Standard.tll"/>
-    	<delete dir="${build}/src/TLL/Standard.tll"/>    
+    	<delete dir="${build}/src/java/ASTJava"/>    
+    	<delete dir="${build}/src/UncheckedTLL/ASTJava.tll"/>
+    	<delete dir="${build}/src/TLL/ASTJava.tll"/>    
   	</target>
 </project>

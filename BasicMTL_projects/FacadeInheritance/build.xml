@@ -1,0 +1,147 @@
+<!-- $Id: build.xml,v 1.1 2003-10-17 14:27:06 jpthibau Exp $ -->
+<project name="FacadeInheritance" default="dist" basedir=".">
+	<description>
+        Known directories for the code generator
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="dist"  location="dist"/>
+	
+	<!-- This project depends on the below projects -->
+	<property name="BasicMtlAntlr"  location="..\BasicMtlAntlr"/>
+	<property name="BasicMtlAntlr2ASTView"  location="..\BasicMtlAntlr2ASTView"/>
+	<property name="BasicMtlTLLJava"  location="..\BasicMtlTLLJava"/>
+	<property name="BasicMtlAntlr2TLLJava"  location="..\BasicMtlAntlr2TLLJava"/>
+	<property name="TLLTypeChecker"  location="..\TLLTypeChecker"/>
+	<property name="BasicMtlJavaCodeGenerator"  location="..\BasicMtlJavaCodeGenerator"/>
+	<property name="Utils"  location="..\Utils"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the bin and dist directories -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	    
+		<!-- This project depends on the below projects -->
+	    <echo>Building the "BasicMtlAntlr" project.</echo>
+	    <ant antfile="${BasicMtlAntlr}\build.xml" dir="${BasicMtlAntlr}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlAntlr" project built.</echo>
+	    <echo>Building the "BasicMtlAntlr22ASTView" project.</echo>
+	    <ant antfile="${BasicMtlAntlr2ASTView}\build.xml" dir="${BasicMtlAntlr2ASTView}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlAntlr22ASTView" project built.</echo>
+	    <echo>Building the "BasicMtlTLLJava" project.</echo>
+	    <ant antfile="${BasicMtlTLLJava}\build.xml" dir="${BasicMtlTLLJava}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlTLLJava" project built.</echo>
+	    <echo>Building the "BasicMtlAntlr2TLLJava" project.</echo>
+	    <ant antfile="${BasicMtlAntlr2TLLJava}\build.xml" dir="${BasicMtlAntlr2TLLJava}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlAntlr2TLLJava" project built.</echo>
+	    <echo>Building the "Utils" project.</echo>
+	    <echo>Building the "TLLTypeChecker" project.</echo>
+	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="dist" inheritAll="false"/>
+	    <echo>"TLLTypeChecker" project built.</echo>
+	    <echo>Building the "BasicMtlJavaCodeGenerator" project.</echo>
+	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlJavaCodeGenerator" project built.</echo>
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="dist" inheritAll="false"/>
+	    <echo>"Utils" project built.</echo>
+	</target>
+
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src} into ${bin} -->
+	    <javac srcdir="${src}" 
+    	    destdir="${bin}"
+   			classpath=".;${BasicMtlAntlr}\bin;${BasicMtlAntlr2ASTView}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;${TLLTypeChecker}\bin;${BasicMtlJavaCodeGenerator}\bin;${Utils}/bin;../Utils/ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            packagenames="BasicMtlCompiler"
+            sourcepath="src"
+            classpath="bin;${BasicMtlAntlr}\bin;${BasicMtlAntlr2ASTView}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;${TLLTypeChecker}\bin;${BasicMtlJavaCodeGenerator}\bin;${Utils}/bin;../Utils/ThirdParty\log4j\log4j.jar" doctitle="Basic MTL code generator internal Documentation">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+            <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>   
+		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/>
+				<attribute name="Class-Path" value="log4j.jar junit.jar BasicMtlAntlr.jar BasicMtlAntlr2ASTView.jar BasicMtlTLLJava.jar BasicMtlAntlr2TLLJava.jar TLLTypeChecker.jar BasicMtlJavaCodeGenerator.jar Utils.jar ThirdParty/log4j/log4j.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+		<!-- This project depends on the below projects -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlAntlr}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlAntlr2ASTView}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlTLLJava}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlAntlr2TLLJava}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${TLLTypeChecker}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlJavaCodeGenerator}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${Utils}\dist\bin"/>
+		</copy>
+		
+	    <copy file="log4j_configuration.xml"
+	    	todir="${dist}/bin"
+	    	overwrite="true"/>
+		<!-- There is no need of junit-->
+		<delete dir="${dist}/bin/ThirdParty/JUnit"/>
+	</target>
+
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+      	<delete dir="${dist}"/> 
+  	</target>
+
+  	<target name="deep_clean" depends="clean"
+        description="deep clean up (including depending projects)" >
+	    
+		<!-- This project depends on the BasicMtlTLLJava and Utils projects -->
+	    <ant antfile="${BasicMtlAntlr}\build.xml" dir="${BasicMtlAntlr}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlAntlr2ASTView}\build.xml" dir="${BasicMtlAntlr2ASTView}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlTLLJava}\build.xml" dir="${BasicMtlTLLJava}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlAntlr2TLLJava}\build.xml" dir="${BasicMtlAntlr2TLLJava}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${BasicMtlTLLJava}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlTLLJava}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="deep_clean" inheritAll="false"/>
+    </target>
+</project>

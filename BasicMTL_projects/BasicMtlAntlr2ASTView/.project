@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>BasicMtlAntlr2ASTView</name>
+	<name>BasicMtlAntlr2ASTViewAssociation</name>
 	<comment></comment>
 	<projects>
 		<project>BasicMTLRuntime</project>
 		<project>BasicMtlAntlr</project>
-		<project>BasicMtl_Transformation_libraries</project>
+		<project>BasicMtlAstJava</project>
 		<project>MTDataTypes</project>
+		<project>RepositoryAPI</project>
 		<project>Utils</project>
 	</projects>
 	<buildSpec>
