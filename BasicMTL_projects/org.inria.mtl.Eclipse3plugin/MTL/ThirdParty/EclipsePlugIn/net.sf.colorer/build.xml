@@ -1,19 +1,25 @@
-<!-- $Id: build.xml,v 1.2 2004-08-18 14:24:01 dvojtise Exp $ -->
-<project name="BasicMtl_Transformation_libraires" default="update for 0.5.0" basedir=".">
+<!-- $Id: build.xml,v 1.3 2004-09-14 15:10:46 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="update for 0.6.0" basedir=".">
 	<description>
         install the MTL support to colorer plugin
         (ease the deployment of this file)
 	</description>
 
-	<property name="plugins.location" location="c:/eclipse/plugins"/>
-
-	<target name="install mtl for 0.5.0" description="" depends="update for 0.5.0">
-		<copy file="colorer/hrc/colorer.hrc" todir="${plugins.location}/net.sf.colorer_0.5.0/colorer/hrc"/>
+	<!--<property name="plugins.location" location="c:/eclipse/plugins"/>-->
+	<property name="plugins.location" location="${eclipse.home}/plugins"/>
+	
+	<target name="eclipse_ant_bug_test" unless="eclipse.home">
+		<echo>ERROR: nothing done! </echo>
+		<echo>Due to a (supposed) eclipse bug with ant, eclipse.home property is not set, please manually set this property when launching this ant script</echo>
+		<echo>Do to so, simply uncheck the "use global property .... " in the launch configuaration of this ant file</echo>
+	</target>
+	<target name="install mtl for 0.6.0" description="" depends="update for 0.6.0" if="eclipse.home">
+		<copy file="colorer/hrc/colorer.hrc" todir="${plugins.location}/net.sf.colorer_0.6.0/colorer/hrc"/>
   		
 	</target>
-	<target name="update for 0.5.0" description="copy the colorer file in the right place">    		   	
-  		<copy file="colorer/hrc/rare/mtl.hrc" todir="${plugins.location}/net.sf.colorer_0.5.0/colorer/hrc/rare"/>
-  		<copy todir="${plugins.location}/net.sf.colorer_0.5.0/icons">
+	<target name="update for 0.6.0" description="copy the colorer file in the right place" depends="eclipse_ant_bug_test" if="eclipse.home">    		   	
+  		<copy file="colorer/hrc/rare/mtl.hrc" todir="${plugins.location}/net.sf.colorer_0.6.0/colorer/hrc/rare"/>
+  		<copy todir="${plugins.location}/net.sf.colorer_0.6.0/icons">
   			<fileset dir="icons"/>
   		</copy>
   	</target>

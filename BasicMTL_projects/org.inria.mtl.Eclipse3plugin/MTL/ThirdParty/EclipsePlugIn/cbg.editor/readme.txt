@@ -1,4 +1,4 @@
-$Id: readme.txt,v 1.2 2004-08-18 14:24:29 dvojtise Exp $
+$Id: readme.txt,v 1.3 2004-09-14 15:10:56 dvojtise Exp $
 This a a syntax colorer editor for Eclipse.
 
 use these files to have a support for mtl files 

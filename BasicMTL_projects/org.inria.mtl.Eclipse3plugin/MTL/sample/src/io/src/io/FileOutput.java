@@ -1,4 +1,4 @@
-/* $Id: FileOutput.java,v 1.2 2004-08-18 14:24:38 dvojtise Exp $
+/* $Id: FileOutput.java,v 1.3 2004-09-14 15:11:11 dvojtise Exp $
  * Created on 4 déc. 2003
  * Authors : edrezen
  * 
