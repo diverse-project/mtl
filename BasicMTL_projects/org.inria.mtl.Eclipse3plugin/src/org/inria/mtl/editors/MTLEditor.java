@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditor.java,v 1.3 2004-10-22 07:43:52 edrezen Exp $
+* $Id: MTLEditor.java,v 1.4 2004-10-22 16:37:42 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -113,6 +113,9 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 		setDocumentProvider(new MTLDocumentProviders());
 		
 	}
+	
+	
+	
 	/**
 	 * Methode declaré dans IEditorPart
 	 */
@@ -159,13 +162,17 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 	{
 		if (key.equals(IContentOutlinePage.class))
 		{
-			IDocument document = getDocumentProvider().getDocument(getEditorInput());
-
-			outlinePage = new MTLOutlinerPage(document);
-			outlinePage.addSelectionChangedListener(this);
+			if (outlinePage==null)
+			{
+				outlinePage = new MTLOutlinerPage (getDocumentProvider());
+				outlinePage.addSelectionChangedListener(this);
+				if (getEditorInput() != null)
+				{
+					outlinePage.setInput (getEditorInput());
+				}
+			}
 			return outlinePage;
 		}
-
 		return super.getAdapter(key);
 	}
 	
@@ -593,9 +600,9 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 			 */
 			public final void doRevertToSaved() {
 				super.doRevertToSaved();
-				if (outlinePage != null) {
-					outlinePage.update();
-				}
+//				if (outlinePage != null) {
+//					outlinePage.update();
+//				}
 			}
 			class CommentAction extends Action {
 				public static final String ID = "org.inria.mtl.editors.CommentAction";
