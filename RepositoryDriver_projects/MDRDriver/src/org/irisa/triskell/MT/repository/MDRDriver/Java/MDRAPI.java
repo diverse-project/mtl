@@ -39,7 +39,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.SequenceType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.SetType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.String.StringType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
