@@ -10,4 +10,11 @@ main():Standard::Void
 	vehicule := new vehiculeLib::vehicule();
 	vehicule.vitessemaxi := 250;
 	vehicule.passagers := 5;
+	vehicule.vitessemaxi := vehicule.passagers;
+//	if 1.[+](2).[=](3).not() {
+//		throws false;//'Erreur sur l'addition!';
+//	}
+//	self.truc().chose().machin();
 }
+
+toto() {}
