@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.4 2003-08-12 14:51:55 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.5 2003-08-19 07:45:03 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -12,6 +12,9 @@ package antlr2ASTJava;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 import java.io.*;
+import java.util.Arrays;
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -164,7 +167,7 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	for(i=0;i<instructions.size();i++)
 		node.appendInstructions((Instruction)instructions.get(i)); 
 	putProperty(node,"IsConstructor",creation,"StringTag");
-	putProperty(node,"returnedType",returnedType,"SpecialTag");
+	putProperty(node,"returnedType",returnedType == null ? new Vector(Arrays.asList(new String [] {"Standard", "Void"})) : returnedType,"SpecialTag");
 	if (throwsException != null) node.setThrowsException(true);
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	putTags(node,tags);
