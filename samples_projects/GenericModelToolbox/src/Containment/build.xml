@@ -1,0 +1,35 @@
+<!-- $Id: build.xml,v 1.1 2004-06-22 17:04:53 edrezen Exp $ -->
+
+<project name="Containment" default="run Containment test" basedir=".">
+	<description>
+		Main build file for Containment project
+	</description>
+
+	<target name="clean" description="">
+		<ant antfile="ContainmentView_build.xml"     dir="." target="clean"/>
+		<ant antfile="ContainmentDefaultAdapter_build.xml"     dir="." target="clean"/>
+		<ant antfile="ContainmentCommands_build.xml" dir="." target="clean"/>
+		<ant antfile="Containment4MOF_build.xml"     dir="." target="clean"/>
+		<ant antfile="Containment4UML_build.xml"     dir="." target="clean"/>
+		<ant antfile="Containment4SimpleRDBMS_build.xml"    dir="." target="clean"/>
+		<ant antfile="ContainmentTests_build.xml"    dir="." target="clean"/>
+	</target>
+
+
+	<target name="build Containment test" description="" depends="clean">
+		<ant antfile="ContainmentView_build.xml"     dir="." target="compile"/>
+		<ant antfile="ContainmentDefaultAdapter_build.xml"     dir="." target="compile"/>
+		<ant antfile="ContainmentCommands_build.xml" dir="." target="compile"/>
+		<ant antfile="Containment4MOF_build.xml"     dir="." target="compile"/>
+		<ant antfile="Containment4UML_build.xml"     dir="." target="compile"/>
+		<ant antfile="Containment4SimpleRDBMS_build.xml"    dir="." target="compile"/>
+		<ant antfile="ContainmentTests_build.xml"    dir="." target="compile"/>
+	</target>
+	
+	
+	<target name="run Containment test" description="" depends="build Containment test">   		
+  		<ant antfile="ContainmentTests_build.xml" dir="." target="run"> 
+	  	</ant>	  			
+  	</target>
+  	
+</project>

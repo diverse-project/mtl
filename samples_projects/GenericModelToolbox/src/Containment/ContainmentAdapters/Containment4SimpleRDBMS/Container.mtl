@@ -1,0 +1,81 @@
+library Containment4SimpleRDBMS;
+
+model RDBMS : RepositoryModel;
+
+class Container extends ContainmentDefaultAdapter::Container
+{
+	ref    : RDBMS::Namespace;
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	init (modelPath : Standard::String) : Container
+	{
+		driver : MDRDriver::MDRModelManager;
+	
+		// we initialize the driver
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+
+		// we initialize the metamodel 
+		RDBMS := driver.getModelFromXMI ('../../MetaModels/SimpleRDBMS/SimpleRDBMS_metamodel.xmi', 'SimpleRdbmsMM2', modelPath,  modelPath, modelPath.concat('.modified'));
+
+		// we init the Container object
+		setName ('none');
+		setRole ('root');		
+		
+		return this;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	getContents() : Standard::Set
+	{
+		if (isNull(this.contents))
+		{
+			this.contents := new Standard::Set ();
+
+			if (getRole()='root')
+			{
+				foreach (aTable: RDBMS::Table) 
+				{
+					addChild (aTable, 'Table');
+				}
+			}
+			
+			if (getRole()='Table')
+			{
+				foreach (aColumn : RDBMS::Column) in (ref.column)
+				{
+					addChild (aColumn, 'Column');
+				}
+			}
+			
+		}
+		
+		return this.contents;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	addChild (ref : RDBMS::Namespace;  role : Standard::String) : Container
+	{
+		result : Container;
+		
+		result := new Container();
+		result.ref := ref;
+		result.setName (ref.name.oclAsType(!Standard::String!));
+		result.setRole (role);
+
+		this.contents := this.contents.including (result);
+		
+		return this;
+	}
+
+
+
+}
+

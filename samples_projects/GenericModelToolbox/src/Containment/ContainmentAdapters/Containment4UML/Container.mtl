@@ -1,0 +1,100 @@
+library Containment4UML;
+
+model UML : RepositoryModel;
+
+class Container extends ContainmentDefaultAdapter::Container
+{
+	ref    : UML::Namespace;
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	init (modelPath : Standard::String) : Container
+	{
+		driver : MDRDriver::MDRModelManager;
+	
+		// we initialize the driver
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+
+		// we initialize the metamodel 
+		UML := driver.getModelFromXMI ('../../MetaModels/UML/UML_metamodel.xmi', 'UML', modelPath,  modelPath, modelPath.concat('.modified'));
+
+		// we init the Container object
+		setName ('none');
+		setRole ('root');		
+		
+		return this;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	getContents() : Standard::Set
+	{
+		if (isNull(this.contents))
+		{
+			this.contents := new Standard::Set ();
+
+			if (getRole()='root')
+			{
+				foreach (aPackage : UML::Model_Management::Package) 
+				{
+					addChild (aPackage, 'Package');
+				}
+			}
+
+			if (getRole()='Package')
+			{
+				foreach (aClass : UML::Core::ModelElement) in (ref.ownedElement) where (aClass.oclIsTypeOf(!UML::Core::Class!))
+				{
+					addChild (aClass, 'Class');
+				}
+			}
+
+			if (getRole()='Class')
+			{
+				foreach (aAttribute : UML::Core::ModelElement) in (ref.feature) where (aAttribute.oclIsTypeOf(!UML::Core::Attribute!))
+				{
+					addChild (aAttribute, 'Attribute');
+				}
+				foreach (aOperation : UML::Core::ModelElement) in (ref.feature) where (aOperation.oclIsTypeOf(!UML::Core::Operation!))
+				{
+					addChild (aOperation, 'Operation');
+				}
+			}
+			
+			if ( getRole()='Operation')
+			{
+				foreach (aParameter : UML::Core::ModelElement) in (ref.parameter) where (aParameter.oclIsTypeOf(!UML::Core::Parameter!))
+				{
+					addChild (aParameter, 'Parameter');
+				}
+			}
+		}
+		
+		return this.contents;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	addChild (ref : UML::Namespace;  role : Standard::String) : Container
+	{
+		result : Container;
+		
+		result := new Container();
+		result.ref := ref;
+		result.setName (ref.name.oclAsType(!Standard::String!));
+		result.setRole (role);
+
+		this.contents := this.contents.including (result);
+		
+		return this;
+	}
+
+}
+

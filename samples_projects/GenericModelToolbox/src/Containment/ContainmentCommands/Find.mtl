@@ -1,0 +1,38 @@
+library ContainmentCommands;
+
+class Find extends Navigate
+{
+	name   : Standard::String;
+	role   : Standard::String;
+	result : Standard::Set;
+	
+	/** */
+	init (name : Standard::String;  role : Standard::String) : ContainmentView::Command
+	{
+		if (isNull(name))   { this.name := '';   }
+		else                { this.name := name; }
+
+		if (isNull(role))   { this.role:= '';   }
+		else                { this.role := role; }
+		
+		result := new Standard::Set();
+
+		return this;
+	}
+
+
+	/** */
+	preExecute (container : ContainmentView::Container)
+	{
+		if (container.getName()=this.name  and  container.getRole()=this.role)
+		{
+			result := result.including (container);
+		}
+	}
+	
+	/** */
+	postExecute (container : ContainmentView::Container) : Standard::OclAny
+	{
+		return result;
+	}
+}

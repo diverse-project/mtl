@@ -1,0 +1,91 @@
+/******************************************************************************
+ * $Id: main.mtl,v 1.2 2004/03/17 15:36:20 edrezen Exp $
+ ******************************************************************************/
+
+library ContainmentTests;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+main (args : Standard::Sequence) : Standard::Void
+{
+	//theContainer : Containment4MOF::Container;
+	//theContainer := new Containment4MOF::Container().init('../../Models/MOF/MOF_model.xmi');
+
+	//theContainer : Containment4UML::Container;
+	//theContainer := new Containment4UML::Container().init('../../Models/UML/SimpleUml_model.xmi');
+
+	theContainer : Containment4SimpleRDBMS::Container;
+	theContainer := new Containment4SimpleRDBMS::Container().init('../../Models/SimpleRDBMS/SimpleRDBMS_model.xmi');
+
+	test1 (theContainer);
+	test2 (theContainer);
+	//test3 (theContainer);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+test1 (theContainer : ContainmentView::Container)
+{
+	'--------------------------------------------------------------------------------'.toOut();
+	'test 1'.toOut();
+	'--------------------------------------------------------------------------------'.toOut();
+
+	theContainer.execute (new ContainmentCommands::DeepToString()).toOut();
+	''.toOut();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+test2 (theContainer : ContainmentView::Container)
+{
+	'--------------------------------------------------------------------------------'.toOut();
+	'test 2'.toOut();
+	'--------------------------------------------------------------------------------'.toOut();
+
+	foreach (c : ContainmentView::Container) in (theContainer.execute (new ContainmentCommands::Find().init('isQuery','Attribute')))
+	{
+		c.execute (new ContainmentCommands::ToString()).toOut();
+	}
+	''.toOut();
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+test3 (theContainer : ContainmentView::Container)
+{
+	toStringCmd : ContainmentCommands::ToString;
+	toStringCmd := new ContainmentCommands::ToString().init(false);
+	
+	'--------------------------------------------------------------------------------'.toOut();
+	'test 3'.toOut();
+	'--------------------------------------------------------------------------------'.toOut();
+
+	foreach (c : ContainmentView::Container) in (theContainer.execute (new ContainmentCommands::Find().init('visibility','Attribute')))
+	{
+		c.execute (toStringCmd).toOut();
+		'----------------------------------------------------------------------'.toOut();
+
+		foreach (c1 : ContainmentView::Container) in (c.execute (new ContainmentCommands::Hierarchy()))
+		{
+			'    '.concat (c1.execute (toStringCmd).oclAsType(!Standard::String!)).toOut();
+		}
+		
+		''.toOut();
+	}
+	''.toOut();
+}
+
+

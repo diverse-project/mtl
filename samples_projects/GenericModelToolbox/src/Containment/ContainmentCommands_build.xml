@@ -1,0 +1,31 @@
+<!-- $Id: ContainmentCommands_build.xml,v 1.1 2004-06-22 17:04:52 edrezen Exp $ -->
+
+<project name="Containment view" default="compile" basedir=".">
+
+	<property name="library.name" value="ContainmentCommands"/>
+	<property name="src"          location="./"/>
+
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	
+	<target name="init"	description="specific initialization steps"> </target>
+
+				  
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	<target name="clean"  description="specific cleanup steps" >
+        <ant antfile="common_build.xml" dir="." target="clean common" inheritAll="true"/>
+  	</target>
+
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+  	<target name="compile" description="compile all the sources in .class files" depends="init">
+  		<ant antfile="common_build.xml" dir="." target="compile common" inheritAll="true"/>
+  	</target>
+
+
+</project>

@@ -1,0 +1,59 @@
+library ContainmentDefaultAdapter;
+
+class Container extends ContainmentView::Container
+{
+	name     : Standard::String;
+	role     : Standard::String;
+	contents : Standard::Set;
+	parent   : ContainmentView::Container;
+
+	/** */
+	getName() : Standard::String
+	{ 
+		return name; 
+	}
+	
+	/** */
+	getRole() : Standard::String
+	{ 
+		return role; 
+	}
+
+	/** */
+	getContents () : Standard::Set
+	{
+		return contents;
+	}
+
+	/** */
+	getParent() : ContainmentView::Container
+	{
+		return parent;
+	}
+
+
+	/** */
+	setName (name : Standard::String)
+	{ 
+		this.name := name; 
+	}
+
+	/** */
+	setRole (role: Standard::String)
+	{ 
+		this.role := role; 
+	}
+
+	/** */
+	setContents (contents : Standard::Set)
+	{
+		this.contents := contents;
+	}
+
+	/** */
+	setParent (parent : ContainmentView::Container)
+	{
+		this.parent := parent;
+	}
+}
+

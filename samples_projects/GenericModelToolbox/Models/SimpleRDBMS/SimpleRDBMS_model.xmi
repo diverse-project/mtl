@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Fri Jun 18 12:01:42 CEST 2004'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <SimpleRdbmsMM2.Table xmi.id = 'a1' name = 'compositeur'>
+      <SimpleRdbmsMM2.Table.column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a2' name = 'date_naissance_jour' kind = 'foreign'>
+          <SimpleRdbmsMM2.Column.foreignKey>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a3'/>
+          </SimpleRdbmsMM2.Column.foreignKey>
+        </SimpleRdbmsMM2.Column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a4' name = 'date_naissance_mois' kind = 'foreign'>
+          <SimpleRdbmsMM2.Column.foreignKey>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a3'/>
+          </SimpleRdbmsMM2.Column.foreignKey>
+        </SimpleRdbmsMM2.Column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a5' name = 'date_naissance_année' kind = 'foreign'>
+          <SimpleRdbmsMM2.Column.foreignKey>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a3'/>
+          </SimpleRdbmsMM2.Column.foreignKey>
+        </SimpleRdbmsMM2.Column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a6' name = 'personId' kind = 'VARCHAR'/>
+        <SimpleRdbmsMM2.Column xmi.id = 'a7' name = 'composer_destination_opus'
+          kind = 'foreign'>
+          <SimpleRdbmsMM2.Column.foreignKey>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a8'/>
+          </SimpleRdbmsMM2.Column.foreignKey>
+        </SimpleRdbmsMM2.Column>
+      </SimpleRdbmsMM2.Table.column>
+      <SimpleRdbmsMM2.Table.key>
+        <SimpleRdbmsMM2.Key xmi.id = 'a9' name = 'pk_compositeur' kind = 'primitive'>
+          <SimpleRdbmsMM2.Key.referredBy>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a10'/>
+          </SimpleRdbmsMM2.Key.referredBy>
+        </SimpleRdbmsMM2.Key>
+      </SimpleRdbmsMM2.Table.key>
+      <SimpleRdbmsMM2.Table.foreignKey>
+        <SimpleRdbmsMM2.ForeignKey xmi.id = 'a3' name = 'date_naissance'>
+          <SimpleRdbmsMM2.ForeignKey.column>
+            <SimpleRdbmsMM2.Column xmi.idref = 'a2'/>
+            <SimpleRdbmsMM2.Column xmi.idref = 'a4'/>
+            <SimpleRdbmsMM2.Column xmi.idref = 'a5'/>
+          </SimpleRdbmsMM2.ForeignKey.column>
+        </SimpleRdbmsMM2.ForeignKey>
+      </SimpleRdbmsMM2.Table.foreignKey>
+    </SimpleRdbmsMM2.Table>
+    <SimpleRdbmsMM2.Table xmi.id = 'a11' name = 'oeuvre'>
+      <SimpleRdbmsMM2.Table.column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a12' name = 'opus' kind = 'VARCHAR'/>
+        <SimpleRdbmsMM2.Column xmi.id = 'a13' name = 'composer_source_personId'
+          kind = 'foreign'>
+          <SimpleRdbmsMM2.Column.foreignKey>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a10'/>
+          </SimpleRdbmsMM2.Column.foreignKey>
+        </SimpleRdbmsMM2.Column>
+      </SimpleRdbmsMM2.Table.column>
+      <SimpleRdbmsMM2.Table.key>
+        <SimpleRdbmsMM2.Key xmi.id = 'a14' name = 'pk_oeuvre' kind = 'primitive'>
+          <SimpleRdbmsMM2.Key.referredBy>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a8'/>
+          </SimpleRdbmsMM2.Key.referredBy>
+        </SimpleRdbmsMM2.Key>
+      </SimpleRdbmsMM2.Table.key>
+      <SimpleRdbmsMM2.Table.foreignKey>
+        <SimpleRdbmsMM2.ForeignKey xmi.id = 'a10' name = 'composer_source'>
+          <SimpleRdbmsMM2.ForeignKey.column>
+            <SimpleRdbmsMM2.Column xmi.idref = 'a13'/>
+          </SimpleRdbmsMM2.ForeignKey.column>
+        </SimpleRdbmsMM2.ForeignKey>
+      </SimpleRdbmsMM2.Table.foreignKey>
+    </SimpleRdbmsMM2.Table>
+    <SimpleRdbmsMM2.Table xmi.id = 'a15' name = 'date'>
+      <SimpleRdbmsMM2.Table.column>
+        <SimpleRdbmsMM2.Column xmi.id = 'a16' name = 'jour' kind = 'VARCHAR'/>
+        <SimpleRdbmsMM2.Column xmi.id = 'a17' name = 'mois' kind = 'VARCHAR'/>
+        <SimpleRdbmsMM2.Column xmi.id = 'a18' name = 'année' kind = 'VARCHAR'/>
+      </SimpleRdbmsMM2.Table.column>
+      <SimpleRdbmsMM2.Table.key>
+        <SimpleRdbmsMM2.Key xmi.id = 'a19' name = 'pk_date' kind = 'primitive'>
+          <SimpleRdbmsMM2.Key.referredBy>
+            <SimpleRdbmsMM2.ForeignKey xmi.idref = 'a3'/>
+          </SimpleRdbmsMM2.Key.referredBy>
+        </SimpleRdbmsMM2.Key>
+      </SimpleRdbmsMM2.Table.key>
+    </SimpleRdbmsMM2.Table>
+    <SimpleRdbmsMM2.ForeignKey xmi.id = 'a8' name = 'composer_destination'>
+      <SimpleRdbmsMM2.ForeignKey.column>
+        <SimpleRdbmsMM2.Column xmi.idref = 'a7'/>
+      </SimpleRdbmsMM2.ForeignKey.column>
+    </SimpleRdbmsMM2.ForeignKey>
+    <SimpleRdbmsMM2.key_column>
+      <SimpleRdbmsMM2.Column xmi.idref = 'a17'/>
+      <SimpleRdbmsMM2.Key xmi.idref = 'a19'/>
+      <SimpleRdbmsMM2.Column xmi.idref = 'a6'/>
+      <SimpleRdbmsMM2.Key xmi.idref = 'a9'/>
+      <SimpleRdbmsMM2.Column xmi.idref = 'a18'/>
+      <SimpleRdbmsMM2.Key xmi.idref = 'a19'/>
+      <SimpleRdbmsMM2.Column xmi.idref = 'a16'/>
+      <SimpleRdbmsMM2.Key xmi.idref = 'a19'/>
+      <SimpleRdbmsMM2.Column xmi.idref = 'a12'/>
+      <SimpleRdbmsMM2.Key xmi.idref = 'a14'/>
+    </SimpleRdbmsMM2.key_column>
+  </XMI.content>
+</XMI>

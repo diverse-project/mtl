@@ -1,0 +1,102 @@
+library Containment4MOF;
+
+model MOF : RepositoryModel;
+
+class Container extends ContainmentDefaultAdapter::Container
+{
+	ref    : MOF::Namespace;
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	init (modelPath : Standard::String) : Container
+	{
+		driver : MDRDriver::MDRModelManager;
+	
+		// we initialize the driver
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+
+		// we initialize the metamodel 
+		MOF := driver.getModelFromXMI ('../../MetaModels/MOF/MOF_metamodel.xmi', 'Model', modelPath,  modelPath, modelPath.concat('.modified'));
+		
+		setName ('none');
+		setRole ('root');
+		
+		return this;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	getContents() : Standard::Set
+	{
+		if (isNull(this.contents))
+		{
+			this.contents := new Standard::Set ();
+
+			if (getRole()='root')
+			{
+				foreach (aPackage : MOF::Package) 
+				{
+					addChild (aPackage, 'Package');
+				}
+			}
+
+			if (getRole()='Package')
+			{
+				addChildrenFor (!MOF::Import!,        'Import');
+				addChildrenFor (!MOF::Class!,         'Class');
+				addChildrenFor (!MOF::DataType!,      'DataType');
+				addChildrenFor (!MOF::PrimitiveType!, 'PrimitiveType');
+			}
+
+			if (getRole()='Class')
+			{
+				addChildrenFor (!MOF::Attribute!, 'Attribute');
+				addChildrenFor (!MOF::Reference!, 'Reference');
+				addChildrenFor (!MOF::Operation!, 'Operation');
+				addChildrenFor (!MOF::Exception!, 'Exception');
+			}
+
+			if ( getRole()='Operation' or getRole()='Exception')
+			{
+				addChildrenFor (!MOF::Parameter!, 'Parameter');
+			}
+		}
+		return this.contents;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	addChild (ref : MOF::Namespace;  role : Standard::String) : Container
+	{
+		result : Container;
+		
+		result := new Containment4MOF::Container();
+		result.ref := ref;
+		result.setName (ref.name.oclAsType(!Standard::String!));
+		result.setRole (role);
+		result.setParent (this);
+
+		this.contents := this.contents.including (result);
+
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	addChildrenFor (type : Standard::OclType;  role : Standard::String)
+	{
+		foreach (aModelElement : MOF::ModelElement) in (ref.contents) where (aModelElement.oclIsTypeOf(type))
+		{
+			addChild (aModelElement, role);
+		}
+	}
+}
+

@@ -1,0 +1,54 @@
+<!-- $Id: ContainmentTests_build.xml,v 1.1 2004-06-22 17:04:53 edrezen Exp $ -->
+
+<project name="Containment view" default="compile" basedir=".">
+
+	<property name="library.name" value="ContainmentTests"/>
+	<property name="src"          location="./"/>
+
+
+	<!-- set global properties for this build -->
+	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/> 
+	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+	<property name="Runtime.TLL.path" value="${MTLcompiler.path}/src/TLL"/>
+	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+
+	<property name="build.bin"    location="build/bin"/>
+
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	
+	<target name="init"	description="specific initialization steps"> </target>
+
+				  
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	<target name="clean"  description="specific cleanup steps" >
+        <ant antfile="common_build.xml" dir="." target="clean common" inheritAll="true"/>
+  	</target>
+
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+  	<target name="compile" description="compile all the sources in .class files" depends="init">
+  		<ant antfile="common_build.xml" dir="." target="compile common" inheritAll="true"/>
+  	</target>
+
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+  	<target name="run" description="run the transformation">
+  		<java classname="${library.name}.BMTLLib_${library.name}" fork="true">
+			<classpath>
+				<pathelement path="${build.bin}/"/>
+				<pathelement path="${BasicMTLRuntime.jar}"/>
+	   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
+			</classpath>
+       	</java>
+	</target>
+
+</project>
