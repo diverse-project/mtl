@@ -5,7 +5,7 @@ import java.lang.Exception;
 public class UnknownElementException 
     extends java.lang.Exception
 {
-    public final org.irisa.triskell.MT.repository.API.Java.Element unknownElement;
+    protected final org.irisa.triskell.MT.repository.API.Java.Element unknownElement;
     public org.irisa.triskell.MT.repository.API.Java.Element getUnknownElement () {
         return this.unknownElement;
     }

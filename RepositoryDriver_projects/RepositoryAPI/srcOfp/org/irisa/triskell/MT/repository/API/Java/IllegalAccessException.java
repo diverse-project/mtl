@@ -5,7 +5,7 @@ import java.lang.Exception;
 public class IllegalAccessException 
     extends java.lang.Exception
 {
-    public final org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement;
+    protected final org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement;
     public org.irisa.triskell.MT.repository.API.Java.ModelElement getContextualElement () {
         return this.contextualElement;
     }
@@ -14,7 +14,7 @@ public class IllegalAccessException
         else return 1;
     }
 
-    public final org.irisa.triskell.MT.repository.API.Java.MetaElement inaccessibleElement;
+    protected final org.irisa.triskell.MT.repository.API.Java.MetaElement inaccessibleElement;
     public org.irisa.triskell.MT.repository.API.Java.MetaElement getInaccessibleElement () {
         return this.inaccessibleElement;
     }

@@ -5,7 +5,7 @@ import java.lang.Exception;
 public class IsQueryException 
     extends java.lang.Exception
 {
-    public final org.irisa.triskell.MT.repository.API.Java.MetaOperation sideEffectOperation;
+    protected final org.irisa.triskell.MT.repository.API.Java.MetaOperation sideEffectOperation;
     public org.irisa.triskell.MT.repository.API.Java.MetaOperation getSideEffectOperation () {
         return this.sideEffectOperation;
     }
