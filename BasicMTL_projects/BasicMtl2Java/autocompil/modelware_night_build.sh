@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.15 2004-10-25 15:36:53 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.16 2004-10-26 09:54:16 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -115,7 +115,15 @@ if ( "$ERRORS_IN_BUILD" != "" ) then
    	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
     exit
 endif
-
+setenv ERRORS_IN_BUILD `grep ERROR $BASE/ant_CompilerTests.log`
+if ( "$ERRORS_IN_BUILD" != "" ) then
+   	echo "The Compiler tests raised messages with ERROR level, please have a look in the log file: $BASE/ant_CompilerTests.log " > msg.txt
+   	echo "however the compiler was succefully compiled" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/ant_CompilerTests.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build compiler tests raised messages with ERROR level" modelware-cvs@irisa.fr
+    exit
+endif
 \rm /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/*.zip
 \rm /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/changelog.txt
 cp $BASE/BasicMtl2Java/LibAssociation/dist/*.zip /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/
