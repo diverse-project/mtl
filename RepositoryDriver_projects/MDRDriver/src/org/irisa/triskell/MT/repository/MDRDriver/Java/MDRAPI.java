@@ -35,11 +35,11 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.BagType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.BooleanType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Integer.IntegerType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.SequenceType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Set.SetType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
@@ -439,7 +439,7 @@ public class MDRAPI
     	}
     }
 
-    public void startup(
+    public synchronized void startup(
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
     {
 		this.getLog().debug("Starting up MDR driver " + this.getModelName() + '.');
@@ -448,7 +448,7 @@ public class MDRAPI
     /**
       * Giving a Boolean value as the first element of the arguments determines if the used extend should be removed.
       */
-    public void shutdown(
+    public synchronized void shutdown(
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
     {
 		this.getLog().debug("Finalizing MDR driver " + this.getModelName() + '.');
@@ -459,8 +459,8 @@ public class MDRAPI
 			throw new RuntimeException("Problem storing resulting model.", x);
 		} finally {
 			if (arguments != null && (arguments[0] instanceof org.irisa.triskell.MT.DataTypes.Java.BooleanValue) && ((org.irisa.triskell.MT.DataTypes.Java.BooleanValue)arguments[0]).getTheBoolean())
-				this.getModel().refDelete();	
-		}	
+				this.getModel().refDelete();
+		}
     }
 
     public org.irisa.triskell.MT.repository.API.Java.MetaClass getMetaClass(

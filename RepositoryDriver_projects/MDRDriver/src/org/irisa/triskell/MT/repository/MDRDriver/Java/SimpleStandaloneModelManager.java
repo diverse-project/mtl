@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.3 2003-08-25 13:24:39 ffondeme Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.4 2003-08-26 13:05:30 ffondeme Exp $
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
@@ -18,6 +18,7 @@ import java.lang.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.*;*/
+import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.utils.Java.*;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.apache.log4j.Logger;
@@ -25,7 +26,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -58,7 +59,7 @@ public class SimpleStandaloneModelManager {
 		try {			
 			// initialization needed by MDR, 
 			// use an anonymous class
-/*			org.netbeans.mdr.handlers.BaseObjectHandler.setClassLoaderProvider(new org.netbeans.mdr.handlers.ClassLoaderProvider () {
+			org.netbeans.mdr.handlers.BaseObjectHandler.setClassLoaderProvider(new org.netbeans.mdr.handlers.ClassLoaderProvider () {
 				public ClassLoader getClassLoader() {
 					return ClassLoader.getSystemClassLoader();
 				}
@@ -93,7 +94,7 @@ public class SimpleStandaloneModelManager {
 						return null;
 					}
 				}
-			});*/
+			});
 
 			// look for the log4j configuration file in the current directory
 			String filePath = new java.io.File(Directories.getRootPath(SimpleStandaloneModelManager.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
@@ -107,6 +108,18 @@ public class SimpleStandaloneModelManager {
 			SimpleStandaloneModelManager.getLog().error("MDR driver bugged !!!", e);
 			throw e;
 		}
+	}
+	
+	private static void saveHookForModel (final MDRAPI api, final Model m) {
+		Runtime.getRuntime().addShutdownHook(new Thread (new Runnable () {
+			public void run () {
+				try {
+					m.store(api);
+				} catch (Exception e) {
+					getLog().error("Cannot save model " + m, e);
+				}
+			}
+		}));
 	}
 	
 	/**	  
@@ -129,6 +142,7 @@ public class SimpleStandaloneModelManager {
 		if (! isInitialized) throw new Exception("Driver not correctly initialized");
 		
 		MDRAPI api = new MDRAPI(repository, metamodel, modelName, model);
+		saveHookForModel(api, model);
 		api.startup(null);
 		return api;
 	}
@@ -155,11 +169,33 @@ public class SimpleStandaloneModelManager {
 		
 		if (! isInitialized) throw new Exception("Driver not correctly initialized");
 		
+		Model xmiModel = new XmiModel(modelXmiInputFileName, modelXmiOuputFileName);
 		MDRAPI api = new MDRAPI(null, 
 								new XmiMetamodel(metamodelXmiFileName),
 								modelName, 
-								new XmiModel(modelXmiInputFileName,
-											  modelXmiOuputFileName));			
+								xmiModel);
+		saveHookForModel(api, xmiModel);
+		api.startup(null);
+		return api;
+	}
+	
+	public MDRAPI getModelFromXMI(
+		String metamodelXmiFileName,
+		String metaPackageToInstanciate,
+		String modelName,
+		String modelXmiInputFileName,
+		String modelXmiOuputFileName)
+		throws java.lang.Exception
+	{
+		
+		if (! isInitialized) throw new Exception("Driver not correctly initialized");
+		
+		Model xmiModel = new XmiModel(modelXmiInputFileName, modelXmiOuputFileName);
+		MDRAPI api = new MDRAPI(null, 
+								new XmiMetamodel(metamodelXmiFileName, metaPackageToInstanciate),
+								modelName, 
+								xmiModel);
+		saveHookForModel(api, xmiModel);
 		api.startup(null);
 		return api;
 	}

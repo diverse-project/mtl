@@ -32,7 +32,7 @@ public class XmiModel
         String xmiLoadingFile,
         String xmiStoringFile)
     {
-		this(new String [] {xmiLoadingFile}, xmiStoringFile);
+		this(xmiLoadingFile == null ? null : new String [] {xmiLoadingFile}, xmiStoringFile);
     }
 
 
@@ -50,11 +50,12 @@ public class XmiModel
     {
     	String uri;
     	String [] load = this.getXmiLoadingFiles();
-    	for (int i = 0; i < load.length; ++i) {
-			uri = new File(load[i]).toURI().toString();
-			api.getLog().info("Loading model from XMI file " + uri + '.');
-			MDRAPI.getReader().read(uri, api.getModel());
-    	}
+    	if (load != null)
+	    	for (int i = 0; i < load.length; ++i) {
+				uri = new File(load[i]).toURI().toString();
+				api.getLog().info("Loading model from XMI file " + uri + '.');
+				MDRAPI.getReader().read(uri, api.getModel());
+	    	}
     }
 
     public void store(
