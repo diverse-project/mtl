@@ -6,5 +6,8 @@
     <classpathentry kind="src" path="/MTDataTypes"/>
     <classpathentry kind="src" path="/RepositoryAPI"/>
     <classpathentry kind="src" path="/BasicMTLRuntime"/>
+    <classpathentry kind="src" path="/MDRDriver"/>
+    <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
+    <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

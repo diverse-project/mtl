@@ -4,8 +4,10 @@
 	<comment></comment>
 	<projects>
 		<project>BasicMTLRuntime</project>
+		<project>MDRDriver</project>
 		<project>MTDataTypes</project>
 		<project>RepositoryAPI</project>
+		<project>Utils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

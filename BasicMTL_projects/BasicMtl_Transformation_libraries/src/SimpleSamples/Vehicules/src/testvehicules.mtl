@@ -16,6 +16,7 @@ class clazz {
 	
 	op (param : Standard::String) {
 		vm : N::vehicule;
+		set : Standard::Set;
 		theSelf : clazz;
 		wasInOp := true;
 		theSelf := self;
@@ -30,12 +31,14 @@ class clazz {
 			throws 'Problem with attribute data type affectation';
 		}
 		entier.toOut();
-//		me := new M::Classe();
+		me := new M::Table();
 		vehicule := new N::vehicule();
 		vm := theSelf.vehicule;
 		vm := new N::vehicule();
 		theSelf.vehicule := vm;
-//		me.toOut();
+		me.toOut();
+		set := !M::Table!.allInstances();
+		set.toOut();
 		testVehicules.toto(null, null);
 		M;
 		N;
@@ -72,6 +75,7 @@ main():Standard::Void
 	vehicule : vehiculeLib::vehicule;
 	terrestre : terrestreLib::vehiculeTerrestre;
 	amphibie : amphibieherite::vehiculeAmphibieHerite;
+	modelManager : MDRDriver::MDRModelManager;
 	o : Standard::OclAny;
 	t : Standard::OclType;
 	m : Standard::ModelElement;
@@ -81,6 +85,13 @@ main():Standard::Void
 	c : clazz;
 	
 	N := new vehiculeLib();
+	modelManager := new MDRDriver::MDRModelManager();
+	modelManager.init();
+	M := modelManager.getModelFromXMI(
+									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\TableMM.xml',
+									'MyModel',
+									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\Championship.xml',
+									null);
 	
 	vehicule := new vehiculeLib::vehicule();
 	vehicule.vitessemaxi := 250;

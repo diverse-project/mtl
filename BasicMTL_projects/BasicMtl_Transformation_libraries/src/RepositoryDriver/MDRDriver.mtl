@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------------
-// $Id: MDRDriver.mtl,v 1.1 2003-08-01 16:59:27 dvojtise Exp $
+// $Id: MDRDriver.mtl,v 1.2 2003-08-25 10:55:04 ffondeme Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
 
 
-library MDRDriver
+library MDRDriver;
 // as native, it is not allowed to inherit from another lib
 // Lib parameters :
 // No parameter for this lib 
@@ -15,8 +15,9 @@ library MDRDriver
   * a MDR RepositoryModel
   */
 class MDRModelManager
-tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandAloneModelManager]
-tag DoNotGenerate = BooleanTag True
+tag mangle := specialtag [RepositoryDriver.MDRRepositoryModel];
+tag type := specialtag [RepositoryDriver.MDRRepositoryModel.TheType];
+tag DoNotGenerate := booleantag true;
 {
 	// allthis is only comments, the real definition is in the real java file
 	// however here is the available methods of this class according to the mangle adopted for the 
@@ -25,7 +26,7 @@ tag DoNotGenerate = BooleanTag True
 	  * initialize the driver so the driver could run properly
 	  * Must be call for a correct behavior
 	  */	  
-	/* init()
+	/* init() : MDRModelManager
 	{
 	}
 	*/
@@ -34,9 +35,9 @@ tag DoNotGenerate = BooleanTag True
 	  * needs a lot of parameters specific to this Repository
 	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
 	  */
-	/*getModel ( repository : String;
+	/*getModel ( repository : Standard::String;
 	           aMdrMetamodel : MdrMetamodel;
-	           modelName : String;
+	           modelName : Standard::String;
 	           aMdrModel : MdrModel ): RepositoryModel
 	// syntax to map to a Java Native operation to be defined !! (something taht looks like eiffel ?
 	// needs to define more precisely the mapping between the java side spec and the 
@@ -48,7 +49,7 @@ tag DoNotGenerate = BooleanTag True
 	/* one of the simpliest way to get started
 	getModelFromXMI(
 		metamodelXmiFileName, modelName, 
-		modelXmiInputFileName, modelXmiOuputFileName : String ) : RepositoryModel
+		modelXmiInputFileName, modelXmiOuputFileName : Standard::String ) : RepositoryModel
 	{	
 	}*/
 	
@@ -59,7 +60,7 @@ tag DoNotGenerate = BooleanTag True
 	  * the message is used to inform the user for which purpose this model will be used
 	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
 	  */
-	GUIGetModel(String UserMessage) : RepositoryModel
+	GUIGetModel(UserMessage : Standard::String) : RepositoryModel
 	{
 	}
 }
@@ -73,9 +74,8 @@ tag DoNotGenerate = BooleanTag True
 class MdrMetamodel
 // maps to org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel, 
 // and doesn't generate it as it will use the java version of it.
-tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel]
-tag DoNotGenerate = BooleanTag True
-]
+tag mangle := specialtag [org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel];
+tag DoNotGenerate := booleantag true;
 {	
 	// look in the java file for description
 }
@@ -85,22 +85,22 @@ tag DoNotGenerate = BooleanTag True
   */
 class MdrModel
 // maps to org.irisa.triskell.MT.repository.MDRDriver.Java.Model
-tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.Model]
-tag DoNotGenerate = BooleanTag True
+tag mangle := specialtag [org.irisa.triskell.MT.repository.MDRDriver.Java.Model];
+tag DoNotGenerate := booleantag true;
 {
 	// look in the java file for description
 }
 
 
-class XmiMetamodel extend MdrMetamodel
-tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetaModel]
-tag DoNotGenerate = BooleanTag True
+class XmiMetamodel extends MdrMetamodel
+tag mangle := specialtag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetaModel];
+tag DoNotGenerate := booleantag true;
 {
 	// look in the java file for description}
 }
-class XmiModel extend MdrModel
-tag mangle = SpecialTag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiModel]
-tag DoNotGenerate = BooleanTag True
+class XmiModel extends MdrModel
+tag mangle := specialtag [org.irisa.triskell.MT.repository.MDRDriver.Java.XmiModel];
+tag DoNotGenerate := booleantag true;
 {
 	// look in the java file for description
 }

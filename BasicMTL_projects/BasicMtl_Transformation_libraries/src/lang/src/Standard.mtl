@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.7 2003-08-22 18:28:48 ffondeme Exp $
+// $Id: Standard.mtl,v 1.8 2003-08-25 10:55:04 ffondeme Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -500,7 +500,7 @@ tag DoNotGenerate := booleantag true;
   * we may in the future implement a typedIterator (when the classes will support templates)
   */
 class Iterator extends OclAny
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.IteratorType.TheInstance];
 tag DoNotGenerate := booleantag true;
 {
@@ -533,7 +533,7 @@ tag DoNotGenerate := booleantag true;
   * TODO : correct the pre and post which are currently the same as the OCL, they must be adapted to Bmtl
   */
 class Collection extends OclAny
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType.getCollectionType(org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType.TheInstance)];
 tag DoNotGenerate := booleantag true;
 {
@@ -611,7 +611,7 @@ tag DoNotGenerate := booleantag true;
 }
 
 class Set extends Collection
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.Set.SetType.getSetType(org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType.TheInstance)];
 tag DoNotGenerate := booleantag true;
 {
@@ -730,7 +730,7 @@ tag DoNotGenerate := booleantag true;
 }
 
 class OrderedSet extends Collection
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType.getOrderedSetType(org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType.TheInstance)];
 tag DoNotGenerate := booleantag true;
 {
@@ -803,7 +803,7 @@ tag DoNotGenerate := booleantag true;
 }
 	
 class Bag extends Collection
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.Bag.BagType.getBagType(org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType.TheInstance)];
 tag DoNotGenerate := booleantag true;
 {
@@ -933,7 +933,7 @@ tag DoNotGenerate := booleantag true;
 }
 
 class Sequence extends Collection
-tag mangle := specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl]; 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface]; 
 tag type := specialtag [org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.SequenceType.getSequenceType(org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType.TheInstance)];
 tag DoNotGenerate := booleantag true;
 {
