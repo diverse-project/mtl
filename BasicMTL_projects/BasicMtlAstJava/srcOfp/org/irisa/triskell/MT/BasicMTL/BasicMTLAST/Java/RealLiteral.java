@@ -9,9 +9,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 /**
   * A real value.
   */
-/**
-  * 		this.value = theReal;
-  */
 public class RealLiteral 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Literal
 {
@@ -24,5 +21,6 @@ public class RealLiteral
     public RealLiteral(
         float theReal)
     {
+		this.value = theReal;
     }
 }
