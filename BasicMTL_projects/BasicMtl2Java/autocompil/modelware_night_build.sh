@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.16 2004-10-26 09:54:16 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.17 2005-03-02 14:33:37 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -34,8 +34,8 @@ setenv CVS_RSH ssh
 # load the private key that have no passphrase (do not remove this line ! this is the way my script can run automatically)
 # this suppose that you are running a ssh-agent 
 ssh-add $HOME/.ssh/weak_identity
-echo cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout all
-cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout all
+echo cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
+cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
 #cvs -d /udd/triskell/cvsroot checkout dev/MT/BasicMtl2Java
 cd BasicMtl2Java
 #setenv BASE `pwd`
