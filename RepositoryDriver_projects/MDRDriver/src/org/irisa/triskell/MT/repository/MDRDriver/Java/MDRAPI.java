@@ -1,10 +1,12 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.jmi.model.AliasType;
@@ -1015,7 +1017,7 @@ public class MDRAPI
 		MDREnumered ret = (MDREnumered) this.getElement(ref);
 		if (ret == null) {
 			try {
-				java.util.List enumerationQualifiedNameAsList = ref.refTypeName();
+				java.util.List enumerationQualifiedNameAsList = patched_refTypeName(ref);
 				String [] enumerationQualifiedName = new String [enumerationQualifiedNameAsList.size()];
 				enumerationQualifiedNameAsList.toArray(enumerationQualifiedName);
 				ret = ((MDRMetaEnumeration)this.getMetaClass(enumerationQualifiedName)).findInstance(ref.toString());
@@ -1025,6 +1027,59 @@ public class MDRAPI
 		}
 		return ret;
     }
+
+	private java.util.List patched_refTypeName (javax.jmi.reflect.RefEnum ref)
+	{
+		// 'ref' contains the label of an enumeration
+		// Since the 'refTypeName' method seems to fail, we have to look for every enumerations
+		// in the metamodel containing the 'ref' label. If we found only one, we can build the
+		// qualified name of the enumeration as a List (just like 'refTypeName' should do)
+		this.getLog().debug("Begin work arround for enumerations.");
+				
+		java.util.List typeName;
+		List wantedEnumerationType = new ArrayList();
+
+		// we loop over enumerations defined in the metamodel
+		Iterator enumerations = this.getModel().refMetaObject().refOutermostPackage().refClass("EnumerationType").refAllOfType().iterator();
+		this.getLog().debug ("We loop over enums definitions");
+		while (enumerations.hasNext())
+		{
+			EnumerationType enum = (EnumerationType)enumerations.next();
+			this.getLog().debug ("Current enum is '" + enum.getName()); 
+					
+			// we loop over the labels of the current enumeration definition
+			Iterator labels = enum.getLabels().iterator();
+			while (labels.hasNext())
+			{
+				String label = (String)labels.next();
+				this.getLog().debug ("Current label is '" + label);
+						
+				// we compare the current label with our 'ref'
+				if (ref.toString().equals(label))
+				{
+					wantedEnumerationType.add(enum);
+				}
+			}
+		}
+		if (wantedEnumerationType.size() != 1)
+		{
+			System.out.println (wantedEnumerationType.size());				
+			// beeing here means that we have either no enum containing the 'ref' label
+			// or more than one definition in different enums.
+			throw new RuntimeException ("Work arround failed for enumeration bug.");
+		}
+		else
+		{
+			// now we can build the enum qualified name as a List
+			EnumerationType enum = (EnumerationType)wantedEnumerationType.get(0);
+			typeName = java.util.Collections.unmodifiableList(enum.getQualifiedName());
+		}
+				
+		this.getLog().debug("End work arround for enumerations [" + typeName.toString() + "]");
+
+		return typeName;
+	}
+
 
     public void removeElement(
         org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement element)
