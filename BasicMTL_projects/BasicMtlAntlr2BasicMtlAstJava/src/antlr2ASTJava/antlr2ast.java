@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.7 2003-08-21 20:00:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.8 2003-08-22 18:27:29 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -67,14 +67,14 @@ private void putTags (ASTNode node,java.util.Vector tags)
 	}
 }
 
-private Expression putOperationCalls(Expression expr,java.util.Vector operationCalls)
-{	for (int i=0;i<operationCalls.size();i++) {
-	 Object o = operationCalls.get(i);
+private Expression putPropertyCalls(Expression expr,java.util.Vector propertyCalls)
+{	for (int i=0;i<propertyCalls.size();i++) {
+	 Object o = propertyCalls.get(i);
 	 if (o instanceof OperationCall) {
-		 OperationCall op=(OperationCall)operationCalls.get(i);
+		 OperationCall op=(OperationCall)propertyCalls.get(i);
 		 op.setCaller(expr);
 		 expr=(Expression)op;
-	 } else {//if (o instanceof OclAsType)
+	 } else {//if (o instanceof OclAsType) {
 	 	OclAsType oat = (OclAsType)o;
 	 	oat.setExpression(expr);
 	 	expr=oat;
@@ -202,9 +202,19 @@ public Object typedVars(java.util.Vector vars,Object type)
 public Object expressionInstr(Object expression,String lineNumber)
 {	return (Instruction)expression; }
 
-public Object varSettingInstr(String classVarName,String varOrAttributeName,Object expression,String lineNumber)
-{	VarSetting node= new VarSetting(varOrAttributeName,(Expression)expression);
-	putProperty(node,"ClassOfSetAttribute",(Object)classVarName,"StringTag");
+public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
+	ASTNode node;
+	Property kindProp = ((ASTNode)destTree).getProperty("kind");
+	if ((destTree instanceof OperationCall) && kindProp != null && kindProp.getValue().equals("AttributeGetter")) {
+		node= (OperationCall)destTree;
+		((OperationCall)node).setProperty("kind", "AttributeSetter");
+		((OperationCall)node).appendArguments((Expression)sourceTree);
+	} else if (destTree instanceof VarCall) {
+		node= new VarSetting(((VarCall)destTree).getVarName(),(Expression)sourceTree);
+	} else {
+		getLog().error(lineNumber + ": Can just affect variable or attributes.");
+		return null;
+	}
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 
@@ -273,7 +283,7 @@ public Object associateEndPoint(String role,Object endObject,Object type)
 	putProperty(node,"Type",type,"SpecialTag");
 	return node; }
 
-public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls)
+public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector propertyCalls)
 {	java.util.Vector args=(java.util.Vector)arguments;
 	NewObject node=new NewObject();
 	if (arguments!=null)
@@ -282,66 +292,56 @@ public Object newExpr(Object theClass,String methodName,Object arguments,String 
 	putProperty(node,"TypeToCreate",theClass,"SpecialTag");
 	putProperty(node,"CreationMethod",methodName,"StringTag");
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
-	return (Expression)node; }
+	return (Expression)putPropertyCalls(node,propertyCalls); }
 
-public Object intLiteral(String value,java.util.Vector operationCalls)
+public Object intLiteral(String value,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new IntLiteral(Integer.parseInt(value));
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object realLiteral(String value,java.util.Vector operationCalls)
+public Object realLiteral(String value,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new RealLiteral(Float.parseFloat(value));
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object stringLiteral(String value,java.util.Vector operationCalls)
+public Object stringLiteral(String value,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new StringLiteral(value);
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object oclTypeLiteral(Object type,java.util.Vector operationCalls)
+public Object oclTypeLiteral(Object type,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new OclTypeLiteral((java.util.Vector)type);
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object selfLiteral(java.util.Vector operationCalls)
+public Object selfLiteral(java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new SelfLiteral();
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object nullLiteral(java.util.Vector operationCalls)
+public Object nullLiteral(java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new NullLiteral();
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object trueLiteral(java.util.Vector operationCalls)
+public Object trueLiteral(java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new BooleanLiteral(true);
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object falseLiteral(java.util.Vector operationCalls)
+public Object falseLiteral(java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new BooleanLiteral(false);
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object libraryOrVariable(Object type,java.util.Vector operationCalls)
+public Object attributeOrVariable(String name,java.util.Vector propertyCalls)
 {	Expression expr;
-	java.util.Vector libraryOrVarName=(java.util.Vector)type;
-	if (libraryOrVarName.size()==1) {
-		VarCall var = new VarCall((String)libraryOrVarName.get(0));
-		expr=(Expression) var; }
-	else { log.warn("type DOES NOT CONTAIN A SINGLE STRING "+type);
-			expr=(Expression)new NullLiteral();}
-	return (Expression)putOperationCalls(expr,operationCalls); }
+	VarCall var = new VarCall(name);
+	expr=(Expression) var;
+	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
-public Object attributeGetter(String classVarName,java.util.Vector gotAttributes)
-{	VarCall var = new VarCall(classVarName);
-	Expression expr=(Expression)var;
-	for (int i=0;i<gotAttributes.size();i++) {
-	     OperationCall op=new OperationCall((String)gotAttributes.get(i));
-		 putProperty(op,"ClassOfGetAttribute",(Object)classVarName,"StringTag");
-	     op.setCaller(expr);
-	     expr=(Expression)op;
-	}
-	return expr; }
+public Object attributeGetter(String attributeName)
+{	OperationCall ret = new OperationCall(attributeName);
+	ret.createNewProperty("kind", "AttributeGetter", "stringtag");
+	return ret; }
 
 public Object variableName(String value)
 {	return (Expression)new VarCall(value); }
 
-public Object directOperationCalls(java.util.Vector operationCalls)
-{ return (Expression)putOperationCalls(null,operationCalls); }
+public Object directOperationCalls(java.util.Vector propertyCalls)
+{ return (Expression)putPropertyCalls(null,propertyCalls); }
 	
 public Object operationCall(String operationName,Object arguments,String lineNumber)
 {	java.util.Vector args=(java.util.Vector)arguments;
