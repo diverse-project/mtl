@@ -171,14 +171,15 @@ abstract public class CollectionValueImpl
 		Iterator it = this.getTheCollectionAsCollection().iterator();
 		int i = 0;
 		Value v;
-		while (it.hasNext() && i++ < 10) {
+		while (it.hasNext() && i < 10) {
 			if (i > 0)
 				sb.append(", ");
 			v = (Value)it.next();
 			if (v instanceof ValueImpl)
 				sb.append(((ValueImpl)v).getValueAsString());
 			else
-				sb.append(it.next());
+				sb.append(v);
+			i++;
 		}
 		if (it.hasNext())
 			sb.append(", ... and much more !");
