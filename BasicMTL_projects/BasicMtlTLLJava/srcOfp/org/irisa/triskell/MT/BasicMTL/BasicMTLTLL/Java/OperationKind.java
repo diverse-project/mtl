@@ -36,6 +36,24 @@ public class OperationKind
         else return 1;
     }
 
+    public static org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind CurrentLibraryCall = new OperationKind(3);
+    public static org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind getCurrentLibraryCall () {
+        return OperationKind.CurrentLibraryCall;
+    }
+    public static int cardCurrentLibraryCall () {
+        if ( OperationKind.CurrentLibraryCall == null ) return 0;
+        else return 1;
+    }
+
+    public static org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind LibraryCall = new OperationKind(4);
+    public static org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OperationKind getLibraryCall () {
+        return OperationKind.LibraryCall;
+    }
+    public static int cardLibraryCall () {
+        if ( OperationKind.LibraryCall == null ) return 0;
+        else return 1;
+    }
+
     private final int kind;
 
 

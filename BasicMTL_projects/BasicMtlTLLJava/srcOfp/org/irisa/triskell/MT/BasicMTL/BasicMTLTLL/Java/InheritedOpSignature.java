@@ -31,6 +31,14 @@ public class InheritedOpSignature
         else return 1;
     }
 
+    public boolean throwsException = false;
+    public boolean getThrowsException () {
+        return this.throwsException;
+    }
+    public void setThrowsException (boolean value) {
+        this.throwsException = value; 
+    }
+
 
     public InheritedOpSignature(
         String name,
