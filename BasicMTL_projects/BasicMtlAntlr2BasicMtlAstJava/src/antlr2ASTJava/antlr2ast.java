@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.1 2003-07-17 16:08:06 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.2 2003-07-24 06:43:52 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -75,11 +75,8 @@ return expr; }
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes)
 {	int i;
 	Library node=(Library)header;
-	if (node.isNative())
-		if (models!=null) log.error("NativeLibrary should have no models !");
-	else 	for(i=0;i<models.size();i++)
-	((BasicMtlLibrary)node).appendParameters((ModelRef)models.get(i)); 
-
+	for(i=0;i<models.size();i++)
+		((BasicMtlLibrary)node).appendParameters((ModelRef)models.get(i)); 
 	for(i=0;i<methods.size();i++)
 		node.appendDefinedOperations((Operation)methods.get(i)); 
 	for(i=0;i<classes.size();i++)
