@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.16 2004-02-27 08:24:37 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.17 2004-03-15 14:28:43 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -15,7 +15,8 @@
 	-->
 	<property name="MTLcompiler.jar.path" location="../bin"/>
 	<property name="MTLcompiler.Runtime.path" location="../Runtime"/>
-	<property name="plugins"  location="../../plugins"/>
+	
+	<property file="build.properties"/>
 	<!-- The compilation tool -->
 	<property name="ANTLR2JavaCode" location="LibInheritance\dist\bin\BasicMTLc.jar"/>
 	
@@ -335,11 +336,12 @@
    			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
-     			<pathelement path="${plugins}/org.eclipse.core.runtime_2.1.1/runtime.jar"/>
-    			<pathelement path="${plugins}/org.eclipse.ui.workbench_2.1.1/workbench.jar"/>
-    			<pathelement path="${plugins}/org.eclipse.emf.common_1.1.1/runtime/common.jar"/>
-    			<pathelement path="${plugins}/org.eclipse.emf.edit_1.1.1/runtime/edit.jar"/>
-    			<pathelement path="${plugins}/org.eclipse.emf.ecore_1.1.1/runtime/ecore.jar"/>
+   				<pathelement path="${org.eclipse.core.runtime.jar}"/>
+    			<pathelement path="${org.eclipse.ui.workbench.jar}"/>
+    			<pathelement path="${org.eclipse.emf.common.jar}"/>
+    			<pathelement path="${org.eclipse.emf.edit.jar}"/>
+    			<pathelement path="${org.eclipse.emf.ecore.jar}"/>
+    			<pathelement path="${org.eclipse.emf.ecore.xmi.jar}"/>
    				<path refid="compileCompiler.class.path"/> 
    			</classpath>
    		</javac>
