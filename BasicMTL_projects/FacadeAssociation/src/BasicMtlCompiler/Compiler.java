@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.11 2004-06-22 15:04:36 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.12 2004-06-30 08:25:51 edrezen Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -9,6 +9,7 @@ import java.io.*;
 //import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerException;
 
@@ -132,9 +133,9 @@ public class Compiler {
 			throws CompilerException
 	{
 		// look in the directory only for mtl files. 
-		// this version do not search recursively
+		// now, this version does search recursively
 		java.util.Vector filenamesArguments=new java.util.Vector();
-		String filesList[]=new java.io.File(sourcesDir).list();
+		String filesList[] = Directories.getFilesFromDirectory (sourcesDir);
 		if(filesList == null)
 		{
 			showUsage();
