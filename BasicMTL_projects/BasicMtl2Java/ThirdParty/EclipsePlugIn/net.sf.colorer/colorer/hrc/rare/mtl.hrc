@@ -228,9 +228,7 @@
             -->s
          </keywords>
 
-         <regexp match="/\M \b (?{MethodOutline}[\:\w_*&amp;~]+?) \s* \( [^\)\(]*? \) [\w\s\{]*? $/x"/>
-         <!-- return new Object(...) -->
-         <regexp match="/^\s* \M \b ([\:\w_*&amp;~]+?\s+)+ (?{MethodOutline}[\:\w_*&amp;~]+?) \s* \( [^\)\(]*? \) \s* ; \s* $/x"/>
+         <regexp match="/\b (?{MethodOutline}[\w_*&amp;~]+?) \s* \( [^\)\(]*? \) \s* [\:]+ \s* [\:\w\s]* [\s\{]*? /x"/>
 
       </scheme>
 
