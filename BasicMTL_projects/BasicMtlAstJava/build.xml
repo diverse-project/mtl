@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-08-06 16:27:31 jpthibau Exp $ -->
-<project name="BasicMtlAstJava" default="compile_java" basedir=".">
+<!-- $Id: build.xml,v 1.2 2003-08-08 11:44:12 dvojtise Exp $ -->
+<project name="BasicMtlAstJava" default="dist" basedir=".">
 	<description>
         Known directories for the BAsicMtlAST
 	</description>
@@ -64,6 +64,15 @@
 		description="create a distibution">
 		<mkdir dir="${dist}"/>
 	</target>
+	
+  	<target name="clean_srcOfp"
+  		description="before a simple Obecjeteering generation it is sometime easier to remove all generated java files but leave the CVS directories">
+  		<delete >
+  			<fileset dir="srcOfp" casesensitive="yes">
+  				<include name="**/*.java"/>
+			</fileset>
+  		</delete>
+  	</target>
 
   	<target name="clean"
         description="clean up" >
