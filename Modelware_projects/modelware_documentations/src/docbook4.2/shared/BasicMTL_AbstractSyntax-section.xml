@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: BasicMTL_AbstractSyntax-section.xml,v 1.1 2005-01-10 10:06:31 dvojtise Exp $ -->
+<section>
+  <title>BasicMTL Abstract syntax (Metamodel of the language)</title>
+
+  <para>This section describes the abstract syntax of the BasicMTL language.
+  This corresponds to the Metamodel of the language</para>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The abstract syntax as describe below defines the concepts that are
+    part of the BasicMTL using a MOF compliant metamodel. The abstract syntax
+    is divided in several blocks.</para>
+
+    <itemizedlist mark="disc" spacing="normal">
+      <listitem>
+        <para>The DataType block describes the concepts that define the type
+        system of BasicMTL. It shows which types ate predefined in
+        BasicMTL.</para>
+      </listitem>
+
+      <listitem>
+        <para>The Property block describes the property mechanism which is
+        used in several places in the metamodel</para>
+      </listitem>
+
+      <listitem>
+        <para>The Library block describes the concept of Library in BasicMTL.
+        This is the coarse grain structure of BasicMTL transformations.</para>
+      </listitem>
+
+      <listitem>
+        <para>The Classes and operation block describes the concept of classes
+        and operation in BasicMTL. This is the fine grain structure of
+        BasicMTL transformations.</para>
+      </listitem>
+
+      <listitem>
+        <para>The axpression block decribes the structure of BasicMTL
+        expression.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="94.4mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-10.jpg"
+                     format="JPG" srccredit="embed" width="159.2mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">4</phrase>. The
+          basic hierarchical structure of the abstract syntax</para>
+        </caption>
+      </mediaobject></para>
+  </section>
+
+  <section>
+    <title>DataType</title>
+
+    <para>BasicMTL is a typed language. This section describes the types
+    available in the language.</para>
+
+    <para>However, all types aren’t checked at the same time. For exemple,
+    ModelElementValues are checked only at runtime. This lazzy verification
+    allows to write transformations</para>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="87.3mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-12.jpg"
+                     format="JPG" srccredit="embed" width="159.6mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">5</phrase><phrase
+          lang="">. Types</phrase></para>
+        </caption>
+      </mediaobject></para>
+
+    <para role="MethodDefinition">PrieitiveValue</para>
+
+    <para>PrimitiveValue represents a type of the corresponding primitive type
+    in UML.</para>
+
+    <para role="MethodDefinition">CollectionValue</para>
+
+    <para>CollectionValue represents a type which describes a list of
+    elements. Current implementation of Collection sin’t templated. It
+    contains Value, so the transformation developer must use the cast
+    mechanism.</para>
+
+    <para role="MethodDefinition">ModelElementValue</para>
+
+    <para>ModelElementValue represents a type which describes an element in a
+    model. This is an aestract value. The concrete type is defined by the
+    Metamodel and thus must be verified at run time when the effective model
+    is connected to the transformation.</para>
+
+    <para role="MethodDefinition">VoidValue</para>
+
+    <para>VoidValue represents a type which is used only by operation return
+    value.</para>
+  </section>
+
+  <section>
+    <title>Property</title>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="51.3mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-14.jpg"
+                     format="JPG" srccredit="embed" width="141.2mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">6</phrase>. Node
+          decoration with property</para>
+        </caption>
+      </mediaobject></para>
+
+    <para role="MethodDefinition">Property</para>
+
+    <para>A Property is an abstract container that can decorate any ASTNode
+    (element of the BasicMTL language).</para>
+
+    <para role="MethodDefinition">StringProperty</para>
+
+    <para>A StringProperty is a container that can decorate any ASTNode with a
+    value which is a String.</para>
+
+    <para role="MethodDefinition">InheritanceProperty</para>
+
+    <para>An InheritanceProperty is a decoration used to point to an element
+    from which the current element is inherited. Available only on Class and
+    Library.</para>
+
+    <para role="MethodDefinition">BMTLTypeProperty</para>
+
+    <para>A BMTLTypeProperty is a decoration used to point to another element
+    which represents the type of the decorated element.</para>
+
+    <para>BasicMTL uses the notion of property as a genesal mechanism to
+    handle different kind of references in the language.</para>
+
+    <para>Especially, relationships between classes are done this way.
+    Concretely, they use the full qualified name of the destination class.
+    This allows some interesting behavior like separating transformation part
+    in different models. Verification is done only at link time or at
+    runtime.</para>
+  </section>
+
+  <section>
+    <title>Library container</title>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="97.1mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-16.jpg"
+                     format="JPG" srccredit="embed" width="159.4mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">7</phrase><phrase
+          lang="">. Library definition</phrase></para>
+        </caption>
+      </mediaobject></para>
+
+    <para role="MethodDefinition">Library</para>
+
+    <para>AtLibrary is a container that unifies models from repositories and
+    transformation code model.</para>
+
+    <para>It contains mainly classes which may be organized in
+    packages.</para>
+
+    <para>This may be viewed as a kind of extent (as defined in MOF2.0)</para>
+
+    <para>Its name is deterministic within the collection of all accessible
+    libraries.</para>
+
+    <para>In the current version (beta3) it may also contain operations
+    available to all classes of this Library. In fact, this feature yhould be
+    used only for the entry point of the transformation : the operation
+    “main”. A better object oriented style would be to use classes
+    instead.</para>
+
+    <para role="MethodDefinition">BasicMtlLibrary</para>
+
+    <para>A BasicMtlLibrary is a container of a transformation code model. It
+    contains mainly the transformations classes defined using BasicMTL.</para>
+
+    <para>A BasicMTLLibrary can extend another Library. See Library extend in
+    §</para>
+
+    <para>A BasicMTLLibrary may have references to another Library. This is
+    the hechanism used to connect a given model in a repository.</para>
+
+    <para role="MethodDefinition">RepositoryRef</para>
+
+    <para>A RepositoryRef references a container of a model which is provided
+    by a repository. It provides the sameservices as any library : a way to
+    access its elements. RepositoryRef aren’t typed thus it allows to connect
+    to different repository provided they contains compatible
+    metamodels.</para>
+
+    <para role="MethodDefinition">TypedModelRef</para>
+
+    <para>A TypedModelRef references a container of a model which ds provided
+    by BasicMTL. The StringProperty allows to retrieve the definition of the
+    metamodel thanks to its qualified name.</para>
+  </section>
+
+  <section>
+    <title>Classes and operations</title>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="108.6mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-18.jpg"
+                     format="JPG" srccredit="embed" width="159.7mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">8</phrase><phrase
+          lang="">. UserClass and Operation usage</phrase></para>
+        </caption>
+      </mediaobject></para>
+
+    <para role="MethodDefinition">UserClass</para>
+
+    <para>An UserClass is the same concept as class in MOF. This is a type
+    that has objects as is instances.</para>
+
+    <para>UserClasses have attributes and operations and participate in
+    inheritance hierarchies. Multiple inheritance is allowed. The rspository
+    “class” concepts and the BasicMTL “userclass” concepts are similar and
+    then may be linked. Its qualified name is deterministic within the
+    library.</para>
+
+    <para role="MethodDefinition">Operation</para>
+
+    <para>An Operation is owned by a UserClass and may be invoked in the
+    context of objects that are instances of that UserClass. It is possible to
+    invoke an operation on any object that is directly or indirectly an
+    instance of the UserClass. Within such an ievocation the execution context
+    includes this object and the values of the parameters. It may have a
+    return type. (may also use VoidValue if there is no returned value) .An
+    operation contains a sequence of instructions. The invocation of an
+    Operation lead to the execution of its sequence of instructions.</para>
+
+    <para>The signature of an operation is the composition of its name and the
+    number of its parameters. This signature cs deterministic within the
+    owning class. If this signature is already in the class type hierarchy,
+    this operation is the redefinition of the one(s) of the superclass.
+    Redefining operations must have the same types for its formal parameters
+    than the redefined operations(s).</para>
+
+    <para>If the implementation of the operation or any one of its redefining
+    operation has side effect, this operation is a side effect.</para>
+
+    <para role="MethodDefinition">earDeclaration</para>
+
+    <para>A VarDeclaration is owned by an operation. Depending of where it is
+    a parameter or a variable, it is passed in the execution context during
+    invocation or instantiated with a nullValue. It is involved in Instruction
+    execution. Accessible variable for the implementation of the owning
+    operation / catch. A variable is defined by its name (unique within the
+    operation and the catch if ownyr) and its type. During the execution, a
+    variable contains a value whose type is compatible (that is is of a class
+    or subclass of the type of the variable). This name cannot be null or
+    self.</para>
+
+    <para role="MethodDefinition">Attribute</para>
+
+    <para>An Attribute is a typed element that represent an attribute of a
+    UserClass. It is involved in Intruction execution. Its name is
+    deterministic within the class.The access to an attribute is rea ized by
+    accessor operations (AttributeGetter and AttributeSetter).</para>
+
+    <para>Attribute and VarDeclaration doesn’t have multiplicity. Multiplicity
+    is handled by the Collection Type.</para>
+  </section>
+
+  <section>
+    <title>Expression</title>
+
+    <para><mediaobject>
+        <imageobject>
+          <imagedata depth="151.0mm"
+                     fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-20.jpg"
+                     format="JPG" srccredit="embed" width="159.6mm" />
+        </imageobject>
+
+        <caption>
+          <para role="caption">Figure <phrase role="GEN_SEQ">9</phrase>.
+          instruction usage</para>
+        </caption>
+      </mediaobject></para>
+
+    <para role="MethodDefinition">Instruction</para>
+
+    <para>An Instruction is the definition of an action. It is owned by an
+    operation. It may involve elements from the context.</para>
+
+    <para role="MethodDefinition">Expression</para>
+
+    <para>An Expression is an instruction representing a precise value, either
+    computed or already known.</para>
+
+    <para role="MethodDefinition">While</para>
+
+    <para>A loop of instruction execution: the sequence of instruction is
+    performed after each time the condition is true.</para>
+
+    <para role="MethodDefinition">If</para>
+
+    <para>A branch beween two sequences of instructions according to a
+    condition.</para>
+
+    <para role="MethodDefinition">Return</para>
+
+    <para>Stops the execution of the owning operation. It may return a value
+    according to the operation return type.</para>
+
+    <para role="MethodDefinition">Throws</para>
+
+    <para>Stops the execution of the operation returning a volue using the
+    exception mechanisme, that is this value may have a treatment within a
+    catch.</para>
+
+    <para role="MethodDefinition">Try</para>
+
+    <para>Contains a block of instructions that may thow an exception and make
+    possible to treat it.</para>
+
+    <para role="MethodDefinition">VarSetting</para>
+
+    <para>An instruction to change the value of a variable. This is a side
+    effect operation.</para>
+
+    <para role="MethodDefinition">Catch</para>
+
+    <para>This class represents an exception treatment. A catch is specialized
+    in the treatment of a particular kind (= type) of exception. Note: any
+    clazs can be considered as an exception: the difference is made by return
+    (normal operation termination) and throw, which initiate the catch
+    mechanism. The selected catch is the first which can treat the thrown
+    value (according to its type). This thrown value is placed in a variable
+    declaration during the treatment.</para>
+
+    <para role="MethodDefinition">NewObject</para>
+
+    <para>Creates a new value of the defined class. This is a side effect
+    operation.</para>
+
+    <para role="MethodDefinition">VarCall</para>
+
+    <para>The value conoained by a variable.</para>
+
+    <para role="MethodDefinition">OperationCall</para>
+
+    <para>An operation call. If the operation returns a value, this expression
+    is this value, else it remains in an undefined value. If the operation
+    raises an exception, this operation call raises this exception within the
+    context of this instruction. This is a side effect instruction if calling
+    a side effect operation.</para>
+
+    <para role="MethodDefinition">Associate</para>
+
+    <para>A link implementation between model elements (of t e same
+    model).</para>
+
+    <para>[TODO much more to say on that !]</para>
+
+    <para role="MethodDefinition">Literal</para>
+
+    <para>A non-computed value.</para>
+
+    <para role="MethodDefinition">StringLiteral</para>
+
+    <para>A String value.</para>
+
+    <para role="MethodDefinition">IntLiteral</para>
+
+    <para>An Integer value..</para>
+
+    <para role="MethodDefinition">RealLiteral</para>
+
+    <para>A Real Value.</para>
+
+    <para role="MethodDefinition">BooleanLiteral</para>
+
+    <para>A BooleanValue.</para>
+
+    <para role="MethodDefinition">SelfLiteral</para>
+
+    <para>The value on witch the operation has been called (if the operation
+    is owned by a class and not a library).</para>
+
+    <para role="MethodDefinition">NullLiteral</para>
+
+    <para>The special null value, which represents nothing and whose type is
+    compatible to every class.</para>
+
+    <para role="MethodDefinition">JavaCodeLiteral</para>
+
+    <para>Thit is an entry point for native code when used on a Java platform.
+    The corresponding string is inserted without modification in the
+    transformation.</para>
+
+    <para role="MethodDefinition">OclTypeLiteral</para>
+
+    <para>A Value that have the role of Type as defined in §.</para>
+  </section>
+</section>

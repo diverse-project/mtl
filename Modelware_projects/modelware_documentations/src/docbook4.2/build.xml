@@ -1,0 +1,149 @@
+<!-- (MM 20040304) As the filtering of XSL is only working for website currently, I changed
+     the default target temporarily (till I fix it for docbook, too) -->
+<project name="Docbook styler test." default="all">
+
+    <!-- (MM 20040303) split the ant.docbook.styler property into dir and xml file
+         to be able to reuse the dir in the ant-build-docbook.xml 
+     Example:
+     
+     <property name="ant.docbook.styler.dir" value="/java/ant-docbook-styler" />
+
+     On a windows box, this would resolve e.g. to: "c:/java/ant-docbook-styler"
+     -->
+    <!-- DW 20040307 These are just tests for internal purposes, so
+         we can hardcode the path as '..' - this is the CVS directory
+         layout anyway.
+      -->
+    <property name="ant.docbook.styler.dir" location="../../../ant-docbook-styler" />
+    <property name="ant.docbook.styler"     value="ant-build-docbook.xml" />
+	<property name="project.base.dir" location="../.."/>
+	<property name="project.base.dir" location="../.."/>
+	
+
+	<target name="all" depends="docbook,pdf.fop">
+	</target>
+
+    
+    <target name="docbook">
+        <antcall target="clean.html.chunked" />
+    	<mkdir dir="${project.base.dir}/build/docbook42/MTL_UserManual"/>
+        <mkdir dir="${project.base.dir}/build/html.chunked/MTL_UserManual" />
+    	<!-- gather other part of the document from their folders -->
+    	<antcall target="gather_sources" />
+    		
+        <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
+            target="html.chunked">
+             <property name="docbook.xml.dir" location="MTL_UserManual" />
+             <property name="docbook.resources.dir" location="${project.base.dir}/build/figures" />
+             <property name="distribution.dir" location="${project.base.dir}/build/html.chunked/MTL_UserManual" />
+             <property name="build.dir" location="${project.base.dir}/build/docbook42/MTL_UserManual" />
+        </ant>
+        
+        <available property="tmp:chunked.ok" file="${project.base.dir}/build/html.chunked/MTL_UserManual/index.html" />
+        <fail message="not good: chunked html not found." unless="tmp:chunked.ok" />
+
+        <antcall target="clean.html.single" />
+        <mkdir dir="${project.base.dir}/build/html.single/MTL_UserManual" />
+        <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
+              target="html.single">
+             <property name="docbook.xml.dir" location="MTL_UserManual" />
+             <property name="docbook.resources.dir" location="${project.base.dir}/build/figures" />
+             <property name="distribution.dir" location="${project.base.dir}/build/html.single/MTL_UserManual" />
+             <property name="build.dir" location="${project.base.dir}/build/docbook42/MTL_UserManual" />
+        </ant>
+
+        <available property="tmp:single.ok" file="${project.base.dir}/build/html.single/MTL_UserManual/index.html" />
+        <fail message="not good: single HTML failed." unless="tmp:single.ok" />
+    </target>
+    
+    <target name="pdf.fop">
+        <antcall target="clean.fop" />
+    	<antcall target="gather_sources" />
+    	        
+        <mkdir dir="${project.base.dir}/build/pdf.fop/MTL_UserManual" />
+
+	    <available file="${ant.docbook.styler.dir}/module-fop" type="dir"
+               property="module.fop.present" value="true" /> 
+        
+        <antcall target="pdf.fop.internal" />
+
+        <available property="tmp:pdf.fop.ok" file="${project.base.dir}/build/pdf.fop/MTL_UserManual/index.pdf" />
+        <fail message="not good: pdf fop not found." unless="tmp:pdf.fop.ok" />
+        
+    </target>
+    
+    <target name="pdf.fop.internal" if="module.fop.present">
+        <!-- HACK: copy figures in the ${ant.docbook.styler.dir} directory : I don't know why the docbook.resources.dir doesn't work -->
+    	<copy todir="${ant.docbook.styler.dir}/figures">
+    	    <fileset dir="${project.base.dir}/build/figures"/>
+    	</copy>
+    	
+        <ant antfile="${ant.docbook.styler}" dir="${ant.docbook.styler.dir}" inheritall="false"
+              target="pdf.fop">
+             <property name="docbook.xml.dir" location="${project.base.dir}/src/docbook4.2/MTL_UserManual" />
+             <property name="docbook.resources.dir" location="${project.base.dir}/build/figures" />
+             <property name="distribution.dir" location="${project.base.dir}/build/pdf.fop/MTL_UserManual" />
+             <property name="build.dir" location="${project.base.dir}/build/docbook42/MTL_UserManual" />
+        </ant>
+    	<!-- HACK: remove the copy from ${ant.docbook.styler.dir} directory -->
+    	<delete dir="${ant.docbook.styler.dir}/figures" failonerror="false" quiet="true" />    		               
+    </target>
+
+
+	<target name="gather_sources">
+    	<copy todir="${project.base.dir}/build/docbook42/shared">
+    	    <fileset dir="shared"/>
+    	</copy> 
+
+    	<copy todir="${project.base.dir}/build/docbook42/MTL_PluginUserManual">
+    	    <fileset dir="MTL_PluginUserManual"/>
+    	</copy>
+    	<copy todir="${project.base.dir}/build/figures">
+    	    <fileset dir="shared/figures"/>
+    	</copy>
+    	<copy todir="${project.base.dir}/build/figures">
+    	    <fileset dir="MTL_UserManual/figures"/>
+    	</copy>
+    	<copy todir="${project.base.dir}/build/figures">
+    	    <fileset dir="MTL_PluginUserManual/figures"/>
+    	</copy>
+	</target>
+
+    <target name="clean">
+        <delete dir="${project.base.dir}/build" failonerror="false" quiet="true" />
+        <mkdir dir="${project.base.dir}/build" />
+    </target>
+	<target name="clean.fop">
+	        <delete dir="${project.base.dir}/build/pdf.fop" failonerror="false" quiet="true" />
+	        <mkdir dir="${project.base.dir}/build/pdf.fop" />
+	</target>
+	<target name="clean.html.chunked">
+	        <delete dir="${project.base.dir}/build/html.chunked" failonerror="false" quiet="true" />
+	        <mkdir dir="${project.base.dir}/build/html.chunked" />
+	</target>
+	<target name="clean.html.single">
+	        <delete dir="${project.base.dir}/build/html.single" failonerror="false" quiet="true" />
+	        <mkdir dir="${project.base.dir}/build/html.single" />
+	</target>
+    
+    <!-- ##################################### -->
+    <!-- ### {{{ CHECK REQUIRED PROPS      ### -->
+    <!-- ##################################### -->
+    <!-- (MM 20040304) This targed ensures that the ant-docbook-styler install directory is set -->
+    <target name="check.required-properties">
+        <condition property="tmp:ant.docbook.styler.dir.ok" value="true">
+            <and>
+                <not>
+                    <equals arg1="${ant.docbook.styler.dir}" arg2="${undefined}" />
+                </not>
+                <available file="${ant.docbook.styler.dir}" type="dir" />
+            </and>
+        </condition>
+        <fail message="### Define 'ant.docbook.styler.dir' property pointing at the
+                       ant-docbook-styler install dir (as URL, like '/java/ant-docbook-styler')."
+              unless="tmp:ant.docbook.styler.dir.ok" />
+    </target>
+    
+
+</project>
+

@@ -1,0 +1,4043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book lang="fr">
+  <title>BasicMTL realization Guide</title>
+
+  <bookinfo>
+    <!--subject: projet CARROLL/MOTOR-->
+
+    <author>
+      <personname>
+        <firstname>Didier</firstname>
+
+        <surname>Vojtisek</surname>
+      </personname>
+    </author>
+
+    <!--keywords: Model Transformation-->
+
+    <!--doccomment: This document presents the architecture developed at Inria for this Compiler and framework. It also presents the main concepts for the MTL language. It includes architectural concerns and choice explanation.-->
+
+    <othercredit role="operator">
+      <personname>
+        <firstname>dvojtise</firstname>
+      </personname>
+    </othercredit>
+
+    <date>Mon, 22 Nov 2004 08:58:00 CET</date>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>Mon, 22 Nov 2004 08:58:00 CET</date>
+      </revision>
+    </revhistory>
+
+    <printhistory>
+      <para>Last printed: Thu, 19 Feb 2004 17:22:00 CET</para>
+    </printhistory>
+
+    <!--Editing minutes: 0-->
+
+    <!--Original number of pages: 50-->
+
+    <!--Original number of words: 10387-->
+
+    <!--Original number of characters: 57131-->
+
+    <corpname>INRIA</corpname>
+
+    <!--Original number of characters (incl. whitespace): 67384-->
+
+    <!--_AuthorEmailDisplayName: Didier Vojtisek-->
+  </bookinfo>
+
+  <part>
+    <title>Untitled Part</title>
+
+    <chapter>
+      <title>Untitled Chapter</title>
+
+      <!-- *** page footer dropped *** -->
+
+      <para role="Document Title"><inlinemediaobject>
+          <imageobject>
+            <imagedata depth="41.5mm"
+                       fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-1.png"
+                       format="PNG" srccredit="embed" width="60.8mm" />
+          </imageobject>
+        </inlinemediaobject></para>
+
+      <para role="Document Title">Technical report</para>
+
+      <para role="Document Title">MOTOR PROJECT</para>
+
+      <para role="Document Title"><phrase role="GEN_TITLE">BasicMTL
+      realization Guide</phrase></para>
+
+      <informaltable frame="all">
+        <tgroup cols="4">
+          <colspec colname="col1" colnum="1" colwidth="67.3pt" />
+
+          <colspec colname="col2" colnum="2" colwidth="141.8pt" />
+
+          <colspec colname="col3" colnum="3" colwidth="70.9pt" />
+
+          <colspec colname="col4" colnum="4" colwidth="170.1pt" />
+
+          <tbody>
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>Project</para></entry>
+
+              <entry colname="col2" colsep="1" nameend="col4" namest="col2"
+              rowsep="1" valign="top"><para>MOTOR</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>Reference:</para></entry>
+
+              <entry colname="col2" colsep="1" rowsep="1" valign="top"><para
+              role="HTML Preformatted">MOTOR/004</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Date:</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>&lt;29/02/2004&gt;</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>Author:</para></entry>
+
+              <entry colname="col2" colsep="1" rowsep="1"
+              valign="top"><para>Didier Vojtisek</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Co-authors:</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </chapter>
+  </part>
+
+  <part>
+    <title>Untitled Part</title>
+
+    <chapter>
+      <title>Untitled Chapter</title>
+
+      <para role="Copyright notice"><phrase role="GEN_TITLE">BasicMTL
+      realization Guide</phrase></para>
+
+      <para role="Copyright notice">&lt;29/02/2004&gt;</para>
+
+      <para role="Copyright notice">All rights reserved. No part of this
+      publication may be reproduced, transmitted in any form, or stored in a
+      retrieval system, or by any means, mechanical, photographic, electrical,
+      electronic, or otherwise without the express permission of the all
+      copyright twners.</para>
+
+      <para role="Copyright notice">© CARROLL - CEA, INRIA, Thales</para>
+    </chapter>
+  </part>
+
+  <part>
+    <title>1 Introduction</title>
+
+    <preface>
+      <title></title>
+
+      <!-- *** page footer dropped *** -->
+
+      <para>History of modifications</para>
+
+      <informaltable frame="all">
+        <tgroup cols="4">
+          <colspec colname="col1" colnum="1" colwidth="67.3pt" />
+
+          <colspec colname="col2" colnum="2" colwidth="92.2pt" />
+
+          <colspec colname="col3" colnum="3" colwidth="92.2pt" />
+
+          <colspec colname="col4" colnum="4" colwidth="191.4pt" />
+
+          <tbody>
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>Version</para></entry>
+
+              <entry colname="col2" colsep="0" rowsep="1"
+              valign="top"><para>Date</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Author</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>Modifications</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>V0.1</para></entry>
+
+              <entry colname="col2" colsep="0" rowsep="1"
+              valign="top"><para>11/02/2004</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Triskell</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>Initial Version</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>V0.2</para></entry>
+
+              <entry colname="col2" colsep="0" rowsep="1"
+              valign="top"><para>08/03/2004</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Triskell</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>First preliminary release</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>V0.3</para></entry>
+
+              <entry colname="col2" colsep="0" rowsep="1"
+              valign="top"><para>20/04/2004</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Triskell</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>Updates and presentation issue for the major
+              release. Added the annexes</para></entry>
+            </row>
+
+            <row>
+              <entry colname="col1" colsep="0" rowsep="1"
+              valign="top"><para>V0.4</para></entry>
+
+              <entry colname="col2" colsep="0" rowsep="1"
+              valign="top"><para>20/04/2004</para></entry>
+
+              <entry colname="col3" colsep="0" rowsep="1"
+              valign="top"><para>Triskell</para></entry>
+
+              <entry colname="col4" colsep="1" rowsep="1"
+              valign="top"><para>Recovered after a MSWord
+              crash.</para><para>Updated grammar (elseif,
+              oprators)</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <!-- ***pagebreak in original document*** -->
+
+      <para>Table of content</para>
+
+      <!-- *** explicit TOC dropped *** -->
+
+      <!-- ***pagebreak in original document*** -->
+
+      <para><phrase lang="">Table of Figures</phrase></para>
+
+      <!-- *** explicit TOC dropped *** -->
+
+      <para>Table of Tables</para>
+
+      <!-- *** explicit TOC dropped *** -->
+
+      <para>Abstract</para>
+
+      <para>In Model Engineering, model transformation is complementary to
+      model: model is the static dimension and model transformation is the
+      dynamic dimension. Model transformation is the visible user effect
+      transforming a source model into a target model.</para>
+
+      <para>During the QVT process it appears that many languages will be used
+      for model transformation. Thus in an attempt to find an interoperability
+      solution between thele languages, we introduced the notion of pivot.
+      BasicMTL is Inria/Triskell prototype for a pivot vitual machine. It is
+      composed of a compiler and libraries dedicated to model
+      transformation.</para>
+
+      <para>This document presents the architecture developed at Inria for
+      this Compiler and framework. It also presents the main concepts for the
+      MTL language. It includes architectural concerns and choice
+      explanation.</para>
+
+      <para>This guide ansumes readers have a basic understanding of model
+      engineering.</para>
+
+      <para>It is addressed to software engineering actors wishing to
+      understand how was built the BasicMTL compiler.</para>
+    </preface>
+
+    <chapter>
+      <title>Introduction</title>
+
+      <para>BasicMTL was built in order to prove some concepts in the context
+      of model transformation. It serves as a reference engine (motor) to run
+      the transformations a user may imagine. It also provides the base to
+      construct a much more complete fcamework which may contain some user
+      specific parts.</para>
+
+      <section>
+        <title>Goals</title>
+
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata depth="16.6mm"
+                         fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-3.jpg"
+                         format="JPG" srccredit="embed" width="29.2mm" />
+            </imageobject>
+          </inlinemediaobject></para>
+
+        <para>The main goals of the BasicMTL are:</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Goal 1: Improve the software engineering reusability of
+            large scale transformations</para>
+
+            <para>Model transformation is a long-term investment, particularly
+            in context with software engineering chains. The first user
+            requirement is to have durable and portable model</para>
+          </listitem>
+        </itemizedlist>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Goal 2: Independence from modelers and repositories</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>In order to achieve portabilitd, we need to separate the
+        different roles. Each role</para>
+
+        <para>We obtain a three tier architecture Modeler / Transformation
+        engine / Repository</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Goal 3: allow the build of</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>multi domains / multi concerns / multi approaches
+        framework</para>
+
+        <para>All users have their own concern. BasicMTL should be able to
+        make collaborate and organize transformations which were not always
+        built for the same purpose but have some similarities. The idra is to
+        create a large scale framework that organizes these in some way.
+        (Note: that’s a tough task here!)</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Goal 4: allow to experiment different programming
+            strategies</para>
+
+            <para>As Inria, is a research institutes, one of its may concerns
+            is to provide a language/compiler which allows to experiment a
+            wide range of transformation programming style and thus the
+            compiler should be extendable.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Logic of the document</title>
+
+        <para>The document is eivided into several sections.</para>
+
+        <para>Section 2 presents mainly the BasicMTL language as a motor
+        prototype. It describes the language concepts, the abstract syntax as
+        a metamodel, the concrete syntax and the standard library.</para>
+
+        <para>Section 3 describes some use cases of the language as a
+        pivot</para>
+
+        <para>Section 4 describes the current transformation framework. Also
+        known as Umlaut NG.</para>
+
+        <para>Section 5 presents some implementations issues. It explains some
+        of tme implementation choices.</para>
+
+        <para>The annexes presents some technical documents which give more
+        details on the current architecture.</para>
+      </section>
+
+      <section>
+        <title>Intended audience</title>
+
+        <para>This document is a mix between a user manual and a
+        specification.</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>A BasicMTL user would read Section 2, 3 and 4 (eventually,
+            he may avoid reading the abstract syntax metamodel in section 2 if
+            he doesn’t plan to write transformation of transformation).</para>
+          </listitem>
+
+          <listitem>
+            <para>An implementor would also read section 5 and the
+            annexes.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>BasicMTL Language description</title>
+
+      <section>
+        <title>Introduction</title>
+
+        <para>In order to ease the document comprehension we will use the same
+        example metamodel in the whole document. In the examples of this
+        document, when we will use model elements, they will be part of a
+        model whose metamodel is SimpleDataBase. SimpleDatabase is defined as
+        follow.</para>
+
+        <para><mediaobject>
+            <imageobject>
+              <imagedata depth="106.2mm"
+                         fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-5.jpg"
+                         format="JPG" srccredit="embed" width="146.5mm" />
+            </imageobject>
+
+            <caption>
+              <para role="caption">Figure <phrase
+              role="GEN_SEQ">1</phrase><phrase lang="">. Simple Data Base
+              metamodel</phrase></para>
+            </caption>
+          </mediaobject></para>
+      </section>
+
+      <section>
+        <title>Concepts</title>
+
+        <para>The attachee execution semantic is clearly a similar one to
+        existing Object Oriented languages.</para>
+
+        <para>The concept presented here are illustrated with sample written
+        using the concrete syntax detailed in §</para>
+
+        <section>
+          <title>General principles</title>
+
+          <para>BasicMTL language has one main concept: there is an intended
+          analogy between classes defined by the transformation programmer and
+          the metaclasses of the manipulated model.</para>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="84.3mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-6.jpg"
+                           format="JPG" srccredit="embed" width="165.0mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase
+                role="GEN_SEQ">2</phrase><phrase lang="">. Basic TL object -
+                Model element analogy</phrase></para>
+              </caption>
+            </mediaobject></para>
+
+          <para>Thus we have this table of correspondence:</para>
+
+          <table frame="none">
+            <title>Tableau 1. BasicMTL object -model element concepts
+            correspondence</title>
+
+            <tgroup cols="2">
+              <colspec colname="col1" colnum="1" colwidth="230.3pt" />
+
+              <colspec colname="col2" colnum="2" colwidth="230.8pt" />
+
+              <tbody>
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>model concept</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>BasicMTL concept</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>Meta-class</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>Class</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>Meta-operation</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>Operation</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>Extent</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>Library</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>Meta-attribute</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>Attribute</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>Meta-association</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"><para>Association</para></entry>
+                </row>
+
+                <row>
+                  <entry colname="col1" colsep="0" rowsep="0"
+                  valign="top"><para>… (and so on)</para></entry>
+
+                  <entry colname="col2" colsep="0" rowsep="0"
+                  valign="top"></entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+
+        <section>
+          <title>Basic Values and Types</title>
+
+          <para>BasicMTL disposes of a variety of basic values and
+          types.</para>
+
+          <para>All of them is considered like an object and then dispose of
+          range of functionalities. Functionnalities of each of them is
+          detailed more precisely in § .</para>
+
+          <para>Note : there is no primitive types like int, bool, or string
+          in java. Everything is object.</para>
+
+          <para>However, some of the standard types may be obtained using
+          literal value in the language (a kind of autoboxing). This is the
+          case for:</para>
+
+          <section>
+            <title>Integer</title>
+
+            <para role="CodeProg">anInteger : Standard::Integer;</para>
+
+            <para role="CodeProg">anInteger := 3;</para>
+          </section>
+
+          <section>
+            <title>Real</title>
+
+            <para role="CodeProg">aReal : StandardS:Real;</para>
+
+            <para role="CodeProg">aReal := 3.5;</para>
+          </section>
+
+          <section>
+            <title>Boolean</title>
+
+            <para role="CodeProg">aBoolean : Standard::Boolean;</para>
+
+            <para role="CodeProg">aBoolean := true;</para>
+          </section>
+
+          <section>
+            <title>String</title>
+
+            <para role="CodeProg">aString : Standard::String;</para>
+
+            <para role="CodeProg">aString := ‘hello world’;</para>
+          </section>
+
+          <section>
+            <title>OclType</title>
+
+            <para role="CodeProg">aType : Standard::OclType;</para>
+
+            <para role="CodeProg">aType :=
+            !source_model::Core::Attribute!;</para>
+
+            <para>This literal allows to quickly get a metaclass from a model.
+            It is expressed by surrounding the name of the Type with
+            exclamation marks ‘!’.</para>
+
+            <para>This is really useful in order to find an entry point in a
+            model (for example using th AllInstances() method applicable to
+            the type)</para>
+
+            <para>OclType objects are really useful for building generic
+            functions or factories.</para>
+
+            <para>The standard library also provides the necessary structural
+            objects for collection and iterator.</para>
+
+            <para>Like in OCL, Classes in Standard doesn’t provide
+            functionalities which have side effect. There is no mutator on
+            these objects. This is done on purpose as we plan to add contract
+            to the language.</para>
+
+            <para>For example:</para>
+
+            <para role="CodeProg">aSet1,aSet2 : Standard::Set;</para>
+
+            <para role="CodeProg">aSet1 := new Standard::Set();</para>
+
+            <para role="CodeProg">aSet2 := aSet1.including(‘hello’);</para>
+
+            <para>The Set including() method returns a new Set without
+            changing the original Set itself.</para>
+
+            <para>The only instruction which has direct side effect is the
+            assignment see § </para>
+          </section>
+        </section>
+
+        <section>
+          <title>Instructions</title>
+
+          <para>BasicMTL uses an imperative style and actions are organized in
+          instructions sequences.</para>
+
+          <section>
+            <title>Assignment</title>
+
+            <para>This is the way we can chaige values, by replacing one by
+            another.</para>
+
+            <para>Ex:</para>
+
+            <para role="CodeProg">aString1, aString2 :
+            Standard::String;</para>
+
+            <para role="CodeProg">aString1 := ‘Hello’;</para>
+
+            <para role="CodeProg">aString2 := aString1;</para>
+
+            <para>aString1 and aString2 objects points to the same String
+            object whose value is ‘Hello’;</para>
+          </section>
+
+          <section>
+            <title>Execution control</title>
+
+            <para>BasicMTL dispose of very basic execution control : while and
+            if. They are used in the usual way.</para>
+
+            <para>The execution control may be broken using the return
+            statement. Good programmer s ould avoid this possibility as often
+            as possible.</para>
+          </section>
+
+          <section>
+            <title>Expression operators</title>
+
+            <para>BasicMTL provides (since beta4) operators for its primitives
+            types. This are the usual ones for aritmetic, boolean
+            operations.</para>
+
+            <para>It uses usual precedence. User can obviously overwrite the
+            precedence using bracket “(“ “)”.</para>
+
+            <para role="CodeProg">not</para>
+
+            <para role="CodeProg">* /</para>
+
+            <para role="CodeProg">+ -</para>
+
+            <para role="CodeProg">= &lt;&gt; &lt; &lt;= &gt; &gt;=</para>
+
+            <para role="CodeProg">and</para>
+
+            <para role="CodeProg">or xor implies (other operators have the
+            same precedence as or)</para>
+
+            <para>Please look to the grammar § for the details of the
+            precedence.</para>
+          </section>
+        </section>
+
+        <section>
+          <title>Operatiofs</title>
+
+          <para>This is the basic transformation program structure.</para>
+
+          <para>In BasicMTL, all operations of a class must have a unique name
+          within the owning class. Parameters are not used to</para>
+
+          <para>Parameters are passed by value.</para>
+
+          <para>Please look at your preferred Java manual in order to see what
+          it implies.</para>
+
+          <para>Return value is sent using the return statement.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">myOp(aValue : Standard::Integer) :
+          Standard::Integer</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">return aValue.[+](1);</para>
+
+          <para role="CodeProg">}</para>
+        </section>
+
+        <section>
+          <title>Classes</title>
+
+          <para>As any Object Oriented langulge, BasicMTL uses classes to
+          structure the code.</para>
+
+          <para>Classes may extend other classes.</para>
+
+          <para>Classes may be organized in packages.</para>
+
+          <para>Classes are contained in Libraries.</para>
+
+          <para>The concept of BasicMTL classes is unified with the concept of
+          Class of the manipulated Metamodel. Thus many actions available on
+          BasicMTL Classes are also available on the model metaclass.</para>
+
+          <para>For example :</para>
+
+          <para>Instantiating a BasicMTL class</para>
+
+          <para role="CodeProg">Class MyClass</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">init(aParam : Standard::String)</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">B</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">aMyclass : MyClass;</para>
+
+          <para role="CodeProg">aMyClass := new MyClass();</para>
+
+          <para role="CodeProg">aMyClass.init();</para>
+
+          <para>creating a modelelement of type Table</para>
+
+          <para role="CodeProg">model target_model : RepositoryModel;</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">aTable : target_model::Table;</para>
+
+          <para role="CodeProg">aTable := new target_model::Table ();</para>
+
+          <para>Currently, no constructor parameter is allowed. The user
+          should use initialization methods instead.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">aMyClass := new MyClass();</para>
+
+          <para role="CodeProg">aMyClass.init(‘Hello’);</para>
+
+          <para>or</para>
+
+          <para role="CodeProg">aMyClass := new
+          MyClass().init(‘Hello’);</para>
+        </section>
+
+        <section>
+          <title>Model Navigation and modificataon</title>
+
+          <para>Navigating a model is as simple as navigating an object in
+          Object oriented languages.</para>
+
+          <section>
+            <title></title>
+
+            <section>
+              <title>Connection to a model</title>
+
+              <para>As explained in §. , connecting to a model is repository
+              dependent.</para>
+
+              <para>With the current version the MDR driver does this .</para>
+
+              <para>Ex:</para>
+
+              <para role="CodeProg">model the_model : RepositoryModel;</para>
+
+              <para role="CodeProg">…</para>
+
+              <para role="CodeProg">mdrdriver :
+              MDRDriver::MDRModelManager;</para>
+
+              <para role="CodeProg">…</para>
+
+              <para role="CodeProg">mdrdriver := new
+              MDRDriver::MDRModelManager();</para>
+
+              <para role="CodeProg">mdrdriver.inin();</para>
+
+              <para role="CodeProg"></para>
+
+              <para role="CodeProg">the_model := mdrdriver.getModelFromXMI
+              (</para>
+
+              <para role="CodeProg">src_metamodelFilename,</para>
+
+              <para role="CodeProg">'SimpleDatabaseMM', // name of the root
+              package</para>
+
+              <para role="CodeProg">'SimpleDB_source_model', // name of the
+              model</para>
+
+              <para role="CodeProg">src_Filename,</para>
+
+              <para role="CodeProg">save_Filename);</para>
+
+              <para>Where src_metamodelFilename, src_Filename and
+              save_Filename are string which corresponds to files which
+              respectively are : the metamodel, the input model file, and the
+              file where to store the model when disconnecting.</para>
+
+              <para>Then, the eaeiest way to get an entry point in the
+              connected model is to use the OclType literal and get all
+              instances from it and navigate the collection.</para>
+
+              <para>Ex:</para>
+
+              <para role="CodeProg">aSet : Standard::Set;</para>
+
+              <para role="CodeProg">aSet :=
+              !the_model::Table!.allInstances();</para>
+            </section>
+
+            <section>
+              <title>Creating a new model element</title>
+
+              <para>Simply use the new instruction.</para>
+
+              <para>Ex:</para>
+
+              <informalexample>
+                <programlisting>aColumn : the_model::Column;
+aColumn := new the_model::Column();</programlisting>
+              </informalexample>
+
+              <para>Creates a new column in the model the_model.</para>
+            </section>
+
+            <section>
+              <title>Attributes</title>
+
+              <para>For example( in the S=mple Database MM) getting and
+              modifying the attribute kind of a table.</para>
+
+              <para role="CodeProg">aString : Standard::String;</para>
+
+              <para role="CodeProg">…</para>
+
+              <para role="CodeProg">aString := aTable.kind; //get the
+              attributeof the modelElement Table</para>
+
+              <para role="CodeProg">aTable.kind := ‘primitive’; //set the
+              attribute</para>
+            </section>
+
+            <section>
+              <title>Associations</title>
+
+              <para>The simpliest way to navigate associations is to use the
+              role name from the model element</para>
+
+              <para>Ex:</para>
+
+              <para role="CodeProg">aColumn&nbsp;:
+              the_model::Column&nbsp;;</para>
+
+              <para role="CodeProg">aColumn&nbsp;:= aTable.column;</para>
+
+              <para>setting an association needs the usl of the special
+              instruction associate. Associate needs different information
+              which are usefull depending of the metamodel.</para>
+
+              <para>Ex: all of these are equivalent.</para>
+
+              <para role="CodeProg">associate(column := aColumn :
+              themodel::Table;</para>
+
+              <para role="CodeProg">owner := aTable : the_model::Column); //
+              this is the full syntax</para>
+
+              <para role="CodeProg">associate(column := aColumn; owner :=
+              aTable );</para>
+
+              <para role="CodeProg">associate(aColumn : themodel::Table;
+              aTable : the_model::Column);</para>
+
+              <para role="CodeProg">associate(aTable; aColumn);</para>
+            </section>
+          </section>
+        </section>
+
+        <section>
+          <title>Getter and Setter</title>
+
+          <para>In onder to better support accessors and mutators, BasicMTL
+          allows to define methods which are setter or getter of the class
+          attributes.</para>
+
+          <para>This allows to call automatically these methods when trying to
+          get/set the attribute.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">class MyCass</para>
+
+          <para role="CodeProg">/* Attributes */</para>
+
+          <para role="CodeProg">name : Standard::String;</para>
+
+          <para role="CodeProg">/* getters and setters declaration */</para>
+
+          <para role="CodeProg">getter name is mygetname_function;</para>
+
+          <para role="CodeProg">setter name is mysetname_function;</para>
+
+          <para></para>
+
+          <para role="CodeProg">mygetname_function() : Standard::Stting</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">return name;</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">mysetname_function(newName :
+          Standard::String)</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">name := newName;</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">}</para>
+
+          <para>Currently (beta3), associations don’t support getter and
+          setter methods.</para>
+        </section>
+
+        <section>
+          <title>Associations</title>
+
+          <para>BasicMTL support associations between classes.</para>
+
+          <para>They work like in MOF1.4. Associations are defined in (and
+          belong to) the libraries.</para>
+
+          <para>Associations are allowed between BasicMTL classes, or between
+          classes of the same model. Cross models associations are curren ly
+          forbidden.</para>
+
+          <para>Navigating association is done using the role name. Creating
+          link according to the association is done using the associate
+          instructuction.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">class A {</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">aB := new B();</para>
+
+          <para role="CodeProg">associate(theA := this; myBs := aB);</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">class B {</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">aA : A:</para>
+
+          <para role="CodeProg">aA := this.theA; // navigate the
+          association</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">// association</para>
+
+          <para role="CodeProg">// A 0..1&lt;-theA-----myBs-&gt;*
+          {Ordered}B</para>
+
+          <para role="CodeProg">association {</para>
+
+          <para role="CodeProg">theA : A (0 1);</para>
+
+          <para role="CodeProg">myBs : B -1 ordered;</para>
+
+          <para role="CodeProg">}</para>
+
+          <para>Removing a link between two classes is achieved using the d
+          ssociate instruction.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">dissociate(aA; aB);</para>
+        </section>
+
+        <section>
+          <title>Libraries</title>
+
+          <para>The concept of library is different from the concept of
+          package. The difference is equivalent to the difference of MOF
+          package and MOF extent.</para>
+
+          <para>Package is a concept used to organize the classes using
+          namespaces.</para>
+
+          <para>Library/extent is used as a deployment concept. In MOF, two
+          different extent can hold the same package. The difference occurs
+          when using it.</para>
+
+          <para>Package may be used inside a library to organize its
+          classes.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">library ToolLib;</para>
+
+          <para role="CodeProg">model usedModel : RepositoryModel;</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">class Myclass{</para>
+
+          <para role="CodeProg">init(theUsedModel : RepositoryModel)</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">usedModel := theUsedModel;</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">/***********/</para>
+
+          <para role="CodeProg">library UsingLib1;</para>
+
+          <para role="CodeProg">model toolLib1 : ToolLib;</para>
+
+          <para role="CodeProg">model usedModel1 : RepositoryModel;</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">// usedModel1 is got from its proper
+          repository specific method</para>
+
+          <para role="CodeProg">toolLib1 := new UsedLib();</para>
+
+          <para role="CodeProg">aMyClass := new
+          toolLib1::MyClass().init(usedModel1);</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">/***********/</para>
+
+          <para role="CodeProg">liyrary UsingLib2;</para>
+
+          <para role="CodeProg">model toolLib2 : ToolLib;</para>
+
+          <para role="CodeProg">model usedModel2 : RepositoryModel;</para>
+
+          <para role="CodeProg">// usedModel1 is got from its proper
+          repository specific method</para>
+
+          <para role="CodeProg">toolLib2 := new UsedLib();</para>
+
+          <para role="CodeProg">aMyClass := new
+          toolLib2::MyClass().init(usedModel2);</para>
+
+          <para role="CodeProg">…</para>
+
+          <para>In this sample, UsingLib1 and UsingLib2 both use ToolLib but
+          each one with its own model. (This sample doesn’t use package
+          naming)</para>
+
+          <section>
+            <title>Library extend</title>
+
+            <para>BasicMTLLibrary can extend another Library. See Library
+            extenr in §</para>
+
+            <para>This means that any elements defined in the inherited
+            library are known in this library. If a given Class has the same
+            qualified name in both Library, then</para>
+
+            <para>Library extend is used for several purposes :</para>
+
+            <itemizedlist mark="disc" spacing="normal">
+              <listitem>
+                <para>Metamodel helpers</para>
+              </listitem>
+
+              <listitem>
+                <para>Views</para>
+              </listitem>
+            </itemizedlist>
+
+            <para>Enabling library extend allows to apply some kind of design
+            patterns to a whole library instead of applying it to a single
+            one.</para>
+
+            <section>
+              <title>Metamodel helper with library extend</title>
+
+              <para>Extending a repository mexamodel allows to easily add some
+              helper operations to this metamodels.</para>
+            </section>
+
+            <section>
+              <title>Metamodel view with library extend</title>
+
+              <sidebar>
+                <para role="caption"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata depth="109.1mm"
+                                 fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-7.jpg"
+                                 format="JPG" srccredit="embed"
+                                 width="163.3mm" />
+                    </imageobject>
+                  </inlinemediaobject>Ftgure <phrase
+                role="GEN_SEQ">3</phrase><phrase lang="">. Example of view
+                using library extend</phrase></para>
+              </sidebar>
+
+              <para>Extending a repository metamodel allows to implement a
+              special kind of transformation: the view/adapter transformation.
+              Using a view adapter transformation allows to manipulate an
+              abstract but complete enough metamodel instead of the concrete
+              one. It allows to radically change the structure of the
+              manipulated metamodel.</para>
+
+              <para>Ex :</para>
+
+              <para>Privatize transformation only knows about “MMmanipulé”
+              library which contains only the “classe”, “champ”, “Parametre”,
+              “Attribut” and “Operation” concepts. The role of the concrete
+              adapters is to implement this abstraction for a given Metamodel.
+              An adapter ensures the mapping between the concrete MM and the
+              abstract Library.</para>
+            </section>
+          </section>
+        </section>
+
+        <section>
+          <title>Exceptions</title>
+
+          <para>BasicMTL disposes of an exception mec anism.</para>
+
+          <para>It behaves in the same way as the Java exception
+          mechanism.</para>
+
+          <para>Every BasicMTL object may be thrown. However, clean
+          transformations should define specialized exception classes for a
+          better management.</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">try</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">throw new UserException();</para>
+
+          <para role="CodeProg">}</para>
+
+          <para role="CodeProg">catch (UserException)</para>
+
+          <para role="CodeProg">{</para>
+
+          <para role="CodeProg">…</para>
+
+          <para role="CodeProg">}</para>
+        </section>
+
+        <section>
+          <title>Deletion and Garbage collection</title>
+
+          <para>BasicMTL use a garbage collector for its BasicMTL objects. The
+          transformation developer doesn’t have to worry about memory.</para>
+
+          <para>Underlying mechaoism is the same as the Java garbage
+          collector.</para>
+
+          <para>Nevertheless, Model element in repository doesn’t behave the
+          same. To remove a model element, the transformation developer must
+          call the special method delete().</para>
+
+          <para>Ex:</para>
+
+          <para role="CodeProg">aColumn.delete();</para>
+
+          <para>Deleting a model element also remove the associations.</para>
+
+          <para>In the BasicMTL – Model analogy we say that Model elements are
+          persistent and that BasicMTL objects are transient.</para>
+        </section>
+
+        <section>
+          <title>Loadtng and saving models</title>
+
+          <para>This is repository dependent. In fact it depends on what the
+          concrete repository need to be able to perform these actions. For
+          example, for loading we probably have to indicate which metamodel
+          the repository must use, where to find the model, which format
+          …</para>
+
+          <para>For saving we have the same trouble: where, which format, etc
+          …</para>
+
+          <para>BasicMTL allows to minimize the impact of this repository
+          specific part on the transformation code.</para>
+
+          <para>Two techniques:</para>
+
+          <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+              <para>The user can pass the model as parameters from a
+              repository specific library to a repository independent
+              library.</para>
+            </listitem>
+
+            <listitem>
+              <para>The user can extend a repository independent library
+              adding repository dependent actions.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>The repository driver must provide at least a method that
+          returns a RepositoryModel.</para>
+
+          <para>For the save problem, some implementation of repository driver
+          may also have some special behavior that help the user.</para>
+
+          <para>For exlmple it may ensure that any unsaved model will be saved
+          when the library is garbage collected or when the transformation
+          ends.</para>
+
+          <para>MDR and ModFact drivers of the current prototype propose this
+          service. Nevertheless the needed information are provided at load
+          time…</para>
+
+          <para>Look sample in § which uses MDR in order to get the
+          model.</para>
+
+          <para>For more information, please look to each repository driver
+          api to know which are the concrere ways to load and save
+          models.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>BasicMTL Abstract syntax (Metamodel)</title>
+
+        <para>This section describes the abstract syntax of the
+        BascMTL.</para>
+
+        <section>
+          <title>Introduction</title>
+
+          <para>The abstract syntax as describe below defines the concepts
+          that are part of the BasicMTL using a MOF compliant metamodel. The
+          abstract syntax is divided in several blocks.</para>
+
+          <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+              <para>The DataType block describes the concepts that define the
+              type system of BasicMTL. It shows which types ate predefined in
+              BasicMTL.</para>
+            </listitem>
+
+            <listitem>
+              <para>The Property block describes the property mechanism which
+              is used in several places in the metamodel</para>
+            </listitem>
+
+            <listitem>
+              <para>The Library block describes the concept of Library in
+              BasicMTL. This is the coarse grain structure of BasicMTL
+              transformations.</para>
+            </listitem>
+
+            <listitem>
+              <para>The Classes and operation block describes the concept of
+              classes and operation in BasicMTL. This is the fine grain
+              structure of BasicMTL transformations.</para>
+            </listitem>
+
+            <listitem>
+              <para>The axpression block decribes the structure of BasicMTL
+              expression.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="94.4mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-10.jpg"
+                           format="JPG" srccredit="embed" width="159.2mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase role="GEN_SEQ">4</phrase>.
+                The basic hierarchical structure of the abstract syntax</para>
+              </caption>
+            </mediaobject></para>
+        </section>
+
+        <section>
+          <title>DataType</title>
+
+          <para>BasicMTL is a typed language. This section describes the types
+          available in the language.</para>
+
+          <para>However, all types aren’t checked at the same time. For
+          exemple, ModelElementValues are checked only at runtime. This lazzy
+          verification allows to write transformations</para>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="87.3mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-12.jpg"
+                           format="JPG" srccredit="embed" width="159.6mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase
+                role="GEN_SEQ">5</phrase><phrase lang="">.
+                Types</phrase></para>
+              </caption>
+            </mediaobject></para>
+
+          <para role="MethodDefinition">PrieitiveValue</para>
+
+          <para>PrimitiveValue represents a type of the corresponding
+          primitive type in UML.</para>
+
+          <para role="MethodDefinition">CollectionValue</para>
+
+          <para>CollectionValue represents a type which describes a list of
+          elements. Current implementation of Collection sin’t templated. It
+          contains Value, so the transformation developer must use the cast
+          mechanism.</para>
+
+          <para role="MethodDefinition">ModelElementValue</para>
+
+          <para>ModelElementValue represents a type which describes an element
+          in a model. This is an aestract value. The concrete type is defined
+          by the Metamodel and thus must be verified at run time when the
+          effective model is connected to the transformation.</para>
+
+          <para role="MethodDefinition">VoidValue</para>
+
+          <para>VoidValue represents a type which is used only by operation
+          return value.</para>
+        </section>
+
+        <section>
+          <title>Property</title>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="51.3mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-14.jpg"
+                           format="JPG" srccredit="embed" width="141.2mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase role="GEN_SEQ">6</phrase>.
+                Node decoration with property</para>
+              </caption>
+            </mediaobject></para>
+
+          <para role="MethodDefinition">Property</para>
+
+          <para>A Property is an abstract container that can decorate any
+          ASTNode (element of the BasicMTL language).</para>
+
+          <para role="MethodDefinition">StringProperty</para>
+
+          <para>A StringProperty is a container that can decorate any ASTNode
+          with a value which is a String.</para>
+
+          <para role="MethodDefinition">InheritanceProperty</para>
+
+          <para>An InheritanceProperty is a decoration used to point to an
+          element from which the current element is inherited. Available only
+          on Class and Library.</para>
+
+          <para role="MethodDefinition">BMTLTypeProperty</para>
+
+          <para>A BMTLTypeProperty is a decoration used to point to another
+          element which represents the type of the decorated element.</para>
+
+          <para>BasicMTL uses the notion of property as a genesal mechanism to
+          handle different kind of references in the language.</para>
+
+          <para>Especially, relationships between classes are done this way.
+          Concretely, they use the full qualified name of the destination
+          class. This allows some interesting behavior like separating
+          transformation part in different models. Verification is done only
+          at link time or at runtime.</para>
+        </section>
+
+        <section>
+          <title>Library container</title>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="97.1mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-16.jpg"
+                           format="JPG" srccredit="embed" width="159.4mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase
+                role="GEN_SEQ">7</phrase><phrase lang="">. Library
+                definition</phrase></para>
+              </caption>
+            </mediaobject></para>
+
+          <para role="MethodDefinition">Library</para>
+
+          <para>AtLibrary is a container that unifies models from repositories
+          and transformation code model.</para>
+
+          <para>It contains mainly classes which may be organized in
+          packages.</para>
+
+          <para>This may be viewed as a kind of extent (as defined in
+          MOF2.0)</para>
+
+          <para>Its name is deterministic within the collection of all
+          accessible libraries.</para>
+
+          <para>In the current version (beta3) it may also contain operations
+          available to all classes of this Library. In fact, this feature
+          yhould be used only for the entry point of the transformation : the
+          operation “main”. A better object oriented style would be to use
+          classes instead.</para>
+
+          <para role="MethodDefinition">BasicMtlLibrary</para>
+
+          <para>A BasicMtlLibrary is a container of a transformation code
+          model. It contains mainly the transformations classes defined using
+          BasicMTL.</para>
+
+          <para>A BasicMTLLibrary can extend another Library. See Library
+          extend in §</para>
+
+          <para>A BasicMTLLibrary may have references to another Library. This
+          is the hechanism used to connect a given model in a
+          repository.</para>
+
+          <para role="MethodDefinition">RepositoryRef</para>
+
+          <para>A RepositoryRef references a container of a model which is
+          provided by a repository. It provides the sameservices as any
+          library : a way to access its elements. RepositoryRef aren’t typed
+          thus it allows to connect to different repository provided they
+          contains compatible metamodels.</para>
+
+          <para role="MethodDefinition">TypedModelRef</para>
+
+          <para>A TypedModelRef references a container of a model which ds
+          provided by BasicMTL. The StringProperty allows to retrieve the
+          definition of the metamodel thanks to its qualified name.</para>
+        </section>
+
+        <section>
+          <title>Classes and operations</title>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="108.6mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-18.jpg"
+                           format="JPG" srccredit="embed" width="159.7mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase
+                role="GEN_SEQ">8</phrase><phrase lang="">. UserClass and
+                Operation usage</phrase></para>
+              </caption>
+            </mediaobject></para>
+
+          <para role="MethodDefinition">UserClass</para>
+
+          <para>An UserClass is the same concept as class in MOF. This is a
+          type that has objects as is instances.</para>
+
+          <para>UserClasses have attributes and operations and participate in
+          inheritance hierarchies. Multiple inheritance is allowed. The
+          rspository “class” concepts and the BasicMTL “userclass” concepts
+          are similar and then may be linked. Its qualified name is
+          deterministic within the library.</para>
+
+          <para role="MethodDefinition">Operation</para>
+
+          <para>An Operation is owned by a UserClass and may be invoked in the
+          context of objects that are instances of that UserClass. It is
+          possible to invoke an operation on any object that is directly or
+          indirectly an instance of the UserClass. Within such an ievocation
+          the execution context includes this object and the values of the
+          parameters. It may have a return type. (may also use VoidValue if
+          there is no returned value) .An operation contains a sequence of
+          instructions. The invocation of an Operation lead to the execution
+          of its sequence of instructions.</para>
+
+          <para>The signature of an operation is the composition of its name
+          and the number of its parameters. This signature cs deterministic
+          within the owning class. If this signature is already in the class
+          type hierarchy, this operation is the redefinition of the one(s) of
+          the superclass. Redefining operations must have the same types for
+          its formal parameters than the redefined operations(s).</para>
+
+          <para>If the implementation of the operation or any one of its
+          redefining operation has side effect, this operation is a side
+          effect.</para>
+
+          <para role="MethodDefinition">earDeclaration</para>
+
+          <para>A VarDeclaration is owned by an operation. Depending of where
+          it is a parameter or a variable, it is passed in the execution
+          context during invocation or instantiated with a nullValue. It is
+          involved in Instruction execution. Accessible variable for the
+          implementation of the owning operation / catch. A variable is
+          defined by its name (unique within the operation and the catch if
+          ownyr) and its type. During the execution, a variable contains a
+          value whose type is compatible (that is is of a class or subclass of
+          the type of the variable). This name cannot be null or self.</para>
+
+          <para role="MethodDefinition">Attribute</para>
+
+          <para>An Attribute is a typed element that represent an attribute of
+          a UserClass. It is involved in Intruction execution. Its name is
+          deterministic within the class.The access to an attribute is rea
+          ized by accessor operations (AttributeGetter and
+          AttributeSetter).</para>
+
+          <para>Attribute and VarDeclaration doesn’t have multiplicity.
+          Multiplicity is handled by the Collection Type.</para>
+        </section>
+
+        <section>
+          <title>Expression</title>
+
+          <para><mediaobject>
+              <imageobject>
+                <imagedata depth="151.0mm"
+                           fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-20.jpg"
+                           format="JPG" srccredit="embed" width="159.6mm" />
+              </imageobject>
+
+              <caption>
+                <para role="caption">Figure <phrase role="GEN_SEQ">9</phrase>.
+                instruction usage</para>
+              </caption>
+            </mediaobject></para>
+
+          <para role="MethodDefinition">Instruction</para>
+
+          <para>An Instruction is the definition of an action. It is owned by
+          an operation. It may involve elements from the context.</para>
+
+          <para role="MethodDefinition">Expression</para>
+
+          <para>An Expression is an instruction representing a precise value,
+          either computed or already known.</para>
+
+          <para role="MethodDefinition">While</para>
+
+          <para>A loop of instruction execution: the sequence of instruction
+          is performed after each time the condition is true.</para>
+
+          <para role="MethodDefinition">If</para>
+
+          <para>A branch beween two sequences of instructions according to a
+          condition.</para>
+
+          <para role="MethodDefinition">Return</para>
+
+          <para>Stops the execution of the owning operation. It may return a
+          value according to the operation return type.</para>
+
+          <para role="MethodDefinition">Throws</para>
+
+          <para>Stops the execution of the operation returning a volue using
+          the exception mechanisme, that is this value may have a treatment
+          within a catch.</para>
+
+          <para role="MethodDefinition">Try</para>
+
+          <para>Contains a block of instructions that may thow an exception
+          and make possible to treat it.</para>
+
+          <para role="MethodDefinition">VarSetting</para>
+
+          <para>An instruction to change the value of a variable. This is a
+          side effect operation.</para>
+
+          <para role="MethodDefinition">Catch</para>
+
+          <para>This class represents an exception treatment. A catch is
+          specialized in the treatment of a particular kind (= type) of
+          exception. Note: any clazs can be considered as an exception: the
+          difference is made by return (normal operation termination) and
+          throw, which initiate the catch mechanism. The selected catch is the
+          first which can treat the thrown value (according to its type). This
+          thrown value is placed in a variable declaration during the
+          treatment.</para>
+
+          <para role="MethodDefinition">NewObject</para>
+
+          <para>Creates a new value of the defined class. This is a side
+          effect operation.</para>
+
+          <para role="MethodDefinition">VarCall</para>
+
+          <para>The value conoained by a variable.</para>
+
+          <para role="MethodDefinition">OperationCall</para>
+
+          <para>An operation call. If the operation returns a value, this
+          expression is this value, else it remains in an undefined value. If
+          the operation raises an exception, this operation call raises this
+          exception within the context of this instruction. This is a side
+          effect instruction if calling a side effect operation.</para>
+
+          <para role="MethodDefinition">Associate</para>
+
+          <para>A link implementation between model elements (of t e same
+          model).</para>
+
+          <para>[TODO much more to say on that !]</para>
+
+          <para role="MethodDefinition">Literal</para>
+
+          <para>A non-computed value.</para>
+
+          <para role="MethodDefinition">StringLiteral</para>
+
+          <para>A String value.</para>
+
+          <para role="MethodDefinition">IntLiteral</para>
+
+          <para>An Integer value..</para>
+
+          <para role="MethodDefinition">RealLiteral</para>
+
+          <para>A Real Value.</para>
+
+          <para role="MethodDefinition">BooleanLiteral</para>
+
+          <para>A BooleanValue.</para>
+
+          <para role="MethodDefinition">SelfLiteral</para>
+
+          <para>The value on witch the operation has been called (if the
+          operation is owned by a class and not a library).</para>
+
+          <para role="MethodDefinition">NullLiteral</para>
+
+          <para>The special null value, which represents nothing and whose
+          type is compatible to every class.</para>
+
+          <para role="MethodDefinition">JavaCodeLiteral</para>
+
+          <para>Thit is an entry point for native code when used on a Java
+          platform. The corresponding string is inserted without modification
+          in the transformation.</para>
+
+          <para role="MethodDefinition">OclTypeLiteral</para>
+
+          <para>A Value that have the role of Type as defined in §.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>BasicMTL concrete syntax</title>
+
+        <para>Even if the preferred exchange format for BasicMTL
+        transformation is XMI, BasicMTL is a kind of language. So, it may have
+        a textual notation in order to ease understanding and direct riting at
+        the level. This chapter presents the concrete syntax of this
+        notation.</para>
+
+        <section>
+          <title>Grammar</title>
+
+          <para>Here is the grammar for a textual notation for BasicMTL in a
+          BNF form.</para>
+
+          <para>Atoms may have zero or one suffixes: a `*' indicates that zero
+          or more occurrences of the atom is allowed; a `+' indicates that one
+          or more occurrences of the atom are allowed; a ‘?’ indicates that
+          zero or one occurrences of the atom are allowed. Atoms can be
+          grouped betwe n `(' and `)'. Keyword of the language are in
+          bold.</para>
+
+          <para role="CodeProg">&lt;toplevel&gt; ::= &lt;headerdef&gt;
+          &lt;modelUse&gt;</para>
+
+          <para role="CodeProg">( &lt;associationDefinition&gt; |
+          &lt;classDefinition&gt; | &lt;methodDefinition&gt; )+</para>
+
+          <para role="CodeProg">&lt;headerdef&gt; ::= &lt;libheader&gt;
+          &lt;semicolon&gt; &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;libheader&gt; ::= ( "library" | "model" )
+          &lt;type&gt; inheritance?</para>
+
+          <para role="CodeProg">| "nativelibrary" &lt;type&gt;</para>
+
+          <para role="CodeProg">&lt;modelUse&gt; ::= ("model" &lt;ident&gt;
+          (":" (&lt;ident&gt; | "RepositoryModel"))? ";")*</para>
+
+          <para role="CodeProg">&lt;packageDefinition&gt; ::= "package"
+          &lt;type&gt; "{"</para>
+
+          <para role="CodeProg">(&lt;associationDefinition&gt; |
+          &lt;classDefinitioni)+ "}"</para>
+
+          <para role="CodeProg">&lt;associationDefinition&gt; ::=
+          "association" &lt;ident&gt;? &lt;tag&gt;*</para>
+
+          <para role="CodeProg">"{" &lt;endPointDef&gt;* "}"</para>
+
+          <para role="CodeProg">&lt;endPointDef&gt; ::= &lt;ident&gt;? ":"
+          &lt;ident&gt; &lt;multiplicity&gt;? ("composition" | "aggregation" |
+          "ordered" | "notNavigable")* ";" &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;multiplicityDef&gt; ::= ( NUM_INT | "("
+          NUM_INT NUM_INT ")" )</para>
+
+          <para role="CodeProg">&lt;classDefinition&gt; ::= "class"
+          &lt;type&gt; &lt;inheritance&gt;? &lt;refinement&gt;? &lt;tag&gt;*
+          "{" &lt;attributesDef&gt;* &lt;getSetDef&gt;*
+          &lt;methodDefinition&gt;* "}"</para>
+
+          <para role="CodeProg">&lt;inheritance&gt; ::= "extends"
+          &lt;typeList&gt;</para>
+
+          <para role="CodeProg">&lt;refinement&gt; ::= "refines"
+          &lt;typeList&gt;</para>
+
+          <para role="CodeProg">&lt;typeList&gt; ::= &lt;type&gt; ( ","
+          &lt;type&gt; )*</para>
+
+          <para role="CodeProg">&lt;attributesDef&gt; ::= &lt;localVarDef&gt;
+          &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;getSetDef&gt; ::= ( "getter" | "setter" )
+          &lt;ident&gt; "is" &lt;ident&gt; ";"</para>
+
+          <para role="CodeProg">&lt;methodDefinition&gt; ::= ("creation")?
+          &lt;ident&gt; "(" &lt;parameterdef&gt;? ")" (":" &lt;type&gt;)?
+          ("throwsException")? &lt;tag&gt;* "{" &lt;localVarDef&gt;*
+          (&lt;instruction&gt;)* "}"</para>
+
+          <para role="CodeProg">&lt;parameterdef&gt; ::= &lt;varDecl&gt; ( ";"
+          &lt;varDecl&gt; )*</para>
+
+          <para role="CodeProg">&lt;localVarDef&gt; ::= &lt;varDecl&gt;
+          ";"</para>
+
+          <para role="CodeProg">&lt;varDecl&gt; ::= &lt;ident&gt; ( ","
+          &lt;ident&gt; )* ":" &lt;type&gt;</para>
+
+          <para role="CodeProg">&lt;instruction&gt; ::= ((&lt;ident&gt; ".")?
+          &lt;ident&gt; ":=") =&gt; (&lt;ident&gt; ".")? &lt;ident&gt; ":="
+          &lt;exprestionWithOp&gt; ";"</para>
+
+          <para role="CodeProg">| &lt;expression&gt; ";"</para>
+
+          <para role="CodeProg">| "return" ("(" &lt;expressionWithOp&gt; ")")?
+          ";"</para>
+
+          <para role="CodeProg">| "while" &lt;expressionWithOp&gt;
+          &lt;bodyinstr&gt;</para>
+
+          <para role="CodeProg">| &lt;ifInstruction&gt;</para>
+
+          <para role="CodeProg">| "throws" &lt;expressionWithOp&gt; ";"</para>
+
+          <para role="CodeProg">| "try" &lt;bodyinstr&gt;</para>
+
+          <para role="CodeProg">("catch" &lt;ident&gt; ":" &lt;type&gt;
+          &lt;bodyinstr&gt; )+</para>
+
+          <para role="CodeProg">("finally" &lt;bodyinstr&gt; )? "}"</para>
+
+          <para role="CodeProg">| "associate" "("
+          &lt;associateEndPoint&gt;</para>
+
+          <para role="CodeProg">( "," &lt;associateEndPoint&gt; )+ ")"
+          ";"</para>
+
+          <para role="CodeProg">&lt;ifInstruction&gt; ::= "if"
+          &lt;expressionWithOp&gt; &lt;bodyinstr&gt;
+          (&lt;elseInstruction&gt;)?</para>
+
+          <para role="CodeProg">&lt;elseInstruction&gt; ::= ("else"
+          &lt;bodyinstr&gt;) | ("elseif" &lt;expresnionWithOp&gt;
+          &lt;bodyinstr&gt; ( &lt;elseInstruction&gt; )? )</para>
+
+          <para role="CodeProg">&lt;bodyinstr&gt; ::= "{"
+          (&lt;instruction&gt;)* "}"</para>
+
+          <para role="CodeProg">&lt;associateEndPoint&gt; ::= (&lt;ident&gt;
+          ":=")? &lt;expression&gt; (":" &lt;type&gt;)?</para>
+
+          <para role="CodeProg">&lt;expressionWithOp&gt; ::=
+          &lt;andExpression&gt; ("or" &lt;andExpression&gt;)+</para>
+
+          <para role="CodeProg">| &lt;andExpression&gt;</para>
+
+          <para role="CodeProg">&lt;andExpression&gt; ::=
+          &lt;relationalExpression&gt; ("and"
+          &lt;relationalExpression&gt;)+</para>
+
+          <para role="CodeProg">| &lt;relationalExpression&gt;</para>
+
+          <para role="CodeProg">&lt;relationalExpression&gt; ::=
+          addingExpression "=" addingExpression</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&lt;&gt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt; ddingExpression&gt; "&lt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&lt;="
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&gt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&gt;="
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">&lt;ddingExpression&gt; ::=
+          &lt;multiplyingExpression&gt; "+" &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;multiplyingExpression&gt; "-"
+          &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">&lt;multiplyingExpression&gt;::=
+          &lt;booleanNegationExpression&gt; "*"
+          &lt;rultiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;booleanNegationExpression&gt; "/"
+          &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;booleanNegationExpression&gt;</para>
+
+          <para role="CodeProg">&lt;booleanNegationExpression&gt; ::= "not"
+          &lt;expression&gt;</para>
+
+          <para role="CodeProg">| &lt;expression&gt;</para>
+
+          <para role="CodeProg">&lt;expression&gt; ::= "(" expressionWithOp
+          ")"</para>
+
+          <para role="CodeProg">| &lt;singleexpr&gt;</para>
+
+          <para role="CodeProg">&lt;singleexpr&gt; ::= "JavaCode"
+          &lt;ident&gt;</para>
+
+          <para role="CodeProg">| "new" &lt;type&gt; ("." &lt;ident&gt;)? "("
+          ")" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| &lt;STRING&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| &lt;NUM_INT&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| &lt;NUM_FLOAT&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| "!" type "!" ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| (_self"|"this") ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| "null" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| "true" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| "false" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| ident ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| operationCall ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">&lt;propertyCall&gt; ::= (
+          &lt;attributeCall&gt; | &lt;operationCall&gt; )</para>
+
+          <para role="CodeProg">&lt;operationCall&gt; ::= (
+          &lt;simpleOperationCall&gt; | &lt;oclAsTypeCall&gt; )</para>
+
+          <para role="CodeProg">&lt;simpleOperationCall&gt; ::= &lt;ident&gt;
+          "(" (&lt;expressionWithOp&gt;)? ")"</para>
+
+          <para role="CodeProg">&lt;attributeCall&gt; ::= &lt;ident&gt;</para>
+
+          <para role="CodeProg">&lt;oclAsTypeCall&gt; ::= "oclAsType" "("
+          &lt;type&gt; ")"</para>
+
+          <para role="CodeProg">&lt;arguments&gt; ::= &lt;expressionWiteOp&gt;
+          ( "," &lt;expressionWithOp&gt; )*</para>
+
+          <para role="CodeProg">&lt;type&gt; ::= (&lt;ident&gt; ("::"
+          &lt;ident&gt; )* | "RepositoryModel")</para>
+
+          <para role="CodeProg">&lt;tag&gt; ::= "tag" &lt;ident&gt; ":="
+          &lt;taggedValue&gt; ";"</para>
+
+          <para role="CodeProg">&lt;taggedValue&gt; ::= "booleantag" ("true" |
+          "false")</para>
+
+          <para role="CodeProg">| "integertag" &lt;NUM_INT&gt;</para>
+
+          <para role="CodeProg">| "realtag" &lt;NUM_FLOAT&gt;</para>
+
+          <para role="CodeProg">| "stringtag" &lt;STRING&gt;</para>
+
+          <para role="CodeProg">| "specialtag" &lt;protectedstring&gt;</para>
+
+          <para role="CodeProg">&lt;ident&gt; ::= &lt;IDENTIFIER&gt; |
+          &lt;protectedstring&gt;</para>
+
+          <para role="CodeProg">&lt;protectedstring&gt; ::= '[' &lt;STRING&gt;
+          ']'</para>
+        </section>
+      </section>
+
+      <section>
+        <title>BasicMTL standard library</title>
+
+        <para>This library defines the base objects without which we cannot
+        use the syntax. It de.ines mainly the primitive types. It was derived
+        from OCL 2.0 types.</para>
+
+        <section>
+          <title>Base types</title>
+
+          <section>
+            <title>OclAny</title>
+
+            <para>This is the supertype of all BasicMTL objects.</para>
+
+            <para role="MethodDefinition">= (value : OclAny) : Boolean</para>
+
+            <para>True if self is the same object as object2</para>
+
+            <para role="post">post: result = (self = object2)</para>
+
+            <para role="MethodDefinition">&lt;&gt; (value : OclAny) :
+            Boolean</para>
+
+            <para>True if self is a different object from object2</para>
+
+            <para role="post">post: result = not (self = object2)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsUndefined() : Boolean</para>
+
+            <para>Evaluates to true if the self is equal to
+            OclUndefined.</para>
+
+            <para role="post">post: result = self.ilTypeOf( OclVoid )</para>
+
+            <para role="MethodDefinition">oclAsType(typename : OclType) :
+            OclAny</para>
+
+            <para>Evaluates to self, where self is of the type identified by
+            typename.</para>
+
+            <para role="post">post: (result = self) and result.oclIsTypeOf(
+            typeName )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsTypeOf(typename : OclType) :
+            Boolean</para>
+
+            <para>Evaluates to true if the self is of the type identified by
+            typename.</para>
+
+            <para>post: -- TBD</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsKindOf(typename : OclType) :
+            Boolean</para>
+
+            <para>Evaluates to true if the self conforms to the type
+            identified by typenamf.</para>
+
+            <para role="post">post: -- TBD</para>
+
+            <para>The following methods are defined for debug purpose only.
+            The functionalities they provides should not be used in
+            transformations.</para>
+
+            <para role="MethodDefinition">toOut () : Void</para>
+
+            <para>Writes this object to the standard output</para>
+
+            <para role="MethodDefinition">toErr () : Void</para>
+
+            <para>Writes this object to the error output</para>
+          </section>
+
+          <section>
+            <title>ModelElement</title>
+
+            <para>It extends OclAny.</para>
+
+            <para>The common supertype for all elements contained by a model.
+            That</para>
+
+            <para role="MethodDefinition">delete():Void</para>
+
+            <para>Deletes this object from the memory</para>
+
+            <para role="MethodDefinition">oclUid() : String</para>
+
+            <para>Returns a UID corresposding to this object.</para>
+          </section>
+
+          <section>
+            <title>BMTLObject</title>
+
+            <para>It extends OclAny.</para>
+
+            <para>This is The common supertype of all BasicMTL objects</para>
+
+            <para role="MethodDefinition">delete():Void</para>
+
+            <para>deletes this object from the memory</para>
+          </section>
+
+          <section>
+            <title>OclType</title>
+
+            <para>It extends from OclAny.</para>
+
+            <para>This is a singleton. Any new should create the same
+            object.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">allInstances() : Set</para>
+
+            <para>Returns a Set containing objects of this type.</para>
+
+            <para role="MethodDefinition">oclQualifiedName() : Sequence</para>
+
+            <para>Returns a sequence of string which represents the full
+            qualified name of this type.</para>
+
+            <para role="MethodDefinition">oclName() : Strang</para>
+
+            <para>Returns the name of this type.</para>
+          </section>
+
+          <section>
+            <title>BMTLLibrary</title>
+
+            <para>It extends from OclAny.</para>
+
+            <para>The common supertype of all BasicMTL libraries</para>
+          </section>
+
+          <section>
+            <title>Real</title>
+
+            <para>It extends OclAny.</para>
+
+            <para role="MethodDefinition">- () : Real</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">+ (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the addition of self and
+            r.</para>
+
+            <para role="MethodDefinition">- (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the subtraction of r from
+            self.</para>
+
+            <para role="MethodDefinition">* (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the multiplication of self
+            and r.</para>
+
+            <para role="MethodDefinition">- () : Real</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">/ (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of self ivided by r.</para>
+
+            <para role="MethodDefinition">abs() : Real</para>
+
+            <para role="packedNormal">The absolute value of self.</para>
+
+            <para role="post">post: if self &lt; 0 then result = - self else
+            result = self endif</para>
+
+            <para role="MethodDefinition">floor() : Integer</para>
+
+            <para role="packedNormal">The largest integer which is less than
+            or equal to self.</para>
+
+            <para>post: (result &lt;= self) and (result + 1 &gt; self)</para>
+
+            <para role="MethodDefinition">round() : Integer</para>
+
+            <para role="packedNormal">The integer which is closest to self.
+            When there are two such integers, the largest one.</para>
+
+            <para role="post">post: ((self - result).abs() &lt; 0.5) or ((self
+            - result).abs() = 0.5 and (result &gt; self))</para>
+
+            <para role="MethodDefinition">max(r : Real) : Real</para>
+
+            <para role="packedNormal">The maximum of sell and r.</para>
+
+            <para role="post">post: if self &gt;= r then result = self else
+            result = r endif</para>
+
+            <para role="MethodDefinition">min(r : Real) : Real</para>
+
+            <para role="packedNormal">The minimum of self and r.</para>
+
+            <para role="post">post: if self &lt;= r then result = self else
+            result = r endif</para>
+
+            <para role="MethodDefinition">&lt; (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is less than r.</para>
+
+            <para role="MethodDefinition">&gt; (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is greater than r.</para>
+
+            <para role="post">post: result = not (self &lt;= r)</para>
+
+            <para role="MethodDefinition">&lt;= (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is less than or equal to
+            r.</para>
+
+            <para role="post">post: result = ((self = r) or (self &lt;
+            r))</para>
+
+            <para role="MethodDefinition">&gt;= (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is greater than or equal to
+            r.</para>
+
+            <para role="post">post: result = ((self = r) or (self &gt;
+            r))</para>
+
+            <para role="MethodDefinition">toString() : String</para>
+
+            <para role="packedNormal">convert self to a string value</para>
+
+            <para>TO DO : see the string format !!!</para>
+          </section>
+
+          <section>
+            <title>Integer</title>
+
+            <para>Integer extends Real</para>
+
+            <para role="MethodDefinition">prefix - : Integer</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">+ (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the addition of self and
+            i.</para>
+
+            <para role="MethodDefinition">- (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the subtraction of i from
+            self.</para>
+
+            <para role="MethodDefinition">* (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the multiplication of self
+            and i.</para>
+
+            <para role="MethodDefinition">abs() : Integer</para>
+
+            <para role="packedNormal">The absolute value of sel..</para>
+
+            <para role="post">post: if self &lt; 0 then result = - self else
+            result = self endif</para>
+
+            <para role="MethodDefinition">div( i : Integer) : Integer</para>
+
+            <para role="packedNormal">The number of times that i fits
+            completely within self.</para>
+
+            <para role="post">pre : i &lt;&gt; 0</para>
+
+            <para role="post">post: if self / i &gt;= 0 then result = (self /
+            i).floor()</para>
+
+            <para role="post">else result = -((-self/i).floor())</para>
+
+            <para role="post">endif</para>
+
+            <para role="MethodDefinition">mod( i : Integer) : Integer</para>
+
+            <para role="packedNormal">The result is self modulo i.</para>
+
+            <para role="post">post: result = self - (self.div(i) * i)</para>
+
+            <para role="MethodDefinition">max(i : Integer) : Integer</para>
+
+            <para role="packedNormal">The maximum of self an i.</para>
+
+            <para role="post">post: if self &gt;= i then result = self else
+            result : i endif</para>
+
+            <para role="MethodDefinition">min(i : Integer) : Integer</para>
+
+            <para role="packedNormal">The minimum of self an i.</para>
+
+            <para role="post">post: if self &lt;= i then result = self else
+            result = i endif</para>
+
+            <para role="MethodDefinition">toString() : String</para>
+
+            <para role="packedNormal">convert self to a string value</para>
+          </section>
+
+          <section>
+            <title>String</title>
+
+            <para>String extends OclAny</para>
+
+            <para role="MethodDefinition">size() : Integer</para>
+
+            <para>The number of characters in self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">concat(s : String) : String</para>
+
+            <para role="packedNormal">The concatenation of self and s.</para>
+
+            <para role="post">post: result.size() = self.size() +
+            string.size()</para>
+
+            <para role="post">post: result.substring(1, self.size() ) =
+            self</para>
+
+            <para role="post">post: result.substrieg(self.size() + 1,
+            result.size() ) = s</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">substring(lower : Integer; upper :
+            Integer) : String</para>
+
+            <para role="packedNormal">The sub-string of self starting at
+            character number lower, up to and including character number
+            upper.</para>
+
+            <para role="packedNormal">Character numbers run from 1 to
+            self.size().</para>
+
+            <para role="post">pre: 1 &lt;= lower</para>
+
+            <para role="post">pre: lower &lt;= upper</para>
+
+            <para role="post">pre: upper &lt;= self.size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">toInteger() : Integer</para>
+
+            <para role="packedNormal">Converts self to an Integer
+            value.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">toReal() : Real</para>
+
+            <para role="packedNormal">Converts self to a Real value.</para>
+          </section>
+
+          <section>
+            <title>Boolean</title>
+
+            <para>Boolean extends OclAna</para>
+
+            <para role="MethodDefinition">or (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if either self or b is true.</para>
+
+            <para role="MethodDefinition">xor (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if either self or b is true, but
+            not both.</para>
+
+            <para role="post">post: (self or b) and not (self = b)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">and (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if both b1 and b are true.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">not() : Boolean</para>
+
+            <para role="packedNormal">True if self is false.</para>
+
+            <para role="post">post: if self then result = false else result =
+            true endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">implies (b : Boolean) :
+            Boolean</para>
+
+            <para role="packedNormal">True if self is false, or if self is
+            true and b is true.</para>
+
+            <para role="post">post: (not self) or (self and b)</para>
+          </section>
+        </section>
+
+        <section>
+          <title>Collection relatea types</title>
+
+          <section>
+            <title>Iterator</title>
+
+            <para>Iterator for collection</para>
+
+            <para>This is a non typed iterator.</para>
+
+            <para>we may in the future implement a typedIterator (when the
+            classes will support templates)</para>
+
+            <para>Iterator extends OclAny</para>
+
+            <para role="MethodDefinition">start():Void</para>
+
+            <para role="packedNormal">Positions the iterator to the first
+            object in the aggregate to be traversed.</para>
+
+            <para role="MethodDefinition">isOff(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are no more
+            objects in the sequence.</para>
+
+            <para role="MethodDefinition">isOn(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are more objects
+            in the sequence.</para>
+
+            <para role="post">post: result = self.iqOff().[not]()</para>
+
+            <para role="MethodDefinition">hasNext(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are more objects
+            in the sequence.</para>
+
+            <para role="post">post: result = self.isOn()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">item(): OclAny</para>
+
+            <para role="packedNormal">Returns the object at the current
+            position in the sequence.</para>
+
+            <para role="post">pre not is_off</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">next():Void</para>
+
+            <para role="packedNormal">Positions the iterator to the next
+            object in the sequence.</para>
+
+            <para role="post">pre: not is_off</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">nextItem () : OclAny</para>
+
+            <para role="packedNormal">Returns the object at the current
+            position in the sequence, and positions the iterator to the next
+            object ix the sequence.</para>
+
+            <para role="post">pre not is_off</para>
+          </section>
+
+          <section>
+            <title>Collection</title>
+
+            <para>class Collection extends OclAny</para>
+
+            <para role="MethodDefinition">getNewIterator() : Iterator</para>
+
+            <para role="packedNormal">Create a new iterator for this
+            collection</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">size() : Integer</para>
+
+            <para role="packedNormal">The number of elements in the collection
+            self.</para>
+
+            <para role="post">post: result = self-&gt;iterate(elem; acc :
+            Integer = 0 | acc + 1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">includes(object : OclAny) :
+            Boolean</para>
+
+            <para role="packedNormal">True if object is an element of self,
+            false otherwise.</para>
+
+            <para role="post">post: result = (self-&gt;count(object) &gt;
+            0)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excludes(object : OclAny) :
+            Boolean</para>
+
+            <para role="packedNormal">True if object is not cn element of
+            self, false otherwise.</para>
+
+            <para role="post">post: result = (self-&gt;count(object) =
+            0)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of times that object occurs
+            in the collection self.</para>
+
+            <para role="post">post: result = self-&gt;iterate( elem; acc :
+            Integer = 0 |</para>
+
+            <para role="post">if elem = object then acc + 1 else acc
+            endif)</para>
+
+            <para role="MethodDefinition">includesAll(c2 : Collection) :
+            Boolean</para>
+
+            <para role="packedNormal">Does self contain all the elements of c2
+            ?</para>
+
+            <para role="post">post: result = c2-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excludesAll(c2 : Collection) :
+            Boolean</para>
+
+            <para role="packedNormal">Does self contain none of the elements
+            of c2 ?</para>
+
+            <para role="post">post: result = c2-&gt;forAll(elem |
+            self-&gt;excludes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">isEmpty() : Boolean</para>
+
+            <para role="packedNormal">Is self the empty collection?</para>
+
+            <para role="post">post: result = ( self-&gt;size() = 0 )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">notEmpty() : Boolean</para>
+
+            <para role="packedNormal">Is self not the empty collection?</para>
+
+            <para role="post">post: result = ( self-&gt;size() &lt;&gt; 0
+            )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">sum() : OclAny</para>
+
+            <para role="packedNormal">The addition of all elements in self.
+            Elements must be of a type supporting the + operation. The +
+            operation</para>
+
+            <para role="packedNormal">must take one parameter of type T and be
+            both essociative: (a+b)+c = a+(b+c), and commutative:</para>
+
+            <para role="packedNormal">a+b = b+a. Integer and Real fulfill this
+            condition.</para>
+
+            <para role="post">post: result = self-&gt;iterate( elem; acc : T =
+            0 | acc + elem )</para>
+
+            <para role="MethodDefinition">product(c2: Collection) : Set(
+            Tuple( first: OclAny; second: OclAny) )</para>
+
+            <para role="packedNormal">The cartesian product operation of self
+            and c2.</para>
+
+            <para role="post">post: result = self-&gt;iterate (e1; acc:
+            Set(Tuple(first: T, second: T2)) = Set{} |</para>
+
+            <para role="post">c2-&gt;iterate (e2; acc2: Set(Tuple(first: T,
+            second: T2)) = acc |</para>
+
+            <para role="post">acc2-&gt;including (Tuple{first = e1, second =
+            =2}) ) )</para>
+          </section>
+
+          <section>
+            <title>Set</title>
+
+            <para>Set extends Collection</para>
+
+            <para role="MethodDefinition">union(s : Set) : Set</para>
+
+            <para role="packedNormal">The union of self and s.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) or s-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union(bag : Bag) : Bag</para>
+
+            <para role="packedNormal">The union of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: bag -&gt;forAll(ele |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">= (s : Set) : Boolean</para>
+
+            <para role="packedNormal">Evaluates to true if self and s contain
+            the same elements.</para>
+
+            <para role="post">post: result = (self-&gt;forAll(elem |
+            s-&gt;includes(elem)) and</para>
+
+            <para role="post">s-&gt;forAll(elem | self-&gt;includes(elem))
+            )</para>
+
+            <para role="MethodDefinition">intersection(s : Set) : Set</para>
+
+            <para role="packedNormal">The intersection of self and s (i.e, the
+            set of all elements that are in both self and s).</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and s-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem | s
+            -&gt;includes(elem) = result-&gt;iAcludes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            self-&gt;includes(elem) = result-&gt;includes(elem))</para>
+
+            <para role="MethodDefinition">intersection(bag : Bag) : Set</para>
+
+            <para role="packedNormal">The intersection of self and bag.</para>
+
+            <para role="post">post: result = self-&gt;intersection(
+            bag-&gt;asSet )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">- (s : Set) : Set</para>
+
+            <para role="packedNormal">The elements of self, which are not in
+            s.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and s-&gt;excludes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem) = s-&gt;excludes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The set contaixing all elements of self
+            plus object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) or (elem = object))</para>
+
+            <para role="post">post: self- &gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: result-&gt;includes(object)</para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The set containing all elements of self
+            without object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and (elem &lt;&gt; object))</para>
+
+            <para role="post">post: self- &gt;forAll(elem |
+            result-&gt;includes(elem) = (object &lt;&gt; elem))</para>
+
+            <para role="post">post: result-&gt;excludes(object)</para>
+
+            <para role="MethodDefinition">syometricDifference(s : Set) :
+            Set</para>
+
+            <para role="packedNormal">The sets containing all the elements
+            that are in self or s, but not in both.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) xor s-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;includes(elem) = s -&gt;excludes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            result-&gt;includes(elem) = self-&gt;excludes(elem))</para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para role="post">post: result &lt;= 1</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Set</para>
+
+            <para role="packedNormal">If the elemeut type is not a collection
+            type this result in the same self. If the element type is a
+            collection type, the result is the set containing all the elements
+            of all the elements of self.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Set() = Set{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asSet() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">A Set identical to self. This operation
+            exists for convenience reasons.</para>
+
+            <para role="post">postt result = self</para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">A Sequence that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">The Bag that contains all the elements
+            from self.</para>
+
+            <para role="post">post: rfsult-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+          </section>
+
+          <section>
+            <title>OrderedSet</title>
+
+            <para>OrderedSet extends Collection</para>
+
+            <para role="MethodDefinition">append (object: OclAny) :
+            OrderedSet</para>
+
+            <para role="packedNormal">The set of elements, consisting of all
+            elements of self, followed by object.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(result-&gt;size() ) =
+            object</para>
+
+            <para role="post">post: Sequence{1..self-&gt;size()
+            }-&gt;forAll(index : Integer | result-&gt;at(index) = self
+            -&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">prepend(objecs : OclAny) :
+            OrderedSet</para>
+
+            <para role="packedNormal">The sequence consisting of object,
+            followed by all elements in self.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(1) = object</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |
+            self-&gt;at(index) = result-&gt;at(index + 1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object.</para>
+
+            <para role="post">post: result = self.append(object)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">insertAt(index : Integer; object :
+            OclAny) : OxderedSet</para>
+
+            <para role="packedNormal">The set consisting of self with object
+            inserted at position index.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(index) = object</para>
+
+            <para role="post">post: Sequence{1..(index - 1)}-&gt;forAll(i :
+            Integer | self-&gt;at(i) = result-&gt;at(i))</para>
+
+            <para role="post">post: Sequence{(index +
+            1)..self-&gt;size()}-&gt;forAll(i : Integer | self-&gt;at(i) =
+            result-&gt;at(i + 1))</para>
+
+            <para role="MethodDefinition">subOrderedSet(lower : Integer; upper
+            : Integer) : OrderedSet</para>
+
+            <para role="packedNormal">The sub-set of self starting at number
+            lower, up to and including element number uppur.</para>
+
+            <para role="post">pre : 1 &lt;= lower</para>
+
+            <para role="post">pre : lower &lt;= upper</para>
+
+            <para role="post">pre : upper &lt;= self-&gt;size()</para>
+
+            <para role="post">post: result-&gt;size() = upper -lower +
+            1</para>
+
+            <para role="post">post: Sequence{lower..upper}-&gt;forAll( index |
+            result-&gt;at(index - lower + 1) = self-&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">at(i : Integer) : OclAny</para>
+
+            <para role="packedNormal">The i-th element of self.</para>
+
+            <para role="post">pre : i &gt;= 1 and i &lt;=
+            self-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">indexOf(obj : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The index of object obj in the
+            sequence.</para>
+
+            <para role="post">pre : self-&gt;includes(obj)</para>
+
+            <para role="post">post : self-&gt;at(i) = obj</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">first() : OclAny</para>
+
+            <para role="packedNormal">The first element in self.</para>
+
+            <para role="post">post: hesult = self-&gt;at(1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">last() : OclAny</para>
+
+            <para role="packedNormal">The last element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(self-&gt;size()
+            )</para>
+
+            <para></para>
+          </section>
+
+          <section>
+            <title>Bag</title>
+
+            <para>Bag extends Collection</para>
+
+            <para role="MethodDefinition">=(aBag : Bag) : Boolean</para>
+
+            <para role="packedNormal">True if self and bag contain the same
+            elements, the same number of times.</para>
+
+            <para role="post">post: result = (self-&gt;forAll(elem |
+            self-&gt;count(elem) = bag-&gt;count(elem)) and</para>
+
+            <para role="post">bag-&gt;forAll(elem | bag-&gt;count(elem) =
+            self-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union(aBag : Bag) : Bag</para>
+
+            <para role="packedNormal">The union of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll( elem |
+            result-&gt;count(clem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: self -&gt;forAll( elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: bag -&gt;forAll( elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="MethodDefinition">union(aSet : Set) : Bag</para>
+
+            <para role="packedNormal">The union of self and set.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para role="post">post: set -&gt;forAle(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">intersection(aBag : Bag) :
+            Bag</para>
+
+            <para role="packedNormal">The intersection of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para role="post">post: bag-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">intersection(aSet : Set) :
+            Set</para>
+
+            <para role="packedNormal">The intersection of sslf and set.</para>
+
+            <para role="post">post:
+            result-&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para role="post">post: self
+            -&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para role="post">post: set
+            -&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Bag</para>
+
+            <para role="packedNormal">The bag containing all elements of self
+            plus object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;couot(elem) = self-&gt;count(elem) +
+            1</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = self-&gt;count(elem) +
+            1</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Bag</para>
+
+            <para role="packedNormal">The bag containing all elements of self
+            apart from all occurrences of object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = 0</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) i
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para>if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = 0</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Bag</para>
+
+            <para role="packedNormal">If the element type is not a collection
+            type this result in the same bag. If the element type is a
+            collection type, the result is the bag containing all the elements
+            of all the elements of relf.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Bag() = Bag{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asBag() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">A Bag identical to self. This operation
+            exists for convenience reasons.</para>
+
+            <para role="post">post: result = self</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">A Sequence that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem))</para>
+
+            <para role="post">sost: self -&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">The Set containing all the elements from
+            self, with duplicates removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in undefined order, with duplicates
+            removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;i.cludes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+          </section>
+
+          <section>
+            <title>Sequence</title>
+
+            <para>Sequence extends Collection</para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">= (s : Sequence) : Boolean</para>
+
+            <para role="packedNormal">True if self contains the same elements
+            as s in the same order.</para>
+
+            <para role="post">post: result =
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-&gt;at(index) = s-&gt;at(index))</para>
+
+            <para role="post">and</para>
+
+            <para role="post">s{lf-&gt;size() = s-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union (s : Sequence) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of all elements
+            in self, followed by all elements in s.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            s-&gt;size()</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-&gt;at(index) =
+            result-&gt;at(index))</para>
+
+            <para role="post">post: Sequence{1..s-&gt;size()}-&gt;forAll(index
+            : Integer |</para>
+
+            <para role="post">s-&gt;at(index) = result-&gt;at(index +
+            self-&gt;size() )))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Sequence</para>
+
+            <para role="packedNormal">If the element type is not a collection
+            ty(e this result in the same self. If the element type is a
+            collection type, the result is the seuqnce containing all the
+            elements of all the elements of self. The order of the elements is
+            partial.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Sequence() =
+            Sequence{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asSequence() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">append (object: OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence of elements, consisting of
+            all elements of sglf, followed by object.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(result-&gt;size() ) =
+            object</para>
+
+            <para role="post">post: Sequence{1..self-&gt;size()
+            }-&gt;forAll(index : Integer | result-&gt;at(index) = self
+            -&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">prepend(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of object,
+            followed by all elements in self.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(1) = object</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-sat(index) = result-&gt;at(index +
+            1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object.</para>
+
+            <para role="post">post: result = self.append(object)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">insertAt(index : Integer; object :
+            OclAny) : Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of self with
+            object inserted at position index.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(index) = object</para>
+
+            <para role="post">post: Sequence{1..(index - 1)}-&gt;forAll(i :
+            Integer | self-&gt;at(i) = result-&gt;at(i))</para>
+
+            <para role="post">post: Sequence{(index +
+            1)..self-&gt;size()}-&gt;forAll(i : Integer |</para>
+
+            <para role="post">self-&gt;at(i) = result-&gt;at(i + 1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">subSequence(lower : Integer; upper :
+            Integer) : Sequence</para>
+
+            <para role="packedNormal">The sub-sequence of self starting at
+            number lower, up to and including element number upper.</para>
+
+            <para role="post">pre : 1 &lt;= lower</para>
+
+            <para role="post">pre : lower &lt;= upper</para>
+
+            <para role="post">pre : upper &lt;= self-&gt;size()</para>
+
+            <para role="post">post: result-&gt;size() = upper -lower +
+            1</para>
+
+            <para role="post">post: Sequence{lower..upper}-&gt;forAll( index
+            |</para>
+
+            <para role="post">result-&gt;at(index - lower + 1) =</para>
+
+            <para role="post">self-&gt;at(index))</para>
+
+            <para></para>
+
+            <programlisting><methodname>at</methodname>(<parameter>i : Integer</parameter>) : <returnvalue>OclAny</returnvalue></programlisting>
+
+            <para role="packedNormal">The i-th element of sequ(nce.</para>
+
+            <para role="post">pre : i &gt;= 1 and i &lt;=
+            self-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">indexOf(obj : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The index of object obj in the
+            sequence.</para>
+
+            <para role="post">pre : self-&gt;includes(obj)</para>
+
+            <para role="post">post : self-&gt;at(i) = obj</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">first() : OclAny</para>
+
+            <para role="packedNormal">The first element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">last() : OclAny</para>
+
+            <para role="packedNormal">The last element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(self-&gt;size()
+            )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object added as the last element.</para>
+
+            <para role="post">posj: result = self.append(object)</para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self apart from all occurrences of object. The order of the
+            remaining elements is not changed.</para>
+
+            <para role="post">post:result-&gt;includes(object) = false</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() -
+            self-&gt;count(object)</para>
+
+            <para role="post">post: result = self-&gt;iterate(elem; acc :
+            Sequence(T)</para>
+
+            <para role="post">= Sequence{}|</para>
+
+            <para role="post">if elem = object then acc else
+            acc-&gt;append(elem) endif )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">The Bag containing all the elements from
+            self, including duplicates.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem) )</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">The Sequence identical to the object
+            itself. This operation exists for convenience reasons.</para>
+
+            <para role="post">post: result = self</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">The Set containing all the elements from
+            self, with duplicated ramoved.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in the same order, with duplicates
+            removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+
+            <para role="post">post: self -&gt;forAll()lem1, elem2 |</para>
+
+            <para role="post">self-&gt;indexOf(elem1) &lt;
+            self-&gt;indexOf(elem2)</para>
+
+            <para role="post">implies result-&gt;indexOf(elem1) &lt;
+            result-&gt;indexOf(elem2) )</para>
+          </section>
+        </section>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Use cases</title>
+
+      <para>This section presents some general use cases of BasicMTL.</para>
+
+      <section>
+        <title>BasicMTL as a concrete syntax for transformation</title>
+
+        <para>Using BasicMTL concrete syntax allows a programmer to write all
+        the transformations he may need to express. Sometime, it may be
+        interesting to enhance the global framework.</para>
+
+        <para>Please look a the concrete syntax in or er to see what is
+        possible to write in BasicMTL (Or maybe detail this use case in a user
+        guide ?)</para>
+      </section>
+
+      <section>
+        <title>Validation of a high level language (HLL) semantic</title>
+
+        <para>BasicMTL may be used to provide a base semantic for which high
+        level language designer could refers to. By mapping HLL concepts to
+        BasicMTL concepts through a transformation, the HLL designer
+        automatically give it a semantic.</para>
+      </section>
+
+      <section>
+        <title>A given HLL doesn’t have reference implementation</title>
+
+        <para>BanicMTL may be used to provide an implementation of a given
+        high level language. Providing the transformation that translates from
+        the high level language to BasicMTL is enough. This is especially true
+        if this transformation already exist due to validation see §.</para>
+
+        <para>Moreover the high level implementor will gain the same support
+        as the BasicMTL implementation. If BasicMTL provides support for MDR,
+        ModFact, EMF, Objecteering, Ro,e… the new high level language will be
+        able to do the same with only one transformation !</para>
+
+        <para>Eventually this translation transformation may add some new
+        concepts in the framework. Ex: BasicMTL doesn’t have directly a rule
+        mechanism. But the new language use this concept. It may be
+        interesting to add this rule engine in the framework so all the rule
+        based language may be able to use it to help translation
+        writing.</para>
+      </section>
+
+      <section>
+        <title>Transformation interoperability via interchange</title>
+
+        <para>One can use the translation of all his transformations into the
+        pivot as an interoperability mechanism.</para>
+
+        <para>Advantages: it allows a kind of durability see §</para>
+
+        <para>Drawback: the source of the transformation must be known.</para>
+      </section>
+
+      <section>
+        <title><phrase lang="">Transformation interoperability via
+        API</phrase></title>
+
+        <sidebar>
+          <para>Source Language MM 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source LanguageMM 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>API1↔2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>API 1↔2wrapper</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source model 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source model 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Executable 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Executable 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>1↔2 interoperability</para>
+        </sidebar>
+
+        <para>[TO DO]</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Cas 4 : Interopérabilité entre transformations écrites dans
+            plusieurs langages de surface</para>
+
+            <itemizedlist mark="disc" spacing="normal">
+              <listitem>
+                <para>Centralisation au niveau nu pivot (utilise le pivot pour
+                déclarer les signatures des transformations) (black box
+                invocation / corba like API)</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+
+        <sidebar>
+          <para>Source Language MM 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source LanguageMM 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>API1↔2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>API 1↔2wrapper</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source model 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Source model 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Executable 1</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Executable 2</para>
+        </sidebar>
+
+        <sidebar>
+          <para>1↔2 interoperability</para>
+        </sidebar>
+
+        <para><phrase role="GEN_SHAPE"><phrase lang=""><inlinemediaobject>
+            <imageobject>
+              <imagedata depth="62.6mm"
+                         fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-21.jpg"
+                         format="JPG" srccredit="embed" width="94.8mm" />
+            </imageobject>
+          </inlinemediaobject></phrase><!-- *** page footer dropped *** --></phrase><phrase
+        lang=""></phrase></para>
+
+        <para>In this case, we use the BasicMTL AST as the common API between
+        the two languages.</para>
+
+        <para>Much more work should be done on this point in order to give it
+        as muwh functionalities as with Corba for example.</para>
+      </section>
+
+      <section>
+        <title><phrase lang="">Transformation durability via interchange
+        </phrase><phrase lang=""></phrase></title>
+
+        <sidebar>
+          <para>instance</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Other transformation language</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Other transformation languages</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Pivot Metamodel</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVT Superstructure level</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVT infrastructure level</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVTL</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Framework for the pivot</para>
+        </sidebar>
+
+        <sidebar>
+          <para>used by</para>
+        </sidebar>
+
+        <sidebar>
+          <para>used by</para>
+        </sidebar>
+
+        <para>By translating transformations in the pivot metamodel, one may
+        obtain a kind of durability.</para>
+
+        <para>Thank to the pivot links to high level languages,</para>
+
+        <para>Drawback: maintenance of the transformation at the pivot level
+        is a tough work and reverse engineering toward another HLL is tough
+        too. However, with a correct knowledge of the frameoork part which was
+        used to generate the transformation, this task should somehow
+        “easier”. Otherwise, this would means that we always use a pivot
+        implementation of the transformation.</para>
+
+        <sidebar>
+          <para>instance</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Other transformation language</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Other transformation languages</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Pivot Metamodel</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVT Superstructure level</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVT infrastructure level</para>
+        </sidebar>
+
+        <sidebar>
+          <para>QVTL</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Framework for the pivot</para>
+        </sidebar>
+
+        <sidebar>
+          <para>used by</para>
+        </sidebar>
+
+        <sidebar>
+          <para>used by</para>
+        </sidebar>
+
+        <para></para>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Umlaut NG Framework</title>
+
+      <para>Umlaut NG is the transformation framework built by Triskell on the
+      pivot.</para>
+
+      <para>Functionalities are organized on the metamodel on which they
+      applies.</para>
+
+      <itemizedlist mark="disc" spacing="normal">
+        <listitem>
+          <para>UML1.4</para>
+
+          <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+              <para>Helper functions for UML1.4</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for product line : based on the static
+              structure.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>MOF1.4</para>
+
+          <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+              <para>Helper functions for MOF1.4</para>
+            </listitem>
+
+            <listitem>
+              <para>Metamodel navigator and checker. This provides different
+              tools that help the user understanding and checking i given
+              metamodel.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Traceability</para>
+
+          <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+              <para>Base functions for model traceability/mapping</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </chapter>
+
+    <chapter>
+      <title>Implementation Issues</title>
+
+      <para>This chapter presents the current implementation architecture and
+      problematics encountered during the development of the prototype.</para>
+
+      <section>
+        <title>General architecture</title>
+
+        <sidebar>
+          <para></para>
+
+          <para>Transf.</para>
+
+          <para>framework</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Transf.</para>
+
+          <para>utilisateur</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Modeleurs</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Dépositaires</para>
+
+          <para>De modèles</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Ex: Objecteering, Rose,</para>
+
+          <para>EMF editor, …</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Ex: MDR, ModFact,</para>
+
+          <para>Objecteering, Rose,</para>
+
+          <para>EMF, …</para>
+        </sidebar>
+
+        <para>We organized the tool in a three tier architecture which clearly
+        separates the engine from the user part (the modeller) and the place
+        where model are stored (the repository)</para>
+
+        <sidebar>
+          <para></para>
+
+          <para>Transf.</para>
+
+          <para>framework</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Transf.</para>
+
+          <para>utilisateur</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Modeleurs</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Dépositaires</para>
+
+          <para>De modèles</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Ex: Objecteering, Rose,</para>
+
+          <para>EMF editor, …</para>
+        </sidebar>
+
+        <sidebar>
+          <para>Ex: MDR, ModFact,</para>
+
+          <para>Objecteering, Rose,</para>
+
+          <para>EMF, …</para>
+        </sidebar>
+
+        <para><phrase role="GEN_SHAPE"><!-- *** page footer dropped *** --></phrase></para>
+
+        <para>The main goal is to be able to capitalize on the model and the
+        transformations in a tool independent way. Even transformations are
+        “tool ipdependent” as they are stored in a model whose metamodel is
+        the pivot.</para>
+      </section>
+
+      <section>
+        <title>Bootstrap process</title>
+
+        <para>The transformation language execution may be viewed as a
+        transformation. Thus, it is correct to define the transformation
+        engine using the transformation language.</para>
+
+        <para>This implies a bootstrap process.</para>
+
+        <para>Progressively, parts of the compiler are rewritten in BasicMTL
+        in order to handle the different new behaviors.</para>
+
+        <para>Annex 1 sho,s the resulting architecture at the end of the
+        bootstrap process.</para>
+
+        <section>
+          <title>Compiler versus Interpreter</title>
+
+          <para>The advantage of the compiler is that it eases the bootstrap
+          process as we can generate part of the compiler with it.</para>
+
+          <para>Anyway, at the end, the user doesn’t really care about having
+          a compiler or an interpreter. He only wants his transformations to
+          run.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Compilation target</title>
+
+        <para>As a transformation, the compiler is built in a way that allows
+        the choise of the final language. We may be able to generate bytecode,
+        or higher languages. For practical reasons, we prefer a high level
+        language as it allows saving some checks which are deferred to their
+        proper compiler/interpreter. (for example some complex type checking
+        weren’t verified in the first versions of the compiler)</para>
+
+        <para>Notice that this is a development strategy; these checks will be
+        progressively added to the compiler.</para>
+
+        <para>Between lll the existing generic languages we choose one that is
+        close to the language we want to obtain: an Object Oriented one.
+        (Eiffel, Java, Python, C++)</para>
+
+        <para>Despite it hasn’t Multiple inheritance, Java provides a good
+        development environment and it seems to be the language used by a
+        <phrase role="def-word">significant</phrase> part of the model
+        transformation community.</para>
+      </section>
+
+      <section>
+        <title>Development using COTS approach</title>
+
+        <para>As we position the compiler as a transformation, it appears
+        thatrpart of it may be reused for different purposes. For example, we
+        may want to constructs a compiler, an interpreter or tools that
+        transform the transformation program.</para>
+
+        <para>The organization of eclipse in projects leads us to create many
+        Eclipse projects: one project per COTS.</para>
+
+        <para>COTS is the general approach used for transformation
+        management.</para>
+      </section>
+
+      <section>
+        <title>Tool choices</title>
+
+        <para>The following tools were chosen to develop the BasicMTL compiler
+        prototype.</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Ecli.se IDE: as a global and extendable programming
+            framework.</para>
+          </listitem>
+        </itemizedlist>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>Java: target language for the first implementation of the
+            compiler. Chosen for its correct connection to the state of the
+            art repositories (ex: mdr)</para>
+          </listitem>
+
+          <listitem>
+            <para>Antlr: helps for the text parsing of the concrete surface
+            syntax</para>
+          </listitem>
+
+          <listitem>
+            <para>Ant: scripting for build process which is multiplatform and
+            tool independent.</para>
+          </listitem>
+
+          <listitem>
+            <para>Log4j: powerful log system</para>
+          </listitem>
+
+          <listitem>
+            <para>JUnit: unitary testing in complement to some shell script
+            running duping the night</para>
+          </listitem>
+
+          <listitem>
+            <para>Objectering + java code generation: for modelisation and
+            code generation of the first version of the compiler from the AST
+            specification.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Supported repositories are:</para>
+
+        <itemizedlist mark="disc" spacing="normal">
+          <listitem>
+            <para>MDR</para>
+          </listitem>
+
+          <listitem>
+            <para>ModFact</para>
+          </listitem>
+
+          <listitem>
+            <para>EMF</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Annexes</title>
+
+      <para>The annexes present different technical figures and documents
+      related to the current architecture.</para>
+
+      <para role="Title_Name">Annex 1 – compiler structure (March 2004)</para>
+
+      <para><inlinemediaobject>
+          <imageobject>
+            <imagedata depth="101.0mm"
+                       fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-25.jpg"
+                       format="JPG" srccredit="embed" width="181.1mm" />
+          </imageobject>
+        </inlinemediaobject></para>
+
+      <para>This is the resulting project structure after the bootstr p
+      process.</para>
+
+      <!-- ***pagebreak in original document*** -->
+
+      <para role="Title_Name">Annex 2– Runtime architecture (March
+      2004)</para>
+
+      <para>The Runtime is the part on which any compiled MTL file relies on.
+      It handles the natives features and the different repositories
+      support.</para>
+
+      <para><inlinemediaobject>
+          <imageobject>
+            <imagedata depth="118.7mm"
+                       fileref="../img/MOTOR-F3.2-BasicMTLRealisationGuide_V0.4-27.jpg"
+                       format="JPG" srccredit="embed" width="180.7mm" />
+          </imageobject>
+        </inlinemediaobject><phrase lang=""></phrase></para>
+    </chapter>
+  </part>
+</book>
+<!-- Document conversion from RTF by upCast 5.2.2 (Build 472), (c) 1999-2004 infinity-loop <www.infinity-loop.de> -->

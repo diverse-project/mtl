@@ -1,0 +1,1473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: BasicMTL_StandardLibrary-section.xml,v 1.1 2005-01-10 10:06:30 dvojtise Exp $ -->
+      <section>
+        <title>BasicMTL standard library</title>
+
+        <para>This library defines the base objects without which we cannot
+        use the syntax. It de.ines mainly the primitive types. It was derived
+        from OCL 2.0 types.</para>
+
+        <section>
+          <title>Base types</title>
+
+          <section>
+            <title>OclAny</title>
+
+            <para>This is the supertype of all BasicMTL objects.</para>
+
+            <para role="MethodDefinition">= (value : OclAny) : Boolean</para>
+
+            <para>True if self is the same object as object2</para>
+
+            <para role="post">post: result = (self = object2)</para>
+
+            <para role="MethodDefinition">&lt;&gt; (value : OclAny) :
+            Boolean</para>
+
+            <para>True if self is a different object from object2</para>
+
+            <para role="post">post: result = not (self = object2)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsUndefined() : Boolean</para>
+
+            <para>Evaluates to true if the self is equal to
+            OclUndefined.</para>
+
+            <para role="post">post: result = self.ilTypeOf( OclVoid )</para>
+
+            <para role="MethodDefinition">oclAsType(typename : OclType) :
+            OclAny</para>
+
+            <para>Evaluates to self, where self is of the type identified by
+            typename.</para>
+
+            <para role="post">post: (result = self) and result.oclIsTypeOf(
+            typeName )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsTypeOf(typename : OclType) :
+            Boolean</para>
+
+            <para>Evaluates to true if the self is of the type identified by
+            typename.</para>
+
+            <para>post: -- TBD</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">oclIsKindOf(typename : OclType) :
+            Boolean</para>
+
+            <para>Evaluates to true if the self conforms to the type
+            identified by typenamf.</para>
+
+            <para role="post">post: -- TBD</para>
+
+            <para>The following methods are defined for debug purpose only.
+            The functionalities they provides should not be used in
+            transformations.</para>
+
+            <para role="MethodDefinition">toOut () : Void</para>
+
+            <para>Writes this object to the standard output</para>
+
+            <para role="MethodDefinition">toErr () : Void</para>
+
+            <para>Writes this object to the error output</para>
+          </section>
+
+          <section>
+            <title>ModelElement</title>
+
+            <para>It extends OclAny.</para>
+
+            <para>The common supertype for all elements contained by a model.
+            That</para>
+
+            <para role="MethodDefinition">delete():Void</para>
+
+            <para>Deletes this object from the memory</para>
+
+            <para role="MethodDefinition">oclUid() : String</para>
+
+            <para>Returns a UID corresposding to this object.</para>
+          </section>
+
+          <section>
+            <title>BMTLObject</title>
+
+            <para>It extends OclAny.</para>
+
+            <para>This is The common supertype of all BasicMTL objects</para>
+
+            <para role="MethodDefinition">delete():Void</para>
+
+            <para>deletes this object from the memory</para>
+          </section>
+
+          <section>
+            <title>OclType</title>
+
+            <para>It extends from OclAny.</para>
+
+            <para>This is a singleton. Any new should create the same
+            object.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">allInstances() : Set</para>
+
+            <para>Returns a Set containing objects of this type.</para>
+
+            <para role="MethodDefinition">oclQualifiedName() : Sequence</para>
+
+            <para>Returns a sequence of string which represents the full
+            qualified name of this type.</para>
+
+            <para role="MethodDefinition">oclName() : Strang</para>
+
+            <para>Returns the name of this type.</para>
+          </section>
+
+          <section>
+            <title>BMTLLibrary</title>
+
+            <para>It extends from OclAny.</para>
+
+            <para>The common supertype of all BasicMTL libraries</para>
+          </section>
+
+          <section>
+            <title>Real</title>
+
+            <para>It extends OclAny.</para>
+
+            <para role="MethodDefinition">- () : Real</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">+ (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the addition of self and
+            r.</para>
+
+            <para role="MethodDefinition">- (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the subtraction of r from
+            self.</para>
+
+            <para role="MethodDefinition">* (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of the multiplication of self
+            and r.</para>
+
+            <para role="MethodDefinition">- () : Real</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">/ (r : Real) : Real</para>
+
+            <para role="packedNormal">The value of self ivided by r.</para>
+
+            <para role="MethodDefinition">abs() : Real</para>
+
+            <para role="packedNormal">The absolute value of self.</para>
+
+            <para role="post">post: if self &lt; 0 then result = - self else
+            result = self endif</para>
+
+            <para role="MethodDefinition">floor() : Integer</para>
+
+            <para role="packedNormal">The largest integer which is less than
+            or equal to self.</para>
+
+            <para>post: (result &lt;= self) and (result + 1 &gt; self)</para>
+
+            <para role="MethodDefinition">round() : Integer</para>
+
+            <para role="packedNormal">The integer which is closest to self.
+            When there are two such integers, the largest one.</para>
+
+            <para role="post">post: ((self - result).abs() &lt; 0.5) or ((self
+            - result).abs() = 0.5 and (result &gt; self))</para>
+
+            <para role="MethodDefinition">max(r : Real) : Real</para>
+
+            <para role="packedNormal">The maximum of sell and r.</para>
+
+            <para role="post">post: if self &gt;= r then result = self else
+            result = r endif</para>
+
+            <para role="MethodDefinition">min(r : Real) : Real</para>
+
+            <para role="packedNormal">The minimum of self and r.</para>
+
+            <para role="post">post: if self &lt;= r then result = self else
+            result = r endif</para>
+
+            <para role="MethodDefinition">&lt; (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is less than r.</para>
+
+            <para role="MethodDefinition">&gt; (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is greater than r.</para>
+
+            <para role="post">post: result = not (self &lt;= r)</para>
+
+            <para role="MethodDefinition">&lt;= (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is less than or equal to
+            r.</para>
+
+            <para role="post">post: result = ((self = r) or (self &lt;
+            r))</para>
+
+            <para role="MethodDefinition">&gt;= (r : Real) : Boolean</para>
+
+            <para role="packedNormal">True if self is greater than or equal to
+            r.</para>
+
+            <para role="post">post: result = ((self = r) or (self &gt;
+            r))</para>
+
+            <para role="MethodDefinition">toString() : String</para>
+
+            <para role="packedNormal">convert self to a string value</para>
+
+            <para>TO DO : see the string format !!!</para>
+          </section>
+
+          <section>
+            <title>Integer</title>
+
+            <para>Integer extends Real</para>
+
+            <para role="MethodDefinition">prefix - : Integer</para>
+
+            <para role="packedNormal">The negative value of self.</para>
+
+            <para role="MethodDefinition">+ (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the addition of self and
+            i.</para>
+
+            <para role="MethodDefinition">- (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the subtraction of i from
+            self.</para>
+
+            <para role="MethodDefinition">* (i : Integer) : Integer</para>
+
+            <para role="packedNormal">The value of the multiplication of self
+            and i.</para>
+
+            <para role="MethodDefinition">abs() : Integer</para>
+
+            <para role="packedNormal">The absolute value of sel..</para>
+
+            <para role="post">post: if self &lt; 0 then result = - self else
+            result = self endif</para>
+
+            <para role="MethodDefinition">div( i : Integer) : Integer</para>
+
+            <para role="packedNormal">The number of times that i fits
+            completely within self.</para>
+
+            <para role="post">pre : i &lt;&gt; 0</para>
+
+            <para role="post">post: if self / i &gt;= 0 then result = (self /
+            i).floor()</para>
+
+            <para role="post">else result = -((-self/i).floor())</para>
+
+            <para role="post">endif</para>
+
+            <para role="MethodDefinition">mod( i : Integer) : Integer</para>
+
+            <para role="packedNormal">The result is self modulo i.</para>
+
+            <para role="post">post: result = self - (self.div(i) * i)</para>
+
+            <para role="MethodDefinition">max(i : Integer) : Integer</para>
+
+            <para role="packedNormal">The maximum of self an i.</para>
+
+            <para role="post">post: if self &gt;= i then result = self else
+            result : i endif</para>
+
+            <para role="MethodDefinition">min(i : Integer) : Integer</para>
+
+            <para role="packedNormal">The minimum of self an i.</para>
+
+            <para role="post">post: if self &lt;= i then result = self else
+            result = i endif</para>
+
+            <para role="MethodDefinition">toString() : String</para>
+
+            <para role="packedNormal">convert self to a string value</para>
+          </section>
+
+          <section>
+            <title>String</title>
+
+            <para>String extends OclAny</para>
+
+            <para role="MethodDefinition">size() : Integer</para>
+
+            <para>The number of characters in self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">concat(s : String) : String</para>
+
+            <para role="packedNormal">The concatenation of self and s.</para>
+
+            <para role="post">post: result.size() = self.size() +
+            string.size()</para>
+
+            <para role="post">post: result.substring(1, self.size() ) =
+            self</para>
+
+            <para role="post">post: result.substrieg(self.size() + 1,
+            result.size() ) = s</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">substring(lower : Integer; upper :
+            Integer) : String</para>
+
+            <para role="packedNormal">The sub-string of self starting at
+            character number lower, up to and including character number
+            upper.</para>
+
+            <para role="packedNormal">Character numbers run from 1 to
+            self.size().</para>
+
+            <para role="post">pre: 1 &lt;= lower</para>
+
+            <para role="post">pre: lower &lt;= upper</para>
+
+            <para role="post">pre: upper &lt;= self.size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">toInteger() : Integer</para>
+
+            <para role="packedNormal">Converts self to an Integer
+            value.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">toReal() : Real</para>
+
+            <para role="packedNormal">Converts self to a Real value.</para>
+          </section>
+
+          <section>
+            <title>Boolean</title>
+
+            <para>Boolean extends OclAna</para>
+
+            <para role="MethodDefinition">or (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if either self or b is true.</para>
+
+            <para role="MethodDefinition">xor (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if either self or b is true, but
+            not both.</para>
+
+            <para role="post">post: (self or b) and not (self = b)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">and (b : Boolean) : Boolean</para>
+
+            <para role="packedNormal">True if both b1 and b are true.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">not() : Boolean</para>
+
+            <para role="packedNormal">True if self is false.</para>
+
+            <para role="post">post: if self then result = false else result =
+            true endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">implies (b : Boolean) :
+            Boolean</para>
+
+            <para role="packedNormal">True if self is false, or if self is
+            true and b is true.</para>
+
+            <para role="post">post: (not self) or (self and b)</para>
+          </section>
+        </section>
+
+        <section>
+          <title>Collection relatea types</title>
+
+          <section>
+            <title>Iterator</title>
+
+            <para>Iterator for collection</para>
+
+            <para>This is a non typed iterator.</para>
+
+            <para>we may in the future implement a typedIterator (when the
+            classes will support templates)</para>
+
+            <para>Iterator extends OclAny</para>
+
+            <para role="MethodDefinition">start():Void</para>
+
+            <para role="packedNormal">Positions the iterator to the first
+            object in the aggregate to be traversed.</para>
+
+            <para role="MethodDefinition">isOff(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are no more
+            objects in the sequence.</para>
+
+            <para role="MethodDefinition">isOn(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are more objects
+            in the sequence.</para>
+
+            <para role="post">post: result = self.iqOff().[not]()</para>
+
+            <para role="MethodDefinition">hasNext(): Boolean</para>
+
+            <para role="packedNormal">Returns true when there are more objects
+            in the sequence.</para>
+
+            <para role="post">post: result = self.isOn()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">item(): OclAny</para>
+
+            <para role="packedNormal">Returns the object at the current
+            position in the sequence.</para>
+
+            <para role="post">pre not is_off</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">next():Void</para>
+
+            <para role="packedNormal">Positions the iterator to the next
+            object in the sequence.</para>
+
+            <para role="post">pre: not is_off</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">nextItem () : OclAny</para>
+
+            <para role="packedNormal">Returns the object at the current
+            position in the sequence, and positions the iterator to the next
+            object ix the sequence.</para>
+
+            <para role="post">pre not is_off</para>
+          </section>
+
+          <section>
+            <title>Collection</title>
+
+            <para>class Collection extends OclAny</para>
+
+            <para role="MethodDefinition">getNewIterator() : Iterator</para>
+
+            <para role="packedNormal">Create a new iterator for this
+            collection</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">size() : Integer</para>
+
+            <para role="packedNormal">The number of elements in the collection
+            self.</para>
+
+            <para role="post">post: result = self-&gt;iterate(elem; acc :
+            Integer = 0 | acc + 1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">includes(object : OclAny) :
+            Boolean</para>
+
+            <para role="packedNormal">True if object is an element of self,
+            false otherwise.</para>
+
+            <para role="post">post: result = (self-&gt;count(object) &gt;
+            0)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excludes(object : OclAny) :
+            Boolean</para>
+
+            <para role="packedNormal">True if object is not cn element of
+            self, false otherwise.</para>
+
+            <para role="post">post: result = (self-&gt;count(object) =
+            0)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of times that object occurs
+            in the collection self.</para>
+
+            <para role="post">post: result = self-&gt;iterate( elem; acc :
+            Integer = 0 |</para>
+
+            <para role="post">if elem = object then acc + 1 else acc
+            endif)</para>
+
+            <para role="MethodDefinition">includesAll(c2 : Collection) :
+            Boolean</para>
+
+            <para role="packedNormal">Does self contain all the elements of c2
+            ?</para>
+
+            <para role="post">post: result = c2-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excludesAll(c2 : Collection) :
+            Boolean</para>
+
+            <para role="packedNormal">Does self contain none of the elements
+            of c2 ?</para>
+
+            <para role="post">post: result = c2-&gt;forAll(elem |
+            self-&gt;excludes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">isEmpty() : Boolean</para>
+
+            <para role="packedNormal">Is self the empty collection?</para>
+
+            <para role="post">post: result = ( self-&gt;size() = 0 )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">notEmpty() : Boolean</para>
+
+            <para role="packedNormal">Is self not the empty collection?</para>
+
+            <para role="post">post: result = ( self-&gt;size() &lt;&gt; 0
+            )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">sum() : OclAny</para>
+
+            <para role="packedNormal">The addition of all elements in self.
+            Elements must be of a type supporting the + operation. The +
+            operation</para>
+
+            <para role="packedNormal">must take one parameter of type T and be
+            both essociative: (a+b)+c = a+(b+c), and commutative:</para>
+
+            <para role="packedNormal">a+b = b+a. Integer and Real fulfill this
+            condition.</para>
+
+            <para role="post">post: result = self-&gt;iterate( elem; acc : T =
+            0 | acc + elem )</para>
+
+            <para role="MethodDefinition">product(c2: Collection) : Set(
+            Tuple( first: OclAny; second: OclAny) )</para>
+
+            <para role="packedNormal">The cartesian product operation of self
+            and c2.</para>
+
+            <para role="post">post: result = self-&gt;iterate (e1; acc:
+            Set(Tuple(first: T, second: T2)) = Set{} |</para>
+
+            <para role="post">c2-&gt;iterate (e2; acc2: Set(Tuple(first: T,
+            second: T2)) = acc |</para>
+
+            <para role="post">acc2-&gt;including (Tuple{first = e1, second =
+            =2}) ) )</para>
+          </section>
+
+          <section>
+            <title>Set</title>
+
+            <para>Set extends Collection</para>
+
+            <para role="MethodDefinition">union(s : Set) : Set</para>
+
+            <para role="packedNormal">The union of self and s.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) or s-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union(bag : Bag) : Bag</para>
+
+            <para role="packedNormal">The union of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: bag -&gt;forAll(ele |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">= (s : Set) : Boolean</para>
+
+            <para role="packedNormal">Evaluates to true if self and s contain
+            the same elements.</para>
+
+            <para role="post">post: result = (self-&gt;forAll(elem |
+            s-&gt;includes(elem)) and</para>
+
+            <para role="post">s-&gt;forAll(elem | self-&gt;includes(elem))
+            )</para>
+
+            <para role="MethodDefinition">intersection(s : Set) : Set</para>
+
+            <para role="packedNormal">The intersection of self and s (i.e, the
+            set of all elements that are in both self and s).</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and s-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem | s
+            -&gt;includes(elem) = result-&gt;iAcludes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            self-&gt;includes(elem) = result-&gt;includes(elem))</para>
+
+            <para role="MethodDefinition">intersection(bag : Bag) : Set</para>
+
+            <para role="packedNormal">The intersection of self and bag.</para>
+
+            <para role="post">post: result = self-&gt;intersection(
+            bag-&gt;asSet )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">- (s : Set) : Set</para>
+
+            <para role="packedNormal">The elements of self, which are not in
+            s.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and s-&gt;excludes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem) = s-&gt;excludes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The set contaixing all elements of self
+            plus object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) or (elem = object))</para>
+
+            <para role="post">post: self- &gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: result-&gt;includes(object)</para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The set containing all elements of self
+            without object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) and (elem &lt;&gt; object))</para>
+
+            <para role="post">post: self- &gt;forAll(elem |
+            result-&gt;includes(elem) = (object &lt;&gt; elem))</para>
+
+            <para role="post">post: result-&gt;excludes(object)</para>
+
+            <para role="MethodDefinition">syometricDifference(s : Set) :
+            Set</para>
+
+            <para role="packedNormal">The sets containing all the elements
+            that are in self or s, but not in both.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem) xor s-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;includes(elem) = s -&gt;excludes(elem))</para>
+
+            <para role="post">post: s -&gt;forAll(elem |
+            result-&gt;includes(elem) = self-&gt;excludes(elem))</para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para role="post">post: result &lt;= 1</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Set</para>
+
+            <para role="packedNormal">If the elemeut type is not a collection
+            type this result in the same self. If the element type is a
+            collection type, the result is the set containing all the elements
+            of all the elements of self.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Set() = Set{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asSet() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">A Set identical to self. This operation
+            exists for convenience reasons.</para>
+
+            <para role="post">postt result = self</para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">A Sequence that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">The Bag that contains all the elements
+            from self.</para>
+
+            <para role="post">post: rfsult-&gt;forAll(elem |
+            self-&gt;includes(elem))</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+          </section>
+
+          <section>
+            <title>OrderedSet</title>
+
+            <para>OrderedSet extends Collection</para>
+
+            <para role="MethodDefinition">append (object: OclAny) :
+            OrderedSet</para>
+
+            <para role="packedNormal">The set of elements, consisting of all
+            elements of self, followed by object.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(result-&gt;size() ) =
+            object</para>
+
+            <para role="post">post: Sequence{1..self-&gt;size()
+            }-&gt;forAll(index : Integer | result-&gt;at(index) = self
+            -&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">prepend(objecs : OclAny) :
+            OrderedSet</para>
+
+            <para role="packedNormal">The sequence consisting of object,
+            followed by all elements in self.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(1) = object</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |
+            self-&gt;at(index) = result-&gt;at(index + 1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object.</para>
+
+            <para role="post">post: result = self.append(object)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">insertAt(index : Integer; object :
+            OclAny) : OxderedSet</para>
+
+            <para role="packedNormal">The set consisting of self with object
+            inserted at position index.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(index) = object</para>
+
+            <para role="post">post: Sequence{1..(index - 1)}-&gt;forAll(i :
+            Integer | self-&gt;at(i) = result-&gt;at(i))</para>
+
+            <para role="post">post: Sequence{(index +
+            1)..self-&gt;size()}-&gt;forAll(i : Integer | self-&gt;at(i) =
+            result-&gt;at(i + 1))</para>
+
+            <para role="MethodDefinition">subOrderedSet(lower : Integer; upper
+            : Integer) : OrderedSet</para>
+
+            <para role="packedNormal">The sub-set of self starting at number
+            lower, up to and including element number uppur.</para>
+
+            <para role="post">pre : 1 &lt;= lower</para>
+
+            <para role="post">pre : lower &lt;= upper</para>
+
+            <para role="post">pre : upper &lt;= self-&gt;size()</para>
+
+            <para role="post">post: result-&gt;size() = upper -lower +
+            1</para>
+
+            <para role="post">post: Sequence{lower..upper}-&gt;forAll( index |
+            result-&gt;at(index - lower + 1) = self-&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">at(i : Integer) : OclAny</para>
+
+            <para role="packedNormal">The i-th element of self.</para>
+
+            <para role="post">pre : i &gt;= 1 and i &lt;=
+            self-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">indexOf(obj : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The index of object obj in the
+            sequence.</para>
+
+            <para role="post">pre : self-&gt;includes(obj)</para>
+
+            <para role="post">post : self-&gt;at(i) = obj</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">first() : OclAny</para>
+
+            <para role="packedNormal">The first element in self.</para>
+
+            <para role="post">post: hesult = self-&gt;at(1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">last() : OclAny</para>
+
+            <para role="packedNormal">The last element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(self-&gt;size()
+            )</para>
+
+            <para></para>
+          </section>
+
+          <section>
+            <title>Bag</title>
+
+            <para>Bag extends Collection</para>
+
+            <para role="MethodDefinition">=(aBag : Bag) : Boolean</para>
+
+            <para role="packedNormal">True if self and bag contain the same
+            elements, the same number of times.</para>
+
+            <para role="post">post: result = (self-&gt;forAll(elem |
+            self-&gt;count(elem) = bag-&gt;count(elem)) and</para>
+
+            <para role="post">bag-&gt;forAll(elem | bag-&gt;count(elem) =
+            self-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union(aBag : Bag) : Bag</para>
+
+            <para role="packedNormal">The union of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll( elem |
+            result-&gt;count(clem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: self -&gt;forAll( elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="post">post: bag -&gt;forAll( elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            bag-&gt;count(elem))</para>
+
+            <para role="MethodDefinition">union(aSet : Set) : Bag</para>
+
+            <para role="packedNormal">The union of self and set.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para role="post">post: set -&gt;forAle(elem |
+            result-&gt;count(elem) = self-&gt;count(elem) +
+            set-&gt;count(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">intersection(aBag : Bag) :
+            Bag</para>
+
+            <para role="packedNormal">The intersection of self and bag.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para role="post">post: bag-&gt;forAll(elem |</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem).min(bag-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">intersection(aSet : Set) :
+            Set</para>
+
+            <para role="packedNormal">The intersection of sslf and set.</para>
+
+            <para role="post">post:
+            result-&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para role="post">post: self
+            -&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para role="post">post: set
+            -&gt;forAll(elem|result-&gt;count(elem) =
+            self-&gt;count(elem).min(set-&gt;count(elem)) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Bag</para>
+
+            <para role="packedNormal">The bag containing all elements of self
+            plus object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;couot(elem) = self-&gt;count(elem) +
+            1</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = self-&gt;count(elem) +
+            1</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Bag</para>
+
+            <para role="packedNormal">The bag containing all elements of self
+            apart from all occurrences of object.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |</para>
+
+            <para role="post">if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = 0</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) i
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para role="post">post: self-&gt;forAll(elem |</para>
+
+            <para>if elem = object then</para>
+
+            <para role="post">result-&gt;count(elem) = 0</para>
+
+            <para role="post">else</para>
+
+            <para role="post">result-&gt;count(elem) =
+            self-&gt;count(elem)</para>
+
+            <para role="post">endif)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Bag</para>
+
+            <para role="packedNormal">If the element type is not a collection
+            type this result in the same bag. If the element type is a
+            collection type, the result is the bag containing all the elements
+            of all the elements of relf.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Bag() = Bag{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asBag() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">A Bag identical to self. This operation
+            exists for convenience reasons.</para>
+
+            <para role="post">post: result = self</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">A Sequence that contains all the
+            elements from self, in undefined order.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem))</para>
+
+            <para role="post">sost: self -&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">The Set containing all the elements from
+            self, with duplicates removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in undefined order, with duplicates
+            removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;i.cludes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+          </section>
+
+          <section>
+            <title>Sequence</title>
+
+            <para>Sequence extends Collection</para>
+
+            <para role="MethodDefinition">count(object : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The number of occurrences of object in
+            self.</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">= (s : Sequence) : Boolean</para>
+
+            <para role="packedNormal">True if self contains the same elements
+            as s in the same order.</para>
+
+            <para role="post">post: result =
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-&gt;at(index) = s-&gt;at(index))</para>
+
+            <para role="post">and</para>
+
+            <para role="post">s{lf-&gt;size() = s-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">union (s : Sequence) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of all elements
+            in self, followed by all elements in s.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            s-&gt;size()</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-&gt;at(index) =
+            result-&gt;at(index))</para>
+
+            <para role="post">post: Sequence{1..s-&gt;size()}-&gt;forAll(index
+            : Integer |</para>
+
+            <para role="post">s-&gt;at(index) = result-&gt;at(index +
+            self-&gt;size() )))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">flatten() : Sequence</para>
+
+            <para role="packedNormal">If the element type is not a collection
+            ty(e this result in the same self. If the element type is a
+            collection type, the result is the seuqnce containing all the
+            elements of all the elements of self. The order of the elements is
+            partial.</para>
+
+            <para role="post">post: result = if
+            self.type.elementType.oclIsKindOf(CollectionType) then</para>
+
+            <para role="post">self-&gt;iterate(c; acc : Sequence() =
+            Sequence{} |</para>
+
+            <para role="post">acc-&gt;union(c-&gt;asSequence() ) )</para>
+
+            <para role="post">else</para>
+
+            <para role="post">self</para>
+
+            <para role="post">endif</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">append (object: OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence of elements, consisting of
+            all elements of sglf, followed by object.</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(result-&gt;size() ) =
+            object</para>
+
+            <para role="post">post: Sequence{1..self-&gt;size()
+            }-&gt;forAll(index : Integer | result-&gt;at(index) = self
+            -&gt;at(index))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">prepend(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of object,
+            followed by all elements in self.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(1) = object</para>
+
+            <para role="post">post:
+            Sequence{1..self-&gt;size()}-&gt;forAll(index : Integer |</para>
+
+            <para role="post">self-sat(index) = result-&gt;at(index +
+            1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Set</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object.</para>
+
+            <para role="post">post: result = self.append(object)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">insertAt(index : Integer; object :
+            OclAny) : Sequence</para>
+
+            <para role="packedNormal">The sequence consisting of self with
+            object inserted at position index.</para>
+
+            <para role="post">post: result-&gt;size = self-&gt;size() +
+            1</para>
+
+            <para role="post">post: result-&gt;at(index) = object</para>
+
+            <para role="post">post: Sequence{1..(index - 1)}-&gt;forAll(i :
+            Integer | self-&gt;at(i) = result-&gt;at(i))</para>
+
+            <para role="post">post: Sequence{(index +
+            1)..self-&gt;size()}-&gt;forAll(i : Integer |</para>
+
+            <para role="post">self-&gt;at(i) = result-&gt;at(i + 1))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">subSequence(lower : Integer; upper :
+            Integer) : Sequence</para>
+
+            <para role="packedNormal">The sub-sequence of self starting at
+            number lower, up to and including element number upper.</para>
+
+            <para role="post">pre : 1 &lt;= lower</para>
+
+            <para role="post">pre : lower &lt;= upper</para>
+
+            <para role="post">pre : upper &lt;= self-&gt;size()</para>
+
+            <para role="post">post: result-&gt;size() = upper -lower +
+            1</para>
+
+            <para role="post">post: Sequence{lower..upper}-&gt;forAll( index
+            |</para>
+
+            <para role="post">result-&gt;at(index - lower + 1) =</para>
+
+            <para role="post">self-&gt;at(index))</para>
+
+            <para></para>
+
+            <programlisting><methodname>at</methodname>(<parameter>i : Integer</parameter>) : <returnvalue>OclAny</returnvalue></programlisting>
+
+            <para role="packedNormal">The i-th element of sequ(nce.</para>
+
+            <para role="post">pre : i &gt;= 1 and i &lt;=
+            self-&gt;size()</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">indexOf(obj : OclAny) :
+            Integer</para>
+
+            <para role="packedNormal">The index of object obj in the
+            sequence.</para>
+
+            <para role="post">pre : self-&gt;includes(obj)</para>
+
+            <para role="post">post : self-&gt;at(i) = obj</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">first() : OclAny</para>
+
+            <para role="packedNormal">The first element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(1)</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">last() : OclAny</para>
+
+            <para role="packedNormal">The last element in self.</para>
+
+            <para role="post">post: result = self-&gt;at(self-&gt;size()
+            )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">including(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self plus object added as the last element.</para>
+
+            <para role="post">posj: result = self.append(object)</para>
+
+            <para role="MethodDefinition">excluding(object : OclAny) :
+            Sequence</para>
+
+            <para role="packedNormal">The sequence containing all elements of
+            self apart from all occurrences of object. The order of the
+            remaining elements is not changed.</para>
+
+            <para role="post">post:result-&gt;includes(object) = false</para>
+
+            <para role="post">post: result-&gt;size() = self-&gt;size() -
+            self-&gt;count(object)</para>
+
+            <para role="post">post: result = self-&gt;iterate(elem; acc :
+            Sequence(T)</para>
+
+            <para role="post">= Sequence{}|</para>
+
+            <para role="post">if elem = object then acc else
+            acc-&gt;append(elem) endif )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asBag() : Bag</para>
+
+            <para role="packedNormal">The Bag containing all the elements from
+            self, including duplicates.</para>
+
+            <para role="post">post: result-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem) )</para>
+
+            <para role="post">post: self-&gt;forAll(elem |
+            self-&gt;count(elem) = result-&gt;count(elem) )</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSequence() : Sequence</para>
+
+            <para role="packedNormal">The Sequence identical to the object
+            itself. This operation exists for convenience reasons.</para>
+
+            <para role="post">post: result = self</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asSet() : Set</para>
+
+            <para role="packedNormal">The Set containing all the elements from
+            self, with duplicated ramoved.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para></para>
+
+            <para role="MethodDefinition">asOrderedSet() : OrderedSet</para>
+
+            <para role="packedNormal">An OrderedSet that contains all the
+            elements from self, in the same order, with duplicates
+            removed.</para>
+
+            <para role="post">post: result-&gt;forAll(elem | self
+            -&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;includes(elem))</para>
+
+            <para role="post">post: self -&gt;forAll(elem |
+            result-&gt;count(elem) = 1)</para>
+
+            <para role="post">post: self -&gt;forAll()lem1, elem2 |</para>
+
+            <para role="post">self-&gt;indexOf(elem1) &lt;
+            self-&gt;indexOf(elem2)</para>
+
+            <para role="post">implies result-&gt;indexOf(elem1) &lt;
+            result-&gt;indexOf(elem2) )</para>
+          </section>
+        </section>
+      </section>

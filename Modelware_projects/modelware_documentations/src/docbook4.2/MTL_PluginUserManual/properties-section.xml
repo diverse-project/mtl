@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: properties-section.xml,v 1.1 2005-01-10 10:06:37 dvojtise Exp $ -->
+<section>
+  <title>Setting MTL Project Properties</title>
+
+  <para>The behavior of Eclipse and MTL Plugin For Eclipse can be customized
+  through properties. Properties apply to individual resources.<figure>
+      <title>MTL Project properties Page</title>
+
+      <screenshot>
+        <screeninfo></screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/properties/properties.JPG" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure></para>
+
+  <section>
+    <title>Setting Java Builder properties</title>
+
+    <para>See JavaBuilder configuration details... <figure>
+        <title>MTL Java properties Page</title>
+
+        <screenshot>
+          <screeninfo></screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/properties/propertiesJava.JPG" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure></para>
+  </section>
+
+  <section>
+    <title>Setting MTL Builder Properties </title>
+
+    <para></para>
+
+    <formalpara>
+      <title>Sources tab</title>
+
+      <para>Users have to define all MTL source folders here. </para>
+    </formalpara>
+
+    <para>Each source folder is a place where the compiler expect one library.
+    Each MTL library must be defined as a Source folder. </para>
+
+    <figure>
+      <title>MTL Project properties Page - Sources tab (fthis igure must be
+      updated !)</title>
+
+      <screenshot>
+        <screeninfo></screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/properties/propertiesMtlSource.JPG" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <formalpara>
+      <title>Projects tab</title>
+
+      <para>Users have to define all MTL Projects connected.</para>
+    </formalpara>
+
+    <figure>
+      <title>MTL Project properties Page - Projets tab</title>
+
+      <screenshot>
+        <screeninfo></screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/properties/propertiesMtlProjects.JPG" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <formalpara>
+      <title>Libraires tab</title>
+
+      <para>Users have to define all librairies or folders libraries necessary
+      for his project.</para>
+    </formalpara>
+
+    <figure>
+      <title>MTL Project properties Page - Libraries tab</title>
+
+      <screenshot>
+        <screeninfo></screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/properties/propertiesMtlLibrairies.JPG" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <formalpara>
+      <title>Order and Export tab</title>
+
+      <para>Users have to define the order in which the libraries (defined
+      with the Sources tab) will be compiled. </para>
+    </formalpara>
+
+    <figure>
+      <title></title>
+
+      <screenshot>
+        <screeninfo></screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/properties/propertiesMtOrder.JPG" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </section>
+</section>

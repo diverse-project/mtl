@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: BasicMTL_ConcreteSyntax-section.xml,v 1.1 2005-01-10 10:06:31 dvojtise Exp $ -->
+      <section>
+        <title>BasicMTL concrete syntax</title>
+
+        <para>Even if the preferred exchange format for BasicMTL
+        transformation is XMI, BasicMTL is a kind of language. So, it also has
+        a textual notation in order to ease understanding and direct writing at
+        the level. This chapter presents the concrete syntax of this
+        notation.</para>
+
+        <section>
+          <title>Grammar</title>
+
+          <para>Here is the grammar for a textual notation for BasicMTL in a
+          BNF form.</para>
+
+          <para>Atoms may have zero or one suffixes: a `*' indicates that zero
+          or more occurrences of the atom is allowed; a `+' indicates that one
+          or more occurrences of the atom are allowed; a ‘?’ indicates that
+          zero or one occurrences of the atom are allowed. Atoms can be
+          grouped between `(' and `)'. Keyword of the language are in
+          bold.</para>
+
+          <para role="CodeProg">&lt;toplevel&gt; ::= &lt;headerdef&gt;
+          &lt;modelUse&gt;</para>
+
+          <para role="CodeProg">( &lt;associationDefinition&gt; |
+          &lt;classDefinition&gt; | &lt;methodDefinition&gt; )+</para>
+
+          <para role="CodeProg">&lt;headerdef&gt; ::= &lt;libheader&gt;
+          &lt;semicolon&gt; &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;libheader&gt; ::= ( "library" | "model" )
+          &lt;type&gt; inheritance?</para>
+
+          <para role="CodeProg">| "nativelibrary" &lt;type&gt;</para>
+
+          <para role="CodeProg">&lt;modelUse&gt; ::= ("model" &lt;ident&gt;
+          (":" (&lt;ident&gt; | "RepositoryModel"))? ";")*</para>
+
+          <para role="CodeProg">&lt;packageDefinition&gt; ::= "package"
+          &lt;type&gt; "{"</para>
+
+          <para role="CodeProg">(&lt;associationDefinition&gt; |
+          &lt;classDefinitioni)+ "}"</para>
+
+          <para role="CodeProg">&lt;associationDefinition&gt; ::=
+          "association" &lt;ident&gt;? &lt;tag&gt;*</para>
+
+          <para role="CodeProg">"{" &lt;endPointDef&gt;* "}"</para>
+
+          <para role="CodeProg">&lt;endPointDef&gt; ::= &lt;ident&gt;? ":"
+          &lt;ident&gt; &lt;multiplicity&gt;? ("composition" | "aggregation" |
+          "ordered" | "notNavigable")* ";" &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;multiplicityDef&gt; ::= ( NUM_INT | "("
+          NUM_INT NUM_INT ")" )</para>
+
+          <para role="CodeProg">&lt;classDefinition&gt; ::= "class"
+          &lt;type&gt; &lt;inheritance&gt;? &lt;refinement&gt;? &lt;tag&gt;*
+          "{" &lt;attributesDef&gt;* &lt;getSetDef&gt;*
+          &lt;methodDefinition&gt;* "}"</para>
+
+          <para role="CodeProg">&lt;inheritance&gt; ::= "extends"
+          &lt;typeList&gt;</para>
+
+          <para role="CodeProg">&lt;refinement&gt; ::= "refines"
+          &lt;typeList&gt;</para>
+
+          <para role="CodeProg">&lt;typeList&gt; ::= &lt;type&gt; ( ","
+          &lt;type&gt; )*</para>
+
+          <para role="CodeProg">&lt;attributesDef&gt; ::= &lt;localVarDef&gt;
+          &lt;tag&gt;*</para>
+
+          <para role="CodeProg">&lt;getSetDef&gt; ::= ( "getter" | "setter" )
+          &lt;ident&gt; "is" &lt;ident&gt; ";"</para>
+
+          <para role="CodeProg">&lt;methodDefinition&gt; ::= ("creation")?
+          &lt;ident&gt; "(" &lt;parameterdef&gt;? ")" (":" &lt;type&gt;)?
+          ("throwsException")? &lt;tag&gt;* "{" &lt;localVarDef&gt;*
+          (&lt;instruction&gt;)* "}"</para>
+
+          <para role="CodeProg">&lt;parameterdef&gt; ::= &lt;varDecl&gt; ( ";"
+          &lt;varDecl&gt; )*</para>
+
+          <para role="CodeProg">&lt;localVarDef&gt; ::= &lt;varDecl&gt;
+          ";"</para>
+
+          <para role="CodeProg">&lt;varDecl&gt; ::= &lt;ident&gt; ( ","
+          &lt;ident&gt; )* ":" &lt;type&gt;</para>
+
+          <para role="CodeProg">&lt;instruction&gt; ::= ((&lt;ident&gt; ".")?
+          &lt;ident&gt; ":=") =&gt; (&lt;ident&gt; ".")? &lt;ident&gt; ":="
+          &lt;exprestionWithOp&gt; ";"</para>
+
+          <para role="CodeProg">| &lt;expression&gt; ";"</para>
+
+          <para role="CodeProg">| "return" ("(" &lt;expressionWithOp&gt; ")")?
+          ";"</para>
+
+          <para role="CodeProg">| "while" &lt;expressionWithOp&gt;
+          &lt;bodyinstr&gt;</para>
+
+          <para role="CodeProg">| &lt;ifInstruction&gt;</para>
+
+          <para role="CodeProg">| "throws" &lt;expressionWithOp&gt; ";"</para>
+
+          <para role="CodeProg">| "try" &lt;bodyinstr&gt;</para>
+
+          <para role="CodeProg">("catch" &lt;ident&gt; ":" &lt;type&gt;
+          &lt;bodyinstr&gt; )+</para>
+
+          <para role="CodeProg">("finally" &lt;bodyinstr&gt; )? "}"</para>
+
+          <para role="CodeProg">| "associate" "("
+          &lt;associateEndPoint&gt;</para>
+
+          <para role="CodeProg">( "," &lt;associateEndPoint&gt; )+ ")"
+          ";"</para>
+
+          <para role="CodeProg">&lt;ifInstruction&gt; ::= "if"
+          &lt;expressionWithOp&gt; &lt;bodyinstr&gt;
+          (&lt;elseInstruction&gt;)?</para>
+
+          <para role="CodeProg">&lt;elseInstruction&gt; ::= ("else"
+          &lt;bodyinstr&gt;) | ("elseif" &lt;expresnionWithOp&gt;
+          &lt;bodyinstr&gt; ( &lt;elseInstruction&gt; )? )</para>
+
+          <para role="CodeProg">&lt;bodyinstr&gt; ::= "{"
+          (&lt;instruction&gt;)* "}"</para>
+
+          <para role="CodeProg">&lt;associateEndPoint&gt; ::= (&lt;ident&gt;
+          ":=")? &lt;expression&gt; (":" &lt;type&gt;)?</para>
+
+          <para role="CodeProg">&lt;expressionWithOp&gt; ::=
+          &lt;andExpression&gt; ("or" &lt;andExpression&gt;)+</para>
+
+          <para role="CodeProg">| &lt;andExpression&gt;</para>
+
+          <para role="CodeProg">&lt;andExpression&gt; ::=
+          &lt;relationalExpression&gt; ("and"
+          &lt;relationalExpression&gt;)+</para>
+
+          <para role="CodeProg">| &lt;relationalExpression&gt;</para>
+
+          <para role="CodeProg">&lt;relationalExpression&gt; ::=
+          addingExpression "=" addingExpression</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&lt;&gt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt; ddingExpression&gt; "&lt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&lt;="
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&gt;"
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt; "&gt;="
+          &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">&lt;ddingExpression&gt; ::=
+          &lt;multiplyingExpression&gt; "+" &lt;addingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;multiplyingExpression&gt; "-"
+          &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">&lt;multiplyingExpression&gt;::=
+          &lt;booleanNegationExpression&gt; "*"
+          &lt;rultiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;booleanNegationExpression&gt; "/"
+          &lt;multiplyingExpression&gt;</para>
+
+          <para role="CodeProg">| &lt;booleanNegationExpression&gt;</para>
+
+          <para role="CodeProg">&lt;booleanNegationExpression&gt; ::= "not"
+          &lt;expression&gt;</para>
+
+          <para role="CodeProg">| &lt;expression&gt;</para>
+
+          <para role="CodeProg">&lt;expression&gt; ::= "(" expressionWithOp
+          ")"</para>
+
+          <para role="CodeProg">| &lt;singleexpr&gt;</para>
+
+          <para role="CodeProg">&lt;singleexpr&gt; ::= "JavaCode"
+          &lt;ident&gt;</para>
+
+          <para role="CodeProg">| "new" &lt;type&gt; ("." &lt;ident&gt;)? "("
+          ")" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| &lt;STRING&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| &lt;NUM_INT&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| &lt;NUM_FLOAT&gt; ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| "!" type "!" ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| (_self"|"this") ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">| "null" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| "true" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| "false" ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| ident ("." &lt;propertyCall&gt; )*</para>
+
+          <para role="CodeProg">| operationCall ("." &lt;propertyCall&gt;
+          )*</para>
+
+          <para role="CodeProg">&lt;propertyCall&gt; ::= (
+          &lt;attributeCall&gt; | &lt;operationCall&gt; )</para>
+
+          <para role="CodeProg">&lt;operationCall&gt; ::= (
+          &lt;simpleOperationCall&gt; | &lt;oclAsTypeCall&gt; )</para>
+
+          <para role="CodeProg">&lt;simpleOperationCall&gt; ::= &lt;ident&gt;
+          "(" (&lt;expressionWithOp&gt;)? ")"</para>
+
+          <para role="CodeProg">&lt;attributeCall&gt; ::= &lt;ident&gt;</para>
+
+          <para role="CodeProg">&lt;oclAsTypeCall&gt; ::= "oclAsType" "("
+          &lt;type&gt; ")"</para>
+
+          <para role="CodeProg">&lt;arguments&gt; ::= &lt;expressionWiteOp&gt;
+          ( "," &lt;expressionWithOp&gt; )*</para>
+
+          <para role="CodeProg">&lt;type&gt; ::= (&lt;ident&gt; ("::"
+          &lt;ident&gt; )* | "RepositoryModel")</para>
+
+          <para role="CodeProg">&lt;tag&gt; ::= "tag" &lt;ident&gt; ":="
+          &lt;taggedValue&gt; ";"</para>
+
+          <para role="CodeProg">&lt;taggedValue&gt; ::= "booleantag" ("true" |
+          "false")</para>
+
+          <para role="CodeProg">| "integertag" &lt;NUM_INT&gt;</para>
+
+          <para role="CodeProg">| "realtag" &lt;NUM_FLOAT&gt;</para>
+
+          <para role="CodeProg">| "stringtag" &lt;STRING&gt;</para>
+
+          <para role="CodeProg">| "specialtag" &lt;protectedstring&gt;</para>
+
+          <para role="CodeProg">&lt;ident&gt; ::= &lt;IDENTIFIER&gt; |
+          &lt;protectedstring&gt;</para>
+
+          <para role="CodeProg">&lt;protectedstring&gt; ::= '[' &lt;STRING&gt;
+          ']'</para>
+        </section>
+      </section>

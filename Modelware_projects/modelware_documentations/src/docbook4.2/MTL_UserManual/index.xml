@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: index.xml,v 1.1 2005-01-10 10:06:28 dvojtise Exp $ -->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY % isopub SYSTEM "iso-pub.ent">
+%isopub;
+<!ENTITY % local SYSTEM "local-entities.ent">
+%local;
+
+
+<!ENTITY MTLPluginProperties SYSTEM "../MTL_PluginUserManual/properties-section.xml">
+
+<!ENTITY BasicMTLConcepts SYSTEM "../shared/BasicMTL_Concepts-section.xml">
+<!ENTITY BasicMTLAbstractSyntax SYSTEM "../shared/BasicMTL_AbstractSyntax-section.xml">
+<!ENTITY BasicMTLConcreteSyntax SYSTEM "../shared/BasicMTL_ConcreteSyntax-section.xml">
+<!ENTITY BasicMTLStandardLibrary SYSTEM "../shared/BasicMTL_StandardLibrary-section.xml">
+]>
+<book>
+  <title>MTL User Manual</title>
+
+  <chapter>
+    <title>MTL Plugin manual</title>   
+	&MTLPluginProperties;   
+  </chapter>
+  <chapter>
+    <title>BasicMTL language</title>
+
+    <!--	<xi:include href="BasicMTLConcepts.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
+                xpointer="generalprinciples" />-->
+
+	&BasicMTLConcepts;
+	&BasicMTLAbstractSyntax;
+	&BasicMTLConcreteSyntax;
+	&BasicMTLStandardLibrary;
+	   
+  </chapter>
+    <chapter>
+    <title>UMLAUT NG framework</title>   
+	   
+  </chapter>
+</book>

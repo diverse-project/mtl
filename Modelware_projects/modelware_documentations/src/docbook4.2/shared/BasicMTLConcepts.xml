@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>BasicMTL concepts</title>
+
+  <section>
+    <para></para>
+  </section>
+
+  <section>
+    <title>General principles</title>
+
+    <para>BasicMTL language has one main concept: there is an intended analogy
+    between classes defined by the transformation programmer and the
+    metaclasses of the manipulated model.</para>
+
+    <para></para>
+
+    <para>Thus we have this table of correspondence:</para>
+
+    <para></para>
+
+    <table>
+      <title>BasicMTL object -model element concepts correspondence</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>model concept</entry>
+
+            <entry>BasicMTL concept</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>Meta-class</entry>
+
+            <entry>Class</entry>
+          </row>
+
+          <row>
+            <entry>Meta-operation</entry>
+
+            <entry>Operation</entry>
+          </row>
+
+          <row>
+            <entry>Extent</entry>
+
+            <entry>Library</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>Basic Values and Types</title>
+
+    <para>BasicMTL disposes of a variety of basic values and types. </para>
+
+    <para> All of them is considered like an object and then dispose of a
+    range of functionalities. Functionnalities of each of them is detailed
+    more precisely in §‎2.5 BasicMTL standard library.</para>
+
+    <para>Note : there is no primitive types like int, bool, or string in
+    java. Everything is object. However, some of the standard types may be
+    obtained using literal value in the language (a kind of autoboxing). This
+    is the case for:<itemizedlist>
+        <listitem>
+          <para>Integer</para>
+
+          <informalexample>
+            <programlisting>anInteger : Standard::Integer;
+anInteger := 3;</programlisting>
+          </informalexample>
+        </listitem>
+
+        <listitem>
+          <para>Real</para>
+
+          <informalexample>
+            <programlisting>aReal : Standard::Real;
+aReal := 3.5;</programlisting>
+          </informalexample>
+        </listitem>
+
+        <listitem>
+          <para>Boolean </para>
+
+          <programlisting>aBoolean : Standard::Boolean; 
+aBoolean := true; </programlisting>
+        </listitem>
+
+        <listitem>
+          <para>String </para>
+
+          <programlisting>aString : Standard::String; 
+aString := ‘hello world’;</programlisting>
+        </listitem>
+
+        <listitem>
+          <para>OclType </para>
+
+          <programlisting>aType : Standard::OclType; 
+aType := !source_model::Core::Attribute!; </programlisting>
+
+          <para>This literal allows to quickly get a metaclass from a model.
+          It is expressed by surrounding the name of the Type with exclamation
+          marks ‘!’. This is really useful in order to find an entry point in
+          a model (for example using the AllInstances() method applicable to
+          the type) OclType objects are really useful for building generic
+          functions or factories. </para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>The standard library also provides the necessary structural objects
+    for collection and iterator. Like in OCL, Classes in Standard doesn’t
+    provide functionalities which have side effect. There is no mutator on
+    these objects. This is done on purpose as we plan to add contract to the
+    language. For example: </para>
+
+    <informalexample>
+      <programlisting>aSet1,aSet2 : Standard::Set; 
+aSet1 := new Standard::Set(); 
+aSet2 := aSet1.including(‘hello’); </programlisting>
+    </informalexample>
+
+    <para>The Set including() method returns a new Set without changing the
+    original Set itself. The only instruction which has direct side effect is
+    the assignment see §‎2.2.2.1 Assignment</para>
+  </section>
+
+  <section>
+    <title>Instructions</title>
+
+    <para>BasicMTL uses an imperative style and actions are organized in
+    instructions sequences.</para>
+
+    <section>
+      <title>Assignments</title>
+
+      <para>This is the way we can change values, by replacing one by another.
+      Ex:</para>
+
+      <informalexample>
+        <programlisting>aString1, aString2 : Standard::String;
+aString1 := ‘Hello’;
+aString2 := aString1;</programlisting>
+      </informalexample>
+
+      <para>aString1 and aString2 objects points to the same String object
+      whose value is ‘Hello’;</para>
+    </section>
+
+    <section>
+      <title>Control flow</title>
+
+      <para>BasicMTL dispose of very basic execution control : while and. They
+      are used in the usual way. The execution control may be broken using the
+      return statement. Good programmer should avoid this possibility as often
+      as possible.</para>
+
+      <para>In addition to these control flow we have an instrunction specific
+      to collections: foreach</para>
+
+      <para>TODO</para>
+    </section>
+
+    <section>
+      <title>Expression operators</title>
+
+      <para>BasicMTL provides (since beta4) operators for its primitives
+      types. This are the usual ones for aritmetic, boolean operations.</para>
+
+      <para> It uses usual precedence. User can obviously overwrite the
+      precedence using bracket “(“ “)”.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>not</para>
+        </listitem>
+
+        <listitem>
+          <para>* /</para>
+        </listitem>
+
+        <listitem>
+          <para>+ - </para>
+        </listitem>
+
+        <listitem>
+          <para>= &lt;&gt; &lt; &lt;= &gt; &gt;= </para>
+        </listitem>
+
+        <listitem>
+          <para>and </para>
+        </listitem>
+
+        <listitem>
+          <para>or xor implies (other operators have the same precedence as
+          or)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Please look to the grammar §‎2.4.1 for the details of the
+      precedence.</para>
+    </section>
+  </section>
+</section>
