@@ -184,7 +184,7 @@ public class AWK
 	
 	/**
 	 * Returns a single string based on a array, separating it with separator.
-	 * WARNING: there is no control of the array does not conatin the separator
+	 * WARNING: there is no control of the array does not contain the separator
 	 */
 	public static String mergeCollection (Collection collection, String separator) {
 		if (collection == null)
@@ -203,10 +203,10 @@ public class AWK
 		it = collection.iterator();
 		boolean firstIter = true;
 		while (it.hasNext()) {
-			if (firstIter)  {
+			if (firstIter)
 				firstIter = false;
+			else
 				ret.append(separator);
-			}
 			ret.append((String)it.next());
 		}
 		return ret.toString();
