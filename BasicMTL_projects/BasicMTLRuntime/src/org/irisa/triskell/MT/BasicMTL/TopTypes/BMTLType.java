@@ -125,7 +125,7 @@ public class BMTLType extends CommandGroupImpl implements Type {
 	}
 
 	public BMTLLibrary getLibrary() {
-		return library;
+		return library == null ? null : library.getLibrary();
 	}
 
 }

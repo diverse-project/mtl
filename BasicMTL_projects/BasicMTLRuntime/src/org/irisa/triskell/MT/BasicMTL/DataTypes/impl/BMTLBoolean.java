@@ -8,7 +8,12 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_and;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_implies;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_not;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_or;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.Boolean_xor;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BooleanValueImpl;
 
 /**
@@ -39,40 +44,24 @@ public class BMTLBoolean
 		return this.getBooleanDelegate().getValue();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface#BMTL_and(org.irisa.triskell.MT.DataTypes.Java.BooleanValue)
-	 */
 	public BMTLBooleanInterface BMTL_and(BooleanValue rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_and.TheInstance.invoke(this, new Value [] {rhs}));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface#BMTL_implies(org.irisa.triskell.MT.DataTypes.Java.BooleanValue)
-	 */
 	public BMTLBooleanInterface BMTL_implies(BooleanValue rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_implies.TheInstance.invoke(this, new Value [] {rhs}));
 	}
 
 	public BMTLBooleanInterface BMTL_not() {
 		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_not.TheInstance.invoke(this, null));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface#BMTL_or(org.irisa.triskell.MT.DataTypes.Java.BooleanValue)
-	 */
 	public BMTLBooleanInterface BMTL_or(BooleanValue rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_or.TheInstance.invoke(this, new Value [] {rhs}));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface#BMTL_xor(org.irisa.triskell.MT.DataTypes.Java.BooleanValue)
-	 */
 	public BMTLBooleanInterface BMTL_xor(BooleanValue rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_xor.TheInstance.invoke(this, new Value [] {rhs}));
 	}
 
 }
