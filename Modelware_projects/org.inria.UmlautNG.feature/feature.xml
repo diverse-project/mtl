@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.inria.UmlautNG"
-      label="UmlautNG Framwork and compilers"
-      version="0.0.3"
-      provider-name="INRIA">
+      label="UmlautNG Framework and compilers"
+      version="0.0.4"
+      provider-name="INRIA"
+      image="umlaut_ng_medium.gif">
 
    <install-handler/>
 
-   <description url="[Enter Feature URL here.]">
+   <description>
       Umlaut NG framework and compilers.
 It includes:
 - BasicMTL runtime
@@ -58,7 +59,7 @@ Content and is also available at http://www.gnu.org/copyleft/lesser.html.
 
    <includes
          id="org.inria.BasicMTLc"
-         version="0.0.3"
+         version="0.0.4"
          name="BasicMTL compiler and editors"/>
 
 </feature>

@@ -2,12 +2,12 @@
 <feature
       id="org.inria.BasicMTLc"
       label="BasicMTL compiler and editors"
-      version="0.0.3"
+      version="0.0.4"
       provider-name="INRIA">
 
    <install-handler/>
 
-   <description url="[Enter Feature URL here.]">
+   <description>
       This Eclipse feature contains the needed plugins for compiling
 BasicMTL transformations.
 It includes:
@@ -47,10 +47,15 @@ with this
 Content and is also available at http://www.gnu.org/copyleft/lesser.html.
    </license>
 
+   <url>
+      <update label="UmlautNG update site" url="http://modelware.inria.fr/umlautng_update"/>
+      <discovery label="UmlautNG discovery site" url="http://modelware.inria.fr/umlautng_update"/>
+   </url>
+
    <plugin
          id="org.inria.mtl"
          download-size="0"
          install-size="0"
-         version="1.0.0"/>
+         version="0.0.4"/>
 
 </feature>
