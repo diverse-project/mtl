@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.4 2004-10-14 09:52:41 jpthibau Exp $ -->
+<!-- $Id: common_build.xml,v 1.5 2004-10-26 10:05:50 dvojtise Exp $ -->
 <project name="common_build" default="compile common" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -19,8 +19,8 @@
 -->	
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
-		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
-		<pathelement path="${ModFactDriver.path}/dist/bin/ModFactDriver.jar"/>
+		<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
+		<pathelement path="${ModFactDriver.path}/lib/ModFactDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -100,8 +100,14 @@
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
 			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
-			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
-			<pathelement path="${ModFactDriver.path}/dist/bin/ModFactDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/libn/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mof.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/nbmdr.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mdrapi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/openide-lookup.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmiutils.jar"/>
+			<pathelement path="${ModFactDriver.path}/lib/ModFactDriver.jar"/>
    			<pathelement path="${ModFactDriver.path}/Thirdparty/ModFact/v1_0_0/JMI1_0.jar"/>
    			<pathelement path="${ModFactDriver.path}/Thirdparty/ModFact/v1_0_0/ModFactJmi.jar"/>
 		</classpath>

@@ -1,4 +1,4 @@
-<!-- $Id: UML14_Transformations_build.xml,v 1.4 2004-10-19 10:06:02 jpthibau Exp $ -->
+<!-- $Id: UML14_Transformations_build.xml,v 1.5 2004-10-26 10:06:15 dvojtise Exp $ -->
 <project name="UML14_Transformations" default="compile" basedir=".">
 	<description>
         Build file for compiling and running UML14_Transformations
@@ -57,7 +57,13 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
-			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mof.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/nbmdr.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mdrapi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/openide-lookup.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmiutils.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java>
