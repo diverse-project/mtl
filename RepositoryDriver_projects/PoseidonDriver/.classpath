@@ -9,7 +9,7 @@
 	<classpathentry kind="src" path="/Utils"/>
 	<classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
 	<classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/poseidon_libs"/>
 	<classpathentry kind="src" path="/org.inria.BasicMTL.runtime"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/poseidon_3.0_libs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
