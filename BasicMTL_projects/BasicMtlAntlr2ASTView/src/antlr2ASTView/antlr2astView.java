@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.6 2003-12-08 11:15:36 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.7 2003-12-16 07:56:36 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -439,8 +439,9 @@ public Object throwsInstr(Object expression,String lineNumber)
 public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 {	int i;
 	java.util.Vector instructions=(java.util.Vector)((java.util.Vector)tryBody).get(0);
-	java.util.Vector finallyInstructions=(java.util.Vector)((java.util.Vector)finBody).get(0);
-	String lineNumber=(String)((java.util.Vector)tryBody).get(0);
+	java.util.Vector finallyInstructions=null;
+	if (finBody !=null) finallyInstructions=(java.util.Vector)((java.util.Vector)finBody).get(0);
+	String lineNumber=(String)((java.util.Vector)tryBody).get(1);
 	BMTL_Try node=(BMTL_Try)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Try"})).instanciate();
 	try {
 	for(i=0;i<instructions.size();i++)
@@ -463,8 +464,10 @@ public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 		putProperty((BMTL_ASTNodeInterface)aCatch,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 		node.BMTL_appendCatchPart(aCatch);
 	}
+	if (finallyInstructions != null) {
 	for(i=0;i<finallyInstructions.size();i++)
 		node.BMTL_appendFinalizeBody((BMTL_InstructionInterface)finallyInstructions.get(i));
+	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.9 2003-10-14 14:35:40 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.10 2003-12-16 07:51:44 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -28,7 +28,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 	public Object OperationCallBefore(OperationCall ASTnode,java.util.Map context)
 	{	
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		return ASTnode; }
 		
 	public void OperationCallCaller(Object theOperationCall,OperationCall node,Object expr, java.util.Map context)
@@ -112,7 +112,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 		} else if (! theOpCall.getKind().equals(OperationKind.getCurrentLibraryCall())
 					&&! theOpCall.getKind().equals(OperationKind.getLibraryCall()))
 			if (!theOpCall.getNoEndingBracket())outputForClass.print(')');
-		CommonFunctions.generateCastAfter(outputForClass, theOpCall);
+		CommonFunctions.generateCastAfter(outputForClass, theOpCall,ASTnode.getIsTrownExpression());
 	}
 
 }

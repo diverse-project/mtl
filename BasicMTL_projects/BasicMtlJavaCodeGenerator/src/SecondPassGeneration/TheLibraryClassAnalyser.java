@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TheLibraryClassAnalyser.java,v 1.5 2003-08-22 18:24:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TheLibraryClassAnalyser.java,v 1.6 2003-12-16 07:51:44 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -80,7 +80,60 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 	context.remove("CurrentClass");
 	PrintWriter outputForClass=(PrintWriter)context.get("OutputForClass");
 	PrintWriter outputForInterface=(PrintWriter)context.get("OutputForInterface");
+	/***********************************************************
+	 * ACCEPT FOR CALLABLE VISITOR
+	 * ****************************
+	 *
+	accept (v : DefaultVisitors::CallableVisitor; context : Standard::OclAny) : Standard::OclAny
+	{	try {
+			return v.visit('CLASSNAME',self,context);
+		}
+		catch w:DefaultVisitors::CallableVisitor {
+			return v.visitOclAny(self,context);
+			}
+	} */
+	outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_accept(DefaultVisitors.BMTL_CallableVisitorInterface BMTL_v,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_context) throws Throwable {");
+	outputForClass.println("try {");
+	outputForClass.println("return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(BMTL_v.BMTL_visit(new BMTLString(\""+ASTnode.getName()+"\"),theCaller,BMTL_context));");
+	outputForClass.println("}");
+	outputForClass.println("catch (java.lang.Throwable throwable) { try {");
+	outputForClass.println("DefaultVisitors.BMTL_CallableVisitorInterface BMTL_w=(DefaultVisitors.BMTL_CallableVisitorInterface)throwable;");
+	outputForClass.println("} catch(Exception e) { throw throwable; }");
+	outputForClass.println("return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(BMTL_v.BMTL_visitOclAny(theCaller,BMTL_context));");
+	outputForClass.println("}");
+	outputForClass.println("}");
+	/***********************************************************
+	 * ACCEPT FOR INVOKABLE VISITOR
+	 * ****************************
+	 *
+	accept (v : DefaultVisitors::InvokableVisitor; context : Standard::OclAny) : Standard::OclAny
+	{	vFather : DefaultVisitors::CallableVisitor;
+		JavaCode [try { java.lang.reflect.Method m = BMTL_v.getClass().getMethod("BMTL_visitCLASSNAME",new Class[\]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class})];
+		JavaCode [return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)m.invoke(BMTL_v,new Object[\]{this,BMTL_context})];
+		JavaCode [} catch (Exception e) {} BMTL_vFather=null];
+		vFather := v.getParent();
+		if isNull(vFather).[not]()
+			{ return self.accept(vFather,context); }
+		else
+			{ return v.visitOclAny(self,context); }
+	}
+	} */
+	outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_accept(DefaultVisitors.BMTL_InvokableVisitorInterface BMTL_v,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_context) throws Throwable {");
+	outputForClass.println("DefaultVisitors.BMTL_CallableVisitorInterface BMTL_vFather=null;");
+	outputForClass.println("try { java.lang.reflect.Method m = BMTL_v.getClass().getMethod(\"BMTL_visit"+ASTnode.getName()+"\",new Class[]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class});");
+	outputForClass.println("return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)m.invoke(BMTL_v,new Object[]{this,BMTL_context});");
+	outputForClass.println("} catch (Exception e) {} BMTL_vFather=null;");
+	outputForClass.println("BMTL_vFather=(DefaultVisitors.BMTL_CallableVisitorInterface)CommonFunctions.toBMTLDataType(BMTL_v.BMTL_getParent());");
+	outputForClass.println("BooleanValue GenSymbol1 = (BooleanValue)theCaller.BMTL_isNull(BMTL_vFather).BMTL_not();");
+	outputForClass.println("if (GenSymbol1.getTheBoolean()) {");
+	outputForClass.println("return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this.BMTL_accept(BMTL_vFather,BMTL_context));");
+	outputForClass.println("} else {");
+	outputForClass.println("return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(BMTL_v.BMTL_visitOclAny(theCaller,BMTL_context));");
+	outputForClass.println("}");
+	outputForClass.println("}");
 	outputForClass.println('}');
+	outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_accept(DefaultVisitors.BMTL_CallableVisitorInterface BMTL_v,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_context) throws Throwable;");
+	outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_accept(DefaultVisitors.BMTL_InvokableVisitorInterface BMTL_v,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface BMTL_context) throws Throwable;");
 	outputForInterface.println('}');
 	outputForClass.flush();
 	outputForInterface.flush();

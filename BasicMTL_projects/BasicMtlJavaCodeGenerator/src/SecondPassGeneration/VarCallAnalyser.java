@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarCallAnalyser.java,v 1.3 2003-08-21 20:10:17 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarCallAnalyser.java,v 1.4 2003-12-16 07:51:43 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -18,9 +18,9 @@ public class VarCallAnalyser extends TLLTopDownVisitor.VarCallAnalyser {
 
 	public void VarCallAction(VarCall ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		outputForClass.print(ASTnode.getRelatedDecl().getMangle());
-		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 	}
 
 }

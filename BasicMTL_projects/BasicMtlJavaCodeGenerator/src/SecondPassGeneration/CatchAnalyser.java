@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CatchAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CatchAnalyser.java,v 1.5 2003-12-16 07:51:45 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -20,13 +20,13 @@ public class CatchAnalyser extends TLLTopDownVisitor.CatchAnalyser {
 
 	public Object CatchBefore(Catch ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.println("catch (");
+		outputForClass.print("catch (");
 		return null; }
 
-	public void CatchVarDeclaration(Object theCatch,Object varDecl,java.util.Map context)
+/*	public void CatchVarDeclaration(Object theCatch,Object varDecl,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.println(") {");
-	}
+	}*/
 
 	public void CatchAfter(Object theCatch,Catch ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");

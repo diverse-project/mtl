@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarDeclarationAnalyser.java,v 1.4 2003-10-14 14:35:40 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarDeclarationAnalyser.java,v 1.5 2003-12-16 07:51:45 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -20,8 +20,13 @@ public class VarDeclarationAnalyser extends TLLTopDownVisitor.VarDeclarationAnal
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
 		QualifiedName type=ASTnode.getType();
-		outputForClass.print(type.getDeclarationName()+' '+ASTnode.getMangle());
-		if (ASTnode.getIsFormalParameter())
+		if (ASTnode.getIsCatchParameter()) {
+			outputForClass.println("java.lang.Throwable throwable) { try {");
+			outputForClass.println(type.getDeclarationName()+' '+ASTnode.getMangle()+"=("+type.getDeclarationName()+")throwable;");
+			outputForClass.println("} catch(Exception e) { throw throwable; }");
+		} else outputForClass.print(type.getDeclarationName()+' '+ASTnode.getMangle());
+		if (ASTnode.getIsFormalParameter()
+			&& ! ASTnode.getIsCatchParameter())
 			outputForInterface.print(type.getDeclarationName()+' '+ASTnode.getMangle());
 		if (! ASTnode.getIsFormalParameter()) outputForClass.println("=null;");
 	}

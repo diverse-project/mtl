@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.7 2003-09-23 17:12:27 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.8 2003-12-16 07:51:45 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -47,7 +47,7 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 //			outputForClass.println("new "+type.getLocalMangledName()+"(this.getLibrary())");
 		if (ASTnode.cardArguments() > 0)
 			BMTLCompiler.getLog().error("new should not have arguments as you can't define your own constructors...");
-		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		return null; }
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/BooleanLiteralAnalyser.java,v 1.4 2003-08-21 20:10:17 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/BooleanLiteralAnalyser.java,v 1.5 2003-12-16 07:51:44 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -18,12 +18,12 @@ public class BooleanLiteralAnalyser extends TLLTopDownVisitor.BooleanLiteralAnal
 
 	public void BooleanLiteralAction(BooleanLiteral ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		if (ASTnode.getValue())
 			outputForClass.print("BMTLBoolean.TRUE");
 		else
 			outputForClass.print("BMTLBoolean.FALSE");
-		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 	}
 
 }

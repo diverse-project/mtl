@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/SelfLiteralAnalyser.java,v 1.2 2003-08-21 20:10:18 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/SelfLiteralAnalyser.java,v 1.3 2003-12-16 07:51:45 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -18,8 +18,8 @@ public class SelfLiteralAnalyser extends TLLTopDownVisitor.SelfLiteralAnalyser {
 
 	public void SelfLiteralAction(SelfLiteral ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 		outputForClass.print("theCaller");
-		CommonFunctions.generateCastAfter(outputForClass, ASTnode);
+		CommonFunctions.generateCastAfter(outputForClass, ASTnode,ASTnode.getIsTrownExpression());
 	}
 }
