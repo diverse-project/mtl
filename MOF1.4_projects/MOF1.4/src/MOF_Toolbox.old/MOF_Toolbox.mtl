@@ -1,0 +1,500 @@
+/******************************************************************************
+ * $Id: MOF_Toolbox.mtl,v 1.1 2003-12-15 10:07:04 edrezen Exp $
+ ******************************************************************************/
+
+library MOF_Toolbox;
+
+model source_model : RepositoryModel;
+model target_model : RepositoryModel;
+
+model MOF : RepositoryModel;
+
+
+
+
+/*****************************************************************************/
+
+main():Standard::Void
+{
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+
+	mofutils : MOF_Utils;
+
+	source_metamodel_filename : Standard::String;
+	source_model_filename     : Standard::String;
+
+	target_metamodel_filename : Standard::String;
+	targe_model_filename      : Standard::String;
+
+	iterator : Standard::Iterator;
+	rootPackage : MOF::Package;
+	
+
+	//////////////////////////////////////////////////
+	// we define some filenames 
+	//////////////////////////////////////////////////
+	projectPath       := './';
+
+
+	//////////////////////////////////////////////////
+    // we initialize the MDR driver			
+	//////////////////////////////////////////////////
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+
+	//////////////////////////////////////////////////
+	// we get the MOF metamodel
+	//////////////////////////////////////////////////
+	source_metamodel_filename := projectPath.concat ('MetaModels/MOF/MOF_metamodel.xmi');
+	
+	source_model_filename     := projectPath.concat ('MetaModels/MOF/MOF_metamodel.xmi');
+//	source_model_filename     := 'C:/Program Files/eclipse/workspace/UML1.4/MetaModel/xmi_1.2/01-02-15.xml';	
+//	source_model_filename     := projectPath.concat ('Models/PIM/PIM_model.xmi');	
+
+ 
+	MOF:= mdrdriver.getModelFromXMI (
+		source_metamodel_filename, 
+		'Model',
+		'm1', 
+		source_model_filename,
+		null
+	);
+
+
+	//////////////////////////////////////////////////
+	// 
+	//////////////////////////////////////////////////
+	mofutils := new MOF_Utils();
+	
+	//rootPackage := mofutils.getRootPackage ('DesignMetaModel');
+	//mofutils.getSubPackages (rootPackage);
+	//mofutils.getClasses (rootPackage);
+
+//	rootPackage := mofutils.getRootPackage ('Model');
+//	rootPackage.toOut();
+
+	mofutils.DisplayInformation();
+
+}
+ 
+
+/*****************************************************************************/
+
+/*****************************************************************************/
+
+        
+class MOF_Utils
+{
+	classes        : Standard::Set;
+	primitiveTypes : Standard::Set;
+	associations   : Standard::Set;
+	packages       : Standard::Set;	
+
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+
+	getRootPackage (extentName : Standard::String) : MOF::Package
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::Package;	
+		result : MOF::Package;
+		
+		aModelElementIterator := !MOF::Package!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+	
+		while isNull(result).[and] (aModelElementIterator.isOn())
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::Package!);
+			if (aModelElement.name.[=] (extentName) )
+			{
+				result:= aModelElement;
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;	
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+
+	getTopLevelPackages () : Standard::Set
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::Package;	
+		result : Standard::Set;
+		parentPackage : MOF::Package;
+		
+		result := new Standard::Set();
+		
+		aModelElementIterator := !MOF::Package!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+	
+		while aModelElementIterator.isOn()
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::Package!);
+			parentPackage := getParentPackage (aModelElement);
+			if (isNull(parentPackage))
+			{
+				result := result.including (aModelElement);
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;	
+	}
+
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+
+	getSubPackages (parentPackage : MOF::Package) : Standard::Set
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::Package;	
+		result : Standard::Set;
+	
+		result := new Standard::Set ();
+		
+		aModelElementIterator := parentPackage.containedElement.getNewIterator();
+		aModelElementIterator.start();
+
+		while isNull(result).[and] (aModelElementIterator.isOn())
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::Package!);
+			aModelElement.name.toOut();
+			aModelElementIterator.next();
+		}
+
+		return result;	
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getClasses (aPackage : MOF::Package) : Standard::Set
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::ModelElement;	
+		result : Standard::Set;
+	
+		result := new Standard::Set ();
+		
+		aModelElementIterator := aPackage.containedElement.getNewIterator();
+		aModelElementIterator.start();
+	
+		while aModelElementIterator.isOn ()
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::ModelElement!);
+			if (aModelElement.oclIsKindOf (!MOF::Class!))
+			{
+				//aModelElement.name.toOut();
+				result := result.including (aModelElement);
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;	
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getFeatures (aClass : MOF::Class) : Standard::Set
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::ModelElement;	
+		result : Standard::Set;
+	
+		result := new Standard::Set ();
+		
+		aModelElementIterator := aClass.containedElement.getNewIterator();
+		aModelElementIterator.start();
+	
+		while aModelElementIterator.isOn ()
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::ModelElement!);
+			if (aModelElement.oclIsKindOf (!MOF::Feature!))
+			{
+				//aModelElement.name.toOut();
+				result := result.including (aModelElement);
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;	
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getAttributes (aClass : MOF::Class) : Standard::Set
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::ModelElement;	
+		result : Standard::Set;
+	
+		result := new Standard::Set ();
+		
+		aModelElementIterator := aClass.containedElement.getNewIterator();
+		aModelElementIterator.start();
+	
+		while aModelElementIterator.isOn ()
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::ModelElement!);
+			if (aModelElement.oclIsKindOf (!MOF::Attribute!))
+			{
+				result := result.including (aModelElement);
+			}
+			aModelElementIterator.next();
+		}
+		
+		return result;	
+	}
+
+
+	
+	
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	DisplayAllModelElements () 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::ModelElement;	
+		aType                 : Standard::OclType;
+		txt                   : Standard::String;
+		
+		aModelElementIterator := !MOF::ModelElement!.allInstances().getNewIterator();
+		aModelElementIterator.start();
+
+		while aModelElementIterator.isOn() 
+		{		
+			aModelElement := aModelElementIterator.item().oclAsType (!MOF::ModelElement!);
+			aType := aModelElement.getType();
+
+			txt  := aModelElement.name; 
+			txt := txt.concat (' : ');
+			txt := txt.concat (aType.oclName());
+			txt.toOut();
+
+			aModelElementIterator.next();
+		}
+	}
+	
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getPrimitiveTypes () : Standard::Set 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::PrimitiveType;	
+	
+		if (isNull (this.primitiveTypes))
+		{
+			this.primitiveTypes := new Standard::Set(); 
+		
+			aModelElementIterator := !MOF::PrimitiveType!.allInstances().getNewIterator();
+			aModelElementIterator.start();
+	
+			while aModelElementIterator.isOn() 
+			{		
+				aModelElement := aModelElementIterator.item().oclAsType (!MOF::PrimitiveType!);
+				this.primitiveTypes := this.primitiveTypes.including (aModelElement);
+				aModelElementIterator.next();
+			}
+		}
+		
+		return self.primitiveTypes;
+	}
+	
+	
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getAssociations () : Standard::Set 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::Association;	
+	
+		if (isNull (this.associations))
+		{
+			this.associations:= new Standard::Set(); 
+		
+			aModelElementIterator := !MOF::Association!.allInstances().getNewIterator();
+			aModelElementIterator.start();
+	
+			while aModelElementIterator.isOn() 
+			{		
+				aModelElement := aModelElementIterator.item().oclAsType (!MOF::Association!);
+				this.associations := this.associations.including (aModelElement);
+				aModelElementIterator.next();
+			}
+		}
+		
+		return self.associations;
+	}
+	
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getPackages () : Standard::Set 
+	{
+		aModelElementIterator : Standard::Iterator;
+		aModelElement         : MOF::Package;	
+	
+		if (isNull (this.packages))
+		{
+			this.packages := new Standard::Set(); 
+		
+			aModelElementIterator := !MOF::Package!.allInstances().getNewIterator();
+			aModelElementIterator.start();
+	
+			while aModelElementIterator.isOn() 
+			{		
+				aModelElement := aModelElementIterator.item().oclAsType (!MOF::Package!);
+				this.packages := this.packages.including (aModelElement);
+				aModelElementIterator.next();
+			}
+		}
+		
+		return this.packages;
+	}
+	
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	getParentPackage (aPackage : MOF::Package) : MOF::Package
+	{
+		result : MOF::Package;
+		iterator : Standard::Iterator;
+	
+		if (isNull(aPackage.container).not())
+		{
+			iterator := aPackage.container.getNewIterator();
+			iterator.start();
+			while (iterator.isOn())
+			{
+				if iterator.item().oclIsKindOf (!MOF::Package!)
+				{
+					result := iterator.item();
+				}
+				iterator.next();
+			}
+		}
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	DisplayInformation ()
+	{
+		topLevelPackagesIterator : Standard::Iterator;
+		aPackage : MOF::Package;
+				
+		// we get the top level packages
+		topLevelPackagesIterator := getTopLevelPackages().getNewIterator();
+		topLevelPackagesIterator.start ();
+		while (topLevelPackagesIterator.isOn())
+		{
+			aPackage := topLevelPackagesIterator .item();
+			DisplayPackage (aPackage, '');
+			topLevelPackagesIterator.next ();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	DisplayPackage (parentPackage : MOF::Package ; indent : Standard::String)
+	{
+		subPackagesIterator : Standard::Iterator;
+		aPackage : MOF::Package;
+		classesIterator : Standard::Iterator;
+		aClass: MOF::Class;
+
+		indent.concat('Package : ').concat (parentPackage.name.oclAsType(!Standard::String!)).toOut();			
+		indent.concat('------------------------------------------------------').toOut();
+		indent := indent.concat ('    ');
+
+		classesIterator := this.getClasses (parentPackage).getNewIterator();
+		classesIterator.start();
+		while (classesIterator.isOn())
+		{
+			aClass := classesIterator.item(); 
+			DisplayClass (aClass, indent);
+			classesIterator.next();
+		}
+			
+		subPackagesIterator := this.getSubPackages(parentPackage).getNewIterator();
+		subPackagesIterator.start();
+		while (subPackagesIterator.isOn())
+		{
+			aPackage := subPackagesIterator.item();
+			DisplayPackage (aPackage, indent);
+			subPackagesIterator.next();
+		}
+		
+		' '.toOut();
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	DisplayClass (aClass : MOF::Class ; indent : Standard::String)
+	{
+		attributeIterator : Standard::Iterator;
+		aAttribute: MOF::Attribute;
+
+		indent.concat('Class : ').concat (aClass.name.oclAsType(!Standard::String!)).toOut();			
+		indent := indent.concat ('    ');
+		
+		attributeIterator := this.getAttributes (aClass).getNewIterator();
+		attributeIterator.start();
+		while (attributeIterator.isOn())
+		{
+			aAttribute := attributeIterator.item();
+			DisplayAttribute (aAttribute,indent);
+			attributeIterator.next();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+	DisplayAttribute (aAttribute: MOF::Attribute; indent : Standard::String)
+	{
+		indent.concat ('Attribute : ').concat (aAttribute.name.oclAsType(!Standard::String!)).toOut();
+	}
+
+
+	////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////
+
+
+}
+
+
+

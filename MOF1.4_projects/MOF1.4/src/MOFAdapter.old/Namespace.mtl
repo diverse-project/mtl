@@ -1,0 +1,28 @@
+/******************************************************************************
+ * $Id: Namespace.mtl,v 1.1 2003-12-15 10:07:02 edrezen Exp $
+ ******************************************************************************/
+
+library MOFAdapter;
+
+class Namespace extends ModelElement
+{
+	/**	*/	
+	getContainedElement () : Standard::Set
+	{
+		result : Standard::Set;
+		
+		'MOFAdapter::Namespace::getContainedElement'.toOut();
+		'P1'.toOut();
+		
+		if (isNull(getRef().oclAsType(!MOF::Namespace!)) )
+		{
+			'P1b'.toOut();
+			getRef().toOut();
+		}
+		'P2'.toOut();
+		result := getRef().oclAsType(!MOF::Namespace!); //.containedElement;
+		'P3'.toOut();		
+		return result;
+	}
+
+}

@@ -1,0 +1,12 @@
+/******************************************************************************
+ * $Id: GeneralizableElement.mtl,v 1.1 2003-12-15 10:07:01 edrezen Exp $
+ ******************************************************************************/
+
+library MOFAdapter;
+
+class GeneralizableElement 
+	extends Namespace
+{
+
+
+}

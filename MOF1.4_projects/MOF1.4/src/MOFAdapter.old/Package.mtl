@@ -1,0 +1,22 @@
+/******************************************************************************
+ * $Id: Package.mtl,v 1.1 2003-12-15 10:07:02 edrezen Exp $
+ ******************************************************************************/
+
+library MOFAdapter;
+
+
+class Package 
+	extends GeneralizableElement 
+{
+
+	/**  */	
+	getName () : Standard::String
+	{
+		result : Standard::String;
+//		result := ref.oclAsType(!MOF::Package!).name;
+		
+		return 'Package <'.concat(result).concat('>');
+	}
+
+	
+}

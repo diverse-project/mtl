@@ -1,0 +1,21 @@
+/******************************************************************************
+ * $Id: Namespace.mtl,v 1.1 2003-12-15 10:07:00 edrezen Exp $
+ ******************************************************************************/
+
+library MOFView;
+
+class Namespace extends ModelElement
+{
+	/** */
+	getContainedElement () : Standard::Set
+	{
+		'MOFView::Namespace::getContainedElement'.toOut();
+		return null;
+	}
+
+	/** */
+	addContainedElement (aModelElement : MOFView::ModelElement)
+	{
+	}
+
+}

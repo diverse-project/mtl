@@ -1,0 +1,25 @@
+/******************************************************************************
+ * $Id: ModelElement.mtl,v 1.1 2003-12-15 10:07:02 edrezen Exp $
+ ******************************************************************************/
+
+library MOFAdapter;
+
+class ModelElement
+{
+	ref : Standard::OclAny;
+
+	/**  */
+	getName () : Standard::String
+	{
+		result : Standard::String;
+		result := 'titi';
+		
+		return 'ModelElement <'.concat(result).concat('>');
+	}
+	
+	/** */
+	getRef () : Standard::OclAny
+	{
+		return ref;
+	}
+}

@@ -1,0 +1,148 @@
+/******************************************************************************
+ * $Id: MOFFactory.mtl,v 1.1 2003-12-15 10:07:02 edrezen Exp $
+ ******************************************************************************/
+
+library MOFAdapter;
+
+model MOF : RepositoryModel;
+
+/*****************************************************************************/
+
+class MOFFactory
+{
+	mdrdriver : MDRDriver::MDRModelManager;
+
+	/** */
+	create (name : Standard::String) : Standard::OclAny
+	{
+		result : Standard::OclAny;
+		'MOFAdapter::MOFFactory::create'.toOut();
+				
+		if (name.[=]('Package'))  { result := new Package(); }
+
+		return result;
+	}
+
+
+	/** */
+	allInstances (name : Standard::String) : Standard::Set
+	{
+		iterator : Standard::Iterator;
+		result   : Standard::Set;
+
+		result := new Standard::Set();
+
+		iterator := allInstancesRepository (name).getNewIterator();
+		iterator.start();
+		while (iterator.isOn())
+		{
+			result := result.including (this.createAndLink (name,iterator.item()));
+			iterator.next();
+		} 
+		
+		return result;
+	}
+
+
+	/** SHOULD BE PRIVATE */
+	allInstancesRepository (name : Standard::String) : Standard::Set
+	{
+		result : Standard::Set;
+		
+		if (name.[=]('Package'))     { result := !MOF::Package!.allInstances(); }
+		if (name.[=]('Namespace'))   { result := !MOF::Namespace!.allInstances(); }
+		
+		return result;
+	}
+
+
+	/** */
+	createAndLink (name : Standard::String ; elt : Standard::OclAny) : Standard::OclAny
+	{
+		result : Standard::OclAny;
+		packageResult   : Package;
+		namespaceResult : Package;
+		
+		if (name.[=]('Package'))  
+		{ 
+			packageResult := new Package(); 
+			packageResult.ref := elt;
+			result := packageResult;
+		}
+
+		return result;
+	}
+
+
+
+	/** */	
+	init (sourceModelFilename : Standard::String) :Standard::Void
+	{
+		'MOFAdapter::MOFFactory::Initialization'.toOut();
+	
+		// we initialize the metamodel 
+		MOF:= getMDRDriver().getModelFromXMI (
+			'./MetaModels/MOF/MOF_metamodel.xmi', 
+			'Model',
+			'mof', 
+			sourceModelFilename,
+			null
+		);
+	}
+
+	/** Should be private */
+	getMDRDriver () : MDRDriver::MDRModelManager
+	{
+		if (isNull(this.mdrdriver))
+		{
+			mdrdriver := new MDRDriver::MDRModelManager();
+			mdrdriver.init();
+		}
+		return this.mdrdriver;
+	}
+
+}
+
+
+
+/*****************************************************************************/
+
+main() : Standard::Void
+{
+	mgr      : MOFAdapter::MOFFactory;
+	aPackage : MOFAdapter::Package;
+	iterator : Standard::Iterator;
+	aSet     : Standard::Set;
+
+	// we instanciate a MOF factory	
+	mgr := new MOFFactory ();
+	mgr.init ('MetaModels/MOF/MOF_metamodel.xmi');
+
+
+	iterator := mgr.allInstances('Package').getNewIterator();
+	iterator.start();
+	while (iterator.isOn())
+	{
+'-1'.toOut();			
+	iterator.item().toOut();
+'0'.toOut();			
+		aPackage := iterator.item().oclAsType(!MOFAdapter::Package!);
+'1'.toOut();		
+		aPackage.getName().toOut();
+'2'.toOut();				
+		
+		aSet := aPackage.getContainedElement();
+		if (isNull(aSet).[not]())
+		{
+			aPackage.getContainedElement().getNewIterator();
+		}
+'3'.toOut();				
+		iterator.next();
+	}
+}
+ 
+
+ 
+ 
+ 
+ 

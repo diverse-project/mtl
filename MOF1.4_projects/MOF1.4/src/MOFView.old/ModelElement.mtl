@@ -1,0 +1,42 @@
+/******************************************************************************
+ * $Id: ModelElement.mtl,v 1.1 2003-12-15 10:07:00 edrezen Exp $
+ ******************************************************************************/
+
+library MOFView;
+
+class ModelElement
+{
+	/** */
+	getName () : Standard::String
+	{
+		return null;
+	}
+	
+	/** */
+	setName (aName : Standard::String)
+	{
+	}
+
+	/** */
+	getQualifiedName () : Standard::Set
+	{
+		return null;
+	}
+	
+	/** */
+	setQualifiedName (aQualifiedName : Standard::Set)
+	{
+	}
+
+	/** */
+	getAnnotation () : Standard::String
+	{
+		return null;
+	}
+
+	/** */
+	setAnnotation (aAnnotation : Standard::String)
+	{
+	}
+
+}

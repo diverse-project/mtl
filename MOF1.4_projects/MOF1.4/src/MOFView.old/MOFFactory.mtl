@@ -1,0 +1,34 @@
+/******************************************************************************
+ * $Id: MOFFactory.mtl,v 1.1 2003-12-15 10:07:00 edrezen Exp $
+ ******************************************************************************/
+
+model MOFView;
+
+// IT SHOULD BE SEEN AS A INTERFACE
+// SO MODELS THAT EXTENDS IT MUST IMPLEMENTS ALL METHODS
+
+class MOFFactory
+{
+	/** */
+	create (name : Standard::String) : Standard::OclAny
+	{
+		'MOFView::MOFFactory::create'.toOut();
+		return null;
+	}
+
+	/** */
+	allInstances (name : Standard::String) : Standard::Set
+	{
+		'MOFView::MOFFactory::allInstances'.toOut();		
+		return null;
+	}
+
+	/** */
+	init (sourceModelFilename : Standard::String) : Standard::Void
+	{
+		'MOFView::MOFFactory::init'.toOut();
+	}
+
+	
+}
+
