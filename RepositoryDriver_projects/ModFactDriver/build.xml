@@ -18,7 +18,7 @@
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
-		<condition property="build.result.folder" value="${pluginTemp}/ModFactDriver">
+		<condition property="build.result.folder" value="${pluginTemp}/org.inria.BasicMTL.ModFactDriver">
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="build.result.folder" value="${basedir}"/>
@@ -219,7 +219,7 @@
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
-		<eclipse.convertPath fileSystemPath="C:/eclipse3.0/eclipse/workspace/ModFactDriver" property="resourcePath"/>
+		<eclipse.convertPath fileSystemPath="C:/eclipse3.0/eclipse/workspace/org.inria.BasicMTL.ModFactDriver" property="resourcePath"/>
 		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
 	</target>
 
