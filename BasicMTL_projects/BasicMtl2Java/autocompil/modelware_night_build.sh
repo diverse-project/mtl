@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.14 2004-10-18 09:27:24 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.15 2004-10-25 15:36:53 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -78,7 +78,7 @@ endif
 
 
 cd ../MDRDriver
-ant -f outOfEclipsebuild.xml "dist" |& tee $BASE/ant_MdrDriver.log
+ant -f main_build.xml "compile" |& tee $BASE/ant_MdrDriver.log
 # check for errors and send mail to admin
 setenv ERRORS_IN_BUILD `grep -i FAILED $BASE/ant_MdrDriver.log`
 if ( "$ERRORS_IN_BUILD" != "" ) then
@@ -91,7 +91,7 @@ if ( "$ERRORS_IN_BUILD" != "" ) then
 endif
 
 cd ../ModFactDriver
-ant -f outOfEclipsebuild.xml "dist" |& tee $BASE/ant_ModFactDriver.log
+ant -f main_build.xml "compile" |& tee $BASE/ant_ModFactDriver.log
 # check for errors and send mail to admin
 setenv ERRORS_IN_BUILD `grep -i FAILED $BASE/ant_ModFactDriver.log`
 if ( "$ERRORS_IN_BUILD" != "" ) then
