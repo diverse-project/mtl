@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-08-27 10:01:07 dvojtise Exp $ -->
-<project name="BasicMtl_Transformation_libraires" default="verif_SimpleUML2RDBMS_V1_syntax" basedir=".">
+<!-- $Id: build.xml,v 1.2 2003-09-02 09:49:02 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="dist" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
 	</description>
@@ -8,15 +8,24 @@
 	<property name="bin" location="bin"/>
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
+	<property name="base"  location=".."/>
 	
 	<!-- The necessary libraries compilation prrocess -->
 	<property name="lang" location="src/lang"/>
 	
 	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
-	<property name="MDRDriver"  location="..\MDRDriver"/>
-	<property name="BasicMTLRuntime"  location="..\BasicMTLRuntime"/>
-	<property name="TLLTypeChecker"  location="..\TLLTypeChecker"/>
-	<property name="BasicMtlJavaCodeGenerator"  location="..\BasicMtlJavaCodeGenerator"/>
+	<property name="Utils"  location="${base}\Utils"/>
+	<property name="MTDataTypes"  location="${base}\MTDataTypes"/>
+	<property name="RepositoryAPI"  location="${base}\RepositoryAPI"/>
+	<property name="MDRDriver"  location="${base}\MDRDriver"/>
+	<property name="BasicMTLRuntime"  location="${base}\BasicMTLRuntime"/>
+	<property name="BasicMTLAstJava"  location="${base}\BasicMTLAstJava"/>
+	<property name="BasicMtlAntlr"  location="${base}\BasicMTLAntlr"/>
+	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMTLAntlr2TLLJava"/>
+	<property name="BasicMTLAntlr2BasicMtlAstJava"  location="${base}\BasicMTLAntlr2BasicMtlAstJava"/>
+	<property name="BasicMtlTLLJava"  location="${base}\BasicMtlTLLJava"/>
+	<property name="TLLTypeChecker"  location="${base}\TLLTypeChecker"/>
+	<property name="BasicMtlJavaCodeGenerator"  location="${base}\BasicMtlJavaCodeGenerator"/>
 	<!-- Deep dependencies does not need to be managed -->
 	
 	
@@ -31,7 +40,7 @@
     	<!--<mkdir dir="${build}"/>
 	    <mkdir dir="${build}/src"/>
 	    <mkdir dir="${build}/src/java"/>
-	    <mkdir dir="${bin}"/>-->
+	    <mkdir dir="${bin}"/> -->
 	    <mkdir dir="${dist}"/>
 	    <mkdir dir="${dist}/bin"/>
 	    
@@ -90,9 +99,64 @@
 	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="deep_clean" inheritAll="false"/>
 	    
-	    <ant target="compile_BasicMTL_compiler"/>
+	    <antcall target="compile_BasicMTL_compiler"/>
   	</target>
   	<target name="dist" description="create a complete distribution of the BMTL compiler">
+  		<mkdir dir="${dist}"/>
+  		<mkdir dir="${dist}/bin"/>  		
+  		<!-- copy compiler jar files from their respective directories-->
+  		<copy file="${Utils}/dist/bin/Utils.jar" todir="${dist}/bin"/>
+  		<copy file="${MTDataTypes}/dist/bin/MTDataTypes.jar" todir="${dist}/bin"/>
+  		<copy file="${RepositoryAPI}/dist/bin/RepositoryAPI.jar" todir="${dist}/bin"/>
+  		<copy file="${MDRDriver}/dist/bin/MDRDriver.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLRuntime}/dist/bin/BasicMTLRuntime.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAstJava}/dist/bin/BasicMTLAstJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMtlAntlr}/dist/bin/BasicMTLAntlr.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAntlr2TLLJava}/dist/bin/BasicMTLAntlr2TLLJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMTLAntlr2BasicMtlAstJava}/dist/bin/BasicMTLAntlr2BasicMtlAstJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMtlTLLJava}/dist/bin/BasicMtlTLLJava.jar" todir="${dist}/bin"/>
+  		<copy file="${TLLTypeChecker}/dist/bin/TLLTypeChecker.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMtlJavaCodeGenerator}/dist/bin/BasicMtlJavaCodeGenerator.jar" todir="${dist}/bin"/>
+  		
+  		<!-- thirdparty jars but needed in the distribution -->
+  		<copy  todir="${dist}/bin/Thirdparty/log4j">
+  			<fileset dir="${Utils}/dist/bin/Thirdparty/log4j/"/>
+  		</copy>
+  		<copy  todir="${dist}/bin/Thirdparty/JUnit">
+  			<fileset dir="${Utils}/dist/bin/Thirdparty/JUnit"/>
+  		</copy>
+  		<copy  todir="${dist}/bin/Thirdparty/ANTLR">
+  			<fileset dir="${BasicMtlAntlr}/Thirdparty/ANTLR"/>
+  		</copy>
+  		
+  		<mkdir dir="${dist}/Runtime/"/>
+  		<mkdir dir="${dist}/Runtime/src"/>
+  		<mkdir dir="${dist}/Runtime/src/lang"/>
+  		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
+  		<copy todir="${dist}/Runtime/src/lang">
+  			<fileset dir="${base}/BasicMtl_Transformation_libraries/src/lang"/>
+  		</copy>
+  		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
+  			<fileset dir="${base}/BasicMtl_Transformation_libraries/src/RepositoryDriver"/>
+  		</copy> 		
+  		<!-- add the default log4j configuration file -->
+  		<copy file="log4j_configuration.xml" todir="${dist}/bin"/>
+  		<!-- preparing sample directory structure with sample build file -->
+  		<!-- TODO -->
+  		<mkdir dir="${dist}/sample"/>
+  		<mkdir dir="${dist}/sample/bin"/>
+  		<mkdir dir="${dist}/sample/build"/>
+  		<mkdir dir="${dist}/sample/build/src"/>
+  		<mkdir dir="${dist}/sample/build/src/java"/>
+  		<mkdir dir="${dist}/sample/build/src/TLL"/>
+  		<mkdir dir="${dist}/sample/build/src/uncheckedTLL"/>
+  		<mkdir dir="${dist}/sample/src"/>
+  		<mkdir dir="${dist}/sample/src"/>
+  		<copy todir="${dist}/sample/src">
+  			<fileset dir="${dist}/Runtime/src"/>
+  		</copy> 
+  		<copy file="${src}/sample_build.xml" todir="${dist}/sample"/>
+  		<!-- TODO in the sample build file, provide a sample dist target that get only the needed jar -->
   		
   	</target>
 </project>
