@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.13 2004-10-26 15:34:40 edrezen Exp $
+ * $Id: UserClassAnalyser.java,v 1.14 2004-11-03 09:34:52 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -40,6 +40,7 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 			mangle=Mangler.mangle("BMTL_",userClassName);
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		UserClass theCreatedClass=new UserClass(userClassName,mangle,lineNumber);
+		theCreatedClass.setIsAbstract(ASTnode.getIsAbstract());
 		QualifiedName qn = new QualifiedName();
 		for (int i=0;i<ASTnode.cardQualifiedName();i++)
 			qn.addElement(ASTnode.getQualifiedName(i));
