@@ -264,6 +264,11 @@ public class MDRMetaEnumeration
         String[] discriminants)
         throws org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException, MultipleCommandException
     {
+    	if (arguments == null || arguments.length == 0) {
+    		MDREnumered e = this.findInstance(name);
+    		if (e != null)
+    			return e;
+    	}
 		return OclAnyCommandGroup.TheInstance.invoke(scopeQualifiedName, this, name, arguments, discriminants);
     }
 
