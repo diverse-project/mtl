@@ -1,4 +1,4 @@
-/* $Id: EMFModelManager.java,v 1.1 2004-02-27 08:42:06 jpthibau Exp $
+/* $Id: EMFModelManager.java,v 1.2 2004-03-15 12:54:30 jpthibau Exp $
  * Created on 25 août 2003
  */
 package EMFDriver;
@@ -45,7 +45,8 @@ import org.inria.EMFDriver.EMFAPI;
 public class EMFModelManager implements BMTLObjectInterface, Value {
 	protected static final String n = "EMFModelManager";
 	protected static final String [] qn = new String [] {"EMFModelManager", n};
-	 
+	
+	private EMFDriver driver;
 	public static final Type TheType = new InstanciableType () {
 		
      public String getName() {
@@ -103,6 +104,7 @@ public class EMFModelManager implements BMTLObjectInterface, Value {
 	};
 
 	public EMFModelManager() {
+		this.driver = new EMFDriver();
 	}
 	
 	
@@ -180,8 +182,18 @@ public class EMFModelManager implements BMTLObjectInterface, Value {
 	   till a call to dipose() returns an empty set.
 	   Otherwise unsaved models are maintained in the model manager. 
 	*/
-	public org.irisa.triskell.MT.DataTypes.Java.CollectionValue BMTL_dispose() {
+	public org.irisa.triskell.MT.DataTypes.Java.CollectionValue BMTL_dispose()
+		throws Exception {
 		return EMFDriver.dispose();
+	}
+	
+	/* disposeModel(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		removes the model from the managed models. If the model was not saved but modiied, it saves it before release. 
+	*/
+	public void BMTL_disposeModel(StringValue modelName)
+		throws Exception {
+	EMFDriver.disposeModel(modelName == null ? null : modelName.getTheString());	
 	}
 	
 	/* saveAllModelsToXMI()
@@ -192,6 +204,14 @@ public class EMFModelManager implements BMTLObjectInterface, Value {
 			EMFDriver.saveAllModelsToXMI();
 	}	
 
+	/* displayModelInformation(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		removes the model from the managed models. If the model was not saved but modiied, it saves it before release. 
+	*/
+	public void BMTL_displayModelInformation(StringValue modelName) {
+	EMFDriver.displayModelInformation(modelName == null ? null : modelName.getTheString());	
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface#getDelegate()
 	 */

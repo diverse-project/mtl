@@ -84,6 +84,16 @@ tag DoNotGenerate := booleantag true;
 	dispose() : Standard::Set
 	{	
 	}*/
+
+	/* disposeModel(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		removes the model from the managed models. If the model was not saved but modiied, it saves it before release. 
+	/* one of the simpliest way to get started
+	disposeModel(
+		modelName : Standard::String ) : Standard::Void
+	{	
+	}*/
+
 	/* saveAllModelsToXMI()
 		Save all models currently under management of the model manager.
 	/* one of the simpliest way to get started
