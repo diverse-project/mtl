@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarSettingAnalyser.java,v 1.4 2003-08-22 18:26:29 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarSettingAnalyser.java,v 1.5 2003-09-17 07:20:34 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -77,6 +77,7 @@ public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
 			((OperationCall)ret).setKind(OperationKind.getAttributeSet());
 		} else
 			antlr2tll.getLog().error("line " + lineNumber + ": Can just affect attributes or variables.");
+		if (ret==null) System.err.println("Probably undeclared variable..."+((VarCall)c).getVarName());
 		return ret;
 	}
 

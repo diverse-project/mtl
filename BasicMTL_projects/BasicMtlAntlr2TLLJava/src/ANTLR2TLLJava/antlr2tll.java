@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.4 2003-08-22 18:26:29 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.5 2003-09-17 07:20:34 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -14,6 +14,8 @@ import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import antlr2ASTJava.*;
+//import antlr2ASTView.*; //+++++ Added for View production +++
+//import BasicMtlASTView.*; //+++++ Added for View production +++
 
 /**
  * @author jpthibau
@@ -32,8 +34,10 @@ public class antlr2tll {
 	}
 
 	public static String TLLProducer(java.util.Vector filenames,String defaultPackagePrefix,String defaultUncheckedTLLPath)
-	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib;
+	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
+//		BMTL_LibraryInterface parsedBMTLLib; //+++++ Added for View production +++
 		antlr2ast ASTproducer=new antlr2ast();
+//		antlr2astView ASTViewproducer=new antlr2astView(); //+++++ Added for View production +++
 		BasicMtlLibrary theCreatedLib=null;
 		java.util.Hashtable context=new java.util.Hashtable();
 		context.put("LibrraryDefaultPackage",defaultPackagePrefix);
@@ -43,6 +47,10 @@ public class antlr2tll {
 			//the context contains the created  TLL that udpdates at each step
 			if (theCreatedLib != null) context.put("TheCreatedLibrary",theCreatedLib);
 			parsedLib=ASTproducer.buildLibraryFromText((String)filenames.get(i));
+//			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i)); //+++++ Added for View production +++
+//			try {
+//			parsedLib=(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library)parsedBMTLLib.BMTL_toASTJava(); //+++++ Added for View production +++
+//			} catch (Throwable e) {e.printStackTrace();}
 			context.put("visitor", visitor);
 			visitor.visit(parsedLib,context);
 			theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");

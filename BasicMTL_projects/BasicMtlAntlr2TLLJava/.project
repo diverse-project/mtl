@@ -3,10 +3,14 @@
 	<name>BasicMtlAntlr2TLLJava</name>
 	<comment></comment>
 	<projects>
+		<project>BasicMTLRuntime</project>
 		<project>BasicMtlAntlr</project>
+		<project>BasicMtlAntlr2ASTView</project>
 		<project>BasicMtlAntlr2BasicMtlAstJava</project>
 		<project>BasicMtlAstJava</project>
 		<project>BasicMtlTLLJava</project>
+		<project>BasicMtl_Transformation_libraries</project>
+		<project>MTDataTypes</project>
 		<project>Utils</project>
 	</projects>
 	<buildSpec>
