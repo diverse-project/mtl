@@ -47,7 +47,7 @@
       <library name="ThirdParty/JUnit/junit.jar">
          <export name="*"/>
       </library>
-      <library name="BasicMTLruntime.jar">
+      <library name="runtime.jar">
          <export name="*"/>
       </library>
       <library name="ThirdParty/MDR/nbmdr.jar">
