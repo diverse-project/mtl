@@ -54,16 +54,20 @@ public class GetUserTLLCommand extends MTLCommand
 	public Object mainExecute() throws Exception 
 	{
 		java.util.Collection result = new java.util.Vector ();
-		
-		IResource[] members = MTLModel.tllFolder.members();
-		for (int i=0; i<members.length; i++)
+
+		// a little check does not hurt
+		if (MTLModel.tllFolder.exists())
 		{
-			if (members[i] instanceof IFile)
+			IResource[] members = MTLModel.tllFolder.members();
+			for (int i=0; i<members.length; i++)
 			{
-				IFile file = (IFile)members[i];
-				if (file.getFileExtension().equals("tll"))
+				if (members[i] instanceof IFile)
 				{
-					result.add (file.getLocation().toOSString());
+					IFile file = (IFile)members[i];
+					if (file.getFileExtension().equals("tll"))
+					{
+						result.add (file.getLocation().toOSString());
+					}
 				}
 			}
 		}
