@@ -1,4 +1,4 @@
-$Id $
+$Id: readme.txt,v 1.3 2005-01-28 14:02:53 dvojtise Exp $
 Description :
 this projects aims :
 1- to specify component models with QoS contracts (using 
@@ -14,6 +14,9 @@ It uses Eclipse CLP(R) : a prolog interpreter
 
 History :
 $Log: not supported by cvs2svn $
+Revision 1.2  2005/01/28 08:33:00  odefour
+initial revision
+
 Revision 1.1  2004/01/14 10:22:52  dvojtise
 initial revision
 
