@@ -1,0 +1,78 @@
+// $Id: IntegerTests.mtl,v 1.2 2004/01/22 12:24:18 dvojtise Exp $
+// This class tests various points on the Integer implementation with MTL
+
+library test1Library1;
+
+class GeneralTests
+{
+	nbErrors : Standard::Integer;
+		
+	
+	runTests()
+	{
+		nbErrors := 0;
+		'starting General tests'.toOut();
+		testSerie1();
+		
+		if nbErrors.[>](0)
+		{
+			throws 'General Tests detected some errors !!! please checks the log';
+		}		
+		'General tests done'.toOut();
+	}
+
+	// tests on the use of unaffected/null integer
+	testSerie1()
+	{		
+		// --------------------------------		
+		// checks usage of if else if
+		
+		if false
+		{
+			'1. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		elseif true
+		{
+			'ok: 1. if ... else if...'.toOut();
+		}
+		else
+		{			
+			'2. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);	
+		}
+		
+		if false
+		{
+			'3. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		elseif false
+		{
+			'4. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		else
+		{			
+			'ok: 2. if ... else if...'.toOut();
+		}
+		
+		if true
+		{
+			'ok: 3. if ... else if...'.toOut();
+		}
+		elseif false
+		{
+			'5. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		else
+		{			
+			'6. if ... else if doesn\'t work correctly !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+	}
+		
+	
+	
+}
