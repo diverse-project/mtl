@@ -1,0 +1,11 @@
+    Antimtl 1.0.0 installation 
+
+*** What you need ***
+- python 2.3.3 >
+
+*** How to compile and install ***
+No installation as this is a single file soft.
+
+*** configure options ***
+Run <antimtl_root_directory>/src/org/irisa/antimtl/Antimtl.py -h
+
