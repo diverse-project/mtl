@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.6 2003-08-21 20:20:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.7 2003-08-22 17:41:40 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -127,7 +127,9 @@ public class TLLtypechecking {
 				if (inheritedSignatures.synthetizeInheritedSignatures(theLib)==0) {
 					java.util.Hashtable context=new java.util.Hashtable();
 					DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("OperationCallChecker");
+					context.put("Error", Boolean.FALSE);
 					visitor.visit(theLib,context);
+					hasErrorOccured = hasErrorOccured || ((Boolean)context.get("Error")).booleanValue();
 					log.info("Writing the checked TLL to"+defaultTLLPath+TLLName+tllSuffix);
 					Library.store(TLLName+tllSuffix,theLib,defaultTLLPath);
 				}

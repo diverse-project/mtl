@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.7 2003-08-21 20:20:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.8 2003-08-22 17:41:40 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -53,7 +53,7 @@ public class allReferedTypes {
 			for (int i = 0; name == null  && i < theLib.cardUsedModels(); ++i) {
 				mr = theLib.getUsedModels(i);
 				if (mr.getName().equals(libName)) {
-					isModel = ((mr instanceof RepositoryRef) || (mr instanceof TypedModelRef) && ((TypedModelRef)mr).getType().equals("RepositoryModel"));
+					isModel = ((mr instanceof RepositoryRef) || (mr instanceof TypedModelRef) && ((TypedModelRef)mr).getView().equals("RepositoryModel"));
 					isView = !isModel;
 					if (isView)
 						name = ((TypedModelRef)mr).getView();
@@ -75,12 +75,16 @@ public class allReferedTypes {
 				usedLib.setExternLibCompleteName("org.irisa.triskell.MT.repository.API.Java.API");
 				usedLib.setDeclarationName("org.irisa.triskell.MT.repository.API.Java.API");//*/
 			} else {
-				loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+name+TLLtypechecking.tllSuffix);
+				if (TLLtypechecking.loadedLibraries.containsKey(name))
+					loadedTLL=(Library)TLLtypechecking.loadedLibraries.get(name);
+				else
+					loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+name+TLLtypechecking.tllSuffix);
 				if (loadedTLL == null) 
 				{ 
 					return null;
 				}
 				TLLtypechecking.loadedLibraries.put(libName,loadedTLL);
+				TLLtypechecking.loadedLibraries.put(name,loadedTLL);
 				if (isView) {
 /*					QualifiedName usedLib=new QualifiedName();
 					usedLib.add(libName);
@@ -111,14 +115,14 @@ public class allReferedTypes {
 	{	if (typeName.equals(theLib.getName()))
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(theLib.getMangle());
-			aType.setDeclarationName(theLib.getMangle()+"Interface");
+			aType.setDeclarationName(theLib.getPackageName()+'.'+theLib.getMangle()+"Interface");
 			return true;
 		}
 		KnownClasses knownClasses=theLib.getKnownTypes();
 		if (knownClasses.containsKey(typeName))
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(((UserClass)knownClasses.get(typeName)).getMangle());
-			aType.setDeclarationName(aType.getLocalMangledName()+"Interface");
+			aType.setDeclarationName(theLib.getPackageName() + '.' + aType.getLocalMangledName()+"Interface");
 			return true;
 		}
 		return false;
@@ -134,12 +138,22 @@ public class allReferedTypes {
 		for(int i=0;i<bmtlLib.cardUsedModels();i++)
 		{	ModelRef model=bmtlLib.getUsedModels(i);
 			if (model.getName().equals(typeName))
-				{	aType.setIsModelType(true);
-					QualifiedName met = new QualifiedName();
-					met.add("Standard");
-					met.add("ModelElement");
-					checkType(met, theLib);
-					aType.setDeclarationName(met.getDeclarationName());
+				{	if ((model instanceof RepositoryRef) || ((TypedModelRef)model).getView().equals("RepositoryModel")){
+						aType.setIsExternType(true);
+						aType.setIsModelType(true);
+						aType.setIsRepositoryModel(true);
+						QualifiedName me = new QualifiedName();
+						me.add("Standard");
+						me.add("ModelElement");
+						checkType(me, theLib);
+						aType.setDeclarationName(me.getDeclarationName());
+					} else {
+						Library l = loadTLL(model.getName(), theLib);
+						boolean ok = checkTLLClass(aType, l.getName(), theLib);
+						aType.setIsExternType(true);
+						aType.setIsModelType(true);
+						return ok;
+					}
 					return true;
 				}
 		}

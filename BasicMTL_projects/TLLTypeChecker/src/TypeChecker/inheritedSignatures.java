@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.3 2003-08-14 21:00:20 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.4 2003-08-22 17:41:40 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAccessor;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 
 /**
  * @author jpthibau
@@ -90,6 +92,8 @@ public class inheritedSignatures {
 			//make the inherited signature from the parent local signature
 			OpSignature localSignature=(OpSignature)parentClass.getLocalSignatures(i);
 			InheritedOpSignature parentSignature=new InheritedOpSignature(localSignature.getOpName(),localSignature.getOpMangle());
+			if (!((localSignature instanceof AttributeAccessor) || (localSignature instanceof GetReferenceSignature)))
+				parentSignature.setThrowsException(true);
 			parentSignature.setArgsCount(localSignature.getArgsCount());
 			parentSignature.setReturnedType(localSignature.getReturnedType());
 			for (int j=0;j<localSignature.cardArgsTypes();j++)
