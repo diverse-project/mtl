@@ -1,5 +1,5 @@
 /*
- * $Id: ModFactAPI.java,v 1.1 2004-02-16 15:46:48 dvojtise Exp $
+ * $Id: ModFactAPI.java,v 1.2 2004-09-22 15:22:05 edrezen Exp $
  * Authors : ffondeme xblanc dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -56,6 +56,8 @@ import org.apache.log4j.Logger;
 //import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
 //import org.irisa.triskell.MT.utils.Java.AWK;
 //import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
+import org.irisa.triskell.MT.repository.API.Java.Element;
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.objectweb.modfact.jmi.xmi.XmiReaderImpl;
 import org.objectweb.modfact.jmi.xmi.XmiWriterImpl;
 /*import org.netbeans.api.mdr.CreationFailedException;*/
@@ -476,6 +478,17 @@ public class ModFactAPI
 		}
     }
 
+
+    /** */
+    public void addListenerToElement(Element element, EventListener listener) 
+    {
+    	// TODO Auto-generated method stub
+    }
+
+    /** */
+    public void removeListenerToElement(Element element, EventListener listener) {
+    	// TODO Auto-generated method stub
+    }
     
     
 
