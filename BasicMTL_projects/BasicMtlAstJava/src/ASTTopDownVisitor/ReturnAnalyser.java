@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ReturnAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ReturnAnalyser.java,v 1.3 2003-08-26 12:54:36 ffondeme Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,8 +24,11 @@ public class ReturnAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	Return ASTnode=(Return) node;
 		Object theReturn=this.ReturnBefore(ASTnode,context);
-		((Expression)ASTnode.getReturnedExpression()).accept(visitor,context);
-		this.ReturnArgument(theReturn,context.get("Instruction"),context);
+		Expression returned = (Expression)ASTnode.getReturnedExpression();
+		if (returned != null) {
+			returned.accept(visitor,context);
+			this.ReturnArgument(theReturn,context.get("Instruction"),context);
+		}
 		this.ReturnAfter(theReturn,ASTnode,context);
 	}
 
