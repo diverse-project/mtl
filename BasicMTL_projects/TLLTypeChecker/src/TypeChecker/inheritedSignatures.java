@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.8 2003-10-14 07:08:48 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.9 2003-12-12 13:33:22 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -64,9 +64,11 @@ public class inheritedSignatures {
 	}
 	
 	public static boolean addAnInheritedSignature(UserDefinedClass aClass,InheritedOpSignature parentSignature, BasicMtlLibrary theLib)
-	{	if (aClass.cardInheritedSignatures()==0)
-			aClass.appendInheritedSignatures(parentSignature);
-		else {
+	{	if (aClass.cardInheritedSignatures()==0) {
+			if (parentSignature.getOpName().startsWith("getRef_")
+				|| (! redefinedOp(aClass,parentSignature)))
+				aClass.appendInheritedSignatures(parentSignature);
+		} else {
 			boolean isRedefined=redefinedOp(aClass,parentSignature);
 			java.util.Vector compatible_present=compatibleAndPresentOp(aClass,parentSignature, theLib);
 			boolean isCompatible=((Boolean)compatible_present.get(0)).booleanValue();
