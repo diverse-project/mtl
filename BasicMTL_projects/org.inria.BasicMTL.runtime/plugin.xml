@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.inria.BasicMTL.runtime"
+   name="BasicMTL Runtime Plug-in"
+   version="0.0.3"
+   provider-name="INRIA">
+
+   <runtime>
+      <library name="ThirdParty/MDR/nbmdr.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/log4j/log4j.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/jmi.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/jmiutils.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/mdrapi.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/mof.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/openide-lookup.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/JMI1_0.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/JMIEngine.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/JMIRepository.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ow_monolog.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/JUnit/junit.jar">
+         <export name="*"/>
+      </library>
+      <library name="BasicMTLruntime.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.inria.EMFDriver"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.ui"/>
+   </requires>
+
+</plugin>

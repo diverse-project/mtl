@@ -1,0 +1,153 @@
+<!-- $Id: copy_build.xml,v 1.1 2004-08-10 12:28:05 dvojtise Exp $ -->
+<project name="BasicMtl2Java_LibAssociation" default="get all" basedir=".">
+	<description>
+        Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
+	</description>
+	<!-- set global properties for this build -->
+	<!-- the following properties must be set by the caller -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+	<property name="base"  location=".."/>
+	<!--
+	the following refid must be set for target compile : <path refid="compileCompiler.class.path"
+	-->
+	<property name="MTLcompiler.jar.path" location="../bin"/>
+	<property name="MTLcompiler.Runtime.path" location="../Runtime"/>
+	
+	<property file="build.properties"/>
+	<!-- The compilation tool -->
+	<property name="ANTLR2JavaCode" location="LibInheritance\dist\bin\BasicMTLc.jar"/>
+	
+	
+	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and FacadeInheritance projects -->
+	<property name="Utils"  				location="${base}\Utils"/>
+	<property name="MTDataTypes"  			location="${base}\MTDataTypes"/>
+	<property name="RepositoryAPI"  		location="${base}\RepositoryAPI"/>
+	<property name="MDRDriver"  			location="${base}\MDRDriver"/>
+	<property name="ModFactDriver"  		location="${base}\ModFactDriver"/>
+	<property name="EMFDriver"  			location="${base}\org.inria.EMFDriver"/>
+	<property name="BasicMTLRuntime"  		location="${base}\BasicMTLRuntime"/>
+	<property name="BasicMTLAstJava"  		location="${base}\BasicMtlAstJava"/>
+	<property name="BasicMtlAntlr"  		location="${base}\BasicMtlAntlr"/>
+	<property name="BasicMtlTLLJava"  		location="${base}\BasicMtlTLLJava"/>
+	<property name="TLLTypeChecker"  		location="${base}\TLLTypeChecker"/>
+	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMtlAntlr2TLLJava"/>
+	<property name="BasicMtlJavaCodeGenerator"  location="${base}\BasicMtlJavaCodeGenerator"/>
+	<property name="FacadeAssociation"  	location="${base}\FacadeAssociation"/>
+	<property name="BasicMtlAntlr2BasicMtlAstJava" location="${base}\BasicMtlAntlr2BasicMtlAstJava"/>
+	<property name="BMTLBasicMtlASTView" 	location="${base}\BMTLBasicMtlASTView"/>
+	<property name="BMTLRepositoryDriver" 	location="${base}\BMTLRepositoryDriver"/>
+	<property name="BMTLIO"                	location="${base}\BMTLIO"/>	
+	<!-- changed from LibIngheritance version -->
+	<property name="BMTLAssociationView" 	location="${base}\BMTLAssociationView"/>
+	<property name="BasicMtlAntlr2ASTViewAssociation"  location="${base}\BasicMtlAntlr2ASTViewAssociation"/>
+	<!-- Deep dependencies does not need to be managed -->
+	<property name="LibAssociation"  location="${base}\BasicMtl2Java\LibAssociation"/>
+		
+	
+	
+	<!--<path id="compileCompiler.class.path">
+	  	<pathelement path="${java.class.path}/"/>
+	</path>-->
+	  	
+	
+	<target name="init common">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<!--<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/java"/> -->
+	    <mkdir dir="${bin}"/> 
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	   <!-- <mkdir dir="${src}/java"/>-->
+	    
+	    <!-- <ant antfile="${src}/Standard/build.xml" dir="src/Standard" target="compile Standard"/> -->
+	    <!--<ant antfile="${src}/Standard/build.xml" dir="${src}/Standard" target="compile Standard" inheritAll="false"/>-->
+	</target>
+	
+	
+		
+  
+	
+  	
+  	<target name="get_jars" description="copy needed jar files from the different projects" depends="">
+  	 	<!-- these jar must be added to the compilation classpath as they aren't recompiled -->
+  	 	
+  		<!-- basicMTL component distributed as separates jar -->
+  		<!--<copy  todir="${dist}/bin/">
+  			<fileset file="${BasicMtlAntlr}/dist/bin/BasicMtlAntlr.jar"/>
+  		</copy>
+  		<path id="compileCompiler.class.path">
+	    	<pathelement path="${compileCompiler.class.path}/"/>
+	    	<pathelement path="${dist}\bin\BasicMtlAntlr.jar"/>
+	  	</path>-->
+  		<!-- thirdparty jars but needed in the distribution -->
+  		<copy  todir="ThirdParty/log4j">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/log4j/"/>
+  		</copy>
+  		<copy  todir="ThirdParty/JUnit">
+  			<fileset dir="${Utils}/dist/bin/ThirdParty/JUnit"/>
+  		</copy>
+  		<copy  todir="ThirdParty/ANTLR">
+  			<fileset dir="${BasicMtlAntlr}/ThirdParty/ANTLR"/>
+  		</copy>
+  		<copy  todir="ThirdParty/MDR">
+  			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
+  		</copy>
+  		<copy  todir="ThirdParty/ModFact">
+  			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
+  		</copy>
+  		<copy  todir="ThirdParty/EMF">
+  			<fileset dir="${EMFDriver}/ThirdParty/EMF"/>
+  		</copy>
+  		
+  	</target>
+  	<target name="get_sources" description="copy sources files from the different projects">
+  		<copy  todir="${src}/org">
+  			<fileset dir="${LibAssociation}/src/org">
+  				<exclude name="**/EMF*/**"/>
+  			</fileset>
+  		</copy>
+  		<copy  todir="${src}/io">
+  			<fileset dir="${LibAssociation}/src/io"/>
+  		</copy>
+  		<copy  todir="${src}/MDRDriver">
+  			<fileset dir="${LibAssociation}/src/MDRDriver"/>
+  		</copy>
+  		<copy  todir="${src}/ModFactDriver">
+  			<fileset dir="${LibAssociation}/src/ModFactDriver"/>
+  		</copy>
+  	<!-- not copied as it is included in the EMFdriver plugin	
+  		<copy  todir="${src}/EMFDriver">
+  			<fileset dir="${LibAssociation}/src/EMFDriver"/>
+  		</copy>
+  		-->
+  		<copy  todir="${src}/Standard">
+  			<fileset dir="${LibAssociation}/src/Standard"/>
+  		</copy>
+  		<copy  todir="${src}/DefaultObservers">
+  			<fileset dir="${LibAssociation}/src/DefaultObservers"/>
+  		</copy>
+  		<copy  todir="${src}/DefaultVisitors">
+  			<fileset dir="${LibAssociation}/src/DefaultVisitors"/>
+  		</copy>
+  		
+  		<!-- <copy  todir="${src}">
+  			<fileset dir="${BMTLRepositoryDriver}/src">
+  				<include name="**/*.java"/>
+			</fileset> 
+  		</copy> -->
+  		<copy  todir="${src}">
+  			<fileset dir="${BMTLIO}/src">
+  				<include name="**/*.java"/>
+			</fileset> 
+  		</copy>
+  	</target>
+  	
+  	<target name="get all" description="get all sources and jars" depends="get_sources, get_jars">  	  	
+  	</target> 
+</project>
