@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Package.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ * $Id: Package.mtl,v 1.2 2004-03-04 17:51:21 edrezen Exp $
  ******************************************************************************/
 
 library MOFhelper;
@@ -49,7 +49,7 @@ DisplayPackage (
 		importsIterator.next();
 		if (importsIterator.isOn().[not]())  { ''.toOut(); }
 	}
-/*	
+
 	classesIterator := getClasses (parentPackage).getNewIterator();
 	classesIterator.start();
 	while (classesIterator.isOn())
@@ -99,7 +99,7 @@ DisplayPackage (
 		subPackagesIterator.next();
 		if (subPackagesIterator.isOn().[not]())  { ''.toOut(); }
 	}
-*/		
+		
 	' '.toOut();
 }
 

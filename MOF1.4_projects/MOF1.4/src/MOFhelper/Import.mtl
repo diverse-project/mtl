@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Import.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ * $Id: Import.mtl,v 1.2 2004-03-04 17:51:03 edrezen Exp $
  ******************************************************************************/
 
 library MOFhelper;
@@ -27,26 +27,6 @@ getImports (aPackage : MOFview::Package) : Standard::Set
 	{		
 		aModelElement := aModelElementIterator.item();
 
-aModelElement.toOut();
-
-		if (aModelElement.oclIsKindOf (!MOFadapter::Import!))
-		{
-			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 1...'.toOut();
-		}
-		if (aModelElement.oclIsKindOf (!MOFview::Import!))
-		{
-			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 2...'.toOut();
-		}
-		if (aModelElement.oclIsTypeOf (!MOFadapter::Import!))
-		{
-			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 3...'.toOut();
-		}
-		if (aModelElement.oclIsTypeOf (!MOFview::Import!))
-		{
-			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 4...'.toOut();
-		}
-
-		
 		if (aModelElement.oclIsKindOf (!MOFview::Import!))
 		{
 			result := result.including (aModelElement);
