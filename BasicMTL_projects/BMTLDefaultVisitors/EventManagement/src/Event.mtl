@@ -25,14 +25,26 @@ class Event
 ////////////////////////////////////////////////////////////////////////////////
 class AttributeEvent extends Event
 {
+	attributeName : Standard::String;
+	oldValue      : Standard::OclAny;
+	newValue      : Standard::OclAny;
+
+	/** */
+	getAttributeName () : Standard::String
+	{
+		return this.attributeName;
+	}
+	
+	/** */
 	getOldValue () : Standard::OclAny
 	{
-		return null;
+		return this.oldValue;
 	}
 
+	/** */
 	getNewValue () : Standard::OclAny
 	{
-		return null;
+		return this.newValue;	
 	}
 }
 
@@ -41,6 +53,13 @@ class AttributeEvent extends Event
 ////////////////////////////////////////////////////////////////////////////////
 class AssociationEvent extends Event
 {
+	endName : Standard::String;
+	
+	/** */
+	getEndName () : Standard::String
+	{
+		return this.endName;
+	}
 }
 
 

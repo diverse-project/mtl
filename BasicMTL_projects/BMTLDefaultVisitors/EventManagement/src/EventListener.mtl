@@ -6,63 +6,70 @@ library EventManagement;
 ////////////////////////////////////////////////////////////////////////////////
 class EventListener 
 {
-	type : Standard::String;
 	cmd : EventCommand;
 	elt : Standard::ModelElement;
 
 	init (cmd : EventCommand) : EventListener
 	{
-		this.type := getType(); // must use an attribute otherwise the polymorphism does not work in the JavaCode section
 		this.cmd := cmd;
 		return this;
 	}
 
-	/** should be abstract */	
-	getType () : Standard::String { return null; }
+	/** */	
+	connect (elt : Standard::ModelElement) 
+	{
+	}	
+	
+	/** */
+	update (event : Event) 
+	{
+		// by default, the command is used, but it is still possible to overload this method directly
+		if (isNull(this.cmd).not())
+		{
+			this.cmd.update (event);
+		}
+		else
+		{
+			'EventListener uses default update method but without a defined EventCommand object...'.toErr();
+		}
+	}
+}
 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+class AttributeEventListener extends EventListener
+{
 	/** */	
 	connect (elt : Standard::ModelElement) 
 	{
 		JavaCode 
 		[ 
-			final BMTLModelElement me = (BMTLModelElement)BMTL_elt;
+			final BMTLModelElement me = (BMTLModelElement)BMTL_elt; // final is mandatory here because the var is used in an anonymous class
 	
-	        EventListener listener = me.getAPI().getEventListenerFactory().createEventListenerByType (
-	        		get_BMTL_type().getTheString(),
+	        EventListener listener = me.getAPI().getEventListenerFactory().createAttributeEventListener (
 	        		new EventListenerCommand () {
 						public void update (Event event) {
+							// this kind of event listener is supposed to retrieve attribute events.
+							AttributeEvent theEvent = (AttributeEvent)event;
+							
 							try {
-	
-								// we build an Event instance
-								EventManagement.BMTL_EventInterface BMTL_evt = (EventManagement.BMTL_EventInterface)CommonFunctions.toBMTLDataType (
-									((EventManagement.BMTL_EventInterface)CommonFunctions.toBMTLDataType (
-										((org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType)getLibrary().getMetaClass (
-											new String [\] {"EventManagement", "Event"})).instanciate()
-										)
-									)
+								// we build an MTL AttributeEvent instance
+								EventManagement.BMTL_AttributeEventInterface BMTL_evt = (EventManagement.BMTL_AttributeEventInterface)CommonFunctions.toBMTLDataType (
+									((InstanciableType)getLibrary().getMetaClass (
+										new String [\] {"EventManagement", "AttributeEvent"})).instanciate()
 								);
 
-								if (event instanceof AttributeEvent)
-								{
-									AttributeEvent theEvent = (AttributeEvent)event;
-									BMTL_evt.set_BMTL_kind (new BMTLString(theEvent.getKind().toString()));
-									BMTL_evt.set_BMTL_source (me);
-								}
-								else if (event instanceof AssociationEvent)
-								{
-									AssociationEvent theEvent = (AssociationEvent)event;
-									BMTL_evt.set_BMTL_kind (new BMTLString(theEvent.getKind().toString()));
-									BMTL_evt.set_BMTL_source (me);
-								}
-								else if (event instanceof InstanceEvent)
-								{
-									InstanceEvent theEvent = (InstanceEvent)event;
-									BMTL_evt.set_BMTL_kind (new BMTLString(theEvent.getKind().toString()));
-									BMTL_evt.set_BMTL_source (me);
-								}
-								
+								// we set the attributes of the object
+								BMTL_evt.set_BMTL_kind          (new BMTLString(theEvent.getKind().toString()));
+								BMTL_evt.set_BMTL_source        (me);
+								BMTL_evt.set_BMTL_attributeName ((BMTLStringInterface)CommonFunctions.toBMTLDataType (theEvent.getAttributeName()));
+								BMTL_evt.set_BMTL_oldValue      ((BMTLOclAnyInterface)CommonFunctions.toBMTLDataType (theEvent.getOldValue()));
+								BMTL_evt.set_BMTL_newValue      ((BMTLOclAnyInterface)CommonFunctions.toBMTLDataType (theEvent.getNewValue()));
+
 								// we call the update method
-								get_BMTL_cmd().BMTL_update (BMTL_evt);
+								theCaller.BMTL_update (BMTL_evt);
 							}
 							catch (Throwable e) {
 								e.printStackTrace();
@@ -70,7 +77,8 @@ class EventListener
 						}
 	        		}
 	        );
-	        
+
+			// we add the built listener to the element	        
 	        me.addListener (listener);
 		];
 	}	
@@ -80,18 +88,47 @@ class EventListener
 ////////////////////////////////////////////////////////////////////////////////
 //
 ////////////////////////////////////////////////////////////////////////////////
-class AttributeEventListener extends EventListener
-{
-	getType () : Standard::String { return 'attribute'; }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-////////////////////////////////////////////////////////////////////////////////
 class AssociationEventListener extends EventListener
 {
-	getType () : Standard::String { return 'association'; }
+	/** */	
+	connect (elt : Standard::ModelElement) 
+	{
+		JavaCode 
+		[ 
+			final BMTLModelElement me = (BMTLModelElement)BMTL_elt;
+	
+	        EventListener listener = me.getAPI().getEventListenerFactory().createAssociationEventListener (
+	        		new EventListenerCommand () {
+						public void update (Event event) {
+							// this kind of event listener is supposed to retrieve association events.
+							AssociationEvent theEvent = (AssociationEvent)event;
+							
+							try {
+								// we build an MTL AssociationEvent instance
+								EventManagement.BMTL_AssociationEventInterface BMTL_evt = (EventManagement.BMTL_AssociationEventInterface)CommonFunctions.toBMTLDataType (
+									((InstanciableType)getLibrary().getMetaClass (
+										new String [\] {"EventManagement", "AssociationEvent"})).instanciate()
+								);
+
+								// we set the attributes of the object
+								BMTL_evt.set_BMTL_kind (new BMTLString(theEvent.getKind().toString()));
+								BMTL_evt.set_BMTL_source (me);
+								BMTL_evt.set_BMTL_endName ((BMTLStringInterface)CommonFunctions.toBMTLDataType (theEvent.getEndName()));
+
+								// we call the update method
+								theCaller.BMTL_update (BMTL_evt);
+							}
+							catch (Throwable e) {
+								e.printStackTrace();
+							}
+						}
+	        		}
+	        );
+
+			// we add the built listener to the element	        
+	        me.addListener (listener);
+		];
+	}	
 }
 
 
@@ -100,7 +137,44 @@ class AssociationEventListener extends EventListener
 ////////////////////////////////////////////////////////////////////////////////
 class InstanceEventListener extends EventListener
 {
-	getType () : Standard::String { return 'instance'; }
+	/** */	
+	connect (elt : Standard::ModelElement) 
+	{
+		JavaCode 
+		[ 
+			final BMTLModelElement me = (BMTLModelElement)BMTL_elt;
+	
+	        EventListener listener = me.getAPI().getEventListenerFactory().createInstanceEventListener (
+	        		new EventListenerCommand () {
+						public void update (Event event) {
+							// this kind of event listener is supposed to retrieve instance events.
+							InstanceEvent theEvent = (InstanceEvent)event;
+							
+							try {
+								// we build an MTL AssociationEvent instance
+								EventManagement.BMTL_InstanceEventInterface BMTL_evt = (EventManagement.BMTL_InstanceEventInterface)CommonFunctions.toBMTLDataType (
+									((InstanciableType)getLibrary().getMetaClass (
+										new String [\] {"EventManagement", "InstanceEvent"})).instanciate()
+								);
+
+								// we set the attributes of the object
+								BMTL_evt.set_BMTL_kind (new BMTLString(theEvent.getKind().toString()));
+								BMTL_evt.set_BMTL_source (me);
+
+								// we call the update method
+								theCaller.BMTL_update (BMTL_evt);
+							}
+							catch (Throwable e) {
+								e.printStackTrace();
+							}
+						}
+	        		}
+	        );
+
+			// we add the built listener to the element	        
+	        me.addListener (listener);
+		];
+	}	
 }
 
 
