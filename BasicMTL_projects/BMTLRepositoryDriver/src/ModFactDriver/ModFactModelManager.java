@@ -1,4 +1,4 @@
-/* $Id: ModFactModelManager.java,v 1.1 2004-01-29 14:56:19 xblanc Exp $
+/* $Id: ModFactModelManager.java,v 1.2 2004-01-29 16:46:23 xblanc Exp $
  * Created on 25 août 2003
  */
 package ModFactDriver;
@@ -49,8 +49,8 @@ import org.irisa.triskell.MT.utils.Java.AWK;
  *	Implementation of MDRModelManager BMTL object using SimpleStandaloneModelManager from the repository driver
  */
 public class ModFactModelManager extends SimpleStandaloneModelManager implements BMTLObjectInterface, Value {
-	protected static final String n = "MDRModelManager";
-	protected static final String [] qn = new String [] {"MDRModelManager", n};
+	protected static final String n = "ModFactModelManager";
+	protected static final String [] qn = new String [] {"ModFactModelManager", n};
 	 
 	public static final Type TheType = new InstanciableType () {
 		
@@ -64,12 +64,12 @@ public class ModFactModelManager extends SimpleStandaloneModelManager implements
 
      public boolean isKindOf(
         org.irisa.triskell.MT.DataTypes.Java.Value v) {
-        return v instanceof MDRModelManager;
+        return v instanceof ModFactModelManager;
      }
 
      public boolean isTypeOf(
         org.irisa.triskell.MT.DataTypes.Java.Value v) {
-        return v instanceof MDRModelManager;
+        return v instanceof ModFactModelManager;
      }
 
 
@@ -92,12 +92,12 @@ public class ModFactModelManager extends SimpleStandaloneModelManager implements
      }
 
 	 public Value instanciate() {
-		return new MDRModelManager();
+		return new ModFactModelManager();
 	 }
 
 	 public Value instanciateFromJavaObject (Object javaObject)
 	 {
-		 // currently, no java object allows to create a MDRModelManager 
+		 // currently, no java object allows to create a ModFactModelManager 
 		 // DVK : currently we have no use for that 
 		 return null;
 	 }	

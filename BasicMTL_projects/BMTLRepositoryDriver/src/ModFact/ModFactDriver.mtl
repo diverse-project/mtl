@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: ModFactDriver.mtl,v 1.1 2004-01-29 14:56:22 xblanc Exp $
+// $Id: ModFactDriver.mtl,v 1.2 2004-01-29 16:46:09 xblanc Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
@@ -26,7 +26,7 @@ tag DoNotGenerate := booleantag true;
 	  * initialize the driver so the driver could run properly
 	  * Must be call for a correct behavior
 	  */	  
-	/* init() : MDRModelManager
+	/* init() : ModFactModelManager
 	{
 	}
 	*/
