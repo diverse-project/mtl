@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.18 2004-10-19 08:29:56 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.19 2004-10-27 15:50:03 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -148,6 +148,8 @@ public class Compiler {
 		// now, this version does search recursively
 		java.util.Vector filenamesArguments=new java.util.Vector();
 		String filesList[] = Directories.getFilesFromDirectory (sourcesDir);
+
+		log.info("Looking for files in "+sourcesDir);
 		if(filesList == null)
 		{
 			showUsage();
@@ -159,6 +161,7 @@ public class Compiler {
 			// ignore files in CVS directories
 			boolean isWithCVSDir = false; 
 			String[] result = filesList[i].split("\\\\|/");
+			
 			for (int x=0; x<result.length; x++)
 		    {
 		    	if(result[x].equalsIgnoreCase("CVS"))
