@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.10 2004-02-16 10:49:58 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.11 2004-03-17 17:03:24 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -8,6 +8,7 @@ package TypeChecker;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAccessor;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
+import org.apache.log4j.Logger;
 
 /**
  * @author jpthibau
@@ -16,6 +17,9 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSi
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class inheritedSignatures {
+
+	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
+
 
 	public static boolean redefinedOp(UserDefinedClass aClass,InheritedOpSignature parentSignature)
 	//determine if the parentSignature is redefined in the local signatures of the class
@@ -73,19 +77,22 @@ public class inheritedSignatures {
 			java.util.Vector compatible_present=compatibleAndPresentOp(aClass,parentSignature, theLib);
 			boolean isCompatible=((Boolean)compatible_present.get(0)).booleanValue();
 			boolean isAlreadyPresent=((Boolean)compatible_present.get(1)).booleanValue();
-		    if (parentSignature.getOpName().startsWith("getRef_") || !isRedefined) { 
-				if (isCompatible) {
+		    if (parentSignature.getOpName().startsWith("getRef_") || !isRedefined) 
+		    { 
+				if (isCompatible)
+				{
 					if (! isAlreadyPresent)
 //						|| (parentSignature.getOpName().startsWith("getRef_"))) //a same great-parent ref may be accepted from several direct parents 
 						aClass.appendInheritedSignatures(parentSignature);
 				}
 				else if (! parentSignature.getOpName().startsWith("getRef_"))
-					{	TLLtypechecking.getLog().warn("parent signature is incompatible with already inherited signatures");
-						TLLtypechecking.getLog().warn(parentSignature.getOpName());
-						TLLtypechecking.getLog().warn("Arguments count :"+Integer.toString(parentSignature.getArgsCount()));
-						TLLtypechecking.getLog().warn("origin 1:"+parentSignature.getTypeWhichDefineOp());
-						TLLtypechecking.getLog().warn("origin 2:"+compatible_present.get(2)); }
-				}  
+				{	
+						log.warn("Class "+aClass.qualifiedName+": multiple inheritance indetermisn for method: "+parentSignature.getOpName()+
+								 ", argument count:"+Integer.toString(parentSignature.getArgsCount()));
+						log.warn("  origin 1:"+parentSignature.getTypeWhichDefineOp()+", origin 2:"+compatible_present.get(2)); 
+						log.warn("  Consider to overload it. Ex: "+parentSignature.getOpName()+"(...){self.oclAsType(!inherited_type!)."+parentSignature.getOpName()+"(...);}");
+				}
+		    }  
 		}
 		return true;//no error
 	}
