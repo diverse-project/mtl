@@ -156,7 +156,7 @@ public class MTLParser
 			int offset = scanner.getTokenOffset();
 			int length = scanner.getTokenLength();
 			String expression = getExpression(offset, length);
-			log.log_this(" e: "+expression+"  "+token.toString());		
+			//log.log_this(" e: "+expression+"  "+token.toString());		
 			if (token.equals(MTLCodeScanner.TOKEN_FUNCTION))//Si c'est une fonction
 			{
 				//log.log_(" FUNCTION: "+expression);
@@ -222,7 +222,7 @@ public class MTLParser
 			int offsete = scanner.getTokenOffset();
 			int lengthe = scanner.getTokenLength();
 			String expression = getExpression(offsete, lengthe);
-			log.log_(" E: "+expression+"  "+token.toString());
+			//log.log_(" E: "+expression+"  "+token.toString());
 			if (expression.equals("}")){
 				parOuv=parOuv-1;
 			} else	if (expression.equals("{")){
