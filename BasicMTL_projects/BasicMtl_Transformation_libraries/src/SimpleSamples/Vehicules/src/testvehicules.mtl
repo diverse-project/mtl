@@ -6,6 +6,7 @@ library testVehicules;
 
 main():Standard::Void
 {
+	
 	vehicule : vehiculeLib::vehicule;
 	o : Standard::OclAny;
 	t : Standard::OclType;
@@ -20,6 +21,9 @@ main():Standard::Void
 	vehicule.vitessemaxi := vehicule.passagers;
 	
 	o := vehicule;
+	!testVehicules!.allInstances();
+	!vehiculeLib::vehicule!.allInstances();
+	vehicule := o.oclAsType(!vehiculeLib::vehicule!);
 	
 	if 'toto'.[=]('tutu') {
 		throws 'OclAny.=(OclAny) has problems';
@@ -33,26 +37,41 @@ main():Standard::Void
 	if vehicule.oclIsTypeOf(!vehiculeLib::vehicule!).not() {
 		throws 'OclAny.oclIsTypeOf(OclType) has problems';
 	}
-	if vehicule.oclIsKindOf(!vehiculeLib::vehicule!).not() {
+	if vehicule.oclIsTypeOf(!Standard::BMTLObject!) {
 		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if self.oclIsTypeOf(!Standard::BMTLLibrary!) {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if self.oclIsTypeOf(!testVehicules!).not() {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if vehicule.oclIsKindOf(!vehiculeLib::vehicule!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if vehicule.oclIsKindOf(!Standard::BMTLObject!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if self.oclIsKindOf(!Standard::BMTLLibrary!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if self.oclIsKindOf(!testVehicules!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
 	}
 	
 	t := !vehiculeLib::vehicule!;
 	
-	if t.allInstances().size().[=](0) {
-		throws 'OclType.oclIsTypeOf(OclType) has problems';
-	}
-	if t.oclQualifiedName().at(0).[<>]('vehiculeLib') {
-		throws 'OclType.oclQualifiedName() has problems';
-	}
+//	if t.allInstances().size().[=](0) {
+//		throws 'OclType.oclIsTypeOf(OclType) has problems';
+//	}
+//	if t.oclQualifiedName().at(0).[<>]('vehiculeLib') {
+//		throws 'OclType.oclQualifiedName() has problems';
+//	}
 	if t.oclName().[<>]('vehicule') {
 		throws 'OclType.oclName() has problems';
 	}
 	
 	m := null;
-	
-	m.delete();
-	m.oclUid();
 
 	r := -0.1;
 	
@@ -62,7 +81,7 @@ main():Standard::Void
 	if r.[+](1.5).[<>](1.4) {
 		throws 'Real.+(Real) has problems';
 	}
-	if r.[-](1.5).[<>](1.6) {
+	if r.[-](1.5).[<>](-1.6) {
 		throws 'Real.-(Real) has problems';
 	}
 	if r.[*](1.5).[<>](-0.15) {
@@ -98,7 +117,7 @@ main():Standard::Void
 	if r.[>=](-1.9).not() {
 		throws 'Real.>=(Real) has problems';
 	}
-	if r.toString().[<>]('-1.9') {
+	if r.toString().[<>]('-0.1') {
 		throws 'Real.toString() has problems';
 	}
 	
@@ -125,7 +144,7 @@ main():Standard::Void
 	if i.[div](5).[<>](-2) {
 		throws 'Integer.div(Integer) has problems';
 	}
-	if i.mod(5).[<>](-3) {
+	if i.mod(5).[<>](-2) {
 		throws 'Integer.mod(Integer) has problems';
 	}
 	if i.max(5).[<>](5) {
@@ -152,6 +171,14 @@ main():Standard::Void
 	if '123.456'.toReal().[<>](123.456) {
 		throws 'String.toReal() has problems.';
 	}
+	
+	self.toto ('1234', vehicule);
+	toto ('1234', vehicule);
+	oclAsType(!testVehicules!).toto('123456', null);
+	
+	'testVehicule passed...'.toOut();
+	self.toOut();
+	vehicule.toOut();
 }
 
 toto(arg0 : Standard::String; arg1 : vehiculeLib::vehicule) {}

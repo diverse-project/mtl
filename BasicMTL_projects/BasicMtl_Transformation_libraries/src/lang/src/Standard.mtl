@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.5 2003-08-20 15:54:13 ffondeme Exp $
+// $Id: Standard.mtl,v 1.6 2003-08-21 19:56:15 ffondeme Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -113,6 +113,16 @@ tag DoNotGenerate := booleantag true;
 		// Evaluates to true if the self conforms to the type identified by typename. Typename may be in the format
 		// Package::subPackage::classifier.
 		// post: -- TBD
+	}
+	
+	toOut () : Void
+	{
+		//Writes this object to the standard output
+	}
+	
+	toErr () : Void
+	{
+		//Writes this object to the standard output
 	}
 					
 }
