@@ -1,4 +1,4 @@
-// $Id: AssociationTry.mtl,v 1.1 2003-11-04 15:30:26 jpthibau Exp $
+// $Id: AssociationTry.mtl,v 1.2 2003-11-24 15:01:08 dvojtise Exp $
 // first try of associations
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -104,38 +104,39 @@ main():Standard::Void
 	b3.name := 'b3';
 	c1.name := 'c1';
 	c2.name := 'c2';
-	'aA,b1,b2,b3,c1 and c2 created!'.toOut();
+	'aA,b1,b2,b3,c1 and c2 created!\n'.toOut();
 	associate  (theA := aA : A, myBs := b1 : B);
 	associate  (theA := aA : A, myBs := b2 : B);
-	'aA has been associated with b1 and b2'.toOut();
-	'============================='.toOut();
-	'aA.myBs has the value :'.toOut();
+	'aA has been associated with b1 and b2\n'.toOut();
+	'=============================\n'.toOut();
+	'aA.myBs has the value : '.toOut();
 	orderedSetValues(!B!,'Binfo',null,aA.myBs).toOut();
-	'============================='.toOut();
-	'b2.theA has the value :'.toOut();
+	'\n=============================\n'.toOut();
+	'b2.theA has the value : '.toOut();
 	setValues(!A!,'Ainfo',null,b2.theA).toOut();
 	dissociate  (theA := aA : A, myBs := b1 : B);
-	'aA has been dissociated from b1'.toOut();
-	'============================='.toOut();
-	'aA.myBs has the value :'.toOut();
+	'\naA has been dissociated from b1\n'.toOut();
+	'=============================\n'.toOut();
+	'aA.myBs has the value : '.toOut();
 	orderedSetValues(!B!,'Binfo',null,aA.myBs).toOut();
-	'============================='.toOut();
+	'\n=============================\n'.toOut();
 	'b2.theA has the value :'.toOut();
 	setValues(!A!,'Ainfo',null,b2.theA).toOut();
+	'\nb2.theA has the value :'.concat(setValues(!A!,'Ainfo',null,b2.theA)).toOut();
 	associate  (As := aA : A, Bs := b1 : B, Cs := c1 : C);
 	associate  (As := aA : A, Bs := b2 : B, Cs := c2 : C);
-	'aA has been associated with b1,c1 and b2,c2'.toOut();
-	'============================='.toOut();
-	'aA.Bs'.toOut();
+	'\naA has been associated with b1,c1 and b2,c2'.toOut();
+	'\n=============================\n'.toOut();
+	'aA.Bs\n'.toOut();
 	setValues(!B!,'Binfo',null,aA.Bs).toOut();
-	'============================='.toOut();
-	'aA.Cs'.toOut();
+	'\n=============================\n'.toOut();
+	'aA.Cs\n'.toOut();
 	setValues(!C!,'Cinfo',null,aA.Cs).toOut();
-	'============================='.toOut();
-	'b2.As'.toOut();
+	'\n=============================\n'.toOut();
+	'b2.As\n'.toOut();
 	setValues(!A!,'Ainfo',null,b2.As).toOut();
-	'============================='.toOut();
-	'b2.Cs'.toOut();
+	'\n=============================\n'.toOut();
+	'b2.Cs\n'.toOut();
 	setValues(!C!,'Cinfo',null,b2.Cs).toOut();
-	'Test over.'.toOut();
+	'\nTest over.\n'.toOut();
 }			
