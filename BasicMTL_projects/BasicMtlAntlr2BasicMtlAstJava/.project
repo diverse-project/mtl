@@ -5,6 +5,7 @@
 	<projects>
 		<project>BasicMtlAntlr</project>
 		<project>BasicMtlAstJava</project>
+		<project>BasicMtl_Transformation_libraries</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.3 2003-07-16 10:12:29 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.4 2003-07-17 16:06:05 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -6,63 +6,7 @@ package ANTLRParser;
 
 
 {
-import java.io.*;
-import java.util.*;
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
 import ANTLRASTWalker.*;
-
-
-
-class BMTL {
-static DataInputStream input;
-
-public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
-
-public static org.apache.log4j.Logger getLog () {
-		return BMTL.log;
-}
-
-public static Object Parse(String name,ANTLRWalkerActionsInterface aWalker)
-{	log.info("Opening source file : "+name);
-	boolean noPb=true;
-	Object builtTree=null;
-	try { input=new DataInputStream(new FileInputStream(name)); }
-	catch (FileNotFoundException e) {
-		log.error("PB input file opening");}
-	try {
-		BasicmtlLexer lexer = new BasicmtlLexer(input);
-		BasicmtlParser parser = new BasicmtlParser(lexer);
-		builtTree=parser.basicMTL(lexer,aWalker);
-		}
-	catch(Exception e) {
-		noPb=false;
-		log.warn("exception: "+e+"=>"+e.getMessage());
-		e.printStackTrace(); }				
-	log.info("For the file "+name+",");
-	log.info("parsing is over.");
-	if (noPb) return builtTree;
-	else return null;
-}
-
-public static void main(String[] args)
-{	DummyWalker aWalker=new DummyWalker();
-	try {
-		String filePath = new java.io.File("ThirdParty/log4j/log4j_configuration").getCanonicalPath();
-		LogManager.resetConfiguration();
-		DOMConfigurator.configure(filePath); }
-	catch(java.io.IOException e) {
-		System.err.println("Can't state log4j in BMTLParser"); }
-	if (args.length > 0)
-		for (int i=0;i<args.length;i++)
-			try { Parse(args[i],aWalker); }
-			catch (Exception e) {
-				log.error(e);
-				e.printStackTrace();}
-	else log.error("USAGE : java BMTL <sourcefiles>");
-}
-}
 }
 
 /*==========================================*/
@@ -128,13 +72,12 @@ libheader
 	| "nativelibrary"^ IDENTIFIER
 ==================================================================*/
 libheader returns [Object tree=null;]
-{	boolean nativeLib=false;
-	Object l1=null;
+{	Object l1=null;
 }
 	: "library" s1:IDENTIFIER (l1=inheritance)? 
-	| "nativelibrary" {nativeLib=true;} s2:IDENTIFIER 
-	{ if (nativeLib) tree=walker.nativeLibHeader(s2.getText());
-	  else tree=walker.bmtllibraryHeader(s1.getText(),l1); }
+		{ tree=walker.bmtllibraryHeader(s1.getText(),l1); }
+	| "nativelibrary" s2:IDENTIFIER 
+	{ tree=walker.nativeLibHeader(s2.getText()); }
 exception catch [RecognitionException ex] {
 	throw ex; } 
 	;
@@ -345,13 +288,14 @@ exception catch [RecognitionException ex] {
 	;
 
 /*===============================================================
-associateEndPoint : (IDENTIFIER EQUAL)? IDENTIFIER (COLON type)?
+associateEndPoint : (IDENTIFIER EQUAL)? expression (COLON type)?
 ==================================================================*/
 associateEndPoint returns [Object tree=null;]
 {	String role=null;
+	Object t=null;
 }
-	: (s1:IDENTIFIER EQUAL {role=s1.getText(); })? s2:IDENTIFIER (COLON tree=type)? 
-	  {tree=walker.associateEndPoint(role,s2.getText(),tree); }
+	: (s1:IDENTIFIER EQUAL {role=s1.getText(); })? tree=expression (COLON t=type)? 
+	  {tree=walker.associateEndPoint(role,tree,t); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;

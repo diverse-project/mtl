@@ -1,11 +1,11 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.2 2003-07-16 10:12:28 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.3 2003-07-17 16:06:05 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
 
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes);
 
-public Object libraryHeader(String lineNumber,Object libNeader,java.util.Vector tags);
+public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector tags);
 
 public Object bmtllibraryHeader(String libName,Object inheritance);
 
@@ -17,7 +17,7 @@ public Object classDefinition(String lineNumber,String className,Object inherita
 
 public Object inheritance (Object typesList);
 
-public Object attribute(Object locaVarDef,java.util.Vector tags);
+public Object attribute(Object localVarDef,java.util.Vector tags);
 
 public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags);
 
@@ -41,7 +41,7 @@ public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,ja
 
 public Object associateInstr(java.util.Vector endPoints,String lineNumber);
 
-public Object associateEndPoint(String role,String endObjectName,Object type);
+public Object associateEndPoint(String role,Object endObject,Object type);
 
 public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls);
 

@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.2 2003-07-16 10:12:28 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.3 2003-07-17 16:06:05 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -6,7 +6,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes) { return null; }
 
-	public Object libraryHeader(String lineNumber,Object libNeader,java.util.Vector tags) {return null; }
+	public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector tags) {return null; }
 
 	public Object bmtllibraryHeader(String libName,Object inheritance) {return null; }
 
@@ -18,7 +18,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object inheritance (Object typesList) { return null; }
 
-	public Object attribute(Object locaVarDef,java.util.Vector tags) { return null; }
+	public Object attribute(Object localVarDef,java.util.Vector tags) { return null; }
 
 	public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags) { return null; }
 
@@ -42,7 +42,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object associateInstr(java.util.Vector endPoints,String lineNumber) { return null; }
 
-	public Object associateEndPoint(String role,String endObjectName,Object type) { return null; }
+	public Object associateEndPoint(String role,Object endObject,Object type) { return null; }
 
 	public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls) { return null; }
 
