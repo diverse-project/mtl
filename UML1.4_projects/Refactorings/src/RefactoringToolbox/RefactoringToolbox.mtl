@@ -1,0 +1,73 @@
+/******************************************************************************
+ * $Id$
+ ******************************************************************************/
+
+library RefactoringToolbox;
+
+model source_model : RepositoryModel;
+model target_model : RepositoryModel;
+
+model UML : RepositoryModel;
+model CR : ClassRefactorings;
+
+/*****************************************************************************/
+
+main():Standard::Void
+{
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+
+	source_metamodel_filename : Standard::String;
+	source_model_filename     : Standard::String;
+
+	target_metamodel_filename : Standard::String;
+	target_model_filename      : Standard::String;
+
+	refac : ClassRefactorings::TestRefac;
+
+	iterator : Standard::Iterator;
+	classifier : UML::Core::Class;
+
+	// some filenames 
+	projectPath       := './';
+	source_metamodel_filename := projectPath.concat ('../UML1.4/MetaModel/xmi_1.2/01-02-15.xml');	
+	source_model_filename     := projectPath.concat ('models/refactorableModel.xmi');
+
+
+    // MDR driver
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+
+	UML := mdrdriver.getModelFromXMI (
+		source_metamodel_filename, 
+		'UML',
+		'refactorableModel', 
+		source_model_filename,
+		null
+	);
+
+	CR := new ClassRefactorings();
+	CR.init(UML);
+
+
+	// transformation
+	refac := new CR::TestRefac();
+	iterator := !UML::Core::Class!.allInstances().getNewIterator();
+	iterator.start();
+	if ( iterator.isOn() ) {
+		classifier := iterator.item().oclAsType(!UML::Core::Class!);
+
+		refac.setTarget( classifier );
+		refac.setInfo( 'Name of the refactored classifier: ' );
+		refac.apply();
+
+	} else {
+		'No classifier found'.toOut();
+	}
+
+}
+
+
+
+

@@ -1,0 +1,69 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Dec 16 17:17:36 CET 2003'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <UML:Model xmi.id = 'lsm:151fe8a:f97a2391a9:-7ffa' name = 'refactorableModel'
+      isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+      <UML:Namespace.ownedElement>
+        <UML:Class xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff9' name = 'SomeClass' visibility = 'public'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
+          isActive = 'false'>
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff8' name = 'anAttr' visibility = 'private'
+              isSpecification = 'false' ownerScope = 'instance'>
+              <UML:Attribute.initialValue>
+                <UML:Expression xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff7' language = 'java'
+                  body = '0'/>
+              </UML:Attribute.initialValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = 'lsm:151fe8a:f97a2391a9:-7ff6'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Operation xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff5' name = 'dummyMessage'
+              visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false'>
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff4' name = 'return' isSpecification = 'false'
+                  kind = 'return'>
+                  <UML:Parameter.type>
+                    <UML:DataType xmi.idref = 'lsm:151fe8a:f97a2391a9:-7ff3'/>
+                  </UML:Parameter.type>
+                </UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+            <UML:Method xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff2' isSpecification = 'false'
+              isQuery = 'false'>
+              <UML:Method.body>
+                <UML:ProcedureExpression xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff1' language = 'java'
+                  body = ''/>
+              </UML:Method.body>
+              <UML:Method.specification>
+                <UML:Operation xmi.idref = 'lsm:151fe8a:f97a2391a9:-7ff5'/>
+              </UML:Method.specification>
+            </UML:Method>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <UML:Package xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff0' name = 'java' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Namespace.ownedElement>
+            <UML:Package xmi.id = 'lsm:151fe8a:f97a2391a9:-7fef' name = 'lang' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Namespace.ownedElement>
+                <UML:DataType xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff6' name = 'int' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+                <UML:DataType xmi.id = 'lsm:151fe8a:f97a2391a9:-7ff3' name = 'void' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+              </UML:Namespace.ownedElement>
+            </UML:Package>
+          </UML:Namespace.ownedElement>
+        </UML:Package>
+      </UML:Namespace.ownedElement>
+    </UML:Model>
+  </XMI.content>
+</XMI>

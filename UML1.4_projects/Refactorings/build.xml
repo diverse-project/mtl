@@ -1,0 +1,21 @@
+<!-- $Id: build.xml,v 1.1 2003-12-18 14:13:35 dpollet Exp $ -->
+
+<project name="Refactoring" default="run sample refactorings" basedir=".">
+	<description>
+        Refactoring library
+	</description>
+	
+	<target name="compile class refactorings" > 
+  		<description>
+  		</description>  
+  		<ant antfile="ClassRefactorings_build.xml" dir="." target="compile"/>
+  	</target>
+
+	<target name="run sample refactorings" > 
+  		<description>
+  		</description>  
+  		<ant antfile="RefactoringToolbox_build.xml" dir="." target="compile"/>
+  		<ant antfile="RefactoringToolbox_build.xml" dir="." target="run"/>
+  	</target>
+
+</project>

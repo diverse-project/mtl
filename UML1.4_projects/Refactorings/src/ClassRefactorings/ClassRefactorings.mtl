@@ -1,0 +1,125 @@
+/******************************************************************************
+ * $Id$
+ ******************************************************************************/
+/*
+Add (attr, meth, assoc) : no conflict
+Remove (attr, meth, assoc) : no reference
+Move method : association exists to move through, navigability & multiplicity OK, creation of a forwarder
+UnMove... suppression of a delegation
+
+Insert generalizable : same type, no behavior added
+Remove generalizable : empty elemt
+*/
+
+
+library ClassRefactorings;
+
+model UML : RepositoryModel;
+
+init(uml : RepositoryModel) : ClassRefactorings {
+	UML := uml;
+	return self;
+}
+
+
+
+/*****************************************************************************
+ * interface of all refactorings
+ */
+class Refactoring { // Command pattern
+	isApplicable() : Standard::Boolean { return true; } // precondition check
+	wasApplied() : Standard::Boolean { return true; } // postcondition check
+	apply() { }
+}
+
+
+/*****************************************************************************
+ * concrete refactorings
+ */
+
+class AddFeature extends Refactoring {
+	target : UML::Core::Class;
+	setTarget(c : UML::Core::Class) { 
+		target := c;
+	}
+	getTarget() : UML::Core::Class { return target; }
+	
+	allAttributes(c : UML::Core::Class) : Standard::Set {
+		result : Standard::Set;
+		featureIterator : Standard::Iterator;
+		aFeature : UML::Core::Feature;
+
+		result := new Standard::Set();
+
+		featureIterator := c.feature.getNewIterator();
+		featureIterator.start();
+		while featureIterator.isOn() {		
+			aFeature := featureIterator.item();
+			if ( aFeature.oclIsKindOf(!UML::Core::Attribute!) ) {
+				result := result.including( aFeature.oclAsType(!UML::Core::Attribute!) );
+			}
+			featureIterator.next();
+		}
+		
+		return result;	
+	}
+	
+}
+
+class TestRefac extends AddFeature {
+	info : Standard::String;
+	setInfo(s : Standard::String) {
+		info := s;
+	}
+	apply() {
+		msg : Standard::String;
+		msg := info.oclAsType(!Standard::String!);
+		msg := msg.concat( self.getTarget().oclAsType(!UML::Core::Class!).name.oclAsType(!Standard::String!) );
+		msg.toOut();
+	}
+}
+
+
+/*****************************************************************************/
+class AddAttribute extends AddFeature {
+
+	addedAttribute : UML::Core::Attribute;
+	setAdded(a : UML::Core::Attribute) {
+		addedAttribute := a;
+	}
+	
+	isApplicable() : Standard::Boolean {
+		noConflict : Standard::Boolean;
+		
+		// target.allAttributes -> excludes(addedAttribute)
+		// target.allAttributes -> collect(name) -> excludes(addedAttribute.name)
+		noConflict := allAttributes(getTarget()).excludes(addedAttribute);
+		return noConflict;
+	}
+
+	wasApplied() : Standard::Boolean {
+		attributeOwned : Standard::Boolean;
+		
+		// target.feature -> select(oclIsKindOf(Attribute)) -> includes(addedAttribute)
+		attributeOwned := allAttributes(getTarget()).includes(addedAttribute);
+		return attributeOwned;
+	}
+	
+	apply() {
+//		associate ( feature := addedAttribute : UML::Core::Attribute,
+//					owner := getTarget() : UML::Core::Class );
+	}
+}
+
+
+/*****************************************************************************/
+class AddMethod extends AddFeature {
+	addedAttribute : UML::Core::Attribute;
+	setAdded(a : UML::Core::Attribute) { }
+}
+
+/*****************************************************************************/
+class AddAssociation extends AddFeature {
+	addedAssociationEnd : UML::Core::AssociationEnd;
+	setAdded(a : UML::Core::AssociationEnd) { }
+}
