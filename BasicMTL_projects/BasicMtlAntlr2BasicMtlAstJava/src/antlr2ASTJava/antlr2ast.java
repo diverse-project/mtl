@@ -1,7 +1,9 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.14 2003-12-08 11:15:46 jpthibau Exp $
  * Created on 16 juil. 2003
- *
+ * $Id: antlr2ast.java,v 1.15 2004-02-16 17:27:08 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package antlr2ASTJava;
 
@@ -11,7 +13,7 @@ package antlr2ASTJava;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-import java.io.*;
+//import java.io.*;
 import java.util.Arrays;
 import java.util.Vector;
 

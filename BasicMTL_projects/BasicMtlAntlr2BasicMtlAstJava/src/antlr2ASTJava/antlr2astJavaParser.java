@@ -1,7 +1,9 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2astJavaParser.java,v 1.1 2003-10-14 14:59:50 jpthibau Exp $
  * Created on 16 juil. 2003
- *
+ * $Id: antlr2astJavaParser.java,v 1.2 2004-02-16 17:27:08 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package antlr2ASTJava;
 
@@ -13,10 +15,10 @@ package antlr2ASTJava;
  */
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-
-import ANTLRASTWalker.ANTLRWalkerActionsInterface;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.xml.DOMConfigurator;
+//
+//import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRASTWalker.antlrParserInterface;
 import ANTLRParser.*;
 
