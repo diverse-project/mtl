@@ -1,0 +1,65 @@
+/**
+ * $Id $
+ *
+ *	This abstract library defines the view the transformation will use
+ *
+ * version written for BasicMtl 1.1
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/src/ANTLRParser/basicmtl.g,v 1.1)
+ * 
+ * Last modification by : $Author $
+ * Authors : dvojtise
+ *
+ */
+ 
+// the difference with the SimpleUML MM is that every attributes and associations 
+ // are acessible only through automatic accessors. 
+ // so the adaptor car specialize the action by specializing the corresponding accessors
+ 
+ 
+library  SimpleUML_view;
+ 
+class ModelElement
+{
+	/* Members */
+	kind : Standard::string;
+	name : Standard::string;  // to do do we need these locals ?
+	
+	/* Associations */
+	// NONE	
+}
+
+class Classifier
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	Attribute : Standard::Set;
+	owner : Standard::Set;
+}
+
+class Class
+{
+	/* Members */
+	// NONE
+	/* Associations */	
+	attribute : Standard::Set;
+}
+
+class Attribute
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	owner : Standard::Set;
+	type : Standard::Set;
+
+}
+
+
+class PrimitiveDataType
+{
+	/* Members */
+	// NONE
+	/* Associations */
+	// NONE
+}
