@@ -1,0 +1,27 @@
+/*
+ * $Id: PoseidonTools.mtl,v 1.1 2005-01-18 09:36:11 dvojtise Exp $
+ *
+ * Sample of use of PoseidonDriver
+ */
+ 
+library PoseidonTools;
+// no extends for this lib
+ 
+
+class StaticMessageHandler
+tag mangle := specialtag [PoseidonTools.BMTL_StaticMessageHandler];
+tag type := specialtag [PoseidonTools.BMTL_StaticMessageHandler.TheType];
+tag DoNotGenerate := booleantag true;
+{
+	appendText(message : Standard::String) : Standard::Void
+	{
+	}
+	
+	getText() : Standard::String
+	{
+	}
+	clearText() : Standard::Void
+	{
+	}
+	
+}

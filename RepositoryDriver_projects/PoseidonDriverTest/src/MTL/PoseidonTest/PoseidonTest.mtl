@@ -1,0 +1,460 @@
+/*
+ * $Id: PoseidonTest.mtl,v 1.1 2005-01-18 09:36:12 dvojtise Exp $
+ *
+ * Sample of use of PoseidonDriver
+ */
+ 
+library PoseidonTest;
+// no extends for this lib
+ 
+// Lib local model
+model poseidon_uml_model 	 : RepositoryModel;			// must be conform to UML1.4 MetaModel
+model poseidon_uml_metamodel : RepositoryModel;			// must be conform to MOF1.4 MetaModel
+model poseidon_mof_metamodel : RepositoryModel;			// must be conform to MOF1.4 MetaModel
+
+// utils libraries
+model uml_utils    : UML_Utils;
+model umldi_utils  : UMLDi_Utils;
+
+// Library level methods
+// ---------------------
+// Typed model 
+
+// Library contructors
+// -------------------
+
+
+
+
+
+
+main(args : Standard::Sequence):Standard::Void 
+{
+	argsParser 			: ArgumentsParser;
+	param1				: Standard::String;
+	modelManager		: PoseidonDriver::PoseidonModelManager;
+	msg					: Standard::String;
+	logger				: PoseidonTools::StaticMessageHandler;
+	
+	aTransformation   : MyTransformation;
+
+	'MTL code begin'.toOut();		
+	
+	// use Poseidon logger
+	logger := new PoseidonTools::StaticMessageHandler();
+	
+	// we initialize the arguments parser
+	argsParser := new ArgumentsParser ();
+	argsParser.init (args);
+	
+	param1 := argsParser.getArg();
+	logger.appendText('parameter1 = ');
+	logger.appendText(param1);
+	logger.appendText('\n');
+	
+	
+	
+	// connect the models
+	modelManager := new PoseidonDriver::PoseidonModelManager();
+	
+	modelManager.init();
+	msg := modelManager.getPoseidonCurrentModelExtentName();
+	msg.toOut();
+	
+	poseidon_uml_model := modelManager.getPoseidonModel('M1_Uml1UserModelExtent');
+	// we initialize the uml utils
+    uml_utils 	:= new UML_Utils ().init(poseidon_uml_model);
+    umldi_utils := new UMLDi_Utils ().init(poseidon_uml_model);
+
+   
+	
+	aTransformation := new MyTransformation();
+	aTransformation.init(logger);
+	aTransformation.showContent();
+	aTransformation.run();
+	
+	modelManager.storeModel('M1_Uml1UserModelExtent');
+	//modelManager.disposeModel('M1_Uml1UserModelExtent');
+	'MTL code end'.toOut();
+}	
+
+class MyTransformation
+{
+	logger				: PoseidonTools::StaticMessageHandler;
+	UMLDi
+	
+	init( aLogger : PoseidonTools::StaticMessageHandler)
+	{
+	 	logger := aLogger;
+	}
+	showContent()
+	{
+		logger.appendText('name of all instances of Core::Class\n');
+		foreach (c : poseidon_uml_model::Core::Class)
+		{
+			logger.appendText(c.name.oclAsType(!Standard::String!));
+			logger.appendText('\n');
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////
+	run ()
+	{
+		attributeIterator : Standard::Iterator;
+		anAttribute       : poseidon_uml_model::Core::Attribute;	
+	
+		attributeIterator := !poseidon_uml_model::Core::Attribute!.allInstances().getNewIterator();
+		attributeIterator.start();
+		while attributeIterator.isOn() 
+		{		
+			anAttribute := attributeIterator.item().oclAsType (!poseidon_uml_model::Core::Attribute!);
+			Attribute_Process (anAttribute);
+			attributeIterator.next();
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_Process (theAttribute : poseidon_uml_model::Core::Attribute)
+	{
+		theClass : poseidon_uml_model::Core::Class;
+
+		'ProcessAttribute BEGIN'.toOut();
+//		logger.appendText('ProcessAttribute BEGIN\n');
+		
+		
+		logger.appendText('Processing attribute: ');
+		logger.appendText(theAttribute.name.oclAsType(!Standard::String!));
+		logger.appendText('...\n');
+		
+        // we have to deal only with public attributes
+		if theAttribute.visibility.[=](!poseidon_uml_model::Data_Types::VisibilityKind!.vk_public)
+		{
+			// we retrieve the class of the attribute
+			theClass := theAttribute.owner;
+		
+			// we make the attribute private
+			Attribute_Privatize (theClass, theAttribute);
+
+			// we add a getter
+			Attribute_AddGetter (theClass, theAttribute);
+			
+		}
+		else 
+		{
+			logger.appendText('Attribute not public\n');
+		}
+		
+		logger.appendText('ProcessAttribute END\n');
+		'ProcessAttribute END'.toOut();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_Privatize (theClass     : poseidon_uml_model::Core::Class ;
+					     theAttribute : poseidon_uml_model::Core::Attribute)
+	{
+		theAttribute.visibility := !poseidon_uml_model::Data_Types::VisibilityKind!.vk_private;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_AddGetter(ownerClass   : poseidon_uml_model::Core::Class ;
+					    theAttribute : poseidon_uml_model::Core::Attribute)
+	{
+		getOperation    : poseidon_uml_model::Core::Operation;
+        getMethod       : poseidon_uml_model::Core::Method;
+        returnParameter : poseidon_uml_model::Core::Parameter;
+
+        // we create the get operation
+		getOperation := new poseidon_uml_model::Core::Operation ();		
+		
+		// we set the name of the get operation
+		getOperation.name       := 'get_'.concat (theAttribute.name.oclAsType(!Standard::String!));
+		getOperation.visibility := !poseidon_uml_model::Data_Types::VisibilityKind!.vk_public;
+
+		// we create the get method
+		getMethod               := new poseidon_uml_model::Core::Method();
+		getMethod.visibility    := !poseidon_uml_model::Data_Types::VisibilityKind!.vk_public;
+		getMethod.body          := new poseidon_uml_model::Data_Types::ProcedureExpression();
+		getMethod.body.language := 'java';
+		getMethod.body.body     := '// java comment'; 
+		
+		// we create the return parameter
+		returnParameter      := new poseidon_uml_model::Core::Parameter();
+		returnParameter.name := 'return';
+		returnParameter.kind := !poseidon_uml_model::Data_Types::ParameterDirectionKind!.pdk_return;
+
+		// we set the type of the return parameter
+        associate ( 
+        	type           := theAttribute.type : poseidon_uml_model::Core::Classifier,
+        	typedParameter := returnParameter   : poseidon_uml_model::Core::Parameter
+        );
+
+		// we put the return parameter into the operation
+        associate ( 
+        	parameter         := returnParameter : poseidon_uml_model::Core::Parameter,
+        	behavioralFeature := getOperation    : poseidon_uml_model::Core::BehavioralFeature
+        );
+
+		// we associate the method with the operation
+        associate ( 
+        	specification := getOperation : poseidon_uml_model::Core::Operation,
+        	method        := getMethod    : poseidon_uml_model::Core::Method
+        );
+
+		// we put the get method into the classifier
+        associate ( 
+        	feature := getMethod  : poseidon_uml_model::Core::Feature, 
+        	owner   := ownerClass : poseidon_uml_model::Core::Classifier
+        );
+
+		// we put the get operation into the classifier
+        associate ( 
+        	feature := getOperation : poseidon_uml_model::Core::Feature, 
+        	owner   := ownerClass   : poseidon_uml_model::Core::Classifier
+        );
+        
+        'before normalizeOperationOnClassGraphNodes call'.toOut();
+        normalizeOperationOnClassGraphNodes(getOperation,ownerClass);
+	}
+	
+	
+	/* retreive a collection of GraphNodes associated to this class  */
+/*	retreiveClassGraphNodes(theClass : poseidon_uml_model::Core::Class) : Standard::Set
+	{
+		returnSet : Standard::Set;
+		uSemBridge : poseidon_uml_model::Diagram_Interchange::Uml1SemanticModelBridge;
+		
+		returnSet :=  new Standard::Set();
+		
+		'looking for GraphNodes of this class'.toOut();
+		foreach (gn : poseidon_uml_model::Diagram_Interchange::GraphNode) in (!poseidon_uml_model::Diagram_Interchange::GraphNode!.allInstances)
+		{
+			if 	isNull(gn.semanticModel).not() 
+			{				
+				uSemBridge := gn.semanticModel;				
+				if isNull(uSemBridge).not()
+				{	// be careful gn.semanticModel can contains SemanticModelBridges that don't have a link to an element
+					if (uSemBridge.oclIsKindOf(!poseidon_uml_model::Diagram_Interchange::Uml1SemanticModelBridge!))
+					{   // ajouter le 12/01/05 à vérifier					
+						if(uSemBridge.element = theClass)
+						{
+							returnSet :=  returnSet.including(gn);
+						}
+					}
+				}
+			}
+		}
+		return returnSet;
+	}
+*/	
+	/* if the operation is not known by this Class GraphNode (in a diagram representing this class), then add it */
+	normalizeOperationOnClassGraphNode( op : poseidon_uml_model::Core::Operation; 
+										gn : poseidon_uml_model::Diagram_Interchange::GraphNode)
+	{
+		// TODO
+		'normalizing Operation on GraphNode'.toOut();
+		if not(isSemanticallyLinkedInGraphNodeTree(op, gn))
+		{
+			addOperationGraphNodeOnClassGraphNode(op, gn);
+			'Operation '.concat(op.name.oclAsType(!Standard::String!)).concat(' added on this ClassGraphNode').toOut();
+		}
+		else
+		{
+			'Operation\'s GraphNode allready in the Class GraphNode'.toOut();
+		}
+	}
+	
+	/* if the operation is not known by this Class GraphNodes (in diagrams representing this class), then add it */	
+	normalizeOperationOnClassGraphNodes(op       : poseidon_uml_model::Core::Operation; 
+										theClass : poseidon_uml_model::Core::Class)
+	{
+		foreach (gn : poseidon_uml_model::Diagram_Interchange::GraphNode) in ( retreiveClassGraphNodes(theClass))
+		{			        
+			normalizeOperationOnClassGraphNode(op, gn);
+		}
+	}
+	/* add a GraphNode for this Operation in this class's GraphNode
+	 * pre: classGN must be a class GraphNode
+	 */
+	addOperationGraphNodeOnClassGraphNode(op      : poseidon_uml_model::Core::Operation; 
+										  classGN : poseidon_uml_model::Diagram_Interchange::GraphNode)
+	{
+		operationCompartmentGN 	: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		delimitedSectionGN 		: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		operationGN  			: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		
+		opSm, opVisSm, opNameSm	: poseidon_uml_model::Diagram_Interchange::SemanticModelBridge;
+		opVisibilityGN   		: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		opNameGN   				: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		opParameterStartGN		: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		opParameterEndGN		: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		opTypeSeparatorGN		: poseidon_uml_model::Diagram_Interchange::GraphNode;
+		
+		
+		// find the OperationCompartment GraphNode; if not found create one
+		foreach (containedGNInClassGN : poseidon_uml_model::Diagram_Interchange::GraphNode)
+			in (classGN.contained) where (containedGNInClassGN.semanticModel.oclIsKindOf(!poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement!))
+		{			
+			if( containedGNInClassGN.semanticModel.typeInfo = 'OperationCompartment')
+			{
+				operationCompartmentGN := containedGNInClassGN;
+				'OperationCompartment found'.toOut();
+			}
+		}
+		if isNull(operationCompartmentGN)
+		{
+			'Error, must create an operationCompartment GraphNode'.toOut();
+			'Usually a correct Class Graphnode must have it'.toOut();
+		}
+		// find the first DelimitedSection in this OperationCompartment; if not found create one
+		foreach (containedGNInOpCompGN : poseidon_uml_model::Diagram_Interchange::GraphNode)
+			in (operationCompartmentGN.contained) where (operationCompartmentGN.semanticModel.oclIsKindOf(!poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement!))
+		{			
+			if( containedGNInOpCompGN.semanticModel.typeInfo = 'DelimitedSection')
+			{
+				delimitedSectionGN := containedGNInOpCompGN;
+				'DelimitedSection found'.toOut();
+			}
+		}
+		if isNull(delimitedSectionGN)
+		{
+			'Error, must create a DelimitedSection GraphNode'.toOut();
+			'Usually a correct Class Graphnode must have it'.toOut();
+		}
+		// add a new Graphnode linked to this Operation
+		operationGN := new poseidon_uml_model::Diagram_Interchange::GraphNode();
+		operationGN.position := new poseidon_uml_model::Diagram_Interchange::Point();
+		operationGN.position.x := 2;
+		operationGN.position.y := 2;
+		operationGN.size := new poseidon_uml_model::Diagram_Interchange::Dimension();
+		operationGN.size.width := 101.8145;
+		operationGN.size.height := 15;
+		operationGN.isVisible := true;
+		// SemanticBridge
+		opSm := new poseidon_uml_model::Diagram_Interchange::Uml1SemanticModelBridge();
+		opSm.presentation := '';
+		'before associate'.toOut();
+		associate ( element := op : poseidon_uml_model::Core::Element, uml1SemanticModelBridge := opSm : poseidon_uml_model::Diagram_Interchange::Uml1SemanticModelBridge);
+		'after associate'.toOut();
+		associate ( semanticModel := opSm : poseidon_uml_model::Diagram_Interchange::SemanticModelBridge,
+					graphElement := operationGN : poseidon_uml_model::Diagram_Interchange::GraphElement);
+		
+		// create the operation GraphNode structure
+			// Create the Visibility GraphNode
+		opVisibilityGN := createSimpleSemanticModelGraphNode('Visibility', 0, 0, 6.4238, 15);
+		/* opVisibilityGN := new poseidon_uml_model::Diagram_Interchange::GraphNode();		
+		opVisibilityGN.isVisible := true;
+		opVisibilityGN.position := new poseidon_uml_model::Diagram_Interchange::Point();
+		opVisibilityGN.position.x := 0;
+		opVisibilityGN.position.y := 0;
+		opVisibilityGN.size := new poseidon_uml_model::Diagram_Interchange::Dimension();
+		opVisibilityGN.size.width := 6.4238;
+		opVisibilityGN.size.height := 15;
+		opVisSm := new poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement();
+		opVisSm.presentation := '';
+		opVisSm.typeInfo := 'Visibility';		
+		associate ( semanticModel := opVisSm : poseidon_uml_model::Diagram_Interchange::SemanticModelBridge,
+					graphElement := opVisibilityGN : poseidon_uml_model::Diagram_Interchange::GraphElement);*/									
+		associate ( contained := opVisibilityGN : poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := operationGN : poseidon_uml_model::Diagram_Interchange::GraphElement);
+		
+			// Create the Name GraphNode
+		opNameGN := createSimpleSemanticModelGraphNode('Name', 79.8145, 0, 3.6631, 15);
+/*		opNameGN := new poseidon_uml_model::Diagram_Interchange::GraphNode();		
+		opNameGN.isVisible := true;
+		opNameGN.position := new poseidon_uml_model::Diagram_Interchange::Point();
+		opNameGN.position.x := 79.8145;
+		opNameGN.position.y := 0;
+		opNameGN.size := new poseidon_uml_model::Diagram_Interchange::Dimension();
+		opNameGN.size.width := 3.6631;
+		opNameGN.size.height := 15;
+		opNameSm := new poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement();
+		opNameSm.presentation := '';
+		opNameSm.typeInfo := 'Name';		
+		associate ( semanticModel := opNameSm : poseidon_uml_model::Diagram_Interchange::SemanticModelBridge,
+					graphElement := opNameGN : poseidon_uml_model::Diagram_Interchange::GraphElement);									
+			*/
+		associate ( contained := opNameGN : poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := operationGN : poseidon_uml_model::Diagram_Interchange::GraphElement);
+		
+		
+		opParameterStartGN := createSimpleSemanticModelGraphNode('ParameterStart', 79.8145, 0, 3.6631, 15);								
+		associate ( contained := opParameterStartGN 	: poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: poseidon_uml_model::Diagram_Interchange::GraphElement);
+		opParameterEndGN := createSimpleSemanticModelGraphNode('ParameterEnd', 83.4775, 0, 3.6631, 15);								
+		associate ( contained := opParameterEndGN 	: poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: poseidon_uml_model::Diagram_Interchange::GraphElement);
+		opTypeSeparatorGN := createSimpleSemanticModelGraphNode('TypeSeparator', 87.1406, 0, 3.6631, 15);							
+		associate ( contained := opTypeSeparatorGN 	: poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: poseidon_uml_model::Diagram_Interchange::GraphElement);
+		
+		
+		
+		
+		// associate this stuffes to the DelimitedSection
+		associate ( contained := operationGN : poseidon_uml_model::Diagram_Interchange::Diagramelement,
+					container := delimitedSectionGN : poseidon_uml_model::Diagram_Interchange::GraphElement);
+		
+		// addParametersGN to this structure ?
+	}
+	
+	/* recursively looks for a GraphNode semantically linked  to this Modelelement in this GraphNode tree */
+	isSemanticallyLinkedInGraphNodeTree(me : poseidon_uml_model::Core::ModelElement; 
+										gn : poseidon_uml_model::Diagram_Interchange::GraphNode) : Standard::Boolean
+	{
+		result : Standard::Boolean;
+		result := false;	
+		if (    gn.semanticModel.oclIsKindOf(!poseidon_uml_model::Diagram_Interchange::Uml1SemanticModelBridge!) 
+			 or gn.semanticModel.oclIsKindOf(!poseidon_uml_model::Diagram_Interchange::CoreSemanticModelBridge!))
+		{
+			if (gn.semanticModel.element = me)
+			{
+				// this Graphnode is semantically linked to this ModelElement
+				result := true;
+			}
+		}
+		// if necessary, recursively looks in its contained Graphnodes
+		if not result	// optimisation: do not continue if found.
+		{
+			foreach (containedGN : poseidon_uml_model::Diagram_Interchange::GraphNode)
+				in (gn.contained)
+			{
+				result := isSemanticallyLinkedInGraphNodeTree(me,containedGN).or(result);
+				// if result { return true; }
+			}
+		}
+		return result;
+	}
+	/*
+	 * Create a new GraphNode associated to a simpleSemanticModel
+	 */
+	createSimpleSemanticModelGraphNode(simpleSemanticModelName : Standard::String; x, y, width, height : Standard::Real ) : poseidon_uml_model::Diagram_Interchange::GraphNode
+	{
+		aGN : poseidon_uml_model::Diagram_Interchange::GraphNode;
+		aSm : poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement;
+		
+
+		'adding simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();
+		aGN := new poseidon_uml_model::Diagram_Interchange::GraphNode();		
+		aGN.oclUid().toOut();
+		aGN.isVisible := true;
+		aGN.position := new poseidon_uml_model::Diagram_Interchange::Point();
+		'setting position.x on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
+		aGN.position.x := '0';
+		aGN.position.y := '0';
+		aGN.size := new poseidon_uml_model::Diagram_Interchange::Dimension();
+		'setting size.width on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
+		aGN.size.width := width;
+		aGN.size.height := height;
+		aSm := new poseidon_uml_model::Diagram_Interchange::SimpleSemanticModelElement();
+		aSm.presentation := '';
+		aSm.typeInfo := simpleSemanticModelName;		
+		associate ( semanticModel := aSm : poseidon_uml_model::Diagram_Interchange::SemanticModelBridge,
+					graphElement := aGN : poseidon_uml_model::Diagram_Interchange::GraphElement);									
+					
+		return aGN;
+	}
+	
+}
+
+

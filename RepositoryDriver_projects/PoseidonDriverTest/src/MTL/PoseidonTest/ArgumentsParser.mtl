@@ -1,0 +1,28 @@
+/*
+ * $Id: ArgumentsParser.mtl,v 1.1 2005-01-18 09:36:12 dvojtise Exp $
+ *
+ * Sample of use of associations2attribute with a MDR repository
+ */
+ 
+library PoseidonTest;
+
+class ArgumentsParser
+{
+	argsIterator : Standard::Iterator;
+
+	// initialization
+	init (someArgs : Standard::Sequence)
+	{
+		argsIterator := someArgs.getNewIterator();
+		argsIterator.start();
+	}
+	
+	// get the current arg and move the cursor in the iterator
+	getArg () : Standard::String
+	{
+		result     : Standard::String;
+		result := argsIterator.item ().oclAsType (!Standard::String!);
+		argsIterator.next ();
+		return result;
+	}
+}

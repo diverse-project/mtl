@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Class-Path: poseidonCore.jar services.jar poseidon.jar BasicMTLruntime.jar PoseidonDriver.jar
+OpenIDE-Module: org.irisa.triskell.PoseidonDriverTest
+OpenIDE-Module-Name: PoseidonDriverTest
+OpenIDE-Module-Display-Category: Poseidon
+Poseidon-Module-Install: org/irisa/triskell/PoseidonDriverTest/modules/PoseidonDriverTestPlugin.class
+OpenIDE-Module-Specification-Version: @version@
+OpenIDE-Module-Implementation-Version: @version@
+OpenIDE-Module-Module-Dependencies: com.gentleware.poseidon.uml14
+Poseidon-Module-Module-Dependencies: com.gentleware.poseidon.uml14
+OpenIDE-Module-Short-Description: Test project for testing the Poseidon Driver.
+OpenIDE-Module-Long-Description: Provides a frame for implementing custom plugins. The files in the modules package are the install handlers, the remainder can be custom code.
