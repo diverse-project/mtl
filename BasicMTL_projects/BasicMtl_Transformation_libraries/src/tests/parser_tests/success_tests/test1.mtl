@@ -1,5 +1,7 @@
-// $Id: test1.mtl,v 1.1 2003-07-11 08:27:56 dvojtise Exp $
+// $Id: test1.mtl,v 1.2 2003-07-11 15:44:33 dvojtise Exp $
 // This file is intend to verify various constructs that should work with the parser
+
+// Syntax used : BasicMTL V1.2 syntax cf. basicmtlParser.mtl V1.2
 
 
 library aLibrary
@@ -14,35 +16,38 @@ creation myConstructor1()
 {
 }
 
-creation myConstructor2(Stantard::String aString)
+creation myConstructor2(aString : Stantard::String)
 {
 }
 
-creation myConstructor3(Model aModel)
+creation myConstructor3(aModel : Model)
 {
 }
 
-creation myConstructor4(Stantard::String aString, Model aModel)
+creation myConstructor4(aString Stantard::String; Model aModel)
 {
 }
 
+creation myConstructor5(aString,anotherString Stantard::String; Model aModel)
+{
+}
 
 // other library methods
 //----------------------------
 
-Stantard::Void aLibMethod1()
+aLibMethod1()
 {
 }
 
-Stantard::String aLibMethod2(Stantard::String aString)
+aLibMethod2(aString : Stantard::String) : Stantard::String
 {
 }
 
-Stantard::Integer aLibMethod3(Stantard::Integer anInteger)
+aLibMethod3(anInteger : Stantard::Integer) : Stantard::Integer
 {
 }
 
-Stantard::Void aLibMethod4(Stantard::String aString, Stantard::String aString, Stantard::Integer anInteger)
+aLibMethod4(aString, anotherString : Stantard::String; anInteger : Stantard::Integer) 
 {
 }
 
@@ -51,5 +56,19 @@ Stantard::Void aLibMethod4(Stantard::String aString, Stantard::String aString, S
 // Class definitions
 class aClass1
 {
+
+	// class members
+	aMemberString : Stantard::String;
+	aMemberInt1, aMemberInt2 :Stantard::Integer;
+
+
+	// Class constructor
+	creation make()
+	{
+	}
+	
+	creation make2(aString : Standard::String)
+	{
+	}
 
 }
