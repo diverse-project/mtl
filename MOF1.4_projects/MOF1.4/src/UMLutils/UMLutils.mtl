@@ -1,0 +1,680 @@
+/******************************************************************************
+ * $Id: UMLutils.mtl,v 1.1 2004-03-17 15:44:09 edrezen Exp $
+ * This library provides tools function to manipulate objects of UML1.4 metamodel
+ * It is inspired by some usefull Objecteering J method for some metaclasses.
+ * It should avoid to have some repetitive MTL code. 
+ * Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ ******************************************************************************/
+
+library UMLutils;
+
+model UML : RepositoryModel;		// should be a UML1.4 MetaModel
+
+
+class UMLhelper
+{
+	rootModel : UML::Model_Management::Model;
+	
+	/******************************************************************************
+	 * category : 
+	 * name     : init
+	 * purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
+	 * in       : aModel : a UML1.4 metamodel
+	 * out      : the library itself
+	 * remark   : 
+	 ******************************************************************************/
+	
+	init (aModel : RepositoryModel) 
+	{
+		// we must have a reference to the UML metamodel and keep it
+		UML := aModel;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createModel ( 
+		name  : Standard::String
+	) : UML::Model_Management::Model
+	{
+		result : UML::Model_Management::Model;
+		
+		// we create the Model
+		result := new UML::Model_Management::Model();
+		
+		// we set the name
+		result.name := name;
+		
+		// we keep the result
+		rootModel := result;
+		
+		// we return the result
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	getModel ( 
+	) : UML::Model_Management::Model
+	{
+		iterator : Standard::Iterator;
+
+		if (isNull(this.rootModel))
+		{
+			iterator := !UML::Model_Management::Model!.allInstances().getNewIterator();
+			iterator.start();
+			this.rootModel := iterator.item().oclAsType(!UML::Model_Management::Model!);		
+		}
+		return this.rootModel;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddPackage (
+		name  : Standard::String;
+		owner : UML::Core::Namespace
+	) : UML::Model_Management::Package
+	{
+		result : UML::Model_Management::Package;
+		
+		// we create the new Package 
+		result := new UML::Model_Management::Package ();
+		
+		// we set the name
+		result.name := name;
+		
+		// we set the owner if any
+		if (isNull(owner).not())
+		{
+			addOwnedElementToNamespace (result, owner);
+		}
+		else
+		{
+			addOwnedElementToNamespace (result, getModel());
+		}
+	
+		return result;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddClass (
+		name : Standard::String;
+		owner : UML::Core::Namespace
+	) : UML::Core::Class
+	{
+		result : UML::Core::Class;
+
+		// we create the Class object
+		result := new UML::Core::Class ();
+		
+		// we set the name
+		result.name := name;
+
+		// we set the owner
+		addOwnedElementToNamespace (result, owner);
+	
+		// we return the result
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddDataType (
+		name   : Standard::String;
+		labels : Standard::Set;
+		owner  : UML::Core::Namespace
+	) : UML::Core::DataType
+	{
+		result   : UML::Core::DataType;
+		iterator : Standard::Iterator;
+		label    : Standard::String;
+
+		vis : UML::Data_Types::VisibilityKind;
+		
+//'PIPOPIPOPIPO 1'.toOut();		
+		vis := getVisibilityDataType ('public_vis');
+
+		// we create the DataType object
+		result := new UML::Core::DataType();
+		
+		// we set the name
+		result.name := name;
+
+//'PIPOPIPOPIPO 3'.toOut();		
+//name.toOut();
+
+/*
+if (isNull(labels).not())
+{
+		// for each label, we build an attribute
+		iterator := labels.getNewIterator();
+		while (iterator.isOn())
+		{	
+			label := iterator.item().oclAsType (!Standard::String!);
+'PIPOPIPOPIPO 4'.toOut();	
+owner.name.toOut();		
+			createAndAddAttribute (
+				label,
+				vis,
+				owner,
+				owner
+			);
+'PIPOPIPOPIPO 5'.toOut();					
+			iterator.next();
+		}
+}
+*/
+		// we set the owner
+		addOwnedElementToNamespace (result, owner);
+//'PIPOPIPOPIPO 666'.toOut();		
+	
+		// we return the result
+		return result;
+	}
+	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	addInheritanceBetweenClassifiers (
+		child  : UML::Core::GeneralizableElement;
+		parent : UML::Core::GeneralizableElement
+	) : UML::Core::Generalization
+	{
+		resultLink : UML::Core::Generalization;
+
+		resultLink := new UML::Core::Generalization();
+
+		associate(
+			[specialization] := resultLink : UML::Core::Generalization,
+			[parent]         := parent     : UML::Core::GeneralizableElement
+		);
+
+		associate(
+			[generalization] := resultLink : UML::Core::Generalization,
+			[child]          := child      : UML::Core::GeneralizableElement
+		);
+		
+		addOwnedElementToNamespace (resultLink, parent.namespace.oclAsType(!UML::Core::Namespace!));
+		
+		return resultLink;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddAttribute (
+		name  : Standard::String;
+		visibility : UML::Data_Types::VisibilityKind;
+		owner      : UML::Core::Classifier;
+		type       : UML::Core::Classifier
+	) : UML::Core::Attribute	
+	{
+		result : UML::Core::Attribute;
+		
+		// we create the result
+		result := new UML::Core::Attribute ();
+ 
+ 		// we set the name
+		result.name := name;
+
+		// we set the visibility
+		if (isNull(visibility))
+		{
+			result.visibility := getVisibilityDataType ('public_vis');
+		}
+		else
+		{
+			result.visibility := visibility;
+		}
+
+		// we set the owner 
+		addFeatureToClassifier (result, owner);
+
+		// we set the type
+		associate (
+			type         := type   : UML::Core::Classifier,
+			typedFeature := result : UML::Core::StructuralFeature
+		);
+
+		// we return the result
+		return result;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	//          : 
+	// out      :
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	addOwnedElementToNamespace (
+		aModelElement : UML::Core::ModelElement;
+		aNamespace    : UML::Core::Namespace
+	)
+	{
+		associate ( 
+			ownedElement := aModelElement : UML::Core::ModelElement,
+			namespace    := aNamespace    : UML::Core::Namespace
+		);
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Operation
+	// name     : createAndAddOperation
+	// purpose  : create a new Operation instance and add it to a classifier
+	// in       : name  : the name of the Operation instance
+	//          : owner : the classifier of the Operation instance to be created
+	// out      : a new Operation instance
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	createAndAddOperation (
+		name  : Standard::String; 
+		owner : UML::Core::Classifier
+	) : UML::Core::Operation
+	{
+		newOperation : UML::Core::Operation;
+	
+		// we create the new operation
+		newOperation := new UML::Core::Operation ();
+	
+		// we set the name of the operation			
+		newOperation.name := name;
+		
+		// we add the operation to the classifier
+		addFeatureToClassifier (newOperation, owner);
+		
+		// we return the result
+		return newOperation;
+	}
+	
+			
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Method
+	// name     : createMethod
+	// purpose  : create a new Method
+	// in       : theLanguage : the language associated to the Method instance to be created
+	//          : theBody     : the code associated to the Method instance to be created
+	// out      : a new Method instance
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	createMethod (
+		theLanguage  : Standard::String;
+		theBody      : Standard::String
+	) : UML::Core::Method
+	{
+		newMethod : UML::Core::Method;
+	
+		newMethod               := new UML::Core::Method();
+		newMethod.body          := new UML::Data_Types::ProcedureExpression();
+		newMethod.body.body     := theBody;
+		newMethod.body.language := theLanguage;		
+			
+		return newMethod;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Method
+	// name     : createAndLinkMethod
+	// purpose  : create a new Method and link it to a specification
+	// in       : theLanguage   : the language associated to the Method instance to be created
+	//          : theBody       : the code associated to the Method instance to be created
+	//          : specification : an Operation instance as the specification
+	// out      : a new Method instance
+	// remark   : the created Method instance is added to the same classifier as the specification 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	createAndLinkMethod (
+		theLanguage   : Standard::String;
+		theBody       : Standard::String;
+		specification : UML::Core::Operation
+		
+	) : UML::Core::Method
+	{
+		newMethod : UML::Core::Method;
+		owner     : UML::Core::Classifier;
+	
+		// we create a new method
+		newMethod := createMethod (theLanguage, theBody);
+		
+		// we retrieve the owner of the specification
+		owner := specification.owner;
+		
+		// we add the method to the classifier
+		addFeatureToClassifier (newMethod, owner);
+		
+		// we associate the method with the operation
+		associate ( 
+			specification := specification : UML::Core::Operation,
+			method        := newMethod     : UML::Core::Method
+		);
+			
+		// we return the result
+		return newMethod;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Feature
+	// name     : addFeatureToClassifier
+	// purpose  : add a feature into a classifier
+	// in       : theFeature    : the feature
+	//          : theClassifier : the classifier  
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	addFeatureToClassifier (
+		theFeature    : UML::Core::Feature;
+		theClassifier : UML::Core::Classifier
+	)
+	{
+		// we put the feature into the classifier
+		associate ( 
+			feature := theFeature    : UML::Core::Feature, 
+			owner   := theClassifier : UML::Core::Classifier
+		);
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Parameter
+	// name     : createAndAddTypedReturnParameter
+	// purpose  : create a return parameter and add it to a behavioral feature
+	// in       : type  : the type of the Parameter instance to be created
+	//          : owned : the BehavioralFeature to put the parameter into
+	// out      : a new Parameter instance
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	createAndAddTypedReturnParameter (
+		type  : UML::Core::Classifier;
+		owner : UML::Core::BehavioralFeature
+	) : UML::Core::Parameter
+	{
+		returnParameter : UML::Core::Parameter;
+	
+		// we create a new typed parameter
+		returnParameter      := new UML::Core::Parameter();
+		returnParameter.kind := !UML::Data_Types::ParameterDirectionKind!.pdk_return;
+	
+		// we set the type of the return parameter
+		associate ( 
+			type           := type              : UML::Core::Classifier,
+			typedParameter := returnParameter   : UML::Core::Parameter
+		);
+		
+		// we add it to the owner
+		addParameterToBehavioralFeature (returnParameter, owner);
+		
+		// we return the result
+		return returnParameter;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Parameter
+	// name     : createAndAddTypedParameter
+	// purpose  : create a 'in' parameter and add it to a behavioral feature
+	// in       : name  : name of the Parameter instance to be created
+	//          : type  : the type of the Parameter instance to be created
+	//          : owned : the BehavioralFeature to put the parameter into
+	// out      : a new Parameter instance
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	createAndAddTypedParameter (
+		name  : Standard::String;
+		type  : UML::Core::Classifier;
+		owner : UML::Core::BehavioralFeature
+	) : UML::Core::Parameter
+	{
+		newParameter : UML::Core::Parameter;
+	
+		// we create a new typed parameter
+		newParameter      := new UML::Core::Parameter();
+		newParameter.name := name;
+		newParameter.kind := !UML::Data_Types::ParameterDirectionKind!.pdk_in;
+	
+		// we set the type of the return parameter
+		associate ( 
+			type           := type         : UML::Core::Classifier,
+			typedParameter := newParameter : UML::Core::Parameter
+		);
+		
+		// we add it to the owner
+		addParameterToBehavioralFeature (newParameter, owner);
+		
+		// we return the result
+		return newParameter;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::Parameter, UML::Core::BehavioralFeature
+	// name     : addParameterToBehavioralFeature
+	// purpose  : add a parameter into a behavioral feature
+	// in       : aParameter         : the parameter
+	//          : aBehavioralFeature : the behavioral feature
+	// out      :
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	addParameterToBehavioralFeature (
+		aParameter         : UML::Core::Parameter;
+		aBehavioralFeature : UML::Core::BehavioralFeature
+	)
+	{
+		// we put the return parameter into the operation
+		associate ( 
+			parameter         := aParameter         : UML::Core::Parameter,
+			behavioralFeature := aBehavioralFeature : UML::Core::BehavioralFeature
+		);
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : UML::Core::ModelElement
+	// name     : IsModelElementTaggedValue
+	// purpose  : Tells if a model element has a given tagged value (given as a string)
+	// in       :
+	// out      :
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	IsModelElementTaggedValue (
+		elt : UML::Core::ModelElement;
+		value : Standard::String
+	) : Standard::Boolean
+	{
+		result   : Standard::Boolean;
+		iterator : Standard::Iterator;
+		tg       : UML::Core::TaggedValue;
+		tgval    : Standard::String;
+		itValue  : Standard::Iterator;
+		
+		result := false;
+	
+		iterator := elt.taggedValue.getNewIterator();
+		iterator.start();
+		while result.[=](false).[and] (iterator.isOn()) 
+		{		
+			tg := iterator.item().oclAsType(!UML::Core::TaggedValue!);
+	
+			itValue := tg.dataValue.getNewIterator ();
+			itValue.start();
+			while result.[=](false).[and] (itValue.isOn())
+			{
+				tgval := itValue.item().oclAsType(!Standard::String!);
+				if (tgval.[=](value))
+				{
+					result := true;
+				}
+				itValue.next();
+			}
+			iterator.next();
+		}
+		
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	getVisibilityDataType (
+		label : Standard::String
+	) : UML::Data_Types::VisibilityKind
+	{
+		result : UML::Data_Types::VisibilityKind;
+
+		if (label.[=]('public_vis') )
+		{
+			result := !UML::Data_Types::VisibilityKind!.vk_public;		
+		}
+
+		if (label.[=]('protected_vis') )
+		{
+			result := !UML::Data_Types::VisibilityKind!.vk_protected;		
+		}
+
+		if (label.[=]('private_vis') )
+		{
+			result := !UML::Data_Types::VisibilityKind!.vk_private;
+		}
+
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddAssociationEnd (
+		name  : Standard::String;
+		assoc : UML::Core::Association;
+		type  : UML::Core::Classifier
+	) : UML::Core::AssociationEnd
+	{
+		result : UML::Core::AssociationEnd;
+		
+		result := new UML::Core::AssociationEnd ();
+
+		result.name := name;		
+
+		// we set the type of the AssociationEnd object
+		associate ( 
+			[association] := result  : UML::Core::AssociationEnd,
+			[participant] := type    : UML::Core::Classifier
+		);
+
+		// we link the AssociationEnd object to the Association object
+		associate (
+			[association] := assoc    : UML::Core::Association,
+			[connection]  := result   : UML::Core::AssociationEnd
+		);
+
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+	createAndAddAssociation (
+		name   : Standard::String;
+		owner  : UML::Core::Classifier
+	) : UML::Core::Association
+	{
+		result : UML::Core::Association;
+		
+		result := new UML::Core::Association ();
+		
+		result.name := name;
+		
+		addOwnedElementToNamespace (result, owner);
+		
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// category : 
+	// name     : 
+	// purpose  : 
+	// in       : 
+	// out      : 
+	// remark   : 
+	////////////////////////////////////////////////////////////////////////////////////
+
+
+}	
