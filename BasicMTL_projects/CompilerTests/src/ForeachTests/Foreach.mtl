@@ -1,0 +1,85 @@
+library Foreach;
+
+model source_model : RepositoryModel;
+ 
+ 
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main() : Standard::Void
+{	 
+	test1a ();
+	test1b ();
+
+	'That s all folks !'.toOut();
+}
+
+
+////////////////////////////////////////
+// Test1a
+////////////////////////////////////////
+
+test1a ()
+{
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+
+	it : Standard::Iterator;
+
+	// we define some filenames 
+	projectPath       := './';
+	metamodelFilename := projectPath.concat ('MOF_metamodel.xmi');
+	inputFilename     := projectPath.concat ('MOF_metamodel.xmi');
+	outputFilename    := null; 
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'Model',		// name of the root package in the Uml1.4 metamodel
+		'foo', 
+		inputFilename,
+		outputFilename
+	);
+    
+    '******************************************** TEST 1a ********************************************'.toOut();
+    
+    foreach (x : source_model::Class) in (!source_model::Class!.allInstances())
+	{
+		x.name.toOut();
+	}
+    
+ 	'model connected'.toOut();
+}
+
+
+////////////////////////////////////////
+// Test1b
+////////////////////////////////////////
+
+test1b ()
+{
+	set : Standard::Set;
+	
+	set := new Standard::Set();
+
+	set := set.including ('s1');
+	set := set.including ('s2');
+	set := set.including ('s3');
+		
+    '******************************************** TEST 1b ********************************************'.toOut();
+    
+    foreach (x : Standard::String) in (set)
+	{
+		'string : '.concat (x).toOut();
+	}
+}
+
