@@ -1,11 +1,7 @@
-/*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/ANTLRASTBuilder/ANTLRASTBuilderInterface.java,v 1.2 2003-07-10 09:17:03 dvojtise Exp $
- * 
- * @TODO file and package must be renamed in BasicmtlTreeWalkerActions as this interface defines the actions called by the visitor BasicmtlTreeWalker
- */
-package ANTLRASTBuilder;
+// $Id: ANTLRWalkerActionsInterface.java,v 1.1 2003-07-11 08:25:05 jpthibau Exp $
+package ANTLRASTWalker;
 
-public interface ANTLRASTBuilderInterface {
+public interface ANTLRWalkerActionsInterface {
 
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes);
 
@@ -29,7 +25,7 @@ public Object typedVars(java.util.Vector vars,Object type);
 
 public Object expressionInstr(Object expression,String lineNumber);
 
-public Object varSettingInstr(String varName,Object expression,String lineNumber);
+public Object varSettingInstr(String classVarName,String varOrAttributeName,Object expression,String lineNumber);
 
 public Object returnInstr(Object expression,String lineNumber);
 
@@ -45,25 +41,27 @@ public Object associateInstr(java.util.Vector endPoints,String lineNumber);
 
 public Object associateEndPoint(String role,String endObjectName,Object type);
 
-public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber);
+public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls);
 
-public Object intLiteral(String value);
+public Object intLiteral(String value,java.util.Vector operationCalls);
 
-public Object realLiteral(String value);
+public Object realLiteral(String value,java.util.Vector operationCalls);
 
-public Object stringLiteral(String value);
+public Object stringLiteral(String value,java.util.Vector operationCalls);
 
-public Object selfLiteral();
+public Object selfLiteral(java.util.Vector operationCalls);
 
-public Object nullLiteral();
+public Object nullLiteral(java.util.Vector operationCalls);
 
-public Object trueLiteral();
+public Object trueLiteral(java.util.Vector operationCalls);
 
-public Object falseLiteral();
+public Object falseLiteral(java.util.Vector operationCalls);
+
+public Object libraryOrVariable(Object type,java.util.Vector operationCalls);
+
+public Object attributeGetter(String classVarName,java.util.Vector gotAttributes);
 
 public Object variableName(String value);
-
-public Object expression(Object expression,java.util.Vector calledOperations);
 
 public Object operationCall(String operationName,Object arguments,String lineNumber);
 

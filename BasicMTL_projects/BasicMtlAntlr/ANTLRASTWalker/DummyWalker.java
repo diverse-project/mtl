@@ -1,6 +1,8 @@
-package ANTLRASTBuilder;
+//$Id: DummyWalker.java,v 1.1 2003-07-11 08:25:06 jpthibau Exp $
 
-public class DummyBuilder implements ANTLRASTBuilderInterface {
+package ANTLRASTWalker;
+
+public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes) { return null; }
 
@@ -24,7 +26,7 @@ public class DummyBuilder implements ANTLRASTBuilderInterface {
 
 	public Object expressionInstr(Object expression,String lineNumber) { return null; }
 
-	public Object varSettingInstr(String varName,Object expression,String lineNumber) { return null; }
+	public Object varSettingInstr(String classVarName,String varOrAttributeName,Object expression,String lineNumber) { return null; }
 
 	public Object returnInstr(Object expression,String lineNumber) { return null; }
 
@@ -40,25 +42,27 @@ public class DummyBuilder implements ANTLRASTBuilderInterface {
 
 	public Object associateEndPoint(String role,String endObjectName,Object type) { return null; }
 
-	public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber) { return null; }
+	public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls) { return null; }
 
-	public Object intLiteral(String value) { return null; }
+	public Object intLiteral(String value,java.util.Vector operationCalls) { return null; }
 
-	public Object realLiteral(String value) { return null; }
+	public Object realLiteral(String value,java.util.Vector operationCalls) { return null; }
 
-	public Object stringLiteral(String value) { return null; }
+	public Object stringLiteral(String value,java.util.Vector operationCalls) { return null; }
 
-	public Object selfLiteral() { return null; }
+	public Object selfLiteral(java.util.Vector operationCalls) { return null; }
 
-	public Object nullLiteral() { return null; }
+	public Object nullLiteral(java.util.Vector operationCalls) { return null; }
 
-	public Object trueLiteral() { return null; }
+	public Object trueLiteral(java.util.Vector operationCalls) { return null; }
 
-	public Object falseLiteral() { return null; }
+	public Object falseLiteral(java.util.Vector operationCalls) { return null; }
+
+	public Object libraryOrVariable(Object type,java.util.Vector operationCalls) { return null; }
+
+	public Object attributeGetter(String classVarName,java.util.Vector gotAttributes) { return null; }
 
 	public Object variableName(String value) { return null; }
-
-	public Object expression(Object expression,java.util.Vector calledOperations) { return null; }
 
 	public Object operationCall(String operationName,Object arguments,String lineNumber) { return null; }
 
