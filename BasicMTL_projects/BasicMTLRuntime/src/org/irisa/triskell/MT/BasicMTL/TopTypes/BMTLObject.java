@@ -1,12 +1,16 @@
+/*********************************************************************************
+ * $Id: BMTLObject.java,v 1.8 2003-12-01 16:26:34 dvojtise Exp $
+ * behavior for Object : top type of any MTL object
+ *********************************************************************************/
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
@@ -17,13 +21,14 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLOrderedSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
-import org.irisa.triskell.MT.DataTypes.Java.Type;
+//import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.DataTypes.Java.NullValue;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 import org.irisa.triskell.MT.utils.Java.AWK;
@@ -151,6 +156,7 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 	}
 
 	public BMTLBooleanInterface BMTL_isNull(Value v) {
+		if (v instanceof NullValue) return BMTLBoolean.TRUE;
 		return v == null ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
 	}
 
