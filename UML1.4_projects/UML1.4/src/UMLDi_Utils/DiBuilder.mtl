@@ -1,0 +1,164 @@
+/******************************************************************************
+ * $Id: DiBuilder.mtl,v 1.1 2005-01-18 10:23:13 dvojtise Exp $
+ * This library provides tools function to manipulate objects of UML1.4 + Diagram interchange2.0 metamodel
+ *
+ ******************************************************************************/
+
+library UMLDi_Utils;
+
+
+
+/********************************************
+ * classe UMLDiBuilder
+ * Description : provides functions to build DiagramElements of a UML1.4 + Diagram interchange2.0 model
+ ********************************************/
+class UMLDiBuilder 
+{
+	/******************************************************************************
+	 * category : 
+	 * name     : init
+	 * purpose  : Initialization of the library. A metamodel of UML1.4 + Diagram interchange2.0 has to be given
+	 * in       : aModel : a UML1.4 + Diagram interchange2.0 metamodel
+	 * out      : the library itself
+	 * remark   : 
+	 ******************************************************************************/
+	
+	init (aModel : RepositoryModel) : UMLDiBuilder
+	{
+		// we must have a reference to the UML metamodel and keep it
+		UMLDi := aModel;
+		
+		return self;
+	}
+	/******************************************************************************
+	 * category : 
+	 * name     : createSimpleSemanticModelGraphNode
+	 * purpose  : Create a new GraphNode associated to a simpleSemanticModel
+	 * in       : a simpleSemanticModelName, position and size
+	 * out      : GraphNode
+	 * remark   : 
+	 ******************************************************************************/
+	createSimpleSemanticModelGraphNode(simpleSemanticModelName : Standard::String; x, y, width, height : Standard::Real ) : UMLDi::Diagram_Interchange::GraphNode
+	{
+		aGN : UMLDi::Diagram_Interchange::GraphNode;
+		aSm : UMLDi::Diagram_Interchange::SimpleSemanticModelElement;
+		
+
+		'adding simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();
+		aGN := new UMLDi::Diagram_Interchange::GraphNode();		
+		// aGN.oclUid().toOut();
+		aGN.isVisible := true;
+		aGN.position := new UMLDi::Diagram_Interchange::Point();
+		'setting position.x on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
+		aGN.position.x := '0';
+		aGN.position.y := '0';
+		aGN.size := new UMLDi::Diagram_Interchange::Dimension();
+		'setting size.width on simpleSemanticModelGN '.concat(simpleSemanticModelName).toOut();		
+		aGN.size.width := width;
+		aGN.size.height := height;
+		aSm := new UMLDi::Diagram_Interchange::SimpleSemanticModelElement();
+		aSm.presentation := '';
+		aSm.typeInfo := simpleSemanticModelName;		
+		associate ( semanticModel := aSm : UMLDi::Diagram_Interchange::SemanticModelBridge,
+					graphElement := aGN : UMLDi::Diagram_Interchange::GraphElement);									
+					
+		return aGN;
+	}
+	/* add a GraphNode for this Operation in this class's GraphNode
+	 * pre: classGN must be a class GraphNode
+	 */
+	addOperationGraphNodeOnClassGraphNode(op      : UMLDi::Core::Operation; 
+										  classGN : UMLDi::Diagram_Interchange::GraphNode)
+	{
+		operationCompartmentGN 	: UMLDi::Diagram_Interchange::GraphNode;
+		delimitedSectionGN 		: UMLDi::Diagram_Interchange::GraphNode;
+		operationGN  			: UMLDi::Diagram_Interchange::GraphNode;
+		
+		opSm, opVisSm, opNameSm	: UMLDi::Diagram_Interchange::SemanticModelBridge;
+		opVisibilityGN   		: UMLDi::Diagram_Interchange::GraphNode;
+		opNameGN   				: UMLDi::Diagram_Interchange::GraphNode;
+		opParameterStartGN		: UMLDi::Diagram_Interchange::GraphNode;
+		opParameterEndGN		: UMLDi::Diagram_Interchange::GraphNode;
+		opTypeSeparatorGN		: UMLDi::Diagram_Interchange::GraphNode;
+		
+		
+		// find the OperationCompartment GraphNode; if not found create one
+		foreach (containedGNInClassGN : UMLDi::Diagram_Interchange::GraphNode)
+			in (classGN.contained) where (containedGNInClassGN.semanticModel.oclIsKindOf(!UMLDi::Diagram_Interchange::SimpleSemanticModelElement!))
+		{			
+			if( containedGNInClassGN.semanticModel.typeInfo = 'OperationCompartment')
+			{
+				operationCompartmentGN := containedGNInClassGN;
+				'OperationCompartment found'.toOut();
+			}
+		}
+		if isNull(operationCompartmentGN)
+		{
+			'Error, must create an operationCompartment GraphNode before'.toOut();
+			'Usually a correct Class Graphnode must have one'.toOut();
+		}
+		// find the first DelimitedSection in this OperationCompartment; if not found create one
+		foreach (containedGNInOpCompGN : UMLDi::Diagram_Interchange::GraphNode)
+			in (operationCompartmentGN.contained) where (operationCompartmentGN.semanticModel.oclIsKindOf(!UMLDi::Diagram_Interchange::SimpleSemanticModelElement!))
+		{			
+			if( containedGNInOpCompGN.semanticModel.typeInfo = 'DelimitedSection')
+			{
+				delimitedSectionGN := containedGNInOpCompGN;
+				'DelimitedSection found'.toOut();
+			}
+		}
+		if isNull(delimitedSectionGN)
+		{
+			'Error, must create a DelimitedSection GraphNode before'.toOut();
+			'Usually a correct Class Graphnode must have one'.toOut();
+		}
+		// add a new Graphnode linked to this Operation
+		operationGN := new UMLDi::Diagram_Interchange::GraphNode();
+		operationGN.position := new UMLDi::Diagram_Interchange::Point();
+		operationGN.position.x := 2;
+		operationGN.position.y := 2;
+		operationGN.size := new UMLDi::Diagram_Interchange::Dimension();
+		operationGN.size.width := 101.8145;
+		operationGN.size.height := 15;
+		operationGN.isVisible := true;
+		// SemanticBridge
+		opSm := new UMLDi::Diagram_Interchange::Uml1SemanticModelBridge();
+		opSm.presentation := '';
+		'before associate'.toOut();
+		associate ( element := op : UMLDi::Core::Element, uml1SemanticModelBridge := opSm : UMLDi::Diagram_Interchange::Uml1SemanticModelBridge);
+		'after associate'.toOut();
+		associate ( semanticModel := opSm : UMLDi::Diagram_Interchange::SemanticModelBridge,
+					graphElement := operationGN : UMLDi::Diagram_Interchange::GraphElement);
+		
+		// create the operation GraphNode structure
+			// Create the Visibility GraphNode
+		opVisibilityGN := createSimpleSemanticModelGraphNode('Visibility', 0, 0, 6.4238, 15);		
+		associate ( contained := opVisibilityGN : UMLDi::Diagram_Interchange::Diagramelement,
+					container := operationGN : UMLDi::Diagram_Interchange::GraphElement);		
+			// Create the Name GraphNode
+		opNameGN := createSimpleSemanticModelGraphNode('Name', 79.8145, 0, 3.6631, 15);
+		associate ( contained := opNameGN : UMLDi::Diagram_Interchange::Diagramelement,
+					container := operationGN : UMLDi::Diagram_Interchange::GraphElement);		
+			// Create the ParameterStart GraphNode
+		opParameterStartGN := createSimpleSemanticModelGraphNode('ParameterStart', 79.8145, 0, 3.6631, 15);								
+		associate ( contained := opParameterStartGN 	: UMLDi::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: UMLDi::Diagram_Interchange::GraphElement);
+			// Create the ParameterEnd GraphNode
+		opParameterEndGN := createSimpleSemanticModelGraphNode('ParameterEnd', 83.4775, 0, 3.6631, 15);								
+		associate ( contained := opParameterEndGN 	: UMLDi::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: UMLDi::Diagram_Interchange::GraphElement);
+			// Create the TypeSeparator GraphNode
+		opTypeSeparatorGN := createSimpleSemanticModelGraphNode('TypeSeparator', 87.1406, 0, 3.6631, 15);							
+		associate ( contained := opTypeSeparatorGN 	: UMLDi::Diagram_Interchange::Diagramelement,
+					container := operationGN 		: UMLDi::Diagram_Interchange::GraphElement);
+		
+		
+		
+		
+		// associate this stuffes to the DelimitedSection
+		associate ( contained := operationGN : UMLDi::Diagram_Interchange::Diagramelement,
+					container := delimitedSectionGN : UMLDi::Diagram_Interchange::GraphElement);
+		
+		// addParametersGN to this structure ?
+	}
+}

@@ -1,0 +1,29 @@
+/******************************************************************************
+ * $Id: UMLDi_Utils.mtl,v 1.1 2005-01-18 10:23:13 dvojtise Exp $
+ * This library provides tools function to manipulate objects of Diagram Interchange2.0 metamodel
+ * (in relation to a UML1.4 metamodel ?)
+ *
+ ******************************************************************************/
+
+library UMLDi_Utils;
+
+model UMLDi : RepositoryModel;		// should be a UML1.4 + DiagramInterchange2.0 MetaModel
+
+
+/******************************************************************************
+ * category : 
+ * name     : init
+ * purpose  : Initialization of the library. A metamodel of UML1.4 + DiagramInterchange2.0 has to be given
+ * in       : aModel : a DiagramInterchange2.0 metamodel
+ * out      : the library itself
+ * remark   : 
+ ******************************************************************************/
+
+init (aModel : RepositoryModel) : UMLDi_Utils
+{
+	// we must have a reference to the UML metamodel and keep it
+	UMLDi := aModel;
+	
+	return self;
+}
+

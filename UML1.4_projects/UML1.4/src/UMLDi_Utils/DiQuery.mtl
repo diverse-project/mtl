@@ -1,0 +1,104 @@
+/******************************************************************************
+ * $Id: DiQuery.mtl,v 1.1 2005-01-18 10:23:13 dvojtise Exp $
+ * This library provides tools function to manipulate objects of UML1.4 + Diagram interchange2.0 metamodel
+ *
+ ******************************************************************************/
+
+library UMLDi_Utils;
+
+
+
+/********************************************
+ * classe UMLDiQuery
+ * Description : provides functions to query a UML1.4 + Diagram interchange2.0 model
+ ********************************************/
+class UMLDiQuery 
+{
+	/******************************************************************************
+	 * category : 
+	 * name     : init
+	 * purpose  : Initialization of the library. A metamodel of UML1.4 + Diagram interchange2.0 has to be given
+	 * in       : aModel : a UML1.4 + Diagram interchange2.0 metamodel
+	 * out      : the library itself
+	 * remark   : 
+	 ******************************************************************************/
+	
+	init (aModel : RepositoryModel) : UMLDiQuery
+	{
+		// we must have a reference to the UML metamodel and keep it
+		UMLDi := aModel;
+		
+		return self;
+	}
+	/******************************************************************************
+	 * category : 
+	 * name     : isSemanticallyLinkedInGraphNodeTree
+	 * purpose  : recursively looks for a GraphNode semantically linked  to this Modelelement in this GraphNode tree
+	 * in       : a ModelElement; a GraphNode
+	 * out      : boolean
+	 * remark   : 
+	 ******************************************************************************/
+	isSemanticallyLinkedInGraphNodeTree(me : UMLDi::Core::ModelElement; 
+										gn : UMLDi::Diagram_Interchange::GraphNode) : Standard::Boolean
+	{
+		result : Standard::Boolean;
+		result := false;	
+		if (    gn.semanticModel.oclIsKindOf(!UMLDi::Diagram_Interchange::Uml1SemanticModelBridge!) 
+			 or gn.semanticModel.oclIsKindOf(!UMLDi::Diagram_Interchange::CoreSemanticModelBridge!))
+		{
+			if (gn.semanticModel.element = me)
+			{
+				// this Graphnode is semantically linked to this ModelElement
+				result := true;
+			}
+		}
+		// if necessary, recursively looks in its contained Graphnodes
+		if not result	// optimisation: do not continue if found.
+		{
+			foreach (containedGN : UMLDi::Diagram_Interchange::GraphNode)
+				in (gn.contained)
+			{
+				result := isSemanticallyLinkedInGraphNodeTree(me,containedGN).or(result);
+				// if result { return true; }
+			}
+		}
+		return result;
+	}
+
+	/******************************************************************************
+	 * category : 
+	 * name     : retreiveClassGraphNodes
+	 * purpose  : retreive a collection of GraphNodes associated to this class
+	 * in       : a Class
+	 * out      : a set of GraphNode
+	 * remark   : 
+	 ******************************************************************************/
+	retreiveClassGraphNodes(theClass : UMLDi::Core::Class) : Standard::Set
+	{
+		returnSet : Standard::Set;
+		uSemBridge : UMLDi::Diagram_Interchange::Uml1SemanticModelBridge;
+		
+		returnSet :=  new Standard::Set();
+		
+		'looking for GraphNodes of this class'.toOut();
+		foreach (gn : UMLDi::Diagram_Interchange::GraphNode) in (!UMLDi::Diagram_Interchange::GraphNode!.allInstances)
+		{
+			if 	isNull(gn.semanticModel).not() 
+			{				
+				uSemBridge := gn.semanticModel;				
+				if isNull(uSemBridge).not()
+				{	// be careful gn.semanticModel can contains SemanticModelBridges that don't have a link to an element
+					if (uSemBridge.oclIsKindOf(!UMLDi::Diagram_Interchange::Uml1SemanticModelBridge!))
+					{   // ajouter le 12/01/05 à vérifier					
+						if(uSemBridge.element = theClass)
+						{
+							returnSet :=  returnSet.including(gn);
+						}
+					}
+				}
+			}
+		}
+		return returnSet;
+	}
+	
+}
