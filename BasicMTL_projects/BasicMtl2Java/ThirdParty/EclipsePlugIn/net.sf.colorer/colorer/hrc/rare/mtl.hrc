@@ -170,6 +170,7 @@
             <word name="catch"/>
             <word name="else"/>
             <word name="if"/>
+            <word name="JavaCode"/>
             <word name="library"/>
             <word name="model"/>
             <word name="new"/>
