@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.14 2004-10-18 15:03:54 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.15 2004-10-18 16:00:00 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -47,7 +47,7 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 	private boolean hasAssociation=false;
 	private String currentFile;
 	private static String libraryName = null;
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { 

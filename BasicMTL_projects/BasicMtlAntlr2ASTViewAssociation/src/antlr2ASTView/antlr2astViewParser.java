@@ -1,5 +1,5 @@
 /*
- * $Id: antlr2astViewParser.java,v 1.7 2004-10-18 15:03:54 jpthibau Exp $
+ * $Id: antlr2astViewParser.java,v 1.8 2004-10-18 16:00:00 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -23,7 +23,7 @@ import ANTLRParser.*;
 import BasicMtlASTWithAssociationView.*;
 
 public class antlr2astViewParser implements antlrParserInterface {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 	
 	private BMTL_LibraryInterface parsedBMTLLib=null;
 	private antlr2astView ASTViewproducer=null;

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.9 2004-10-18 15:06:05 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.10 2004-10-18 16:01:24 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -19,7 +19,7 @@ import CodeGeneration.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class CommonFunctions {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	
 	public static PrintWriter openFile(String name,boolean append)

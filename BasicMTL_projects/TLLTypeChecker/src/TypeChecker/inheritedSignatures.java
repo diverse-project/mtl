@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.14 2004-10-18 15:14:47 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.15 2004-10-18 16:01:30 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class inheritedSignatures {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 
 	public static boolean redefinedOp(UserDefinedClass aClass,InheritedOpSignature parentSignature)

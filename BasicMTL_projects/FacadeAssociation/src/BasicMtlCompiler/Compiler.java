@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.16 2004-10-18 15:11:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.17 2004-10-18 16:01:35 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -28,7 +28,7 @@ import antlr2ASTView.antlr2astViewParser;
 public class Compiler {
 
 	static final String tllSuffix=".tll";
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	public static String checkPathEnd(String path)
 	{	if (path.charAt(path.length()-1)=='/'

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/AttributeAnalyser.java,v 1.6 2004-10-18 15:06:05 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/AttributeAnalyser.java,v 1.7 2004-10-18 16:01:24 jpthibau Exp $
  * Created on 4 août 2003
  *
  */
@@ -18,7 +18,7 @@ import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	public void AttributeAction(Attribute ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");

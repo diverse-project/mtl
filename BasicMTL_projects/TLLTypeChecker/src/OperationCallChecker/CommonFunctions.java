@@ -21,7 +21,7 @@ import TypeChecker.TLLtypechecking;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class CommonFunctions {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	public static VarDeclaration getVarDeclaration (Operation operation, String name, int line) {
 		VarDeclaration declaration = null;

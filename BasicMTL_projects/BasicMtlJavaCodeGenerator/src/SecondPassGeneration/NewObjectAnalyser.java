@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.11 2004-10-18 15:06:06 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.12 2004-10-18 16:01:25 jpthibau Exp $
  * Created on 8 août 2003
  *
  */
@@ -20,7 +20,7 @@ import CodeGeneration.BMTLCompiler;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	public Object NewObjectBefore(NewObject ASTnode,java.util.Map context)
 	{	QualifiedName type=ASTnode.getTypeToCreate();

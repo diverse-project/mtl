@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2astJavaParser.java,v 1.5 2004-10-18 15:04:23 jpthibau Exp $
+ * $Id: antlr2astJavaParser.java,v 1.6 2004-10-18 16:00:06 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -22,7 +22,7 @@ import ANTLRASTWalker.antlrParserInterface;
 import ANTLRParser.*;
 
 public class antlr2astJavaParser implements antlrParserInterface {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	private org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
 	private antlr2ast ASTproducer=null;

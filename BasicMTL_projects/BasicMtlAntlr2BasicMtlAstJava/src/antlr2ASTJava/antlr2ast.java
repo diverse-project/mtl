@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.22 2004-10-18 15:04:23 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.23 2004-10-18 16:00:06 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -27,7 +27,7 @@ import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 public class antlr2ast implements ANTLRWalkerActionsInterface {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	private static Library theBuiltAST=null; //<<<Accumulation>>>
 	private static String libraryName = null;

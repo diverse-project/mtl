@@ -1,6 +1,6 @@
 /*
  * Created on 24 juil. 2003
- * $Id: VarSettingAnalyser.java,v 1.11 2004-10-18 15:05:13 jpthibau Exp $
+ * $Id: VarSettingAnalyser.java,v 1.12 2004-10-18 16:00:10 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -24,7 +24,7 @@ import ANTLR2TLLJava.antlr2tll;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 /*
 	public Object VarSettingBefore(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarSetting ASTnode,java.util.Map context)

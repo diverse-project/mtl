@@ -1,11 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.8 2004-10-18 15:06:07 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.9 2004-10-18 16:01:27 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
 package CodeGeneration;
 
 import org.apache.log4j.Logger;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -20,7 +21,7 @@ public class BMTLCompiler {
 	static final String binPathName="..\\BMTLTester\\ThirdParty\\BMTL_bin";
 	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	public static void compile(BasicMtlLibrary theLib,String defaultTLLPath,String defaultBinPath)
 	{	

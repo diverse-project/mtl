@@ -1,6 +1,6 @@
 /*
  * Created on 22 juil. 2003
- * $Id: antlr2tll.java,v 1.11 2004-10-18 15:05:12 jpthibau Exp $
+ * $Id: antlr2tll.java,v 1.12 2004-10-18 16:00:10 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -23,7 +23,7 @@ import antlr2ASTJava.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class antlr2tll {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	static final String tllPrefix=".\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";

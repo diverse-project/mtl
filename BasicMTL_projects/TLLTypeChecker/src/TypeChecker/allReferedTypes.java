@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.21 2004-10-18 15:14:47 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.22 2004-10-18 16:01:30 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -26,7 +26,7 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
  * (either in this library or in another which has been allready compiled).
  */
 public class allReferedTypes {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 	
 	static int errors;
 	static int warnings;

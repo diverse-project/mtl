@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: CommonFunctions.java,v 1.11 2004-10-18 15:06:06 jpthibau Exp $
+ * $Id: CommonFunctions.java,v 1.12 2004-10-18 16:01:26 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -25,7 +25,7 @@ import CodeGeneration.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class CommonFunctions {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 	private static int genSymbolNumber=0;
 

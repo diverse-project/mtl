@@ -1,6 +1,6 @@
 /*
  * Created on 1 août 2003
- * $Id: ForeachAnalyser.java,v 1.5 2004-10-18 15:14:48 jpthibau Exp $
+ * $Id: ForeachAnalyser.java,v 1.6 2004-10-18 16:01:31 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -23,7 +23,7 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
  */
 public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser 
 {
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 	// we need to extract OperationCall objects whose caller is a VarCall
 	// we look up into caller and arguments
 	public class VarCallExtractor implements Visitor

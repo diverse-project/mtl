@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.15 2004-10-18 15:14:47 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.16 2004-10-18 16:01:30 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -27,7 +27,7 @@ public class TLLtypechecking {
 	public static java.util.Vector defaultTLLPaths=null;
 	public static String defaultTLLPath=null;
 	public static java.util.Hashtable loadedLibraries=new java.util.Hashtable();
-	static final Logger log=Logger.getLogger("MSGHandler");
+	static final Logger log=MSGHandler.init();
 
 /*	public static void main(String[] args)
 	{	try {
