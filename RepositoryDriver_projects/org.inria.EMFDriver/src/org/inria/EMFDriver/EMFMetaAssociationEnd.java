@@ -1,5 +1,5 @@
 /*
- * $Id: EMFMetaAssociationEnd.java,v 1.1 2004-04-05 14:51:03 jpthibau Exp $
+ * $Id: EMFMetaAssociationEnd.java,v 1.2 2004-09-15 08:12:08 jpthibau Exp $
  * Authors : ffondeme dvojtise
  */
 package org.inria.EMFDriver;
@@ -15,7 +15,7 @@ public class EMFMetaAssociationEnd
     implements org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd
 {
     protected final EMFMetaClass type;
-    protected final EStructuralFeature feature;
+    protected EStructuralFeature feature;
 
 
 
@@ -39,6 +39,11 @@ public class EMFMetaAssociationEnd
 	public EStructuralFeature getFeature()
 	{
 		return this.feature;
+	}
+	
+	public void setFeature(EStructuralFeature f)
+	{
+		this.feature=f;
 	}
 
     public String getKind()

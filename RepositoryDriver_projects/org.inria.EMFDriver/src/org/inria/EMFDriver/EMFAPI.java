@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.7 2004-09-08 11:40:01 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.8 2004-09-15 08:12:09 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -371,13 +371,16 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 			Iterator metaClassesIter = metaClasses.keySet().iterator();
 			while (metaClassesIter.hasNext() && !found) {
 				EMFChildElement elt = (EMFChildElement)metaClasses.get(metaClassesIter.next());
-				String eltName=computeTreeName(elt);
-				if (fullName.equals(eltName)) {
+				String eltName=computeTreeName(elt.childDescriptor.getEValue().eClass());
+				EList superTypes=elt.childDescriptor.getEValue().eClass().getEAllSuperTypes();
+				mc=this.findAbstractMetaClassInSuperTypes(fullName,superTypes);
+				if (mc!=null) found=true;
+				else if (fullName.equals(eltName)) {
 /*				if (name[0].equals(elt.childDescriptor.getEReference().getContainerClass().getName())
 					&& name[1].equals(elt.childDescriptor.getEValue().eClass().getName()) ) {*/
-					mc = new EMFMetaClass(this,elt);
-					found = true;
-				}
+						mc = new EMFMetaClass(this,elt);
+						found = true;
+					}
 			}
 			if (! found) {
 				System.err.println("EMFAPI.getMetaClass() : MetaClass "+fullName+"not found.");
@@ -387,9 +390,20 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 		return mc;
 	}
 	
-	public static String computeTreeName(EMFChildElement elt) {
-		String result=elt.childDescriptor.getEValue().eClass().getName();
-		EPackage includingPackage = elt.childDescriptor.getEValue().eClass().getEPackage();
+	public MetaClass findAbstractMetaClassInSuperTypes(String fullName,EList superTypes) {
+		Iterator it=superTypes.iterator();
+		while(it.hasNext()) {
+			EClass c=(EClass)it.next();
+			String cName=computeTreeName(c);
+			if (cName.equals(fullName))
+				return new EMFMetaClass(this,new EMFChildElement(c,c.isAbstract()));
+		}
+		return null;
+	}
+	
+	public static String computeTreeName(EClass theClass) {
+		String result=theClass.getName();
+		EPackage includingPackage = theClass.getEPackage();
 		while (includingPackage.getESuperPackage()!=null) {
 			result=includingPackage.getName()+"::"+result;
 			includingPackage=includingPackage.getESuperPackage();
@@ -447,6 +461,14 @@ implements org.irisa.triskell.MT.repository.API.Java.API
  	*/
 	public MetaAssociation getMetaAssociationWithAssociationEnds(MetaAssociationEnd[] arg0)
 		throws UnknownElementException {
+		if (arg0.length!=2)
+			throw new UnknownElementException(new EMFUnknownElement(this,"Cannot create an association when associationEnds number!=2"));
+		EStructuralFeature assocEnd0 = ((EMFMetaClass)arg0[0].getType()).getAttribute(arg0[1].getName());
+		if (assocEnd0 != null) ((EMFMetaAssociationEnd)arg0[0]).setFeature(assocEnd0);
+		else throw new UnknownElementException(new EMFUnknownElement(this,"Cannot access EReference named "+arg0[1].getName()));
+		EStructuralFeature assocEnd1 = ((EMFMetaClass)arg0[1].getType()).getAttribute(arg0[0].getName());
+		if (assocEnd1 != null) ((EMFMetaAssociationEnd)arg0[1]).setFeature(assocEnd1);
+		else throw new UnknownElementException(new EMFUnknownElement(this,"Cannot access EReference named "+arg0[0].getName()));
 		return new EMFMetaAssociation(this,arg0);
 }
 
@@ -458,9 +480,10 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 		MetaClass arg1,
 		MetaClass arg2) {
 		EMFMetaClass mc = (EMFMetaClass)arg1;
-		EStructuralFeature assocEnd = mc.getAttribute(arg0);
+/*		EStructuralFeature assocEnd = mc.getAttribute(arg0);
 		if (assocEnd != null) return new EMFMetaAssociationEnd(this,arg0,null,assocEnd,mc);
-		return null;
+		return null;*/
+		return new EMFMetaAssociationEnd(this,arg0,null,null,mc);
 	}
 
 	/* (non-Javadoc)

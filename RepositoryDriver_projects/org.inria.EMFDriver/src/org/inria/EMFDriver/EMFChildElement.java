@@ -1,4 +1,4 @@
-/* $Id: EMFChildElement.java,v 1.1 2004-03-08 08:18:17 jpthibau Exp $
+/* $Id: EMFChildElement.java,v 1.2 2004-09-15 08:12:09 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -18,11 +18,20 @@ public class EMFChildElement {
 	public CommandParameter childDescriptor;
 	public Command creationCommand;
 	public EMFMetaClass metaClass;
+	public boolean hasCreateCmd;
+	public boolean isAbstarct;
 	
 	public EMFChildElement(Object o,CommandParameter cp,Command cmd) {
 		this.owner = o;
 		this.childDescriptor = cp;
 		this.creationCommand = cmd;
+		this.hasCreateCmd=true;
+		this.isAbstarct=false;
 	}
 
+	public EMFChildElement(Object o,boolean isAbstract) {
+		this.owner = o;
+		this.hasCreateCmd=false;
+		this.isAbstarct=isAbstract;
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: EMFMetaAssociation.java,v 1.2 2004-06-23 15:14:37 dvojtise Exp $
+ * $Id: EMFMetaAssociation.java,v 1.3 2004-09-15 08:12:09 jpthibau Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -8,7 +8,11 @@ package org.inria.EMFDriver;
 
 import java.util.*;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.irisa.triskell.MT.DataTypes.Java.*;
 // import org.netbeans.api.mdr.*;
@@ -17,6 +21,8 @@ import org.irisa.triskell.MT.DataTypes.Java.*;
 // import org.irisa.triskell.MT.utils.Java.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 import org.eclipse.emf.common.command.*;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
@@ -71,13 +77,20 @@ public class EMFMetaAssociation
     	if (roles.length == 2) {
     		//only binary associations are managed with EMF
 			EMFFeatured leftElt = (EMFFeatured)roles[0].getModelElement();
-    		EMFMetaAssociationEnd leftEnd = (EMFMetaAssociationEnd)roles[0].getMetaAssociationEnd();
+    		EMFMetaAssociationEnd rightEnd = (EMFMetaAssociationEnd)roles[0].getMetaAssociationEnd();
 			EMFFeatured rightElt = (EMFFeatured)roles[1].getModelElement();
     		EMFAPI api = this.getSpecificAPI();
-    		Command addCmd = AddCommand.create(api.editingDomain,leftElt.getRef(),leftEnd.getFeature(),rightElt.getRef());
+    		Command addCmd = AddCommand.create(api.editingDomain,leftElt.getRef(),rightEnd.getFeature(),rightElt.getRef());
     		if (addCmd.canExecute())
     			addCmd.execute();
-    		else throw new CommonException("Cannot execute associate command !");
+    		else {
+        		Command setCmd = SetCommand.create(api.editingDomain,leftElt.getRef(),rightEnd.getFeature(),rightElt.getRef());
+            	if (setCmd.canExecute())
+            		setCmd.execute();
+            	else
+            			throw new CommonException("Cannot execute associate command !");
+    		}
+    			
     		
     	}
     	else throw new CommonException("Can only associate 2 modelElements in EMF; roles count :"+roles.length);

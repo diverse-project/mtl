@@ -1,4 +1,4 @@
-/* $Id: EMFMetaClass.java,v 1.4 2004-06-23 15:14:36 dvojtise Exp $
+/* $Id: EMFMetaClass.java,v 1.5 2004-09-15 08:12:08 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -103,7 +103,10 @@ public class EMFMetaClass extends EMFMetaType
 	}
 	
 	public EStructuralFeature getAttribute(String name) {
-		EList sfs = this.refClass.childDescriptor.getEValue().eClass().getEAllStructuralFeatures();
+		EList sfs;
+		if (this.refClass.hasCreateCmd)
+			sfs= this.refClass.childDescriptor.getEValue().eClass().getEAllStructuralFeatures();
+		else sfs=((EClass)this.refClass.owner).getEAllStructuralFeatures();
 		Iterator it = sfs.iterator();
 		while (it.hasNext()) {
 			EStructuralFeature f = (EStructuralFeature)it.next();
@@ -142,8 +145,14 @@ public class EMFMetaClass extends EMFMetaType
 	{
 		String [] ret = new String [3];
 		ret[0] = api.modelName;
-		ret[1] = ref.childDescriptor.getEReference().getContainerClass().getName();
-		ret[2] = ref.childDescriptor.getEValue().eClass().getName();
+		if (ref.hasCreateCmd) {
+			ret[1] = ref.childDescriptor.getEReference().getContainerClass().getName();
+			ret[2] = ref.childDescriptor.getEValue().eClass().getName();
+		}
+		else {
+			ret[1] = ((EClass)ref.owner).getEPackage().getName();
+			ret[2] = ((EClass)ref.owner).getName();
+		}
 		return ret;
 	}
 
