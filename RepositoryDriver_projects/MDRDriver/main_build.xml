@@ -1,0 +1,26 @@
+<!-- $Id: main_build.xml,v 1.1 2004-10-25 12:42:32 dvojtise Exp $ -->
+<project name="MDRDriver" default="compile" basedir=".">
+	<description>
+        main Build file for the EMFDriver
+	</description>
+	<!-- set global properties for this build -->
+	
+	  	
+	
+  	
+  	<target name="compile" description="compile all this plugin">  		
+  		<ant dir="src/MTL/MDRDriver" antfile="build.xml" target="compile_mtl" />  		
+  		<ant antfile="build.xml">
+  			<property name="javacVerbose" value="false"/>
+  		</ant>
+  	</target>
+	
+	<target name="clean" description="compile all this plugin">  		
+	  		<ant dir="src/MTL/MDRDriver" antfile="build.xml" target="clean" />  		
+	  		<ant antfile="build.xml" target="clean"/>	  		
+	</target>
+  	
+	<target name="package" description="create a zip for this plugin" depends="compile">  		 		
+	  		<ant antfile="build.xml" target="zip.plugin"/> 		
+	</target>
+</project>
