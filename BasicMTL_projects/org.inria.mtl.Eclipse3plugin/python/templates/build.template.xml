@@ -1,0 +1,17 @@
+<project name="All" default="compile" basedir=".">
+
+
+<target name="init">
+</target>
+
+
+<target name="compile">
+</target>
+
+<target name="clean">
+</target>
+	
+<target name="run">
+</target>
+	
+</project>

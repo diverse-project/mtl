@@ -1,0 +1,52 @@
+<project name="TP1" default="compile" basedir=".">
+	<description>
+        Build file for compiling and running MyTransformationModel
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="build.bin" location=""/>
+	<property name="build.src" location=""/>
+	<property name="build.tll" location=""/>
+
+    <!-- The MTLCompiler path where the jars for compilation phase of MTL libs
+         are stored (used for BasicMTLc.jar and log4j.jar -->
+    <property name="MTLcompiler.jar.path" location=""/>
+
+	<!-- The compilation tool (not templated) -->
+	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+
+	<!-- The driver api -->	
+	<property name="MDRDriver.jar" location=""/>
+
+	<property name="Runtime.TLL.path" location=""/>
+	<!-- The runtime environment -->
+	<property name="BasicMTLruntime.jar" location=""/>
+	
+	  	
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	<!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+	<!--           ( and the project name )               -->
+	<!-- ************************************************ -->
+	<!-- set user properties for this build -->
+	<property name="library.name" value=""/>
+	<property name="src" location="src"/>
+	<property name="user.src.path" location="${src}/${library.name}"/>
+	<property name="user.package.name" value="${library.name}"/>
+	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.needed.TLL.path" location="${Runtime.TLL.path}"/>
+	<!-- other TLL needed in order to compile this one -->
+
+
+	<!-- ************************************************ -->
+	<!-- The path where all the needed .class directories or .jar
+         are declared.  Data generated from the .classpath file (uses the
+         properties definitions of .jar or .class dir. above in this build file)
+     -->
+   	<path id="current.class.path"/>
+
+    <!-- ************************************************ -->
+    <!-- Define the targets -->
+
+
+</project>

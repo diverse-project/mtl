@@ -1,0 +1,69 @@
+<!-- $Id: common_build.xml,v 1.1 2005-01-19 15:51:07 zdrey Exp $ -->
+<project name="common_build" default="compile" basedir=".">
+	<description>
+        Common Build file for using the BasicMTL compiler
+        build a library from a directory.
+	</description>
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	
+	<target name="init common">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directories structures used by compile -->
+	    <mkdir dir="${build.src}"/>
+	    <mkdir dir="${build.bin}"/> 
+	    <mkdir dir="${build.tll}"/> 
+	</target>
+	
+	<target name="clean common"
+        description="clean up intermediate files" >
+    	<!-- Delete the ${builtsrc}, {$builtbin} and  directory trees -->
+    	<delete file="${build.bin}/${user.package.name}.tll"/>    
+    	<delete dir="${user.build.src}"/>    
+  	</target>
+
+  	<target name="compile common" description="compile all the sources in .class files" depends="init common">
+  		<!-- generate java files from the mtl files -->
+  		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
+  		<java jar="${BasicMTLc.jar}" 
+					fork="true"
+           			failonerror="true">
+			<sysproperty key="TEMPLATEPATH" value="${templatepath}/"/>
+	         <arg value="${user.src.path}/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${build.tll}"/>  
+	         <arg value="-TLLLoadingPaths"/>
+	         <arg value="${user.needed.TLL.path}/"/>
+	         <arg value="-PackageName"/> 
+	         <arg value="${user.package.name}"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${user.build.src}/"/> 
+       	</java> 
+  		<!-- final java compile -->
+  		<javac srcdir="${build.src}" 
+    	    destdir="${build.bin}"
+   			debug="true">
+   			<classpath >
+   				<pathelement path="${MTLcompiler.jar.path}"/>
+   				<path refid="current.class.path"/> 
+   			</classpath>
+   		</javac>
+  	</target>
+
+  	<target name="run common" description="run the transformation">
+  		<!-- target may not work if there is no main in the library -->
+		<java classname="${user.package.name}.BMTLLib_${user.package.name}" fork="true">
+		<arg value="-h"/>
+		<classpath>
+			<pathelement path="${build.bin}/"/>
+   			<pathelement path="${MTLcompiler.jar.path}/ThirdParty/log4j/log4j.jar"/>
+			<path refid="current.class.path"/>
+		</classpath>
+       	</java> 
+	</target>
+
+
+</project>

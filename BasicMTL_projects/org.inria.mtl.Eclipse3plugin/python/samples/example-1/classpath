@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry sourcepath="/udd/zdrey/Eclipse/eclipse/plugins/org.inria.BasicMTL.MDRDriver_0.0.1/lib/MDRDriver.jar" kind="lib" path="/udd/zdrey/Eclipse/eclipse/plugins/org.inria.BasicMTL.MDRDriver_0.0.1/lib/MDRDriver.jar"/>
+	<classpathentry sourcepath="/udd/zdrey/Eclipse/eclipse/plugins/org.inria.mtl_0.0.5/MTL/bin/BasicMTLc.jar" kind="lib" path="/udd/zdrey/Eclipse/eclipse/plugins/org.inria.mtl_0.0.5/MTL/bin/BasicMTLruntime.jar"/>
+	<classpathentry kind="src" path="build/src"/>
+	<classpathentry kind="output" path="build/bin"/>
+	<classpathentry kind="output_tll" path="build/tll"/>
+</classpath>
+

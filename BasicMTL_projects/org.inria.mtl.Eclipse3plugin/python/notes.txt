@@ -1,0 +1,1 @@
+Est-ce vraiment nécessaire de stocker la configuration au format XML?

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project basedir='.' default='compile' name='TP1'>
+  <description>
+        Build file for compiling and running MyTransformationModel
+	</description>
+  <!-- The compilation tool (not templated) -->
+  <property location='${MTLcompiler.jar.path}/BasicMTLc.jar' name='BasicMTLc.jar'/>
+  <!-- set global properties for this build -->
+  <property location='build/bin' name='build.bin'/>
+  <property location='build/src' name='build.src'/>
+  <property location='build/tll' name='build.tll'/>
+  <!-- The MTLCompiler path where the jars for compilation phase of MTL libs
+         are stored (used for BasicMTLc.jar and log4j.jar -->
+  <property location='/udd/zdrey/Eclipse/eclipse/plugins/org.inria.mtl_0.0.5/MTL/bin/' name='MTLcompiler.jar.path'/>
+  <!-- The driver api -->
+  <property location='/udd/zdrey/Eclipse/eclipse/plugins/org.inria.BasicMTL.MDRDriver_0.0.1/lib/MDRDriver.jar' name='MDRDriver.jar'/>
+  <property location='/udd/zdrey/Workspace/Test/build;/udd/zdrey/Eclipse/eclipse/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL' name='Runtime.TLL.path'/>
+  <!-- The runtime environment -->
+  <property location='/udd/zdrey/Eclipse/eclipse/plugins/org.inria.mtl_0.0.5/MTL/bin/BasicMTLruntime.jar' name='BasicMTLruntime.jar'/>
+  <!-- ************************************************ -->
+  <!-- ************************************************ -->
+  <!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+  <!--           ( and the project name )               -->
+  <!-- ************************************************ -->
+  <!-- set user properties for this build -->
+  <property value='TP1' name='library.name'/>
+  <property location='src' name='src'/>
+  <property location='${src}/${library.name}' name='user.src.path'/>
+  <property value='${library.name}' name='user.package.name'/>
+  <property location='${build.src}/${library.name}' name='user.build.src'/>
+  <property location='${Runtime.TLL.path}' name='user.needed.TLL.path'/>
+  <!-- other TLL needed in order to compile this one -->
+  <!-- ************************************************ -->
+  <!-- The path where all the needed .class directories or .jar
+         are declared.  Data generated from the .classpath file (uses the
+         properties definitions of .jar or .class dir. above in this build file)
+     -->
+  <path id='current.class.path'>
+    <pathelement path='${MDRDriver.jar}'/>
+    <pathelement path='${BasicMTLruntime.jar}'/>
+    <pathelement path='${Test}'/>
+  </path>
+  <!-- ************************************************ -->
+  <!-- Define the targets -->
+  <property name='' location='org.eclipse.jdt.launching.JRE_CONTAINER'/>
+  <property name='Test' location='/udd/zdrey/Workspace/Test/build/bin'/>
+  <target name='init TP1'>
+    <ant antfile='common_build.xml' target='init common' dir='.'/>
+  </target>
+  <target name='clean TP1'>
+    <ant antfile='common_build.xml' target='clean common' dir='.'/>
+  </target>
+  <target name='compile TP1'>
+    <ant depends='compile common' antfile='common_build.xml' target='compile common' dir='.'/>
+  </target>
+  <target name='run TP1'>
+    <ant antfile='common_build.xml' target='run common' dir='.'/>
+  </target>
+</project>
