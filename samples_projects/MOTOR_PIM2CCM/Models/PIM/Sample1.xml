@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'ISO-8859-1' ?>
-<XMI xmi.version = '1.2' timestamp = 'Fri Dec 05 11:38:11 CET 2003'>
+<XMI xmi.version = '1.2' timestamp = 'Thu Jan 29 10:38:45 CET 2004'>
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
@@ -7,210 +7,62 @@
     </XMI.documentation>
   </XMI.header>
   <XMI.content>
-    <DesignMetaModel.TraceableElement xmi.id = 'a1' linkedId = '.:000000000000041D'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a2' linkedId = '.:000000000000041E'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a3' linkedId = '.:0000000000000423'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a4' linkedId = '.:0000000000000424'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a5' linkedId = '.:0000000000000429'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a6' linkedId = '.:000000000000042A'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a7' linkedId = '.:000000000000042F'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a8' linkedId = '.:0000000000000432'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a9' linkedId = '.:0000000000000435'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a10' linkedId = '.:0000000000000438'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a11' linkedId = '.:000000000000043B'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a12' linkedId = '.:000000000000043E'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a13' linkedId = '.:0000000000000441'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a14' linkedId = '.:000000000000042A'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a15' linkedId = '.:000000000000042B'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a16' linkedId = '.:0000000000000430'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a17' linkedId = '.:0000000000000431'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a18' linkedId = '.:0000000000000436'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a19' linkedId = '.:0000000000000437'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a20' linkedId = '.:000000000000043C'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a21' linkedId = '.:000000000000043F'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a22' linkedId = '.:0000000000000442'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a23' linkedId = '.:0000000000000445'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a24' linkedId = '.:0000000000000448'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a25' linkedId = '.:000000000000044B'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a26' linkedId = '.:000000000000044E'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a27' linkedId = '.:0000000000000437'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a28' linkedId = '.:0000000000000438'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a29' linkedId = '.:000000000000043D'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a30' linkedId = '.:000000000000043E'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a31' linkedId = '.:0000000000000443'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a32' linkedId = '.:0000000000000444'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a33' linkedId = '.:0000000000000449'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a34' linkedId = '.:000000000000044C'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a35' linkedId = '.:000000000000044F'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a36' linkedId = '.:0000000000000452'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a37' linkedId = '.:0000000000000455'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a38' linkedId = '.:0000000000000458'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a39' linkedId = '.:000000000000045B'
-      linkedModel = ''/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a40' linkedId = '.:0000000000000444'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a41' linkedId = '.:0000000000000445'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a42' linkedId = '.:000000000000044A'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a43' linkedId = '.:000000000000044B'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a44' linkedId = '.:0000000000000450'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a45' linkedId = '.:0000000000000451'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a46' linkedId = '.:0000000000000456'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a47' linkedId = '.:0000000000000459'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a48' linkedId = '.:000000000000045C'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a49' linkedId = '.:000000000000045F'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a50' linkedId = '.:0000000000000462'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a51' linkedId = '.:0000000000000465'/>
-    <DesignMetaModel.TraceableElement xmi.id = 'a52' linkedId = '.:0000000000000468'/>
-    <DesignMetaModel.Model xmi.id = 'a53' id = '' name = 'theModel'>
+    <DesignMetaModel.Model xmi.id = 'a1' name = 'theModel'>
       <DesignMetaModel.Model.elements>
-        <DesignMetaModel.Component xmi.id = 'a54' id = '.:0000000000000390' name = 'component1'>
-          <DesignMetaModel.Element.tracedElements>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a1'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a2'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a14'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a15'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a27'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a28'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a40'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a41'/>
-          </DesignMetaModel.Element.tracedElements>
+        <DesignMetaModel.Component xmi.id = 'a2' name = 'component1'>
           <DesignMetaModel.Component.ownedPort>
-            <DesignMetaModel.PortEventIsProvided xmi.id = 'a55' id = '' name = 'portEventIsProvided1'/>
-            <DesignMetaModel.PortEventIsProvided xmi.id = 'a56' id = '' name = 'portEventIsProvided2'/>
-            <DesignMetaModel.PortIsProvided xmi.id = 'a57' id = '.:000000000000038F'
-              name = 'portIsProvided3'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a7'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a20'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a33'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a46'/>
-              </DesignMetaModel.Element.tracedElements>
+            <DesignMetaModel.PortEventIsProvided xmi.id = 'a3' name = 'portEventIsProvided1'>
+              <DesignMetaModel.PortEventIsProvided.provided>
+                <DesignMetaModel.Interface xmi.idref = 'a4'/>
+              </DesignMetaModel.PortEventIsProvided.provided>
+            </DesignMetaModel.PortEventIsProvided>
+            <DesignMetaModel.PortEventIsProvided xmi.id = 'a5' name = 'portEventIsProvided2'/>
+            <DesignMetaModel.PortIsProvided xmi.id = 'a6' name = 'portIsProvided3'>
+              <DesignMetaModel.PortIsProvided.provided>
+                <DesignMetaModel.Interface xmi.idref = 'a4'/>
+              </DesignMetaModel.PortIsProvided.provided>
             </DesignMetaModel.PortIsProvided>
           </DesignMetaModel.Component.ownedPort>
         </DesignMetaModel.Component>
-        <DesignMetaModel.Component xmi.id = 'a58' id = '.:0000000000000394' name = 'component2'>
-          <DesignMetaModel.Element.tracedElements>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a3'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a4'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a16'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a17'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a29'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a30'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a42'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a43'/>
-          </DesignMetaModel.Element.tracedElements>
-          <DesignMetaModel.Class.part>
-            <DesignMetaModel.Operation xmi.id = 'a59' id = '' name = 'op1'/>
-          </DesignMetaModel.Class.part>
+        <DesignMetaModel.Component xmi.id = 'a7' name = 'component2'>
           <DesignMetaModel.Component.ownedPort>
-            <DesignMetaModel.PortIsProvided xmi.id = 'a60' id = '.:0000000000000392'
-              name = 'portIsProvided1'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a8'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a21'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a34'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a47'/>
-              </DesignMetaModel.Element.tracedElements>
-            </DesignMetaModel.PortIsProvided>
-            <DesignMetaModel.PortIsProvided xmi.id = 'a61' id = '.:0000000000000393'
-              name = 'portIsProvided2'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a9'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a22'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a35'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a48'/>
-              </DesignMetaModel.Element.tracedElements>
-            </DesignMetaModel.PortIsProvided>
+            <DesignMetaModel.PortIsProvided xmi.id = 'a8' name = 'portIsProvided1'/>
+            <DesignMetaModel.PortIsProvided xmi.id = 'a9' name = 'portIsProvided2'/>
           </DesignMetaModel.Component.ownedPort>
         </DesignMetaModel.Component>
-        <DesignMetaModel.Component xmi.id = 'a62' id = '.:0000000000000399' name = 'component3'>
-          <DesignMetaModel.Element.tracedElements>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a5'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a6'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a18'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a19'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a31'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a32'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a44'/>
-            <DesignMetaModel.TraceableElement xmi.idref = 'a45'/>
-          </DesignMetaModel.Element.tracedElements>
+        <DesignMetaModel.Component xmi.id = 'a10' name = 'component3'>
           <DesignMetaModel.Component.ownedPort>
-            <DesignMetaModel.PortIsRequired xmi.id = 'a63' id = '.:0000000000000395'
-              name = 'portIsRequired1'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a10'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a23'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a36'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a49'/>
-              </DesignMetaModel.Element.tracedElements>
+            <DesignMetaModel.PortIsRequired xmi.id = 'a11' name = 'portIsRequired1'/>
+            <DesignMetaModel.PortIsRequired xmi.id = 'a12' name = 'portIsRequired2'>
+              <DesignMetaModel.PortIsRequired.required>
+                <DesignMetaModel.Interface xmi.idref = 'a13'/>
+                <DesignMetaModel.Interface xmi.idref = 'a14'/>
+              </DesignMetaModel.PortIsRequired.required>
             </DesignMetaModel.PortIsRequired>
-            <DesignMetaModel.PortIsRequired xmi.id = 'a64' id = '.:0000000000000396'
-              name = 'portIsRequired2'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a11'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a24'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a37'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a50'/>
-              </DesignMetaModel.Element.tracedElements>
-            </DesignMetaModel.PortIsRequired>
-            <DesignMetaModel.PortEventIsRequired xmi.id = 'a65' id = '.:0000000000000397'
-              name = 'portEventIsRequired2'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a12'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a25'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a38'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a51'/>
-              </DesignMetaModel.Element.tracedElements>
-            </DesignMetaModel.PortEventIsRequired>
-            <DesignMetaModel.PortEventIsRequired xmi.id = 'a66' id = '.:0000000000000398'
-              name = 'portEventIsRequired1'>
-              <DesignMetaModel.Element.tracedElements>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a13'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a26'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a39'/>
-                <DesignMetaModel.TraceableElement xmi.idref = 'a52'/>
-              </DesignMetaModel.Element.tracedElements>
-            </DesignMetaModel.PortEventIsRequired>
+            <DesignMetaModel.PortEventIsRequired xmi.id = 'a15' name = 'portEventIsRequired2'/>
+            <DesignMetaModel.PortEventIsRequired xmi.id = 'a16' name = 'portEventIsRequired1'/>
           </DesignMetaModel.Component.ownedPort>
         </DesignMetaModel.Component>
       </DesignMetaModel.Model.elements>
     </DesignMetaModel.Model>
+    <DesignMetaModel.Interface xmi.id = 'a13' name = 'interface1' isAbstract = 'false'>
+      <DesignMetaModel.Interface.ownedAttribute>
+        <DesignMetaModel.Property xmi.id = 'a17' name = 'property3' isReadOnly = 'false'/>
+      </DesignMetaModel.Interface.ownedAttribute>
+      <DesignMetaModel.Interface.operation>
+        <DesignMetaModel.Operation xmi.id = 'a18' name = 'operation2'/>
+        <DesignMetaModel.Operation xmi.id = 'a19' name = 'operation3'/>
+      </DesignMetaModel.Interface.operation>
+    </DesignMetaModel.Interface>
+    <DesignMetaModel.Interface xmi.id = 'a4' name = 'interface2' isAbstract = 'false'>
+      <DesignMetaModel.Interface.ownedAttribute>
+        <DesignMetaModel.Property xmi.id = 'a20' name = 'property1' isReadOnly = 'false'/>
+        <DesignMetaModel.Property xmi.id = 'a21' name = 'property2' isReadOnly = 'false'/>
+      </DesignMetaModel.Interface.ownedAttribute>
+      <DesignMetaModel.Interface.operation>
+        <DesignMetaModel.Operation xmi.id = 'a22' name = 'operation1'/>
+      </DesignMetaModel.Interface.operation>
+    </DesignMetaModel.Interface>
+    <DesignMetaModel.Interface xmi.id = 'a14' name = 'interface3' isAbstract = 'false'/>
   </XMI.content>
 </XMI>
