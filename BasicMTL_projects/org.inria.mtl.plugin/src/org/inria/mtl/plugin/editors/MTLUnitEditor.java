@@ -1,5 +1,5 @@
 /*
-* $Id: MTLUnitEditor.java,v 1.4 2004-05-19 09:22:38 sdzale Exp $
+* $Id: MTLUnitEditor.java,v 1.5 2004-06-18 14:20:56 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -1068,6 +1068,7 @@ public class MTLUnitEditor extends MTLEditor {
 		 * of deletion of input element) there is a way to report back to the caller.
 		 */
 		//					 performSaveAs(progressMonitor);
+		System.out.println("Passé isSaveAll");
 		super.doSave(progressMonitor);
 	  } else {
 
@@ -1080,7 +1081,7 @@ public class MTLUnitEditor extends MTLEditor {
 	  }
 
 	} else {
-
+		System.out.println("Passé isSaveAllElse");
 	  setStatusLineErrorMessage(null);
 	  super.doSave(progressMonitor);
 		}
@@ -1109,4 +1110,7 @@ public class MTLUnitEditor extends MTLEditor {
 	}
 	return true;
   }
+  
+
+  
 }

@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.4 2004-06-15 15:13:25 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.5 2004-06-18 14:20:31 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,6 +10,7 @@ package org.inria.mtl.plugin.popup.actions;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.builders.MTLModel;
 
 /**
  * @author sdzale
@@ -55,23 +57,34 @@ public class buildfolderAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		Shell shell = new Shell();
-		if (selection instanceof StructuredSelection)
-				{
-					currentSelection = (StructuredSelection)selection;
-					java.util.Iterator it = currentSelection.iterator();
-					while (it.hasNext()){
-						if (it instanceof IResource){
-										IResource item = (IResource) it.next ();
-										if (item instanceof IFolder){
-											currentProject=item.getProject();
-											srcFolder=(IFolder)item;
-										}
-										
-
-									}
-					}
+	currentSelection = null;
+try{
+	if (selection instanceof StructuredSelection)
+		{
+				
+			currentSelection = (StructuredSelection)selection;
+			java.util.Iterator it = currentSelection.iterator();
+				
+			while (it.hasNext() )
+			{	
+				IResource item = (IResource) it.next ();
+				if (item instanceof IFolder){
+					currentProject=item.getProject();
+					srcFolder=(IFolder)item;
+																	
+					long oldGen = srcFolder.getModificationStamp();
+					//On fait en sorte que le fichier soit obligatoirement compilé
+					String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
+					srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+					//Remove old resources generated 
+							
 				}
-		boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+			}
+		}
+			boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+	}catch(Exception E){
+			System.out.println(E.getMessage());
+		}
 	}
 
 	/**
@@ -79,15 +92,8 @@ public class buildfolderAction implements IObjectActionDelegate {
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection=selection;
-			currentSelection = null;
 		}
 
-	/**
-	 * compile a directory
-	 */
-	public boolean compileDirectory(IFolder srcFolder, IProject currProject) {
-		boolean ok=MTLPlugin.instance().getModel(currProject).processResource(srcFolder);;
-		return ok;		
-	}
+	
    
 }

@@ -1,5 +1,5 @@
 /*
-* $Id: PreferenceConstants.java,v 1.6 2004-06-03 13:08:51 sdzale Exp $
+* $Id: PreferenceConstants.java,v 1.7 2004-06-18 14:20:44 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -84,6 +84,8 @@ public class PreferenceConstants {
    * </p>
     */
   public final static String EDITOR_PROBLEM_INDICATION_COLOR = "problemIndicationColor"; //$NON-NLS-1$
+  
+  public final static String EDITOR_PROBLEM_SHOW_IN_CONSOLE = "problemIndicationInConsole"; //$NON-NLS-1$
 
   /**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
    * A named preference that controls whether the editor shows warning indicators in text (squiggly lines). 
@@ -92,6 +94,8 @@ public class PreferenceConstants {
    * </p>
    */
   public final static String EDITOR_WARNING_INDICATION = "warningIndication"; //$NON-NLS-1$
+  
+  public final static String EDITOR_WARNING_SHOW_IN_CONSOLE = "warningInConsole"; //$NON-NLS-1$
 
   /**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
 	 * A named preference that controls whether the editor shows fatal indicators in text (squiggly lines). 
@@ -100,13 +104,17 @@ public class PreferenceConstants {
 	 * </p>
 	 */
 	public final static String EDITOR_FATAL_INDICATION = "fatalIndication"; //$NON-NLS-1$
+	
+	public final static String EDITOR_FATAL_SHOW_IN_CONSOLE = "fatalInConsoleIndication"; //$NON-NLS-1$
 	/**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
 	   * A named preference that controls whether the editor shows warning indicators in text (squiggly lines). 
 	   * <p>
 	   * Value is of type <code>Boolean</code>.
 	   * </p>
 	   */
-	  public final static String EDITOR_INFO_INDICATION = "infoIndication"; //$NON-NLS-1$
+	public final static String EDITOR_INFO_INDICATION="infoIndication"; //$NON-NLS-1$
+	
+	public final static String EDITOR_INFO_SHOW_IN_CONSOLE = "infoInConsoleIndication"; //$NON-NLS-1$
 	/**PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR;
 	   * A named preference that controls whether the editor shows warning indicators in text (squiggly lines). 
 	   * <p>
@@ -114,6 +122,8 @@ public class PreferenceConstants {
 	   * </p>
 	   */
 	  public final static String EDITOR_DEBUG_INDICATION = "debugIndication"; //$NON-NLS-1$
+	  
+	public final static String EDITOR_DEBUG_SHOW_IN_CONSOLE = "debugConsoleIndication"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render warning indicators.
@@ -172,6 +182,8 @@ public class PreferenceConstants {
    * </p>
    */
   public final static String EDITOR_TASK_INDICATION = "taskIndication"; //$NON-NLS-1$
+  
+  public final static String EDITOR_TASK_SHOW_IN_CONSOLE = "taskConsoleIndication"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render task indicators.
@@ -195,6 +207,8 @@ public class PreferenceConstants {
    * @since 2.1
    */
   public final static String EDITOR_BOOKMARK_INDICATION = "bookmarkIndication"; //$NON-NLS-1$
+  
+  public final static String EDITOR_BOOKMARK_SHOW_IN_CONSOLE = "bookmarkConsoleIndication"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render bookmark indicators.
@@ -213,6 +227,8 @@ public class PreferenceConstants {
    * </p>
    */
   public final static String EDITOR_SEARCH_RESULT_INDICATION = "searchResultIndication"; //$NON-NLS-1$
+  
+  public final static String EDITOR_SEARCH_RESULT_SHOW_IN_CONSOLE = "searchResultConsoleIndication"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render search indicators.
@@ -231,6 +247,8 @@ public class PreferenceConstants {
    * </p>
    */
   public final static String EDITOR_UNKNOWN_INDICATION = "othersIndication"; //$NON-NLS-1$
+  
+  public final static String EDITOR_UNKNOWN_SHOW_IN_CONSOLE = "othersConsoleIndication"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render unknown
@@ -426,7 +444,7 @@ public class PreferenceConstants {
 		   * @see org.eclipse.jface.preference.PreferenceConverter
 		   */
 	public static final String MTL_TAG = "_mtl_tag";
-		  public final static String EDITOR_MTL_TAG_COLOR = MTL_TAG;
+	public final static String EDITOR_MTL_TAG_COLOR = MTL_TAG;
 
 		  /**
 		   * A named preference that controls whether php start and stop tags are rendered in bold.
@@ -1074,31 +1092,38 @@ public class PreferenceConstants {
 
 	store.setDefault(PreferenceConstants.EDITOR_FATAL_INDICATION, true);
 		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(244, 200, 45));
-		   store.setDefault(PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER, true);
+	store.setDefault(PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER, true);
+	store.setDefault(PreferenceConstants.EDITOR_FATAL_SHOW_IN_CONSOLE, true);
 
 	store.setDefault(PreferenceConstants.EDITOR_INFO_INDICATION, true);
 		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(244, 200, 45));
 		   store.setDefault(PreferenceConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER, true);
+	store.setDefault(PreferenceConstants.EDITOR_INFO_SHOW_IN_CONSOLE, true);
 
 	store.setDefault(PreferenceConstants.EDITOR_DEBUG_INDICATION, true);
 		   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(244, 200, 45));
 		   store.setDefault(PreferenceConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER, true);
+	store.setDefault(PreferenceConstants.EDITOR_DEBUG_SHOW_IN_CONSOLE, true);
 
 	   store.setDefault(PreferenceConstants.EDITOR_TASK_INDICATION, false);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_TASK_INDICATION_COLOR, new RGB(0, 128, 255));
 	   store.setDefault(PreferenceConstants.EDITOR_TASK_INDICATION_IN_OVERVIEW_RULER, false);
+	store.setDefault(PreferenceConstants.EDITOR_TASK_SHOW_IN_CONSOLE, false);
 
 	   store.setDefault(PreferenceConstants.EDITOR_BOOKMARK_INDICATION, false);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_BOOKMARK_INDICATION_COLOR, new RGB(34, 164, 99));
 	   store.setDefault(PreferenceConstants.EDITOR_BOOKMARK_INDICATION_IN_OVERVIEW_RULER, false);
+	store.setDefault(PreferenceConstants.EDITOR_BOOKMARK_SHOW_IN_CONSOLE, false);
 
 	   store.setDefault(PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION, false);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_COLOR, new RGB(192, 192, 192));
 	   store.setDefault(PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_IN_OVERVIEW_RULER, false);
+	store.setDefault(PreferenceConstants.EDITOR_SEARCH_RESULT_SHOW_IN_CONSOLE, false);
 
 	   store.setDefault(PreferenceConstants.EDITOR_UNKNOWN_INDICATION, false);
 	   PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_UNKNOWN_INDICATION_COLOR, new RGB(0, 0, 0));
 	   store.setDefault(PreferenceConstants.EDITOR_UNKNOWN_INDICATION_IN_OVERVIEW_RULER, false);
+	store.setDefault(PreferenceConstants.EDITOR_UNKNOWN_SHOW_IN_CONSOLE, false);
 
 	   store.setDefault(PreferenceConstants.EDITOR_CORRECTION_INDICATION, true);
 //	   store.setDefault(PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE, false);

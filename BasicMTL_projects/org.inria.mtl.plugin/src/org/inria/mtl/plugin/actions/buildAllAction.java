@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.6 2004-06-15 15:13:53 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.7 2004-06-18 14:20:38 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 //import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -60,6 +61,8 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
+	if (store.getBoolean(PreferenceConstants.AUTO_COMPILE)){
+			
 		for (int i=0;i<projects.length;i++){
 			try{
 			
@@ -69,17 +72,24 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 					
 					currentProject=projects[i].getProject();
 					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-					MTLCore.findFolders();
+					MTLCore.loadMtlClasspath();
 					IPath[] srcPaths=MTLModel.srcFolders;
 					for (int j =0;j<srcPaths.length;j++){
-						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+						IFolder srcFolder= currentProject.getFolder(srcPaths[j].removeFirstSegments(1));
+						//Modify the timeStamp to permit automatic new exécution
+						long oldGen = srcFolder.getModificationStamp();
+						String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
+						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
 						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+						
+						
 					}			
 				}
 			}catch (Exception E){
 				System.out.println("Error :Build all");
 			}
 		}
+	}
 	}
 
 	/**

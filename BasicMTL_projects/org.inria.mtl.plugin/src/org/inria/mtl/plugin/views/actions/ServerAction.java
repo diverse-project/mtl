@@ -1,5 +1,5 @@
 /*
-* $Id: ServerAction.java,v 1.1 2004-05-28 16:54:11 sdzale Exp $
+* $Id: ServerAction.java,v 1.2 2004-06-18 14:20:41 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -26,11 +26,17 @@ public class ServerAction extends Action
 	private final MTLConsole view;
 	private boolean isRunning = false;
 	private final static String START = "Start server", STOP = "Stop server";
+	
+	private static ServerAction instance = new ServerAction(new MTLConsole());
 
-	public ServerAction(MTLConsole view)
+	public ServerAction(MTLConsole fview)
 	{
-		this.view = view;
+		this.view = fview;
 		setRunning(false);
+	}
+	
+	public static ServerAction getInstance() {
+			return instance;
 	}
 
 	public void run()

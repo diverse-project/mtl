@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.4 2004-06-15 15:13:08 sdzale Exp $
+* $Id: MTLConsole.java,v 1.5 2004-06-18 14:20:45 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,7 +8,9 @@
 package org.inria.mtl.plugin.views;
 
 import org.apache.log4j.Level;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -136,13 +138,17 @@ public class MTLConsole extends ViewPart {
 			{
 				public void run()
 				{	
-					System.out.println("run MTLConsole");
+					try{
 					Object[] oo = contentProvider.getElements(null);
+					System.out.println("run MTLConsole :"+oo.length);
 					int i = viewer.getTable().getItemCount();
 					Object o = oo[i];
 					viewer.add(o);
 					viewer.getTable().getItem(i).setBackground(new Color(getDisplay(), getRowBackgroundRGB((Entry) o, i)));
 					viewer.reveal(o);
+					}catch(Exception E){
+						
+					}
 				}
 					
 				public RGB getRowBackgroundRGB(Entry entry, int index)
@@ -300,7 +306,13 @@ public class MTLConsole extends ViewPart {
 		 */
 		public void refresh()
 		{
-			viewer.refresh();		
+			try{
+				viewer.refresh();
+			}catch (Exception E){
+				// A voir
+			}
+			
+					
 		}
 		
 		public static MTLConsole getConsole() {
@@ -314,7 +326,25 @@ public class MTLConsole extends ViewPart {
 		}
 		
 		public static void cleanConsole(){
-			Controller.getInstance().clear();
+			try{
+				Controller.getInstance().clear();
+			}catch (Exception E){
+				
+				//Serveur non démarré
+				//permet de démarrer le serveur mais c'est une instance différente du premier serveur
+				
+//				IAction a = ServerAction.getInstance();
+//						if (a != null){
+//									a.run();
+//									Controller.getInstance().clear();
+//						}else{
+//							// A voir
+//							System.out.println(E.getMessage());
+//						}
+				
+			
+			}
+			
 		}
  
 

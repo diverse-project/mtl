@@ -1,5 +1,5 @@
 /*
-* $Id: Server.java,v 1.1 2004-05-28 16:52:33 sdzale Exp $
+* $Id: Server.java,v 1.2 2004-06-18 14:20:39 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.io.*;
+//import java.io.*;
 
 import org.inria.mtl.plugin.views.controller.Controller;
 import org.inria.mtl.plugin.preferences.Log4jPreferencePage;

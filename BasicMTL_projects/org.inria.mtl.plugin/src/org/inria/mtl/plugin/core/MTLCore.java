@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.6 2004-06-15 15:13:11 sdzale Exp $
+* $Id: MTLCore.java,v 1.7 2004-06-18 14:20:47 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -639,7 +639,7 @@ public static String checkPathEnd(String path)
 *@return srcMtlFolderList 
 *@exception  Exception  all errors reported by
 */
-public static void findFolders() {
+public static void loadMtlClasspath() {
 	IPreferenceStore store=MTLPlugin.getDefault().getPreferenceStore();
 				
 				ArrayList lSources = new ArrayList();

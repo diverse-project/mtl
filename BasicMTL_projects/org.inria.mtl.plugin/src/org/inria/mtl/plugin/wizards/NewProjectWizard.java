@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.4 2004-06-15 15:12:58 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.5 2004-06-18 14:20:51 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -255,7 +255,7 @@ public boolean finish(IProgressMonitor monitor) {
 //		System.out.println("jcl :"+binjava.getFullPath().toString());
 //		System.out.println("smtl :"+mtlsrc.getFullPath().toString());
 //		System.out.println("tll :"+binmtl.getFullPath().toString());
-		MTLCore.findFolders();
+		MTLCore.loadMtlClasspath();
 		
 		} catch (Exception e) {
 		e.printStackTrace();

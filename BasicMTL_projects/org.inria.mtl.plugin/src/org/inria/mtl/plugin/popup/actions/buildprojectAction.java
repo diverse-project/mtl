@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.4 2004-06-15 15:13:26 sdzale Exp $
+* $Id: buildprojectAction.java,v 1.5 2004-06-18 14:20:33 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -62,10 +62,12 @@ public class buildprojectAction implements IObjectActionDelegate {
 								if (item instanceof IProject){
 									currentProject=item.getProject();
 									MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-									MTLCore.findFolders();
+									MTLCore.loadMtlClasspath();
 									IPath[] srcPaths=MTLModel.srcFolders;
 									for (int i =0;i<srcPaths.length;i++){
 										IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
+										long oldGen = srcFolder.getModificationStamp();
+										String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
 										boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 									
 									}

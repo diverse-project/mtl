@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
     <classpathentry kind="src" path="src"/>
-    <classpathentry exported="true" kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.core.runtime_2.1.0/runtime.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.core.runtime_2.1.0/runtimesrc.zip"/>
-    <classpathentry exported="true" kind="var"
-        path="ECLIPSE_HOME/plugins/org.eclipse.swt.win32_2.1.0/ws/win32/swt.jar" sourcepath="ORG_ECLIPSE_PLATFORM_WIN32_SOURCE_SRC/org.eclipse.swt.win32_2.1.0/ws/win32/swtsrc.zip"/>
-    <classpathentry exported="true" kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xmlParserAPIs.jar"/>
-    <classpathentry exported="true" kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xercesImpl.jar"/>
     <classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_CORE_BOOT"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_CORE_RUNTIME"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_UI_EDITORS"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_JDT_UI"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_JFACE"/>
@@ -19,10 +15,13 @@
     <classpathentry exported="true" kind="var" path="ECLIPSE_UI_WORKBENCH_TEXTEDITOR"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_JFACE_TEXT"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_TEXT"/>
-    <classpathentry kind="lib" path="MTL/bin/BasicMTLc.jar"/>
-    <classpathentry kind="lib" path="MTL/bin/BasicMTLruntime.jar"/>
-    <classpathentry kind="lib" path="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
-    <classpathentry kind="lib" path="MTL/bin/ThirdParty/log4j/log4j.jar"/>
-    <classpathentry kind="var" path="ECLIPSE_CORE_BOOT"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLc.jar"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLruntime.jar"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/ThirdParty/log4j/log4j.jar"/>
+    <classpathentry exported="true" kind="var" path="APACHE_XERCES"/>
+    <classpathentry exported="true" kind="var" path="APACHE_XERCES_XMLAPI"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_UI"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_SWT_WIN32"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.5 2004-06-15 15:13:02 sdzale Exp $
+* $Id: MTLCodeGenerator.java,v 1.6 2004-06-18 14:20:34 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.QualifiedName;
@@ -27,7 +28,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.texteditor.MarkerUtilities;
+import org.eclipse.ui.views.tasklist.TaskList;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.markers.MTLMarkers;
@@ -95,7 +99,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		this.outputFolder =output;
 		model = MTLPlugin.instance().getModel(srcMtlFolder.getProject());
 		projFolders=model.projFolders;
-		MTLCore.findFolders();
+		MTLCore.loadMtlClasspath();
 		
 	}
 
@@ -119,6 +123,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		try {
 			newMtlFolder.deleteMarkers(MTLPlugin.MTL_PROBLEM, false, IResource.DEPTH_INFINITE);
 		} catch (Exception e) {
+			System.out.println("Exception ici");
 			e.printStackTrace();
 		}
 	}
@@ -140,17 +145,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		//Manage folders
 		IFolder output = srcmtlFolder.getProject().getFolder(store.getString(PreferenceConstants.OUTPUT_BUILDNAME));
 		IFolder outputF = model.getOutputFolder();
-		//System.out.println("Output :"+outputF);
-		//store.s
-		//Si on choisit de stocker les bin d'un rep source dans un repertoire particulier de même
-		//nom alors c'est ici qu'on fera les changements
-//		IFolder javasrc =output.getFolder(store.getString(PreferenceConstants.FJAVA_SRCNAME));
-//		IFolder binjava = output.getFolder(store.getString(PreferenceConstants.FJAVA_BINNAME));
-//		IFolder mtlsrc = srcmtlFolder.getProject().getFolder(store.getString(PreferenceConstants.FMTL_SRCNAME));
-//		IFolder binmtl = output.getFolder(store.getString(PreferenceConstants.FMTL_BINNAME));
-//		
-//		System.out.println("javasrc :"+javasrc.toString()+"  "+"binjava :"+binjava.toString()+"  "+"mtlsrc :"+mtlsrc.toString()+"  "+"binmtl :"+binmtl.toString());
-//		
+			
 		IFolder javasrcAll =outputF.getFolder(model.getJavaFolder().getName());
 		IFolder binjava = outputF.getFolder(model.getBinJavaFolder().getName());
 		//IFolder mtlsrc = srcmtlFolder.getProject().getFolder(model.getMtlFolder().getName());
@@ -158,21 +153,18 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		IFolder javasrcProj=javasrcAll.getFolder(mtlsrc.getName());
 		if (!javasrcProj.exists())
 			javasrcProj.create(true, true, null);
-		//System.out.println("mtlsrc :"+mtlsrc.toString()+ "  javasrcProj "+javasrcProj.toString());
+		//javasrcProj.
+		
 		IFolder binmtl = outputF.getFolder(model.getTllFolder().getName());
-		//System.out.println("binMtl :"+binmtl);
-		
-		
+			
 		//Manage Compiler path
 		String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
 		String pluginPath =MTLPlugin.getDefault().getLocation();
-//		System.out.println("plugin path :"+pluginPath);
-//		System.out.println("MTLcompiler_path path :"+MTLcompiler_path+" longueur :"+MTLcompiler_path.length());
 		if (MTLcompiler_path.length()==0){
 			String compilerFilePath=pluginPath.concat("MTL\\bin\\BasicMTLc.jar");
 			pluginPath=pluginPath.concat("MTL");
 			File compFile = new File(compilerFilePath); 
-//			System.out.println("File :"+compFile.toString());
+
 			if (!(compFile.exists())){
 				Shell shell = new Shell();
 							MessageDialog.openInformation(
@@ -186,10 +178,10 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			
 		}
    try {
-		  //System.out.println("Generate :"+mtlsrc.toString()+" exists  "+mtlsrc.exists());
 		  String lastGen = mtlsrc.getPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME));
 		  String newGen = new Long(srcmtlFolder.getModificationStamp()).toString();
 		  if (lastGen != null && lastGen.equals(newGen)) {
+		  	  //System.out.println("Aucun changement");
 			  return;
 		  }
 		  mtlsrc.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
@@ -227,7 +219,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		String BasicMTLRuntime_jar=MTLcompiler_path.concat("bin\\BasicMTLruntime.jar");
 		
 		int nbProj=projFolders.length;
-	   System.out.println("NB PROJ:"+nbProj);
+//	   System.out.println("NB PROJ:"+nbProj);
 		for ( int k=0;k<nbProj;k++){ 
 			
 					IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -252,7 +244,6 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 						}
 					}
 			
-			//System.out.println("PROJ A INTEGRER:"+Runtime_TLL_path);
 				}catch(Exception E){
 					//System.out.println("MONPROJ NOT OK:"+projFolders[k].toString());
 				}
@@ -264,16 +255,18 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		System.out.println("Runtime_TLL_path :"+Runtime_TLL_path);
 		System.out.println("defaultPackagePrefix :"+defaultPackagePrefix);
 		System.out.println("BasicMTLRuntime :"+BasicMTLRuntime_jar);
-		  
-		 		  
-		  //remove old problems on the mtl file
-		removeMTLProblems(mtlsrc);
-		
+		 
+ 		  
+	  	System.out.println("test1");
 		//Clean  Console
 		MTLConsole.cleanConsole();
 		
-		//
+		System.out.println("test2");	
+		//clean task list
+		cleanTaskList();
 		
+		//
+		System.out.println("test3");
 		try {
 			//comment retrouver le dossier où se trouve les .exe de ce fichier
 			  model.removeMTLResources(binmtl,mtlsrc);
@@ -283,29 +276,36 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			  System.out.println("Warning: problems removing files :" + e.getMessage());
 		  }
 
-		  System.out.println("Generating tll and java objects for " + mtlsrc.getName() + "...");
+		System.out.println("Generating tll and java objects for " + mtlsrc.getName() + "...");
+		
+		System.out.println("TAG AVANT");
+		  
+		model.readTag(outputF);
 		  
 		 //Call the MTL Compiler here
 		  
+		  //System.out.println("test3");
 		  	
-		  BasicMtlCompiler.Compiler Comp=new BasicMtlCompiler.Compiler();
-		  String logFile=MTLPlugin.getDefault().getLocation();
-		  logFile=logFile.concat("\\MTL\\bin\\log4j_configuration.xml");
-		  try{
+		BasicMtlCompiler.Compiler Comp=new BasicMtlCompiler.Compiler();
+		System.out.println("test4");
+		String logFile=MTLPlugin.getDefault().getLocation();
+		logFile=logFile.concat("\\MTL\\bin\\log4j_configuration.xml");
+		try{
 			DOMConfigurator.configure (logFile);
-		  }catch (Exception ce){
+		 }catch (Exception ce){
 			System.out.println("Problem with log4j...");
 		  }
 		  
-		
+		System.out.println("test5");
 		 		 
 	     try{
 		  	Comp.compileFromDirectory(sourceDir,defaultPackagePrefix,tllDestDir,Runtime_TLL_path,javaDestDir);
 		  }catch (Exception E){
+			System.out.println("test6");
 			System.out.println(E.getMessage());
 			
 		  }
-  
+	
 			
 			System.out.println("Compilation terminée...");
 		  //call the java compiler here
@@ -314,12 +314,21 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			java.util.Vector vMessages= MSGHandler.allMessages;
 			createMarkers(vMessages);
 			
+		 
+			//	Tag all new resources
+			model.tagMTLResources(javasrcProj, srcmtlFolder);
+			
+			model.tagTLLResources(binmtl,mtlsrc);
+			
 		  
 		  //refresh all output folders
-		  outputFolder.refreshLocal(IResource.DEPTH_INFINITE, null);		
+		   outputF.refreshLocal(IResource.DEPTH_INFINITE, null);
+		   
+		System.out.println("TAG APRES");	
+		   
+		model.readTag(outputF);	
 		
-		 // Tag all new resources
-		 model.tagMTLResources(outputFolder, srcmtlFolder);
+		 
 		  
 	  } catch (Exception e) {
 		  throw e;
@@ -340,10 +349,8 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
   public  boolean checkSourcePath(IFolder srcFolder) throws Exception {
 		
 			IResource[] res = srcFolder.members();
-			//System.out.println("Nb fichiers mtl :"+res.length);
 			for (int i=0;i<res.length;i++){
 				if ((res[i].getType()==IResource.FILE) && (res[i].toString().endsWith(".mtl"))){
-					//System.out.println(res[i]);
 							return true;
 						}
 					}
@@ -385,23 +392,14 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		String Message=cMessage.getMessage();
 		System.out.println("Message Traité:"+Message);
 		int AntLrTest=Message.indexOf("ANTLRException");
-		//System.out.println("Entrée Create Markers :"+AntLrTest);
-		//Antlr Exception Case
+		
 		if (Message.indexOf("ANTLRException")==0){
 		
 			String messageAll = Message.substring(Message.indexOf(" on ") + 4, Message.length() ); //$NON-NLS-1$
-			//System.out.println("Message All:"+messageAll);
 			String messageFile = messageAll.substring(0, messageAll.indexOf(",")); //$NON-NLS-1$
-			//System.out.println("Message File:"+messageFile);
 			String messageDelta = messageAll.substring(messageAll.indexOf(", ") + 2, messageAll.length()); //$NON-NLS-1$
-			//System.out.println("Message Delta:"+messageDelta);
-			//System.out.println("Message line:"+messageAll.indexOf(" line ")+"Test :"+messageAll.indexOf(":",messageAll.indexOf(" line ")));
 			String messageLine = messageDelta.substring(messageDelta.indexOf("line ")+5 ,messageDelta.indexOf(":")); //$NON-NLS-1$
-			//System.out.println("Message Line:"+messageLine);
 			String messageDesc = messageDelta.substring(messageDelta.indexOf(":",messageDelta.indexOf(":")+1)+1, messageDelta.length()); //$NON-NLS-1$
-			//System.out.println("Message Desc:"+messageDesc);
-		
-
 			Hashtable attributes = new Hashtable();
 			MarkerUtilities.setMessage(attributes, messageDesc);
 			attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
@@ -417,21 +415,17 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			try{
 			
 			String N=messageFile.substring(messageFile.indexOf(MTLCore.getProject().getName())+MTLCore.getProject().getName().length()+1);
-//			System.out.println("File name :"+N+"   cM:"+cMessage.getFileName());
-//			System.out.println("File name1 :"+messageFile.indexOf(MTLCore.getProject().getName()));
-//			System.out.println("File name2 :"+MTLCore.getProject().getName().length()+1);
-//			System.out.println("project :"+MTLCore.getProject().getName());
 			File currFile1=new File(cMessage.getFileName());
-			//IFile currFile=MTLCore.getProject().getFile(cMessage.toString());
-			//IFile currFile2=MTLCore.getProject().getFile(currFile1.getName());
 			String subPath=cMessage.getFileName().substring(MTLCore.getProject().getLocation().toString().length()+1,cMessage.getFileName().length());
 			
 			IFile currFile3=MTLCore.getProject().getFile(currFile1.getAbsolutePath());
 			IFile currFile=MTLCore.getProject().getFile(subPath);
-			System.out.println("Curr File0 :"+subPath+ "Exists :"+currFile+"   "+currFile.exists());
+//			System.out.println("Curr File0 :"+subPath+ "Exists :"+currFile+"   "+currFile.exists());
 //			System.out.println("Curr File :"+currFile.getName());
 //			System.out.println("Curr File1 :"+currFile1.getName()+"  curr2"+currFile2+"   curr3"+currFile3);
+			System.out.println("Enlever les markers sur :"+currFile.getName());
 			currFile.deleteMarkers(IMarker.PROBLEM, false, 0);
+			System.out.println("Créer les markers sur :"+currFile.getName());
 			MarkerUtilities.createMarker(currFile, attributes, IMarker.PROBLEM);
 		
 			//And refresh the compilation unit folder
@@ -443,6 +437,22 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			}
 		}
 
+
+		public void cleanTaskList(){
+			IMarker marker= null;
+		try{
+			IWorkbenchPage page= MTLPlugin.getActivePage();
+			IViewPart view= page.findView("org.eclipse.ui.views.TaskList"); //$NON-NLS-1$
+			if (view instanceof TaskList) {
+			StructuredSelection ss= new StructuredSelection();
+				((TaskList) view).setSelection(ss, true);
+			}
+		}catch(Exception E){
+			// A voir 
+		}
+		}
+
+		
 
 
 }

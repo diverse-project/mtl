@@ -3,7 +3,7 @@
    id="org.inria.mtl.plugin"
    name="%pluginName"
    version="1.0.0"
-   provider-name="Serge DZALE"
+   provider-name="Serge DZALE--IRISA/INRIA Rennes"
    class="org.inria.mtl.plugin.MTLPlugin">
 
    <runtime>
@@ -100,7 +100,7 @@
 <!-- =========================================================================== -->
 <!-- Filtres du navigateur                                                              -->
 <!-- =========================================================================== -->
- <extension
+ <!--<extension
          point="org.eclipse.ui.resourceFilters">
       <filter
             selected="true"
@@ -120,7 +120,7 @@
             selected="true"
             pattern="*.mtlclasspath">
       </filter>
-   </extension>
+   </extension>-->
 <!-- =========================================================================== -->
 <!-- Editor                                                                 -->
 <!-- =========================================================================== -->
@@ -155,10 +155,13 @@
              <separator
                   name="second_separator">
             </separator>
+             <separator
+                  name="third_separator">
+            </separator>
          </menu>
          <action 
                label="%build.all.projects" 
-               icon="icons/xz.gif"
+               icon="icons/cAllProjects.gif"
                tooltip="%tooltip.build.all.projects"
                class="org.inria.mtl.plugin.actions.buildAllAction"
                menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
@@ -170,7 +173,7 @@
          </action>
          <action 
                label="%build.project"
-               icon="icons/xz.gif"
+               icon="icons/cProject.gif"
                tooltip="%tooltip.build.project"
                class="org.inria.mtl.plugin.actions.buildprojectAction"
                menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
@@ -182,7 +185,7 @@
          </action>
          <action 
                label="%build.folder"
-               icon="icons/xz.gif"
+               icon="icons/cFolder.gif"
                tooltip="%tooltip.build.folder"
                class="org.inria.mtl.plugin.actions.buildfolderAction"
                menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
@@ -204,7 +207,7 @@
                icon="icons/fmtl2.gif"
                tooltip="%menu.tooltip.newProject"
                class="org.inria.mtl.plugin.actions.NewProjectWizardAction"
-               menubarPath="org.inria.mtl.plugin.MTLMenu/MTLGroup"
+               menubarPath="org.inria.mtl.plugin.MTLMenu/third_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.plugin.actions.newprojectAction">
          </action>
@@ -592,5 +595,4 @@
             value="true">
       </persistent>
    </extension>
-
 </plugin>

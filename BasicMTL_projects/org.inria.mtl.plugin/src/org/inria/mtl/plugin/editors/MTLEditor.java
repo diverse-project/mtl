@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditor.java,v 1.4 2004-05-19 09:22:36 sdzale Exp $
+* $Id: MTLEditor.java,v 1.5 2004-06-18 14:20:56 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jdt.core.JavaCore;
@@ -117,6 +118,7 @@ import org.eclipse.ui.texteditor.TextOperationAction;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.editors.actions.GenerateActionGroup;
 import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
+import org.inria.mtl.plugin.editors.actions.MTLCompileAction;
 import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
 import org.inria.mtl.plugin.editors.utils.AnnotationType;
 import org.inria.mtl.plugin.editors.utils.FastMTLPartitionScanner;
@@ -1410,6 +1412,24 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 			}
 			return super.getStatusMessage(status);
 		}
+		
+	    /** The <code>MTLEditor</code> implementation of this 
+		 * <code>AbstractTextEditor</code> method performs any extra 
+		 * save behavior required by the MTL editor.
+		 */
+		public void doSave(IProgressMonitor monitor) {
+			super.doSave(monitor);
+			
+			// compile or not, according to the user preferences
+//			if (MTLPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.AUTO_COMPILE)) {
+//				IAction a = MTLCompileAction.getInstance();
+//				if (a != null)
+//					a.run();
+//				super.doSave(monitor);
+//			}else{
+//				//System.out.println("Pas de compil si !Auto_compile");
+//			}
+		}
 	
 		/*
 		 * @see AbstractTextEditor#doSetInput
@@ -1426,14 +1446,7 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		 */
 		public void dispose() {
 
-//			if (isBrowserLikeLinks())
-//				disableBrowserLikeLinks();
-//			
-//			if (fEncodingSupport != null) {
-//					fEncodingSupport.dispose();
-//					fEncodingSupport= null;
-//			}
-//		
+		
 			if (fPropertyChangeListener != null) {
 //				Preferences preferences= JavaCore.getPlugin().getPluginPreferences();
 //				preferences.removePropertyChangeListener(fPropertyChangeListener);
@@ -1450,10 +1463,6 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 				fBracketMatcher= null;
 			}
 		
-//			if (fSelectionHistory != null) {
-//				fSelectionHistory.dispose();
-//				fSelectionHistory= null;
-//			}
 				
 			super.dispose();
 		}
@@ -1465,15 +1474,13 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 	   resAction.setHelpContextId(IAbstractTextEditorHelpContextIds.ADD_TASK_ACTION);
 	   resAction.setActionDefinitionId(ITextEditorActionDefinitionIds.ADD_TASK);
 	   setAction(ITextEditorActionConstants.ADD_TASK, resAction);
-	   //System.out.println(ITextEditorActionDefinitionIds.ADD_TASK);
+	  
 
 	   resAction = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "ShowJavaDoc.", this, ISourceViewer.INFORMATION, true); //$NON-NLS-1$
 	   resAction = new InformationDispatchAction(MTLEditorMessages.getResourceBundle(), "ShowJavaDoc.", (TextOperationAction) resAction); //$NON-NLS-1$
 	   resAction.setActionDefinitionId(MTLEditorActionDefinitionIds.SHOW_JAVADOC);
 	   setAction("ShowJavaDoc", resAction); //$NON-NLS-1$
-	   //System.out.println(MTLEditorActionDefinitionIds.SHOW_JAVADOC);
-	   //						WorkbenchHelp.setHelp(resAction, IJavaHelpContextIds.SHOW_JAVADOC_ACTION);
-
+	  
 	   Action action;
 
 	   setAction(
@@ -1483,15 +1490,13 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		   "ContentAssistTip.",
 		   this,
 		   ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
-		//System.out.println(action.getActionDefinitionId());
+	
 
 	   action = new ContentAssistAction(MTLEditorMessages.getResourceBundle(), "ContentAssistProposal.", this); //$NON-NLS-1$
 	   action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
 	   setAction("ContentAssistProposal", action); //$NON-NLS-1$
 	   markAsStateDependentAction("ContentAssistProposal", true); //$NON-NLS-1$
-	 //  System.out.println(action.getActionDefinitionId());
-	   //	WorkbenchHelp.setHelp(action, IJavaHelpContextIds.CONTENT_ASSIST_ACTION);
-
+	
 	   fEncodingSupport = new DefaultEncodingSupport();
 	   fEncodingSupport.initialize(this);
 
@@ -1499,23 +1504,19 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.COMMENT);
 	   setAction("Comment", action); //$NON-NLS-1$
 	   markAsStateDependentAction("Comment", true); //$NON-NLS-1$
-	   //System.out.println(action.getActionDefinitionId());
-	   //		WorkbenchHelp.setHelp(action, IJavaHelpContextIds.COMMENT_ACTION);
+	  
 
 	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Uncomment.", this, ITextOperationTarget.STRIP_PREFIX); //$NON-NLS-1$
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.UNCOMMENT);
 	   setAction("Uncomment", action); //$NON-NLS-1$
 	   markAsStateDependentAction("Uncomment", true); //$NON-NLS-1$
-	   //System.out.println(action.getActionDefinitionId());
-	   //		WorkbenchHelp.setHelp(action, IJavaHelpContextIds.UNCOMMENT_ACTION);
-
+	  
 	   action = new TextOperationAction(MTLEditorMessages.getResourceBundle(), "Format.", this, ISourceViewer.FORMAT); //$NON-NLS-1$
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.FORMAT);
 	   setAction("Format", action); //$NON-NLS-1$
 	   markAsStateDependentAction("Format", true); //$NON-NLS-1$
 	   markAsSelectionDependentAction("Format", true); //$NON-NLS-1$		
-	   //	WorkbenchHelp.setHelp(action, IJavaHelpContextIds.FORMAT_ACTION);
-
+	  
 	   action = new GotoMatchingBracketAction(this);
 	   action.setActionDefinitionId(MTLEditorActionDefinitionIds.GOTO_MATCHING_BRACKET);
 	   setAction(GotoMatchingBracketAction.GOTO_MATCHING_BRACKET, action);
@@ -1602,15 +1603,7 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 				
 				if (isJavaEditorHoverProperty(property))
 					updateHoverBehavior();
-			
-//				if (BROWSER_LIKE_LINKS.equals(property)) {
-//					if (isBrowserLikeLinks())
-//						enableBrowserLikeLinks();
-//					else
-//						disableBrowserLikeLinks();
-//					return;
-//				}
-			
+
 			} finally {
 				super.handlePreferenceStoreChanged(event);
 			}
@@ -1659,11 +1652,6 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		 * @param event the property change event
 		 */
 		protected void handlePreferencePropertyChanged(org.eclipse.core.runtime.Preferences.PropertyChangeEvent event) {
-//			if (org.eclipse.jdt.ui.PreferenceConstants.COMPILER_TASK_TAGS.equals(event.getProperty())) {
-//				ISourceViewer sourceViewer= getSourceViewer();
-//				if (sourceViewer != null && affectsTextPresentation(new PropertyChangeEvent(event.getSource(), event.getProperty(), event.getOldValue(), event.getNewValue())))
-//					sourceViewer.invalidateTextPresentation();
-//			}
 		}
 	
 		/**
@@ -1791,8 +1779,6 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		 */
 		protected void handleCursorPositionChanged() {
 			super.handleCursorPositionChanged();
-//			if (!isEditingScriptRunning() && fUpdater != null)
-//				fUpdater.post();
 		}
  
 		/**
@@ -1907,8 +1893,7 @@ public abstract class MTLEditor extends StatusTextEditor implements IViewPartInp
 		 */
 		protected void doSetSelection(ISelection selection) {
 		super.doSetSelection(selection);
-//			synchronizeOutlinePageSelection();
-	}
+		}
 
 		/*
 		 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.

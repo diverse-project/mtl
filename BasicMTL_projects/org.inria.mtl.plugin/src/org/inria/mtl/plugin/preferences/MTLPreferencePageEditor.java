@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPreferencePageEditor.java,v 1.4 2004-05-25 09:07:44 sdzale Exp $
+* $Id: MTLPreferencePageEditor.java,v 1.5 2004-06-18 14:20:44 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -85,22 +85,31 @@ public class MTLPreferencePageEditor
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_PRINT_MARGIN),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_PROBLEM_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_PROBLEM_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_WARNING_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_WARNING_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_DEBUG_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_DEBUG_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_FATAL_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_FATAL_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_INFO_INDICATION_COLOR),
-						new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_INFO_INDICATION),						
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_INFO_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_INFO_SHOW_IN_CONSOLE),									
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_TASK_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_TASK_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_TASK_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_BOOKMARK_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_BOOKMARK_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_BOOKMARK_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_SEARCH_RESULT_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING,PreferenceConstants.EDITOR_UNKNOWN_INDICATION_COLOR),
 			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_UNKNOWN_INDICATION),
+			new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN,PreferenceConstants.EDITOR_UNKNOWN_SHOW_IN_CONSOLE),
 			new OverlayPreferenceStore.OverlayKey(
 				OverlayPreferenceStore.BOOLEAN,
 				PreferenceConstants.EDITOR_ERROR_INDICATION_IN_OVERVIEW_RULER),
@@ -171,47 +180,58 @@ public class MTLPreferencePageEditor
 				"Errors",
 				PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_PROBLEM_INDICATION,
-				PreferenceConstants.EDITOR_ERROR_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_ERROR_INDICATION_IN_OVERVIEW_RULER, 
+				PreferenceConstants.EDITOR_PROBLEM_SHOW_IN_CONSOLE
+				},
 			{
 			"Warnings",
 				PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_WARNING_INDICATION,
-				PreferenceConstants.EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_WARNING_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_WARNING_SHOW_IN_CONSOLE },
 			{
 		 	"DEBUG",
 				PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_DEBUG_INDICATION,
-				PreferenceConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_DEBUG_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_DEBUG_SHOW_IN_CONSOLE },
 			{
 			"Fatal",
 				PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_FATAL_INDICATION,
-				PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_FATAL_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_FATAL_SHOW_IN_CONSOLE },
 			{
 			"Info",
 				PreferenceConstants.EDITOR_INFO_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_INFO_INDICATION,
-				PreferenceConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_INFO_INDICATION_IN_OVERVIEW_RULER ,
+				PreferenceConstants.EDITOR_INFO_SHOW_IN_CONSOLE
+				},
 			{
 			"Tasks",
 				PreferenceConstants.EDITOR_TASK_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_TASK_INDICATION,
-				PreferenceConstants.EDITOR_TASK_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_TASK_INDICATION_IN_OVERVIEW_RULER ,
+				PreferenceConstants.EDITOR_TASK_SHOW_IN_CONSOLE},
 				{
 			"Search Results",
 				PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION,
-				PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_SEARCH_RESULT_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_SEARCH_RESULT_SHOW_IN_CONSOLE },
 				{
 			"Bookmarks",
 				PreferenceConstants.EDITOR_BOOKMARK_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_BOOKMARK_INDICATION,
-				PreferenceConstants.EDITOR_BOOKMARK_INDICATION_IN_OVERVIEW_RULER },
+				PreferenceConstants.EDITOR_BOOKMARK_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_BOOKMARK_SHOW_IN_CONSOLE },
 				{
 			"Others",
 				PreferenceConstants.EDITOR_UNKNOWN_INDICATION_COLOR,
 				PreferenceConstants.EDITOR_UNKNOWN_INDICATION,
-				PreferenceConstants.EDITOR_UNKNOWN_INDICATION_IN_OVERVIEW_RULER }
+				PreferenceConstants.EDITOR_UNKNOWN_INDICATION_IN_OVERVIEW_RULER,
+				PreferenceConstants.EDITOR_UNKNOWN_SHOW_IN_CONSOLE }
 	};
 
 	private OverlayPreferenceStore fOverlayStore;
@@ -276,6 +296,7 @@ public class MTLPreferencePageEditor
 	private Control fAutoInsertDelayText;
 		private Button fShowInTextCheckBox;
 	private Button fShowInOverviewRulerCheckBox;
+	private Button fShowInConsoleCheckBox;
 
 
 	public MTLPreferencePageEditor() {
@@ -320,6 +341,10 @@ public class MTLPreferencePageEditor
 		key = fProblemIndicationColorListModel[i][3];
 		fShowInOverviewRulerCheckBox.setSelection(
 			fOverlayStore.getBoolean(key));
+			
+		key = fProblemIndicationColorListModel[i][4];
+		fShowInConsoleCheckBox.setSelection(
+		fOverlayStore.getBoolean(key));
 	}
 
 	private Control createSyntaxPage(Composite parent) {
@@ -560,6 +585,14 @@ public class MTLPreferencePageEditor
 		gd.horizontalAlignment = GridData.BEGINNING;
 		gd.horizontalSpan = 2;
 		fShowInOverviewRulerCheckBox.setLayoutData(gd);
+		
+		fShowInConsoleCheckBox = new Button(optionsComposite, SWT.CHECK);
+		fShowInConsoleCheckBox.setText("Show in console");
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalAlignment = GridData.BEGINNING;
+		gd.horizontalSpan = 2;
+		fShowInConsoleCheckBox.setLayoutData(gd);
+		
 
 		label = new Label(optionsComposite, SWT.LEFT);
 		label.setText("C&olor:");
@@ -611,6 +644,21 @@ public class MTLPreferencePageEditor
 					fShowInOverviewRulerCheckBox.getSelection());
 			}
 		});
+		
+		fShowInConsoleCheckBox
+					.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {
+						// do nothing
+					}
+
+					public void widgetSelected(SelectionEvent e) {
+						int i = fProblemIndicationList.getSelectionIndex();
+						String key = fProblemIndicationColorListModel[i][4];
+						fOverlayStore.setValue(
+							key,
+							fShowInConsoleCheckBox.getSelection());
+					}
+				});
 
 		foregroundColorButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {

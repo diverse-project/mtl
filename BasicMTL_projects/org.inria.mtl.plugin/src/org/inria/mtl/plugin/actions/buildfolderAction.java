@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.5 2004-06-15 15:13:52 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.6 2004-06-18 14:20:38 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -10,6 +10,7 @@ package org.inria.mtl.plugin.actions;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -18,6 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.builders.MTLModel;
 
 public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
@@ -47,24 +49,38 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		Shell shell = new Shell();
 		currentSelection = null;
+		
+	try{
 		if (selection instanceof StructuredSelection)
 			{
+				
 				currentSelection = (StructuredSelection)selection;
 				java.util.Iterator it = currentSelection.iterator();
-				while (it.hasNext())
-								{
-									if (it instanceof IResource){
-									IResource item = (IResource) it.next ();
-									if (item instanceof IFolder){
-										currentProject=item.getProject();
-										srcFolder=(IFolder)item;
-									}
+				
+				while (it.hasNext() )
+				{	
+					System.out.println("Build folder2");
+					IResource item = (IResource) it.next ();
+				//	System.out.println("current :"+currentSelection.toString());
+					if (item instanceof IFolder){
+						currentProject=item.getProject();
+						srcFolder=(IFolder)item;
+																	
+						long oldGen = srcFolder.getModificationStamp();
+						//On fait en sorte que le fichier soit obligatoirement compilé
+						String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
+						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+						boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 										
-
-								}
+						System.out.println("FOLDER ACTION COMPILE:"+srcFolder.getFullPath()+"   "+ oldGen+"  new gen "+newGen);
+						System.out.println("*******************************************************");
 					}
+				}
 			}
-		boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+		
+	}catch(Exception E){
+		System.out.println(E.getMessage());
+	}
 	}
 
 	/**

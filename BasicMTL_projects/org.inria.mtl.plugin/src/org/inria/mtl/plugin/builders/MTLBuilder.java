@@ -1,5 +1,5 @@
 /*
-* $Id: MTLBuilder.java,v 1.2 2004-05-17 10:16:59 sdzale Exp $
+* $Id: MTLBuilder.java,v 1.3 2004-06-18 14:20:34 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -67,6 +67,7 @@ public class MTLBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
+		
 		return null;
 
 	}
