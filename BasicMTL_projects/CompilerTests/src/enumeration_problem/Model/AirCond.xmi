@@ -1,0 +1,839 @@
+<?xml version =  '1.0' encoding = 'ISO-8859-1' ?>
+
+<XMI xmi.version = '1.1' >
+    <XMI.header>
+        <XMI.documentation>
+            <XMI.exporter>Objecteering/UML XMI Module</XMI.exporter>
+            <XMI.exporterVersion>2.1</XMI.exporterVersion>
+        </XMI.documentation>
+    </XMI.header>
+    <XMI.content>
+        <UML:Model xmi.id = 'a3725596256-2'>
+            <UML:ModelElement.name>AirCond</UML:ModelElement.name>
+            <UML:ModelElement.visibility xmi.value = 'public'/>
+            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+            <UML:ModelElement.clientDependency>
+            </UML:ModelElement.clientDependency>
+            <UML:Namespace.ownedElement>
+                <UML:Class xmi.id = 'a3725596256-6'>
+                    <UML:ModelElement.name>System</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3725596256-6_ext'/>    <!-- System -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:Namespace.ownedElement>
+                        <UML:SignalEvent xmi.id = 'a3725596256-71'>
+                            <UML:SignalEvent.signal>
+                                <UML:Signal xmi.idref = 'a3725596256-68' />     <!-- powerButton -->
+                            </UML:SignalEvent.signal>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725596256-71_ext'/>    <!-- powerButton -->
+                            </XMI.extension>
+                        </UML:SignalEvent>
+                        <UML:SignalEvent xmi.id = 'a3725596256-72'>
+                            <UML:SignalEvent.signal>
+                                <UML:Signal xmi.idref = 'a3725596256-69' />     <!-- modeButton -->
+                            </UML:SignalEvent.signal>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725596256-72_ext'/>    <!-- modeButton -->
+                            </XMI.extension>
+                        </UML:SignalEvent>
+                        <UML:SignalEvent xmi.id = 'a3725596256-73'>
+                            <UML:SignalEvent.signal>
+                                <UML:Signal xmi.idref = 'a3725596256-70' />     <!-- speedButton -->
+                            </UML:SignalEvent.signal>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725596256-73_ext'/>    <!-- speedButton -->
+                            </XMI.extension>
+                        </UML:SignalEvent>
+                        <UML:Signal xmi.id = 'a3725596256-68'>
+                            <UML:ModelElement.name>powerButton</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal powerButton's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-69'>
+                            <UML:ModelElement.name>modeButton</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal modeButton's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-70'>
+                            <UML:ModelElement.name>speedButton</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal speedButton's ownedElement -->
+                        </UML:Signal>
+                    </UML:Namespace.ownedElement>	<!-- End Class System's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Operation xmi.id = 'a3725596256-74'>
+                            <UML:ModelElement.name>setCoolerMode</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-76'>
+                            <UML:ModelElement.name>setHeaterMode</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-78'>
+                            <UML:ModelElement.name>setHighSpeed</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-80'>
+                            <UML:ModelElement.name>setLowSpeed</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-82'>
+                            <UML:ModelElement.name>start</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-84'>
+                            <UML:ModelElement.name>stop</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-231'>
+                            <UML:ModelElement.name>signalModeButton</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-233'>
+                            <UML:ModelElement.name>signalPowerButton</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-235'>
+                            <UML:ModelElement.name>signalSpeedButton</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Interface xmi.id = 'a3725596256-160'>
+                    <UML:ModelElement.name>State</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'true'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3725596256-160_ext'/>    <!-- State -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:ModelElement.stereotype>
+                    </UML:ModelElement.stereotype>
+                    <UML:Namespace.ownedElement>
+                    </UML:Namespace.ownedElement>	<!-- End Class State's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Operation xmi.id = 'a3725596256-162'>
+                            <UML:ModelElement.name>entry</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-164'>
+                            <UML:ModelElement.name>exit</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = 'a3725596256-166'>
+                            <UML:ModelElement.name>do</UML:ModelElement.name>
+                            <UML:BehavioralFeature.isQuery xmi.value = 'false' />
+                            <UML:Operation.concurrency xmi.value = 'concurrent' />
+                            <UML:Operation.isLeaf xmi.value = 'false' />
+                            <UML:Operation.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:BehavioralFeature.parameter>
+                            </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                    </UML:Classifier.feature>
+                </UML:Interface>
+                <UML:Class xmi.id = 'a3725596256-244'>
+                    <UML:ModelElement.name>GUI</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3725596256-244_ext'/>    <!-- GUI -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:Namespace.ownedElement>
+                        <UML:Signal xmi.id = 'a3725596256-268'>
+                            <UML:ModelElement.name>powerOn</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal powerOn's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-269'>
+                            <UML:ModelElement.name>powerOff</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal powerOff's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-270'>
+                            <UML:ModelElement.name>CoolerMode</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal CoolerMode's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-271'>
+                            <UML:ModelElement.name>HeaterMode</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal HeaterMode's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-272'>
+                            <UML:ModelElement.name>HighSpeed</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal HighSpeed's ownedElement -->
+                        </UML:Signal>
+                        <UML:Signal xmi.id = 'a3725596256-273'>
+                            <UML:ModelElement.name>LowSpeed</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:Namespace.ownedElement>
+                            </UML:Namespace.ownedElement>	<!-- End Signal LowSpeed's ownedElement -->
+                        </UML:Signal>
+                    </UML:Namespace.ownedElement>	<!-- End Class GUI's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Association xmi.id = 'a3725596256-255'>
+                    <UML:ModelElement.name>_undefined_controler</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3725596256-256'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725596256-256_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3725596256-244' />     <!-- GUI -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3725596256-257'>
+                            <UML:ModelElement.name>controler</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725596256-257_ext'/>    <!-- controler -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3725596256-6' />     <!-- System -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+            </UML:Namespace.ownedElement>	<!-- End Package AirCond's ownedElement -->
+            <UML:Namespace.ownedElement>
+                <!-- StateMachine -->
+                <UML:StateMachine xmi.id = 'a3725596256-9'>
+                    <UML:ModelElement.name>SystemSM</UML:ModelElement.name>
+                    <UML:StateMachine.context>
+                        <UML:ModelElement xmi.idref = 'a3725596256-6' />     <!-- System -->
+                    </UML:StateMachine.context>
+                    <!-- TopState of the StateMachine -->
+                    <UML:StateMachine.top>
+                        <UML:CompositeState xmi.id = 'a3725596256-10'>
+                            <UML:ModelElement.name>StateMachine</UML:ModelElement.name>
+                            <UML:CompositeState.isConcurrent xmi.value = 'false'/>
+                            <UML:CompositeState.subvertex>
+                                <UML:SimpleState xmi.id = 'a3725596256-16'>
+                                    <UML:ModelElement.name>Stop</UML:ModelElement.name>
+                                    <UML:StateVertex.container>
+                                        <UML:CompositeState xmi.idref = 'a3725596256-10' />     <!-- StateMachine -->
+                                    </UML:StateVertex.container>
+                                    <UML:StateVertex.outgoing>
+                                        <UML:Transition xmi.idref = 'a3725596256-47' />     <!-- Transition -->
+                                    </UML:StateVertex.outgoing>
+                                    <UML:StateVertex.incoming>
+                                        <UML:Transition xmi.idref = 'a3725596256-22' />     <!-- Transition -->
+                                    </UML:StateVertex.incoming>
+                                    <UML:StateVertex.incoming>
+                                        <UML:Transition xmi.idref = 'a3725596256-45' />     <!-- Transition -->
+                                    </UML:StateVertex.incoming>
+                                    <UML:State.entry>
+                                    </UML:State.entry>
+                                </UML:SimpleState>
+                            </UML:CompositeState.subvertex>
+                            <UML:CompositeState.subvertex>
+                                <UML:CompositeState xmi.id = 'a3725596256-18'>
+                                    <UML:ModelElement.name>Operating</UML:ModelElement.name>
+                                    <UML:CompositeState.isConcurrent xmi.value = 'true'/>
+                                    <UML:StateVertex.container>
+                                        <UML:CompositeState xmi.idref = 'a3725596256-10' />     <!-- StateMachine -->
+                                    </UML:StateVertex.container>
+                                    <UML:StateVertex.outgoing>
+                                        <UML:Transition xmi.idref = 'a3725596256-45' />     <!-- Transition -->
+                                    </UML:StateVertex.outgoing>
+                                    <UML:CompositeState.subvertex>
+                                        <UML:CompositeState xmi.id = 'a3725596256-24'>
+                                            <UML:ModelElement.name>Mode</UML:ModelElement.name>
+                                            <UML:CompositeState.isConcurrent xmi.value = 'false'/>
+                                            <UML:StateVertex.container>
+                                                <UML:CompositeState xmi.idref = 'a3725596256-18' />     <!-- Operating -->
+                                            </UML:StateVertex.container>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:SimpleState xmi.id = 'a3725596256-29'>
+                                                    <UML:ModelElement.name>Heater</UML:ModelElement.name>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-24' />     <!-- Mode -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-62' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-60' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:State.entry>
+                                                    </UML:State.entry>
+                                                </UML:SimpleState>
+                                            </UML:CompositeState.subvertex>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:SimpleState xmi.id = 'a3725596256-33'>
+                                                    <UML:ModelElement.name>Cooler</UML:ModelElement.name>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-24' />     <!-- Mode -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-60' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-62' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-64' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:State.entry>
+                                                    </UML:State.entry>
+                                                </UML:SimpleState>
+                                            </UML:CompositeState.subvertex>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:Pseudostate xmi.id = 'a3725596256-35'>
+                                                    <UML:ModelElement.name>ShallowHistory</UML:ModelElement.name>
+                                                    <UML:Pseudostate.kind  xmi.value = 'shallowHistory'/>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-24' />     <!-- Mode -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-64' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-49' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                </UML:Pseudostate>
+                                            </UML:CompositeState.subvertex>
+                                            <UML:State.entry>
+                                            </UML:State.entry>
+                                        </UML:CompositeState>
+                                    </UML:CompositeState.subvertex>
+                                    <UML:CompositeState.subvertex>
+                                        <UML:CompositeState xmi.id = 'a3725596256-27'>
+                                            <UML:ModelElement.name>Speed</UML:ModelElement.name>
+                                            <UML:CompositeState.isConcurrent xmi.value = 'false'/>
+                                            <UML:StateVertex.container>
+                                                <UML:CompositeState xmi.idref = 'a3725596256-18' />     <!-- Operating -->
+                                            </UML:StateVertex.container>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:SimpleState xmi.id = 'a3725596256-39'>
+                                                    <UML:ModelElement.name>Low</UML:ModelElement.name>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-27' />     <!-- Speed -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-56' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-58' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-66' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:State.entry>
+                                                    </UML:State.entry>
+                                                </UML:SimpleState>
+                                            </UML:CompositeState.subvertex>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:SimpleState xmi.id = 'a3725596256-41'>
+                                                    <UML:ModelElement.name>High</UML:ModelElement.name>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-27' />     <!-- Speed -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-58' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-56' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                    <UML:State.entry>
+                                                    </UML:State.entry>
+                                                </UML:SimpleState>
+                                            </UML:CompositeState.subvertex>
+                                            <UML:CompositeState.subvertex>
+                                                <UML:Pseudostate xmi.id = 'a3725596256-37'>
+                                                    <UML:ModelElement.name>ShallowHistory</UML:ModelElement.name>
+                                                    <UML:Pseudostate.kind  xmi.value = 'shallowHistory'/>
+                                                    <UML:StateVertex.container>
+                                                        <UML:CompositeState xmi.idref = 'a3725596256-27' />     <!-- Speed -->
+                                                    </UML:StateVertex.container>
+                                                    <UML:StateVertex.outgoing>
+                                                        <UML:Transition xmi.idref = 'a3725596256-66' />     <!-- Transition -->
+                                                    </UML:StateVertex.outgoing>
+                                                    <UML:StateVertex.incoming>
+                                                        <UML:Transition xmi.idref = 'a3725596256-51' />     <!-- Transition -->
+                                                    </UML:StateVertex.incoming>
+                                                </UML:Pseudostate>
+                                            </UML:CompositeState.subvertex>
+                                        </UML:CompositeState>
+                                    </UML:CompositeState.subvertex>
+                                </UML:CompositeState>
+                            </UML:CompositeState.subvertex>
+                            <UML:CompositeState.subvertex>
+                                <UML:Pseudostate xmi.id = 'a3725596256-14'>
+                                    <UML:ModelElement.name>Initial</UML:ModelElement.name>
+                                    <UML:Pseudostate.kind  xmi.value = 'initial'/>
+                                    <UML:StateVertex.container>
+                                        <UML:CompositeState xmi.idref = 'a3725596256-10' />     <!-- StateMachine -->
+                                    </UML:StateVertex.container>
+                                    <UML:StateVertex.outgoing>
+                                        <UML:Transition xmi.idref = 'a3725596256-22' />     <!-- Transition -->
+                                    </UML:StateVertex.outgoing>
+                                </UML:Pseudostate>
+                            </UML:CompositeState.subvertex>
+                            <UML:CompositeState.subvertex>
+                                <UML:Pseudostate xmi.id = 'a3725596256-43'>
+                                    <UML:ModelElement.name>Fork</UML:ModelElement.name>
+                                    <UML:Pseudostate.kind  xmi.value = 'fork'/>
+                                    <UML:StateVertex.container>
+                                        <UML:CompositeState xmi.idref = 'a3725596256-10' />     <!-- StateMachine -->
+                                    </UML:StateVertex.container>
+                                    <UML:StateVertex.outgoing>
+                                        <UML:Transition xmi.idref = 'a3725596256-49' />     <!-- Transition -->
+                                    </UML:StateVertex.outgoing>
+                                    <UML:StateVertex.outgoing>
+                                        <UML:Transition xmi.idref = 'a3725596256-51' />     <!-- Transition -->
+                                    </UML:StateVertex.outgoing>
+                                    <UML:StateVertex.incoming>
+                                        <UML:Transition xmi.idref = 'a3725596256-47' />     <!-- Transition -->
+                                    </UML:StateVertex.incoming>
+                                </UML:Pseudostate>
+                            </UML:CompositeState.subvertex>
+                        </UML:CompositeState>
+                    </UML:StateMachine.top>
+                    <!-- Transitions of the StateMachine -->
+                    <UML:StateMachine.transitions>
+                        <UML:Transition xmi.id = 'a3725596256-47'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-71' />     <!-- powerButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-16' />     <!-- Stop -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-43' />     <!-- Fork -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-47_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-82' />     <!-- start -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-45'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-71' />     <!-- powerButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-18' />     <!-- Operating -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-16' />     <!-- Stop -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-45_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-84' />     <!-- stop -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-62'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-72' />     <!-- modeButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-29' />     <!-- Heater -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-33' />     <!-- Cooler -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-62_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-74' />     <!-- setCoolerMode -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-60'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-72' />     <!-- modeButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-33' />     <!-- Cooler -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-29' />     <!-- Heater -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-60_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-76' />     <!-- setHeaterMode -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-64'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-35' />     <!-- ShallowHistory -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-33' />     <!-- Cooler -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-56'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-73' />     <!-- speedButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-39' />     <!-- Low -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-41' />     <!-- High -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-56_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-78' />     <!-- setHighSpeed -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-58'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.trigger>
+                                <UML:Event xmi.idref = 'a3725596256-73' />     <!-- speedButton -->
+                            </UML:Transition.trigger>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-41' />     <!-- High -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-39' />     <!-- Low -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                            <UML:Transition.effect>
+                                <UML:CallAction xmi.id = 'a3725596256-58_action'>
+                                    <UML:CallAction.operation>
+                                        <UML:Operation xmi.idref = 'a3725596256-80' />     <!-- setLowSpeed -->
+                                    </UML:CallAction.operation>
+                                </UML:CallAction>
+                            </UML:Transition.effect>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-66'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-37' />     <!-- ShallowHistory -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-39' />     <!-- Low -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-22'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-14' />     <!-- Initial -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-16' />     <!-- Stop -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-49'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-43' />     <!-- Fork -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-35' />     <!-- ShallowHistory -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                        </UML:Transition>
+                        <UML:Transition xmi.id = 'a3725596256-51'>
+                            <UML:ModelElement.name></UML:ModelElement.name>
+                            <UML:Transition.source>
+                                <UML:StateVertex xmi.idref = 'a3725596256-43' />     <!-- Fork -->
+                            </UML:Transition.source>
+                            <UML:Transition.target>
+                                <UML:StateVertex xmi.idref = 'a3725596256-37' />     <!-- ShallowHistory -->
+                            </UML:Transition.target>
+                            <UML:Transition.guard>
+                            </UML:Transition.guard>
+                        </UML:Transition>
+                    </UML:StateMachine.transitions>
+                </UML:StateMachine>
+                <!-- Stereotypes -->
+                <UML:Stereotype xmi.id = 'a0-40002'>
+                    <UML:ModelElement.name>interface</UML:ModelElement.name>
+                    <UML:Stereotype.icon>res/bmp/st_interface.bmp</UML:Stereotype.icon>
+                    <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+                </UML:Stereotype>
+                <!-- Predefined types -->
+                <UML:DataType xmi.id = 'a4-13'>
+                    <UML:ModelElement.name>String</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-7'>
+                    <UML:ModelElement.name>Char</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-9'>
+                    <UML:ModelElement.name>Integer</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-11'>
+                    <UML:ModelElement.name>Real</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-5'>
+                    <UML:ModelElement.name>Boolean</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-15'>
+                    <UML:ModelElement.name>Undefined</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+            </UML:Namespace.ownedElement>	<!-- End Package AirCond's ownedElement -->
+        </UML:Model>
+    </XMI.content>
+</XMI>

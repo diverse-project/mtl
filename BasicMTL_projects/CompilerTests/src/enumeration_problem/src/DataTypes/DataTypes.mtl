@@ -1,0 +1,72 @@
+
+
+library DataTypes;
+
+
+model UML : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver    : MDRDriver;
+
+
+main() : Standard::Void
+{
+
+	mdrdriver         : MDRDriver::MDRModelManager;
+	metamodelFilename, inputFilename, outputFilename 	: Standard::String; 
+
+	vTrans 	:	VisibilityTransformation;
+	path : Standard::String;
+	
+	// we define some filenames 
+	path := 'src/enumeration_problem';
+	metamodelFilename := path.concat('MetaModel/UML_metamodel.xmi');
+	inputFilename     := path.concat('Model/AirCond.xmi');
+	outputFilename    := path.concat('Model/AirCond_changed.xmi');
+
+	// we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	UML := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'UML',			// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', // name of the new model in the repository
+		inputFilename,
+		outputFilename
+	);		
+		
+	'Debut de la transformation ...'.toOut();	
+	
+	vTrans :=  new VisibilityTransformation();
+	vTrans.run();
+	
+	'That s all folks !'.toOut();
+}
+
+
+class VisibilityTransformation
+{
+
+	run(){
+		setVisibility(!UML::Data_Types::VisibilityKind!.vk_private);	
+	}
+	
+	
+	setVisibility(v	:	UML::Data_Types::VisibilityKind){
+		theVisibility : UML::Data_Types::VisibilityKind;
+		
+		theVisibility	:=	v;
+	}
+		
+		
+}
+
+/*
+	Compiling 4 source files to Z:\doc\dev\Problems\build\bin
+  	Z:\doc\dev\Problems\build\src\DataTypes\BMTL_VisibilityTransformation.java:94: 
+  		BMTL_setVisibility(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLModelElementInterface) in DataTypes.BMTL_VisibilityTransformationInterface 
+  		cannot be applied to 
+  		(org.irisa.triskell.MT.DataTypes.Java.Value)
+*/
+
+
