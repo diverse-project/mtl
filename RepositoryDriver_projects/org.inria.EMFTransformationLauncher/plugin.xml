@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 <plugin
    id="org.inria.EMFTransformationLauncher"
    name="EMFTransformationLauncher Plug-in"
@@ -7,15 +8,18 @@
    class="org.inria.EMFTransformationLauncher.EMFTransformationLauncherPlugin">
 
    <runtime>
-      <library name="EMFTransformationLauncher.jar"/>
+      <library name="EMFTransformationLauncher.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
-      <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.inria.EMFDriver"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="EMFDriverTest"/>
       <import plugin="library"/>
       <import plugin="library.edit"/>
@@ -36,10 +40,10 @@
             </separator>
          </menu>
          <action
-               label="&amp;Launch Transformation"
+               label="&amp;RunTransformation"
                icon="icons/sample.gif"
-               tooltip="Hello, Eclipse world"
                class="org.inria.EMFTransformationLauncher.actions.SampleAction"
+               tooltip="Hello, Eclipse world"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="org.inria.EMFTransformationLauncher.actions.SampleAction">

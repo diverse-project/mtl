@@ -8,15 +8,14 @@
 	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/openide-lookup.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
-	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
-	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/JUnit/junit.jar"/>
-	<classpathentry kind="src" path="src/"/>
-	<classpathentry kind="src" path="build/src/"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="build/src"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/nbmdr.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

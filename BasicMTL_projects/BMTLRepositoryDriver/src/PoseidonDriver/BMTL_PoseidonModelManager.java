@@ -1,7 +1,7 @@
-/* $Id: BMTL_PoseidonModelManager.java,v 1.2 2004-10-08 14:35:57 jpthibau Exp $
+/* $Id: BMTL_PoseidonModelManager.java,v 1.3 2004-10-08 15:58:35 jpthibau Exp $
  * Created on 25 août 2003
  */
-package MDRDriver;
+package PoseidonDriver;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;

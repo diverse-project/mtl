@@ -3,8 +3,6 @@
 	<name>org.inria.EMFTransformationLauncher</name>
 	<comment></comment>
 	<projects>
-		<project>EMFDriverTest</project>
-		<project>org.inria.EMFDriver</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
