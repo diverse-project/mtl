@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.10 2004-10-28 07:24:07 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.11 2005-01-12 13:37:59 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -128,11 +128,14 @@
   		<copy  todir="${dist}/bin/ThirdParty/JMI">
   			<fileset file="${MDRDriver}/ThirdParty/MDR/official/mof.jar"/>
   		</copy>
-<!--  		<copy  todir="${dist}/bin/ThirdParty/MDR">
-  			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
+  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  			<fileset dir="${MDRDriver}/ThirdParty/MDR/official"/>
   		</copy>
   		<copy  todir="${dist}/bin/ThirdParty/ModFact">
   			<fileset dir="${ModFactDriver}/ThirdParty/ModFact"/>
+  		</copy>
+<!--  		<copy  todir="${dist}/bin/ThirdParty/MDR">
+  			<fileset dir="${MDRDriver}/dist/bin/ThirdParty/MDR"/>
   		</copy>
   		<copy  todir="${dist}/bin/ThirdParty/EMF">
   			<fileset dir="${EMFDriver}/ThirdParty/EMF"/>
