@@ -127,7 +127,10 @@ abstract public class MTLElement implements IWorkbenchAdapter, IAdaptable, MTLEl
 
 	public boolean sharesParentWith(MTLElement anElement)
 	{
-		if(parent == null) {
+		if (anElement == null)	{
+			return false;
+		}
+		if (parent == null) {
 			return anElement.getParent() == null;
 		}
 		
