@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.3 2004-08-31 13:46:06 sdzale Exp $
+* $Id: MTLCodeGenerator.java,v 1.4 2004-09-08 08:37:14 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -132,6 +132,8 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		IFolder outputF = model.getOutputFolder();
 			
 		IFolder javasrcAll =outputF.getFolder(model.getJavaFolder().getName());
+		if (!javasrcAll.exists())
+			javasrcAll.create(true, true, null);
 		IFolder binjava = outputF.getFolder(model.getBinJavaFolder().getName());
 		IFolder mtlsrc=srcmtlFolder;
 		IFolder javasrcProj=javasrcAll.getFolder(mtlsrc.getName());
@@ -273,6 +275,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		System.out.println("Generating tll and java objects for " + mtlsrc.getName() + "...");
 		//initialiser le vecteur des messages
 		MSGHandler.reinit();
+		MSGHandler.debug(this.getClass(),276,"MTLPlugin: Generating tll and java objects for " + mtlsrc.getName() + "...");
 	    //Call the MTL Compiler here
 		// Mise à jour du compilateur
 //		File cFile = new File(BasicMTLc_jar);
@@ -305,6 +308,11 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			String logFile=MTLPlugin.getDefault().getLocation();
 			logFile=logFile.concat("\\MTL\\bin\\log4j_configuration.xml");
 			DOMConfigurator.configure (logFile);
+			MSGHandler.debug(this.getClass(),309,"MTLPlugin: sourceDir=" + sourceDir);
+			MSGHandler.debug(this.getClass(),309,"MTLPlugin: defaultPackagePrefix=" + defaultPackagePrefix);
+			MSGHandler.debug(this.getClass(),309,"MTLPlugin: tllDestDir=" + tllDestDir);
+			MSGHandler.debug(this.getClass(),309,"MTLPlugin: Runtime_TLL_path=" + Runtime_TLL_path);
+			MSGHandler.debug(this.getClass(),309,"MTLPlugin: javaDestDir=" + javaDestDir);
 			Comp.compileFromDirectory(sourceDir,defaultPackagePrefix,tllDestDir,Runtime_TLL_path,javaDestDir);
 	      	System.out.println("Compilation "+sourceDir+"  OK");
 		  }catch (Exception E){
