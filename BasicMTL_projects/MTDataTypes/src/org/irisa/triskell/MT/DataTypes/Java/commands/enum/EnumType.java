@@ -37,7 +37,11 @@ public class EnumType extends PrimitiveType {
 	private transient CollectionValue allInstances = null;
 	
 	public EnumType (String [] parts) {
-		super(makeName(parts), new Type [] {OclAnyType.TheInstance});
+		this(parts, new Type [] {OclAnyType.TheInstance});
+	}
+	
+	protected EnumType (String [] parts, Type [] ancestors) {
+		super(makeName(parts), ancestors);
 		this.parts = parts;
 	}
 

@@ -26,6 +26,7 @@ public class EnumCommandGroup extends CommandGroupImpl {
 	
 	public EnumCommandGroup(EnumType type) {
 		super(type, Arrays.asList(new CommandGroup [] {OclAnyCommandGroup.TheInstance}));
+		this.addCommand(enum_name.TheInstance);
 	}
 
 }
