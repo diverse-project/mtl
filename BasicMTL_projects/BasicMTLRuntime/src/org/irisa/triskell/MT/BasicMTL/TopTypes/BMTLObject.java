@@ -142,4 +142,8 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 		return "" + Integer.toHexString(this.hashCode()) + " : " + this.getType();
 	}
 
+	public BMTLBooleanInterface BMTL_isNull(Value v) {
+		return v == null ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
 }

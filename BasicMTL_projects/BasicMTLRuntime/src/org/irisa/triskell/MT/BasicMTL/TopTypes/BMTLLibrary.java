@@ -55,5 +55,7 @@ public abstract class BMTLLibrary extends BMTLObject implements BMTLLibInterface
 		this.allClassInstances(className).remove(instance);
 	}
 	
-	public void delete() {}
+	public final void delete() {
+	}
+
 }

@@ -39,31 +39,31 @@ public class BMTLIterator extends BMTLOclAny implements BMTLIteratorInterface {
 	}
 
 	public BMTLVoidInterface BMTL_start() {
-		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(Iterator_start.TheInstance.invoke(this, null));
+		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(Iterator_start.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLBooleanInterface BMTL_isOff() {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_isOff.TheInstance.invoke(this, null));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_isOff.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLBooleanInterface BMTL_isOn() {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_isOn.TheInstance.invoke(this, null));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_isOn.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLBooleanInterface BMTL_hasNext() {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_hasNext.TheInstance.invoke(this, null));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Iterator_hasNext.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLOclAnyInterface BMTL_item() {
-		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_item.TheInstance.invoke(this, null));
+		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_item.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLVoidInterface BMTL_next() {
-		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(Iterator_next.TheInstance.invoke(this, null));
+		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(Iterator_next.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 	public BMTLOclAnyInterface BMTL_nextItem() {
-		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_next.TheInstance.invoke(this, null));
+		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_next.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 }

@@ -25,7 +25,11 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
+import org.irisa.triskell.MT.repository.API.Java.API;
+import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
+import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.ModelRole;
 
 /**
  * @author ffondeme
