@@ -1,10 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**
   * An operation call. If the operation retuens a value, this expression is this value, else it remains in an undefined value. If the operation raises an exception, this operation call raises this exceptioni within the context of this instruction. This is a side effect instruction if calling a side effect operation.

@@ -1,10 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
+
 
 /**
   * The usual concept of attribute. It is defined within a class and has a type. Its name is deterministic within the class.
@@ -13,6 +9,9 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 public class Attribute 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature
 {
+    /**
+      * This is the Operation declared to be a getter method for this Attribute
+      */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getter;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getGetter () {
         return this.getter;
@@ -25,6 +24,9 @@ public class Attribute
         else return 1;
     }
 
+    /**
+      * This is the operation that is declared to be the setter method for this attribute.
+      */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation setter;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getSetter () {
         return this.setter;

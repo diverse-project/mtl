@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: VarDeclarationAnalyser.java,v 1.3 2004-02-16 17:32:59 dvojtise Exp $
+ * $Id: VarDeclarationAnalyser.java,v 1.4 2004-04-01 12:54:52 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -30,9 +30,13 @@ public class VarDeclarationAnalyser extends ASTTopDownVisitor.VarDeclarationAnal
 		int lineNumber=-1000; //do we have to add a lineNumber Property ?
 //		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		VarDeclaration theCreatedVarDeclaration=new VarDeclaration(varName,mangle,false,lineNumber);
+		// transmit the file name and line number to the new var for traceability.
+		theCreatedVarDeclaration.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
+		theCreatedVarDeclaration.createNewProperty("FileName",ASTnode.getProperty("FileName").getValue(),"String");
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		Property varType=(Property)ASTnode.getProperty("Type");
 		QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)varType.getValue(),theCreatedLib);
+		type.appendTypeForVarDeclarations(theCreatedVarDeclaration);
 		theCreatedVarDeclaration.setType(type);
 		context.put("VarDeclaration",theCreatedVarDeclaration);
 	}

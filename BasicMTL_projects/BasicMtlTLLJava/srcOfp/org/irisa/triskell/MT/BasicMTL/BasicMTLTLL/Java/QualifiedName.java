@@ -1,14 +1,53 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.util.Vector;
 
 public class QualifiedName 
     extends java.util.Vector
 {
+    /**
+      * Origin of the QualifiedName. In this case, this may be a variable declaration.
+      */
+    public Vector typeForVarDeclarations = new Vector();
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration getTypeForVarDeclarations (int i) {
+        return (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration)this.typeForVarDeclarations.elementAt(i);
+    }
+    public void setTypeForVarDeclarations (int i, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value) {
+        this.typeForVarDeclarations.setElementAt(value, i);
+    }
+    public void appendTypeForVarDeclarations (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value) {
+        this.typeForVarDeclarations.addElement(value);
+    }
+    public void eraseTypeForVarDeclarations (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value)  {
+        this.typeForVarDeclarations.removeElement(value);
+    }
+    public void eraseTypeForVarDeclarations (int i)  {
+        this.typeForVarDeclarations.removeElementAt(i);
+    }
+    public int cardTypeForVarDeclarations () {
+        return this.typeForVarDeclarations.size();
+    }
+
+    public Vector typeForFeatures = new Vector();
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature getTypeForFeatures (int i) {
+        return (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature)this.typeForFeatures.elementAt(i);
+    }
+    public void setTypeForFeatures (int i, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature value) {
+        this.typeForFeatures.setElementAt(value, i);
+    }
+    public void appendTypeForFeatures (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature value) {
+        this.typeForFeatures.addElement(value);
+    }
+    public void eraseTypeForFeatures (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature value)  {
+        this.typeForFeatures.removeElement(value);
+    }
+    public void eraseTypeForFeatures (int i)  {
+        this.typeForFeatures.removeElementAt(i);
+    }
+    public int cardTypeForFeatures () {
+        return this.typeForFeatures.size();
+    }
+
     public boolean isLocalType;
     public boolean getIsLocalType () {
         return this.isLocalType;

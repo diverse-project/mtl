@@ -1,8 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
+
 
 /**
   * A view described by a Basic MTL library. Source parameters for binding must be compatible: it must also be a TypedModelRef, typed by the same BasicMTLLibrary ore one of its sub-libraries.

@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: OperationAnalyser.java,v 1.5 2004-02-16 17:32:58 dvojtise Exp $
+ * $Id: OperationAnalyser.java,v 1.6 2004-04-01 12:54:52 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -33,10 +33,14 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 		boolean throwException=ASTnode.getThrowsException();
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		Operation theCreatedOp=new Operation(operationName,mangle,throwException,isConstructor,lineNumber);
+		//		transmit the file name and line number to the new var for traceability.
+		theCreatedOp.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
+		theCreatedOp.createNewProperty("FileName",ASTnode.getProperty("FileName").getValue(),"String");
 		if (! isConstructor) {
 			Property returnedType=(Property)ASTnode.getProperty("returnedType");
 			BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 			QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)returnedType.getValue(),theCreatedLib);
+			type.appendTypeForFeatures(theCreatedOp);
 			theCreatedOp.setFeatureType(type);}
 		context.put("CurrentOperation",theCreatedOp);
 		context.put("DeclaredParametersandVars",new java.util.Vector());

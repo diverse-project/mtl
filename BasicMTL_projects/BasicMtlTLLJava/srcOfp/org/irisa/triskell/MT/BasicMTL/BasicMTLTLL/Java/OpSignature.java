@@ -1,10 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.io.Serializable;
 
 public class OpSignature 
     implements java.io.Serializable

@@ -1,10 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
-import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
+
 
 /**
   * Accessible variable for the implementation of the owning operation / catch. A variable is defined by its name (unique within the operation and the catch if owner) and its type. During the execution, a variable contains a value whose type is compatible (that is is of a class or subclass of the type of the variable). This name cannot be null or self.
@@ -13,7 +9,7 @@ public class VarDeclaration
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.ASTNode
 {
     /**
-      * The type of the variable.
+      * The type of the variable as a QualifiedName.
       */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName getType () {

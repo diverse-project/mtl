@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: AttributeAnalyser.java,v 1.3 2004-02-16 17:32:59 dvojtise Exp $
+ * $Id: AttributeAnalyser.java,v 1.4 2004-04-01 12:54:52 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -15,8 +15,6 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 /**
  * @author jpthibau
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class AttributeAnalyser extends ASTTopDownVisitor.AttributeAnalyser {
 
@@ -29,9 +27,13 @@ public class AttributeAnalyser extends ASTTopDownVisitor.AttributeAnalyser {
 		else mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		Attribute theCreatedAttribute=new Attribute(attributeName,mangle,lineNumber);
+		// transmit the file name and line number to the new attribute for traceability.
+		theCreatedAttribute.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
+		theCreatedAttribute.createNewProperty("FileName",ASTnode.getProperty("FileName").getValue(),"String");
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		Property attributeType=(Property)ASTnode.getProperty("Type");
 		QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)attributeType.getValue(),theCreatedLib);
+		type.appendTypeForFeatures(theCreatedAttribute);
 		theCreatedAttribute.setFeatureType(type);
 		context.put("Attribute",theCreatedAttribute);
 			

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.5 2003-12-16 07:55:50 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.6 2004-04-01 12:54:55 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -8,13 +8,11 @@ package antlr2ASTView;
 /**
  * @author jpthibau
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
-import java.io.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Vector;
+// import java.io.*;
+// import java.util.Arrays;
+// import java.util.Collection;
+// import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
@@ -28,7 +26,7 @@ import BasicMtlASTWithAssociationView.*;
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import org.irisa.triskell.MT.utils.Java.Directories;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
+//import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
@@ -36,11 +34,11 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLInteger;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLOrderedSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLReal;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.BasicMTL.TopTypes.*;
+//import org.irisa.triskell.MT.BasicMTL.TopTypes.*;
 
 public class antlr2astView implements ANTLRWalkerActionsInterface {
 
@@ -53,9 +51,14 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 	private BMTL_LibraryInterface theBuiltAST=null;
 	private boolean hasInheritance=false;
 	private boolean hasAssociation=false;
+	private String currentFile;
 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
-{ return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); }
+{ 
+	// save the origin filename for traceability
+	currentFile = fileName;
+	return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); 
+}
 
 public static void main(String[] args)
 {	try {
@@ -301,6 +304,8 @@ public Object attribute(Object localVarDef,java.util.Vector tags)
 		attrib.set_BMTL_decoration(((BMTL_VarDeclaration)declaredVars.get(i)).get_BMTL_decoration());
 		try {
 		putTags((BMTL_ASTNodeInterface)attrib,tags);
+		putProperty((BMTL_ASTNodeInterface)attrib,new BMTLString("FileName"),new BMTLString(currentFile),"StringTag");
+		
 		} catch (Throwable e) {e.printStackTrace();}
 		declaredAttributes.addElement(attrib);
 	}
@@ -319,7 +324,9 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	java.util.Vector params=(java.util.Vector)parameters;
 	BMTL_Operation node=(BMTL_Operation)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Operation"})).instanciate();
 	node.set_BMTL_name(new BMTLString(methodName));
+			
 	try {
+			
 	if (parameters !=null) {
 	for(i=0;i<params.size();i++) {
 		java.util.Vector typedVars=(java.util.Vector)params.get(i);
@@ -328,6 +335,8 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 			var.set_BMTL_name(new BMTLString((String)typedVars.get(j)));
 			var.set_BMTL_isFormalParameter(BMTLBoolean.TRUE);
 			putProperty((BMTL_ASTNodeInterface)var,new BMTLString("Type"),(java.util.Vector)typedVars.get(0),"TypeTag");
+			putProperty((BMTL_ASTNodeInterface)var,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+			putProperty((BMTL_ASTNodeInterface)var,new BMTLString("FileName"),new BMTLString(currentFile),"StringTag");
 			node.BMTL_appendParameters(var); 
 		}
 	}
@@ -351,6 +360,8 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	if (throwsException != null) node.set_BMTL_throwsExceptionValue(BMTLBoolean.TRUE);
 	else  node.set_BMTL_throwsExceptionValue(BMTLBoolean.FALSE);
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("FileName"),new BMTLString(currentFile),"StringTag");
+	
 	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
@@ -365,6 +376,7 @@ public Object varsDeclaration(Object typedVars,String lineNumber)
 		try {
 		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("Type"),(java.util.Vector)typedVarsList.get(0),"TypeTag");
 		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("FileName"),new BMTLString(currentFile),"StringTag");
 		} catch (Throwable e) {e.printStackTrace();}
 		declaredVars.addElement(var);
 	}

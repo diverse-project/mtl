@@ -1,10 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**
   * A branch beween two sequences of instructions according to a condition.

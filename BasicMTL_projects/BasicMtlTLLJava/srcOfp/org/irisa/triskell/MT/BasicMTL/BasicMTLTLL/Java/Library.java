@@ -1,11 +1,6 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
-import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.io.IOException;
+
 
 /**
   * A library is the stakeholder for classes. It may also contains operations. Its name is deterministic within the collection of all accessible libraries.
@@ -118,7 +113,7 @@ java.io.ObjectInputStream in;
 		try { in=new java.io.ObjectInputStream(new java.io.FileInputStream(Filename));
 					 Lib=(org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library)in.readObject();
 					 in.close();
-			  } catch(Exception e) { }//System.err.println("Load: inputstream problem=>"+Filename); }	
+			  } catch(Exception e) {} //System.err.println("Load: inputstream problem=>"+Filename); }	
  return(Lib);
     }
 
