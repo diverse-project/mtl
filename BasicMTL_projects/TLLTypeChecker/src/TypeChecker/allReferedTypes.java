@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.22 2004-10-18 16:01:30 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.23 2004-11-04 16:32:49 edrezen Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -19,13 +19,20 @@ import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
+import CompilerEvents.CompilerMessageFactory;
+
 /**
  * @author jpthibau
  *
  * This class give tools to verify that the types refered in a library exist 
  * (either in this library or in another which has been allready compiled).
  */
-public class allReferedTypes {
+public class allReferedTypes extends CompilerObservable
+{
+	// we define a Singleton (see [GOF])
+	static final private allReferedTypes singleton = new allReferedTypes ();
+	static public allReferedTypes instance() { return singleton; }
+	
 	static final Logger log=MSGHandler.init();
 	
 	static int errors;
@@ -323,21 +330,41 @@ public class allReferedTypes {
 				else if (checkExternLibName(aType,firstName,theLib)) return true;
 					else 
 					{
-						log.error("Unknown Local Type: "+firstName);
+						boolean found = false;
+						
+						log.error("Unknown Local Type : "+firstName);
 						log.debug("   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
+						
 						// retreive the location where this QualifiedName was used
 						for(int i =0; i < aType.cardTypeForVarDeclarations(); i++)
 						{
-							log.error("   " +
-								aType.getTypeForVarDeclarations(i).getProperty("FileName").getValue() + ", line " +
-								aType.getTypeForVarDeclarations(i).getProperty("LineNumber").getValue());
+							VarDeclaration item = aType.getTypeForVarDeclarations(i);
+							String fileName   = (String) item.getProperty("FileName").getValue();
+							String lineNumber = (String) item.getProperty("LineNumber").getValue();
+							log.error("   " + fileName + ", line " + lineNumber);
+
+							// we build a message and send it to potential observers
+							CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownTypeInVarDeclaration (item));
+							found = true;
 						}
 						for(int i =0; i < aType.cardTypeForFeatures(); i++)
 						{
-							log.error("   " +
-								aType.getTypeForFeatures(i).getProperty("FileName").getValue() + ", line " +
-								aType.getTypeForFeatures(i).getProperty("LineNumber").getValue());
+							Feature item = aType.getTypeForFeatures(i);
+							String fileName   = (String) item.getProperty("FileName").getValue();
+							String lineNumber = (String) item.getProperty("LineNumber").getValue();
+							log.error("   " + fileName + ", line " + lineNumber);
+
+							// we build a message and send it to potential observers
+							CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownTypeInFeature (item));
+							found = true;
 						}
+
+						if (found==false)
+						{
+							// we build a message and send it to potential observers
+							CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownLocalType(aType));
+						}
+
 						errors++;
 					} 
 				}
@@ -345,8 +372,15 @@ public class allReferedTypes {
 				if (aType.size()==2) {
 					/*if (checkStandardLib(aType,firstName)) return true;
 					else*/ if (checkTLLClass(aType,firstName,theLib)) return true;
-						else { log.error("Extern class type not found:"+firstName + "::" +aType.get(1));
-								errors++;} 
+						else 
+						{ 
+							log.error("Extern class type not found:"+firstName + "::" +aType.get(1));
+
+							// we build a message and send it to potential observers
+							CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownExternType (aType));
+							
+							errors++;
+						} 
 				}
 				else //type which is not a model element and has more than 2 components
 					//Certainly a mistake !
@@ -358,6 +392,10 @@ public class allReferedTypes {
 					for(int j=0;j<aType.size();j++)
 						typeComponentMsg+="<"+aType.get(j)+"> ";
 					log.error(typeComponentMsg);
+
+					// we build a message and send it to potential observers
+					CompilerMessageFactory.instance().notifyObservers (CompilerMessageFactory.instance().createUnknownExternType (aType));
+					
 					errors++;
 				}
 		return false;

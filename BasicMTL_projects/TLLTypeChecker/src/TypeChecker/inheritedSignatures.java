@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.15 2004-10-18 16:01:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.16 2004-11-04 16:32:49 edrezen Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -10,6 +10,11 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAcces
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.apache.log4j.Logger;
+
+import CompilerEvents.CompilerMessage;
+import CompilerEvents.CompilerMessageFactory;
+
+
 
 /**
  * @author jpthibau
@@ -91,6 +96,10 @@ public class inheritedSignatures {
 								 ", argument count:"+Integer.toString(parentSignature.getArgsCount()));
 						log.warn("  origin 1:"+parentSignature.getTypeWhichDefineOp()+", origin 2:"+compatible_present.get(2)); 
 						log.warn("  Consider to overload it. Ex: "+parentSignature.getOpName()+"(...){self.oclAsType(!inherited_type!)."+parentSignature.getOpName()+"(...);}");
+						
+						// we build a message and send it to potential observers
+						CompilerMessage msg = CompilerMessageFactory.instance().createMultipleInheritanceIndeterminism (aClass, parentSignature, (QualifiedName) compatible_present.get(2));
+						CompilerMessageFactory.instance().notifyObservers (msg);
 				}
 		    }  
 		}
@@ -153,6 +162,11 @@ public class inheritedSignatures {
 					return addSignatures(aClass,parentClass,origin,relayer, theLib);}
 		}
 	log.error("the inherited parent"+parentName+" can't be resolved !");
+	
+	// we build a message and send it to potential observers
+	CompilerMessage msg = CompilerMessageFactory.instance().createUnknownInheritedParent (parentName, null);
+	CompilerMessageFactory.instance().notifyObservers (msg);
+	
 	return true; 
 	}
 
@@ -170,6 +184,11 @@ public class inheritedSignatures {
 			}
 		}
 		log.error("the inherited parent class "+parentName+"::"+className+" can't be resolved !");
+
+		// we build a message and send it to potential observers
+		CompilerMessage msg = CompilerMessageFactory.instance().createUnknownInheritedParent (parentName, className);
+		CompilerMessageFactory.instance().notifyObservers (msg);
+		
 		return true; 
 	}
 	
@@ -237,6 +256,10 @@ public class inheritedSignatures {
 			{	log.error("There are errors or there is an inheritance loop between following classes");
 				for (int i=0;i<remainingUnsolved.size();i++)
 					log.error(((UserDefinedClass)remainingUnsolved.get(i)).getName());
+				
+				// we build a message and send it to potential observers
+				CompilerMessage msg = CompilerMessageFactory.instance().createInheritanceLoopMessage (remainingUnsolved);
+				CompilerMessageFactory.instance().notifyObservers (msg);
 			} 
 		return remainingUnsolved.size();
 	}
