@@ -1,0 +1,21 @@
+library HelloWorld;
+
+class Hello {
+	_msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		_msg := msg;
+	}
+	
+	run() : Standard::Void {
+		_msg.toOut();
+	}
+	
+}
+
+main() : Standard::Void	{
+	hw : HelloWorld::Hello;
+	hw := new HelloWorld::Hello();
+	hw.init('plop');
+	hw.run();
+}
