@@ -1,5 +1,5 @@
 /*
-* $Id: SourcesPage.java,v 1.2 2004-08-26 12:40:48 sdzale Exp $
+* $Id: SourcesPage.java,v 1.3 2005-02-08 15:44:30 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -105,6 +105,13 @@ public class SourcesPage extends BuildPathBasePage {
 		
 		fFoldersList.setViewerSorter(new CPListElementSorter());
 		fFoldersList.enableButton(IDX_EDIT, false);
+		
+		//DVK
+		fOutputLocationField = new StringDialogField();
+		fOutputLocationField.setDialogFieldListener(adapter);
+		fOutputLocationField.setLabelText(NewWizardMessages.getString("BuildPathsBlock.buildpath.label")); //$NON-NLS-1$
+		
+		
 	
 	}
 	
@@ -149,7 +156,7 @@ public class SourcesPage extends BuildPathBasePage {
 		
 		try
 		{
-			LayoutUtil.doDefaultLayout(composite, new DialogField[] { fFoldersList}, true);
+			LayoutUtil.doDefaultLayout(composite, new DialogField[] { fFoldersList, fOutputLocationField}, true);
 			LayoutUtil.setHorizontalGrabbing(fFoldersList.getTreeControl(null));
 		}
 		catch (Exception E){
@@ -181,7 +188,12 @@ public class SourcesPage extends BuildPathBasePage {
 		return MTLPlugin.getActiveWorkbenchShell();
 	}
 	
-	
+	private class OutputContainerAdapter implements IDialogFieldListener {
+//		 ---------- IDialogFieldListener --------
+		public void dialogFieldChanged(DialogField field) {
+			sourcePageDialogFieldChanged(field);
+		}
+	}
 	private class SourceContainerAdapter implements ITreeListAdapter, IDialogFieldListener {
 	
 		private final Object[] EMPTY_ARR= new Object[0];
@@ -436,9 +448,14 @@ public class SourcesPage extends BuildPathBasePage {
 			fFoldersList.refresh();
 		} else if (field == fFoldersList) {
 			updateClasspathList();
+		} else if (field == fOutputLocationField)
+		{
+			updateOutputpath();
 		}
 	}	
-	
+	private void updateOutputpath() {
+		System.out.println("new output value" + fOutputLocationField.getText() );
+	}
 		
 	private void updateClasspathList() {
 		List cpelements= fClassPathList.getElements();
