@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="library" id="platform:/resource/library/src/model/library.ecore#/" metadata="emf-1.0" initialized="true" tag="5" key="3230303430373139206C696272617279">
+  <children xsi:type="editmodel:EnumerationEditModel" name="BookCategory" location="453,50" size="132,93" id="platform:/resource/library/src/model/library.ecore#//BookCategory">
+    <children xsi:type="editmodel:CompartmentEditModel" size="102,54">
+      <children xsi:type="editmodel:EnumerationLiteralEditModel" name="Mystery" id="platform:/resource/library/src/model/library.ecore#//BookCategory/Mystery">
+        <model href="library.ecore#//BookCategory/Mystery"/>
+      </children>
+      <children xsi:type="editmodel:EnumerationLiteralEditModel" name="ScienceFiction" id="platform:/resource/library/src/model/library.ecore#//BookCategory/ScienceFiction">
+        <model href="library.ecore#//BookCategory/ScienceFiction"/>
+      </children>
+      <children xsi:type="editmodel:EnumerationLiteralEditModel" name="Biography" id="platform:/resource/library/src/model/library.ecore#//BookCategory/Biography">
+        <model href="library.ecore#//BookCategory/Biography"/>
+      </children>
+    </children>
+    <model href="library.ecore#//BookCategory"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.1" name="Book" location="50,244" size="160,93" id="platform:/resource/library/src/model/library.ecore#//Book">
+    <children xsi:type="editmodel:CompartmentEditModel" size="137,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="category" id="platform:/resource/library/src/model/library.ecore#//Book/category">
+        <model href="library.ecore#//Book/category"/>
+      </children>
+      <children xsi:type="editmodel:AttributeEditModel" name="pages" id="platform:/resource/library/src/model/library.ecore#//Book/pages">
+        <model href="library.ecore#//Book/pages"/>
+      </children>
+      <children xsi:type="editmodel:AttributeEditModel" name="title" id="platform:/resource/library/src/model/library.ecore#//Book/title">
+        <model href="library.ecore#//Book/title"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" source="//@children.1" target="//@children.2" targetEnd="//@children.1/@sourceConnections.0/@children.1" sourceEnd="//@children.1/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan" autoLocated="true">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="books" location="140,0" id="platform:/resource/library/src/model/library.ecore#//Writer/books" attachSource="true" multiplicityLabel="//@children.1/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.0/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name="books" location="153,223" size="30,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..*" location="197,223" size="17,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <model href="library.ecore#//Writer/books"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="author" location="0,37" id="platform:/resource/library/src/model/library.ecore#//Book/author" multiplicityLabel="//@children.1/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name="author" location="164,66" size="32,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="189,94" size="7,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <model href="library.ecore#//Book/author"/>
+      </children>
+    </sourceConnections>
+    <model href="library.ecore#//Book"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.3/@sourceConnections.0" name="Writer" location="203,50" size="109,57" id="platform:/resource/library/src/model/library.ecore#//Writer">
+    <children xsi:type="editmodel:CompartmentEditModel" size="86,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="name" id="platform:/resource/library/src/model/library.ecore#//Writer/name">
+        <model href="library.ecore#//Writer/name"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <model href="library.ecore#//Writer"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Library" location="294,279" size="109,57" id="platform:/resource/library/src/model/library.ecore#//Library">
+    <children xsi:type="editmodel:CompartmentEditModel" size="86,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="name" id="platform:/resource/library/src/model/library.ecore#//Library/name">
+        <model href="library.ecore#//Library/name"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" source="//@children.3" target="//@children.2" targetEnd="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan" autoLocated="true">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="writers" location="99,57" id="platform:/resource/library/src/model/library.ecore#//Library/writers" multiplicityLabel="//@children.3/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.3/@sourceConnections.0/@children.0/@children.0" aggregationKind="Composition" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name="writers" location="309,114" size="36,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..*" location="278,114" size="17,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <model href="library.ecore#//Library/writers"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="8,0" attachSource="true"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" source="//@children.3" target="//@children.1" targetEnd="//@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan" autoLocated="true">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="books" location="160,63" id="platform:/resource/library/src/model/library.ecore#//Library/books" multiplicityLabel="//@children.3/@sourceConnections.1/@children.0/@children.1" roleLabel="//@children.3/@sourceConnections.1/@children.0/@children.0" aggregationKind="Composition" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name="books" location="217,286" size="30,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..*" location="217,314" size="17,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <model href="library.ecore#//Library/books"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,28" attachSource="true"/>
+    </sourceConnections>
+    <model href="library.ecore#//Library"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <model href="library.ecore#/"/>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=3"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:EMFClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true"/>
+</editmodel:ClassDiagramEditModel>
