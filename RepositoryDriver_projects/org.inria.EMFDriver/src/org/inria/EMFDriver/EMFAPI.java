@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.6 2004-09-08 07:07:41 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.7 2004-09-08 11:40:01 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
@@ -527,10 +528,17 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 		if (object instanceof Float) 
 			return new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl(false, null, ((Float)object).floatValue());
 		if (object instanceof EObject) {
-			String [] objectType = new String[2];
+			Vector objectTypeNames=new Vector();
+			objectTypeNames.add(((EObject)object).eClass().getName());
+			EPackage includingPackage = ((EObject)object).eClass().getEPackage();
+			while (includingPackage.getESuperPackage()!=null) {
+				objectTypeNames.add(includingPackage.getName());
+				includingPackage=includingPackage.getESuperPackage();
+			}
+			String [] objectType = new String[objectTypeNames.size()];
 			EMFMetaClass metaclass = null;
-			objectType[0] = ((EObject)object).eContainmentFeature().getContainerClass().getName();
-			objectType[1] = ((EObject)object).eClass().getName();
+			for (int i=0;i<objectTypeNames.size();i++)
+				objectType[i] = (String)objectTypeNames.get(i);
 			try {
 				metaclass = (EMFMetaClass)this.getMetaClass(objectType);
 			} catch (UnknownElementException e) {return new EMFException(e.getMessage(),this); }
