@@ -7,4 +7,10 @@ public interface AttributeEvent
 {
 
      org.irisa.triskell.MT.repository.API.Java.AttributeEventKind getKind();
+
+     org.irisa.triskell.MT.DataTypes.Java.StringValue getAttributeName();
+
+     org.irisa.triskell.MT.DataTypes.Java.Value getNewValue();
+
+     org.irisa.triskell.MT.DataTypes.Java.Value getOldValue();
 }
