@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.1 2004-10-25 12:32:16 dvojtise Exp $
+ * $Id: MDRAPI.java,v 1.2 2004-10-29 07:02:11 jpthibau Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -33,8 +33,8 @@ import org.netbeans.api.mdr.events.MDRChangeListener;
   * Notions of reference and AssociationEnd are specific to MOF 1.x
   */
 public class MDRAPI 
-	extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI
-    implements org.irisa.triskell.MT.repository.API.Java.API
+extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI
+implements org.irisa.triskell.MT.repository.API.Java.API
 {
  /*   protected static final javax.jmi.xmi.XmiReader reader;
     public static javax.jmi.xmi.XmiReader getReader () {
@@ -520,4 +520,62 @@ static {
 
 }
 
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#equals(org.irisa.triskell.MT.DataTypes.Java.Value)
+ */
+public boolean equals(Value rhs) {
+	// TODO Auto-generated method stub
+	return false;
 }
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#getErrorMessage()
+ */
+public String getErrorMessage() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#getType()
+ */
+public Type getType() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#isUndefined()
+ */
+public boolean isUndefined() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#invoke(java.lang.String[], java.lang.String, org.irisa.triskell.MT.DataTypes.Java.Value[], java.lang.String[])
+ */
+public Value invoke(String[] scopeQualifiedName, String name,
+		Value[] arguments, String[] discriminants)
+		throws UnknownCommandException, MultipleCommandException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#accept(org.irisa.triskell.MT.DataTypes.Java.ValueVisitor)
+ */
+public void accept(ValueVisitor visitor) {
+	visitor.visitRepositoryAPIValue(this);
+
+}
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue#getTheRepositoryAPI()
+ */
+public String getTheRepositoryAPI() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+}
+

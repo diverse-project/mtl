@@ -2,7 +2,9 @@ package org.irisa.triskell.MT.repository.API.Java;
 
 import java.lang.Exception;
 
-public interface API 
+import org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue;
+
+public interface API extends RepositoryAPIValue 
 {
 
      org.irisa.triskell.MT.repository.API.Java.MetaClass getMetaClass(

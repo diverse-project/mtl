@@ -1,5 +1,5 @@
 /*
- * $Id: JMIAPI.java,v 1.1 2004-10-25 12:32:52 dvojtise Exp $
+ * $Id: JMIAPI.java,v 1.2 2004-10-29 07:01:50 jpthibau Exp $
  * Authors : ffondeme dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -391,6 +391,12 @@ public abstract class JMIAPI
 			}
         }
 
+        public void visitRepositoryAPIValue(
+                org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue value)
+            {
+    				throw new RuntimeException("Unimplemented method visitRepositoryAPI in genericJMI JMIAPI");
+            }
+        
         public void visitTupleValue(
             org.irisa.triskell.MT.DataTypes.Java.TupleValue value)
         {
