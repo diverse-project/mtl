@@ -1,4 +1,4 @@
-// $Id: SetTests.mtl,v 1.1 2004-01-16 14:16:55 dvojtise Exp $
+// $Id: SetTests.mtl,v 1.2 2004-01-22 12:25:34 dvojtise Exp $
 // This class tests various points on the Set implementation with MTL
 
 library test1Library1;
@@ -14,11 +14,13 @@ class SetTests
 		nbErrors := 0;
 		'starting Set tests'.toOut();
 		testSerie1();
+		testSerie2();
 		
-		if nbErrors.[<](0)
+		if nbErrors.[>](0)
 		{
 			throws 'Set Tests detected some errors !!! please checks the log';
-		}		
+		}	
+		nbErrors.toOut();	
 		'Set tests done'.toOut();
 	}
 
@@ -97,7 +99,78 @@ class SetTests
 		}
 	}
 
-
+	/* test on intersection and symmetricDifference */
+	testSerie2()
+	{
+		aLocalSet1, aLocalSet2 	: Standard::Set;
+		aLocalSet3, aLocalSet4 	: Standard::Set;
+		// exceptionThrown : Standard::Boolean;
+		
+		'Set testSerie2 ...'.toOut();
+		
+		aLocalSet1 := new Standard::Set();
+		aLocalSet2 := new Standard::Set();
+		
+		aLocalSet1 := aLocalSet1.including('1');
+		aLocalSet1 := aLocalSet1.including('2');
+		aLocalSet1 := aLocalSet1.including('3');
+		aLocalSet1 := aLocalSet1.including('4');
+		
+		aLocalSet2 := aLocalSet2.including('2');
+		aLocalSet2 := aLocalSet2.including('3');
+		aLocalSet2 := aLocalSet2.including('4');
+		aLocalSet2 := aLocalSet2.including('5');
+		
+		// ----------------------------
+		aLocalSet3 := aLocalSet1.intersection(aLocalSet2);		
+		if aLocalSet3.size().[=](3)
+		{	
+			'intersection size matches'.toOut();
+			if aLocalSet3.includes('2').and(aLocalSet3.includes('3').and(aLocalSet3.includes('4')))
+			{
+				'intersection includes 2, 3 and 4'.toOut();			
+			}
+			else
+			{
+				'intersection DOESN\'T include 2, 3 and 4'.toErr();
+				nbErrors := nbErrors.[+](1);
+			}
+		}
+		else
+		{
+			'intersection size doesn\'t match !'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		// ----------------------------
+		aLocalSet4 := aLocalSet1.symmetricDifference(aLocalSet2);		
+		aLocalSet1.toOut();
+		aLocalSet2.toOut();
+		aLocalSet3.toOut();
+		aLocalSet4.toOut();
+		if aLocalSet4.size().[=](2)
+		{	
+			'symmetricDifference size matches'.toOut();
+			if aLocalSet4.includes('1').and(aLocalSet4.includes('5'))
+			{
+				'symmetricDifference includes 1 and 5'.toOut();			
+			}
+			else
+			{
+				'symmetricDifference DOESN\'T include 1 and 5'.toErr();
+				nbErrors := nbErrors.[+](1);
+			}
+		}
+		else
+		{
+			'symmetricDifference size doesn\'t match !'.toErr();
+			aLocalSet4.size().toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		
+		'Set testSerie2 ok'.toOut();		
+	}
 
 
 }
