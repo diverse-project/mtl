@@ -63,7 +63,7 @@ abstract public class MDRFeatured
     	MDRMetaFeature f = null, g = null;
     	MDRMetaClass c = null;
 		List discs = Arrays.asList(discriminants == null ? new Object [0] : discriminants);
-		boolean setAttribute = discs.contains(ModelElement.AttributeDiscriminant);
+		boolean setAttribute = discs.contains(ModelElement.SetAttributeDiscriminant);
 		boolean attribute = discs.contains(ModelElement.AttributeDiscriminant);
 		boolean associationEnd = discs.contains(ModelElement.AssociationDiscriminant);
 		boolean operation = discs.contains(ModelElement.OperationDiscriminant);

@@ -246,7 +246,8 @@ public class Test
 		ModelElement att = null;
 		while (attributes.hasNext()) {
 			att = attributes.next();
-			att.setAttributeValue(null, vis, priv);
+//			att.setAttributeValue(null, vis, priv);
+			att.invoke(null, vis.getName(), new Value [] {priv}, new String [] {ModelElement.SetAttributeDiscriminant});
 			//Accessor response from driver is abandonned
 //			att.invoke(null, "set_visibility", new Value [] {priv}, new String [] {ModelElement.OperationDiscriminant});
 			if (! priv.equals(att.invoke(null, "visibility", null, null)))
