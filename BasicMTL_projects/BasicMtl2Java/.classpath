@@ -20,7 +20,6 @@
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_CORE_RUNTIME"/>
-	<classpathentry kind="var" path="ECLKIPSE_UI_WORKBENCH"/>
 	<classpathentry kind="var" path="EMF_COMMON"/>
 	<classpathentry kind="var" path="EMF_EDIT"/>
 	<classpathentry kind="var" path="EMF_ECORE"/>
@@ -28,5 +27,6 @@
 	<classpathentry kind="var" path="ECLIPSE_JFACE"/>
 	<classpathentry kind="lib" path="LibAssociation/dist/bin/ThirdParty/JUnit/junit.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_OSGI"/>
+	<classpathentry kind="var" path="ECLIPSE_UI_WORKBENCH"/>
 	<classpathentry kind="output" path="LibAssociation/bin"/>
 </classpath>
