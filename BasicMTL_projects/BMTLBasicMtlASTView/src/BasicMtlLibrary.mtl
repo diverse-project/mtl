@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.4 2003-12-08 11:23:29 jpthibau Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.5 2003-12-11 17:20:50 edrezen Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -139,6 +139,7 @@
 	while librariesNames.isOn() {
 		aLibName := librariesNames.item().oclAsType(!Standard::OrderedSet!);
 		inheritedClasses := self.allKnownClasses(aLibName);
+		if isNull(inheritedClasses).[not]() {
 		classes := inheritedClasses.getNewIterator();
 		classes.start();
 		while classes.isOn() {
@@ -146,6 +147,7 @@
 			if isRefined(aClassName,refinedClasses).[not]()
 				{	addClass(aClassName); }
 			classes.next();
+		}
 		}
 		librariesNames.next();
 	}
