@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.1 2003-08-08 15:41:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.2 2003-08-09 16:02:07 jpthibau Exp $
  * Created on 4 août 2003
  *
  */
@@ -36,8 +36,8 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 					outputForClass.println("public VoidValueImpl set_"+ASTnode.getMangle()+" ("+type.getExternCompleteName()+" value)");
 					outputForClass.println("{ this."+ASTnode.getMangle()+"=value;");
 					outputForClass.println("return VoidValueImpl.getTheInstance(); }\n");
-					outputForInterface.println("public "+type.getExternCompleteName()+" get_"+ASTnode.getMangle()+"() throws org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException, org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;");
-					outputForInterface.println("public VoidValueImpl set_"+ASTnode.getMangle()+" ("+type.getExternCompleteName()+" value) throws org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException, org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;");
+					outputForInterface.println("public "+type.getExternCompleteName()+" get_"+ASTnode.getMangle()+"();");
+					outputForInterface.println("public VoidValueImpl set_"+ASTnode.getMangle()+" ("+type.getExternCompleteName()+" value);");
 				} 
 			else if (type.getIsModelType())
 					{	if (type.getIsRepositoryModel())

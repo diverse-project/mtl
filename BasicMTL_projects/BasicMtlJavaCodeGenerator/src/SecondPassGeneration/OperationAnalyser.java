@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.1 2003-08-08 15:41:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.2 2003-08-09 16:02:07 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -58,9 +58,11 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		QualifiedName type=ASTnode.getFeatureType();
-		if ((type.size() > 1 )
-			&& (((String)type.get(0)).equals("Standard"))
-			&& (((String)type.get(1)).equals("void")))
+		if (((type.size()==1)
+				&& ((String)type.get(0)).equals("Void"))
+			|| ((type.size() > 1 )
+				&& ((String)type.get(0)).equals("Standard")
+				&& ((String)type.get(1)).equals("Void")))
 				outputForClass.println("return VoidValueImpl.getTheInstance(); }\n\n");
 		else outputForClass.println("}\n\n");
 	}
