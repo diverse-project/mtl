@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.6 2004-03-16 14:31:51 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.7 2004-03-31 12:49:15 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -76,3 +76,4 @@ endif
 
 \rm /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/*.zip
 cp $BASE/BasicMtl2Java/LibAssociation/dist/*.zip /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/
+ln -s /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/*.zip /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/BasicMTLc_latest.zip
