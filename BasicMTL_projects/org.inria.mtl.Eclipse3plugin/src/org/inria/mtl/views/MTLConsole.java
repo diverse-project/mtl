@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.2 2004-08-26 12:40:47 sdzale Exp $
+* $Id: MTLConsole.java,v 1.3 2004-09-10 13:46:41 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -143,7 +143,7 @@ public class MTLConsole extends ViewPart {
 					int k=Controller.getInstance().getLogfile().toArray().length;	
 					Object[] oo = contentProvider.getElements(null);
 					int i = viewer.getTable().getItemCount();
-					System.out.println(viewer.getTable().getItems().toString());
+					//System.out.println(viewer.getTable().getItems().toString());
 					Object o = oo[i];
 					viewer.add(o);
 					viewer.getTable().getItem(i).setBackground(new Color(getDisplay(), getRowBackgroundRGB((Entry) o, i)));
