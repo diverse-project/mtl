@@ -1,0 +1,118 @@
+<!-- $Id: build.xml,v 1.1 2004-01-21 13:44:27 edrezen Exp $ -->
+<project name="MultipleInheritence" default="compile" basedir=".">
+	<description>
+        Build file for the AssociaionTry sample
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="src" location="."/>
+	<property name="builtbin" location="../../bin"/>
+	<property name="builtsrc" location="../../build/src/MultipleInheritence"/>
+	
+	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation/dist"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
+
+	<!-- The compilation tool -->
+	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+
+	<!-- The runtime environment -->
+	<property name="MTLcompiler.Runtime" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	
+	<path id="current.class.path">
+	  	<pathelement path="${MTLcompiler.Runtime}"/>
+	</path>
+	  	
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	<!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+	<!--           ( and the project name )               -->
+	<!-- ************************************************ -->
+	<!-- set sample properties for this build -->
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/Runtime/src/TLL/"/>
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directories structures used by compile -->
+	    <mkdir dir="${builtsrc}"/>
+	    <mkdir dir="${builtbin}"/> 
+	</target>
+
+  
+	<target name="clean"
+        description="clean up intermediate files" >
+    	<!-- Delete the ${builtsrc}, {$builtbin} and  directory trees -->
+    	<delete file="${builtsrc}/TLL/${Sample Package}.tll"/>    
+    	<delete dir="${Sample built src}"/>    
+    	<delete dir="${builtbin}/${Sample Package}"/>    
+  	</target>
+
+
+  	<target name="compile_function" description="compile all the sources in .class files" depends="init">
+  		<!-- generate java files from the mtl files -->
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
+			<sysproperty key="TEMPLATEPATH" value="${MTLcompiler.jar.path}/"/>
+	         <arg value="${Sample src Folder}"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${builtsrc}/TLL/"/>  
+	         <arg value="-TLLLoadingPaths"/>
+	         <arg value="${Sample Loaded TLL}"/>
+	         <arg value="-PackageName"/> 
+	         <arg value="${Sample Package}"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${Sample built src}"/> 
+       	</java> 
+       	
+  		<!-- final java compile -->
+  		<javac srcdir="${Sample built src}" 
+    	    destdir="${builtbin}"
+   			debug="true">
+   			<classpath >
+   				<pathelement path="${MTLcompiler.path}/bin"/>
+   				<path refid="current.class.path"/> 
+   			</classpath>
+   		</javac>
+  	</target>
+
+
+  	<target name="compile" depends="init">
+
+		<antcall target="compile_function">
+			<param name="Sample src Folder" value="./view/"/>
+		 	<param name="Sample Package"    value="view"/>
+			<param name="Sample built src"  value="${builtsrc}/view/"/>
+		</antcall>
+
+		<antcall target="compile_function">
+			<param name="Sample src Folder" value="./adapter/"/>
+		 	<param name="Sample Package"    value="adapter"/>
+			<param name="Sample built src"  value="${builtsrc}/adapter/"/>
+		</antcall>
+
+		<antcall target="compile_function">
+			<param name="Sample src Folder" value="./main/"/>
+		 	<param name="Sample Package"    value="main"/>
+			<param name="Sample built src"  value="${builtsrc}/main/"/>
+		</antcall>
+
+  	</target>
+
+
+  	<target name="run MultipleInheritence" description="run the MultipleInheritence program">
+
+		<java classname="main.BMTLLib_Main" fork="true" failonerror="yes">
+		<arg value="-h"/>
+		<classpath>
+			<pathelement path="${builtbin}/"/>
+			<pathelement path="${MTLcompiler.Runtime}"/>
+   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
+		</classpath>
+       	</java> 
+	</target>
+  	
+</project>
