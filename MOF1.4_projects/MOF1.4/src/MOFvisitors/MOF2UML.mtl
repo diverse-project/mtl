@@ -1,0 +1,329 @@
+/******************************************************************************
+ * $Id: MOF2UML.mtl,v 1.1 2004-03-17 15:42:08 edrezen Exp $
+ ******************************************************************************/
+
+library MOFvisitors;
+
+model UML  : RepositoryModel;
+
+/******************************************************************************/
+
+/** */
+class UML2MOFVisitorResult extends VisitorResult
+{
+	init () : VisitorResult
+	{
+		this.oclAsType(!VisitorResult!).init();
+		return this;
+	}
+	
+	add (elt : Standard::OclAny) : VisitorResult
+	{
+		return this.oclAsType (!VisitorResult!).add (elt);
+	}
+}
+
+
+/** */
+class UML2MOFVisitorResultFactory extends VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new UML2MOFVisitorResult().init ();
+	}
+}
+
+
+/******************************************************************************/
+
+class MOF2UMLVisitor extends ModelVisitor
+{
+	tool : UMLutils::UMLhelper;
+
+	/** */
+	init (
+		umlModel : RepositoryModel;  
+		umlTool : UMLutils::UMLhelper
+	) : MOF2UMLVisitor
+	{
+		UML  := umlModel;
+		tool := umlTool;
+
+		this.oclAsType(!ModelVisitor!).init (new UML2MOFVisitorResultFactory());
+
+		return this;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitPackage (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		thePackage : MOFview::Package;
+		result     : MOFvisitors::VisitorResult;
+		umlOwner   : UML::Core::Namespace;
+		umlValue   : UML::Core::Namespace;
+
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+		
+		// we retrieve the object		
+		thePackage := instance.oclAsType (!MOFview::Package!);
+
+		thePackage.getName().toOut();
+
+		if (isNull(thePackage.getContainer()))
+		{
+			umlValue := tool.createAndAddPackage (thePackage.getName(), null);
+			thePackage.set (umlValue);
+			result.add (umlValue);
+		}
+		else
+		{
+			// we retrieve the UML owner of the package
+			umlOwner := thePackage.getContainer().build(this,null).oclAsType (!UML::Core::Namespace!); 
+			result.add (tool.createAndAddPackage (thePackage.getName(), umlOwner) );
+		}
+
+		// we call the parent
+		this.oclAsType(!ModelVisitor!).visitPackage (instance, context);
+
+		return umlValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass  : MOFview::Class;
+		result    : MOFvisitors::VisitorResult;
+		umlOwner  : UML::Core::Namespace;
+		umlValue   : UML::Core::Class;
+		umlSuperType : UML::Core::Classifier;
+		superTypesIterator : Standard::Iterator;
+
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the object		
+		theClass := instance.oclAsType (!MOFview::Class!);
+
+		// we retrieve the UML owner of the package
+		umlOwner := theClass.getContainer().build(this,null).oclAsType (!UML::Core::Namespace!); 
+
+		umlValue := tool.createAndAddClass (theClass.getName(), umlOwner);
+		theClass.set (umlValue);
+		result.add (umlValue);
+
+		// we loop over the super types of the class
+		superTypesIterator := theClass.getSupertypes().getNewIterator();
+		while (superTypesIterator.isOn())
+		{
+			umlSuperType := superTypesIterator.item().oclAsType(!MOFview::Classifier!).build(this,null);
+			tool.addInheritanceBetweenClassifiers (umlValue, umlSuperType);
+			superTypesIterator.next();
+		}
+
+		// we call the parent
+		this.oclAsType(!ModelVisitor!).visitClass (instance, context);
+
+		return umlValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitAliasType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAliasType : MOFview::AliasType;
+		umlOwner  : UML::Core::Namespace;
+		umlValue   : UML::Core::Class;
+
+		// we retrieve the object		
+		theAliasType := instance.oclAsType (!MOFview::AliasType!);
+
+if (isNull (theAliasType.getTable().exists (theAliasType)) )
+{
+//'1) ALIASTYPE	 ALIASTYPE ALIASTYPE ALIASTYPE ALIASTYPE  : '.concat (theAliasType.getName()).toOut();
+		// we retrieve the UML owner of the package
+		umlOwner := theAliasType.getContainer().build(this,null).oclAsType (!UML::Core::Namespace!); 
+
+		umlValue := tool.createAndAddDataType (theAliasType.getName(), null, umlOwner);
+		theAliasType.set (umlValue);
+
+		// we call the parent
+		//this.oclAsType(!ModelVisitor!).visitAliasType(instance, context);
+
+//'2) ALIASTYPE	 ALIASTYPE ALIASTYPE ALIASTYPE ALIASTYPE  : '.concat (theAliasType.getName()).toOut();
+
+}	
+		return umlValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitVisibilityKind (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theVisibilityKind : MOFview::VisibilityKind;
+		result    : MOFvisitors::VisitorResult;
+		umlOwner  : UML::Core::Namespace;
+		umlValue   : UML::Core::Class;
+
+		// we retrieve the object		
+		theVisibilityKind := instance.oclAsType (!MOFview::VisibilityKind!);
+
+if (isNull (theVisibilityKind.getTable().exists (theVisibilityKind)) )
+{
+		umlValue := tool.getVisibilityDataType (theVisibilityKind.toString());
+		theVisibilityKind.set (umlValue);
+
+}
+//else
+//{
+//	theVisibilityKind.getName().concat ('   ALREADY EXISTS IN visitVisibilityKind').toOut();
+//}
+		return umlValue;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitEnumerationType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theEnumerationType : MOFview::EnumerationType;
+		result    : MOFvisitors::VisitorResult;
+		umlOwner  : UML::Core::Namespace;
+		umlValue   : UML::Core::Class;
+
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the object		
+		theEnumerationType := instance.oclAsType (!MOFview::EnumerationType!);
+
+if (isNull (theEnumerationType.getTable().exists (theEnumerationType)) )
+{
+		// we retrieve the UML owner of the package
+		umlOwner := theEnumerationType.getContainer().build(this,null).oclAsType (!UML::Core::Namespace!); 
+
+		umlValue := tool.createAndAddDataType (theEnumerationType.getName(), theEnumerationType.getLabels(), umlOwner);
+		theEnumerationType.set (umlValue);
+		result.add (umlValue);
+
+		// we call the parent
+		this.oclAsType(!ModelVisitor!).visitEnumerationType(instance, context);
+}
+//else
+//{
+//	theEnumerationType.getName().concat ('   ALREADY EXISTS...').toOut();
+//}
+
+		return umlValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitAttribute (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAttribute  : MOFview::Attribute;
+		umlValue      : UML::Core::Attribute;
+		umlOwner      : UML::Core::Classifier;
+		umlType       : UML::Core::Classifier;		
+		umlVisibility : UML::Core::VisibilityKind;		
+
+		// we retrieve the object		
+		theAttribute := instance.oclAsType (!MOFview::Attribute!);
+
+		//theAttribute.getName().concat (' OF TYPE ').concat(theAttribute.getType().getName() ).toOut();
+
+		// we retrieve the UML owner and type of the attribute
+		umlOwner      := theAttribute.getContainer().build(this,null).oclAsType (!UML::Core::Classifier!); 
+		umlType       := theAttribute.getType().build(this,null).oclAsType (!UML::Core::Classifier!); 
+		
+		umlVisibility := null; //theAttribute.getVisibility().build(this,null).oclAsType(!UML::Data_Types::VisibilityKind!);
+		
+		umlValue := tool.createAndAddAttribute (
+			theAttribute.getName(), 
+			umlVisibility,
+			umlOwner, 
+			umlType
+		);
+		
+		theAttribute.set (umlValue);
+
+		// we call the parent
+		this.oclAsType(!ModelVisitor!).visitAttribute (instance, context);
+
+		return umlValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitAssociation (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAssociation : MOFview::Association;
+		umlValue      : UML::Core::Attribute;
+		umlOwner      : UML::Core::Classifier;
+
+		associationEndsSet :  Standard::Set;
+
+		// we retrieve the object		
+		theAssociation := instance.oclAsType (!MOFview::Association!);
+
+		// we retrieve the UML owner
+		umlOwner := theAssociation.getContainer().build(this,null).oclAsType (!UML::Core::Classifier!); 
+
+//'1) ASSOCIATION ASSOCIATION ASSOCIATION ASSOCIATION '.concat (theAssociation.getName()).toOut();
+
+		umlValue := tool.createAndAddAssociation (
+			theAssociation.getName(),
+			umlOwner
+		);
+		theAssociation.set (umlValue);
+
+		// we call the parent
+		this.oclAsType(!ModelVisitor!).visitAssociation (instance, context);
+
+//'2) ASSOCIATION ASSOCIATION ASSOCIATION ASSOCIATION '.concat (theAssociation.getName()).toOut();
+
+		return 	null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	visitAssociationEnd (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAssociationEnd : MOFview::AssociationEnd;
+		umlValue          : UML::Core::AssociationEnd;
+		umlOwner          : UML::Core::Classifier;
+		umlType           : UML::Core::Classifier;		
+
+		// we retrieve the object		
+		theAssociationEnd := instance.oclAsType (!MOFview::AssociationEnd!);
+
+		// we retrieve the UML owner
+		umlOwner := theAssociationEnd.getContainer().build(this,null).oclAsType (!UML::Core::Association!); 
+		umlType  := theAssociationEnd.getType().build(this,null).oclAsType (!UML::Core::Classifier!); 
+
+		umlValue := tool.createAndAddAssociationEnd (
+			theAssociationEnd.getName(),
+			umlOwner,
+			umlType
+		);
+
+		return 	umlValue;
+	}
+
+}
