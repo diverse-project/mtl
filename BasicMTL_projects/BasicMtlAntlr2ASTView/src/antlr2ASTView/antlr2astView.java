@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.16 2004-11-03 09:23:19 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.17 2004-11-04 14:23:27 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -51,9 +51,9 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 	private static BMTL_LibraryInterface theBuiltAST=null;
 	private static String libraryName = null;
 	static final Logger log=MSGHandler.init();
-
+ 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
-{ return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); }
+{ return ((BMTL_LibraryInterface)BMTLParser.instance().Parse(fileName,this)); }
 
 public static void main(String[] args)
 {	if (args.length > 0)

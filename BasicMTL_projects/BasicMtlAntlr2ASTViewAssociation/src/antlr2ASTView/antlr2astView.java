@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.17 2004-11-03 09:19:40 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.18 2004-11-04 14:24:36 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -53,7 +53,7 @@ public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { 
 	// save the origin filename for traceability
 	currentFile = fileName;
-	return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); 
+	return ((BMTL_LibraryInterface)BMTLParser.instance().Parse(fileName,this)); 
 }
 
 public static void main(String[] args)
