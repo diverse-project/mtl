@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.3 2003-12-11 15:39:40 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.4 2003-12-18 15:26:26 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -26,8 +26,8 @@ setenv CVS_RSH ssh
 # load the private key that have no passphrase (do not remove this line ! this is the way my script can run automatically)
 # this suppose that you are running a ssh-agent 
 ssh-add $HOME/.ssh/weak_identity
-echo cvs -d :ext:guest@lievre.irisa.fr:/CVS/modelware checkout all
-cvs -d :ext:guest@lievre.irisa.fr:/CVS/modelware checkout all
+echo cvs -Q -d :ext:guest@lievre.irisa.fr:/CVS/modelware checkout all
+cvs -Q -d :ext:guest@lievre.irisa.fr:/CVS/modelware checkout all
 #cvs -d /udd/triskell/cvsroot checkout dev/MT/BasicMtl2Java
 cd BasicMtl2Java
 #setenv BASE `pwd`
@@ -56,7 +56,7 @@ if ( "$ERRORS_IN_BUILD" != "" ) then
    	echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_CompilerTests.log " > msg.txt
    	echo "however the compiler was succefully compiled" >> msg.txt
    	echo "---" >> msg.txt
-   	cat $BASE/$BASE/ant_CompilerTests.log >> msg.txt
+   	cat $BASE/ant_CompilerTests.log >> msg.txt
    	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
     exit
 endif
