@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="build/src/java"/>
+    <classpathentry kind="src" path="build/src"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="src" path="/BasicMTLRuntime"/>
-    <classpathentry kind="src" path="/MDRDriver"/>
-    <classpathentry kind="src" path="/RepositoryAPI"/>
-    <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="lib" path="/Utils/dist/bin/ThirdParty/log4j/log4j.jar"/>
-    <classpathentry kind="src" path="/BasicMtl_Transformation_libraries"/>
-    <classpathentry kind="src" path="/MTDataTypes"/>
+    <classpathentry kind="src" path="/BasicMtl2Java"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,12 +3,7 @@
 	<name>UML1.4</name>
 	<comment></comment>
 	<projects>
-		<project>BasicMTLRuntime</project>
-		<project>BasicMtl_Transformation_libraries</project>
-		<project>MDRDriver</project>
-		<project>MTDataTypes</project>
-		<project>RepositoryAPI</project>
-		<project>Utils</project>
+		<project>BasicMtl2Java</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
