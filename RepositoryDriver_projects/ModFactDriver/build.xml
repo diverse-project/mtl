@@ -1,16 +1,16 @@
-<!-- $Id: build.xml,v 1.1 2004-01-29 17:04:43 xblanc Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-01-30 13:32:38 xblanc Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
-<project name="MDRDriver" default="dist" basedir=".">
+<project name="ModFactDriver" default="dist" basedir=".">
 	<description>
         An adaptor of the RepositoryAPI API to the MDR tool.
 	</description>
 	<!-- set global properties for this build -->
-	<property name="mdr"  location="ThirdParty/MDR/official"/>
+	<property name="modfact"  location="ThirdParty/ModFact/v1_0_0"/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
 	<property name="dist"  location="dist"/>
-	<property name="mdr.jars.src"  location="${mdr}/jmi.jar;${mdr}/jmiutils.jar;${mdr}/mdrapi.jar;${mdr}/mof.jar;${mdr}/nbmdr.jar;${mdr}/openide-lookup.jar"/>
-	<property name="mdr.jars.dest"  location="${dist}/bin/ThirdParty/MDR/jmi.jar;${dist}/bin/ThirdParty/MDR/jmiutils.jar;${dist}/bin/ThirdParty/MDR/mdrapi.jar;${dist}/bin/ThirdParty/MDR/mof.jar;${dist}/bin/ThirdParty/MDR/nbmdr.jar;${dist}/bin/ThirdParty/MDR/openide-lookup.jar"/>
+	<property name="modfact.jars.src"  location="${modfact}/JMI1_0.jar;${modfact}/JMIEngine.jar;${modfact}/JMIRepository.jar;${modfact}/ow_monolog.jar;${modfact}/ow_utils_commandline.jar;"/>
+	<property name="modfact.jars.dest"  location="${dist}/bin/JMI1_0.jar;${dist}/bin/JMIEngine.jar;${dist}/bin/JMIRepository.jar;${dist}/bin/ow_monolog.jar;${dist}/bin/ow_utils_commandline.jar;"/>
 	
 	<!-- This project depends on the RepositoryAPI project -->
 	<property name="RepositoryAPI"  location="..\RepositoryAPI"/>
@@ -37,7 +37,7 @@
     	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
 	    <javac srcdir="${src}"
     	    destdir="${bin}"
-   			classpath=".;${mdr.jars.src};${RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
+   			classpath=".;${modfact.jars.src};${RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;${Utils}\ThirdParty\junit\junit.jar;${Utils}\ThirdParty\log4j\log4j.jar"
    			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
@@ -47,7 +47,7 @@
             splitindex="true" author="true" version="true"
             nodeprecatedlist="false" nodeprecated="false"
             sourcepath="src"
-            classpath="bin;${mdr.jars.src};{RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
+            classpath="bin;${modfact.jars.src};{RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
         </javadoc>
@@ -60,14 +60,14 @@
 			<!-- manifest to include -->
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>  
-				<attribute name="Class-Path" value="RepositoryAPI.jar MTDataTypes.jar Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="RepositoryAPI.jar MTDataTypes.jar Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar ThirdParty/ModFact/v1_0_0/ow_monolog.jar ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar "/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
-      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Specification-Vendor" value="ObjectWeb/ModFact"/>
       				<attribute name="Implementation-Title" value="common"/>
       				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
-      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Vendor" value="ObjectWeb/ModFact"/>
     			</section>
 		    </manifest>
 		</jar>
@@ -81,11 +81,11 @@
 		</copy>
 		
 		
-		<copy todir="${dist}/bin/ThirdParty/MDR">
-			<fileset dir="${mdr}"/>
+		<copy todir="${dist}/bin/ThirdParty/ModFact/v1_0_0">
+			<fileset dir="${modfact}"/>
 		</copy>
-		<copy todir="${dist}/bin/ThirdParty/MDR/Test/models">
-			<fileset dir="ThirdParty/MDR/Test/models"/>
+		<copy todir="${dist}/bin/ThirdParty/ModFact/Test/models">
+			<fileset dir="ThirdParty/ModFact/Test/models"/>
 		</copy>
 	    <copy file="log4j_configuration.xml"
 	    	todir="${dist}/bin/"
@@ -93,19 +93,19 @@
 	    	
 	    	
 		<mkdir dir="${dist}/test"/>
-	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="false">
+	    <!--<junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="false">
 	    	<classpath>
 			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
 			    <pathelement location="${dist}/bin/RepositoryAPI.jar"/>
 			    <pathelement location="${dist}/bin/MTDataTypes.jar"/>
 			    <pathelement location="${dist}/bin/Utils.jar"/>
-			    <pathelement path="${mdr.jars.dest}"/>
+			    <pathelement path="${modfact.jars.dest}"/>
 			    <pathelement path="${classpath}"/>
 			</classpath>
 			<formatter type="plain"/>
-	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.repository.MDRDriver.Java.Test.JUnitAdapter"/>
-	    </junit>
-		<delete dir="${dist}/bin/ThirdParty/MDR/Test"/>
+	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.repository.ModFact.Java.Test.JUnitAdapter"/>
+	    </junit>-->
+		<delete dir="${dist}/bin/ThirdParty/ModFact/Test"/>
 	</target>
   	<target name="clean"
         description="clean up" >

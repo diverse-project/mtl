@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Fri Sep 19 19:10:50 CEST 2003'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <SimpleDB.Table xmi.id = 'a1' name = 'Championship'/>
+    <SimpleDB.Column xmi.id = 'a2' name = 'Score 1'/>
+    <SimpleDB.Column xmi.id = 'a3' name = 'Score 2'/>
+    <SimpleDB.Column xmi.id = 'a4' name = 'Date'/>
+    <SimpleDB.Column xmi.id = 'a5' name = 'Team 2'/>
+    <SimpleDB.Column xmi.id = 'a6' name = 'Team 1'/>
+    <SimpleDB.A_column_table>
+      <SimpleDB.Table xmi.idref = 'a1'/>
+      <SimpleDB.Column xmi.idref = 'a4'/>
+      <SimpleDB.Table xmi.idref = 'a1'/>
+      <SimpleDB.Column xmi.idref = 'a6'/>
+      <SimpleDB.Table xmi.idref = 'a1'/>
+      <SimpleDB.Column xmi.idref = 'a2'/>
+      <SimpleDB.Table xmi.idref = 'a1'/>
+      <SimpleDB.Column xmi.idref = 'a5'/>
+      <SimpleDB.Table xmi.idref = 'a1'/>
+      <SimpleDB.Column xmi.idref = 'a3'/>
+    </SimpleDB.A_column_table>
+  </XMI.content>
+</XMI>
