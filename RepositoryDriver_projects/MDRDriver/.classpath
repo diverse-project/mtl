@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/jmi.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/jmiutils.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/looks.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/mdr.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/mdrapi.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/mof.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/nbmdr.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/debug/openide.jar"/>
+    <classpathentry kind="src" path="/RepositoryAPI"/>
+    <classpathentry kind="src" path="/MTDataTypes"/>
+    <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
+    <classpathentry kind="src" path="/Utils"/>
+    <classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
+    <classpathentry kind="output" path="bin"/>
+</classpath>

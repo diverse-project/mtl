@@ -1,0 +1,63 @@
+Global Symbol Entered (Model): 'test' with id G.0
+Scoped Symbol Entered (Category): 'Logical View' with id S.125.1913.01.0
+Scoped Symbol Entered (Category): 'Model' with id S.125.1913.01.1
+Scoped Symbol Entered (Class): 'A' with id S.125.1913.01.2
+Scoped Symbol Entered (Attribute): 'attaPriv' with id S.125.1913.01.3
+Scoped Symbol Entered (Attribute): 'attaProt' with id S.125.1913.01.4
+Scoped Symbol Entered (Attribute): 'attaPub' with id S.125.1913.01.5
+Scoped Symbol Entered (Operation): 'op' with id S.125.1913.01.6
+Scoped Symbol Entered (Class): 'B' with id S.125.1913.01.7
+Scoped Symbol Entered (Class): 'C' with id S.125.1913.01.8
+Scoped Symbol Entered (Class): 'D' with id S.125.1913.01.9
+Scoped Symbol Entered (Class): 'Boolean' with id S.125.1913.01.10
+Scoped Symbol Entered (Class): 'Enum' with id S.125.1913.01.11
+Scoped Symbol Entered (Attribute): 'e1' with id S.125.1913.01.12
+Scoped Symbol Entered (Attribute): 'e2' with id S.125.1913.01.13
+Scoped Symbol Entered (Attribute): 'e3' with id S.125.1913.01.14
+Scoped Symbol Entered (Class): 'String' with id S.125.1913.01.15
+Scoped Symbol Entered (Class): 'Integer' with id S.125.1913.01.16
+Global Symbol Entered (Association): 'AssAB{3EAD297A02C9}' with id G.1
+Global Symbol Entered (Role): 'b{3EAD297B00E5}' with id G.2
+Global Symbol Entered (Role): 'a{3EAD297B00E7}' with id G.3
+Scoped Symbol Entered (Subsystem): 'Component View' with id S.125.1913.01.17
+DoSubsystemDependencies for Component View
+Scoped Symbol Entered (Category): 'Use Case View' with id S.125.1913.01.18
+Pop Thermometer(Final)
+Generate2 generstes Model: test
+Create Package: Logical View
+Create Package: Logical View::Model
+Adding package to Namespace: test
+Scoped Symbol Entered (Stereotype): 'metamodel' with id S.125.1913.01.19
+Process Association: AssAB{3EAD297A02C9}
+Role: b
+  Association End: B
+  Association end: G.2 added to association G.1
+  Class/UseCase/Interface: B
+Role: a
+  Association End: A
+  Association end: G.3 added to association G.1
+  Class/UseCase/Interface: A
+Create Class: A
+Create Class: B
+Create Class: C
+Create Class: D
+Create DataType: Boolean
+Create Class: Enum
+Scoped Symbol Entered (Stereotype): 'enumeration' with id S.125.1913.02.0
+Global Symbol Entered (Basic Type): '<undefined>' with id G.4
+Create DataType: String
+Create DataType: Integer
+Pop Thermometer(Final)
+Global Symbol Entered (Generalization): '{C->A}{3EAD28DA01B0}' with id G.5
+Global Symbol Entered (Generalization): '{C->B}{3EAD28DC01CF}' with id G.6
+Global Symbol Entered (Generalization): '{D->A}{3EAD28E200B7}' with id G.7
+Global Symbol Entered (Generalization): '{D->B}{3EAD28E302BA}' with id G.8
+Pop Thermometer(Final)
+Use gModel for package: Logical View
+Pop Thermometer(Final)
+Use gModel for package: Use Case View
+Pop Thermometer(Final)
+Pop Thermometer(Final)
+-----> Diagrams are suppressed
+Pop Thermometer(Final)
+Pop Thermometer(Final)

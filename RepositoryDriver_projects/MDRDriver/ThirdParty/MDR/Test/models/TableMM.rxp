@@ -1,0 +1,36 @@
+Marking package 'Logical View::SimpleDB' as exported
+Scoped Symbol Entered (Category): 'Logical View' with id S.126.1107.34.0
+Enter classes at top level
+Enter Category Hierarchy for: Logical View::SimpleDB
+Scoped Symbol Entered (Category): 'SimpleDB' with id S.126.1107.34.1
+Metamodel: 'SimpleDB' hasImplicitReferences = false
+Scoped Symbol Entered (Class): 'Table' with id S.126.1107.34.2
+Scoped Symbol Entered (Attribute): 'name' with id S.126.1107.34.3
+Scoped Symbol Entered (DataType): 'String' with id S.126.1107.34.4
+Scoped Symbol Entered (Class): 'Column' with id S.126.1107.34.5
+Scoped Symbol Entered (Attribute): 'name' with id S.126.1107.34.6
+Generate for Model: TableMM
+Create Package: Logical View::SimpleDB
+Metamodel: SimpleDB Create Package--hasImplicitReferences = false
+Create Class: Logical View::SimpleDB::Table
+Create Class: Logical View::SimpleDB::String
+CreateDataType: String, the Corba type decl is string
+CreatePrimitiveType: string @ 
+Create Class: Logical View::SimpleDB::Column
+Process Association: A_column_table:3EB8C51A00E7
+Create Association: A_column_table
+Suppressed tag: rose2mof.visibility
+Create Association End: table
+  Association End Type: Table
+     Qualified name: Logical View::SimpleDB::Table
+     TheType: Class
+     Stereotype: 
+  Association end added: SimpleDB.A_column_table.table
+  Class/UseCase/Interface: Table
+Create Association End: column
+  Association End Type: Column
+     Qualified name: Logical View::SimpleDB::Column
+     TheType: Class
+     Stereotype: 
+  Association end added: SimpleDB.A_column_table.column
+  Class/UseCase/Interface: Column
