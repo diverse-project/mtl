@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-08-12 14:52:43 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.5 2003-09-05 12:15:16 dvojtise Exp $ -->
 <project name="BasicMtlAstJava" default="dist" basedir=".">
 	<description>
         Known directories for the BasicMtlAST
@@ -31,7 +31,8 @@
     	<!-- Compile the java code from ${src} and ${srcOfp} into ${bin} -->
 	    <javac srcdir="${src};${srcOfp}" 
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin"/>
+   			classpath=".;${Utils}\bin"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

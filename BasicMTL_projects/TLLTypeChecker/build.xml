@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 14:54:54 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:13:49 dvojtise Exp $ -->
 <project name="TLLTypeChecker" default="dist" basedir=".">
 	<description>
         Known directories for the TLLTypeChecker
@@ -36,7 +36,8 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${Utils}\bin;${BasicMtlTLLJava}\bin;${BasicMtlAntlr2TLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

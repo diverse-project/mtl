@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 14:52:27 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:15:12 dvojtise Exp $ -->
 <project name="BasicMtlAntlr2TLLJava" default="dist" basedir=".">
 	<description>
         Known directories for the Antlr2TLL (Unchecked TLL producer)
@@ -38,7 +38,8 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlAntlr2BasicMtlAstJava}\bin;${BasicMtlAstJava}\bin;${BasicMtlTLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlAntlr2BasicMtlAstJava}\bin;${BasicMtlAstJava}\bin;${BasicMtlTLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

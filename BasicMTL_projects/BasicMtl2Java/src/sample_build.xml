@@ -1,4 +1,4 @@
-<!-- $Id: sample_build.xml,v 1.1 2003-09-02 09:49:02 dvojtise Exp $ -->
+<!-- $Id: sample_build.xml,v 1.2 2003-09-05 12:12:37 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="run test1" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
@@ -105,7 +105,8 @@
   			compile the generated Java Code
   		</description>
   		<javac srcdir="${build}\src\java\SimpleUML" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath refid="MTLcompiler.class.path"/>
    		</javac>
   	</target>
@@ -147,7 +148,8 @@
   			compile the generated Java Code
   		</description>
   		<javac srcdir="${build}/src/java/test1" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath refid="MTLcompiler.class.path"/>
    		</javac>
   	</target>
@@ -181,7 +183,8 @@
   			compile the generated Java Code
   		</description>
   		<javac srcdir="${build}/src/java/test2" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
    				<path refid="MTLcompiler.class.path"/>
@@ -220,7 +223,8 @@
   			compile the generated Java Code
   		</description>
   		<javac srcdir="${build}/src/java" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
    				<path refid="MTLcompiler.class.path"/>
@@ -236,7 +240,8 @@
   	</target>
   	<target name="compile MDRRepositoryModelManager">  		  		
   		<javac srcdir="${src}" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath refid="MTLcompiler.class.path"/>
    		</javac>
   	</target>
@@ -245,7 +250,8 @@
   			compile the generated Java Code
   		</description>
   		<javac srcdir="${build}/src/java" 
-    	    destdir="${bin}">
+    	    destdir="${bin}"
+   			debug="true">
    			<classpath >
    				<pathelement path="${bin}"/>
    				<path refid="MTLcompiler.class.path"/>

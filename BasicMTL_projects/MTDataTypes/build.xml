@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 14:54:25 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:13:39 dvojtise Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MTDataTypes" default="dist" basedir=".">
 	<description>
@@ -32,7 +32,8 @@
     	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
 	    <javac srcdir="${src};${srcOfp}"
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 14:51:55 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:15:09 dvojtise Exp $ -->
 <project name="BasicMtlAntlr2BasicMtlAstJava" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -36,7 +36,8 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${BasicMtlAntlr}\bin;${BasicMtlAstJava}\bin;${Utils}\bin;..\Utils\ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${BasicMtlAntlr}\bin;${BasicMtlAstJava}\bin;${Utils}\bin;..\Utils\ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 14:52:55 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:15:19 dvojtise Exp $ -->
 <project name="BasicMtlJavaCodeGenerator" default="dist" basedir=".">
 	<description>
         Known directories for the code generator
@@ -34,7 +34,8 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${BasicMtlTLLJava}\bin;${Utils}/bin;../Utils/ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${BasicMtlTLLJava}\bin;${Utils}/bin;../Utils/ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-08-12 15:00:29 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-09-05 12:13:17 dvojtise Exp $ -->
 <project name="Utils" default="dist" basedir=".">
 	<description>
         Miscellaneous utility classes.
@@ -23,7 +23,8 @@
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
    			classpath=".;ThirdParty\junit\junit.jar"
-   			nowarn="true"/>
+   			nowarn="true"
+   			debug="true"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">
