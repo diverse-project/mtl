@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.12 2004-06-30 08:25:51 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.13 2004-08-18 14:09:07 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -142,9 +142,21 @@ public class Compiler {
 			MSGHandler.error(Compiler.class,132,"No file to process in "+sourcesDir);
 		}
 		for (int i=0;i<filesList.length;i++)
-		{
+		{ 
 			// checks if file exists
-			if (filesList[i].endsWith(".mtl"))
+			// ignore files in CVS directories
+			boolean isWithCVSDir = false; 
+			String[] result = filesList[i].split("\\\\|/");
+			MSGHandler.info(Compiler.class,149,"looking for CVS folder");			
+		    for (int x=0; x<result.length; x++)
+		    {
+		    	System.out.println(result[x]);
+		    	if(result[x].equalsIgnoreCase("CVS"))
+		    	{
+		    		isWithCVSDir = true;
+		    	}
+		    }
+			if (filesList[i].endsWith(".mtl") && !isWithCVSDir)
 			 {
 				MSGHandler.debug(Compiler.class,138,"Including file "+filesList[i]+"...");
 				File aFile = new File(sourcesDir+filesList[i]);
