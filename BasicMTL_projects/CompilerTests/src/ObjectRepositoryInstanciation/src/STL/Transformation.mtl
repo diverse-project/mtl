@@ -1,0 +1,50 @@
+/* 
+ * Library	: STL
+ * 		This library provides a composable transformations framework. Standard
+ *		interfaces for simple transformations,  composite transformations, mapping
+ *		transformation, etc.
+ * 		Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ * File 	: $RCSfile$
+ * Purpose 	: Provide usefull functions as command object
+ * Created	: 12/03/2004
+ * Version	: $Revision$
+ * 
+ * $Log$
+ *
+ */ 
+
+ 
+
+
+
+library STL;
+
+
+
+class Transformation 
+{
+
+	// Execute the body of the transformation
+	run(context : Standard::OclAny) : Standard::OclAny
+	{
+		'->> Error : STL::Transformation::run() is an abstract operation'.toErr();
+		return null;
+	}		
+	
+
+	execute(context : Standard::OclAny)	 :	Standard::OclAny
+	{
+		result	:	Standard::OclAny;
+
+		result := run(context);
+
+		return result;
+	}
+	
+}
+
+
+
+
+

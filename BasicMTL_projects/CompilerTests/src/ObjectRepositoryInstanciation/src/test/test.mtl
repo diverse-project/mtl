@@ -1,0 +1,48 @@
+
+
+
+library test;
+
+model source_model 	: 	RepositoryModel;		// should be a UML1.4 MetaModelmodel mdrdriver    	: 	MDRDriver;
+model uml			:	Lib;
+model stl			:	STL;
+
+
+main() : Standard::Void
+{
+	mdrdriver         : MDRDriver::MDRModelManager;
+	metamodelFilename, inputFilename, outputFilename 	: Standard::String; 
+
+	cmd		:	Lib::CreateAndAddClass;
+	cIte	:	Standard::Iterator;
+	aClass	:	source_model::Core::Class;
+
+	// we define some filenames 
+	metamodelFilename := 'MetaModel/UML_metamodel.xmi';
+	inputFilename     := 'Model/essai-in.xmi';
+	outputFilename    := 'Model/essai-out.xmi';
+
+	// we initialize the MDR driver		
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'UML',			// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', // name of the new model in the repository
+		inputFilename,
+		outputFilename
+	);		
+
+	uml := new Lib();
+	uml.init(source_model);
+	
+	'Debut de la transformation ...'.toOut();	
+		
+	cmd	:= new Lib::CreateAndAddClass();
+	cmd.run (null);
+
+	'That s all folks !'.toOut();		
+}
+

@@ -1,0 +1,61 @@
+/* 
+ * Library	: UMLutils
+ * 		This library provides tools function to manipulate objects of UML1.4 metamodel
+ * 		It is inspired by some usefull Objecteering J method for some metaclasses.
+ * 		It should avoid to have some repetitive MTL code. 
+ * 		Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ * File 	: $RCSfile$
+ * Purpose 	: Provide some useful commands for UML Classifier Managing
+ * Created	: 12/03/2004
+ * Version	: $Revision$
+ * 
+ * $Log$
+ *
+ */ 
+
+ 
+
+library  Lib;
+
+
+
+model	stl	:	STL;
+model	UML : 	RepositoryModel;		// should be a UML1.4 MetaModel
+
+
+init (aModel : RepositoryModel) : Lib
+{
+	// we must have a reference to the UML metamodel and keep it
+	UML := aModel;
+	
+	return self;
+}
+
+/*
+ * purpose  : Create and add a a class to a namespace
+ * in	- name,	the name of the class
+ *      - owner, the owner of the class
+ *
+ * out      :	a new class 
+ * remark   : 	nothing
+ */		
+class CreateAndAddClass {//extends STL::Transformation {
+
+
+	// Execute the command
+	run(context : Standard::OclAny) : Standard::OclAny
+	{
+	result 	:	UML::Core::Class;
+
+		result := new UML::Core::Class();
+
+		return null;
+	}
+		
+}
+
+
+
+
+
