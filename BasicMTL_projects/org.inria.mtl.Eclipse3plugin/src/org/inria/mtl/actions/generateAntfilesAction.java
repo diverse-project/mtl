@@ -1,11 +1,11 @@
- /* $Id: generateAntfilesAction.java,v 1.3 2005-02-24 14:05:14 dvojtise Exp $
+ /* $Id: generateAntfilesAction.java,v 1.4 2005-02-28 15:40:05 dvojtise Exp $
  * Project  : org.inria.mtl.Eclipse3plugin
  * Filename : $File:$
  * License  : LGPL
  * Authors  : zdrey@irisa.fr
  * 
  * Creation date     : Jan 19, 2005
- * Modification date : $Date: 2005-02-24 14:05:14 $
+ * Modification date : $Date: 2005-02-28 15:40:05 $
  * 
  * Description       : 
  * This code creates a Button that is associated to this action :
@@ -53,7 +53,7 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
 
-	
+	private final String sep = System.getProperty("file.separator");
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
@@ -71,7 +71,7 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 	/**
 	  *  Gets the baseURL attribute of the MTLPlugin directory
 	  *  (copied from MTLPlugin main class), and add a path chunk to it.
-	  * @param a path chunk, that is a path relative to the current plugin directory
+	  * @param a path chunk, that is a path relative to the MTL plugin directory
 	  * @return    The platform-dependent absolute path of the given "path chunk"
 	  * Note: a patch is used to remove the leading / on windows platform  (otherwise we get something like:  /C:/mydir/blabla
 	  */
@@ -82,18 +82,20 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		URL cmd_url;
 		try
 		{			
-			cmd_url = new URL(
+			/*cmd_url = new URL(
 					org.inria.mtl.MTLPlugin.getBaseURL(),
 					pathChunk);
 			Path nP = new Path(Platform.resolve(cmd_url).getPath());
-
+			*/
+			Path nP = new Path(org.inria.mtl.MTLPlugin.getDefault().getLocation()+ sep + pathChunk);
 		    path = pathToOSString(nP.toOSString());
 		    
 		}
 		catch (Exception e)
 		{
 			// should not append
-			System.err.print("Could not find "+ pathChunk +" file");
+			System.err.print("Could not find "+org.inria.mtl.MTLPlugin.getDefault().getLocation()+ sep + pathChunk +" file\n");
+			System.err.print("getBaseURL: "+org.inria.mtl.MTLPlugin.getDefault().getLocation() + "\n");
 			e.printStackTrace();
 		}
 		return path;
@@ -136,7 +138,7 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		
 		// A property that is set in MTLPlugin.java when log4j is not configured...(getLogger method) I need this property.
 		String rootpath = System.getProperty("Directories.RootPath");
-		String sep 		= System.getProperty("file.separator");
+		
 		if (rootpath == null)
 		{
 			
@@ -161,10 +163,10 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 		}
 
 		// Get the necessary variable to execute the external antimtl python command
-		String cmd_path = "python/src/org/irisa/antimtl/Antimtl.py";
-		String templates_path = "python/templates";
+		String cmd_path = getPathFromRelative("python/src/org/irisa/antimtl/Antimtl.py");
+		String templates_path = getPathFromRelative("python/templates");
 		String options   = " --output="+project_path;	
-		options 		+= " --templates_path="+this.getPathFromRelative(templates_path);
+		options 		+= " --templates_path="+templates_path;
 		
 		// Try to execute the python external command, if a project was selected
 		if (project_path!="")
@@ -172,7 +174,6 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 			Process py_proc;			// Here we ask the user to give the path of BasicMTLc.jar
 			try
 			{
-				String ss = this.getPathFromRelative(cmd_path);
 				InputDialog idialog = new InputDialog(shell, "get BasicMTLc.jar path", "Path of the _directory_ of BasicMTLc.jar...", 
 						getDefaultBasicMTLcDir(),null);
 				
@@ -182,8 +183,10 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 				{
 					String i_basicmtlpath = idialog.getValue();
 					options			+= " --jardir="+i_basicmtlpath;
+					System.out.println("generateAntfilesAction.java: execution of command: python "+cmd_path
+							+options);
 					py_proc = Runtime.getRuntime().exec("python "
-							+this.getPathFromRelative(cmd_path)
+							+cmd_path
 							+options);
 					// Wheres we display the output of the python command 
 					BufferedReader error_stream = new BufferedReader(
@@ -193,7 +196,10 @@ public class generateAntfilesAction implements IWorkbenchWindowActionDelegate {
 					while ((line = error_stream.readLine()) != null) 
 						errstr += line;
 					if (errstr!="")
-						MessageDialog.openInformation(shell, "Information", "Errors : " + errstr);
+						MessageDialog.openInformation(shell, "Information", "Errors : " + errstr 
+												+ "/nwhile executing command:/n  python "
+												+cmd_path
+												+options);
 				} 
 			}
 			catch (IOException e1)
