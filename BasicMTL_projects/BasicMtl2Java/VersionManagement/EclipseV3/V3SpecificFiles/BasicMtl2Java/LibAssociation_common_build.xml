@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.8 2004-10-26 12:30:44 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.9 2004-10-27 14:06:13 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -164,7 +164,7 @@
   			<fileset dir="${RepositoryAPI}/srcOfp"/>
   		</copy>
  		<copy  todir="${src}/org/irisa/triskell/MT/repository/genericJMIDriver">
-  			<fileset dir="${MDRDriver}/src/org/irisa/triskell/MT/repository/genericJMIDriver"/>
+  			<fileset dir="${MDRDriver}/src/java/org/irisa/triskell/MT/repository/genericJMIDriver"/>
   		</copy>
  <!-- 		<copy  todir="${src}">
   			<fileset dir="${MDRDriver}/src"/>
