@@ -42,7 +42,7 @@ public class BMTLSet extends BMTLCollection implements BMTLSetInterface {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_intersection.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
-	public BMTLSetInterface BMTL_including(BMTLOclAnyInterface s) {
+	public BMTLSetInterface BMTL_including(Value s) {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(Set_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 

@@ -7,7 +7,9 @@
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.Bag_including;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 
 /**
@@ -32,6 +34,10 @@ public class BMTLBag extends BMTLCollection implements BMTLBagInterface {
 	public BMTLBag(Value delegate) {
 		super(delegate);
 		// TODO Auto-generated constructor stub
+	}
+
+	public BMTLBagInterface BMTL_including(Value s) {
+		return (BMTLBagInterface)CommonFunctions.toBMTLDataType(Bag_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 }

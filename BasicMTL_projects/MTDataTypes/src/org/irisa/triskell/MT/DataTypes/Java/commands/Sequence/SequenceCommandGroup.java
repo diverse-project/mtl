@@ -34,6 +34,8 @@ public class SequenceCommandGroup extends CommandGroupImpl {
 		if (ret == null) {
 			ret = new SequenceCommandGroup(sequenceType, CollectionCommandGroup.getCollectionCommandGroup(sequenceType));
 			sequenceCommandGroups.put(sequenceType, ret);
+			ret.addCommand(Sequence_append.TheInstance);
+			ret.addCommand(Sequence_including.TheInstance);
 		}
 		return ret;
 	}

@@ -6,6 +6,8 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+
 /**
  * @author ffondeme
  *
@@ -15,5 +17,5 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes;
 public interface BMTLSetInterface extends BMTLCollectionInterface {
 	BMTLSetInterface BMTL_union (BMTLSetInterface s);
 	BMTLSetInterface BMTL_intersection (BMTLSetInterface s);
-	BMTLSetInterface BMTL_including (BMTLOclAnyInterface s);
+	BMTLSetInterface BMTL_including (Value s);
 }

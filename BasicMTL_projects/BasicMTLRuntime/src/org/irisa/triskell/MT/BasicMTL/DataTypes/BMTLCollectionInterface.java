@@ -26,5 +26,4 @@ public interface BMTLCollectionInterface
 	BMTLBooleanInterface BMTL_excludes(Value v);
 	BMTLBooleanInterface BMTL_includesAll(CollectionValue v);
 	BMTLBooleanInterface BMTL_excludesAll(CollectionValue v);
-	CollectionValue BMTL_append(BMTLOclAnyInterface object);
 }

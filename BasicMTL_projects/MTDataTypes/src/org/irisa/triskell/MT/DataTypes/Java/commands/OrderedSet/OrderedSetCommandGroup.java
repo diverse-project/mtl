@@ -34,6 +34,8 @@ public class OrderedSetCommandGroup extends CommandGroupImpl {
 		if (ret == null) {
 			ret = new OrderedSetCommandGroup(orderedSetType, CollectionCommandGroup.getCollectionCommandGroup(orderedSetType));
 			orderedSetCommandGroups.put(orderedSetType, ret);
+			ret.addCommand(OrderedSet_append.TheInstance);
+			ret.addCommand(OrderedSet_including.TheInstance);
 		}
 		return ret;
 	}

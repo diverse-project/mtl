@@ -34,6 +34,7 @@ public class BagCommandGroup extends CommandGroupImpl {
 		if (ret == null) {
 			ret = new BagCommandGroup(bagType, CollectionCommandGroup.getCollectionCommandGroup(bagType));
 			bagCommandGroups.put(bagType, ret);
+			ret.addCommand(Bag_including.TheInstance);
 		}
 		return ret;
 	}

@@ -8,6 +8,8 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.Sequence_append;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.Sequence_including;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
 
 /**
@@ -32,6 +34,14 @@ public class BMTLSequence extends BMTLCollection implements BMTLSequenceInterfac
 	public BMTLSequence(Value delegate) {
 		super(delegate);
 		// TODO Auto-generated constructor stub
+	}
+
+	public BMTLSequenceInterface BMTL_append(Value s) {
+		return (BMTLSequenceInterface)CommonFunctions.toBMTLDataType(Sequence_append.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
+	}
+
+	public BMTLSequenceInterface BMTL_including(Value s) {
+		return (BMTLSequenceInterface)CommonFunctions.toBMTLDataType(Sequence_including.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 }
