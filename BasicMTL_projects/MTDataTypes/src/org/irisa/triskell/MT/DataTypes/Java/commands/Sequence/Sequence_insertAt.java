@@ -41,7 +41,7 @@ public class Sequence_insertAt extends AbstractCommand {
 			collection = new ArrayList(Arrays.asList(((CollectionValue)invoker).getTheCollection()));
 		}
 		//The java add on List adds at the end of the collection...
-		collection.add(((IntegerValue)arguments[0]).getTheInteger()+1, arguments[1]);
+		collection.add(((IntegerValue)arguments[0]).getTheInteger()-1, arguments[1]);
 		return new SequenceValueImpl(false, null, collection);
 	}
 }

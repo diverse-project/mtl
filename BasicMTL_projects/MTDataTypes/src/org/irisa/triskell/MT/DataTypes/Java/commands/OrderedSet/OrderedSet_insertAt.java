@@ -1,5 +1,5 @@
 /*
- * $Id: OrderedSet_insertAt.java,v 1.1 2004-04-14 03:56:13 ffondeme Exp $
+ * $Id: OrderedSet_insertAt.java,v 1.2 2004-04-14 18:04:11 ffondeme Exp $
  * @author : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -41,7 +41,7 @@ public class OrderedSet_insertAt extends AbstractCommand {
 		}
 		//The java add on List adds at the end of the collection...
 		if (! collection.contains(arguments[1]))
-			collection.add(((IntegerValue)arguments[0]).getTheInteger()+1, arguments[1]);
+			collection.add(((IntegerValue)arguments[0]).getTheInteger()-1, arguments[1]);
 		return new OrderedSetValueImpl(false, null, collection, false);
 	}
 }
