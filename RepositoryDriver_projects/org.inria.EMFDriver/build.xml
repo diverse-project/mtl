@@ -68,13 +68,13 @@
 				<pathelement path="../../plugins/org.eclipse.core.expressions_3.0.0/expressions.jar"/>
 				<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
 				<pathelement path="../../plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
-				<pathelement path="../../plugins/org.eclipse.emf.edit_2.0.0/runtime/edit.jar"/>
-				<pathelement path="../../plugins/org.eclipse.emf.common_2.0.0/runtime/common.jar"/>
-				<pathelement path="../../plugins/org.eclipse.emf.ecore_2.0.0/runtime/ecore.jar"/>
+				<pathelement path="../../plugins/org.eclipse.emf.edit_2.0.1/runtime/edit.jar"/>
+				<pathelement path="../../plugins/org.eclipse.emf.common_2.0.1/runtime/common.jar"/>
+				<pathelement path="../../plugins/org.eclipse.emf.ecore_2.0.1/runtime/ecore.jar"/>
 				<pathelement path="../../plugins/org.eclipse.core.resources_3.0.0/resources.jar"/>
 				<pathelement path="../../plugins/org.eclipse.core.resources.win32_3.0.0/resources.jar"/>
 				<pathelement path="../../plugins/org.eclipse.core.resources.win32_3.0.0/resources-win32.jar"/>
-				<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.0.0/runtime/ecore.xmi.jar"/>
+				<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.0.1/runtime/ecore.xmi.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/bin"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
