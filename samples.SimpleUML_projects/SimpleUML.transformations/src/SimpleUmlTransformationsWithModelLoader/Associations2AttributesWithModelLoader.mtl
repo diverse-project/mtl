@@ -1,0 +1,160 @@
+/*
+ * $Id: Associations2AttributesWithModelLoader.mtl,v 1.1 2004-08-10 12:14:47 dvojtise Exp $
+ *
+ * Sample of use of associations2attribute with a MDR repository
+ */
+ 
+library SimpleUmlTransformationsWithModelLoader;
+// no extends for this lib
+ 
+// Lib local model
+model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
+
+// Library level methods
+// ---------------------
+// Typed model 
+model SimpleUmlTransformation_lib : SimpleUmlTransformations;
+
+// Library contructors
+// -------------------
+main(args : Standard::Sequence):Standard::Void 
+{
+	argsParser : ArgumentsParser;
+	
+	anAssociations2AttributesTransfo : SimpleUmlTransformations::Associations2Attributes;
+
+	// we initialize the arguments parser
+	argsParser := new ArgumentsParser ();
+	argsParser.init (args);
+
+	
+	
+	
+	// instanciate transformation lib
+	SimpleUmlTransformation_lib := new SimpleUmlTransformations();
+			
+	new sourceModelLoader().loadSourceModel (argsParser.getArg(), argsParser.getArg(), argsParser.getArg());
+	
+		
+		// instanciate transformation tool class, and initialize the library models	
+	anAssociations2AttributesTransfo := new SimpleUmlTransformation_lib::Associations2Attributes();
+	anAssociations2AttributesTransfo.initmodel(source_model);
+		// start the transformation
+	anAssociations2AttributesTransfo.associations2attributes();
+
+}
+class sourceModelLoader
+{
+	
+	loadSourceModel(src_inputFilename, src_outputFilename, driverName : Standard::String )
+	{
+		if (driverName = 'MDR') 
+		{
+			loadSourceModelInMDR(src_inputFilename, src_outputFilename);
+		}
+		elseif (driverName = 'ModFact')
+		{
+			loadSourceModelInModFact(src_inputFilename, src_outputFilename);
+		}
+		elseif (driverName = 'EMF')
+		{
+			loadSourceModelInEMF(src_inputFilename, src_outputFilename);
+		}
+		else 
+		{
+			'ERROR: don\'t know how to use the specified driver: "'.concat(driverName).concat('"\n').toErr();
+		}
+	}
+	
+	loadSourceModelInMDR(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		aMdrDriver         : MDRDriver::MDRModelManager;
+		projectPath       : Standard::String;
+		src_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		src_metamodelFilename := projectPath.concat ('../SimpleUML/model/XMI1.2_MOF1.4/SimpleUmlMM_MOF.xml');
+		
+	    // we initialize the MDR driver			
+		aMdrDriver := new MDRDriver::MDRModelManager();
+		aMdrDriver.init();
+		
+			
+		// intanciate the source model, no changes in the source model
+		source_model := aMdrDriver.getModelFromXMI (
+			src_metamodelFilename, 
+			'SimpleUmlMM',		// name of the root element in the Uml1.4 metamodel
+			'SimpleUML_source_model', 
+			src_inputFilename,
+			src_outputFilename
+		);
+	}
+	loadSourceModelInModFact(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		aModFactDriver     : ModFactDriver::ModFactModelManager;
+		projectPath       : Standard::String;
+		src_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		src_metamodelFilename := projectPath.concat ('../SimpleUML/model/XMI1.2_MOF1.4/SimpleUmlMM_MOF.xml');
+		
+	    // we initialize the MDR driver			
+		aModFactDriver := new ModFactDriver::ModFactModelManager();
+		aModFactDriver.init();
+		
+			
+		// intanciate the source model, no changes in the source model
+		source_model := aModFactDriver.getModelFromXMI (
+			src_metamodelFilename, 
+			'SimpleUmlMM',		// name of the root element in the Uml1.4 metamodel
+			'SimpleUML_source_model', 
+			src_inputFilename,
+			src_outputFilename
+		);
+	}
+	loadSourceModelInEMF(src_inputFilename, src_outputFilename : Standard::String )
+	{
+		modelManager : EMFDriver::EMFModelManager;
+		
+		modelManager := new EMFDriver::EMFModelManager();
+
+	//create a true replica of the library MM into a new documentation MM
+	//use loadModel ans saveAsXmiModel methods
+
+		source_model := modelManager.loadModelFromXMI(
+									'SimpleUmlMM',
+									'ecore',
+									src_inputFilename);
+
+		modelManager.saveModelAsXMI('SimpleUmlMM',
+								src_outputFilename);
+	
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class ArgumentsParser
+{
+	argsIterator : Standard::Iterator;
+
+	// initialization
+	init (someArgs : Standard::Sequence)
+	{
+		argsIterator := someArgs.getNewIterator();
+		argsIterator.start();
+	}
+	
+	// get the current arg and move the cursor in the iterator
+	getArg () : Standard::String
+	{
+		result     : Standard::String;
+		result := argsIterator.item ().oclAsType (!Standard::String!);
+		argsIterator.next ();
+		return result;
+	}
+}

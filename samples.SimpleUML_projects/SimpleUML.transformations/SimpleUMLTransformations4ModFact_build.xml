@@ -1,0 +1,62 @@
+<!-- $Id $ -->
+<project name="SimpleUML_Transformations" default="compile" basedir=".">
+	<description>
+        Build file for compiling and running UML14_Transformations
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="build.bin" location="build/bin"/>
+	<property name="build.src" location="build/src"/>
+	
+	
+<!--	<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation/dist"/>-->
+	<property name="MTLcompiler.path" location="${eclipse.home}/plugins/org.inria.mtl_1.0.0/MTL"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
+	<!-- The compilation tool -->
+	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL"/>
+	<!-- The runtime environment -->
+	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	
+	
+	  	
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	<!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+	<!--           ( and the project name )               -->
+	<!-- ************************************************ -->
+	<!-- set user properties for this build -->
+	<property name="library.name" value="SimpleUmlTransformations4ModFact"/>
+	<property name="src" location="src"/>
+	<property name="user.src.path" location="${src}/${library.name}"/>
+	<property name="user.package.name" value="${library.name}"/>
+	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.needed.TLL.path" location="${Runtime.TLL.path}"/> <!-- other TLL needed in order to comile this one -->
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	
+	<target name="init"
+		description="specific initialization steps">
+	</target>
+				  
+	<target name="clean"
+        description="specific cleanup steps" >
+        <ant antfile="common_build.xml" dir="." target="clean common" inheritAll="true"/>
+  	</target>
+
+  	<target name="compile" description="compile all the sources in .class files" depends="init">
+  		<echo>eclipse.home value = ${eclipse.home}</echo>
+  		<ant antfile="common_build.xml" dir="." target="compile common" inheritAll="true"/>
+  	</target>
+
+  	<target name="run" description="run the transformation">
+  		<!-- <ant antfile="common_build.xml" dir="." target="run common class" inheritAll="true">
+  			<property name="user.mainclass.name" value="Associations2Attributes4MDR"/>
+  		</ant> -->
+  		<ant antfile="common_build.xml" dir="." target="run common library" inheritAll="true"/>
+	</target>
+
+
+</project>

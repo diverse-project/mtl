@@ -1,0 +1,95 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2'>
+<XMI.header>
+<XMI.documentation>
+<XMI.exporter>ModFact</XMI.exporter>
+<XMI.exporterVersion>1.0</XMI.exporterVersion>
+</XMI.documentation>
+</XMI.header>
+<XMI.content>
+<PrimitiveDataType xmi.id='0' name='integer' kind=''>
+<Classifier.typed>
+<Attribute xmi.idref='1'/>
+<Attribute xmi.idref='2'/>
+<Attribute xmi.idref='3'/>
+<Attribute xmi.idref='4'/>
+<Attribute xmi.idref='5'/>
+</Classifier.typed>
+</PrimitiveDataType>
+<Class xmi.id='6' name='compositeur' kind='persistent'>
+<Classifier.typed>
+<Attribute xmi.idref='7'/>
+</Classifier.typed>
+<Class.attribute>
+<Attribute xmi.id='8' name='date_naissance' kind=''>
+<Attribute.type>
+<Class xmi.idref='9'/>
+</Attribute.type>
+</Attribute>
+<Attribute xmi.id='1' name='personId' kind='primary'>
+<Attribute.type>
+<PrimitiveDataType xmi.idref='0'/>
+</Attribute.type>
+</Attribute>
+<Attribute xmi.id='10' name='association_composer_compositeur'>
+<Attribute.type>
+<Class xmi.idref='11'/>
+</Attribute.type>
+</Attribute>
+</Class.attribute>
+<Class.forward>
+<Association xmi.idref='12'/>
+</Class.forward>
+</Class>
+<Class xmi.id='11' name='oeuvre' kind='persistent'>
+<Classifier.typed>
+<Attribute xmi.idref='10'/>
+</Classifier.typed>
+<Class.attribute>
+<Attribute xmi.id='2' name='opus' kind='primary'>
+<Attribute.type>
+<PrimitiveDataType xmi.idref='0'/>
+</Attribute.type>
+</Attribute>
+<Attribute xmi.id='7' name='association_composer_compositeur'>
+<Attribute.type>
+<Class xmi.idref='6'/>
+</Attribute.type>
+</Attribute>
+</Class.attribute>
+<Class.reverse>
+<Association xmi.idref='12'/>
+</Class.reverse>
+</Class>
+<Class xmi.id='9' name='date' kind='persistent'>
+<Classifier.typed>
+<Attribute xmi.idref='8'/>
+</Classifier.typed>
+<Class.attribute>
+<Attribute xmi.id='3' name='jour' kind='primary'>
+<Attribute.type>
+<PrimitiveDataType xmi.idref='0'/>
+</Attribute.type>
+</Attribute>
+<Attribute xmi.id='4' name='mois' kind='primary'>
+<Attribute.type>
+<PrimitiveDataType xmi.idref='0'/>
+</Attribute.type>
+</Attribute>
+<Attribute xmi.id='5' name='année' kind='primary'>
+<Attribute.type>
+<PrimitiveDataType xmi.idref='0'/>
+</Attribute.type>
+</Attribute>
+</Class.attribute>
+</Class>
+<Association xmi.id='12' name='composer'>
+<Association.destination>
+<Class xmi.idref='11'/>
+</Association.destination>
+<Association.source>
+<Class xmi.idref='6'/>
+</Association.source>
+</Association>
+</XMI.content>
+</XMI>

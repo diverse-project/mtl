@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.inria.SimpleUML.transformations
+Bundle-Version: 0.0.1
+Bundle-ClassPath: SimpleUML_transformations.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Require-Bundle: SimpleUML,
+ SimpleUML.edit,
+ org.inria.BasicMTL.runtime;reprovide=true,
+ org.inria.EMFDriver
+Eclipse-AutoStart: true
+Provide-Package: SimpleUmlTransformations,
+ SimpleUmlTransformations4MDR,
+ SimpleUmlTransformations4ModFact,
+ SimpleUmlTransformationsWithModelLoader

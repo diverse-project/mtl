@@ -1,0 +1,1 @@
+the differents part specific to a given repository are separated in several libraies ion order to help  to distribute versions only for one or another repository
