@@ -331,10 +331,10 @@ public static MTLPlugin instance() {
 		}
 		 
 		 
-		 /** Returns the separator. Should use the System property in order to be independant of the system. */
-		 public static char getSeparator ()
-		 {
-		 	return '\\';
+		 /** Returns the separator in order to be independant of the system. */
+		 public static String getSeparator ()
+		 {		 	
+		 	return System.getProperty("file.separator");
 		 }
 
 		 
