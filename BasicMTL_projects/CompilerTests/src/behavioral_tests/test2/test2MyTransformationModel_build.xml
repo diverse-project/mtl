@@ -12,7 +12,7 @@
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<property name="MDRDriver.path" location="../../../../MDRDriver"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL/;${MDRDriver.path}/src/ModelManager/TLL/"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL/;${MDRDriver.path}/build/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	
