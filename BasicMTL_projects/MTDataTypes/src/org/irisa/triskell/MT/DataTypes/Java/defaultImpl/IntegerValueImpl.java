@@ -19,17 +19,18 @@ public class IntegerValueImpl
         String errorMessage,
         int theInteger)
     {
-		this(isUndefined, errorMessage, theInteger, IntegerType.TheInstance, IntegerCommandGroup.TheInstance);
+		this(isUndefined, errorMessage, theInteger, Integer.toString(theInteger), IntegerType.TheInstance, IntegerCommandGroup.TheInstance);
     }
 
     protected IntegerValueImpl(
         boolean isUndefined,
         String errorMessage,
         int theInteger,
+        String valueAsString,
         Type type,
         CommandGroup commands)
     {
-        super(isUndefined, errorMessage, theInteger, type, commands);
+        super(isUndefined, errorMessage, theInteger, valueAsString, type, commands);
     	this.theInteger = theInteger;
     }
 

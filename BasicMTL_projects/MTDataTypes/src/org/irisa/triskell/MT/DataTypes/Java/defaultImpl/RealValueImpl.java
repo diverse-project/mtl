@@ -32,17 +32,18 @@ public class RealValueImpl
         String errorMessage,
         float theReal)
     {
-		this(isUndefined, errorMessage, theReal, RealType.TheInstance, RealCommandGroup.TheInstance);
+		this(isUndefined, errorMessage, theReal, Float.toString(theReal), RealType.TheInstance, RealCommandGroup.TheInstance);
     }
 
     protected RealValueImpl(
         boolean isUndefined,
         String errorMessage,
         float theReal,
+        String valueAsString,
         Type type,
         CommandGroup commands)
     {
-        super(isUndefined, errorMessage, Float.toString(theReal), type, commands);
+        super(isUndefined, errorMessage, valueAsString, type, commands);
     	this.theReal = theReal;
     }
 
