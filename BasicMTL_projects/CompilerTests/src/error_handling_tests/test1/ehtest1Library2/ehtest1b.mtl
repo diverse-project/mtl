@@ -1,0 +1,21 @@
+// $Id $
+
+
+library ehtest1Library2;
+
+
+
+// Class definitions
+class TestClass1
+{
+
+	// class members
+	aMemberString : Standard::String;
+	aMemberInt1, aMemberInt2 :Standard::Integer;
+	aClassMethod1()
+	{	
+		'hop !'.toOut();		
+		
+	}
+}
+

@@ -1,0 +1,29 @@
+// $Id $
+
+
+library ehtest1Library1;
+
+model aModel : ehtest1Library2;
+
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{
+	aClass : ehtest1Library2::TestClass1;
+	aModel := new ehtest1Library2();
+	
+	// compiler must accept that
+	aClass := new aModel::TestClass1(); 	
+	aClass := new ehtest1Library2::TestClass1();
+		
+	// compiler must not accept that and give a correct message : Bug179 : the compiler craches on that user error
+	
+	aClass := new aModel.TestClass1();
+	
+	'end   main():Standard::Void'.toOut();
+}
+
