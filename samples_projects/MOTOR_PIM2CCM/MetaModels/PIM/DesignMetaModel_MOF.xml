@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'ISO-8859-1' ?>
-<XMI xmi.version = '1.2' xmlns:Model = 'org.omg.xmi.namespace.Model' timestamp = 'Wed Dec 03 15:22:45 CET 2003'>
+<XMI xmi.version = '1.2' xmlns:Model = 'org.omg.xmi.namespace.Model' timestamp = 'Wed Jan 28 14:55:15 CET 2004'>
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
@@ -432,7 +432,7 @@
         <Model:Class xmi.id = 'a54' name = 'Element' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'true' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
-            <Model:Attribute xmi.id = 'a58' name = 'id' annotation = '' scope = 'instance_level'
+            <Model:Attribute xmi.id = 'a58' name = 'uid' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
                 <XMI.field>1</XMI.field>
@@ -464,7 +464,7 @@
         <Model:Class xmi.id = 'a60' name = 'TraceableElement' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
-            <Model:Attribute xmi.id = 'a62' name = 'linkedId' annotation = '' scope = 'instance_level'
+            <Model:Attribute xmi.id = 'a62' name = 'uid' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
                 <XMI.field>1</XMI.field>
@@ -476,7 +476,7 @@
                 <Model:PrimitiveType xmi.idref = 'a53'/>
               </Model:TypedElement.type>
             </Model:Attribute>
-            <Model:Attribute xmi.id = 'a63' name = 'linkedModel' annotation = '' scope = 'instance_level'
+            <Model:Attribute xmi.id = 'a63' name = 'role' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
                 <XMI.field>1</XMI.field>
@@ -956,7 +956,7 @@
               </Model:TypedElement.type>
             </Model:AssociationEnd>
             <Model:AssociationEnd xmi.id = 'a95' name = 'tracer' annotation = '' isNavigable = 'true'
-              aggregation = 'none' isChangeable = 'true'>
+              aggregation = 'composite' isChangeable = 'true'>
               <Model:AssociationEnd.multiplicity>
                 <XMI.field>1</XMI.field>
                 <XMI.field>1</XMI.field>
