@@ -78,6 +78,7 @@ public class FileOutput implements Value,BMTLObjectInterface
 	public void BMTL_close ()
 	{
 		try {
+			this.dataOutputStream.flush();
             this.dataOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
