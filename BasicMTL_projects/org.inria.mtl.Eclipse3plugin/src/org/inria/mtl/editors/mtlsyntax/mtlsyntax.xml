@@ -30,7 +30,7 @@
         <mtlsyntax keyword="throw" tokenval="1008"></mtlsyntax>
         <mtlsyntax keyword="switch" tokenval="1009"></mtlsyntax>
         <mtlsyntax keyword="case" tokenval="1010"></mtlsyntax>
-        <!--<mtlsyntax keyword="endswitch" tokenval="1011"></mtlsyntax>-->
+        <mtlsyntax keyword="abstract" tokenval="1011"></mtlsyntax>
         <mtlsyntax keyword="break" tokenval="1012"></mtlsyntax>
         <mtlsyntax keyword="continue" tokenval="1013"></mtlsyntax>
         <mtlsyntax keyword="return" tokenval="1014"></mtlsyntax>
