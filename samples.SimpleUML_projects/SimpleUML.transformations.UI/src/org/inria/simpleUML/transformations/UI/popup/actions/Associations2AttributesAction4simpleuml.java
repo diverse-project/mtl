@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesAction4simpleuml.java,v 1.1 2004-08-19 10:18:45 dvojtise Exp $
+/* $Id: Associations2AttributesAction4simpleuml.java,v 1.2 2004-09-13 12:09:38 jpthibau Exp $
  * Authors : dvojtise
  * Created on 01/08/2004
  * Copyright 2003 - INRIA - LGPL license
@@ -81,7 +81,7 @@ public class Associations2AttributesAction4simpleuml implements IObjectActionDel
 			SimpleUMLFactory aSimpleUMLFactory = aSimpleUMLPackage.getSimpleUMLFactory();
 			provider.setRootElement(aSimpleUMLFactory.createSimpleUmlMM());
 	
-			EMFDriver.addEditingDomainProvider("SimpleUmlMM",provider);
+			EMFDriver.addEditingDomainProvider("SimpleUML",provider);
 			/* ========================================================================= */
 	
 	
