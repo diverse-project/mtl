@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="TraceabilityLibrary" size="681,677" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary" metadata="emf-1.0" initialized="true" zoom="0.75" scrolledX="-27" scrolledY="-64" tag="5" key="3230303430373139204D4F544F525F50494D3243434D">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.0 //@children.2/@sourceConnections.0" name="EnhancedMetamodelsTraceability" location="60,120" size="258,247" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability" runTimeClassModel=" addTraceableElement(), associateElementToElement(), Source_getAssociationSet(), Source_getElementById(), Target_getElementById(), getAssociationSet(), Target_getAssociationSet(), Source_deleteElement(), deleteElement(), init(), Target_deleteElement()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="Source_deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Source_getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Source_getElementById" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_getElementById">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Source_getElementById"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Target_deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Target_getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Target_getElementById" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_getElementById">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/Target_getElementById"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="addTraceableElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/addTraceableElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/addTraceableElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="associateElementToElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/associateElementToElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/associateElementToElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/init">
+        <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability/init"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" source="//@children.0" target="//@children.1" targetEnd="//@children.0/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan" anchorType="ChopBox">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="129,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="93,121"/>
+    </sourceConnections>
+    <model href="(default package).ecore#//TraceabilityLibrary/EnhancedMetamodelsTraceability"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.0/@sourceConnections.0" name="TraceabilityInterface" location="95,-80" size="187,121" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/TraceabilityInterface" runTimeClassModel=" associateElementToElement(), getAssociationSet(), deleteElement(), init()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="associateElementToElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/associateElementToElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/associateElementToElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/init">
+        <model href="(default package).ecore#//TraceabilityLibrary/TraceabilityInterface/init"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <model href="(default package).ecore#//TraceabilityLibrary/TraceabilityInterface"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="InternalTraceability" location="-30,440" size="198,157" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability" runTimeClassModel=" Target_addTraceableElement(), addTraceableElement(), Source_getAssociationSet(), Source_addTraceableElement(), Source_deleteElement(), Target_deleteElement()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="Source_addTraceableElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_addTraceableElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_addTraceableElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Source_deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Source_getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/Source_getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Target_addTraceableElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/Target_addTraceableElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/Target_addTraceableElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Target_deleteElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/Target_deleteElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/Target_deleteElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="addTraceableElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/InternalTraceability/addTraceableElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability/addTraceableElement"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" source="//@children.2" target="//@children.0" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan" anchorType="ChopBox">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="133,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="75,247"/>
+    </sourceConnections>
+    <model href="(default package).ecore#//TraceabilityLibrary/InternalTraceability"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ExternalTraceability" location="190,440" size="183,103" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/ExternalTraceability" runTimeClassModel=" addTraceableElement(), Source_getAssociationSet(), init()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="Source_getAssociationSet" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/ExternalTraceability/Source_getAssociationSet">
+        <model href="(default package).ecore#//TraceabilityLibrary/ExternalTraceability/Source_getAssociationSet"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="addTraceableElement" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/ExternalTraceability/addTraceableElement">
+        <model href="(default package).ecore#//TraceabilityLibrary/ExternalTraceability/addTraceableElement"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary/ExternalTraceability/init">
+        <model href="(default package).ecore#//TraceabilityLibrary/ExternalTraceability/init"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.0/@children.1" sourceEnd="//@children.3/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan" anchorType="ChopBox">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="72,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="175,247"/>
+    </sourceConnections>
+    <model href="(default package).ecore#//TraceabilityLibrary/ExternalTraceability"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <model href="(default package).ecore#//TraceabilityLibrary"/>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:EMFClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true"/>
+</editmodel:ClassDiagramEditModel>

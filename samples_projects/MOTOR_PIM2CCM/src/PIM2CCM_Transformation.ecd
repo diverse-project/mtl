@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="PIM2CCM_Transformation" size="681,211" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation" metadata="emf-1.0" initialized="true" tag="5" key="3230303430373139204D4F544F525F50494D3243434D">
+  <children xsi:type="editmodel:ClassEditModel" name="ArgumentsParser" location="56,47" size="152,85" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser" runTimeClassModel=" getArg(), init()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="getArg" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser/getArg">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser/getArg"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser/init">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser/init"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <model href="(default package).ecore#//PIM2CCM_Transformation/ArgumentsParser"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="PIM2CCMTransformation" location="270,47" size="278,319" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation" runTimeClassModel=" PortOwnerShipTransformation(), Port_InterfaceRelationShipTransformation(), PortIsProvidedTransformation(), PropertyTransformation(), OperationTransformation(), ComponentTransformation(), Init(), Interface_PropertyOwnerShipTransformation(), InterfaceTransformation(), getItem(), Interface_OperationOwnerShipTransformation(), PortIsRequiredTransformation(), PortEventIsRequiredTransformation(), PortEventIsProvidedTransformation(), Execute()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="ComponentTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/ComponentTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/ComponentTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Execute" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Execute">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Execute"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Init" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Init">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Init"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="InterfaceTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/InterfaceTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/InterfaceTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Interface_OperationOwnerShipTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Interface_OperationOwnerShipTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Interface_OperationOwnerShipTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Interface_PropertyOwnerShipTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Interface_PropertyOwnerShipTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Interface_PropertyOwnerShipTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="OperationTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/OperationTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/OperationTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PortEventIsProvidedTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortEventIsProvidedTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortEventIsProvidedTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PortEventIsRequiredTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortEventIsRequiredTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortEventIsRequiredTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PortIsProvidedTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortIsProvidedTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortIsProvidedTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PortIsRequiredTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortIsRequiredTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortIsRequiredTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PortOwnerShipTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortOwnerShipTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PortOwnerShipTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="Port_InterfaceRelationShipTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Port_InterfaceRelationShipTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/Port_InterfaceRelationShipTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="PropertyTransformation" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PropertyTransformation">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/PropertyTransformation"/>
+      </children>
+      <children xsi:type="editmodel:MethodEditModel" name="getItem" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/getItem">
+        <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation/getItem"/>
+      </children>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <model href="(default package).ecore#//PIM2CCM_Transformation/PIM2CCMTransformation"/>
+    <classifierPreferences xsi:type="editmodel:EMFClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural"/>
+  </children>
+  <model href="(default package).ecore#//PIM2CCM_Transformation"/>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:EMFClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true"/>
+</editmodel:ClassDiagramEditModel>

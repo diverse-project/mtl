@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name=""
+    nsURI="http://" nsPrefix="">
+  <eSubpackages name="PIM2CCM_Transformation">
+    <eClassifiers xsi:type="ecore:EClass" name="ArgumentsParser">
+      <eOperations name="init"/>
+      <eOperations name="getArg"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PIM2CCMTransformation">
+      <eOperations name="Init"/>
+      <eOperations name="Execute"/>
+      <eOperations name="ComponentTransformation"/>
+      <eOperations name="PortIsProvidedTransformation"/>
+      <eOperations name="PortIsRequiredTransformation"/>
+      <eOperations name="PortEventIsRequiredTransformation"/>
+      <eOperations name="PortEventIsProvidedTransformation"/>
+      <eOperations name="PortOwnerShipTransformation"/>
+      <eOperations name="InterfaceTransformation"/>
+      <eOperations name="PropertyTransformation"/>
+      <eOperations name="OperationTransformation"/>
+      <eOperations name="Interface_PropertyOwnerShipTransformation"/>
+      <eOperations name="Interface_OperationOwnerShipTransformation"/>
+      <eOperations name="Port_InterfaceRelationShipTransformation"/>
+      <eOperations name="getItem"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="TraceabilityLibrary">
+    <eClassifiers xsi:type="ecore:EClass" name="EnhancedMetamodelsTraceability" eSuperTypes="#//TraceabilityLibrary/TraceabilityInterface">
+      <eOperations name="init"/>
+      <eOperations name="associateElementToElement"/>
+      <eOperations name="getAssociationSet"/>
+      <eOperations name="deleteElement"/>
+      <eOperations name="Source_getElementById"/>
+      <eOperations name="Target_getElementById"/>
+      <eOperations name="addTraceableElement"/>
+      <eOperations name="Source_getAssociationSet"/>
+      <eOperations name="Target_getAssociationSet"/>
+      <eOperations name="Source_deleteElement"/>
+      <eOperations name="Target_deleteElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TraceabilityInterface" interface="true">
+      <eOperations name="init"/>
+      <eOperations name="associateElementToElement"/>
+      <eOperations name="getAssociationSet"/>
+      <eOperations name="deleteElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InternalTraceability" eSuperTypes="#//TraceabilityLibrary/EnhancedMetamodelsTraceability">
+      <eOperations name="addTraceableElement"/>
+      <eOperations name="Source_getAssociationSet"/>
+      <eOperations name="Source_addTraceableElement"/>
+      <eOperations name="Target_addTraceableElement"/>
+      <eOperations name="Source_deleteElement"/>
+      <eOperations name="Target_deleteElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExternalTraceability" eSuperTypes="#//TraceabilityLibrary/EnhancedMetamodelsTraceability">
+      <eOperations name="init"/>
+      <eOperations name="addTraceableElement"/>
+      <eOperations name="Source_getAssociationSet"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

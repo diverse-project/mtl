@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="PIM2CCM_main" size="681,228" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#/" metadata="emf-1.0" initialized="true" scrolledX="57" tag="5" key="3230303430373139204D4F544F525F50494D3243434D">
+  <children xsi:type="editmodel:PackageEditModel" name="PIM2CCM_Transformation" location="62,56" size="203,152" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//PIM2CCM_Transformation">
+    <model href="(default package).ecore#//PIM2CCM_Transformation"/>
+    <packagePreferences xsi:type="editmodel:EMFClassDiagramPackagePreference"/>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" name="TraceabilityLibrary" location="401,80" size="160,120" id="platform:/resource/MOTOR_PIM2CCM/src/(default package).ecore#//TraceabilityLibrary">
+    <model href="(default package).ecore#//TraceabilityLibrary"/>
+    <packagePreferences xsi:type="editmodel:EMFClassDiagramPackagePreference"/>
+  </children>
+  <children xsi:type="editmodel:NotepadEditModel" location="575,0" size="141,61" fontInfo="Arial-8-0" note="Currently, this is for &#xD;&#xA;documentation purpose &#xD;&#xA;only"/>
+  <model href="(default package).ecore#/"/>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:EMFClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true"/>
+</editmodel:ClassDiagramEditModel>
