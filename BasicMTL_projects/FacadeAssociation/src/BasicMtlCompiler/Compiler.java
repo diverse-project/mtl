@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.9 2004-06-10 09:16:29 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.10 2004-06-14 13:19:21 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
 package BasicMtlCompiler;
 
 import java.io.*;
+import java.util.Vector;
+
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
@@ -122,6 +124,7 @@ public class Compiler {
 			String defaultBinPath)
 			throws Exception
 	{
+		MSGHandler.allMessages = new Vector();
 		// look in the directory only for mtl files. 
 		// this version do not search recursively
 		java.util.Vector filenamesArguments=new java.util.Vector();
