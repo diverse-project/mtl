@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_build.xml,v 1.13 2004-10-26 12:31:03 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_build.xml,v 1.14 2004-10-27 07:59:16 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -17,6 +17,7 @@
 	<property name="PoseidonDriver.project.dir" location="../PoseidonDriver"/>
 	<property name="ModFactDriver.project.dir" location="../ModFactDriver"/>
 	<property name="EMFDriver.project.dir" location="../org.inria.EMFDriver"/>
+	<property name="runtime.plugin.project.dir" location="../org.inria.BasicMTL.runtime"/>
 	
 	<!-- The compilation tool (link to the BasicMTL compiler used to compile this version) -->
 	<property name="MTLcompiler.jar.path" location="LibAssociationBoot/dist/bin"/>
@@ -85,6 +86,7 @@
 	</target>
 	<target name="compile_dependent_external_jars" 
 		description="compiles the jars that are part of this distibution but that need a version of the compiler (eg. dirvers)">
+		<ant antfile="${runtime.plugin.project.dir}/main_build.xml" dir="${runtime.plugin.project.dir}" target="compile" inheritAll="false"/>
 		<ant antfile="${MDRDriver.project.dir}/main_build.xml" dir="${MDRDriver.project.dir}" target="compile" inheritAll="false"/>
 		<ant antfile="${ModFactDriver.project.dir}/main_build.xml" dir="${ModFactDriver.project.dir}" target="compile" inheritAll="false"/>
 		<!-- <ant antfile="${PoseidonDriver.project.dir}/main_build.xml" dir="${PoseidonDriver.project.dir}" target="compile" inheritAll="false"/>-->
