@@ -23,8 +23,8 @@ public class Directories {
 		return ret;
 	}
 
-    public static File getJar () {
-        String thisClassName = ClassLoader.getSystemResource(AWK.replace(Directories.class.getName(),
+    public static File getJar (String fromClass) {
+        String thisClassName = ClassLoader.getSystemResource(AWK.replace(fromClass,
                 ".", "/") + ".class").getFile();
         if (thisClassName.startsWith("file:")) {
             int index = thisClassName.indexOf("!");
@@ -45,8 +45,8 @@ public class Directories {
 
     /**Get the path where the program is installed, class or jar
      */
-    public static String getRootPath () {
-        String thisClassName = ClassLoader.getSystemResource(AWK.replace(Directories.class.getName(),
+    public static String getRootPath (String fromClass) {
+        String thisClassName = ClassLoader.getSystemResource(AWK.replace(fromClass,
                 ".", "/") + ".class").getFile();
         if (thisClassName.startsWith("file:")) {
             int index = thisClassName.indexOf("!");
@@ -61,13 +61,13 @@ public class Directories {
         }
         else {
             String path = new File(thisClassName).getAbsolutePath();
-            int length = AWK.numberOfFieldOf(Directories.class.getName(),
+            int length = AWK.numberOfFieldOf(fromClass,
                     ".");
             for (int i = 1; i < length; ++i)
                 path = AWK.eliminateLastFieldOf(path, File.separator);
             thisClassName = path;
         }
         File thisFile = new File(thisClassName);
-        return  thisFile.getParent();
+        return thisFile.getParent();
     }
 }

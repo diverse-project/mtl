@@ -1,0 +1,91 @@
+<!-- $Id: build.xml,v 1.1 2003-08-11 18:52:18 ffondeme Exp $ -->
+<project name="Utils" default="dist" basedir=".">
+	<description>
+        Miscellaneous utility classes.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the bin and dist directories -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	</target>
+
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src} into ${bin} -->
+	    <javac srcdir="${src}" 
+    	    destdir="${bin}"
+   			classpath=".;ThirdParty\junit\junit.jar"
+   			nowarn="true"/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            packagenames="org.irisa.triskell.MT.utils.Java.*"
+            excludepackagenames="org.irisa.triskell.MT.utils.Java.Test.*"
+            sourcepath="src"
+            classpath="bin">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+	    <copy todir="${dist}/bin/ThirdParty/junit">
+	    	<fileset dir="ThirdParty/junit"/>
+	   	</copy>
+	    <copy todir="${dist}/bin/ThirdParty/log4j">
+	    	<fileset dir="ThirdParty/log4j"/>
+	   	</copy>
+	    	
+		<mkdir dir="${dist}/test"/>
+	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="true">
+	    	<classpath>
+			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
+			    <pathelement path="${classpath}"/>
+			</classpath>
+			<formatter type="plain"/>
+	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.utils.Java.Test.PositionSorterTest"/>
+	    </junit>
+	</target>
+
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+      	<delete dir="${dist}"/> 
+  	</target>
+
+  	<target name="deep_clean" depends="clean"
+        description="deep clean up (including depending projects)" />
+</project>
