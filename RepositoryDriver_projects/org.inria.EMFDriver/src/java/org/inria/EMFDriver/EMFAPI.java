@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.1 2004-10-25 13:59:58 dvojtise Exp $
+/* $Id: EMFAPI.java,v 1.2 2004-10-29 08:38:49 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -35,7 +35,11 @@ import java.util.Vector;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
+import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
@@ -276,6 +280,12 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 			}
 		}
 
+        public void visitRepositoryAPIValue(
+                org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue value)
+            {
+    				throw new RuntimeException("Unimplemented method visitRepositoryAPI in genericJMI JMIAPI");
+            }
+        
 		public void visitTupleValue(
 			org.irisa.triskell.MT.DataTypes.Java.TupleValue value)
 		{
@@ -677,4 +687,61 @@ implements org.irisa.triskell.MT.repository.API.Java.API
     	return null;
     }
 	
-}
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#equals(org.irisa.triskell.MT.DataTypes.Java.Value)
+     */
+    public boolean equals(Value rhs) {
+    	// TODO Auto-generated method stub
+    	return false;
+    }
+
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#getErrorMessage()
+     */
+    public String getErrorMessage() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#getType()
+     */
+    public Type getType() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#isUndefined()
+     */
+    public boolean isUndefined() {
+    	// TODO Auto-generated method stub
+    	return false;
+    }
+
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#invoke(java.lang.String[], java.lang.String, org.irisa.triskell.MT.DataTypes.Java.Value[], java.lang.String[])
+     */
+    public Value invoke(String[] scopeQualifiedName, String name,
+    		Value[] arguments, String[] discriminants)
+    		throws UnknownCommandException, MultipleCommandException {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.Value#accept(org.irisa.triskell.MT.DataTypes.Java.ValueVisitor)
+     */
+    public void accept(ValueVisitor visitor) {
+    	visitor.visitRepositoryAPIValue(this);
+
+    }
+    /* (non-Javadoc)
+     * @see org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue#getTheRepositoryAPI()
+     */
+    public String getTheRepositoryAPI() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+
+    }
