@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TryAnalyser.java,v 1.4 2003-08-20 16:07:34 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/TryAnalyser.java,v 1.5 2004-04-15 23:25:57 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -32,6 +32,16 @@ public class TryAnalyser extends TLLTopDownVisitor.TryAnalyser {
 	public void TryFinallyBody(java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.println("finally {");
+		context.put("NeedsSemiColumn", Boolean.TRUE);
+	}
+
+	public void TryFinalizeInstruction(Object theCatch, Object instr, Map context) {
+		Boolean needsColumn = (Boolean)context.get("NeedsSemiColumn");
+		if (needsColumn == null || needsColumn.booleanValue()) {
+			PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+			outputForClass.println(';');
+		}
+		context.put("NeedsSemiColumn", Boolean.TRUE);
 	}
 
 	public void TryFinallyEndBody(java.util.Map context)
