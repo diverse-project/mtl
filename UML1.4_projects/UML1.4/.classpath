@@ -4,5 +4,7 @@
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="lib" path="/Utils/dist/bin/ThirdParty/log4j/log4j.jar"/>
     <classpathentry kind="src" path="/BasicMtl2Java"/>
+    <classpathentry kind="lib"
+        path="/BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar" sourcepath="C:/eclipse_lievre/workspace/BasicMtl2Java/LibAssociation/src"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
