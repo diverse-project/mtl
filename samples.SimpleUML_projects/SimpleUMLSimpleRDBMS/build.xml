@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-11-24 13:04:00 dvojtise Exp $ -->
-<project name="UML14" default="run Transformations" basedir=".">
+<!-- $Id: build.xml,v 1.2 2004-01-29 14:56:08 xblanc Exp $ -->
+<project name="UML14" default="run Transformations with MDR" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
 	</description>
@@ -7,7 +7,7 @@
 	
 	
 	
-	<target name="run Transformations" > 
+	<target name="run Transformations with MDR" > 
   		<description>
   		</description> 
   		<delete dir="build"></delete> 
@@ -15,6 +15,13 @@
   		<ant antfile="SimpleUML2SimpleRDBMS4MDR_build.xml" dir="." target="compile"/>
   		<ant antfile="SimpleUML2SimpleRDBMS4MDR_build.xml" dir="." target="run"/>
   	</target>
-  	
+  	<target name="run Transformations with ModFact" > 
+  		<description>
+  		</description> 
+  		<delete dir="build"></delete> 
+  		<ant antfile="SimpleUMLSimpleRDBMS_build.xml" dir="." target="compile"/>
+  		<ant antfile="SimpleUML2SimpleRDBMS4ModFact_build.xml" dir="." target="compile"/>
+  		<ant antfile="SimpleUML2SimpleRDBMS4ModFact_build.xml" dir="." target="run"/>
+  	</target>
 
 </project>
