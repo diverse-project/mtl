@@ -1,11 +1,11 @@
-<!-- $Id: copy_build.xml,v 1.1 2004-10-25 13:23:10 jpthibau Exp $ -->
+<!-- $Id: copy_build.xml,v 1.2 2004-10-25 14:56:19 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="get all" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
 	</description>
 	<!-- set global properties for this build -->
 	<!-- the following properties must be set by the caller -->
-	<property name="src" location="build/src"/>
+	<property name="src" location="build/src/java"/>
 	<property name="bin" location="bin"/>
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
