@@ -65,7 +65,7 @@ public class BMTLLibraryType extends BMTLType {
 		return new SetValueImpl(false, null, ret, false);
 	}
 
-	public BMTLObject instanciate() {
+	public BMTLObjectInterface instanciate() {
 		try {
 			return (BMTLObject)this.clazz.newInstance();
 		} catch(IllegalAccessException x) {

@@ -23,7 +23,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
-public class BMTLType extends CommandGroupImpl implements Type {
+public class BMTLType extends CommandGroupImpl implements InstanciableType {
 	
 	protected final Class itf;
 	protected final Class clazz;
@@ -105,7 +105,7 @@ public class BMTLType extends CommandGroupImpl implements Type {
 		return new SetValueImpl(false, null, this.getLibrary().allClassInstances(this.getName()), false);
 	}
 	
-	public BMTLObject instanciate () {
+	public BMTLObjectInterface instanciate () {
 		try {
 			Constructor c = this.clazz.getConstructor(new Class [] {this.getLibrary().getClass()});
 			return (BMTLObject)c.newInstance(new Object [] {this.getLibrary()});
