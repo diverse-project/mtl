@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/MDRDriver"/>
+	<classpathentry kind="src" path="/MTDataTypes"/>
+	<classpathentry kind="src" path="/RepositoryAPI"/>
+	<classpathentry kind="src" path="/Utils"/>
+	<classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
+	<classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/jmi.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/jmiutils.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/mdrapi.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/mof.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/nbmdr.jar"/>
+	<classpathentry kind="lib" path="/MDRDriver/ThirdParty/MDR/official/openide-lookup.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
