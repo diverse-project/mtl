@@ -15,7 +15,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
 
 public class IntegerType extends PrimitiveType {
 	public static final Type TheInstance = new IntegerType();
-	public static final String Name = "Real"; 
+	public static final String Name = "Integer"; 
 	
 	private IntegerType () {
 		super(Name, new Type[] {RealType.TheInstance});
