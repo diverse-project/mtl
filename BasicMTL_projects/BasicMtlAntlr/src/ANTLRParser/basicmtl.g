@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.13 2003-09-23 17:11:31 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.14 2003-10-14 15:38:06 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -29,23 +29,26 @@ options {
 /*===============================================================
 basicMTL
 { lexer = theLexer; }
-	: headerdef modelUse ( classDefinition | methodDefinition )+
+	: headerdef modelUse ( associationDefinition | classDefinition | methodDefinition )+
 	  EOF!
 ==================================================================*/
 basicMTL[BasicmtlLexer theLexer,ANTLRWalkerActionsInterface theWalker] returns [Object tree=null;]
 {	lexer = theLexer;
 	walker=theWalker;
 	java.util.Vector theModels=new java.util.Vector();
+	java.util.Vector theAssociations=new java.util.Vector();
 	java.util.Vector theClasses=new java.util.Vector();
 	java.util.Vector theMethods=new java.util.Vector();
 	Object l1=null;
 	Object l2=null;
 	Object l3=null;
+	Object l4=null;
 }
 	: tree=headerdef
 	  (l1=modelUse {theModels.addElement(l1); })*
-	  ( l2=classDefinition {theClasses.addElement(l2); }
-	    | l3=methodDefinition {theMethods.addElement(l3); } )+
+	  ( l4=associationDefinition {theAssociations.addElement(l4); }
+	   | l2=classDefinition {theClasses.addElement(l2); }
+	   | l3=methodDefinition {theMethods.addElement(l3); } )+
 	    {tree=walker.library(tree,theModels,theMethods,theClasses); }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -95,26 +98,92 @@ exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 /*===============================================================
-classDefinition
-	: classKeyword IDENTIFIER (inheritance)?
+associationDefinition
+	: associationKeyword (IDENTIFIER)?
 	(tag )*
-	 OPENBRACE ( attributesDef )* ( methodDefinition )* CLOSEBRACE 
+	 OPENBRACE ( endPointDef )* CLOSEBRACE 
+==================================================================*/
+associationDefinition returns [Object tree=null;]
+{	java.util.Vector theTags=new java.util.Vector();
+	java.util.Vector theEndPoints=new java.util.Vector();
+	String n;
+	String name=null;
+	Object l1=null;
+	Object l2=null;
+}
+	: n=associationKeyword (s1:IDENTIFIER {name=s1.getText();} )?
+	(l1=tag {theTags.addElement(l1); } )*
+	OPENBRACE ( l2=endPointDef {theEndPoints.addElement(l2); } )*
+	CLOSEBRACE 
+	{tree=walker.associationDefinition(n,name,theTags,theEndPoints); } 
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+	
+
+/*===============================================================
+endPointDef : (IDENTIFIER)? COLON IDENTIFIER (multiplicity)? ("composition" | "aggregation" | "ordered" | "notNavigable")* semicolon
+                (tag )*
+==================================================================*/
+endPointDef returns [Object tree=null;]
+{	java.util.Vector theTags=new java.util.Vector();
+	String n;
+	String name=null;
+	boolean isComposition=false;
+	boolean isAggregation=false;
+	boolean isOrdered=false;
+	boolean isNavigable=true;
+	Object l1=null;
+	Object l2=null;
+}
+	: (s1:IDENTIFIER {name=s1.getText();} )? COLON s2:IDENTIFIER (l1=multiplicityDef)?
+	  ("composition" {isComposition=true;} | "aggregation" {isAggregation=true;} | "ordered" {isOrdered=true;} | "notNavigable" {isNavigable=false;})*
+      (l2=tag {theTags.addElement(l2); } )*
+      n=semicolon
+      {tree=walker.endPoint(n,name,s2.getText(),l1,isComposition,isAggregation,isOrdered,isNavigable,theTags); }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+
+/*===============================================================
+multiplicityDef :  ( NUM_INT | OPENBRACKET NUM_INT NUM_INT CLOSEBRACKET )
+==================================================================*/
+multiplicityDef returns [Object tree=null;]
+{	String lower=null;
+	String upper=null;
+}
+	: (s1:NUM_INT {lower=s1.getText(); upper=s1.getText();}
+	 | OPENBRACKET s2:NUM_INT s3:NUM_INT CLOSEBRACKET { lower=s2.getText(); upper=s3.getText();} )
+      {tree=walker.multiplicity(lower,upper); }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+
+/*===============================================================
+classDefinition
+	: classKeyword IDENTIFIER (inheritance)? (refinement)?
+	(tag )*
+	 OPENBRACE ( attributesDef )* ( getSetDef )* ( methodDefinition )* CLOSEBRACE 
 ==================================================================*/
 classDefinition returns [Object tree=null;]
 {	java.util.Vector theTags=new java.util.Vector();
 	java.util.Vector theAttributes=new java.util.Vector();
+	java.util.Vector theGettersSetters=new java.util.Vector();
 	java.util.Vector theMethods=new java.util.Vector();
 	String n;
 	Object l1=null;
 	Object l2=null;
 	Object l3=null;
 	Object l4=null;
+	Object l5=null;
+	Object l6=null;
 }
-	: n=classKeyword s1:IDENTIFIER (l1=inheritance)?
+	: n=classKeyword s1:IDENTIFIER (l1=inheritance)? (l5=refinement)?
 	(l2=tag {theTags.addElement(l2); } )*
 	OPENBRACE ( l3=attributesDef {theAttributes.addElement(l3); } )*
+	( l6=getSetDef {theGettersSetters.addElement(l6); } )*
 	( l4=methodDefinition {theMethods.addElement(l4); } )* CLOSEBRACE 
-	{tree=walker.classDefinition(n,s1.getText(),l1,theTags,theAttributes,theMethods); } 
+	{tree=walker.classDefinition(n,s1.getText(),l1,l5,theTags,theAttributes,theGettersSetters,theMethods); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -124,6 +193,16 @@ inheritance : "extends" typeList
 ==================================================================*/
 inheritance returns [Object tree=null;]
 	: "extends" tree=typeList
+	 {tree = walker.inheritance(tree);}
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+
+/*===============================================================
+refinement : "refines" typeList
+==================================================================*/
+refinement returns [Object tree=null;]
+	: "refines" tree=typeList
 	 {tree = walker.inheritance(tree);}
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -157,6 +236,18 @@ exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 
+/*===============================================================
+getSetDef : ( "getter" | "setter" ) IDENTIFIER "is" IDENTIFIER semicolon
+
+==================================================================*/
+getSetDef returns [Object tree=null;]
+{	boolean isGetter=true;
+}
+	:( "getter" | "setter" {isGetter=false; }) s1:IDENTIFIER "is" s2:IDENTIFIER SEMICOLON
+	{tree=walker.setterGetter(isGetter,s1.getText(),s2.getText()); }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
 /*===============================================================
 methodDefinition : ("creation")? IDENTIFIER 
 		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
@@ -261,7 +352,7 @@ instruction returns [Object tree=null;]
 	  {tree=walker.expressionInstr(tree,n);}
 	| "return" ((OPENBRACKET)? tree=expression (CLOSEBRACKET)?)? n=semicolon
 	  {tree=walker.returnInstr(tree,n);}
-	| "while" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
+	| "while" tree=expression n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
 	  {tree=walker.whileInstr(tree,theInstructions,n);}	
 	| "if" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 		( "else" OPENBRACE (l2=instruction {theElseInstructions.addElement(l2);} )+ CLOSEBRACE)?
@@ -270,7 +361,7 @@ instruction returns [Object tree=null;]
 	  {tree=walker.throwsInstr(tree,n);}
 	| "try" n=openbrace ( l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 	  ({theCatchInstructions=new java.util.Vector();}
-	   "catch" (OPENBRACKET)? s3:IDENTIFIER COLON l2=type (CLOSEBRACKET)? n=openbrace (l3=instruction {theCatchInstructions.addElement(l3);})+ CLOSEBRACE
+	   "catch" s3:IDENTIFIER COLON l2=type n=openbrace (l3=instruction {theCatchInstructions.addElement(l3);})+ CLOSEBRACE
 	    { java.util.Vector v=new java.util.Vector();
 	      v.addElement(s3.getText());
 	      v.addElement(l2);
@@ -407,9 +498,15 @@ exception catch [RecognitionException ex] {
 oclAsTypeCall : "oclAsType" openbracket type CLOSEBRACKET
 ==================================================================*/
 oclAsTypeCall returns [Object tree=null;]
-{ String n; }
-	: "oclAsType" n=openbracket EXCLAM tree=type EXCLAM CLOSEBRACKET
-	{tree=walker.oclAsType(tree,n);}
+{ String n;
+	boolean isConstant=true;
+	String theType=null;
+	String theMethod=null;
+	String theParameter=null; }
+	: "oclAsType" n=openbracket
+	(id1:IDENTIFIER COMMA id2:IDENTIFIER COMMA id3:IDENTIFIER COMMA { theType=id1.getText(); theMethod=id2.getText(); theParameter=id3.getText(); isConstant=false; }) ?
+	EXCLAM tree=type EXCLAM CLOSEBRACKET
+	{tree=walker.oclAsType(tree,n,theType,theMethod,theParameter,isConstant);}
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -493,6 +590,14 @@ semicolon : SEMICOLON
 /* produce an ANTLR AST node of token type NUM_INT with the actual line value */ 
 semicolon returns [String number=null;]
 	: s:SEMICOLON {number=Integer.toString(s.getLine()); } 
+	;
+
+/*===============================================================
+associationKeyword : "association"
+==================================================================*/
+/* remember the line number of a new association definition */
+associationKeyword returns [String number=null;]
+	: c:"association" { number=Integer.toString(c.getLine()); }
 	;
 
 /*===============================================================

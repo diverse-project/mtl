@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.5 2003-08-28 16:37:20 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.6 2003-10-14 15:38:06 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -13,11 +13,19 @@ public Object nativeLibHeader(String libName);
 
 public Object model(String lineNumber,String modelName,String viewName);
 
-public Object classDefinition(String lineNumber,String className,Object inheritance,java.util.Vector tags,java.util.Vector attributes,java.util.Vector methods);
+public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints); //+++Version1.1+++
+
+public Object endPoint(String lineNumber,String roleName,String className,Object multiplicity,boolean isComposition,boolean isAggregation,boolean isOrdered,boolean isNavigable,java.util.Vector theTags); //+++Version1.1+++
+
+public Object multiplicity (String lowerBound,String upperBound); //+++Version1.1+++
+
+public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods); //+++Version1.1+++ Object refinement, Vector gettersSetters
 
 public Object inheritance (Object typesList);
 
 public Object attribute(Object localVarDef,java.util.Vector tags);
+
+public Object setterGetter(boolean isGetter,String AttributeName,String operationName);//+++Version1.1+++
 
 public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags);
 
@@ -73,7 +81,7 @@ public Object directOperationCalls(java.util.Vector theCalls);
 
 public Object operationCall(String operationName,Object arguments,String lineNumber);
 
-public Object oclAsType(Object type,String lineNumber);
+public Object oclAsType(Object type,String lineNumber,String theType,String theMethod,String theParameter,boolean isAConstant);
 
 public Object arguments(java.util.Vector expressions);
 

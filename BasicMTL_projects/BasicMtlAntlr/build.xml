@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-08-12 14:51:05 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.5 2003-10-14 15:38:06 jpthibau Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="BasicMtlAntlr" default="dist" basedir=".">
 	<description>
@@ -11,6 +11,7 @@
 	
 	<!-- This project depends on the Utils project -->
 	<property name="Utils"  location="..\Utils"/>
+	<property name="BasicMtlAstJava"  location="..\BasicMtlAstJava"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -28,6 +29,9 @@
 	    <echo>Building the "Utils" project.</echo>
 	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="dist" inheritAll="false"/>
 	    <echo>"Utils" project built.</echo>
+	    <echo>Building the "BasicMtlAstJava" project.</echo>
+	    <ant antfile="${BasicMtlAstJava}\build.xml" dir="${BasicMtlAstJava}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlAstJava" project built.</echo>
 	</target>
 
 	<target name="compile_antlr" depends="init"
@@ -43,7 +47,7 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;${Utils}\bin;ThirdParty\ANTLR\antlrfull.jar;..\Utils\ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${Utils}\bin;${BasicMtlAstJava}\bin;ThirdParty\ANTLR\antlrfull.jar;..\Utils\ThirdParty\log4j\log4j.jar"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">
@@ -53,7 +57,7 @@
             nodeprecatedlist="false" nodeprecated="false"
             packagenames="ANTLRASTWalker,ANTLRParser"
             sourcepath="src"
-            classpath="bin;${Utils}\bin;ThirdParty\ANTLR\antlrfull.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Basic MTL ANTLR Parser internal Documentation">
+            classpath="bin;${Utils}\bin;${BasicMtlAstJava}\bin;ThirdParty\ANTLR\antlrfull.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Basic MTL ANTLR Parser internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
         </javadoc>
@@ -67,7 +71,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>   
 		    	<attribute name="Main-Class" value="ANTLRParser.BMTLParser"/>
-				<attribute name="Class-Path" value="Utils.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar"/>
+				<attribute name="Class-Path" value="Utils.jar BasicMtlAstJava.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar"/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -85,6 +89,9 @@
 		<!-- This project depends on the Utils project -->
 		<copy todir="${dist}/bin">
 			<fileset dir="${Utils}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlAstJava}\dist\bin"/>
 		</copy>
 		
 	    <copy file="log4j_configuration.xml"
@@ -109,5 +116,6 @@
 	    
 	    <!-- This project depends on the Utils project -->
 	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlAstJava}\build.xml" dir="${BasicMtlAstJava}" target="deep_clean" inheritAll="false"/>
     </target>
 </project>

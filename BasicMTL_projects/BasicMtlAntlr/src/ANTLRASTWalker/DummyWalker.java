@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.5 2003-08-28 16:38:16 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.6 2003-10-14 15:38:06 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -14,11 +14,19 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object model(String lineNumber,String modelName,String viewName) { return null; }
 
-	public Object classDefinition(String lineNumber,String className,Object inheritance,java.util.Vector tags,java.util.Vector attributes,java.util.Vector methods) { return null; }
+	public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints) { return null; } //+++Version1.1+++
+
+	public Object endPoint(String lineNumber,String roleName,String className,Object multiplicity,boolean isComposition,boolean isAggregation,boolean isOrdered,boolean isNavigable,java.util.Vector theTags) { return null; } //+++Version1.1+++
+
+	public Object multiplicity (String lowerBound,String upperBound) { return null; } //+++Version1.1+++
+
+	public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods) { return null; } //+++Version1.1+++ Object refinement, Vector gettersSetters
 
 	public Object inheritance (Object typesList) { return null; }
 
 	public Object attribute(Object localVarDef,java.util.Vector tags) { return null; }
+
+	public Object setterGetter(boolean isGetter,String AttributeName,String operationName) { return null; }//+++Version1.1+++
 
 	public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags) { return null; }
 
@@ -72,7 +80,7 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 	
 	public Object operationCall(String operationName,Object arguments,String lineNumber) { return null; }
 
-	public Object oclAsType(Object type,String lineNumber) { return null; }
+	public Object oclAsType(Object type,String lineNumber,String theType,String theMethod,String theParameter,boolean isAConstant) { return null; }
 
 	public Object arguments(java.util.Vector expressions) { return null; }
 
