@@ -40,7 +40,7 @@ main() : Standard::Void
 	
 	'Debut de la transformation ...'.toOut();	
 		
-	cmd	:= new Lib::CreateAndAddClass();
+	cmd	:= new uml::CreateAndAddClass();
 	cmd.run (null);
 
 	'That s all folks !'.toOut();		

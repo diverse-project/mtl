@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'ISO-8859-1' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Apr 30 09:43:44 CEST 2004'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Apr 30 11:13:15 CEST 2004'>
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
@@ -69,5 +69,7 @@
         </UML:Package>
       </UML:Namespace.ownedElement>
     </UML:Model>
+    <UML:Class xmi.id = 'a15' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+      isAbstract = 'false' isActive = 'false'/>
   </XMI.content>
 </XMI>

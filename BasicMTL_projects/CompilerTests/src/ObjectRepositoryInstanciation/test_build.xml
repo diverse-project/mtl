@@ -7,7 +7,7 @@
 	<property name="build.bin" location="build/bin"/>
 	<property name="build.src" location="build/src"/>
 	
-	<property name="MTLcompiler.path" location="Z:\doc\dev\BasicMtl2Java\LibAssociation\dist"/>
+	<property name="MTLcompiler.path" location="../../../BasicMtl2Java/LibAssociation/dist"/>
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
 	
 	<!-- The compilation tool -->
