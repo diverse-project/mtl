@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.24 2004-11-03 09:24:10 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.25 2004-11-04 14:14:15 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -33,7 +33,7 @@ public class antlr2ast implements ANTLRWalkerActionsInterface {
 	private static String libraryName = null;
 
 public Library buildLibraryFromText(String fileName)
-{ return ((Library)BMTLParser.Parse(fileName,this)); }
+{ return ((Library)BMTLParser.instance().Parse(fileName,this)); }
 
 public static void main(String[] args)
 {	if (args.length > 0)
