@@ -1,14 +1,17 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
+import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 
@@ -34,10 +37,11 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		outputForClass.println("/*===================*/");
 		outputForClass.println("/* INHERITED METHODS */");
 		outputForClass.println("/*===================*/");
+		HashMap refOps = new HashMap();
 		for (i=0;i<ASTnode.cardInheritedSignatures();i++)
 			{	java.util.Vector argtsGenSymbols=null;
 				InheritedOpSignature aSignature=ASTnode.getInheritedSignatures(i);
-				String returnType = aSignature.getReturnedType().getIsLocalType() ? aSignature.getReturnedType().getLocalMangledName() : aSignature.getReturnedType().getExternCompleteName();
+				String returnType = aSignature.getReturnedType().getDeclarationName();//aSignature.getReturnedType().getIsLocalType() ? aSignature.getReturnedType().getLocalMangledName() : aSignature.getReturnedType().getExternCompleteName();
 				outputForClass.print("public "+returnType+' '+aSignature.getOpMangle()+" (");
 				int arguments=aSignature.getArgsCount();
 				if (arguments > 0) {
@@ -49,8 +53,13 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 							if (j<arguments-1) outputForClass.print(',');
 						}
 				}
-				String relay = aSignature.getParentThatRelayOp().getIsLocalType() ? aSignature.getParentThatRelayOp().getLocalMangledName() : aSignature.getParentThatRelayOp().getExternMangledName();
-				outputForClass.print(")\n{ return (getRef_"+relay+"()."+aSignature.getOpMangle()+" (");
+				String relayName = AWK.mergeCollection(aSignature.getParentThatRelayOp(), "::");
+				GetReferenceSignature relay = (GetReferenceSignature)refOps.get(relayName);
+				if (relay == null) {
+					relay = new GetReferenceSignature(aSignature.getParentThatRelayOp());
+					refOps.put(relayName, relay);
+				}
+				outputForClass.print(")\n{ return ("+relay.getOpMangle()+"()."+aSignature.getOpMangle()+" (");
 				if (arguments>0)
 						for (int j=0;j<arguments;j++) {
 							outputForClass.print((String)argtsGenSymbols.get(j));

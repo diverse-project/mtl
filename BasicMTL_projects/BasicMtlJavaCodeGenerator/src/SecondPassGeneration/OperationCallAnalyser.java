@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -8,6 +8,8 @@ package SecondPassGeneration;
 import java.io.*;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeGetterSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeSetterSignature;
 
 /**
  * @author jpthibau
@@ -22,11 +24,17 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 
 	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context)
 	{	OperationCall theOpCall=(OperationCall)theOperationCall;
-		String mangledOpCall=Mangler.mangle("BMTL_",theOpCall.getName());
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		if (theOpCall.getIsToInvoke()) 
-			outputForClass.print(".invoke(null,\""+mangledOpCall+"\",new Value[]{");
-		else outputForClass.print("."+mangledOpCall+'(');
+			outputForClass.print(".invoke(null,\""+theOpCall.getName()+"\",new Value[]{");
+		else if (theOpCall.getKind().equals(OperationKind.getAttributeCall()))
+			outputForClass.print("."+AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+		else if (theOpCall.getKind().equals(OperationKind.getAttributeSet()))
+			outputForClass.print("."+AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+		else {
+			String mangledOpCall=Mangler.mangle("BMTL_",theOpCall.getName());
+			outputForClass.print("."+mangledOpCall+'(');
+		} 
 	}
 
 	public void OperationCallArgSeparator(java.util.Map context)

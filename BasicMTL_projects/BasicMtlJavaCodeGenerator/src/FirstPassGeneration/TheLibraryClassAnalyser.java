@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.2 2003-08-14 21:31:41 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.3 2003-08-19 13:37:24 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
@@ -33,8 +34,8 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		PrintWriter outputForInterface = CommonFunctions.openFile(baseFileName+ASTnode.getMangle()+"Interface",false);
 		//Generating code for the class and its interface
 		//===============================================
-		CommonFunctions.generatePckgeImports(outputForClass,packageName);
-		CommonFunctions.generatePckgeImports(outputForInterface,packageName);
+		CommonFunctions.generatePackageImports(outputForClass,packageName);
+		CommonFunctions.generatePackageImports(outputForInterface,packageName);
 		outputForClass.print("public class "+ASTnode.getMangle()+" extends BMTLLibrary");
 		outputForClass.println(" implements "+ASTnode.getMangle()+"Interface {\n");
 		outputForClass.println("/*==========================*/");
@@ -45,18 +46,16 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("/*=========================*/");
 		outputForClass.println("/* PARENT(S) REFERENCE(S)  */");
 		outputForClass.println("/*=========================*/");
-		outputForInterface.print("public interface "+ASTnode.getMangle()+"Interface extends BMTLInterface");
+		outputForInterface.print("public interface "+ASTnode.getMangle()+"Interface extends BMTLLibInterface");
 		limit=ASTnode.getInheritance().size();
 		// Inheritance from other defined libraries
 		//=======================================
 		for (i=0;i<limit;i++) {
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			if (aParentType.getIsExternType()) //libraryClass defined in another library
-				{	String externParentName=aParentType.getExternMangledName();
-					String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
-					outputForClass.println("private "+externCompleteParentName+" BMTLRef_"+externParentName+';');
-					outputForInterface.println(", "+externCompleteParentName+"Interface");
-				}
+			String externParentName=aParentType.getExternMangledName();
+			String declarationName = aParentType.getDeclarationName();
+			outputForClass.println("private "+declarationName+" BMTLRef_"+externParentName+';');
+			outputForInterface.println(", "+declarationName);
 		}
 		outputForInterface.println('{');
 		outputForClass.println("/*==========================*/");
@@ -113,7 +112,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			boolean first = true;
 			for(i=0;i<limit;i++)
 				{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
-					if (aUsedLib.isModelType || aUsedLib.isRepositoryModel) {
+					if (aUsedLib.getIsModelType() || aUsedLib.getIsRepositoryModel()) {
 						if (first) {
 							first = false;
 							outputForClass.println("    ");
@@ -153,14 +152,14 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		limit=theLib.cardUsedLibs();
 		for(i=0;i<limit;i++)
 			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
-				outputForClass.println("public " + aUsedLib.getExternCompleteName() + " BMTLRef_"+aUsedLib.getExternMangledName()+';');
+				outputForClass.println("public " + aUsedLib.getDeclarationName() + " BMTLRef_"+aUsedLib.getExternMangledName()+';');
 			}
 		outputForClass.println("private void buildAllUsedLibs() {");
 		for(i=0;i<limit;i++)
 			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
 				//outputForClass.println("BMTLRef_"+aUsedLib.getExternMangledName()+"=new "+aUsedLib.getExternCompleteName()+"();");
 				//@TODO check this piece of code ; Usign the singleton ; a used lib has no parameter
-				if (! aUsedLib.isModelType && ! aUsedLib.isRepositoryModel)
+				if (! aUsedLib.getIsModelType() && ! aUsedLib.getIsRepositoryModel())
 					outputForClass.println("BMTLRef_"+aUsedLib.getExternMangledName()+'='+aUsedLib.getExternCompleteName()+".TheInstance;");
 			}
 		outputForClass.println("}\n");
@@ -173,7 +172,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 				String type = typeTag == null ? null : (String)((Vector)typeTag.getValue()).get(2);
 				if (type != null || !((Boolean)theLib.getClasses(i).getProperty("ManualMangling").getValue()).booleanValue()) {
 					if (type == null) 
-						type = "new org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType(this, new String [] {\"" + JavaStringLiteralEncoder.encodeString(theLib.getName()) + "\", \"" + JavaStringLiteralEncoder.encodeString(theLib.getClasses(i).getName()) + "\"}, " + theLib.getClasses(i).getMangle() + ".class, " + theLib.getClasses(i).getMangle() + "Interface.class, null)";
+						type = "new org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType(this, new String [] {\"" + JavaStringLiteralEncoder.encodeString(theLib.getName()) + "\", \"" + JavaStringLiteralEncoder.encodeString(theLib.getClasses(i).getName()) + "\"}, " + theLib.getClasses(i).getMangle() + "Interface.class, " + theLib.getClasses(i).getMangle() + ".class, null)";
 					outputForClass.println(Mangler.mangle("the", theLib.getClasses(i).getMangle())+" = " + type + ";");
 				}
 			}
@@ -186,25 +185,21 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("inheritanceMap=new java.util.Hashtable();\n");
 		outputForClass.println("this.buildAllUsedLibs();");
 		outputForClass.println("this.buildAllClassTypes();");
+		outputForClass.println("inheritanceMap.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
+		outputForClass.println("theCaller=this;");
 		// Call parents constructors
 		//=======================================
 		limit=ASTnode.getInheritance().size();
 		for (i=0;i<limit;i++) {
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			if (aParentType.getIsLocalType()) //class defined in this library
-				{	String localParentName=aParentType.getLocalMangledName();
-					outputForClass.println("BMTLRef_"+localParentName+"= new "+localParentName+"(BMTL_MyLib,inheritanceMap,this);");
-				} 
-			if (aParentType.getIsExternType()) //class defined in another library
-				{	String externParentName=aParentType.getExternMangledName();
-					String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
-					String externLib=aParentType.getExternLibMangledName();
-					String externLibCompleteName=aParentType.getExternLibCompleteName();
-					outputForClass.println("BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(("+externLibCompleteName+")BMTL_MyLib.BMTLRef_"+externLib+",inheritanceMap,this);");
-				}
+			String externParentName=aParentType.getExternMangledName();
+			String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
+			String externLib=aParentType.getExternLibMangledName();
+			String externLibCompleteName=aParentType.getExternLibCompleteName();
+			outputForClass.println("BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(inheritanceMap,this);");
 		}
-		outputForClass.println("inheritanceMap.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
-		outputForClass.println("theCaller=this; }\n");
+		outputForClass.println('}');
+		outputForClass.println();
 		outputForClass.println("/* Indirect constructor              */");
 		outputForClass.println("/* (called from a parent constructor */");
 		outputForClass.println("/*===================================*/");
@@ -213,30 +208,23 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("this.buildAllUsedLibs();");
 		outputForClass.println("this.buildAllClassTypes();");
 		outputForClass.println("inheritanceMap = map;");
+		outputForClass.println("theCaller=o;");
+		outputForClass.println("map.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
 		// Call parents constructors
 		//=======================================
 		limit=ASTnode.getInheritance().size();
 		for (i=0;i<limit;i++) {
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			if (aParentType.getIsLocalType()) //class defined in this library
-				{	String localParentName=aParentType.getLocalMangledName();
-					outputForClass.println("if (map.containsKey(\""+generatedLibMangledName+"::"+localParentName+"\")) ");
-					outputForClass.println("\tBMTLRef_"+localParentName+"= ("+localParentName+")map.get(\""+generatedLibMangledName+"::"+localParentName+"\");");
-					outputForClass.println("else BMTLRef_"+localParentName+"= new "+localParentName+"(BMTL_MyLib,map,o);");
-				} 
-			if (aParentType.getIsExternType()) //class defined in another library
-				{	String externParentName=aParentType.getExternMangledName();
-					String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
-					String externLib=aParentType.getExternLibMangledName();
-					String externLibCompleteName=aParentType.getExternLibCompleteName();
-					outputForClass.println("if (map.containsKey(\""+externCompleteParentName+"\"))");
-					outputForClass.println("\tBMTLRef_"+externParentName+"= ("+externCompleteParentName+")map.get(\""+externCompleteParentName+"\");");
-					outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(("+externLibCompleteName+")BMTL_MyLib.BMTLRef_"+externLib+",map,o);");
-				}
+			String externParentName=aParentType.getExternMangledName();
+			String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
+			String externLib=aParentType.getExternLibMangledName();
+			String externLibCompleteName=aParentType.getExternLibCompleteName();
+			outputForClass.println("if (map.containsKey(\""+externCompleteParentName+"\"))");
+			outputForClass.println("\tBMTLRef_"+externParentName+"= ("+externCompleteParentName+")map.get(\""+externCompleteParentName+"\");");
+			outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(map,o);");
 		}
-		outputForClass.println("theCaller=o;");
-		outputForClass.println("map.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
-		outputForClass.println("}\n");
+		outputForClass.println('}');
+		outputForClass.println();
 		outputForClass.println("/*====================*/");
 		outputForClass.println("/* Lib & Refs METHODS */");
 		outputForClass.println("/*====================*/");
@@ -245,14 +233,12 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		//=======================================
 		for (i=0;i<limit;i++) {
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
-			if (aParentType.getIsExternType()) //libraryClass defined in another library
-				{	String externParentName=aParentType.getExternMangledName();
-					String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
-					outputForClass.println("public "+externCompleteParentName+" getRef_"+externParentName+"()");
-					outputForClass.println("{ return this."+"BMTLRef_"+externParentName+"; }\n");
-				}
+			GetReferenceSignature signature = new GetReferenceSignature(aParentType);
+			String externParentName=aParentType.getExternMangledName();
+			outputForClass.println("public "+signature.getReturnedType().getDeclarationName() + ' ' + signature.getOpMangle() + "()");
+			outputForClass.println("{ return this."+"BMTLRef_"+externParentName+"; }\n");
 		}
-		outputForClass.print("public static final org.irisa.triskell.MT.DataTypes.Java.Type myType=new BMTLLibraryType(\"" + JavaStringLiteralEncoder.encodeString(ASTnode.getName()) + "\", " + ASTnode.getMangle()+ ".class, " + ASTnode.getMangle()+"Interface.class, java.util.Arrays.asList(new BMTLLibraryType [] {");
+		outputForClass.print("public static final org.irisa.triskell.MT.DataTypes.Java.Type myType=new BMTLLibraryType(\"" + JavaStringLiteralEncoder.encodeString(ASTnode.getName()) + "\", " + ASTnode.getMangle()+ "Interface.class, " + ASTnode.getMangle()+".class, java.util.Arrays.asList(new BMTLLibraryType [] {");
 		Iterator inherited = ASTnode.getInheritance().iterator();
 		boolean first = true;
 		while (inherited.hasNext()) {

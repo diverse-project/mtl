@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.3 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.4 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+import java.util.Map;
+
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 import CodeGeneration.BMTLCompiler;
@@ -32,12 +34,12 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			if (type.getLocalMangledName().equals(ASTnode.getMangle()))
 				BMTLCompiler.getLog().error("Constructors not allowed in BMTL : "+ASTnode.getName());
 			else {
-				outputForClass.print("public "+type.getLocalMangledName()+' '+ASTnode.getMangle()+'('); 
-				outputForInterface.print("public "+type.getLocalMangledName()+' '+ASTnode.getMangle()+'(');
+				outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
+				outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');
 			}
 		else { //Extern library type
-			outputForClass.print("public "+type.getExternCompleteName()+' '+ASTnode.getMangle()+'('); 
-			outputForInterface.print("public "+type.getExternCompleteName()+' '+ASTnode.getMangle()+'(');
+			outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
+			outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');
 		}
 		return null;
 	}
@@ -69,4 +71,14 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 		else outputForClass.println("}\n\n");
 		outputForInterface.println(';');
 	}
+
+	public void OperationInstruction(Object theOperation, Object instr, Map context) {
+		Boolean needsColumn = (Boolean)context.get("NeedsSemiColumn");
+		if (needsColumn == null || needsColumn.booleanValue()) {
+			PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+			outputForClass.println(';');
+		}
+		context.put("NeedsSemiColumn", Boolean.TRUE);
+	}
+
 }

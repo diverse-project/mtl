@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -27,9 +27,10 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 				outputForClass.print("\""+type.get(i)+'"');
 				if (i<type.size()-1) outputForClass.print(',');
 			}
-			outputForClass.print("}).instanciate(null,null);");
+			outputForClass.print("}).instanciate(null,null)");
 		}
-		else /*if (type.getIsExternType()
+		else /*see next comment
+				if (type.getIsExternType()
 			|| (type.getIsModelType() && (! type.getIsRepositoryModel())))*/
 		 {
 				outputForClass.print("((BMTLType)this.getLibrary().getMetaClass(new String [] {");

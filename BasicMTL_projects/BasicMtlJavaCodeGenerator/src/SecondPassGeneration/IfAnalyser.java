@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/IfAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/IfAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -37,6 +37,7 @@ public class IfAnalyser extends TLLTopDownVisitor.IfAnalyser {
 	public void IfAfter(Object theIf,If ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.println('}');
+		context.put("NeedsSemiColumn", Boolean.FALSE);
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarSettingAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/VarSettingAnalyser.java,v 1.3 2003-08-19 13:37:25 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -21,14 +21,7 @@ public class VarSettingAnalyser extends TLLTopDownVisitor.VarSettingAnalyser {
 		QualifiedName type=theSetVar.getType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.print(theSetVar.getMangle()+'=');
-		if (type.getIsLocalType())
-			outputForClass.print("("+type.getLocalMangledName()+')');
-		else outputForClass.print("("+type.getExternCompleteName()+')');
+		outputForClass.print("("+type.getDeclarationName()+')');
 		return null; }
-
-	public void VarSettingAfter(Object theVarSet,VarSetting ASTnode,java.util.Map context)
-	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.println(';');
-	}
 
 }
