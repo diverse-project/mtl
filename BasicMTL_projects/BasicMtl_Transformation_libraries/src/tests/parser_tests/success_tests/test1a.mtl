@@ -1,0 +1,232 @@
+// $Id: test1a.mtl,v 1.1 2003-08-19 09:56:17 dvojtise Exp $
+// This file is intend to verify various constructs that should work with the parser
+// this is a simple test approach, a better way should be to create various files and use them separately with junit
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library aLibrary;
+
+model aModel1;
+model aModel2 : AnotherLibrary;
+
+// constructor library methods
+//----------------------------
+/*
+creation myConstructor1()
+{
+}
+
+creation myConstructor2(aString : Standard::String)
+{
+}
+
+creation myConstructor3(aModel : Model)
+{
+}
+
+creation myConstructor4(aString : Standard::String; aModel : aModel)
+{
+}
+
+creation myConstructor5(aString,anotherString : Standard::String; aModel : Model)
+{
+}
+*/
+// other library methods
+//----------------------------
+
+aLibMethod1()
+{
+}
+
+aLibMethod2(aString : Standard::String) : Standard::String
+{
+}
+
+aLibMethod3(anInteger : Standard::Integer) : Standard::Integer
+{
+}
+
+aLibMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer) 
+{
+}
+
+
+
+// Class definitions
+class aClass1
+{
+
+	// class members
+	aMemberString : Standard::String;
+	aMemberInt1, aMemberInt2 :Standard::Integer;
+
+
+	// Class constructor
+	/*
+	creation make()
+	{
+	}
+	
+	creation make2(aString : Standard::String)
+	{
+	}
+	*/
+	aClassMethod1()
+	{
+	}
+	
+	aClassMethod2(aString : Standard::String) : Standard::String
+	{
+	}
+	
+	aClassMethod3(anInteger : Standard::Integer) : Standard::Integer
+	{
+	}
+	
+	aClassMethod4(aString, anotherString : Standard::String; anInteger : Standard::Integer) 
+	{
+	}
+	
+}
+
+
+// expression test 
+
+methodWithLocal()
+{
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	aInt1 := 1;
+	
+	aBool1 := true;
+	
+}
+
+methodWithIf()
+{
+
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	if aBool1
+	{		
+		aInt1 := 1;	
+	}
+	
+	if aBool1
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+/*	
+	if aBool1.[=](aBool2)
+	{
+		aInt1 := 1;
+	}
+	
+	if aBool1.[=](aBool2)
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+	
+	if aBool1.[=](aBool2).not()
+	{
+		aInt1 := 1;
+	}
+	
+	if aBool1.[=](aBool2).not()
+	{
+		aInt1 := 1;
+	}
+	else
+	{
+		aInt1 := 2;
+	}
+*/	
+}
+
+methodWithWhile()
+{
+/*
+	aString : Standard::String;
+	aInt1, aInt2 :Standard::Integer;
+	aBool1, aBool2 : Standard::Boolean;
+	
+	aBool1 := true;
+	aBool2 := true;
+	
+	while aBool1
+	{
+		aBool1 := false;
+	}
+	
+	aBool1 := true;
+	while aBool1.[=](aBool2)
+	{
+		aBool1 := false;
+	}
+*/	
+}
+
+methodWithException()
+{
+/*
+	aBool1, aBool2 : Standard::Boolean;
+	
+
+	try 
+	{
+		aBool1 := false;
+		throws new Standard::Exception();
+	}
+		catch anException : Standard::Exception
+		{
+			aBool1 := true;		
+		}
+	}
+
+	try 
+	{
+		aBool1 := false;
+		throws new Standard::Exception();
+	}
+	catch anException : Standard::Exception
+	{
+			aBool1 := true;		
+	}
+	finally
+	{
+			aBool1 := false;
+	}
+	}
+	*/
+}
+
+methodWithAssociate()
+{
+/*
+	associate (column := aColumn : Column, belongsTo := aKey : Key);
+	// other syntax : (because the is enough information)
+	associate (aColumn, aKey);
+	associate (aColumn : Column, aKey : Key);
+	associate (column := aColumn, belongsTo := aKey);
+	*/
+}
+
+
+methodWithDissociate()
+{
+}
+

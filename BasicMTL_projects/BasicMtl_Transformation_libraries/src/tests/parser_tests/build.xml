@@ -1,0 +1,91 @@
+<!-- $Id: build.xml,v 1.1 2003-08-19 09:56:17 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="success_tests_test1a_antlr2tll" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project simpleUML2RDBMS V1
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="."/>
+	<property name="bin" location="../../../bin"/>
+	<property name="build" location="../../../build"/>
+	
+	<!-- tools -->
+	<property name="ANTLR2TLL" location="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar"/>
+	<property name="CodeGenerator" location="../../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/UncheckedTLL"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="success_tests_test1a_antlr2tll" depends="init"
+  	 	description="Parse success_tests/test1.mtl to a TLL">
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\success_tests\test1a.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="success_tests"/> 
+       </java> 
+	</target>
+
+	<target name="compile succes_tests_test1a" depends="success_tests_test1a_antlr2tll"
+  	 	description="Generate code for test1a.mtl">
+	    <mkdir dir="${build}/src/java/success_tests1"/>
+	 	<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="aLibrary"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/success_tests/"/> 
+       </java>
+ 
+	</target>
+	<target name="success_tests_test1b_antlr2tll" depends="init"
+  	 	description="Parse success_tests/test1b.mtl to a TLL">
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\success_tests\test1b.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="success_tests"/> 
+       </java> 
+	</target>
+
+	<target name="compile succes_tests_test1b" depends="success_tests_test1b_antlr2tll"
+  	 	description="Generate code for test1b.mtl">
+	    <mkdir dir="${build}/src/java/success_tests"/>
+	 	<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="AnotherLibrary"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/success_tests/"/> 
+       </java>
+ 
+	</target>  
+	<target name="clean"
+        description="clean up SimpleUML2SimpleRDBMS_V1" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java"/>    
+    	<delete dir="${build}"/>    
+  	</target>
+</project>
