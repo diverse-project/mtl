@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.2 2003-10-31 12:20:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.3 2003-11-04 10:12:52 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -34,7 +34,7 @@ public class Compiler {
 			|| path.charAt(path.length()-1)=='\\')
 			return path;
 		return path+'/';
-}
+	}
 		
 	public static void main(String[] args)
 	{
@@ -73,6 +73,12 @@ public class Compiler {
 			java.util.Vector filenamesArguments=new java.util.Vector();
 			sourcesDir=checkPathEnd(args[0]);
 			String filesList[]=new java.io.File(sourcesDir).list();
+			if(filesList == null)
+			{
+				log.error("No file to process in "+sourcesDir);
+				showUsage();
+				System.exit(-1);				
+			}
 			for (int i=0;i<filesList.length;i++)
 			{
 				// checks if file exists
@@ -90,23 +96,32 @@ public class Compiler {
 			if (filenamesArguments.size() == 0)
 			{
 				log.error("No file to process");
+				System.exit(-1);
 			}
-			else {
+			else 
+			{
 				java.io.File directoryFile=new java.io.File(defaultBinPath);
 				if (! directoryFile.isDirectory())
-					try { directoryFile.mkdir();
-					} catch (SecurityException e) {System.err.println("Can't make directory "+defaultBinPath); }
+					try { directoryFile.mkdir();} 
+					catch (SecurityException e) {System.err.println("Can't make directory "+defaultBinPath); }
 				antlrParserInterface parser=new antlr2astViewParser().newParser();
 				BasicMtlLibrary theLib=(BasicMtlLibrary)TLLtypechecking.checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,TLLLoadingPaths,parser);
 				if (theLib!=null)
-					BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);			}
-}
+					BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);			
+			}
+		}
 		else showUsage();
 	}
 	static void showUsage()
 	{
-		log.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
+		log.error("USAGE : java -jar BasicMTLc.jar <sourcesDirectory> [-TLLPath <path>] [-TLLLoadingPaths <pathes>] [-PackageName <name>] [-BinPath <path>]");
+		log.error("where : pathes are list of path sepatate with ; ");
+		log.error("where : sourcesDirectory is the directory which contain your mtl files. (it will take all your mtl files) ");
+		log.error("where : TLLPath is the palce where the definition of your libraries are stored. kind of precompiled step for further compile");
+		log.error("where : TLLLoadingPaths is the palces which contains allready precompiled libraries, usaually the minimum is the path runtime TLL which contain the standard types and the driver definition");
+		log.error("where : PackageName indicates the name of the java package that will contain your library(/ies)");
+		log.error("where : BinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files");
 	}
-	}
+}
 
 
