@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.9 2004-10-27 14:06:13 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.10 2004-10-28 07:24:07 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -545,7 +545,12 @@
   		
   		<!-- add the changelog -->
   		<copy file="src/changelog.txt" todir="${dist}"/>
-  		
+  	</target>
+	<target name="zip dist common" description="create a zip of the distribution ">
+		<tstamp>
+    		<!--<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>-->
+    		<format property="TODAY_UK" pattern="dd-MM-yyyy" locale="en"/>
+  		</tstamp>
   		<!-- compress all in a zip file -->		
   		<zip destfile="${dist}/BasicMTLCompiler_${TODAY_UK}.zip">	
   		    <zipfileset dir="${dist}/Runtime" prefix="Runtime"/>
