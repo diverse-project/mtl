@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 import java.io.IOException;
 
 /**
@@ -17,7 +14,7 @@ abstract public class Library
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ASTNode
     implements org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable
 {
-    public Vector definedClasses = new Vector();
+    protected Vector definedClasses = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getDefinedClasses (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass)this.definedClasses.elementAt(i);
     }
@@ -46,7 +43,7 @@ abstract public class Library
     /**
       * Any of these operation may be an entry point (parameters constraint ?)
       */
-    public Vector definedOperations = new Vector();
+    protected Vector definedOperations = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getDefinedOperations (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)this.definedOperations.elementAt(i);
     }
@@ -88,7 +85,7 @@ abstract public class Library
     /**
       * The used libraries.
       */
-    public Vector uses = new Vector();
+    protected Vector uses = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Use getUses (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Use)this.uses.elementAt(i);
     }

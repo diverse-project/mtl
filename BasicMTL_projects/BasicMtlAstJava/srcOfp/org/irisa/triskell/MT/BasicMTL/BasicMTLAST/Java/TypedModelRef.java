@@ -17,7 +17,7 @@ public class TypedModelRef
     /**
       * The type of the referenced library.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary type;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary getType () {
         return this.type;
     }
@@ -29,7 +29,7 @@ public class TypedModelRef
         else return 1;
     }
 
-    public String typeName;
+    protected String typeName;
     public String getTypeName () {
         return this.typeName;
     }

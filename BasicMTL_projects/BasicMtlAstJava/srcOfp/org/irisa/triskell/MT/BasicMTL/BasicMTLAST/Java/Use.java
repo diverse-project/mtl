@@ -3,7 +3,6 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class Use
     /**
       * The used library.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library usedLibrary;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library usedLibrary;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library getUsedLibrary () {
         return this.usedLibrary;
     }
@@ -33,7 +32,7 @@ public class Use
     /**
       * Parameter binding for a library usage.
       */
-    public Vector modelsAssociations = new Vector();
+    protected Vector modelsAssociations = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ParameterAssociation getModelsAssociations (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ParameterAssociation)this.modelsAssociations.elementAt(i);
     }
@@ -56,7 +55,7 @@ public class Use
     /**
       * The name of the imported library used in the importing one.  In that a same library may be used with different parameters, it is necessary to differenciate them, thanks to a name.
       */
-    public String name;
+    protected String name;
     public String getName () {
         return this.name;
     }

@@ -5,8 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * A non-computed value.
@@ -17,7 +15,7 @@ abstract public class Literal
     /**
       * The type of this value.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getType () {
         return this.type;
     }

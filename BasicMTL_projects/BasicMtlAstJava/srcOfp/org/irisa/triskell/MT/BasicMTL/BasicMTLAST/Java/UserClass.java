@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * The usual concept of class; this is the stakeholder for attributes and operations. Its name is deterministic within the library. It may extends other classes.
@@ -18,7 +15,7 @@ public class UserClass
     /**
       * Operations owned by the class.
       */
-    public Vector definedMethods = new Vector();
+    protected Vector definedMethods = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getDefinedMethods (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)this.definedMethods.elementAt(i);
     }
@@ -41,7 +38,7 @@ public class UserClass
     /**
       * Attributes owned by the class.
       */
-    public Vector definedAttributes = new Vector();
+    protected Vector definedAttributes = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getDefinedAttributes (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute)this.definedAttributes.elementAt(i);
     }
@@ -64,7 +61,7 @@ public class UserClass
     /**
       * The parent classes.
       */
-    public Vector parentClasses = new Vector();
+    protected Vector parentClasses = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getParentClasses (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass)this.parentClasses.elementAt(i);
     }
@@ -96,7 +93,7 @@ public class UserClass
       * QualifiedName is only used for "RepositoryRef" classes which are behind a repository.
       * An example of UML2 qualified name is : Core::InfraastructureLibrary:: ...::Class
       */
-    public Vector QualifiedName = new Vector();
+    protected Vector QualifiedName = new Vector();
     public String getQualifiedName (int i) {
         return (String)this.QualifiedName.elementAt(i);
     }

@@ -5,8 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * An instruction to change the value of a variable. This is a side effect operation.
@@ -17,7 +15,7 @@ public class VarSetting
     /**
       * The expression representing the value to be assigned to the variable.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression value;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression value;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getValue () {
         return this.value;
     }
@@ -29,7 +27,7 @@ public class VarSetting
     /**
       * The variable to be modified. It must be inside the operation or the stakeholder for an exception treatment (if within a posible multy-depth catch).
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration modifiedVar;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration modifiedVar;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration getModifiedVar () {
         return this.modifiedVar;
     }
@@ -41,7 +39,7 @@ public class VarSetting
         else return 1;
     }
 
-    public String varName;
+    protected String varName;
     public String getVarName () {
         return this.varName;
     }
@@ -49,7 +47,7 @@ public class VarSetting
         this.varName = value; 
     }
 
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute modifiedAttribute;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute modifiedAttribute;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getModifiedAttribute () {
         return this.modifiedAttribute;
     }

@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * A branch beween two sequences of instructions according to a condition.
@@ -18,7 +15,7 @@ public class If
     /**
       * The condition deciding wether the thenBody or elseBody has to be perforems; this must be a boolean value.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getCondition () {
         return this.condition;
     }
@@ -30,7 +27,7 @@ public class If
     /**
       * The sequence of instruction to be executed if the condition is true.
       */
-    public Vector thenBody = new Vector();
+    protected Vector thenBody = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getThenBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.thenBody.elementAt(i);
     }
@@ -53,7 +50,7 @@ public class If
     /**
       * The sequence of instruction to be executed if the condition is false.
       */
-    public Vector elseBody = new Vector();
+    protected Vector elseBody = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getElseBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.elseBody.elementAt(i);
     }

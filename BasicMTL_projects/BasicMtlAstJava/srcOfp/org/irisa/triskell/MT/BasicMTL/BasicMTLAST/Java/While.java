@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * A loop of instruction execution: the sequence of instruction is performed after each time the condition is true.
@@ -18,7 +15,7 @@ public class While
     /**
       * The loop stop contition; this must be a boolean value.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getCondition () {
         return this.condition;
     }
@@ -30,7 +27,7 @@ public class While
     /**
       * The sequence of instruction to be performed while the cointition is true.
       */
-    public Vector body = new Vector();
+    protected Vector body = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.body.elementAt(i);
     }

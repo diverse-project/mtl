@@ -17,7 +17,7 @@ public class Role
     /**
       * The name of the association end where the model elemnt should be linked (if available).
       */
-    public String RoleName;
+    protected String RoleName;
     public String getRoleName () {
         return this.RoleName;
     }
@@ -25,7 +25,7 @@ public class Role
     /**
       * A value representing thi model element.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression expression;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression expression;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getExpression () {
         return this.expression;
     }
@@ -40,7 +40,7 @@ public class Role
     /**
       * The type of the association end where the model element should be linked (if available).
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass linkedEltType;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass linkedEltType;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getLinkedEltType () {
         return this.linkedEltType;
     }

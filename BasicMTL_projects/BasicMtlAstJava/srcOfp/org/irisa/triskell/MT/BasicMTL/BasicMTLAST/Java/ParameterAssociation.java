@@ -16,7 +16,7 @@ public class ParameterAssociation
     /**
       * The source parameter (must be provided by the importing library).
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter source;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter source;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter getSource () {
         return this.source;
     }
@@ -31,7 +31,7 @@ public class ParameterAssociation
     /**
       * The target parameters (must be assigned to the imported library to the source parameter value).
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter target;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter target;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter getTarget () {
         return this.target;
     }

@@ -5,8 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * Stops the execution of the operation returning a value using the exception mechanisme, that is this value may have a treatment within a catch.
@@ -17,7 +15,7 @@ public class Throws
     /**
       * The value to be thrown.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression thrownExpression;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression thrownExpression;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getThrownExpression () {
         return this.thrownExpression;
     }

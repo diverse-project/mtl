@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * Creates a new value of the defined class. This is a side effect operation.
@@ -18,7 +15,7 @@ public class NewObject
     /**
       * The class to be instanciated.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getType () {
         return this.type;
     }
@@ -30,7 +27,7 @@ public class NewObject
     /**
       * Some arguments to be given to an eventual constructor. This is valid only if building a model element.
       */
-    public Vector arguments = new Vector();
+    protected Vector arguments = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getArguments (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)this.arguments.elementAt(i);
     }

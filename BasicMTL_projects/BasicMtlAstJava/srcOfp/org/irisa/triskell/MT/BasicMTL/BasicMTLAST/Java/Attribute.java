@@ -1,13 +1,10 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * The usual concept of attribute. It is defined within a class and has a type. Its name is deterministic within the class.
@@ -16,7 +13,7 @@ import java.lang.Object;
 public class Attribute 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ASTNode
 {
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getType () {
         return this.type;
     }

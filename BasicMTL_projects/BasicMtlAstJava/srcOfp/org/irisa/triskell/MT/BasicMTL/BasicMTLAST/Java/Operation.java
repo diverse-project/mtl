@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * The usual concept of operation. It is defined within a class. An operation have some typed parameters (FormalParameter). The signature of an operation is the composition of its name and the number of its parameters. This signature is deterministic within the owning class. If this signature is already in the class type hierarchy, this operation is the redefinition of the one(s) of the superclass. Redefining operations must have the same types for its formal parameters than the redefined operations(s).
@@ -19,7 +16,7 @@ public class Operation
     /**
       * The implementation of the operation. These instructions are executed in sequence up to a return, a throw or the end of the sequence. These instructions are not saved by the "Library.store" method.
       */
-    public transient Vector instructions = new Vector();
+    protected transient Vector instructions = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getInstructions (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.instructions.elementAt(i);
     }
@@ -48,7 +45,7 @@ public class Operation
     /**
       * The type of the returned value of the operation. Empty if the operation does ot return a value.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass returnedType;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass returnedType;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getReturnedType () {
         return this.returnedType;
     }
@@ -63,7 +60,7 @@ public class Operation
     /**
       * The parameters of the operation.
       */
-    public Vector Parameters = new Vector();
+    protected Vector Parameters = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration getParameters (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)this.Parameters.elementAt(i);
     }
@@ -86,7 +83,7 @@ public class Operation
     /**
       * Known variables are defined at the beginning of the operation. The formal parameters are redefined there. These variables are not saved by the "Library.store" method.
       */
-    public transient Vector declaredVariables = new Vector();
+    protected transient Vector declaredVariables = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration getDeclaredVariables (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)this.declaredVariables.elementAt(i);
     }
@@ -128,7 +125,7 @@ public class Operation
     /**
       * The class the operation may throw. If there is at lest one, the attribute throwsExeption must be true.
       */
-    public Vector thrownClass = new Vector();
+    protected Vector thrownClass = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass getThrownClass (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass)this.thrownClass.elementAt(i);
     }
@@ -151,7 +148,7 @@ public class Operation
     /**
       * The redefined operations.
       */
-    public Vector redefinedOperations = new Vector();
+    protected Vector redefinedOperations = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getRedefinedOperations (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)this.redefinedOperations.elementAt(i);
     }

@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * Contains a block of instructions tha may thow an exception and make possible to treat it.
@@ -18,7 +15,7 @@ public class Try
     /**
       * The instruction sequence that may throw an exception.
       */
-    public Vector tryBody = new Vector();
+    protected Vector tryBody = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getTryBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.tryBody.elementAt(i);
     }
@@ -47,7 +44,7 @@ public class Try
     /**
       * A block of instructions wich is executed in any case. If an exception occurs here, it is re-thrown by the averall try execution.
       */
-    public Vector finalizeBody = new Vector();
+    protected Vector finalizeBody = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getFinalizeBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.finalizeBody.elementAt(i);
     }
@@ -70,7 +67,7 @@ public class Try
     /**
       * The exception treatment possibilities.
       */
-    public Vector catchPart = new Vector();
+    protected Vector catchPart = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch getCatchPart (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch)this.catchPart.elementAt(i);
     }

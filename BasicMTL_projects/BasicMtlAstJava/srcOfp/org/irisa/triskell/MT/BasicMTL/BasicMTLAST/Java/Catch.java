@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * This class represents an exception treatment. A catch is specialized in the tratment of an particular kind (= type) of exception. Note any class can be considered as an exception: the difference is made by return (normal operation termination) and throw, which initiate the catch mechanism. The selected catch is the first which can treat the thrown value (according to its type). This thrown value is placed in a variable declaration during the treatment.
@@ -18,7 +15,7 @@ public class Catch
     /**
       * The instructions executed during the catch mechanism. Note the thrown value is accessible for these values as a variable.
       */
-    public Vector catchBody = new Vector();
+    protected Vector catchBody = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction getCatchBody (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)this.catchBody.elementAt(i);
     }
@@ -41,7 +38,7 @@ public class Catch
     /**
       * The stakeholding variable for the thrown value.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration catchedException;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration catchedException;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration getCatchedException () {
         return this.catchedException;
     }

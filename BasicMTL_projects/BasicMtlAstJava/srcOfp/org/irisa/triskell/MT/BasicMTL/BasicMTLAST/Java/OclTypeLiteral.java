@@ -11,7 +11,7 @@ import java.lang.Object;
 public class OclTypeLiteral 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Literal
 {
-    public java.util.Vector typeValue;
+    protected java.util.Vector typeValue;
     public java.util.Vector getTypeValue () {
         return this.typeValue;
     }

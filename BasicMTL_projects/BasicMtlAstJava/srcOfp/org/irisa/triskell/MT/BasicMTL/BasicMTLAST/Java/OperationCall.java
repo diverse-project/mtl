@@ -3,11 +3,8 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * An operation call. If the operation retuens a value, this expression is this value, else it remains in an undefined value. If the operation raises an exception, this operation call raises this exceptioni within the context of this instruction. This is a side effect instruction if calling a side effect operation.
@@ -18,7 +15,7 @@ public class OperationCall
     /**
       * The called operation.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation calledOperation;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation calledOperation;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation getCalledOperation () {
         return this.calledOperation;
     }
@@ -30,7 +27,7 @@ public class OperationCall
     /**
       * The transmitted values for the operation called.
       */
-    public Vector arguments = new Vector();
+    protected Vector arguments = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getArguments (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)this.arguments.elementAt(i);
     }
@@ -53,7 +50,7 @@ public class OperationCall
     /**
       * The value to wich the operation call is sent. It must be of a class or subclass of the called operation owner. If the called operation is owned by a library (and not a class), this expression is empty.
       */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression caller;
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression caller;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getCaller () {
         return this.caller;
     }
@@ -65,7 +62,7 @@ public class OperationCall
         else return 1;
     }
 
-    public String name;
+    protected String name;
     public String getName () {
         return this.name;
     }

@@ -3,11 +3,6 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import java.util.*;
-import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
-import java.lang.Object;
 
 /**
   * A library wtitten in Basic MTL.
@@ -18,7 +13,7 @@ public class BasicMtlLibrary
     /**
       * A library used as an entry point must provide an interface to fill parameters values. These values may be transmitted to the used libraries (see Use).
       */
-    public Vector parameters = new Vector();
+    protected Vector parameters = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter getParameters (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter)this.parameters.elementAt(i);
     }
@@ -41,7 +36,7 @@ public class BasicMtlLibrary
     /**
       * The extended libraries. The extensions are given by the name; the extending element (either class or operation) must have the name of the extended one(s). This mechanism allows the concept of view / adapter (see TypedModelRef).
       */
-    public Vector extendedLib = new Vector();
+    protected Vector extendedLib = new Vector();
     public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary getExtendedLib (int i) {
         return (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary)this.extendedLib.elementAt(i);
     }

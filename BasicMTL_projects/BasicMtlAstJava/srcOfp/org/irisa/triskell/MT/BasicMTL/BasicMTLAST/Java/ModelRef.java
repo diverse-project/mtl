@@ -15,7 +15,7 @@ abstract public class ModelRef
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library
     implements org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.LibParameter
 {
-    public String name;
+    protected String name;
     public String getName () {
         return this.name;
     }
