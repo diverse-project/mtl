@@ -1,3 +1,4 @@
+<!-- This file was generated automatically -->
 <project name="TP1" default="compile" basedir=".">
 	<description>
         Build file for compiling and running MyTransformationModel
