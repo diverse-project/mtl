@@ -37,24 +37,16 @@ public class Foreach
         else return 1;
     }
 
-    public Vector varDeclaration = new Vector();
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration getVarDeclaration (int i) {
-        return (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration)this.varDeclaration.elementAt(i);
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration varDeclaration;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration getVarDeclaration () {
+        return this.varDeclaration;
     }
-    public void setVarDeclaration (int i, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value) {
-        this.varDeclaration.setElementAt(value, i);
-    }
-    public void appendVarDeclaration (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value) {
-        this.varDeclaration.addElement(value);
-    }
-    public void eraseVarDeclaration (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value)  {
-        this.varDeclaration.removeElement(value);
-    }
-    public void eraseVarDeclaration (int i)  {
-        this.varDeclaration.removeElementAt(i);
+    public void setVarDeclaration (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration value) {
+        this.varDeclaration = value; 
     }
     public int cardVarDeclaration () {
-        return this.varDeclaration.size();
+        if ( this.varDeclaration == null ) return 0;
+        else return 1;
     }
 
 }
