@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.7 2003-08-14 21:37:44 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.8 2003-08-26 09:40:50 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="Standard_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -52,9 +52,10 @@
 	</target>
 
 	<target name="clean"
-        description="clean up SimpleSamples" >
+        description="clean up Standard lib" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
-    	<delete dir="${build}/src/java"/>    
-    	<delete dir="${build}"/>    
+    	<delete dir="${build}/src/java/Standard"/>    
+    	<delete dir="${build}/src/UncheckedTLL/Standard.tll"/>
+    	<delete dir="${build}/src/TLL/Standard.tll"/>    
   	</target>
 </project>

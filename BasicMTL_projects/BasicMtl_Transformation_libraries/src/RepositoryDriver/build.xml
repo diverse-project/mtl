@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-25 10:55:04 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-26 09:40:50 dvojtise Exp $ -->
 <project name="BasicMtl MDR Repository Model" default="compile MDRDriver" basedir=".">
 	<description>
         The MDR model access.
@@ -17,6 +17,7 @@
 	    <mkdir dir="${build}/src/UncheckedTLL"/>
 	    <mkdir dir="${build}/src/TLL"/>
 	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${build}/src/java/MDRDriver"/>
 	    <mkdir dir="${bin}"/>
 	</target>
 	
@@ -52,9 +53,10 @@
 	</target>
 
 	<target name="clean"
-        description="clean up SimpleSamples" >
+        description="clean up MDRDriver" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
-    	<delete dir="${build}/src/java"/>    
-    	<delete dir="${build}"/>    
+    	<delete dir="${build}/src/java/MDRDriver"/>    
+    	<delete file="${build}/src/UncheckedTLL/MDRDriver.tll"/> 
+    	<delete file="${build}/src/TLL/MDRDriver.tll"/> 
   	</target>
 </project>
