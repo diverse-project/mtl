@@ -1,4 +1,4 @@
-/* $Id: MSGHandler.java,v 1.6 2004-10-18 15:16:09 jpthibau Exp $
+/* $Id: MSGHandler.java,v 1.7 2004-10-18 16:15:01 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -35,8 +35,10 @@ public class MSGHandler {
 	/**
 	 * initialize the log4j system and create an empty message vector 
 	 */
-	public static void init() {
+	public static Logger init() {
 		String filePath="";
+		Logger logger=Logger.getLogger("MSGHandler");
+		if (logger==null) {
 		allMessages=new Vector();
 			
 		try {
@@ -44,8 +46,8 @@ public class MSGHandler {
 			
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); 
-			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
-			Logger logger=Logger.getLogger("MSGHandler");
+			LogManager.getRootLogger().error("looking for log4jconfiguration file here: "+filePath);
+			logger=Logger.getLogger("MSGHandler");
 			if (logger.getAppender("MSGHandlerAppender")==null)
 				logger.addAppender(new MSGHandlerAppender());
 		}
@@ -53,6 +55,8 @@ public class MSGHandler {
 			System.err.println("Can't state log4j in MSGHandler");
 			System.err.println("looking for log4jconfiguration file here: "+filePath); 
 		}
+		}
+		return logger;
 	}
 	
 	/**
