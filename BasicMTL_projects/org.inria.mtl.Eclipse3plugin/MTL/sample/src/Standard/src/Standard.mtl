@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.4 2003/12/04 10:16:11 jpthibau Exp $
+// $Id: Standard.mtl,v 1.7 2004/07/08 07:41:05 edrezen Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -455,7 +455,15 @@ tag DoNotGenerate := booleantag true;
 	{
 		//Writes this string to the standard output
 	}
+
+	[+] (s : String) : String
+	{}
 	
+	toLowerCase () : String
+	{}
+	
+	toUpperCase () : String
+	{}
 }
 
 class Boolean extends OclAny
@@ -1130,3 +1138,35 @@ tag DoNotGenerate := booleantag true;
 		// 						implies result->indexOf(elem1) < result->indexOf(elem2) )
 	}
 }
+
+
+class Hashtable 
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLHashtable]; 
+tag type   := specialtag [org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLHashtable.TheType];
+tag DoNotGenerate := booleantag true;
+{
+	contains (value : OclAny) : Boolean
+	{
+	}
+	
+	containsKey (key : OclAny) : Boolean
+	{
+	}
+
+	containsValue (value : OclAny) : Boolean
+	{
+	}
+
+	get (key : OclAny) : OclAny
+	{
+	}
+
+	put (key : OclAny;  value : OclAny) : OclAny
+	{
+	}
+	
+	keySet () : Set
+	{
+	}
+}
+

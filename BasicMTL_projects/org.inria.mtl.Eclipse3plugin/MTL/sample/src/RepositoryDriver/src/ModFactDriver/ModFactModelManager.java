@@ -1,4 +1,4 @@
-/* $Id: ModFactModelManager.java,v 1.1 2004-07-30 14:11:53 sdzale Exp $
+/* $Id: ModFactModelManager.java,v 1.2 2004-08-18 14:24:35 dvojtise Exp $
  * Created on 25 août 2003
  */
 package ModFactDriver;

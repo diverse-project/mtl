@@ -1,4 +1,4 @@
-$Id: changelog.txt,v 1.1 2004-07-30 14:10:39 sdzale Exp $
+$Id: changelog.txt,v 1.2 2004-08-18 14:24:17 dvojtise Exp $
 List of the changes between different versions
 
 

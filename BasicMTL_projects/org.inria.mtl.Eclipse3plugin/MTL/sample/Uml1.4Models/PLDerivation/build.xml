@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2004-07-30 14:11:37 sdzale Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-08-18 14:24:07 dvojtise Exp $ -->
 <!-- Sample script showing how to use the script for packing and unpacking zargo files from poseidon or ArgoUML -->
 <project name="poseidon import export" default="create zargo from source and derived models" basedir=".">
 	<description>

@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/org.inria.mtl.Eclipse3plugin/MTL/sample/src/BasicMtlASTView/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2004-07-30 14:11:11 $ -->
-<!-- $Author: sdzale $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2004-08-18 14:23:43 $ -->
+<!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
