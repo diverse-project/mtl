@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.20 2004-06-25 13:45:58 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.21 2004-06-29 08:31:41 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -313,6 +313,10 @@ public Object whileInstr(Object expression,Object body)
 
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
+	if (thenBody == null) {
+		MSGHandler.error(antlr2ast.class,317,"If body has to contain at least one instruction.");
+		return null;
+	}
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
 	java.util.Vector elseInstructions=elseBody == null ? null : (java.util.Vector)((java.util.Vector)elseBody).get(0);
 	String lineNumber=(String)((java.util.Vector)thenBody).get(1);

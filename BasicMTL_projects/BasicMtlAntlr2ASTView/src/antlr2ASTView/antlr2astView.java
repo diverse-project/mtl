@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.12 2004-06-25 13:45:55 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.13 2004-06-29 08:31:38 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -415,6 +415,10 @@ public Object whileInstr(Object expression,Object body)
 
 public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
+	if (thenBody == null) {
+		MSGHandler.error(antlr2astView.class,419,"If body has to contain at least one instruction.");
+		return null;
+	}
 	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
 	java.util.Vector elseInstructions=elseBody == null ? null : (java.util.Vector)((java.util.Vector)elseBody).get(0);
 	String lineNumber=(String)((java.util.Vector)thenBody).get(1);
