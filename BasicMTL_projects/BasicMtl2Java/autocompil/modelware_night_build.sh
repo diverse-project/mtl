@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.5 2004-02-19 10:02:54 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.6 2004-03-16 14:31:51 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -19,7 +19,15 @@ cd $HOME/temp
 echo removing old build...
 \rm -r -f modelware_night_build
 mkdir modelware_night_build
+mkdir modelware_night_build/eclipse
+mkdir modelware_night_build/eclipse/workspace
 cd modelware_night_build
+# get needed plugins : Eclipse 2.1.0 and EMF 1.0.1
+unzip /udd/triskell/Soft/eclipse/V2.1/eclipse-SDK-RC1-win32.zip *eclipse.core.runtime* *eclipse.ui.workbench* -d .
+
+unzip /udd/triskell/Soft/eclipse/plugin/EMF/emf_1.0.1_20030225_1207VL.zip -d eclipse
+
+cd eclipse/workspace
 
 #checkout latest version from repository
 setenv CVS_RSH ssh
@@ -31,8 +39,13 @@ cvs -Q -d :ext:guest@lievre.irisa.fr:/CVS/modelware checkout all
 #cvs -d /udd/triskell/cvsroot checkout dev/MT/BasicMtl2Java
 cd BasicMtl2Java
 #setenv BASE `pwd`
-setenv BASE $HOME/temp/modelware_night_build
+setenv BASE $HOME/temp/modelware_night_build/eclipse/workspace
 setenv CLASSPATH $BASE/Utils/ThirdParty/JUnit/junit.jar:$BASE/BasicMtlAntlr/ThirdParty/ANTLR/antlrfull.jar
+
+
+#copy the correct property file (according to eclipse and emf version)
+cp build.properties.samples/2.1.0.build.properties build.properties
+
 
 #echo $CLASSPATH
 ant |& tee $BASE/ant_BasicMtl2Java.log
@@ -44,7 +57,7 @@ if ( "$ERRORS_IN_BUILD" != "" ) then
    	echo "this may be normal for a short time, or someone may have forgotten to commit a file" >> msg.txt
    	echo "---" >> msg.txt
    	cat $BASE/ant_BasicMtl2Java.log >> msg.txt   	
-    cat msg.txt | Mail -s "[Modelware] Night build failed" modelware-cvs@irisa.fr
+	cat msg.txt | Mail -s "[Modelware] Night build failed" modelware-cvs@irisa.fr
     exit
 endif
 
