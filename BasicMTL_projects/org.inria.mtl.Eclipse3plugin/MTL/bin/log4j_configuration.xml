@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/org.inria.mtl.Eclipse3plugin/MTL/bin/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.2 $ 				-->
-<!-- $Date: 2004-08-18 14:24:06 $ 	-->
-<!-- $Author: dvojtise $ 		  	-->
+<!-- $Revision: 1.3 $ 				-->
+<!-- $Date: 2004-08-31 14:13:19 $ 	-->
+<!-- $Author: sdzale $ 		  	-->
 <!-- Description: This is the configuration file for log4j it allows to tune the level of log you will receive 
 	it also allows to tune where you will receive them. -->
 
@@ -105,11 +105,11 @@
   <root>
     <level value="INFO"/>
     <appender-ref ref="STDOUT"/>
-<!--    <appender-ref ref="CSOUT"/> -->
-<!--    <appender-ref ref= "DEBUG"/> -->
-<!--    <appender-ref ref= "INFO"/> -->
-<!--    <appender-ref ref= "WARN"/> -->
-<!--    <appender-ref ref= "ERROR"/> -->
+    <appender-ref ref="CSOUT"/> 
+    <appender-ref ref= "DEBUG"/> 
+    <appender-ref ref= "INFO"/> 
+   <appender-ref ref= "WARN"/> 
+   <appender-ref ref= "ERROR"/> 
   </root>
 
 </log4j:configuration>
