@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-11 18:52:18 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-12 15:00:29 ffondeme Exp $ -->
 <project name="Utils" default="dist" basedir=".">
 	<description>
         Miscellaneous utility classes.
@@ -60,7 +60,10 @@
 	
 	<target name="dist" depends="create_jar"
 		description="create a distibution">
-		<mkdir dir="${dist}"/>
+		<mkdir dir="${dist}/bin"/>
+	    <copy file="log4j_configuration.xml"
+	    	todir="${dist}/bin"
+	    	overwrite="true"/>
 	    <copy todir="${dist}/bin/ThirdParty/junit">
 	    	<fileset dir="ThirdParty/junit"/>
 	   	</copy>
