@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.8 2004-06-10 08:48:01 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.9 2004-06-10 09:16:29 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -34,8 +34,8 @@ public class Compiler {
 	/**
 	 * @param args command line arguments
 	 */
-	public static void main(String[] args)
-	{	MSGHandler.init();
+	public static void main(String[] args) throws Exception
+	{
 		// parses the arguments in order to find the necessary data
 		if (args.length > 0) {
 			int argsEnd=args.length;
@@ -82,12 +82,13 @@ public class Compiler {
 	 * @param TLLLoadingPaths is a list of places (separated by ;) which contain allready precompiled libraries, usually the minimum is the path runtime TLL which contain the standard types and the driver definition
 	 * @param defaultBinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files
 	 */
-	public void compileFromFiles(
+	public void compileFromFiles (
 		java.util.Vector filenamesArguments,
 		String defaultPackagePrefix,
 		String defaultTLLPath,
 		String TLLLoadingPaths,
 		String defaultBinPath)
+		throws Exception
 	{
 		// create destination directory
 		java.io.File directoryFile=new java.io.File(defaultBinPath);
@@ -101,7 +102,7 @@ public class Compiler {
 		if (theLib!=null)
 			// compile, ie. generate the java files
 			BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
-		else System.exit(-1);
+		else MSGHandler.fatal(Compiler.class,104,"theLib == null");
 	}
 	
 	/**
@@ -119,6 +120,7 @@ public class Compiler {
 			String defaultTLLPath,
 			String TLLLoadingPaths,
 			String defaultBinPath)
+			throws Exception
 	{
 		// look in the directory only for mtl files. 
 		// this version do not search recursively
@@ -126,9 +128,8 @@ public class Compiler {
 		String filesList[]=new java.io.File(sourcesDir).list();
 		if(filesList == null)
 		{
-			MSGHandler.error(Compiler.class,129,"No file to process in "+sourcesDir);
 			showUsage();
-			System.exit(-1);				
+			MSGHandler.error(Compiler.class,132,"No file to process in "+sourcesDir);
 		}
 		for (int i=0;i<filesList.length;i++)
 		{
@@ -146,8 +147,7 @@ public class Compiler {
 		}
 		if (filenamesArguments.size() == 0)
 		{
-			MSGHandler.error(Compiler.class,149,"No file to process");
-			System.exit(-1);
+			MSGHandler.fatal(Compiler.class,150,"No file to process");
 		}
 		else 
 		{
