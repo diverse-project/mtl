@@ -1,0 +1,160 @@
+<!-- $Id: sourceDist_build.xml,v 1.1 2004-02-19 10:25:47 dvojtise Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="dist" basedir=".">
+	<description>
+        create a distribution of the source files
+        This distribution is an alternative way to get the sources without connecting to the CVS server
+	</description>
+
+	<property name="dist.name"  value="sourceDist"/>
+	<property name="dist"  location="${dist.name}"/>
+	<property name="base"  location=".."/>
+	
+	<target name="dist" description="">		
+		<copy  todir="${dist}/BasicMtl2Java">
+  			<fileset dir="${base}/BasicMtl2Java">
+  				<exclude name="**/LibAssociation/**"/>
+  				<exclude name="**/LibAssociationBoot/**"/>
+  				<exclude name="**/LibInheritance/**"/>
+  				<exclude name="**/PureJava/**"/>
+  				<exclude name="**/${dist.name}/**"/>
+  				<exclude name="sourceDist_build.xml"/>
+  				<exclude name="**/autocompil/**"/>
+  			</fileset>
+  		</copy> 
+  		
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAntlr"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAntlr2ASTView"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAntlr2ASTViewAssociation"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAntlr2BasicMtlAstJava"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAntlr2TLLJava"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlAstJava"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlJavaCodeGenerator"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMTLRuntime"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BasicMtlTLLJava"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLAssociationView"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLASTJava"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLBasicMtlASTView"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLDefaultVisitors"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLIO"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLRepositoryDriver"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLStandard"/>
+    	</antcall>
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="BMTLTracability"/>
+    	</antcall>    	
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="Facade"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="FacadeAssociation"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="FacadeInheritance"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="MDRDriver"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="ModFactDriver"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="MTDataTypes"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="RepositoryAPI"/>
+    	</antcall>    	
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="TLLTypeChecker"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="Utils"/>
+    	</antcall>
+
+    	<echo> Copy the sample projects</echo>    	
+  		<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="CompilerTests"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="MOF1.4"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="SimpleUML"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="SimpleUMLSimpleRDBMS"/>
+    	</antcall>
+    	<antcall target="selectiveCopy">
+      		<param name="selectiveCopy.param1" value="UML1.4"/>
+    	</antcall>
+    	
+    	
+    	<tstamp>
+    		<!--<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>-->
+    		<format property="TODAY_UK" pattern="dd-MM-yyyy" locale="en"/>
+  		</tstamp>
+  		<!-- add the version file and update build version -->
+  		<copy file="src/Version.txt" todir="${dist}"/>
+  		<replaceregexp file="${dist}/Version.txt"
+                         match="(\$Build\$)"
+                         replace="${TODAY_UK}"
+                         byline="true"/>
+  		
+  		<!-- add the legal notice -->
+  		<copy file="src/legal_notice.txt" todir="${dist}"/>
+  		<copy file="src/LGPL_license.txt" todir="${dist}"/>
+  		
+  		<!-- compress all in a zip file -->		
+  		<zip destfile="${dist}/BasicMTLCompiler_src_${TODAY_UK}.zip"
+  			basedir="${dist}"
+  			excludes="**/BasicMTLCompiler_src_${TODAY_UK}.zip">	
+  		</zip>
+	</target>	
+	
+	<target name="clean" description="remove the distribution">		
+  		<delete dir="${dist}"/>
+	</target>
+	
+	<!-- ************************************************************ -->
+	<target name="selectiveCopy" if="selectiveCopy.param1" description="internal target, not to be run directly !">		
+  		<copy  todir="${dist}/${selectiveCopy.param1}" >
+  			<fileset dir="${base}/${selectiveCopy.param1}">
+  				<patternset id="non.binordist">
+  					<exclude name="**/bin/**"/>
+  					<exclude name="**/dist/**"/>
+			  	</patternset> 
+  			</fileset>	
+  		</copy>
+	</target>
+	
+</project>
