@@ -1,0 +1,183 @@
+// $Id: IntegerTests.mtl,v 1.2 2004/01/22 12:24:18 dvojtise Exp $
+// This class tests various points on the Integer implementation with MTL
+
+library test1Library1;
+
+class BooleanTests
+{
+	nbErrors : Standard::Integer;
+	
+	aMemberBoolean1 : Standard::Boolean;
+	
+	runTests()
+	{
+		nbErrors := 0;
+		'starting Boolean tests'.toOut();
+		testSerie1();
+		testSerie2();
+		
+		if nbErrors.[>](0)
+		{
+			throws 'Boolean Tests detected some errors !!! please checks the log';
+		}		
+		'Boolean tests done'.toOut();
+	}
+
+	// tests on the use of unaffected/null integer
+	testSerie1()
+	{
+		aLocalBoolean1, aLocalBoolean2 : Standard::Boolean;
+		exceptionThrown : Standard::Boolean;
+		
+		if isNull(aLocalBoolean1)
+		{
+			'ok: unaffected aLocalBoolean1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aLocalBoolean1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}				
+		// --------------------------------
+		if isNull(aMemberBoolean1)
+		{
+			'ok: unaffected aMemberBoolean1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aMemberBoolean1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+	}
+	
+	testSerie2()	
+	{
+		// --------------------------------		
+		// checks usage of boolean operators
+		aBool1, aBool2, aBool3, aBool4 : Standard::Boolean;
+		
+		aBool1:= true;
+		aBool2 := not aBool1;
+		aBool3 := true;
+		aBool4 := false;
+		if not aBool1
+		{
+			'not doesn\'t work properly !!!! : not aBool1'.toErr();
+		}
+		if aBool2
+		{
+			'not doesn\'t work properly !!!! : aBool2'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not (aBool1)
+		{
+			'not doesn\'t work properly !!!! : not (aBool1)'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not aBool1.or(aBool2)
+		{
+			'not doesn\'t work properly !!!! : not aBool1.or(aBool2)'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		
+		aBool2 :=  true and aBool2;
+		
+		aBool2 :=  not true and aBool2;
+		if true = false
+		{
+			'not doesn\'t work properly !!!! : true = false'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if true <> false
+		{
+			'ok true <> false'.toOut();
+		}
+		else
+		{
+			' true <> false returned false !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}	
+		
+		aBool1 := true;
+		while aBool1
+		{
+			aBool1 := not aBool1;
+		}
+		aBool1 := true;
+		aBool2 := true;
+		aBool3 := true;
+		aBool4 := true;
+		if not (aBool1 and aBool2 )
+		{
+			' not (aBool1 and aBool2 ) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		if not (aBool1 and aBool2 and aBool3)
+		{
+			' not (aBool1 and aBool2 and aBool3) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		if not (aBool1 or aBool2 or aBool3)
+		{
+			' not (aBool1 or aBool2 or aBool3) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		if aBool1 xor aBool2
+		{
+			' aBool1 xor aBool2 returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not (aBool1 xor false)
+		{
+			' not (aBool1 xor false) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		if not (aBool1 implies aBool2)
+		{
+			' not (aBool1 implies aBool2) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not (false implies aBool2)
+		{
+			' not (false implies aBool2) returned an incorrect value !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not true or true 
+		{
+			// if correct precedence this should be equivalent to (not true ) or true
+			'ok  not true or  true'.toOut();
+		}
+		else
+		{
+			' not true or true returned false  (implicitly (not true) or true !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		if not true or true 
+		{
+			// if correct precedence this should be equivalent to (not true ) or true
+			'ok  not true or  true'.toOut();
+		}
+		else
+		{
+			' not true or true returned false  !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+		if (false and false or true) <> (true or false and false)
+		{
+			// must recognize (true or (true and false))
+			' precedence problem with "and" and "or"  !!!'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		
+	}
+
+	
+	
+	
+}

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-12-18 15:36:26 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-04-06 08:08:09 dvojtise Exp $ -->
 <project name="UML14" default="run test1" basedir=".">
 	<description>
         Sample Build file for using the BasicMTL compiler
@@ -15,7 +15,7 @@
   		<ant antfile="test1Library1_build.xml" dir="." target="run"/>
   	</target>
   	<target name="clean">
-  		<delete dir="build"></delete>   		
+  		<delete dir="../../../build"></delete>   		
   	</target>
   	
 

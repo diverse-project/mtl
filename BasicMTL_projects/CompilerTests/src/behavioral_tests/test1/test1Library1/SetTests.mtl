@@ -1,4 +1,4 @@
-// $Id: SetTests.mtl,v 1.2 2004-01-22 12:25:34 dvojtise Exp $
+// $Id: SetTests.mtl,v 1.3 2004-04-06 08:08:08 dvojtise Exp $
 // This class tests various points on the Set implementation with MTL
 
 library test1Library1;
@@ -126,7 +126,8 @@ class SetTests
 		if aLocalSet3.size().[=](3)
 		{	
 			'intersection size matches'.toOut();
-			if aLocalSet3.includes('2').and(aLocalSet3.includes('3').and(aLocalSet3.includes('4')))
+			 if aLocalSet3.includes('2').and(aLocalSet3.includes('3').and(aLocalSet3.includes('4')))
+			// if aLocalSet3.includes('2') and aLocalSet3.includes('3') and aLocalSet3.includes('4')
 			{
 				'intersection includes 2, 3 and 4'.toOut();			
 			}
@@ -151,7 +152,7 @@ class SetTests
 		if aLocalSet4.size().[=](2)
 		{	
 			'symmetricDifference size matches'.toOut();
-			if aLocalSet4.includes('1').and(aLocalSet4.includes('5'))
+			if aLocalSet4.includes('1') and aLocalSet4.includes('5')
 			{
 				'symmetricDifference includes 1 and 5'.toOut();			
 			}
