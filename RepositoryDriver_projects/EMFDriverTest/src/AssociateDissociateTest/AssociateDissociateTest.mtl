@@ -1,0 +1,86 @@
+library AssociateDissociateTest;
+
+//library models
+model LibraryM : RepositoryModel;
+model MyOwnLibraryM : RepositoryModel;
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+	modelManager : EMFDriver::EMFModelManager;
+	set : Standard::Set;
+	booksBag : Standard::Bag;
+	it,booksIt : Standard::Iterator;
+	aBook, newBook : LibraryM::[org.eclipse.example.library.Library]::Book;
+	aWriter, newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	
+	modelManager := new EMFDriver::EMFModelManager();
+
+	// use loadModelFromXmi method to get the initial model.
+	LibraryM := modelManager.loadModelFromXMI(
+									'LibraryInstance',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+
+	//create a new model to copy in it all classes and associations of the loaded model
+	//use createModel method
+
+	MyOwnLibraryM := modelManager.createModel(
+									'MyOwnLibrary',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
+
+
+	//copy all Writers and their books from loaded model in following association Writer--books--> Book
+	'Copy all writers and their books...'.toOut();
+	'*=================================*'.toOut();
+	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		aWriter := it.item();
+		newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+		newWriter.name := aWriter.name;
+		//association roles navigation result in a Bag
+		//No "ordered" or "unique" properties is available on EMF association ends.
+		booksBag := aWriter.books;
+		booksIt := booksBag.getNewIterator();
+		booksIt.start();
+		while booksIt.isOn() {
+			aBook := booksIt.item();
+			newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+			newBook.title := aBook.title;
+			newBook.pages := aBook.pages;
+/*			associate (author := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
+						books := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);*/
+			booksIt.next();
+		}
+		it.next();
+	}
+
+	//try the dissociate regardless of the library replica
+/*	newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+	newBook.title := 'UNKNOWNBOOK';
+	newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+	newWriter.name := 'UNKNOWNAUTHOR';
+	associate (author := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
+				books := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);
+	//comment or uncomment the following line to get association between UNKNOWNAUTHOR and UNKNOWNBOOK or not
+	dissociate (author := newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer,
+				books := newBook : LibraryM::[org.eclipse.example.library.Library]::Book);
+*/
+	//save the created model
+	modelManager.saveModelToXMI('MyOwnLibrary');
+	
+	//clean the modelManager so that it may call other transformations without any model under management;
+	// use the disposeModel method that frees loaded models
+	modelManager.disposeModel('LibraryInstance');
+	modelManager.disposeModel('MyOwnLibrary');
+}

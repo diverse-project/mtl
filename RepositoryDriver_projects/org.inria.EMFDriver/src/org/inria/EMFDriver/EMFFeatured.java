@@ -1,4 +1,4 @@
-/* $Id: EMFFeatured.java,v 1.2 2004-03-10 17:15:44 jpthibau Exp $
+/* $Id: EMFFeatured.java,v 1.3 2004-03-16 15:11:40 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -12,12 +12,19 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.ESuperAdapter;
 import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.common.command.*;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 
 import java.util.List;
 import java.util.Arrays;
@@ -135,7 +142,26 @@ public abstract class EMFFeatured
 					if (operation) {
 						if (name.equals("delete")) {
 							this.delete();
-							return null; } 
+							return null; }
+						if (name.equals("SubClasses")) {
+							EObject elt = ((EMFModelElement)this).getRefObject();
+							if (elt instanceof EClass) {
+							ESuperAdapter sa = ESuperAdapter.getESuperAdapter((EClass)elt);
+							if (sa != null) return this.getSpecificAPI().java2value(sa.getSubclasses(),false,false,false);
+							}
+							//by default return an empty collection for subclasses() call
+							return this.getSpecificAPI().java2value(new BasicEList(),false,false,false);  
+						}
+						if (name.equals("TagValues")) {
+							EObject elt = ((EMFModelElement)this).getRefObject();
+							if (elt instanceof EModelElement) {
+								EList annotations = ((EModelElement)elt).getEAnnotations();
+								if (annotations != null && annotations.size() > 0)
+									return this.getSpecificAPI().java2value(annotations,false,false,false);
+							}
+							//by default return an empty collection for subclasses() call
+							return this.getSpecificAPI().java2value(new BasicEList(),false,false,false);  
+						}						
 						g = (EMFMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
 						if (f == null)
 							f = g;
@@ -281,14 +307,14 @@ public abstract class EMFFeatured
 	public boolean equals(
 		org.irisa.triskell.MT.DataTypes.Java.Value rhs)
 	{
-		return (this == rhs)
-			 || ((rhs instanceof EMFFeatured) ? (this.refFeatured == ((EMFFeatured)rhs).refFeatured)
+		return (this == rhs);
+/*			 || ((rhs instanceof EMFFeatured) ? (this.refFeatured == ((EMFFeatured)rhs).refFeatured)
 			 									 && (this.isUndefined() == ((EMFFeatured)rhs).isUndefined())
 			 									 && (this.isUndefined()
 			 									      || (this.getErrorMessage() == null
 			 									          && ((EMFFeatured)rhs).getErrorMessage() == null)
 			 									      || (this.getErrorMessage().equals(((EMFFeatured)rhs).getErrorMessage())))
-			 								 : rhs != null && rhs.equals(this));
+			 								 : rhs != null && rhs.equals(this));*/
 	}
 
 	public boolean equals(

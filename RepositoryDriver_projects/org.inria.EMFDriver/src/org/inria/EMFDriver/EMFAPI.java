@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.2 2004-03-08 08:18:17 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.3 2004-03-16 15:11:40 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -40,6 +40,7 @@ import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJav
 import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
 
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * @author jpthibau
@@ -508,6 +509,19 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 			return new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl(false, null, ((Double)object).floatValue());
 		if (object instanceof Float) 
 			return new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl(false, null, ((Float)object).floatValue());
+		if (object instanceof EObject) {
+			String [] objectType = new String[2];
+			EMFMetaClass metaclass = null;
+			objectType[0] = ((EObject)object).eContainmentFeature().getContainerClass().getName();
+			objectType[1] = ((EObject)object).eClass().getName();
+			try {
+				metaclass = (EMFMetaClass)this.getMetaClass(objectType);
+			} catch (UnknownElementException e) {return new EMFException(e.getMessage(),this); }
+			if (metaclass != null)
+				return new EMFModelElement(false,null,this,(EObject)object,metaclass);
+			else
+				return new EMFException(object.toString() + " : EObject can't access its related objectMClass.", this);
+		}
 		
 		//Model types
 		Object me = this.getElement(object);
@@ -524,8 +538,9 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 		//Collection type
 		//WARNING Nested collection are interpreted as "Sequence"s
 		boolean isArray =  object instanceof Object[];
+		boolean isEList = object instanceof EList;
 		boolean isCollection = object instanceof java.util.Collection;
-		if (isArray || isCollection) {
+		if (isArray || isEList || isCollection) {
 			if (isArray) {
 				Object [] objects = (object instanceof Object[]) ? (Object [])object : ((java.util.Collection)object).toArray();
 				java.util.ArrayList valueList = new java.util.ArrayList(objects.length);
@@ -533,8 +548,10 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 					if (objects[i] != null)
 						valueList.add(this.java2value(objects[i], true, false, true));
 				object = (org.irisa.triskell.MT.DataTypes.Java.Value[])valueList.toArray(new org.irisa.triskell.MT.DataTypes.Java.Value[valueList.size()]);
-			} else
-				object = new IteratingFinalList(new EMF2JavaConverterIterator(((java.util.Collection)object).iterator(), true, false));
+			} else if (isEList) 
+						object = new IteratingFinalList(new EMF2JavaConverterIterator(((EList)object).iterator(), true, false));
+					else
+						object = new IteratingFinalList(new EMF2JavaConverterIterator(((java.util.Collection)object).iterator(), true, false));
 			if (isOrdered && isUnique) {
 				if (isArray)
 					return new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl(false, null, (org.irisa.triskell.MT.DataTypes.Java.Value[])object, checkSet);

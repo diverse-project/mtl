@@ -22,6 +22,8 @@ import FileAccessTest.*;
 import AllInstancesTest.*;
 import EltsCreationAndSettingTest.*;
 import library2documentationExample.*;
+import AssociateDissociateTest.*;
+import PLDerivationTest.*;
 //==============================================================
 
 
@@ -94,7 +96,9 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 //			new BMTLLib_FileAccessTest().BMTL_runTransformation();
 			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
 //			new BMTLLib_EltsCreationAndSettingTest().BMTL_runTransformation();
-		new BMTLLib_library2documentationExample().BMTL_runTransformation();
+//			new BMTLLib_library2documentationExample().BMTL_runTransformation();
+//TODO		new BMTLLib_AssociateDissociateTest().BMTL_runTransformation();
+		new BMTLLib_PLDerivationTest().BMTL_runTransformation();
 		}
 		catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
 							 e.printStackTrace();}
