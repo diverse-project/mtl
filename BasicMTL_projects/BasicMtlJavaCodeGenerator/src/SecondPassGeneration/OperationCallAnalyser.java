@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.6 2003-08-22 18:24:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.7 2003-08-25 10:58:05 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -25,12 +25,15 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSi
 public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalyser {
 
 	public Object OperationCallBefore(OperationCall ASTnode,java.util.Map context)
-	{	return ASTnode; }
+	{	
+		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
+		return ASTnode; }
+		
 	public void OperationCallCaller(Object theOperationCall,OperationCall node,Object expr, java.util.Map context)
 	{	OperationCall theOpCall=(OperationCall)theOperationCall;
 		QualifiedName qn = theOpCall.getOclAsType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, theOpCall);
 		if (expr != null)
 			outputForClass.print('.');
 		if (theOpCall.getIsToInvoke())  {

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.5 2003-08-22 18:24:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.6 2003-08-25 10:58:05 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -33,14 +33,14 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 				if (type.getIsExternType()
 			|| (type.getIsModelType() && (! type.getIsRepositoryModel())))*/
 		 {
-				outputForClass.print("(" + type.getDeclarationName() + ")((BMTLType)this.getLibrary().getMetaClass(new String [] {");
+				outputForClass.print("((" + type.getDeclarationName() + ")((InstanciableType)this.getLibrary().getMetaClass(new String [] {");
 				for (int i=0;i<type.size();i++) {
 					outputForClass.print('"');
 					outputForClass.print(type.get(i));
 					outputForClass.print('"');
 					if (i<type.size()-1) outputForClass.print(", ");
 				}
-				outputForClass.print("})).instanciate()");
+				outputForClass.print("})).instanciate())");
 		}
 		//@TODO the following is a good idea but does not work to instanciate a library
 //		if (type.getIsLocalType())
