@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.5 2003-08-14 20:35:59 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.6 2003-08-20 15:54:53 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -629,7 +629,7 @@ ESC
 
 // a numeric literal
 NUM_INT
-	:	(DIGIT)+
+	:	('-')?(DIGIT)+
 			(
 			|	{	(	LA(1) == 'e'
 					||	LA(1) == 'E'
