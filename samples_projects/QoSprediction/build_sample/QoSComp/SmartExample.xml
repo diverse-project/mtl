@@ -1,0 +1,258 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Mon Jan 24 10:49:16 CET 2005'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <QoSComp.Operation xmi.id = 'a1' name = 'op1'>
+      <QoSComp.Operation.supports>
+        <QoSComp.Component xmi.idref = 'a2'/>
+        <QoSComp.Component xmi.idref = 'a3'/>
+      </QoSComp.Operation.supports>
+    </QoSComp.Operation>
+    <QoSComp.Operation xmi.id = 'a4' name = 'op4'>
+      <QoSComp.Operation.supports>
+        <QoSComp.Component xmi.idref = 'a5'/>
+      </QoSComp.Operation.supports>
+    </QoSComp.Operation>
+    <QoSComp.Operation xmi.id = 'a6' name = 'op3'>
+      <QoSComp.Operation.supports>
+        <QoSComp.Component xmi.idref = 'a7'/>
+      </QoSComp.Operation.supports>
+    </QoSComp.Operation>
+    <QoSComp.Operation xmi.id = 'a8' name = 'op2'>
+      <QoSComp.Operation.supports>
+        <QoSComp.Component xmi.idref = 'a9'/>
+      </QoSComp.Operation.supports>
+    </QoSComp.Operation>
+    <QoSComp.Component xmi.id = 'a2' name = 'a'>
+      <QoSComp.Component.connectors>
+        <QoSComp.Connector xmi.id = 'a10' name = 'a_a1' kind = 'delegation'>
+          <QoSComp.Connector.ends>
+            <QoSComp.ConnectorEnd xmi.id = 'a11'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a12'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+            <QoSComp.ConnectorEnd xmi.id = 'a13'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a14'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+          </QoSComp.Connector.ends>
+        </QoSComp.Connector>
+        <QoSComp.Connector xmi.id = 'a15' name = 'a2_a' kind = 'delegation'>
+          <QoSComp.Connector.ends>
+            <QoSComp.ConnectorEnd xmi.id = 'a16'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a17'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+            <QoSComp.ConnectorEnd xmi.id = 'a18'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a19'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+          </QoSComp.Connector.ends>
+        </QoSComp.Connector>
+        <QoSComp.Connector xmi.id = 'a20' name = 'a1_a3' kind = 'assembly'>
+          <QoSComp.Connector.ends>
+            <QoSComp.ConnectorEnd xmi.id = 'a21'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a22'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+            <QoSComp.ConnectorEnd xmi.id = 'a23'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a24'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+          </QoSComp.Connector.ends>
+        </QoSComp.Connector>
+        <QoSComp.Connector xmi.id = 'a25' name = 'a1_a2' kind = 'assembly'>
+          <QoSComp.Connector.ends>
+            <QoSComp.ConnectorEnd xmi.id = 'a26'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a27'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+            <QoSComp.ConnectorEnd xmi.id = 'a28'>
+              <QoSComp.ConnectorEnd.port>
+                <QoSComp.Port xmi.idref = 'a29'/>
+              </QoSComp.ConnectorEnd.port>
+            </QoSComp.ConnectorEnd>
+          </QoSComp.Connector.ends>
+        </QoSComp.Connector>
+      </QoSComp.Component.connectors>
+      <QoSComp.Component.services>
+        <QoSComp.Operation xmi.idref = 'a1'/>
+      </QoSComp.Component.services>
+      <QoSComp.Component.required>
+        <QoSComp.Port xmi.id = 'a19' name = 'required_a'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a4'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.required>
+      <QoSComp.Component.ownedParts>
+        <QoSComp.Component xmi.idref = 'a3'/>
+        <QoSComp.Component xmi.idref = 'a9'/>
+        <QoSComp.Component xmi.idref = 'a7'/>
+      </QoSComp.Component.ownedParts>
+      <QoSComp.Component.provided>
+        <QoSComp.Port xmi.id = 'a12' name = 'provided_a'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a1'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.provided>
+    </QoSComp.Component>
+    <QoSComp.Component xmi.id = 'a5' name = 'b'>
+      <QoSComp.Component.constraints>
+        <QoSComp.QoSExpression xmi.id = 'a30' constraint = 'T3 $&gt;= 17, T3 $=&lt; 20'
+          syntax = 'eclipse5.7'>
+          <QoSComp.QoSExpression.characteristics>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a31'/>
+          </QoSComp.QoSExpression.characteristics>
+        </QoSComp.QoSExpression>
+      </QoSComp.Component.constraints>
+      <QoSComp.Component.services>
+        <QoSComp.Operation xmi.idref = 'a4'/>
+      </QoSComp.Component.services>
+      <QoSComp.Component.provided>
+        <QoSComp.Port xmi.id = 'a32' name = 'provided_b'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a4'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.provided>
+    </QoSComp.Component>
+    <QoSComp.Component xmi.id = 'a3' name = 'a1'>
+      <QoSComp.Component.constraints>
+        <QoSComp.QoSExpression xmi.id = 'a33' constraint = 'T1 $= T2 + 3' syntax = 'eclipse5.7'>
+          <QoSComp.QoSExpression.characteristics>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a34'/>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a35'/>
+          </QoSComp.QoSExpression.characteristics>
+        </QoSComp.QoSExpression>
+        <QoSComp.QoSExpression xmi.id = 'a36' constraint = 'rule( E1, T2, M)' syntax = 'eclipse5.7'>
+          <QoSComp.QoSExpression.characteristics>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a37'/>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a35'/>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a38'/>
+          </QoSComp.QoSExpression.characteristics>
+        </QoSComp.QoSExpression>
+      </QoSComp.Component.constraints>
+      <QoSComp.Component.services>
+        <QoSComp.Operation xmi.idref = 'a1'/>
+      </QoSComp.Component.services>
+      <QoSComp.Component.required>
+        <QoSComp.Port xmi.id = 'a22' name = 'a1_a3'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a6'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+        <QoSComp.Port xmi.id = 'a27' name = 'a1_a2'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a8'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.required>
+      <QoSComp.Component.provided>
+        <QoSComp.Port xmi.id = 'a14' name = 'a1_a'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a1'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.provided>
+    </QoSComp.Component>
+    <QoSComp.Component xmi.id = 'a9' name = 'a2'>
+      <QoSComp.Component.constraints>
+        <QoSComp.QoSExpression xmi.id = 'a39' constraint = 'T2 $= T3 + 2' syntax = 'eclipse5.7'>
+          <QoSComp.QoSExpression.characteristics>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a35'/>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a31'/>
+          </QoSComp.QoSExpression.characteristics>
+        </QoSComp.QoSExpression>
+      </QoSComp.Component.constraints>
+      <QoSComp.Component.services>
+        <QoSComp.Operation xmi.idref = 'a8'/>
+      </QoSComp.Component.services>
+      <QoSComp.Component.required>
+        <QoSComp.Port xmi.id = 'a17' name = 'a2_a'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a4'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.required>
+      <QoSComp.Component.provided>
+        <QoSComp.Port xmi.id = 'a29' name = 'a2_a1'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a8'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.provided>
+    </QoSComp.Component>
+    <QoSComp.Component xmi.id = 'a7' name = 'a3'>
+      <QoSComp.Component.constraints>
+        <QoSComp.QoSExpression xmi.id = 'a40' constraint = 'M = 128' syntax = 'eclipse5.7'>
+          <QoSComp.QoSExpression.characteristics>
+            <QoSComp.QoSCharacteristic xmi.idref = 'a38'/>
+          </QoSComp.QoSExpression.characteristics>
+        </QoSComp.QoSExpression>
+      </QoSComp.Component.constraints>
+      <QoSComp.Component.services>
+        <QoSComp.Operation xmi.idref = 'a6'/>
+      </QoSComp.Component.services>
+      <QoSComp.Component.provided>
+        <QoSComp.Port xmi.id = 'a24' name = 'a3_a1'>
+          <QoSComp.Port.services>
+            <QoSComp.Operation xmi.idref = 'a6'/>
+          </QoSComp.Port.services>
+        </QoSComp.Port>
+      </QoSComp.Component.provided>
+    </QoSComp.Component>
+    <QoSComp.Connector xmi.id = 'a41' name = 'a_b' kind = 'assembly'>
+      <QoSComp.Connector.ends>
+        <QoSComp.ConnectorEnd xmi.id = 'a42'>
+          <QoSComp.ConnectorEnd.port>
+            <QoSComp.Port xmi.idref = 'a19'/>
+          </QoSComp.ConnectorEnd.port>
+        </QoSComp.ConnectorEnd>
+        <QoSComp.ConnectorEnd xmi.id = 'a43'>
+          <QoSComp.ConnectorEnd.port>
+            <QoSComp.Port xmi.idref = 'a32'/>
+          </QoSComp.ConnectorEnd.port>
+        </QoSComp.ConnectorEnd>
+      </QoSComp.Connector.ends>
+    </QoSComp.Connector>
+    <QoSComp.QoSCharacteristic xmi.id = 'a34' kind = 'timeOut' symbol = 'T1'>
+      <QoSComp.QoSCharacteristic.service>
+        <QoSComp.Operation xmi.idref = 'a1'/>
+      </QoSComp.QoSCharacteristic.service>
+    </QoSComp.QoSCharacteristic>
+    <QoSComp.QoSCharacteristic xmi.id = 'a37' kind = 'precision' symbol = 'E1'>
+      <QoSComp.QoSCharacteristic.service>
+        <QoSComp.Operation xmi.idref = 'a1'/>
+      </QoSComp.QoSCharacteristic.service>
+    </QoSComp.QoSCharacteristic>
+    <QoSComp.QoSCharacteristic xmi.id = 'a35' kind = 'timeOut' symbol = 'T2'>
+      <QoSComp.QoSCharacteristic.service>
+        <QoSComp.Operation xmi.idref = 'a8'/>
+      </QoSComp.QoSCharacteristic.service>
+    </QoSComp.QoSCharacteristic>
+    <QoSComp.QoSCharacteristic xmi.id = 'a38' kind = 'memory' symbol = 'M'>
+      <QoSComp.QoSCharacteristic.service>
+        <QoSComp.Operation xmi.idref = 'a6'/>
+      </QoSComp.QoSCharacteristic.service>
+    </QoSComp.QoSCharacteristic>
+    <QoSComp.QoSCharacteristic xmi.id = 'a31' kind = 'timeOut' symbol = 'T3'>
+      <QoSComp.QoSCharacteristic.service>
+        <QoSComp.Operation xmi.idref = 'a4'/>
+      </QoSComp.QoSCharacteristic.service>
+    </QoSComp.QoSCharacteristic>
+  </XMI.content>
+</XMI>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/ASTJava.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/BasicMtlASTView.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/BasicMtlASTWithAssociationView.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/DefaultObservers.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/DefaultVisitors.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/EMFDriver.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/io.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/MDRDriver.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/ModFactDriver.tll"/>
+	<classpathentry kind="lib" path="C:/eclipse/eclipse3.0/plugins/org.inria.mtl_0.0.5/MTL/Runtime/src/TLL/Standard.tll"/>
+	<classpathentry kind="src" path="src/MyLib"/>
+</classpath>

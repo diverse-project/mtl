@@ -1,0 +1,40 @@
+ % :-['//Z/clp/component/testGen'].
+
+ :- lib(ic).
+provided( b, op4, qos(T3,timeOut) ) :-
+    T3 $>= 17, T3 $=< 20.
+provided( a1, op1, qos(T1,timeOut) ) :-
+    required( a1, op2, qos(T2,timeOut) ), 
+    T1 $= T2 + 3.
+provided( a1, op1, qos(E1,precision) ) :-
+    required( a1, op2, qos(T2,timeOut) ), 
+    required( a1, op3, qos(M,memory) ), 
+    rule( E1, T2, M).
+provided( a2, op2, qos(T2,timeOut) ) :-
+    required( a2, op4, qos(T3,timeOut) ), 
+    T2 $= T3 + 2.
+provided( a3, op3, qos(M,memory) ) :-
+    M = 128.
+provided( a, op1, qos(T1,timeOut)) :-
+    provided( a1, op1, qos(T1,timeOut)).
+provided( a, op1, qos(E1,precision)) :-
+    provided( a1, op1, qos(E1,precision)).
+required( a2, op4, qos(T3,timeOut)) :-
+    required( a, op4, qos(T3,timeOut)).
+required( a1, op3, qos(M,memory)) :-
+    provided( a3, op3, qos(M,memory)).
+required( a1, op2, qos(T2,timeOut)) :-
+    provided( a2, op2, qos(T2,timeOut)).
+required( a, op4, qos(T3,timeOut)) :-
+    provided( b, op4, qos(T3,timeOut)).
+rule( low, T, M) :-
+    ( T $>= 30, M $>= 0, M $< 500);
+    ( M $>= 0, M $< 100, T $>= 20, T $< 30).
+rule( medium, T, M) :-
+     ( M $>= 0, M $< 100, T $>= 0, T $< 20);
+ 	( M $>= 100, M $< 500, T $>= 20, T $< 30);
+ 	( M $>= 500, T $>= 30).
+ rule( high, T, M) :-
+ 	(M $> 100, T $>= 0, T $< 20);
+ 	(M $>= 500, T $>= 20, T $< 30 ).
+

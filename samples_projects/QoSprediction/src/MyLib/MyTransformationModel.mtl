@@ -1,0 +1,350 @@
+/************************************************
+***   File : MyTransformationModel.mtl
+***   Library : src
+***   Version : 1.0 
+***   Author : odefour
+***   Date : November 30, 2004 9:42:33 AM CET
+*************************************************/
+
+library MyLib;
+
+model source_model : RepositoryModel;
+
+main() : Standard::Void {
+	myClass : MyTransformationClass;
+	genFile : Standard::String;
+
+	'Model2Prolog v5.3'.toOut();
+	myClass := new MyTransformationClass();
+	myClass.connectSourceModel();
+	genFile := '';
+	genFile := myClass.qosDependency();
+	genFile.toOut();
+	genFile := genFile.concat( myClass.qosConnectors() );
+	genFile.toOut();
+	myClass.store(genFile);
+	myClass.testExe();
+}
+
+class MyTransformationClass {
+	
+	testExe(){
+		JavaCode[
+			Process p = Runtime.getRuntime().exec("C:\\ECLiPSe 5.7\\lib\\i386_nt\\eclipse");
+			DataInputStream in = new DataInputStream(p.getInputStream());
+			try {   
+				String str = in.readLine();
+				while(str!=null){
+					System.out.println(str);
+					str = in.readLine();
+				}
+			} catch(IOException e) {System.exit(0);}
+		];
+	}
+
+	connectSourceModel() {
+		// local variables
+		mdrdriver : MDRDriver::MDRModelManager;
+		metamodelFilename, inputFilename, outputFilename : Standard::String; 
+		set1, set2, set3 : Standard::Set;
+		it1, it2 : Standard::Iterator;
+		elt1, elt2 : source_model::Element;
+
+		// we define some filenames
+		metamodelFilename := 'Z:/clp/component/QoSComp_MOF.xml';  //'Z:/tmp/ObjGen/QoSComp_MOF.xml';
+		inputFilename := 'Z:/clp/component/SmartExample.xml';
+		outputFilename := 'Z:/clp/component/out.xml';
+
+	    // we initialize the MDR driver			
+		mdrdriver := new MDRDriver::MDRModelManager();
+		mdrdriver.init();
+		 
+		// intanciate the model, save result in another file
+		source_model := mdrdriver.getModelFromXMI (
+			metamodelFilename, 
+			'QoSComp',        // name of the root package in the Uml1.4 metamodel
+			'UML1.4_model',   // name of the new model in the repository
+			inputFilename,
+			outputFilename
+		);
+		
+		set1 := !source_model::Model!.allInstances();
+		it1 := set1.getNewIterator();
+		while it1.isOn(){
+			
+			// item() returns an oclAny, so we need to cast it into the real type, that is ModelElement
+			elt1 := it1.item().oclAsType(!source_model::Element!);
+			elt1.name.toOut();
+			if elt1.oclIsKindOf(!source_model::Model!) {
+				set2 := elt1.ownedElements;
+				it2 := set2.getNewIterator();
+				while it2.isOn() {
+					elt2 := it2.item().oclAsType(!source_model::Element!);
+					elt2.name.toOut();
+					it2.next();
+				}
+			}
+			it1.next();
+		}
+	}
+	
+	store( str : Standard::String ) {
+		file : io::FileOutput;
+		
+		file := new io::FileOutput (); 
+		file.setName('Z:/clp/component/testGen');
+		file.writeln(' % :-[\'//Z/clp/component/testGen\'].\n');
+		file.writeln(' :- lib(ic).');
+		file.writeln(str);
+		file.close();
+	}
+
+	/*
+	*	parcourir tous les composants et traduire leurs 
+	*	QoS dépendances en Prolog
+	*/
+	qosDependency() : Standard::String {
+		set1, set2, set3 : Standard::Set;
+		it1, it2, it3 : Standard::Iterator;
+		comp : source_model::Component;
+		qosexp : source_model::QoSExpression;
+		qoschar : source_model::QoSCharacteristic;
+		op : source_model::Operation;
+		out, str0, str1, str2 : Standard::String;
+
+		out := '';
+		set1 := !source_model::Component!.allInstances();
+		it1 := set1.getNewIterator();
+		while it1.isOn() {
+			comp := it1.item().oclAsType(!source_model::Component!);
+			comp.name.toOut();
+			set2 := comp.constraints;
+			it2 := set2.getNewIterator();
+			while it2.isOn() {
+				str0 := '';
+				qosexp := it2.item().oclAsType(!source_model::QoSExpresion!);
+				set3 := qosexp.characteristics;
+				it3 := set3.getNewIterator();
+				while it3.isOn() {
+					qoschar := it3.item().oclAsType(!source_model::QoSCharacteristic!);
+					op := qoschar.service;
+					if isProvided( op, comp ) {
+						str1 := 'provided( ';
+						str1 := str1.concat(comp.name.oclAsType(!Standard::String!));
+						str1 := str1.concat(', ');
+						str1 := str1.concat(op.name.oclAsType(!Standard::String!));
+						str1 := str1.concat(', qos(');
+						str1 := str1.concat(qoschar.symbol.oclAsType(!Standard::String!));
+						str1 := str1.concat(',');
+						str1 := str1.concat(qoschar.kind.oclAsType(!Standard::String!));
+						str1 := str1.concat(') ) :-\n');
+						str0 := str1.concat(str0);
+					} else {
+						str2 := '    required( ';
+						str2 := str2.concat(comp.name.oclAsType(!Standard::String!));
+						str2 := str2.concat(', ');
+						str2 := str2.concat(op.name.oclAsType(!Standard::String!));
+						str2 := str2.concat(', qos(');
+						str2 := str2.concat(qoschar.symbol.oclAsType(!Standard::String!));
+						str2 := str2.concat(',');
+						str2 := str2.concat(qoschar.kind.oclAsType(!Standard::String!));
+						str2 := str2.concat(') ), \n');
+						str0 := str0.concat(str2);
+					}
+					it3.next();
+				}
+				str0 := str0.concat('    ');
+				str0 := str0.concat(qosexp.constraint.oclAsType(!Standard::String!));
+				str0 := str0.concat('.\n');
+				
+				out := out.concat(str0);
+				it2.next();
+			}
+			it1.next();
+		}
+		return out;
+	}
+	
+	isProvided( op : source_model::Operation;
+				comp : source_model::Component) : Standard::Boolean {
+		res : Standard::Boolean;
+		set : Standard::Set;
+		it : Standard::Iterator;
+		x : source_model::Component;
+
+		res := false;
+		set := op.supports;
+		it := set.getNewIterator();
+		while it.isOn() {
+			x := it.item().oclAsType(!source_model::Component!);
+			if ( comp = x ) {
+				res := true;
+			}
+			it.next();
+		}
+		return res;
+	}
+	
+	/*
+	*	retourne les QoScharacteristic associés à une operation donnée
+	*/ 
+	getQoSChar( op : source_model::Operation ) : Standard::Set {
+		set1, res : Standard::Set;
+		it1 : Standard::Iterator;
+		qoschar : source_model::QoSCharacteristic;
+		x : source_model::Operation;
+		flag : Standard::Boolean;
+		
+		res := new Standard::Set();
+		flag := true;
+		set1 := !source_model::QoSCharacteristic!.allInstances();
+		it1 := set1.getNewIterator();
+		while ( it1.isOn() and flag ) {
+			qoschar := it1.item().oclAsType(!source_model::QoSCharacteristic!);
+			x := qoschar.service;
+			if ( x = op ) {
+				res := res.including(qoschar);
+				flag = false;
+			}
+			it1.next();
+		}
+		return res;
+	}
+	
+	/*
+	* 	parcourir tous les connecteurs et traduire  
+	*	cette connaissance en Prolog
+	*/
+	qosConnectors() : Standard::String {
+		set1, set2, set3 : Standard::Set;
+		it1, it2, it3 : Standard::Iterator;
+		con : source_model::Connector;
+		c1, c2 : source_model::ConnectorEnd;
+		p1, p2 : source_model::Port;
+		comp1, comp2 : source_model::Component;
+		op : source_model::Operation;
+		qoschar : source_model::QoSCharacteristic;
+		out, str, qos : Standard::String;
+
+		out := '';
+		set1 := !source_model::Connector!.allInstances();
+		it1 := set1.getNewIterator();
+		while it1.isOn() {
+			con := it1.item().oclAsType(!source_model::Connector!);
+			set2 := con.ends;
+			it2 := set2.getNewIterator();
+			c1 := it2.item().oclAsType(!source_model::ConnectorEnd!); it2.next();
+			c2 := it2.item().oclAsType(!source_model::ConnectorEnd!);
+			p1 := c1.port.oclAsType(!source_model::Port!);
+			p2 := c2.port.oclAsType(!source_model::Port!);
+			comp1 := getComponent( p1 );
+			comp2 := getComponent( p2 );
+
+			set2 := p1.services;
+			it2 := set2.getNewIterator();
+			while it2.isOn() {
+				op := it2.item().oclAsType(!source_model::Operation!);
+				set3 := getQoSChar(op);
+				it3 := set3.getNewIterator();
+				while it3.isOn() {
+					qoschar := it3.item().oclAsType(!source_model::QoSCharacteristic!);
+					qos := 'qos(';
+					qos := qos.concat(qoschar.symbol.oclAsType(!Standard::String!));
+					qos := qos.concat(',');
+					qos := qos.concat(qoschar.kind.oclAsType(!Standard::String!));
+					qos := qos.concat(')');
+					
+					str := '';
+					if isProvided( op, comp1) {
+						str := str.concat('provided( ');
+					} else {
+						str := str.concat('required( ');
+					}
+					str := str.concat(comp1.name.oclAsType(!Standard::String!));
+					str := str.concat(', ');
+					str := str.concat(op.name.oclAsType(!Standard::String!));
+					str := str.concat(', ');
+					str := str.concat(qos);
+					str := str.concat(') :-\n');
+					if isProvided( op, comp2) {
+						str := str.concat('    provided( ');
+					} else {
+						str := str.concat('    required( ');
+					}
+					str := str.concat(comp2.name.oclAsType(!Standard::String!));
+					str := str.concat(', ');
+					str := str.concat(op.name.oclAsType(!Standard::String!));
+					str := str.concat(', ');
+					str := str.concat(qos);
+					str := str.concat(').\n');
+					
+					out := out.concat(str);
+					
+					it3.next();
+				}
+				it2.next();
+			}
+			it1.next();
+		}
+		out := test01(out);
+		return out;
+	}
+	
+	/*
+	* renvoie le composant assoécié à un port donné
+	*/
+	getComponent( aPort : source_model::Port ) : source_model::Component {
+		set1, set2 : Standard::Set;
+		it1, it2 : Standard::Iterator;
+		p : source_model::Port;
+		comp, res : source_model::Component;
+		flag : Standard::Boolean;
+
+		flag := true;
+		set1 := !source_model::Component!.allInstances();
+		it1 := set1.getNewIterator();
+		while ( it1.isOn() and flag ) {
+			comp := it1.item().oclAsType(!source_model::Component!);
+			set2 := comp.provided;
+			it2 := set2.getNewIterator();
+			while ( it2.isOn() and flag ) {
+				p := it2.item().oclAsType(!source_model::Port!);
+				if( p = aPort ) {
+					res := comp;
+					flag := false;
+				}
+				it2.next();
+			}
+			if( flag ) {
+				set2 := comp.required;
+				it2 := set2.getNewIterator();
+				while ( it2.isOn() and flag ) {
+					p := it2.item().oclAsType(!source_model::Port!);
+					if( p = aPort ) {
+						res := comp;
+						flag := false;
+					}
+					it2.next();
+				}
+			}
+			it1.next();
+		}
+		return res;
+	}
+	
+	test01( out : Standard::String ) : Standard::String {
+		out := out.concat('rule( low, T, M) :-\n');
+		out := out.concat('    ( T $>= 30, M $>= 0, M $< 500);\n');
+		out := out.concat('    ( M $>= 0, M $< 100, T $>= 20, T $< 30).\n');
+		out := out.concat('rule( medium, T, M) :-\n');
+		out := out.concat('     ( M $>= 0, M $< 100, T $>= 0, T $< 20);\n');
+		out := out.concat(' 	( M $>= 100, M $< 500, T $>= 20, T $< 30);\n');
+		out := out.concat(' 	( M $>= 500, T $>= 30).\n');
+		out := out.concat(' rule( high, T, M) :-\n');
+		out := out.concat(' 	(M $> 100, T $>= 0, T $< 20);\n');
+		out := out.concat(' 	(M $>= 500, T $>= 20, T $< 30 ).\n');
+		return out;
+	}
+	
+}
+
