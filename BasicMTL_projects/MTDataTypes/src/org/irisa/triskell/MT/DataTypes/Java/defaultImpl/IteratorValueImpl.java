@@ -70,7 +70,7 @@ public class IteratorValueImpl
     
     public boolean hasNext () {
     	this.buildIterator();
-    	return this.latestValue == NoMoreElement ? false : this.currentIterator.hasNext();
+    	return this.latestValue != NoMoreElement;//== NoMoreElement ? false : this.currentIterator.hasNext();
     }
     
     public void nextPosition () {

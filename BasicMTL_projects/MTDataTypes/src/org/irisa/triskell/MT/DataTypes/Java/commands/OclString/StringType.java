@@ -6,8 +6,7 @@
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OclString;
 
-import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
-import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.PrimitiveType;
@@ -23,7 +22,7 @@ public class StringType extends PrimitiveType {
 	}
 	
 	public boolean isKindOfInternal(Value v) {
-		return v instanceof RealValue;
+		return v instanceof StringValue;
 	}
 
 }

@@ -60,7 +60,7 @@ abstract public class AbstractCommand
     public boolean checkDiscriminants(
         String[] discriminants)
     {
-    	if (discriminants != null)
+    	if (discriminants != null && this.discriminants != null)
 			for (int i = 0; i < discriminants.length; ++i) {
 				if (! this.discriminants.contains(discriminants[i]))
 					return false;

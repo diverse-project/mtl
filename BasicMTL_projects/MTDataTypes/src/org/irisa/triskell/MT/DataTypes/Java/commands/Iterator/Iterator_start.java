@@ -30,6 +30,8 @@ public class Iterator_start extends AbstractCommand {
 
 	protected Value invokeInternal(Value invoker, Value[] arguments) {
 		((IteratorValueImpl)invoker).reset();
+		if (((IteratorValueImpl)invoker).hasNext())
+			((IteratorValueImpl)invoker).nextPosition();
 		return VoidValueImpl.getTheInstance();
 	}
 }

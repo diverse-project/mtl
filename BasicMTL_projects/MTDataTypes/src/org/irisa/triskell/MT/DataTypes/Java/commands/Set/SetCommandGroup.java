@@ -15,6 +15,8 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionCommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -29,14 +31,14 @@ public class SetCommandGroup extends CommandGroupImpl {
 	public static SetCommandGroup getSetCommandGroup (SetType setType) {
 		SetCommandGroup ret = (SetCommandGroup)setCommandGroups.get(setType);
 		if (ret == null) {
-			ret = new SetCommandGroup(setType);
+			ret = new SetCommandGroup(setType, CollectionCommandGroup.getCollectionCommandGroup(setType));
 			setCommandGroups.put(setType, ret);
 		}
 		return ret;
 	}
 	
-	protected SetCommandGroup(SetType collectionType) {
-		super(collectionType, Arrays.asList(new CommandGroup [0]));
+	protected SetCommandGroup(SetType collectionType, CollectionCommandGroup parent) {
+		super(collectionType, Arrays.asList(new CommandGroup [] {parent}));
 	}
 	
 }

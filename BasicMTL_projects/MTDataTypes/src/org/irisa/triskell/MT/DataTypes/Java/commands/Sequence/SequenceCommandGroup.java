@@ -15,6 +15,7 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -26,17 +27,17 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 public class SequenceCommandGroup extends CommandGroupImpl {
 	// keys are collection types (CollectionType) and values are collection command groups (SequenceCommandGroup) - of this exact type !	private static Hashtable defined
 	private static final Hashtable sequenceCommandGroups = new Hashtable();	
-	public static SequenceCommandGroup getSequenceCommandGroup (SequenceType setType) {
-		SequenceCommandGroup ret = (SequenceCommandGroup)sequenceCommandGroups.get(setType);
+	public static SequenceCommandGroup getSequenceCommandGroup (SequenceType sequenceType) {
+		SequenceCommandGroup ret = (SequenceCommandGroup)sequenceCommandGroups.get(sequenceType);
 		if (ret == null) {
-			ret = new SequenceCommandGroup(setType);
-			sequenceCommandGroups.put(setType, ret);
+			ret = new SequenceCommandGroup(sequenceType, CollectionCommandGroup.getCollectionCommandGroup(sequenceType));
+			sequenceCommandGroups.put(sequenceType, ret);
 		}
 		return ret;
 	}
 	
-	protected SequenceCommandGroup(SequenceType collectionType) {
-		super(collectionType, Arrays.asList(new CommandGroup [0]));
+	protected SequenceCommandGroup(SequenceType collectionType, CollectionCommandGroup parent) {
+		super(collectionType, Arrays.asList(new CommandGroup [] {parent}));
 	}
 	
 }

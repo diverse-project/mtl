@@ -15,6 +15,7 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
@@ -26,16 +27,16 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 public class OrderedSetCommandGroup extends CommandGroupImpl {
 	// keys are collection types (CollectionType) and values are collection command groups (CollectionCommandGroup) - of this exact type !	private static Hashtable defined
 	private static final Hashtable orderedSetCommandGroups = new Hashtable();	
-	public static OrderedSetCommandGroup getOrderedSetCommandGroup (OrderedSetType setType) {
-		OrderedSetCommandGroup ret = (OrderedSetCommandGroup)orderedSetCommandGroups.get(setType);
+	public static OrderedSetCommandGroup getOrderedSetCommandGroup (OrderedSetType orderedSetType) {
+		OrderedSetCommandGroup ret = (OrderedSetCommandGroup)orderedSetCommandGroups.get(orderedSetType);
 		if (ret == null) {
-			ret = new OrderedSetCommandGroup(setType);
-			orderedSetCommandGroups.put(setType, ret);
+			ret = new OrderedSetCommandGroup(orderedSetType, CollectionCommandGroup.getCollectionCommandGroup(orderedSetType));
+			orderedSetCommandGroups.put(orderedSetType, ret);
 		}
 		return ret;
 	}
 	
-	protected OrderedSetCommandGroup(OrderedSetType collectionType) {
-		super(collectionType, Arrays.asList(new CommandGroup [0]));
+	protected OrderedSetCommandGroup(OrderedSetType collectionType, CollectionCommandGroup parent) {
+		super(collectionType, Arrays.asList(new CommandGroup [] {parent}));
 	}
 }
