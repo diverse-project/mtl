@@ -1,0 +1,41 @@
+<!-- $Id: build.xml,v 1.1 2004-10-19 09:21:51 jpthibau Exp $ -->
+<project name="ModFactDriver modelmanager" default="compile_mtl" basedir=".">
+	<description>
+        Compile the BasicMtl wraper to generate code to access ModFactDriver.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="base" location=".."/>
+	<property name="build" location="../../build"/>
+	
+	<!-- This compilation depends on the org.inria.BasicMtl.runtime project -->
+	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
+
+	<!-- Compiler and standard TLLs are supposed to be already built -->
+	<property name="ANTLR2JavaCode" location="..\..\..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
+	<property name="BasicMtlTLLs" location="..\..\..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	</target>
+
+	<target name="compile_mtl" depends="init"
+        description="compile the mtl driver manager" >
+ 		<java jar="${ANTLR2JavaCode}" 
+						fork="true"
+	           			failonerror="true">
+		         <arg value="${base}/ModFactDriver/"/>
+	         	<arg value="-TLLLoadingPaths"/>
+		         <arg value="${BasicMtlTLLs}/"/>  
+	         	<arg value="-TLLPath"/> 
+	         	<arg value="${build}/TLL/"/>  
+		         <arg value="-PackageName"/> 
+		         <arg value="ModFactDriver"/> 
+		         <arg value="-BinPath"/> 
+		         <arg value="${build}/src/ModFactDriver/"/> 
+	       	</java>
+		</target>
+</project>
