@@ -1,4 +1,8 @@
-/* $Id: basicmtl.g,v 1.18 2003-12-08 11:13:17 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.19 2004-04-06 07:46:27 dvojtise Exp $ 			*/
+/*															 			*/
+/* Copyright 2004 - INRIA - LGPL license 					 			*/
+/* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
+/* in order to do the concrete actions.									*/
 header {
 package ANTLRParser;
 
@@ -293,7 +297,7 @@ exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 /*===============================================================
-methodDefinition : ("creation")? ident 
+methodDefinition : ("creation")? (ident | "not" | "and")
 		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
 		( "throwsException" )?
 		( tag )*
@@ -315,7 +319,7 @@ methodDefinition returns [Object tree=null;]
 	String methodName=null;
 }
 	:	("creation" {creation=new String("creation"); } )?
-			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}) n=openbracket
+			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}| n=andKeyword {methodName="and";}) n=openbracket
 		    ( l1=parameterdef )? CLOSEBRACKET (COLON l2=type)?
 			( "throwsException" {throwsException=new String("throwsException"); } )?
 			( l3=tag {theTags.addElement(l3); } )*
@@ -368,12 +372,12 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 instruction
-	 : ((ident POINT)? ident RECEIVES) => (ident POINT)? ident RECEIVES expression semicolon
-	| expression n:semicolon
-	| "return" (OPENBRACKET expression CLOSEBRACKET)? semicolon
-	| "while" expression bodyinstr
-	| "if" expression bodyinstr ( "else" bodyinstr )?
-	| "throws" expression semicolon
+	 : ((ident POINT)? ident RECEIVES) => (ident POINT)? ident RECEIVES expressionWithOp semicolon
+	| expressionWithOp n:semicolon
+	| "return" (OPENBRACKET expressionWithOp CLOSEBRACKET)? semicolon
+	| "while" expressionWithOp bodyinstr
+	| "if" expressionWithOp bodyinstr ( "else" bodyinstr )?
+	| "throws" expressionWithOp semicolon
 	| "try" bodyinstr
 	  ("catch" ident COLON type bodyinstr )+
 	  ( "finally" bodyinstr )? CLOSEBRACE
@@ -393,16 +397,16 @@ instruction returns [Object tree=null;]
 	boolean isAssociate=false;
 	Token s3 = null;
 }
-	: tree=expression (r:RECEIVES l1=expression {tree = walker.affectation(l1, tree, Integer.toString(r.getLine()));})? n=semicolon
+	: tree=expressionWithOp (r:RECEIVES l1=expressionWithOp {tree = walker.affectation(l1, tree, Integer.toString(r.getLine()));})? n=semicolon
 	  {tree=walker.expressionInstr(tree,n);}
-	| "return" (tree=expression)? n=semicolon
+	| "return" (tree=expressionWithOp)? n=semicolon
 	  {tree=walker.returnInstr(tree,n);}
-	| "while" tree=expression body=bodyinstr
+	| "while" tree=expressionWithOp body=bodyinstr
 	  {tree=walker.whileInstr(tree,body);}	
-	| "if" tree=expression body=bodyinstr
+	| "if" tree=expressionWithOp body=bodyinstr
 		( "else" body2=bodyinstr)?
 	  {tree=walker.ifInstr(tree,body,body2);}
-	| ("throws"|"throw") tree=expression  n=semicolon
+	| ("throws"|"throw") tree=expressionWithOp  n=semicolon
 	  {tree=walker.throwsInstr(tree,n);}
 	| "try" body=bodyinstr
 	  ("catch" s3=ident COLON l2=type body2=bodyinstr
@@ -436,39 +440,167 @@ exception catch [RecognitionException ex] {
 	;
 
 /*===============================================================
-associateEndPoint : (ident RECEIVES)? expression (COLON type)?
+associateEndPoint : (ident RECEIVES)? expressionWithOp (COLON type)?
 ==================================================================*/
 associateEndPoint returns [Object tree=null;]
 {	String role=null;
 	Object t=null;
 	Token s1 = null;
 }
-	: (s1=ident RECEIVES {role=s1.getText(); })? tree=expression (COLON t=type)? 
+	: (s1=ident RECEIVES {role=s1.getText(); })? tree=expressionWithOp (COLON t=type)? 
 	  {tree=walker.associateEndPoint(role,tree,t); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 
+
+/*===============================================================
+expressionWithOp :
+	  andExpression ("or" andExpression)+
+    | andExpression
+==================================================================*/
+expressionWithOp returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:	
+	(andExpression ident) => tree=andExpression (op2=ident expr=andExpression)+
+	  		{tree=walker.exprOpExpr(tree,op2.getText(),expr,Integer.toString(op2.getLine())); }
+	 | expr=andExpression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+
+/*===============================================================
+andExpression :
+	  relationalExpression ("and" relationalExpression)+
+    | relationalExpression
+==================================================================*/
+andExpression returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:
+	 (relationalExpression andKeyword) => tree=relationalExpression lineNumber=andKeyword expr=relationalExpression
+	  		{System.out.println("and keyword ");
+	  		 tree=walker.exprOpExpr(tree,"and",expr,lineNumber); }
+	 | expr=relationalExpression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+	
+		
+/*===============================================================
+relationalExpression :
+	  addingExpression EQUALS addingExpression
+    | addingExpression NOT_EQUALS addingExpression
+    | addingExpression GT addingExpression
+    | addingExpression GTE addingExpression
+    | addingExpression LT addingExpression
+    | addingExpression LTE addingExpression
+    | addingExpression
+==================================================================*/
+relationalExpression returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:
+	 (addingExpression EQUALS) => tree=addingExpression lineNumber=equalsKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,"=",expr,lineNumber); }
+	 | (addingExpression NOT_EQUALS) => tree=addingExpression lineNumber=notequalsKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,"<>",expr,lineNumber); } 
+	 | (addingExpression GT) => tree=addingExpression lineNumber=gtKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,">",expr,lineNumber); }
+	 | (addingExpression GTE) => tree=addingExpression lineNumber=gteKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,">=",expr,lineNumber); } 
+	 | (addingExpression LT) => tree=addingExpression lineNumber=ltKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,"<",expr,lineNumber); }
+	 | (addingExpression LTE) => tree=addingExpression lineNumber=lteKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,"<=",expr,lineNumber); } 
+	 | expr=addingExpression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+	
+/*===============================================================
+addingExpression:	
+    multiplyingExpression PLUS addingExpression
+   		//  | multiplyingExpression MINUS multiplyingExpression // PROBLEM with the MINUS !!!
+    | multiplyingExpression
+==================================================================*/
+addingExpression returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:
+	 (multiplyingExpression PLUS) => tree=multiplyingExpression lineNumber=plusKeyword expr=addingExpression
+	  		{ tree=walker.exprOpExpr(tree,"+",expr,lineNumber); }
+	 | expr=multiplyingExpression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+	
+/*===============================================================
+multiplyingExpression:	
+    booleanNegationExpression MULT multiplyingExpression
+    | booleanNegationExpression DIV multiplyingExpression
+    | booleanNegationExpression
+==================================================================*/
+multiplyingExpression returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:
+	 (booleanNegationExpression MULT) => tree=booleanNegationExpression lineNumber=multKeyword expr=multiplyingExpression
+	  		{ tree=walker.exprOpExpr(tree,"*",expr,lineNumber); }
+	 | (booleanNegationExpression DIV) => tree=booleanNegationExpression lineNumber=divKeyword expr=multiplyingExpression
+	  		{ tree=walker.exprOpExpr(tree,"/",expr,lineNumber); }
+	 | expr=booleanNegationExpression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+		 
+/*===============================================================
+booleanNegationExpression:
+	  
+	"not" expression
+    | expression
+==================================================================*/
+booleanNegationExpression returns [Object tree=null;]
+{	Object expr=null;
+	Token op1 = null, op2 = null;
+	String lineNumber = null;
+}
+:
+	 lineNumber=notKeyword tree=expression
+		{tree=walker.negateExpr(tree,lineNumber); }
+	 | expr=expression
+	  		{tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; };
+	
 /*===============================================================
 expression :
-	 singleexpr
+	  OPENBRACKET expressionWithOp CLOSEBRACKET
+    | singleexpr
 ==================================================================*/
 expression returns [Object tree=null;]
 {	Object expr=null;
 	Token op1 = null, op2 = null;
+	String lineNumber = null;
 }
 :
-	 (OPENBRACKET expression CLOSEBRACKET ident) => OPENBRACKET tree=expression CLOSEBRACKET op1=ident expr=expression
-	  {tree=walker.exprOpExpr(tree,op1.getText(),expr,Integer.toString(op1.getLine())); }
-	 | (OPENBRACKET) => OPENBRACKET expr=expression CLOSEBRACKET
-	  {tree=expr; }
-	 | (singleexpr ident) => tree=singleexpr op2=ident expr=expression
-	  {tree=walker.exprOpExpr(tree,op2.getText(),expr,Integer.toString(op2.getLine())); }
+	 (OPENBRACKET) => OPENBRACKET expr=expressionWithOp CLOSEBRACKET
+	  		{tree=expr; }
 	 | expr=singleexpr
-	  {tree=expr; }
+	  		{tree=expr; }
 exception catch [RecognitionException ex] {
-	throw ex; }
-	; 
+	throw ex; }; 
 
 /*===============================================================
 singleexpr :
@@ -484,23 +616,6 @@ singleexpr :
 	| "false" (POINT propertyCall )* 
 	| ident (POINT propertyCall )*
 	| operationCall (POINT propertyCall )*
-	| "not" expression
-//previous version was :
-	 "JavaCode" TAGVALUE
-	| "new" type (POINT ident)? openbracket (arguments)? CLOSEBRACKET (propertyCall)*
-	| CHARORSTRING (propertyCall)*
-	| NUM_INT (propertyCall)*
-	| NUM_FLOAT (propertyCall)*
-	| EXCLAM type EXCLAM (propertyCall)*
-	| "self" (propertyCall)*
-	| "null" (propertyCall)*
-	| "true" (propertyCall)*
-	| "false" (propertyCall)*
-	| (type POINT ident OPENBRACKET) => type (POINT propertyCall)+ //variable.method() or library.staticmethod() 
-	| (ident OPENBRACKET) => (propertyCall)+ //direct operation call
-	| (ident POINT ident) => ident (POINT ident)+ //attribute getter
-	| ident // variable reference
-	| "not" expression 
 ==================================================================*/
 singleexpr returns [Object tree=null;]
 {	java.util.Vector theCalls=new java.util.Vector();
@@ -536,23 +651,31 @@ singleexpr returns [Object tree=null;]
 		{tree=walker.attributeOrVariable(id.getText(),theCalls); }
 	| l1=operationCall {theCalls.addElement(l1);} (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.selfLiteral(theCalls); }
-	| n=notKeyword tree=expression
-		{tree=walker.negateExpr(tree,n); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	; 
 
 /*===============================================================
 propertyCall :	( attributeCall
-				| operationCall	)
+				| operationCall
+				| "not" OPENBRACKET CLOSEBRACKET
+				| "and" OPENBRACKET arguments CLOSEBRACKET 	)
 ==================================================================*/
 propertyCall returns [Object tree=null;]
 {	Object l1=null;
+	Object l2=null;
 	String n;
+	
 }
-	:	( l1=attributeCall
+	:	( 
+		  
+		l1=attributeCall
 		| l1=operationCall	
-		| n=notKeyword OPENBRACKET CLOSEBRACKET {l1=walker.operationCall("not",null,n);})
+		| ("and") => n=andKeyword OPENBRACKET (l2=arguments)? CLOSEBRACKET 
+				{l1=walker.operationCall("and",l2,n);}
+		| n=notKeyword OPENBRACKET CLOSEBRACKET 
+				{l1=walker.operationCall("not",null,n);}
+		)
 		{tree=l1; }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -734,7 +857,83 @@ notKeyword : "not"
 notKeyword returns [String number=null;]
 	: o:"not" {number=Integer.toString(o.getLine()); }
 	  ;
+/*===============================================================
+andKeyword : "and"
+==================================================================*/
+/* remember the line number of the and */
+andKeyword returns [String number=null;]
+	: o:"and" {number=Integer.toString(o.getLine()); };
 
+/*===============================================================
+orKeyword : "or"
+==================================================================*/
+/* remember the line number of the and */
+//orKeyword returns [String number=null;]
+//	: o:"or" {number=Integer.toString(o.getLine()); };
+		  	
+/*===============================================================
+equalsKeyword : EQUALS
+==================================================================*/
+/* remember the line number of the equals */
+equalsKeyword returns [String number=null;]
+	: o:EQUALS {number=Integer.toString(o.getLine()); };
+	
+/*===============================================================
+equalsKeyword : NOT_EQUALS
+==================================================================*/
+/* remember the line number of the equals */
+notequalsKeyword returns [String number=null;]
+	: o:NOT_EQUALS {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+gtKeyword : GT
+==================================================================*/
+/* remember the line number of the > */
+gtKeyword returns [String number=null;]
+	: o:GT {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+gteKeyword : GTE
+==================================================================*/
+/* remember the line number of the >= */
+gteKeyword returns [String number=null;]
+	: o:GTE {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+ltKeyword : LT
+==================================================================*/
+/* remember the line number of the < */
+ltKeyword returns [String number=null;]
+	: o:LT {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+lteKeyword : LTE
+==================================================================*/
+/* remember the line number of the <= */
+lteKeyword returns [String number=null;]
+	: o:LTE {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+plusKeyword : PLUS
+==================================================================*/
+/* remember the line number of the + */
+plusKeyword returns [String number=null;]
+	: o:PLUS {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+multKeyword : MULT
+==================================================================*/
+/* remember the line number of the * */
+multKeyword returns [String number=null;]
+	: o:MULT {number=Integer.toString(o.getLine()); };
+
+/*===============================================================
+divKeyword : DIV
+==================================================================*/
+/* remember the line number of the / */
+divKeyword returns [String number=null;]
+	: o:DIV {number=Integer.toString(o.getLine()); };
+		
 /*===============================================================
 ident
 	:	IDENTIFIER
@@ -776,6 +975,7 @@ WS	:	(' '
 		{ _ttype = Token.SKIP; }
 	;
 
+
 // Single-line comments
 SL_COMMENT
 	:	"//"
@@ -810,8 +1010,11 @@ ML_COMMENT
 // an IDENTIFIER.  Note that testLiterals is set to true!  This means
 // that after we match the rule, we look in the literals table to see
 // if it's a literal or really an identifer
+// IDENTIFIER options {testLiterals=true;}
+//	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$'/*|'+'|'-'|'*'| '/'|'&'|'|' | '%' | '<' | '>'*/ ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'&'|'|'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*)
+//	;
 IDENTIFIER options {testLiterals=true;}
-	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$'/*|'+'|'-'|'*'| '/'|'&'|'|' | '%' | '<' | '>'*/ ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'&'|'|'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*)
+	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$' ) ( 'a'..'z'|'A'..'Z'|'_'|'$'| SPECIAL |'0'..'9' )*)
 	;
 	
 CHARORSTRING :	'\''!
@@ -923,7 +1126,6 @@ OPENBRACE :	'{'
 CLOSEBRACE :	'}'
 	;
 
-
 OPENBRACKET :	'('
 	;
 
@@ -938,9 +1140,18 @@ TILDE :	'~'
 
 COMMA :	','
 	;
+EQUALS 		: '=';
+RECEIVES 	: ":=";
+LT			: '<';
+LTE			: "<=";
+GT			: '>';
+GTE			: ">=";
+NOT_EQUALS	: "<>";
+PLUS		: '+';
+// MINUS		: '-';
+MULT		: '*';
+DIV			: '/';
 
-RECEIVES : ":="
-	;
 	
 DOUBLECOLON :	"::"
 	;
