@@ -200,6 +200,10 @@ public class MDRStruct
     public void delete()
     {
     }
+	
+	public void deleteTheModelElement () {
+		this.delete();
+	}
 
 	public Type getType() {
 		return this.type.getStructType();

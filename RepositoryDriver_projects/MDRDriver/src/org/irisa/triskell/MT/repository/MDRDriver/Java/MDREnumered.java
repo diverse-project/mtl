@@ -39,6 +39,10 @@ public class MDREnumered
     public void delete()
     {
     }
+    
+    public void deleteTheModelElement () {
+    	this.delete();
+    }
 
     public boolean isTypeOf(
         org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)

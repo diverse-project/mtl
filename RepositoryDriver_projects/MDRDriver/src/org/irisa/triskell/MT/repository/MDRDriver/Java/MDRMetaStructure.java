@@ -200,6 +200,10 @@ public class MDRMetaStructure
 	}
 
 	public void delete() {}
+	
+	public void deleteTheModelElement () {
+		this.delete();
+	}
 
 	public ModelElement instanciate(ModelElement contextualElement, Value[] arguments)
 		throws UnknownElementException, CommonException,

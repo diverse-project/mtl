@@ -216,11 +216,12 @@ public class MDRMetaEnumeration
       * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#delete() 
       */
     public void delete()
-        throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException
     {
-
-
     }
+	
+	public void deleteTheModelElement () {
+		this.delete();
+	}
 
     /**
       * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#isKindOf(org.irisa.triskell.MT.repository.API.Java.MetaClass) 

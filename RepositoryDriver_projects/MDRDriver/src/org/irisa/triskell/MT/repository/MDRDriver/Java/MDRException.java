@@ -57,4 +57,11 @@ public class MDRException
 		return OclAnyType.TheInstance;
 	}
 
+	public void delete() {
+	}
+	
+	public void deleteTheModelElement () {
+		this.delete();
+	}
+
 }

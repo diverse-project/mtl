@@ -47,7 +47,11 @@ public class MDRMetaObject
 		return this.getMetaClass().toString();
     }
 
-    public void delete() throws UnknownElementException, CommonException {}
+    public void delete() {}
+	
+	public void deleteTheModelElement () {
+		this.delete();
+	}
     
     public boolean isKindOf(MetaClass classifier)
     {

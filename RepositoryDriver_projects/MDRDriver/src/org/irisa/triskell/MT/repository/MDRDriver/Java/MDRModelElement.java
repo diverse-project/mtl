@@ -44,6 +44,10 @@ public class MDRModelElement
 			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(this);
 
     }
+	
+	public void deleteTheModelElement () throws Exception {
+		this.delete();
+	}
 
     /**
       * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#isKindOf(org.irisa.triskell.MT.repository.API.Java.MetaClass) 
