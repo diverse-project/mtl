@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: MDRDriver.mtl,v 1.1 2004-01-29 14:56:23 xblanc Exp $
+// $Id: MDRDriver.mtl,v 1.2 2004-09-20 14:54:32 dvojtise Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
@@ -94,7 +94,18 @@ tag DoNotGenerate := booleantag true;
 		modelXmiInputFileName, modelXmiOuputFileName : Standard::String ) : RepositoryModel
 	{	
 	}*/
-	
+	/**
+	 * serialize/store the model (usually on disk)
+	 */
+	storeModel( modelName : Standard::String)
+	{
+	}
+	/**
+	 * remove the reference to this model from the model manager
+	 */
+	disposeModel(modelName : Standard::String)
+	{
+	}
 	/**
 	  * Simpliest way to get started but need user manipulation
 	  * open a GUI to ask the user which model he wants, the GUI may be very complex

@@ -1,4 +1,4 @@
-/* $Id: MDRModelManager.java,v 1.3 2004-02-16 15:48:44 dvojtise Exp $
+/* $Id: MDRModelManager.java,v 1.4 2004-09-20 14:54:31 dvojtise Exp $
  * Created on 25 août 2003
  */
 package MDRDriver;
@@ -173,9 +173,23 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 	public SimpleStandaloneModelManager BMTL_init() throws Exception {
 		return this.init();
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#storeModel()
+	 */
+	public void BMTL_storeModel(StringValue modelName) throws Exception
+	{
+		this.storeModel(modelName == null ? null : modelName.getTheString());
+	}
 
-
-
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#disposeModel()
+	 */
+	public void BMTL_disposeModel(StringValue modelName) throws Exception
+	{
+		this.disposeModel(modelName == null ? null : modelName.getTheString());
+	}
+		
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface#getDelegate()
 	 */
