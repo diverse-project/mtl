@@ -1,0 +1,123 @@
+<!-- $Id: build.xml,v 1.1 2004-01-29 17:04:43 xblanc Exp $ -->
+<!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
+<project name="MDRDriver" default="dist" basedir=".">
+	<description>
+        An adaptor of the RepositoryAPI API to the MDR tool.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="mdr"  location="ThirdParty/MDR/official"/>
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="dist"  location="dist"/>
+	<property name="mdr.jars.src"  location="${mdr}/jmi.jar;${mdr}/jmiutils.jar;${mdr}/mdrapi.jar;${mdr}/mof.jar;${mdr}/nbmdr.jar;${mdr}/openide-lookup.jar"/>
+	<property name="mdr.jars.dest"  location="${dist}/bin/ThirdParty/MDR/jmi.jar;${dist}/bin/ThirdParty/MDR/jmiutils.jar;${dist}/bin/ThirdParty/MDR/mdrapi.jar;${dist}/bin/ThirdParty/MDR/mof.jar;${dist}/bin/ThirdParty/MDR/nbmdr.jar;${dist}/bin/ThirdParty/MDR/openide-lookup.jar"/>
+	
+	<!-- This project depends on the RepositoryAPI project -->
+	<property name="RepositoryAPI"  location="..\RepositoryAPI"/>
+	<!-- This project deeply depends on the MTDataTypes and Utils project -->
+	<property name="MTDataTypes"  location="..\MTDataTypes"/>
+	<property name="Utils"  location="..\Utils"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	    
+	    <!-- This project depends on the RepositoryAPI project -->
+	    <echo>Building the "RepositoryAPI" project.</echo>
+	    <ant antfile="${RepositoryAPI}\build.xml" dir="${RepositoryAPI}" target="dist" inheritAll="false"/>
+	    <echo>"RepositoryAPI" project built.</echo>
+	</target>
+  
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
+	    <javac srcdir="${src}"
+    	    destdir="${bin}"
+   			classpath=".;${mdr.jars.src};${RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
+   			debug="true"/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            sourcepath="src"
+            classpath="bin;${mdr.jars.src};{RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+            <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>  
+				<attribute name="Class-Path" value="RepositoryAPI.jar MTDataTypes.jar Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+		<!-- This project depends on the RepositoryAPI project -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${RepositoryAPI}\dist\bin"/>
+		</copy>
+		
+		
+		<copy todir="${dist}/bin/ThirdParty/MDR">
+			<fileset dir="${mdr}"/>
+		</copy>
+		<copy todir="${dist}/bin/ThirdParty/MDR/Test/models">
+			<fileset dir="ThirdParty/MDR/Test/models"/>
+		</copy>
+	    <copy file="log4j_configuration.xml"
+	    	todir="${dist}/bin/"
+	    	overwrite="true"/>
+	    	
+	    	
+		<mkdir dir="${dist}/test"/>
+	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="false">
+	    	<classpath>
+			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
+			    <pathelement location="${dist}/bin/RepositoryAPI.jar"/>
+			    <pathelement location="${dist}/bin/MTDataTypes.jar"/>
+			    <pathelement location="${dist}/bin/Utils.jar"/>
+			    <pathelement path="${mdr.jars.dest}"/>
+			    <pathelement path="${classpath}"/>
+			</classpath>
+			<formatter type="plain"/>
+	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.repository.MDRDriver.Java.Test.JUnitAdapter"/>
+	    </junit>
+		<delete dir="${dist}/bin/ThirdParty/MDR/Test"/>
+	</target>
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>
+    	<delete dir="${dist}"/> 
+  	</target>
+
+  	<target name="deep_clean" depends="clean"
+        description="deep clean up (including depending projects)" >
+	    
+	    <!-- This project depends on the RepositoryAPI project -->
+	    <ant antfile="${RepositoryAPI}\build.xml" dir="${RepositoryAPI}" target="deep_clean" inheritAll="false"/>
+    </target>
+</project>
