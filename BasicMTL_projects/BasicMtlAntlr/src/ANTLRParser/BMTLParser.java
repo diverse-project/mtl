@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.5 2003-08-07 07:15:30 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.6 2003-08-12 14:51:04 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -16,6 +16,8 @@ import java.io.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.irisa.triskell.MT.utils.Java.Directories;
+
 import ANTLRASTWalker.*;
 
 
@@ -59,7 +61,7 @@ public class BMTLParser {
 	public static void main(String[] args)
 	{	DummyWalker aWalker=new DummyWalker();
 		try {
-			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(BMTLParser.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {

@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.3 2003-08-09 15:10:53 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.4 2003-08-12 14:51:04 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -458,7 +458,7 @@ taggedValue	 returns [Object tree=null;]
 	| "EnumTag" IDENTIFIER "is" type
 	| ("BagTag" | "SetTag" | "SequenceTag") (taggedValue) + "end"
 	| "TupleTag" (IDENTIFIER taggedValue ) + "end" */
-	| "specialtag" s4:TAGVALUE
+	| "specialtag" s4:IDENTIFIER
 	{tree=walker.specialTagValue(s4.getText());}
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -569,7 +569,8 @@ ML_COMMENT
 // that after we match the rule, we look in the literals table to see
 // if it's a literal or really an identifer
 IDENTIFIER options {testLiterals=true;}
-	: ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'*'| '/'|'|'|'&'|'%'|'$' | '<' | '>' ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'|'|'&'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*
+	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$'/*|'+'|'-'|'*'| '/'|'|'|'&'|'%' | '<' | '>'*/ ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'|'|'&'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*)
+	|	TAGVALUE
 	;
 	
 CHARORSTRING :	'\''!
@@ -705,6 +706,7 @@ DIESE : '#'
 EXCLAM : '!'
 	;
 
+protected
 TAGVALUE :
 	'['!
 	(

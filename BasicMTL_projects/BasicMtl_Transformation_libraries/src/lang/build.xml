@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.5 2003-08-09 16:43:21 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.6 2003-08-12 14:50:00 ffondeme Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="Standard_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -38,7 +38,7 @@
 	<target name="compile Standard" depends="Standard_antlr2tll"
   	 	description="Generate code for Standard.mtl">
 	    <mkdir dir="${build}/src/java/Standard"/>
-	 	<java jar="../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar" 
            fork="true"
            failonerror="true"
            >

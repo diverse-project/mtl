@@ -3,6 +3,7 @@
 	<name>BasicMtlAntlr</name>
 	<comment></comment>
 	<projects>
+		<project>Utils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
