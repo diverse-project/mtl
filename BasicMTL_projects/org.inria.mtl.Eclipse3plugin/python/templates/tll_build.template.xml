@@ -31,9 +31,8 @@
 	<!-- ************************************************ -->
 	<!-- set user properties for this build -->
 	<property name="library.name" value=""/>
-	<property name="src" location="src"/>
-	<property name="user.src.path" location="${src}/${library.name}"/>
-	<property name="user.package.name" value="${library.name}"/>
+	<property name="user.src.path" location=""/>
+	<property name="user.package.name" value=""/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
 	<property name="user.needed.TLL.path" location="${Runtime.TLL.path}"/>
 	<!-- other TLL needed in order to compile this one -->
