@@ -43,4 +43,14 @@ public interface API
 
      void shutdown(
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments);
+
+     void addListenerToElement(
+        org.irisa.triskell.MT.repository.API.Java.Element element,
+        org.irisa.triskell.MT.repository.API.Java.EventListener listener);
+
+     void removeListenerToElement(
+        org.irisa.triskell.MT.repository.API.Java.Element element,
+        org.irisa.triskell.MT.repository.API.Java.EventListener listener);
+
+     org.irisa.triskell.MT.repository.API.Java.EventListenerFactory getEventListenerFactory();
 }
