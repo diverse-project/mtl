@@ -1,12 +1,12 @@
-/* $Id: FileOutput.java,v 1.3 2004-01-22 11:04:02 uid104 Exp $
+/* $Id: FileOutput.java,v 1.4 2004-02-17 09:05:14 dvojtise Exp $
  * Created on 4 déc. 2003
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Authors : edrezen
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package io;
 
-import java.io.File;
+//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLObjectInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
-import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
+//import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;

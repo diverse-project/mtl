@@ -1,14 +1,15 @@
 /*
  * Created on 19 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: AttributeAccessor.java,v 1.2 2004-02-17 09:03:07 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+//import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
 
 /**
  * @author ffondeme
