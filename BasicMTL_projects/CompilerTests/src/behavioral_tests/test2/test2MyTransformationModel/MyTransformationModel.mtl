@@ -15,6 +15,7 @@ main() : Standard::Void
 	myTestClass := new MyTransformationClass();
 	myTestClass.connectSourceModel();	
 	// myTestClass.testBug173(); // this may be not a bug, see bug173 for explanation
+	myTestClass.testBug153();
 	// myTestClass.navigateSourceModel();
 	
 }
@@ -139,6 +140,49 @@ class MyTransformationClass
 		}				
 		'bug173 ok'.toOut();
 		
+	}
+	/**
+	  * put bug153 in evidence
+	  * isNull doesn't works correctly on null values from the repository
+	  */
+	testBug153()
+	{
+		methodIt	: Standard::Iterator;		
+		attributeIt	: Standard::Iterator;				
+		aMethod		: source_model::Core::Method;
+		anAttribute	: source_model::Core::Attribute;
+		aString 	: Standard::String;
+		
+		'testing bug153...'.toOut();
+
+		attributeIt := !source_model::Core::Attribute!.allInstances().getNewIterator();
+		// the first method is enough
+		anAttribute := attributeIt.item().oclAsType(!source_model::Core::Attribute!);
+		
+		if isNull(anAttribute.visibility)
+		{
+			'Attribute visibility is null'.toOut();
+		}
+		else
+		{
+			'Attribute visibility is not null'.toOut();
+		}
+
+		// we know that Method created by poseidon have no visibility : null value
+		methodIt := !source_model::Core::Method!.allInstances().getNewIterator();
+		// the first method is enough
+		aMethod := methodIt.item().oclAsType(!source_model::Core::Method!);
+		
+		if isNull(aMethod.visibility)
+		{
+			'Method visibility is null'.toOut();
+		}
+		else
+		{
+			'Method visibility is not null'.toOut();
+			throw 'bug153 : isNull doesn\'t works correctly on null values from the repository';
+		}
+		'bug153 ok'.toOut();
 	}
 	
 	navigateSourceModel()
