@@ -468,8 +468,7 @@ class DOMAntimtl(BaseProcess) :
                 ofilename : the name of the build file
         """
         f = open(self.outputpath+"/"+ofilename, "w+")
-        xml.dom.ext.PrettyPrint(doc, f)
-        
+        doc.writexml(f)
         f.close()
 
 
