@@ -1,6 +1,6 @@
 /*
  * Created on 22 juil. 2003
- * $Id: antlr2tll.java,v 1.8 2004-02-16 17:33:00 dvojtise Exp $
+ * $Id: antlr2tll.java,v 1.9 2004-06-04 13:33:55 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -8,11 +8,7 @@
 package ANTLR2TLLJava;
 
 //import java.io.*;
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-
-import org.irisa.triskell.MT.utils.Java.Directories;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -29,11 +25,6 @@ public class antlr2tll {
 
 	static final String tllPrefix=".\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLAntlr2TLLJava");
-
-	public static org.apache.log4j.Logger getLog () {
-			return antlr2tll.log;
-	}
 
 /*	public static String TLLProducer(java.util.Vector filenames,String defaultPackagePrefix,String defaultUncheckedTLLPath,antlrParserInterface ASTproducer)
 	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
@@ -86,13 +77,7 @@ public class antlr2tll {
 	}
 	
 	public static void main(String[] args)
-	{	try {
-			String filePath = new java.io.File(Directories.getRootPath(antlr2tll.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
-		catch(java.io.IOException e) {
-			System.err.println("Can't state log4j in BMTLParser"); }
-		if (args.length > 0) {
+	{	if (args.length > 0) {
 			int argsEnd=args.length;
 			String defaultPackagePrefix=null;
 			String defaultUncheckedTLLPath=null;
@@ -115,7 +100,7 @@ public class antlr2tll {
 			BasicMtlLibrary theCreatedLib=TLLProducer(filenamesArguments,defaultPackagePrefix,null);
 			Library.store(theCreatedLib.getName()+tllSuffix,theCreatedLib,tllPrefix);
 						}
-		else log.error("USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
+		else MSGHandler.error("USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 
 /*	public static void main(String[] args)

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-10-17 14:40:28 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.5 2004-06-04 13:33:54 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2TLLJava" default="dist" basedir=".">
 	<description>
         Known directories for the Antlr2TLL (Unchecked TLL producer)
@@ -88,9 +88,6 @@
 		</copy>
 		
 	    
-	    <copy file="log4j_configuration.xml"
-	    	todir="${dist}/bin"
-	    	overwrite="true"/>
 	</target>
 
   	<target name="clean"

@@ -1,6 +1,6 @@
 /*
  * Created on 24 juil. 2003
- * $Id: VarSettingAnalyser.java,v 1.8 2004-02-16 17:32:59 dvojtise Exp $
+ * $Id: VarSettingAnalyser.java,v 1.9 2004-06-04 13:33:56 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -10,6 +10,7 @@ package TLLBuilder;
 import java.util.Map;
 
 //import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -78,11 +79,9 @@ public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
 			ret = (OperationCall)c;
 			((OperationCall)ret).setKind(OperationKind.getAttributeSet());
 		} else
-			{	antlr2tll.getLog().error("line " + lineNumber + ": Can just affect attributes or variables.");
-				if (c instanceof VarCall) antlr2tll.getLog().error("Probably undeclared variable... "+((VarCall)c).getVarName());
-				else antlr2tll.getLog().error("Probably undeclared variable... "+((OperationCall)c).getName());
-				// No necessary to continue, a better version of the compiler may allow to see several errors
-				System.exit(-1);
+			{	MSGHandler.error("line " + lineNumber + ": Can just affect attributes or variables.");
+				if (c instanceof VarCall) MSGHandler.error("Probably undeclared variable... "+((VarCall)c).getVarName());
+				else MSGHandler.error("Probably undeclared variable... "+((OperationCall)c).getName());
 			} 
 		return ret;
 	}
