@@ -8,7 +8,9 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionGroup;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
@@ -162,6 +164,8 @@ public class ProjectExplorerActionGroup extends ActionGroup
 			menu.add (getCompileProjectAction());
 			menu.add (getCompileFullProjectAction());
 		}
+
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 }
