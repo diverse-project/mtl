@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * %W%
+ * @version %I% %H%
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "library"
+    version = "1.0.0"
+    provider-name = "%providerName">
+
+  <requires>
+    <import plugin="org.eclipse.emf.ecore" export="true"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/">
+      <export name="*"/>
+    </library>
+  </runtime>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/example/library.ecore" 
+       class = "org.eclipse.example.library.LibraryPackage" />
+  </extension>
+
+</plugin>
+
