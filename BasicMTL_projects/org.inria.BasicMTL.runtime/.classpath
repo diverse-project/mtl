@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/java"/>
-	<classpathentry kind="src" path="build/src/java"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/log4j/log4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/jmi.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/jmiutils.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/mdrapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/mof.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/openide-lookup.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 	<classpathentry exported="true" kind="lib" path="ThirdParty/JUnit/junit.jar"/>
+	<classpathentry kind="src" path="src/java/"/>
+	<classpathentry kind="src" path="build/src/java/"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/nbmdr.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="ThirdParty/JMI/jmi.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/JMI/mof.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
