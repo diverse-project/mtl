@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.6 2003-09-17 07:15:23 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.7 2003-09-23 17:12:27 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -43,20 +43,6 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 			{	java.util.Vector argtsGenSymbols=null;
 				InheritedOpSignature aSignature=ASTnode.getInheritedSignatures(i);
 				String returnType = aSignature.getReturnedType().getDeclarationName();//aSignature.getReturnedType().getIsLocalType() ? aSignature.getReturnedType().getLocalMangledName() : aSignature.getReturnedType().getExternCompleteName();
-				//TODO find a better solution to improve the code
-				//the 8 following lines is a patch to the following PB
-				//when BasicMtlASTView::Library is inherited in
-				//BasicMtlASTWithAssociationView::aClass, ASTNode just appear alone
-				//in the generated code but BasicMtlASTView.ASTNode is required ! 
-				QualifiedName relayer = aSignature.getParentThatRelayOp();
-				if ((aSignature.getReturnedType().getIsLocalType())
-				 && (aSignature.getReturnedType().getDeclarationName().indexOf('.')==-1) //no point in the type
-				 && (relayer.size()>1)) {//comes from another lib
-					if (relayer.size()>2)
-						System.err.println("relayer having more than 2 strings in its qualified name ????");
-					else //add the extern lib package name for this returned type
-						returnType = relayer.get(0)+"."+returnType;
-				}
 				outputForClass.print("public "+returnType+' '+aSignature.getOpMangle()+" (");
 				int arguments=aSignature.getArgsCount();
 				if (arguments > 0) {

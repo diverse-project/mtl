@@ -1,4 +1,4 @@
-// $Id: UserClass.mtl,v 1.1 2003-09-17 07:31:05 jpthibau Exp $
+// $Id: UserClass.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -17,12 +17,12 @@
 	appendDefinedAttributes(attrib : Attribute) : Standard::Void
 	{	if isNull(definedAttributes)
 			{ JavaCode [BMTL_definedAttributes=new BMTLSet()]; }
-		definedAttributes := definedAttributes.append(attrib).oclAsType(!Standard::Set!);
+		definedAttributes := definedAttributes.including(attrib);
 	}
 	appendDefinedMethods(op : Operation) : Standard::Void
 	{	if isNull(definedMethods)
 			{ JavaCode [BMTL_definedMethods=new BMTLSet()]; }
-		definedMethods := definedMethods.append(op).oclAsType(!Standard::Set!);
+		definedMethods := definedMethods.including(op);
 	}
 
 	toASTJava() : ASTJava::Object

@@ -1,11 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.7 2003-09-10 09:09:46 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.8 2003-09-23 17:12:27 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
 package SecondPassGeneration;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
@@ -28,21 +29,41 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			UserDefinedClass clazz = (UserDefinedClass)context.get("CurrentClass");
 		String currentClassMangle=(String)context.get("CurrentClassMangledName");
 		if (ASTnode.getName().equalsIgnoreCase("main") && (clazz instanceof TheLibraryClass)) {
-			outputForClass.println("public static void main(String args[]) {"); 
-			outputForClass.println("  try {");
-			//@TODO check this piece of code
-			if(((TheLibraryClass)clazz).getTheLibrary().cardUsedModels()==0)
-				outputForClass.print("    "+currentClassMangle+".TheInstance");
-			else
-				outputForClass.print("    new "+currentClassMangle+"()");
-			outputForClass.println(".BMTL_main();");
-			outputForClass.println("    System.exit(0);"); 
-			outputForClass.println("  } catch (Throwable t) {"); 
-			boolean isLib = clazz instanceof TheLibraryClass; 
-			outputForClass.println("    System.err.println(\"Problem while executing the main function of " + (isLib ? "library " : "class ") + JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(clazz.getQualifiedName(), "::")) + ":\");");
-			outputForClass.println("    t.printStackTrace();");
-			outputForClass.println("  }");
-			outputForClass.println('}');
+			boolean isMain, hasParams;
+			int limit = ASTnode.cardParameters();
+			hasParams = limit != 0;
+			if (hasParams) {
+				if (limit == 1) {
+					isMain = ASTnode.getParameters(0).getType().equals(Arrays.asList(new String [] {"Standard", "Sequence"}));
+				} else
+					isMain = false;
+			} else
+				isMain = true;
+			if (isMain) {
+				outputForClass.println("public static void main(String args[]) {");
+				outputForClass.println("  try {");
+				if (hasParams) {
+					outputForClass.println("  BMTLString [] params = new BMTLString [args.length];");
+					outputForClass.println("  for (int i= 0; i < params.length; ++i)");
+					outputForClass.println("    params[i] = new BMTLString(args[i]);");
+				}
+				//@TODO check this piece of code
+				//if(((TheLibraryClass)clazz).getTheLibrary().cardUsedModels()==0)
+					outputForClass.print("    "+currentClassMangle+".TheInstance");
+				//else
+				//	outputForClass.print("    new "+currentClassMangle+"()");
+				if (hasParams) {
+					outputForClass.println(".BMTL_main(new BMTLSequence(params));");
+				} else
+					outputForClass.println(".BMTL_main();");
+				outputForClass.println("    System.exit(0);"); 
+				outputForClass.println("  } catch (Throwable t) {"); 
+				boolean isLib = clazz instanceof TheLibraryClass; 
+				outputForClass.println("    System.err.println(\"Problem while executing the main function of " + (isLib ? "library " : "class ") + JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(clazz.getQualifiedName(), "::")) + ":\");");
+				outputForClass.println("    t.printStackTrace();");
+				outputForClass.println("  }");
+				outputForClass.println('}'); 
+			}
 		}
 		QualifiedName type=ASTnode.getFeatureType();
 		if (type.getIsLocalType())

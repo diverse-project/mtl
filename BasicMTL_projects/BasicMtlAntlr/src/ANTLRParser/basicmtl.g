@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.12 2003-09-08 08:51:13 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.13 2003-09-23 17:11:31 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -261,7 +261,7 @@ instruction returns [Object tree=null;]
 	  {tree=walker.expressionInstr(tree,n);}
 	| "return" ((OPENBRACKET)? tree=expression (CLOSEBRACKET)?)? n=semicolon
 	  {tree=walker.returnInstr(tree,n);}
-	| "while" tree=expression n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
+	| "while" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
 	  {tree=walker.whileInstr(tree,theInstructions,n);}	
 	| "if" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 		( "else" OPENBRACE (l2=instruction {theElseInstructions.addElement(l2);} )+ CLOSEBRACE)?
@@ -270,7 +270,7 @@ instruction returns [Object tree=null;]
 	  {tree=walker.throwsInstr(tree,n);}
 	| "try" n=openbrace ( l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
 	  ({theCatchInstructions=new java.util.Vector();}
-	   "catch" s3:IDENTIFIER COLON l2=type n=openbrace (l3=instruction {theCatchInstructions.addElement(l3);})+ CLOSEBRACE
+	   "catch" (OPENBRACKET)? s3:IDENTIFIER COLON l2=type (CLOSEBRACKET)? n=openbrace (l3=instruction {theCatchInstructions.addElement(l3);})+ CLOSEBRACE
 	    { java.util.Vector v=new java.util.Vector();
 	      v.addElement(s3.getText());
 	      v.addElement(l2);

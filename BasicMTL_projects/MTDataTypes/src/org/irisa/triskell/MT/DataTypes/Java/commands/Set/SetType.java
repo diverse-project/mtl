@@ -13,8 +13,10 @@ import java.util.Hashtable;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 
 /**
  * @author ffondeme
@@ -22,7 +24,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class SetType extends CollectionType {
+public class SetType extends CollectionType implements InstanciableType {
 	// keys are element types (Type) and values are collection collection types (CollectionType) - of this exact type !	private static Hashtable defined
 	private static final Hashtable setTypes = new Hashtable();	
 	public static SetType getSetType (Type elementType) {
@@ -45,6 +47,10 @@ public class SetType extends CollectionType {
 		if (tc.equals(CollectionType.class) || tc.equals(SetType.class))
 			return this.getElementType().conformsTo(((CollectionType)type).getElementType());
 		return false;
+	}
+
+	public Value instanciate() {
+		return new SetValueImpl(false, null, new Value [0], false);
 	}
 
 }

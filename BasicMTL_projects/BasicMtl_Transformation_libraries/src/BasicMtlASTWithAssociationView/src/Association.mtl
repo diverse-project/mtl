@@ -1,4 +1,4 @@
-// $Id: Association.mtl,v 1.1 2003-09-17 07:33:07 jpthibau Exp $
+// $Id: Association.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -13,8 +13,8 @@
 
 	appendEndPoint(point : EndPoint) : Standard::Void
 	{	if isNull(endPoints)
-			{ JavaCode [BMTL_endPoints=new BMTLSet()]; }
-		endPoints := endPoints.append(point).oclAsType(!Standard::Set!);
+			{ endPoints := new Standard::Set(); }
+		endPoints := endPoints.including(point);
 	}
 
 	toBasicMTL() : Standard::Void
@@ -102,7 +102,7 @@
 	properties.start();
 	while properties.isOn() {
 		aProperty := properties.item().oclAsType(!BasicMtlASTView::Property!);
-		node.decoration := node.decoration.append(aProperty).oclAsType(!Standard::Set!);
+		node.decoration := node.decoration.including(aProperty);
 		properties.next();
 	}
  }

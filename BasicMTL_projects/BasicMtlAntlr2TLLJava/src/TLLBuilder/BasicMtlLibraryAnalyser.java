@@ -1,14 +1,23 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BasicMtlLibraryAnalyser.java,v 1.3 2003-08-09 15:16:08 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BasicMtlLibraryAnalyser.java,v 1.4 2003-09-23 17:11:59 ffondeme Exp $
  * Created on 22 juil. 2003
  *
  */
 package TLLBuilder;
 
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.AllReferedTypes;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.BasicMtlLibrary;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.ModelRef;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserClass;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserDefinedClass;
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**
  * @author jpthibau
@@ -74,6 +83,21 @@ public class BasicMtlLibraryAnalyser extends ASTTopDownVisitor.BasicMtlLibraryAn
 	{	Operation op=(Operation)objectOp;
 		theCreatedLib.getLibraryClass().appendLocalSignatures(op.getTheSignature());
 		theCreatedLib.getLibraryClass().appendDefinedFeatures(op);
+	}
+	
+	private transient TheLibraryClass lastLibraryClass;
+	public TheLibraryClass getTheLibraryClassFor (BasicMtlLibrary theLib) {
+		if (this.lastLibraryClass == null || !this.lastLibraryClass.getTheLibrary().equals(theLib)) {
+			this.lastLibraryClass = null;
+			UserDefinedClass c;
+			int limit = theLib.cardLibraryClass();
+			for (int i = 0; i < limit; ++i) {
+				c = theLib.getClasses(i);
+				if ((c instanceof TheLibraryClass) && ((TheLibraryClass)c).getTheLibrary().equals(theLib))
+					this.lastLibraryClass = (TheLibraryClass)c;
+			}
+		}
+		return this.lastLibraryClass;
 	}
 	
 	public void BasicMtlLibraryUserClass(Object objectUserClass,java.util.Map context)

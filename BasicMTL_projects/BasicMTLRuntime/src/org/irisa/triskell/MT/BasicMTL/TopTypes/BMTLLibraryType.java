@@ -15,6 +15,7 @@ import java.util.WeakHashMap;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 import org.irisa.triskell.MT.utils.Java.FilteredCollection;
@@ -65,7 +66,7 @@ public class BMTLLibraryType extends BMTLType {
 		return new SetValueImpl(false, null, ret, false);
 	}
 
-	public BMTLObjectInterface instanciate() {
+	public Value instanciate() {
 		try {
 			return (BMTLObject)this.clazz.newInstance();
 		} catch(IllegalAccessException x) {

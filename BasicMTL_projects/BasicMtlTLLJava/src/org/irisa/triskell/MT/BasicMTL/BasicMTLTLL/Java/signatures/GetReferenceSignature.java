@@ -25,7 +25,7 @@ public class GetReferenceSignature extends ComputedSignature {
 		if (ret.getIsExternType())
 			ret.setDeclarationName(ret.getExternCompleteName());
 		else if (ret.getIsLocalType())
-			ret.setDeclarationName(ret.getLocalMangledName());
+			ret.setDeclarationName(ret.getExternLibCompleteName()+'.'+ret.getLocalMangledName());
 		else if (ret.getIsRepositoryModel())
 			ret.setDeclarationName("API");
 		else if (ret.getIsModelType())

@@ -1,4 +1,4 @@
-// $Id: Library.mtl,v 1.1 2003-09-17 07:33:07 jpthibau Exp $
+// $Id: Library.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -13,7 +13,7 @@
 	{
 	assocInstances : Standard::Set;
 	instances : Standard::Iterator;
-	assocInstances := self.getMetaClass(!Association!).allInstances();
+	assocInstances := !Association!.allInstances();
 	instances := assocInstances.getNewIterator();
 	instances.start();
 	while instances.isOn() {
@@ -22,4 +22,15 @@
 	}
  }
 }
+ 
+ main () {
+ 	v : BasicMtlASTView::BasicMtlLibrary;
+ 	d : Library;
+ 	
+ 	v := new BasicMtlASTView::BasicMtlLibrary();
+ 	d := v;
+ 	
+ 	v.oclAsType(!BasicMtlASTWithAssociationView::Library!).toBasicMTL();
+ 	d.toBasicMTL();
+ }
 

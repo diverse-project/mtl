@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.1 2003-09-17 07:31:02 jpthibau Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -14,7 +14,7 @@
 	appendParameters ( aModel : ModelRef) : Standard::Void
 	{	if isNull(parameters)
 			{ JavaCode [BMTL_parameters=new BMTLSet()]; }
-		parameters := parameters.append(aModel).oclAsType(!Standard::Set!);
+		parameters := parameters.including(aModel);
 	}
 
 	toASTJava() : ASTJava::Object

@@ -4,9 +4,10 @@
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-package org.irisa.triskell.MT.BasicMTL.TopTypes;
+package org.irisa.triskell.MT.DataTypes.Java.commands;
 
 import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 /**
  * @author ffondeme
@@ -15,5 +16,5 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public interface InstanciableType extends Type {
-	BMTLObjectInterface instanciate ();
+	Value instanciate ();
 }

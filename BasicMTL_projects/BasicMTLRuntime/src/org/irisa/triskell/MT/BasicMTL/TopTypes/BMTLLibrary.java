@@ -25,10 +25,6 @@ public abstract class BMTLLibrary extends BMTLObject implements BMTLLibInterface
 	public BMTLLibrary (String name) {
 		super(name);
 	}
-
-	public BMTLLibrary getLibrary() {
-		return this;
-	}
 	
 	public String [] getQualifiedName () {
 		if (this.qualifiedName == null)
@@ -36,7 +32,7 @@ public abstract class BMTLLibrary extends BMTLObject implements BMTLLibInterface
 		return this.qualifiedName;
 	}
 	
-	public LinkedList allClassInstances (String className) {
+	public List allClassInstances (String className) {
 		LinkedList ret = (LinkedList)this.classInstances.get(className);
 		if (ret == null) {
 			ret = new LinkedList();

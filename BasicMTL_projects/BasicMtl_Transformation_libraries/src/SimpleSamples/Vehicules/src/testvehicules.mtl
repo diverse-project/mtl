@@ -74,7 +74,7 @@ class clazz2 extends clazz {
 // Entry point operation : main
 /********************************************/
 
-main():Standard::Void
+main(args : Standard::Sequence):Standard::Void
 {
 	vehicule : vehiculeLib::vehicule;
 	terrestre : terrestreLib::vehiculeTerrestre;
@@ -87,6 +87,14 @@ main():Standard::Void
 	i : Standard::Integer;
 	s : Standard::String;
 	c : clazz;
+	it : Standard::Iterator;
+	
+	it := args.getNewIterator();
+	it.start();
+	while (it.isOn()) {
+		it.item().toOut();
+		it.next();
+	}
 	
 	N := new vehiculeLib();
 	modelManager := new MDRDriver::MDRModelManager();

@@ -10,6 +10,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
+import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLLibInterface;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLLibrary;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
@@ -27,7 +28,7 @@ import org.irisa.triskell.MT.utils.Java.AWK;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BMTLOclType extends BMTLOclAny implements BMTLOclTypeInterface {
-	public static TypeValue getType (BMTLLibrary lib, String [] typeName) {
+	public static TypeValue getType (BMTLLibInterface lib, String [] typeName) {
 		Type ret = lib.getMetaClass(typeName);
 		if (ret == null)
 			return new TypeValueImpl(true, "Unknown type " + AWK.merge(typeName, "::"), null);
@@ -35,7 +36,7 @@ public class BMTLOclType extends BMTLOclAny implements BMTLOclTypeInterface {
 			return new TypeValueImpl(false, null, ret);
 	}
 	
-	public BMTLOclType(BMTLLibrary lib, String [] typeName) {
+	public BMTLOclType(BMTLLibInterface lib, String [] typeName) {
 		this(getType(lib, typeName));
 	}
 

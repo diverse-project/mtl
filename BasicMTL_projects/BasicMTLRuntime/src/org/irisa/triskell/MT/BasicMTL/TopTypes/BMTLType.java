@@ -10,11 +10,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
@@ -105,12 +107,49 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		return new SetValueImpl(false, null, this.getLibrary().allClassInstances(this.getName()), false);
 	}
 	
-	public BMTLObjectInterface instanciate () {
+	private transient Constructor directConstructor = null;
+	public Constructor getDirectConstructor () {
+		if (this.directConstructor == null) {
+			Constructor [] cs = this.clazz.getConstructors();
+			Class [] pt;
+			for (int i = 0; this.directConstructor == null && i < cs.length; ++i) {
+				pt = cs[i].getParameterTypes();
+				if (pt.length == 1 && pt[0].isInstance(this.getLibrary()))
+					this.directConstructor = cs[i];
+			}
+		}
+		return this.directConstructor;
+	}
+	
+	public Value instanciate () {
 		try {
-			Constructor c = this.clazz.getConstructor(new Class [] {this.getLibrary().getClass()});
-			return (BMTLObject)c.newInstance(new Object [] {this.getLibrary()});
-		} catch(NoSuchMethodException x) {
+			return (BMTLObject)this.getDirectConstructor().newInstance(new Object [] {this.getLibrary()});
+		} catch(IllegalAccessException x) {
 			throw new RuntimeException("Unknown error", x);
+		} catch(InvocationTargetException x) {
+			throw new RuntimeException("Unknown error", x);
+		} catch (InstantiationException x) {
+			throw new RuntimeException("Cannot instanciate a new object of class " + this.getQualifiedNameAsString() + " (environment said " + x.getMessage() + ")");
+		}
+	}
+	
+	private transient Constructor refConstructor = null;
+	public Constructor getRefConstructor () {
+		if (this.refConstructor == null) {
+			Constructor [] cs = this.clazz.getConstructors();
+			Class [] pt;
+			for (int i = 0; this.refConstructor == null && i < cs.length; ++i) {
+				pt = cs[i].getParameterTypes();
+				if (pt.length == 3 && pt[0].isInstance(this.getLibrary()) && pt[1].equals(Hashtable.class) && pt[2].equals(this.itf))
+					this.refConstructor = cs[i];
+			}
+		}
+		return this.refConstructor;
+	}
+	
+	public Value instanciateReference (Hashtable instanciationMap, BMTLObject theCaller) {
+		try {
+			return (BMTLObject)this.getRefConstructor().newInstance(new Object [] {this.getLibrary(), instanciationMap, theCaller});
 		} catch(IllegalAccessException x) {
 			throw new RuntimeException("Unknown error", x);
 		} catch(InvocationTargetException x) {
@@ -124,7 +163,7 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		return "BasicMTL type " + this.getQualifiedNameAsString();
 	}
 
-	public BMTLLibrary getLibrary() {
+	public BMTLLibInterface getLibrary() {
 		return library == null ? null : library.getLibrary();
 	}
 

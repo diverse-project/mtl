@@ -13,7 +13,9 @@ import java.util.Hashtable;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 
 /**
@@ -22,7 +24,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class BagType extends CollectionType {
+public class BagType extends CollectionType implements InstanciableType {
 	public static final String BagName = "Bag";
 	
 	// keys are element types (Type) and values are collection collection types (CollectionType) - of this exact type !	private static Hashtable defined
@@ -47,6 +49,10 @@ public class BagType extends CollectionType {
 		if (tc.equals(CollectionType.class) || tc.equals(BagType.class))
 			return this.getElementType().conformsTo(((CollectionType)type).getElementType());
 		return false;
+	}
+	
+	public Value instanciate() {
+		return new BagValueImpl(false, null, new Value [0]);
 	}
 
 }

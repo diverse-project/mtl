@@ -12,7 +12,6 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBag;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
@@ -22,11 +21,13 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLObjectInterface;
-import org.irisa.triskell.MT.BasicMTL.TopTypes.InstanciableType;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
+import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
@@ -34,10 +35,15 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsKindOf;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_oclIsTypeOf;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.ImplementedMetamodel;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.LoadedMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.Model;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.MofMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetamodel;
+import org.irisa.triskell.MT.repository.MDRDriver.Java.XmiModel;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
 /**
@@ -89,7 +95,7 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
      	return AWK.merge(qn, "::");
      }
 
-	 public BMTLObjectInterface instanciate() {
+	 public Value instanciate() {
 		return new MDRRepositoryModel();
 	 }
      	
@@ -105,9 +111,9 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModel(java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel, java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Model)
 	 */
 	public MDRAPI BMTL_getModel(
-		BMTLStringInterface repository,
+		StringValue repository,
 		Metamodel metamodel,
-		BMTLStringInterface modelName,
+		StringValue modelName,
 		Model model)
 		throws Exception {
 		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model);
@@ -116,7 +122,7 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelfromGUI(java.lang.String)
 	 */
-	public MDRAPI BMTL_getModelfromGUI(BMTLStringInterface userMessage) throws Exception {
+	public MDRAPI BMTL_getModelfromGUI(StringValue userMessage) throws Exception {
 		return this.getModelfromGUI(userMessage == null ? null : userMessage.getTheString());
 	}
 
@@ -124,10 +130,10 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public MDRAPI BMTL_getModelFromXMI(
-		BMTLStringInterface metamodelXmiFileName,
-		BMTLStringInterface modelName,
-		BMTLStringInterface modelXmiInputFileName,
-		BMTLStringInterface modelXmiOuputFileName)
+		StringValue metamodelXmiFileName,
+		StringValue modelName,
+		StringValue modelXmiInputFileName,
+		StringValue modelXmiOuputFileName)
 		throws Exception {
 		return this.getModelFromXMI(
 			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
@@ -140,11 +146,11 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public MDRAPI BMTL_getModelFromXMI(
-		BMTLStringInterface metamodelXmiFileName,
-		BMTLStringInterface metaPackageToInstanciate,
-		BMTLStringInterface modelName,
-		BMTLStringInterface modelXmiInputFileName,
-		BMTLStringInterface modelXmiOuputFileName)
+		StringValue metamodelXmiFileName,
+		StringValue metaPackageToInstanciate,
+		StringValue modelName,
+		StringValue modelXmiInputFileName,
+		StringValue modelXmiOuputFileName)
 		throws Exception {
 		return this.getModelFromXMI(
 			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
@@ -331,6 +337,40 @@ public class MDRRepositoryModel extends SimpleStandaloneModelManager implements 
 
 	public BMTLOrderedSetInterface BMTL_newOrderedSet() {
 		return new BMTLOrderedSet(new Value [0]);
+	}
+
+	public Metamodel BMTL_getMdrImplementedMetamodel() {
+		return super.getMdrImplementedMetamodel();
+	}
+	
+	public static String [] rootPackage (CollectionValue packageQualifiedName) {
+		Value [] rootPackageValues = packageQualifiedName.getTheCollection();
+		String [] rootPackage = new String [rootPackageValues.length];
+		for (int i = 0; i < rootPackage.length; ++i)
+			rootPackage[i] = ((StringValue)rootPackageValues[i]).getTheString();
+		return rootPackage;
+	}
+
+	public Metamodel BMTL_getMdrLoadedMetamodel(
+		StringValue metamodelPackageName,
+		CollectionValue metaPackageToInstanciate) {
+		return super.getMdrLoadedMetamodel(
+			metamodelPackageName.getTheString(),
+			rootPackage(metaPackageToInstanciate));
+	}
+
+	public Metamodel BMTL_getMdrMOFMetaModel() {
+		return super.getMdrMOFMetaModel();
+	}
+
+	public Metamodel BMTL_getMdrXMIMetaModel(
+		StringValue file,
+		CollectionValue metaPackageToInstanciate) {
+		return super.getMdrXMIMetaModel(file.getTheString(), rootPackage(metaPackageToInstanciate));
+	}
+
+	public Model BMTL_getMdrXMIModel(StringValue loadingFile, StringValue storingFile) {
+		return super.getMdrXMIModel(loadingFile.getTheString(), storingFile.getTheString());
 	}
 
 }

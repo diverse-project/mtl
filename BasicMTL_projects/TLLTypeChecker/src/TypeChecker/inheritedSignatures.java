@@ -1,13 +1,21 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.6 2003-09-18 16:02:52 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.7 2003-09-23 17:16:25 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAccessor;
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.BasicMtlLibrary;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedOpSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.InheritedTypesList;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.KnownClasses;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Library;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.TheLibraryClass;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserClass;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.UserDefinedClass;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.ComputedSignature;
 
 /**
  * @author jpthibau
@@ -92,7 +100,7 @@ public class inheritedSignatures {
 			//make the inherited signature from the parent local signature
 			OpSignature localSignature=(OpSignature)parentClass.getLocalSignatures(i);
 			InheritedOpSignature parentSignature=new InheritedOpSignature(localSignature.getOpName(),localSignature.getOpMangle());
-			if (!((localSignature instanceof AttributeAccessor) || (localSignature instanceof GetReferenceSignature)))
+			if (!(localSignature instanceof ComputedSignature))
 				parentSignature.setThrowsException(true);
 			parentSignature.setArgsCount(localSignature.getArgsCount());
 			parentSignature.setReturnedType(localSignature.getReturnedType());

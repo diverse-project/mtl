@@ -1,4 +1,4 @@
-// $Id: ASTNode.mtl,v 1.1 2003-09-17 07:31:02 jpthibau Exp $
+// $Id: ASTNode.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -21,7 +21,7 @@
 		if isNull(decoration)
 		//TODO this don't work { decoration := new Standard::Set(); }
 		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
-		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		decoration := decoration.including(theProperty.oclAsType(!Property!));
 		}
 		else { 'Bad tagType to create new BMTLTypeProperty.'.toErr(); }
 	}
@@ -37,7 +37,7 @@
 		if isNull(decoration)
 		//TODO this don't work { decoration := new Standard::Set(); }
 		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
-		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		decoration := decoration.including(theProperty.oclAsType(!Property!));
 		}
 		else { 'Bad tagType to create new InheritanceProperty.'.toErr(); }
 	}
@@ -53,7 +53,7 @@
 		if isNull(decoration)
 		//{ decoration := new Standard::Set(); }
 		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
-		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		decoration := decoration.including(theProperty.oclAsType(!Property!));
 		}
 		else { 'Bad tagType to create new StringProperty.'.toErr(); }
 	}

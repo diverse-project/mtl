@@ -13,8 +13,10 @@ import java.util.Hashtable;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
 
 /**
  * @author ffondeme
@@ -22,7 +24,7 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class SequenceType extends CollectionType {
+public class SequenceType extends CollectionType implements InstanciableType {
 	public static String SequenceName = "Sequence";
 	
 	// keys are element types (Type) and values are collection collection types (SequenceType) - of this exact type !	private static Hashtable defined
@@ -49,4 +51,8 @@ public class SequenceType extends CollectionType {
 		return false;
 	}
 
+	public Value instanciate() {
+		return new SequenceValueImpl(false, null, new Value  [0]);
+	}
+	
 }

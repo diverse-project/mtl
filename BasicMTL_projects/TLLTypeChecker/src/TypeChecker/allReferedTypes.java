@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.10 2003-09-18 16:02:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.11 2003-09-23 17:16:25 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -117,12 +117,14 @@ public class allReferedTypes {
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(theLib.getMangle());
 			aType.setDeclarationName(theLib.getPackageName()+'.'+theLib.getMangle()+"Interface");
+			aType.setExternLibCompleteName(theLib.getPackageName());
 			return true;
 		}
 		KnownClasses knownClasses=theLib.getKnownTypes();
 		if (knownClasses.containsKey(typeName))
 		{	aType.setIsLocalType(true);
 			aType.setLocalMangledName(((UserClass)knownClasses.get(typeName)).getMangle());
+			aType.setExternLibCompleteName(theLib.getPackageName());
 			aType.setDeclarationName(theLib.getPackageName() + '.' + aType.getLocalMangledName()+"Interface");
 			if (aType.size() == 1)
 				aType.insertElementAt(theLib.getName(), 0);
@@ -203,13 +205,13 @@ public class allReferedTypes {
 					aType.setExternMangledName(theClass.getMangle());
 					if (isManuallyMangled) {
 						aType.setExternCompleteName(theClass.getMangle());
-						aType.setDeclarationName(theClass.getMangle());
+						aType.setDeclarationName(aType.getExternCompleteName());
 					} else {
 						aType.setExternCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternMangledName());
 						aType.setDeclarationName(aType.getExternCompleteName()+"Interface");
 					}
 					aType.setExternLibMangledName(theLoadedTll.getMangle());
-					aType.setExternLibCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternLibMangledName());
+					aType.setExternLibCompleteName(theLoadedTll.getPackageName());
 					return true;
 				}
 		}

@@ -93,7 +93,7 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 	}
 	}
 	public abstract BMTLCommandGroup getCommandGroup();*/
-	public abstract BMTLLibrary getLibrary();
+	public abstract BMTLLibInterface getLibrary();
 	
 	public BMTLObject getRef (String [] qualifiedName) {
 		if (qualifiedName.length == 1)

@@ -1,17 +1,19 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.7 2003-09-17 07:15:23 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.8 2003-09-23 17:12:27 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
 package FirstPassGeneration;
 
 import java.io.*;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
+import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.JavaStringLiteralEncoder;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
@@ -77,14 +79,25 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		for (i=0;i<limit;i++) {
 			if ((! (theLib.getClasses(i) instanceof TheLibraryClass)) &&  (theLib.getClasses(i).getProperty("type") != null  || !((Boolean)theLib.getClasses(i).getProperty("ManualMangling").getValue()).booleanValue())) {
 				String qn = theLib.getClasses(i).getName();
-				outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type "+Mangler.mangle("the", theLib.getClasses(i).getMangle())+';');
+				String fieldName = Mangler.mangle("the", theLib.getClasses(i).getMangle());
+				outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type "+fieldName+';');
 			}
 		}
-		boolean isStandard = theLib.getName().equals("Standard");
+		outputForClass.println("static {");
+		outputForClass.println("  java.util.LinkedList al = new java.util.LinkedList();");
+		outputForClass.println("  al.add(\"" + JavaStringLiteralEncoder.encodeString(theLib.getName()) + "\");");
+		limit = ASTnode.getInheritance().size();
+		for (i = 0; i < limit; ++i) {
+			outputForClass.println("  al.addAll(" + ((QualifiedName)ASTnode.getInheritance().get(i)).getExternLibCompleteName() + ".CompatibleNames);");
+		}
+		outputForClass.println("  CompatibleNames = al;");
+		outputForClass.println('}');
+		outputForClass.println();
+		outputForClass.println("public static final java.util.List CompatibleNames;");
 		outputForClass.println("public org.irisa.triskell.MT.DataTypes.Java.Type getMetaClass(String [] type)");
 		outputForClass.println("{ if (type == null || type.length == 0)");
 		outputForClass.println("    return null;");
-		outputForClass.println("  if (type[0].equals(\""+JavaStringLiteralEncoder.encodeString(theLib.getName())+"\")) {");
+		outputForClass.println("  if (CompatibleNames.contains(type[0])) {");
 		outputForClass.println("   if (type.length > 2)");
 		outputForClass.println("     return null;");
 		outputForClass.println("   else if (type.length == 2)");
@@ -98,17 +111,29 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			if ((! (theLib.getClasses(i) instanceof TheLibraryClass)) &&  (theLib.getClasses(i).getProperty("type") != null || !((Boolean)theLib.getClasses(i).getProperty("ManualMangling").getValue()).booleanValue()))
 				outputForClass.println("    if (type[0].equals(\""+JavaStringLiteralEncoder.encodeString(theLib.getClasses(i).getName())+"\")) return this."+Mangler.mangle("the", theLib.getClasses(i).getMangle())+';');
 		}
+		limit = ASTnode.getInheritance().size();
+		if (limit >= 1) {
+			outputForClass.println("    Type ret;");
+			outputForClass.println("    java.util.ArrayList found = new java.util.ArrayList(" + limit + ");");
+			for (i = 0; i < limit; ++i) {
+				outputForClass.println("    ret = this." + new GetReferenceSignature((QualifiedName)ASTnode.getInheritance().get(i)).getOpMangle() + "().getMetaClass(type);");
+				outputForClass.println("    if (ret != null) {");
+				outputForClass.println("      found.add(\"" + JavaStringLiteralEncoder.encodeString(AWK.mergeCollection((Collection)ASTnode.getInheritance().get(i), "::")) + "\");");
+				outputForClass.println("    }");
+			}
+			outputForClass.println("    if (found.size() == 1)");
+			outputForClass.println("      return ret;");
+			outputForClass.println("    else if (found.size() > 1)");
+			outputForClass.println("      throw new RuntimeException(\"Cannot choose metatype \" + type[0] + \" present in the inherited libraries \" + AWK.mergeCollection(found, \", \"));");
+		}
 		limit = theLib.cardUsedLibs();
 		for(i=0;i<limit;i++)
 			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
-				if (!aUsedLib.isModelType && !aUsedLib.isRepositoryModel) {
+				if (!aUsedLib.isModelType && !aUsedLib.isRepositoryModel && !ASTnode.getInheritance().contains(aUsedLib)) {
 					outputForClass.println("    if (type[0].equals(\""+JavaStringLiteralEncoder.encodeString((String)aUsedLib.get(0))+"\")) return "+aUsedLib.getExternCompleteName()+".myType;");
 				}
 			}
-		if (isStandard)
-			outputForClass.println("    return null;");
-		else
-			outputForClass.println("    return this.getMetaClass(new String [] {\"Standard\", type[0]});");
+		outputForClass.println("    return null;");
 		outputForClass.println("  }");
 		limit=theLib.cardUsedLibs() + theLib.cardUsedModels();
 		if (limit > 0) {
@@ -151,7 +176,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		}
 		outputForClass.println('}');
 		outputForClass.println();
-		outputForClass.println("public BMTLLibrary getLibrary() {");
+		outputForClass.println("public BMTLLibInterface getLibrary() {");
 		outputForClass.println("  return (BMTLLibrary)this.theCaller;");
 		outputForClass.println('}');
 		outputForClass.println();
@@ -199,7 +224,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("inheritanceMap=new java.util.Hashtable();\n");
 		outputForClass.println("this.buildAllUsedLibs();");
 		outputForClass.println("this.buildAllClassTypes();");
-		outputForClass.println("inheritanceMap.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
+		outputForClass.println("inheritanceMap.put(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(ASTnode.getQualifiedName(), "::"))+"\",this);");
 		outputForClass.println("theCaller=this;");
 		outputForClass.println("((BMTLLibraryType)this.getType()).register(theCaller);");
 		// Call parents constructors
@@ -211,7 +236,9 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
 			String externLib=aParentType.getExternLibMangledName();
 			String externLibCompleteName=aParentType.getExternLibCompleteName();
-			outputForClass.println("BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(inheritanceMap,this);");
+			outputForClass.println("if (inheritanceMap.containsKey(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(aParentType, "::"))+"\"))");
+			outputForClass.println("\tBMTLRef_"+externParentName+"= ("+externCompleteParentName+")inheritanceMap.get(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(aParentType, "::"))+"\");");
+			outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(inheritanceMap,this);");
 		}
 		outputForClass.println('}');
 		outputForClass.println();
@@ -225,7 +252,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		outputForClass.println("inheritanceMap = map;");
 		outputForClass.println("theCaller=o;");
 		outputForClass.println("((BMTLLibraryType)this.getType()).register(theCaller);");
-		outputForClass.println("map.put(\""+generatedLibMangledName+"::"+ASTnode.getMangle()+"\",this);");
+		outputForClass.println("map.put(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(ASTnode.getQualifiedName(), "::"))+"\",this);");
 		// Call parents constructors
 		//=======================================
 		limit=ASTnode.getInheritance().size();
@@ -235,8 +262,8 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			String externCompleteParentName=aParentType.getExternCompleteName(); //library mangled name . class mangled name
 			String externLib=aParentType.getExternLibMangledName();
 			String externLibCompleteName=aParentType.getExternLibCompleteName();
-			outputForClass.println("if (map.containsKey(\""+externCompleteParentName+"\"))");
-			outputForClass.println("\tBMTLRef_"+externParentName+"= ("+externCompleteParentName+")map.get(\""+externCompleteParentName+"\");");
+			outputForClass.println("if (map.containsKey(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(aParentType, "::"))+"\"))");
+			outputForClass.println("\tBMTLRef_"+externParentName+"= ("+externCompleteParentName+")map.get(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(aParentType, "::"))+"\");");
 			outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(map,o);");
 		}
 		outputForClass.println('}');
