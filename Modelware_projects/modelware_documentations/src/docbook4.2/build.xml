@@ -98,13 +98,13 @@
     	<copy todir="${project.base.dir}/build/docbook42/MTL_PluginUserManual">
     	    <fileset dir="MTL_PluginUserManual"/>
     	</copy>
-    	<copy todir="${project.base.dir}/build/figures">
+    	<copy todir="${project.base.dir}/build/figures" failonerror="false">
     	    <fileset dir="shared/figures"/>
     	</copy>
-    	<copy todir="${project.base.dir}/build/figures">
+    	<copy todir="${project.base.dir}/build/figures" failonerror="false">
     	    <fileset dir="MTL_UserManual/figures"/>
     	</copy>
-    	<copy todir="${project.base.dir}/build/figures">
+    	<copy todir="${project.base.dir}/build/figures" failonerror="false">
     	    <fileset dir="MTL_PluginUserManual/figures"/>
     	</copy>
 	</target>
