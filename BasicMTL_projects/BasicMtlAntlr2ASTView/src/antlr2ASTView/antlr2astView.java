@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.10 2004-04-28 07:25:28 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.11 2004-06-11 11:31:44 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -11,9 +11,6 @@ package antlr2ASTView;
 //port java.util.Collection;
 //port java.util.Vector;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
@@ -27,7 +24,6 @@ import BasicMtlASTWithAssociationView.BMTL_EndPointInterface;*/
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import org.irisa.triskell.MT.utils.Java.Directories;
 //import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
@@ -40,6 +36,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLReal;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 
 /**
@@ -49,11 +46,6 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 public class antlr2astView implements ANTLRWalkerActionsInterface {
 
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
-
-	public static org.apache.log4j.Logger getLog () {
-			return BMTLParser.log;
-	}
 	private static BMTLLib_BasicMtlASTView theCreatedLib;
 	private static BMTL_LibraryInterface theBuiltAST=null;
 
@@ -61,16 +53,10 @@ public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); }
 
 public static void main(String[] args)
-{	try {
-		String filePath = new java.io.File(Directories.getRootPath(antlr2astView.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-		LogManager.resetConfiguration();
-		DOMConfigurator.configure(filePath); }
-	catch(java.io.IOException e) {
-		System.err.println("Can't state log4j in BMTLParser"); }
-	if (args.length > 0)
+{	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2astView().buildLibraryFromText(args[i]);
-	else log.error("USAGE : java BMTL <sourcefiles>");
+	else MSGHandler.error(antlr2astView.class,58,"USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -115,7 +101,7 @@ private void putProperty (BMTL_ASTNodeInterface node,BMTLStringInterface name,Ob
 			node.BMTL_createNewBMTLTypeProperty(name,theType,new BMTLString(tagType));
 			return;
 		}
-		log.error("PutProperty on an unknown tagType"+tagType);
+		MSGHandler.error(antlr2astView.class,104,"PutProperty on an unknown tagType"+tagType);
 	}
 }
 
@@ -160,6 +146,7 @@ public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector 
 {	BMTL_LibraryInterface node=(BMTL_LibraryInterface)libHeader;
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
@@ -196,6 +183,7 @@ public Object model(String lineNumber,String modelName,String viewName)
 		node.set_BMTL_typeName(new BMTLString(viewName));
 		try {
 		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 		} catch (Throwable e) {e.printStackTrace();}
 		return node;
 	}
@@ -204,6 +192,7 @@ public Object model(String lineNumber,String modelName,String viewName)
 		node.set_BMTL_name(new BMTLString(modelName));
 		try {
 		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 		} catch (Throwable e) {e.printStackTrace();}
 		return node;
 	}
@@ -274,6 +263,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Inheritance"),(java.util.Vector)inheritance,"InheritanceTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Refinement"),(java.util.Vector)refinement,"InheritanceTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
@@ -340,6 +330,7 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	if (throwsException != null) node.set_BMTL_throwsExceptionValue(BMTLBoolean.TRUE);
 	else  node.set_BMTL_throwsExceptionValue(BMTLBoolean.FALSE);
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	putTags(node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
@@ -354,6 +345,7 @@ public Object varsDeclaration(Object typedVars,String lineNumber)
 		try {
 		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("Type"),(java.util.Vector)typedVarsList.get(0),"TypeTag");
 		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)var,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 		} catch (Throwable e) {e.printStackTrace();}
 		declaredVars.addElement(var);
 	}
@@ -384,10 +376,11 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 		createdNode.set_BMTL_value((BMTL_ExpressionInterface)sourceTree);
 		node=(BMTL_ASTNodeInterface)createdNode;
 	} else {
-		getLog().error(lineNumber + ": Can just affect variable or attributes."+sourceTree);
+		MSGHandler.error(antlr2astView.class,373,lineNumber + ": Can just affect variable or attributes."+sourceTree);
 		return null;
 	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -396,6 +389,7 @@ public Object returnInstr(Object expression,String lineNumber)
 	node.set_BMTL_returnedExpression((BMTL_ExpressionInterface)expression);
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -408,6 +402,7 @@ public Object whileInstr(Object expression,Object body)
 	for(int i=0;i<instructions.size();i++)
 		node.BMTL_appendBody((BMTL_InstructionInterface)instructions.get(i));
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -425,6 +420,7 @@ public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 		for(i=0;i<elseInstructions.size();i++)
 			node.BMTL_appendElseBody((BMTL_InstructionInterface)elseInstructions.get(i));
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -433,6 +429,7 @@ public Object throwsInstr(Object expression,String lineNumber)
 	node.set_BMTL_thrownExpression((BMTL_ExpressionInterface)expression);
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -462,6 +459,7 @@ public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 		for(int j=0;j<catchInstructions.size();j++)
 			aCatch.BMTL_appendCatchBody((BMTL_InstructionInterface)catchInstructions.get(j));
 		putProperty((BMTL_ASTNodeInterface)aCatch,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 		node.BMTL_appendCatchPart(aCatch);
 	}
 	if (finallyInstructions != null) {
@@ -469,6 +467,7 @@ public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 		node.BMTL_appendFinalizeBody((BMTL_InstructionInterface)finallyInstructions.get(i));
 	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -479,6 +478,7 @@ public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,Stri
 	for(int i=0;i<endPoints.size();i++)
 		node.BMTL_appendRoles((BMTL_RoleInterface)endPoints.get(i));
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -507,6 +507,7 @@ public Object newExpr(Object theClass,String methodName,Object arguments,String 
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("TypeToCreate"),(java.util.Vector)theClass,"TypeTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("CreationMethod"),new BMTLString(methodName),"StringTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return (BMTL_ExpressionInterface)putPropertyCalls(node,propertyCalls); }
 
@@ -590,6 +591,7 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 			node.BMTL_appendArguments((BMTL_ExpressionInterface)args.get(i));
 		}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return (BMTL_ExpressionInterface)node; }
 
@@ -598,6 +600,7 @@ public Object negateExpr(Object expr,String lineNumber)
 	node.set_BMTL_name(new BMTLString("not"));
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	node.set_BMTL_caller((BMTL_ExpressionInterface)expr);
 	return (BMTL_ExpressionInterface)node; }
@@ -608,6 +611,7 @@ public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNu
 	try {
 	node.BMTL_appendArguments((BMTL_ExpressionInterface)expr2);
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	node.set_BMTL_caller((BMTL_ExpressionInterface)expr1);
 	return (BMTL_ExpressionInterface)node; }
@@ -619,6 +623,7 @@ public Object oclAsType(Object type,String lineNumber,String theType,String theM
 		for(int i=0;i<qualifiers.size();i++)
 			node.BMTL_appendType(new BMTLString((String)qualifiers.get(i)));
 		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("File"),new BMTLString(MSGHandler.processedMtlFile==null?"null":MSGHandler.processedMtlFile),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	if (isAConstant) {
 		node.set_BMTL_isAConstant(BMTLBoolean.TRUE);

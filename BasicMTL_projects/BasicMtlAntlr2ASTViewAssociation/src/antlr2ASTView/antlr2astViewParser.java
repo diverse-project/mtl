@@ -1,5 +1,5 @@
 /*
- * $Id: antlr2astViewParser.java,v 1.5 2004-06-09 09:41:06 jpthibau Exp $
+ * $Id: antlr2astViewParser.java,v 1.6 2004-06-11 11:33:12 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -12,7 +12,6 @@ package antlr2ASTView;
  * It also deals with associations and inheritance
  */
 
-import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 //import org.apache.log4j.LogManager;
 //import org.apache.log4j.xml.DOMConfigurator;
@@ -24,11 +23,6 @@ import BasicMtlASTWithAssociationView.*;
 
 public class antlr2astViewParser implements antlrParserInterface {
 	
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
-
-	public static org.apache.log4j.Logger getLog () {
-			return BMTLParser.log;
-	}
 	private BMTL_LibraryInterface parsedBMTLLib=null;
 	private antlr2astView ASTViewproducer=null;
 
@@ -41,7 +35,7 @@ public class antlr2astViewParser implements antlrParserInterface {
 	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
 		BMTL_LibraryInterface parsedAssociationTemplatesLib=null;
 		
-		log.info("Parsing "+filenames.size()+" file(s) for this library" );
+		MSGHandler.info(antlr2astViewParser.class,38,"Parsing "+filenames.size()+" file(s) for this library" );
 		for (int i=0;i<filenames.size();i++) {
 			MSGHandler.processedMtlFile=(String)filenames.get(i);
 			parsedBMTLLib=ASTViewproducer.buildLibraryFromText(MSGHandler.processedMtlFile);
