@@ -31,11 +31,13 @@ class clazz {
 			throws 'Problem with attribute data type affectation';
 		}
 		entier.toOut();
-		me := new M::Table();
 		vehicule := new N::vehicule();
 		vm := theSelf.vehicule;
 		vm := new N::vehicule();
 		theSelf.vehicule := vm;
+		set := !M::Table!.allInstances();
+		set.toOut();
+		me := new M::Table();
 		me.toOut();
 		set := !M::Table!.allInstances();
 		set.toOut();
