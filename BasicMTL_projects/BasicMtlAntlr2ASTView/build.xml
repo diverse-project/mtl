@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-09-17 09:04:30 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-10-17 14:45:42 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2ASTView" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -11,9 +11,9 @@
 	<!-- This project depends on the BasicMtlAntlr and BasicMtlAstJava projects -->
 	<property name="BasicMtlAntlr"  location="..\BasicMtlAntlr"/>
 	<property name="BasicMtlAstJava"  location="..\BasicMtlAstJava"/>
+	<property name="BMTLBasicMtlASTView"  location="..\BMTLBasicMtlASTView"/>
 	<!-- This project deeply depends on the Utils project -->
 	<property name="Utils"  location="..\Utils"/>
-	<property name="BasicTransfoLibs"  location="..\BasicMTL_Transformation_libraries\build"/>
 	<property name="MTDataTypes"  location="..\MTDataTypes"/>
 	<property name="BasicMTLRuntime"  location="..\BasicMTLRuntime"/>
 
@@ -32,6 +32,9 @@
 	    <echo>Building the "BasicMtlAstJava" project.</echo>
 	    <ant antfile="${BasicMtlAstJava}\build.xml" dir="${BasicMtlAstJava}" target="dist" inheritAll="false"/>
 	    <echo>"BasicMtlAstJava" project built.</echo>
+	    <echo>Building the "BMTLBasicMtlASTView" project.</echo>
+	    <ant antfile="${BMTLBasicMtlASTView}\build.xml" dir="${BMTLBasicMtlASTView}" target="compile generated code" inheritAll="false"/>
+	    <echo>"BMTLBasicMtlASTView" project built.</echo>
 	</target>
 
 	<target name="compile_java" depends="init"
@@ -62,8 +65,8 @@
 			<!-- manifest to include -->
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>   
-		    	<attribute name="Main-Class" value="antlr2ASTView.antlr2astView"/>
-				<attribute name="Class-Path" value="BasicMtlAntlr.jar BasicMtlAstJava.jar Utils.jar BasicMTLRuntime.jar MTDataTypes.jar RepositoryAPI.jar BasicMtlASTViewDistribution.jar ThirdParty/log4j/log4j.jar"/>
+		    	<attribute name="Main-Class" value="antlr2ASTView.antlr2astViewParser"/>
+				<attribute name="Class-Path" value="BasicMtlAntlr.jar C:\PROJET_MTL\ECLIPSE\workspace\BMTLBasicMtlASTView\bin BasicMtlAstJava.jar Utils.jar BasicMTLRuntime.jar MTDataTypes.jar RepositoryAPI.jar BasicMtlASTViewDistribution.jar ThirdParty/log4j/log4j.jar"/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -87,7 +90,7 @@
 			<fileset dir="${BasicMtlAstJava}\dist\bin"/>
 		</copy>
 		<copy todir="${dist}/bin">
-			<fileset dir="${BasicTransfoLibs}\dist\bin"/>
+			<fileset dir="${BMTLBasicMtlASTView}\bin"/>
 		</copy>
 		
 	    <copy file="log4j_configuration.xml"

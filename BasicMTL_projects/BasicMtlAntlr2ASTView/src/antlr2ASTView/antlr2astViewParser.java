@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astViewParser.java,v 1.1 2003-10-14 15:51:16 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astViewParser.java,v 1.2 2003-10-17 14:45:42 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -19,7 +19,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRASTWalker.antlrParserInterface;
 import ANTLRParser.*;
-import BasicMtlASTWithAssociationView.*;
+import BasicMtlASTView.*;
 
 public class antlr2astViewParser implements antlrParserInterface {
 
@@ -38,23 +38,11 @@ public class antlr2astViewParser implements antlrParserInterface {
 
 	public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library buildLibraryFromTexts(java.util.Vector filenames)
 	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
-		BMTL_LibraryInterface parsedAssociationTemplatesLib=null;
 		for (int i=0;i<filenames.size();i++)
 			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i));
-		if (parsedBMTLLib.get_BMTL_hasAssociation().getTheBoolean()) {
-			parsedAssociationTemplatesLib=new antlr2astView().buildLibraryFromText("C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2ASTViewAssociation\\build\\src\\Template\\AssociationTemplates.mtl");
-			try {
-				//transform all associations
-				parsedBMTLLib.BMTL_transformAllAssociations(parsedAssociationTemplatesLib);
-			} catch (Throwable e) {e.printStackTrace();}
-		}
-		if (parsedBMTLLib.get_BMTL_hasInheritance().getTheBoolean()) {
-			try {
-				//transform library inheritance
-				parsedBMTLLib.BMTL_transformInheritedLibrary();
-		} catch (Throwable e) {e.printStackTrace();}
-	}
 		try {
+		//transform library inheritance
+		parsedBMTLLib.BMTL_transformInheritedLibrary();
 		//transform to ASTjava
 		parsedLib=(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library)parsedBMTLLib.BMTL_toASTJava(); //+++++ Added for View production +++
 		} catch (Throwable e) {e.printStackTrace();}

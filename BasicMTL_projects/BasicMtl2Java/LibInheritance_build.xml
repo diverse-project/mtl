@@ -1,19 +1,19 @@
-<!-- $Id: PureJava_build.xml,v 1.3 2003-10-17 14:51:16 jpthibau Exp $ -->
-<project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
+<!-- $Id: LibInheritance_build.xml,v 1.1 2003-10-17 14:51:34 jpthibau Exp $ -->
+<project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
-	<property name="build" location="PureJava/build"/>
-	<property name="dist"  location="PureJava/dist"/>
+	<property name="build" location="LibInheritance/build"/>
+	<property name="dist"  location="LibInheritance/dist"/>
 	<property name="base"  location=".."/>
 	
 	<!-- The necessary libraries compilation prrocess -->
 	<property name="Standard" location="src/Standard"/>
 	
-	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
+	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and FacadeInheritance projects -->
 	<property name="Utils"  location="${base}\Utils"/>
 	<property name="MTDataTypes"  location="${base}\MTDataTypes"/>
 	<property name="RepositoryAPI"  location="${base}\RepositoryAPI"/>
@@ -22,16 +22,16 @@
 	<property name="BasicMTLAstJava"  location="${base}\BasicMTLAstJava"/>
 	<property name="BasicMtlAntlr"  location="${base}\BasicMTLAntlr"/>
 	<property name="BasicMTLAntlr2TLLJava"  location="${base}\BasicMTLAntlr2TLLJava"/>
-	<property name="BasicMTLAntlr2BasicMtlAstJava"  location="${base}\BasicMTLAntlr2BasicMtlAstJava"/>
+	<property name="BasicMtlAntlr2ASTView"  location="${base}\BasicMtlAntlr2ASTView"/>
 	<property name="BasicMtlTLLJava"  location="${base}\BasicMtlTLLJava"/>
 	<property name="TLLTypeChecker"  location="${base}\TLLTypeChecker"/>
 	<property name="BasicMtlJavaCodeGenerator"  location="${base}\BasicMtlJavaCodeGenerator"/>
-	<property name="Facade"  location="${base}\Facade"/>
+	<property name="FacadeInheritance"  location="${base}\FacadeInheritance"/>
 	<!-- Deep dependencies does not need to be managed -->
 	
 	
 	<!-- The compilation tool -->
-	<property name="ANTLR2JavaCode" location="..\Facade\dist\bin\Facade"/>
+	<property name="ANTLR2JavaCode" location="..\FacadeInheritance\dist\bin\FacadeInheritance"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -75,7 +75,7 @@
   	<target name="compile_BasicMTL_compiler"
   		description="Compiles necessary libraries (if needed)">
 	    
-		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and FacadeInheritance projects -->
 	    <echo>Building the "MDRDriver" project.</echo>
 	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="dist" inheritAll="false"/>
 	    <echo>"MDRDriver" project built.</echo>
@@ -88,20 +88,20 @@
 	    <echo>Building the "BasicMtlJavaCodeGenerator" project.</echo>
 	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="dist" inheritAll="false"/>
 	    <echo>"BasicMtlJavaCodeGenerator" project built.</echo>
-	    <echo>Building the "Facade" project.</echo>
-	    <ant antfile="${Facade}\build.xml" dir="${Facade}" target="dist" inheritAll="false"/>
-	    <echo>"Facade" project built.</echo>
+	    <echo>Building the "FacadeInheritance" project.</echo>
+	    <ant antfile="${FacadeInheritance}\build.xml" dir="${FacadeInheritance}" target="dist" inheritAll="false"/>
+	    <echo>"FacadeInheritance" project built.</echo>
   	</target>
   	
   	<target name="recompile_BasicMTL"
   		description="Completely recompiles necessary libraries">
 	    
-		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and FacadeInheritance projects -->
 	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${BasicMTLRuntime}\build.xml" dir="${BasicMTLRuntime}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="deep_clean" inheritAll="false"/>
-	    <ant antfile="${Facade}\build.xml" dir="${Facade}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${FacadeInheritance}\build.xml" dir="${FacadeInheritance}" target="deep_clean" inheritAll="false"/>
 	    
 	    <antcall target="compile_BasicMTL_compiler"/>
   	</target>
@@ -117,11 +117,11 @@
   		<copy file="${BasicMTLAstJava}/dist/bin/BasicMTLAstJava.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlAntlr}/dist/bin/BasicMTLAntlr.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMTLAntlr2TLLJava}/dist/bin/BasicMTLAntlr2TLLJava.jar" todir="${dist}/bin"/>
-  		<copy file="${BasicMTLAntlr2BasicMtlAstJava}/dist/bin/BasicMTLAntlr2BasicMtlAstJava.jar" todir="${dist}/bin"/>
+  		<copy file="${BasicMtlAntlr2ASTView}/dist/bin/BasicMtlAntlr2ASTView.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlTLLJava}/dist/bin/BasicMtlTLLJava.jar" todir="${dist}/bin"/>
   		<copy file="${TLLTypeChecker}/dist/bin/TLLTypeChecker.jar" todir="${dist}/bin"/>
   		<copy file="${BasicMtlJavaCodeGenerator}/dist/bin/BasicMtlJavaCodeGenerator.jar" todir="${dist}/bin"/>
-  		<copy file="${Facade}/dist/bin/Facade.jar" todir="${dist}/bin"/>
+  		<copy file="${FacadeInheritance}/dist/bin/FacadeInheritance.jar" todir="${dist}/bin"/>
   		
   		<!-- thirdparty jars but needed in the distribution -->
   		<copy  todir="${dist}/bin/Thirdparty/log4j">
@@ -141,11 +141,15 @@
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
+  		<mkdir dir="${dist}/Runtime/src/BasicMtlASTView"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
   		</copy>
   		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>
+  		</copy> 		
+  		<copy  todir="${dist}/Runtime/src/BasicMtlASTView">
+  			<fileset dir="${base}/BMTLBasicMtlASTView"/>
   		</copy> 		
   		<!-- add the default log4j configuration file -->
   		<copy file="log4j_configuration.xml" todir="${dist}/bin"/>
