@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.4 2003-10-14 14:35:40 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.5 2003-11-04 13:21:55 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -54,7 +54,7 @@ public class CommonFunctions {
 		if (cast != null) {
 			String castWithVar = e.getToBeCastedWithTypeVar();
 			if (castWithVar != null) {
-				output.print("((BMTLType)BMTL_"+castWithVar+".getTheType()).getTheClass()");
+				output.print("(Value)((BMTLType)BMTL_"+castWithVar+".getTheType()).getTheClass()");
 				output.print(".getMethod(\"BMTL_\"+BMTL_"+e.getToBeCastedWithMethodVar()+".getTheString(),");
 				output.print("new Class[]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class})");
 				output.print(".invoke(");
