@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.6 2004-03-17 10:56:21 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.7 2004-04-22 13:04:12 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -10,9 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.irisa.triskell.MT.utils.Java.Directories;
-// import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-// import ANTLR2TLLJava.*;
 import ANTLRASTWalker.antlrParserInterface;
 import TypeChecker.TLLtypechecking;
 import CodeGeneration.BMTLCompiler;
@@ -36,6 +34,9 @@ public class Compiler {
 		return path+'/';
 	}
 		
+	/**
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args)
 	{
 		try {
@@ -44,6 +45,8 @@ public class Compiler {
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {
 							System.err.println("Can't state log4j in BMTLParser"); }
+							
+		// parses the arguments in order to find the necessary data
 		if (args.length > 0) {
 			int argsEnd=args.length;
 			String defaultPackagePrefix=null;
@@ -69,50 +72,99 @@ public class Compiler {
 			}
 			if (defaultPackagePrefix==null) defaultPackagePrefix="org.irisa.triskell.MT.ThirdParty.";
 			if (defaultTLLPath==null)
-				log.error("No -TLLPath option,don't known where tostore produced TLL");
-			java.util.Vector filenamesArguments=new java.util.Vector();
+				log.error("No -TLLPath option,don't known where to store produced TLL");
 			sourcesDir=checkPathEnd(args[0]);
-			String filesList[]=new java.io.File(sourcesDir).list();
-			if(filesList == null)
-			{
-				log.error("No file to process in "+sourcesDir);
-				showUsage();
-				System.exit(-1);				
-			}
-			for (int i=0;i<filesList.length;i++)
-			{
-				// checks if file exists
-				if (filesList[i].endsWith(".mtl"))
-				 {
-					log.debug("Including file "+filesList[i]+"...");
-					File aFile = new File(args[0]+filesList[i]);
-					if (aFile.canRead())
-						filenamesArguments.addElement(args[0]+filesList[i]);
-					else				
-						log.warn("File not readable : "+args[i]+" => file ignored !!!");
-				 }
-				else log.debug("EXCLUDING file "+filesList[i]+"!!!");
-			}
-			if (filenamesArguments.size() == 0)
-			{
-				log.error("No file to process");
-				System.exit(-1);
-			}
-			else 
-			{
-				java.io.File directoryFile=new java.io.File(defaultBinPath);
-				if (! directoryFile.isDirectory())
-					try { directoryFile.mkdir();} 
-					catch (SecurityException e) {System.err.println("Can't make directory "+defaultBinPath); }
-				antlrParserInterface parser=new antlr2astViewParser().newParser();
-				BasicMtlLibrary theLib=(BasicMtlLibrary)TLLtypechecking.checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,TLLLoadingPaths,parser);
-				if (theLib!=null)
-					BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
-				else System.exit(-1);	
-			}
+			
+			// ok let's do the stuff...
+			Compiler thisCompilerFacade = new Compiler();
+			thisCompilerFacade.compileFromDirectory(sourcesDir,defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);
+						
 		}
 		else showUsage();
 	}
+	
+	/**
+	 * Compiles a library from a list of mtl files.
+	 * Generates a tll file and java files
+	 * @param filenamesArguments	vector containing all the files that must be parsed to build this library
+	 * @param defaultPackagePrefix indicates the name of the java package that will contain your library
+	 * @param defaultTLLPath is the place where the definition of your library will be stored. kind of precompiled step for further compile
+	 * @param TLLLoadingPaths is a list of places (separated by ;) which contain allready precompiled libraries, usually the minimum is the path runtime TLL which contain the standard types and the driver definition
+	 * @param defaultBinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files
+	 */
+	public void compileFromFiles(
+		java.util.Vector filenamesArguments,
+		String defaultPackagePrefix,
+		String defaultTLLPath,
+		String TLLLoadingPaths,
+		String defaultBinPath)
+	{
+		// create destination directory
+		java.io.File directoryFile=new java.io.File(defaultBinPath);
+		if (! directoryFile.isDirectory())
+			try { directoryFile.mkdir();} 
+			catch (SecurityException e) {System.err.println("Can't make directory "+defaultBinPath); }
+		
+		// parse and typecheck  (ie. generate the tll file)	
+		antlrParserInterface parser=new antlr2astViewParser().newParser();
+		BasicMtlLibrary theLib=(BasicMtlLibrary)TLLtypechecking.checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,TLLLoadingPaths,parser);
+		if (theLib!=null)
+			// compile, ie. generate the java files
+			BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
+		else System.exit(-1);
+	}
+	
+	/**
+	 * Compiles a library from a directory containing mtl files.
+	 * Generates a tll file and java files
+	 * @param sourcesDir : vector containing all the files that must be parsed to build this library
+	 * @param defaultPackagePrefix : indicates the name of the java package that will contain your library
+	 * @param defaultTLLPath : is the place where the definition of your library will be stored. kind of precompiled step for further compile
+	 * @param TLLLoadingPaths : is a list of places (separated by ;) which contain allready precompiled libraries, usually the minimum is the path runtime TLL which contain the standard types and the driver definition
+	 * @param defaultBinPath : indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files
+	 */
+	public void compileFromDirectory(
+			String sourcesDir,
+			String defaultPackagePrefix,
+			String defaultTLLPath,
+			String TLLLoadingPaths,
+			String defaultBinPath)
+	{
+		// look in the directory only for mtl files. 
+		// this version do not search recursively
+		java.util.Vector filenamesArguments=new java.util.Vector();
+		String filesList[]=new java.io.File(sourcesDir).list();
+		if(filesList == null)
+		{
+			log.error("No file to process in "+sourcesDir);
+			showUsage();
+			System.exit(-1);				
+		}
+		for (int i=0;i<filesList.length;i++)
+		{
+			// checks if file exists
+			if (filesList[i].endsWith(".mtl"))
+			 {
+				log.debug("Including file "+filesList[i]+"...");
+				File aFile = new File(sourcesDir+filesList[i]);
+				if (aFile.canRead())
+					filenamesArguments.addElement(sourcesDir+filesList[i]);
+				else				
+					log.warn("File not readable : "+sourcesDir+filesList[i]+" => file ignored !!!");
+			 }
+			else log.debug("EXCLUDING file "+filesList[i]+"!!!");
+		}
+		if (filenamesArguments.size() == 0)
+		{
+			log.error("No file to process");
+			System.exit(-1);
+		}
+		else 
+		{
+			compileFromFiles(filenamesArguments, defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);	
+		}
+	}
+	
 	static void showUsage()
 	{
 		log.error("USAGE : java -jar BasicMTLc.jar <sourcesDirectory> [-TLLPath <path>] [-TLLLoadingPaths <pathes>] [-PackageName <name>] [-BinPath <path>]");
