@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# $Id :$
 # --------------------------------------------------@RisingSun//Python//1.0//EN
 # Module			:	Antimtl.py
 # Version			:	0.1
@@ -311,16 +312,26 @@ class DOMAntimtl(BaseProcess) :
         # We, for now, only consider the first node (all tll "should" FIXME be
         # in the same directory)
         index = 0;
+        properties = self.ftemplate_dom.getElementsByTagName("property")
         while index < len(classpathentries):
             node = classpathentries[index]
+            path = node.getAttribute("path")
+            kind_val = node.getAttribute("kind")
             # is kind value "lib"?
-            if node.getAttribute("kind") == "lib" :
-                path = node.getAttribute("path")
+            if kind_val == "lib" :
                 path_split = path[:path.rfind("/")-len(path)]
                 if (path_split not in path_list):
                     path_list.append(path_split)
 #            elif node.getAttribute("kind") == "prj":
 #                prj_path_list.append(node.getAttribute("path"))
+            # in mtlclasspath we find also those kinds    
+            elif (kind_val == "output") :
+                name = "build.src"
+                self.setProperty(name, path, properties)
+            elif (kind_val == "output_tll") :
+                name = "build.tll"
+                self.setProperty(name, path, properties)
+
             index+=1
         # note : if there is only one elt in path_list, no semi-colon is added.
         return ";".join(path_list)
@@ -360,17 +371,15 @@ class DOMAntimtl(BaseProcess) :
             kind_val = node.getAttribute("kind")
             if (kind_val == "lib"):
                 name = self.generatePathName(path)
-            elif (kind_val == "src"): 
-            # FIXME : .classpath attribute names should be consistent
+            #elif (kind_val == "src"): 
                 # with lib_builds
-                name = "build.src"
+            #    name = "build.src"
+            # in mtlclasspath we find those kinds    
             elif (kind_val == "output") :
                 name = "build.bin"
-#            elif (kind_val == "output_tll") :
-#                name = "build.tll"
 
             # Special handling for tll path (fixme)
-            self.setProperty("build.tll", "build/tll", properties)
+            #self.setProperty("build.tll", "build/tll", properties)
             # do not set a property for the kind "con"
             if kind_val in ("lib", "src", "output", "output_tll"):
                 self.setProperty(name, path, properties)
