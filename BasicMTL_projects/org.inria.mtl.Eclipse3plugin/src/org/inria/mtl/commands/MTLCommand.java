@@ -43,6 +43,7 @@ abstract public class MTLCommand extends Observable
 		return (e3!=null ? e3 : (e2!=null ? e2 : e1));
 	}
 
+	
 	/** */
 	abstract public Object mainExecute () throws Exception;
 

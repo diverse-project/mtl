@@ -7,11 +7,15 @@ package org.inria.mtl.commands.build;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.commands.MTLCommand;
 import org.inria.mtl.commands.MTLCommandExecutor;
+import org.inria.mtl.views.MTLConsole;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 /**
  * @author edrezen
@@ -53,6 +57,27 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	////////////////////////////////////////////////////////////////////////////////
 
 	/** */
+	public Object preExecute() throws Exception 
+	{
+		// some clean up before starting
+		MTLConsole.cleanConsole();
+		
+		// we initialize the message handler
+		MSGHandler.reinit();
+
+		// we clean the previous markers
+		for (java.util.Iterator it=getDependencies().iterator(); it.hasNext(); )
+		{
+			IFolder loopFolder = (IFolder) MTLPlugin.getWorkspace().getRoot().findMember ((IPath)it.next());
+			loopFolder.deleteMarkers (IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			loopFolder.deleteMarkers (IMarker.TASK,    true, IResource.DEPTH_INFINITE);
+		}
+		
+		return super.preExecute();
+	}
+	
+	
+	/** */
 	public Object mainExecute () throws Exception
 	{
 		// we loop over all the source folders that need to be compiled
@@ -74,7 +99,7 @@ abstract public class AbstractBuildCommand extends MTLCommand
 				loopFolder.getName(), 
 				MTLModel.srcJavaFolder, 
 				MTLModel.tllFolder, 
-				getTllPaths()
+				(Collection) MTLCommandExecutor.getTllPaths()
 			);
 
 			// we may want to notify observers that we have finished the compilation
@@ -85,31 +110,12 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	}
 	
 	
-	/** This method builds a collection of IPath objects that refer folders to be used by the 
-	 * compiler in the TLL classpath.
-	 * */
-	private java.util.Collection getTllPaths ()
+	/** */
+	public Object postExecute() throws Exception 
 	{
-		java.util.Collection result = new java.util.Vector ();  // collection of IPath objects
-
-		// we build a Collection of IPath objects that represents TLL files to be used by the compiler
-		for (int i=0; i<MTLModel.libFolders.length; i++)
-		{
-			IPath path = MTLModel.libFolders[i];
-			String ext = path.getFileExtension();
-			
-			if (ext!=null && ext.equals("tll"))
-			{
-				path = path.removeLastSegments(1);
-			}
-
-			if (! result.contains (path))
-			{
-				result.add (path);
-			}
-		}
-
-		return result;
+		// some post processings...
+		MTLCommandExecutor.createMarkers (MSGHandler.allMessages);
+		
+		return super.postExecute();
 	}
-	
 }

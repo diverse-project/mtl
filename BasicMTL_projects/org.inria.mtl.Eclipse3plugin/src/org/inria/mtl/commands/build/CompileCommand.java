@@ -77,10 +77,6 @@ public class CompileCommand extends MTLCommand
 		// we tag the sources
 		MTLCommandExecutor.setTagResource (mtlSourceFolder, true);
 
-		// we tag the generated resources
-//		MTLPlugin.factory().runSetTagResourceCommand (getLibraryJavaFolder(), true);
-//		MTLPlugin.factory().runSetTagResourceCommand (getLibraryTllFile(),    true);
-
 		return null;
 	}
 	
@@ -89,9 +85,6 @@ public class CompileCommand extends MTLCommand
 	 */
 	public Object mainExecute() throws Exception 
 	{
-		// we initialize the message handler
-		MSGHandler.reinit();
-
 		// we create a new compiler
 		BasicMtlCompiler.Compiler Comp = new BasicMtlCompiler.Compiler();
 			

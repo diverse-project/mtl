@@ -91,7 +91,14 @@ public class MTLCommandExecutor
 		return build.createGetFileFromCompilerMessageCommand (message).execute();
 	}
 
-
+	/**
+	 * @throws Exception */
+	static public Object getTllPaths () throws Exception
+	{
+		return build.createGetTllPathsCommand().execute ();
+	}
+	
+	
 	////////////////////////////////////////////////////////////////////////////////
 	// MARKERS COMMANDS
 	////////////////////////////////////////////////////////////////////////////////

@@ -15,14 +15,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.inria.mtl.commands.MTLCommand;
 import org.inria.mtl.commands.MTLCommandExecutor;
-import org.inria.mtl.markers.MTLMarkers;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerMessage;
 
 /**
  * @author edrezen
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CreateMarkersCommand extends MTLCommand 
 {
@@ -67,8 +64,7 @@ public class CreateMarkersCommand extends MTLCommand
     	{
 			if (getVector().elementAt(i) instanceof CompilerMessage)
 			{ 
-				CompilerMessage ReX = (CompilerMessage)getVector().elementAt(i);
-				createMarkersTask (ReX, MTLMarkers.cleanMarkers);
+				createMarkersTask ((CompilerMessage)getVector().elementAt(i));
 			}
 		}
 
@@ -77,81 +73,62 @@ public class CreateMarkersCommand extends MTLCommand
 
 	
 	/** */
-    public void createMarkersTask (CompilerMessage cMessage, boolean cleanMarkers) throws Exception 
+    public void createMarkersTask (CompilerMessage cMessage) throws Exception 
 	{
-    	String Message=cMessage.getMessage();
-    	
     	// we retrieve the file corresponding to the CompilerMessage
-		IFile currFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
+		IFile currentFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
 		
-		IMarker[] problems = null;
-		int depth = IResource.DEPTH_INFINITE;
-		
-		if (currFile!=null && currFile.exists())
+		if (currentFile != null)
 		{
-			try {
-				problems = currFile.findMarkers(IMarker.PROBLEM, true, depth);
-			} 
-			catch (CoreException e) {
-			}
-		}
-		
-		if (MTLMarkers.cleanMarkers && (currFile!=null))
-		{
-			//ED System.out.println("Enlever les MARKERS sur :"+currFile.getName());
-			currFile.deleteMarkers (IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-			currFile.deleteMarkers (IMarker.TASK,    true, IResource.DEPTH_INFINITE);
-			MTLMarkers.cleanMarkers = false;
-		}
-		
-		if ((Message.indexOf("ANTLRException")==0) &&(cMessage.getMessageType().compareTo("warn")==0))
-		{
-			String messageAll = Message.substring(Message.indexOf(" on ") + 4, Message.length() ); //$NON-NLS-1$
-			String messageFile = messageAll.substring(0, messageAll.indexOf(",")); //$NON-NLS-1$
-			String messageDelta = messageAll.substring(messageAll.indexOf(", ") + 2, messageAll.length()); //$NON-NLS-1$
-			String messageLine = messageDelta.substring(messageDelta.indexOf("line ")+5 ,messageDelta.indexOf(":")); //$NON-NLS-1$
-			String messageDesc = messageDelta.substring(messageDelta.indexOf(":",messageDelta.indexOf(":")+1)+1, messageDelta.length()); //$NON-NLS-1$
-			Hashtable attributes = new Hashtable();
-			MarkerUtilities.setMessage(attributes, messageDesc);
-			attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-			try {
-				int lineNumber =Integer.parseInt(messageLine);	//$NON-NLS-1$
-				MarkerUtilities.setLineNumber(attributes, lineNumber);
-			}
-			catch (Exception e) {
-				//ED System.out.println("Error Line number :");
-			}
-			
-			try {
-				//ED System.out.println("Créer les MARKERS sur :"+currFile.getName()+"  Message :"+cMessage.getMessage());
-				MarkerUtilities.createMarker(currFile, attributes, IMarker.PROBLEM);
-				MarkerUtilities.createMarker(currFile, attributes, IMarker.TASK);
-				//ED System.out.println("MARKER NOUVEAU");
-				//And refresh the compilation unit folder
-				currFile.getParent().refreshLocal(IResource.DEPTH_ONE, null);
-			}
-			catch(Exception E) {
-				//ED System.out.println("Pb sur les markers :"+E.getMessage());
-			}
-		}
-		else {
-			Hashtable attributes = new Hashtable();
-			MarkerUtilities.setMessage(attributes, Message);
-			if (cMessage.getMessageType()=="error")  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-			if (cMessage.getMessageType()=="info")   attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO));
-			if (cMessage.getMessageType()=="debug")  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
-					
-			if ((cMessage.getFileName()!=null) )
+	    	String message = cMessage.getMessage();
+	    	String type    = cMessage.getMessageType();
+
+			if ( (message.indexOf("ANTLRException")==0) && (type.compareTo("warn")==0) )
 			{
-				if ((cMessage.getMessageType()=="error")||(cMessage.getMessageType()=="warn"))
-				{
-					//ED System.out.println("Créer les MARKERS sur 2 :"+currFile.getName()+"  Message :"+cMessage.getMessage());
-					MarkerUtilities.createMarker(currFile, attributes, IMarker.PROBLEM);
-					MarkerUtilities.createMarker(currFile, attributes, IMarker.TASK);
-					//ED System.out.println("MARKER NOUVEAU");
-				}
-			}	
+				// we set a mark according to the type of message
+				Hashtable attributes = new Hashtable();
+
+				// we extract information from this kind of compiler message
+				String messageAll   = message.substring(message.indexOf(" on ") + 4, message.length() );
+				String messageFile  = messageAll.substring(0, messageAll.indexOf(","));
+				String messageDelta = messageAll.substring(messageAll.indexOf(", ") + 2, messageAll.length());
+				String messageLine  = messageDelta.substring(messageDelta.indexOf("line ")+5 ,messageDelta.indexOf(":"));
+				String messageDesc  = messageDelta.substring(messageDelta.indexOf(":",messageDelta.indexOf(":")+1)+1, messageDelta.length());
+
+				attributes.put (IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+
+				MarkerUtilities.setMessage    (attributes, messageDesc);
+				MarkerUtilities.setLineNumber (attributes, Integer.parseInt(messageLine));
+			
+				updateMarkers (currentFile, attributes);
+
+			}
+			else if (type=="error" || type=="warn") 
+			{
+				// we set a mark according to the type of message
+				Hashtable attributes = new Hashtable();
+
+				MarkerUtilities.setMessage (attributes, message);
+				
+				if      (type=="error")  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+				else if (type=="warn")   attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+			
+				updateMarkers (currentFile, attributes);
+			}
 		}
 	}
 
+    
+    /** */
+	private void updateMarkers (IResource resource, Hashtable attributes) throws CoreException 
+	{
+    	MTLCommand.log().debug ("We set a mark on the resource '" + resource + "' with attributes '" + attributes + "'");
+
+    	// we set the marker and a task
+		MarkerUtilities.createMarker (resource, attributes, IMarker.PROBLEM);
+		MarkerUtilities.createMarker (resource, attributes, IMarker.TASK);
+
+		// we refresh the resource since a marker has been set on it
+		resource.getParent().refreshLocal(IResource.DEPTH_ONE, null);
+	}
 }

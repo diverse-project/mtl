@@ -82,4 +82,10 @@ public class BuildCommandFactory
 	{
 		return new GetFileFromCompilerMessageCommand (message);
 	}
+	
+	/** */
+	public MTLCommand createGetTllPathsCommand ()
+	{
+		return new GetTllPathsCommand ();
+	}
 }
