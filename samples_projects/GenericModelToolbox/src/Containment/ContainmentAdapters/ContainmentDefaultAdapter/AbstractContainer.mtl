@@ -1,11 +1,20 @@
 library ContainmentDefaultAdapter;
 
-class Container extends ContainmentView::Container
+class AbstractContainer extends ContainmentView::Container
 {
 	name     : Standard::String;
 	role     : Standard::String;
 	contents : Standard::Set;
 	parent   : ContainmentView::Container;
+
+	/** Method that creates a sub Container suitable for the current type of Container.
+		GOF Factory Method; must be redefined in subclasses. 
+	*/
+	createContainer () : ContainmentView::Container
+	{
+		'ContainmentDefaultAdapter::AbstractContainer::createContainer should be abstract...'.toErr();
+		return null;
+	}
 
 	/** */
 	getName() : Standard::String

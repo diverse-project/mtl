@@ -2,18 +2,15 @@ library ContainmentCommands;
 
 class Find extends Navigate
 {
-	name   : Standard::String;
-	role   : Standard::String;
-	result : Standard::Set;
+	nameExp : Standard::String;
+	roleExp : Standard::String;
+	result     : Standard::Set;
 	
 	/** */
 	init (name : Standard::String;  role : Standard::String) : ContainmentView::Command
 	{
-		if (isNull(name))   { this.name := '';   }
-		else                { this.name := name; }
-
-		if (isNull(role))   { this.role:= '';   }
-		else                { this.role := role; }
+		this.nameExp := name;
+		this.roleExp := role;
 		
 		result := new Standard::Set();
 
@@ -24,7 +21,19 @@ class Find extends Navigate
 	/** */
 	preExecute (container : ContainmentView::Container)
 	{
-		if (container.getName()=this.name  and  container.getRole()=this.role)
+		test : Standard::Boolean;
+
+		JavaCode [
+			java.util.regex.Pattern namePattern = java.util.regex.Pattern.compile (BMTL_nameExp.getTheString());
+			java.util.regex.Pattern rolePattern = java.util.regex.Pattern.compile (BMTL_roleExp.getTheString());
+			
+			java.util.regex.Matcher nameMatcher = namePattern.matcher (BMTL_container.BMTL_getName().getTheString());
+			java.util.regex.Matcher roleMatcher = rolePattern.matcher (BMTL_container.BMTL_getRole().getTheString());
+
+			BMTL_test = new BMTLBoolean (nameMatcher.find() && roleMatcher.find());
+		];
+		
+		if (test)
 		{
 			result := result.including (container);
 		}

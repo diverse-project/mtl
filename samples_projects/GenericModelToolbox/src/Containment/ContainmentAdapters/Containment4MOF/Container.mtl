@@ -2,34 +2,23 @@ library Containment4MOF;
 
 model MOF : RepositoryModel;
 
-class Container extends ContainmentDefaultAdapter::Container
-{
-	ref    : MOF::Namespace;
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
-	init (modelPath : Standard::String) : Container
-	{
-		driver : MDRDriver::MDRModelManager;
+/** This class adapts the ContainmentView::Container to the MOF. 
+	The main part of this class consists in defining the contents of
+	a container according to its role; for example, if a Container
+	object has the role 'Package', its content will be classes, ie
+	Container objects whose role is 'Class'.
 	
-		// we initialize the driver
-		driver := new MDRDriver::MDRModelManager();
-		driver.init();
+	Note that the class inherits from ProxyContainer that is intended
+	to provide a framework for adapting metamodels defined in a 
+	repository
 
-		// we initialize the metamodel 
-		MOF := driver.getModelFromXMI ('../../MetaModels/MOF/MOF_metamodel.xmi', 'Model', modelPath,  modelPath, modelPath.concat('.modified'));
-		
-		setName ('none');
-		setRole ('root');
-		
-		return this;
-	}
+	Note that the root container is defined as the set of all the packages 
+	in the MOF instance.
+*/
 
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
+class Container extends ContainmentDefaultAdapter::ProxyContainer
+{
+	/** Definition of the hierarchical structure of the adapter class. */
 	getContents() : Standard::Set
 	{
 		if (isNull(this.contents))
@@ -69,31 +58,39 @@ class Container extends ContainmentDefaultAdapter::Container
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
-	addChild (ref : MOF::Namespace;  role : Standard::String) : Container
+	/** Definition of the Factory Method declared in ContainmentDefaultAdapter::AbstractContainer */
+	createContainer () : ContainmentView::Container
 	{
-		result : Container;
-		
-		result := new Containment4MOF::Container();
-		result.ref := ref;
-		result.setName (ref.name.oclAsType(!Standard::String!));
-		result.setRole (role);
-		result.setParent (this);
+		return  new Containment4MOF::Container();
+	}
 
-		this.contents := this.contents.including (result);
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	getProxySubjectName (subject : Standard::OclAny) : Standard::String
+	{
+		return subject.oclAsType(!MOF::ModelElement!).name.oclAsType(!Standard::String!);
+	}
 
-		return result;
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	setProxySubjectName (subject : Standard::OclAny;  name : Standard::String)
+	{
+		subject.oclAsType(!MOF::ModelElement!).name := name;
+	}
+
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	initTheModel (modelPath : Standard::String) 
+	{
+		driver : MDRDriver::MDRModelManager;
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+		MOF := driver.getModelFromXMI ('../../MetaModels/MOF/MOF_metamodel.xmi', 'Model', modelPath,  modelPath, modelPath.concat('.modified'));
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
+	/** Since all Container objects that can have non empty content, 
+		we can define a single method to add all children for a given role. */
 	addChildrenFor (type : Standard::OclType;  role : Standard::String)
 	{
-		foreach (aModelElement : MOF::ModelElement) in (ref.contents) where (aModelElement.oclIsTypeOf(type))
+		foreach (aModelElement : MOF::ModelElement) in (getProxySubject().oclAsType(!MOF::Namespace!).contents) where (aModelElement.oclIsTypeOf(type))
 		{
 			addChild (aModelElement, role);
 		}

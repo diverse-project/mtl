@@ -1,0 +1,22 @@
+library ContainmentCommands;
+
+class QualifiedName extends ContainmentView::Command
+{
+	execute (container : ContainmentView::Container) : Standard::OclAny
+ 	{
+ 		result : Standard::String;
+ 		result := '';
+ 		
+ 		foreach (c : ContainmentView::Container) in (container.execute (new ContainmentCommands::Hierarchy()))
+ 		{
+ 			if (result <> '')
+ 			{
+				result := result.concat ('::'); 				
+ 			}
+			result := result.concat (c.getName());
+ 		}
+ 		
+ 		return (result);
+	}
+	
+}

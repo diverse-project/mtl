@@ -2,36 +2,9 @@ library Containment4UML;
 
 model UML : RepositoryModel;
 
-class Container extends ContainmentDefaultAdapter::Container
+class Container extends ContainmentDefaultAdapter::ProxyContainer
 {
-	ref    : UML::Namespace;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
-	init (modelPath : Standard::String) : Container
-	{
-		driver : MDRDriver::MDRModelManager;
-	
-		// we initialize the driver
-		driver := new MDRDriver::MDRModelManager();
-		driver.init();
-
-		// we initialize the metamodel 
-		UML := driver.getModelFromXMI ('../../MetaModels/UML/UML_metamodel.xmi', 'UML', modelPath,  modelPath, modelPath.concat('.modified'));
-
-		// we init the Container object
-		setName ('none');
-		setRole ('root');		
-		
-		return this;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
+	/** Definition of the hierarchical structure of the adapter class. */
 	getContents() : Standard::Set
 	{
 		if (isNull(this.contents))
@@ -48,7 +21,7 @@ class Container extends ContainmentDefaultAdapter::Container
 
 			if (getRole()='Package')
 			{
-				foreach (aClass : UML::Core::ModelElement) in (ref.ownedElement) where (aClass.oclIsTypeOf(!UML::Core::Class!))
+				foreach (aClass : UML::Core::ModelElement) in (getProxySubject().oclAsType(!UML::Model_Management::Package!).ownedElement) where (aClass.oclIsTypeOf(!UML::Core::Class!))
 				{
 					addChild (aClass, 'Class');
 				}
@@ -56,11 +29,11 @@ class Container extends ContainmentDefaultAdapter::Container
 
 			if (getRole()='Class')
 			{
-				foreach (aAttribute : UML::Core::ModelElement) in (ref.feature) where (aAttribute.oclIsTypeOf(!UML::Core::Attribute!))
+				foreach (aAttribute : UML::Core::ModelElement) in (getProxySubject().oclAsType(!UML::Core::Class!).feature) where (aAttribute.oclIsTypeOf(!UML::Core::Attribute!))
 				{
 					addChild (aAttribute, 'Attribute');
 				}
-				foreach (aOperation : UML::Core::ModelElement) in (ref.feature) where (aOperation.oclIsTypeOf(!UML::Core::Operation!))
+				foreach (aOperation : UML::Core::ModelElement) in (getProxySubject().oclAsType(!UML::Core::Class!).feature) where (aOperation.oclIsTypeOf(!UML::Core::Operation!))
 				{
 					addChild (aOperation, 'Operation');
 				}
@@ -68,7 +41,7 @@ class Container extends ContainmentDefaultAdapter::Container
 			
 			if ( getRole()='Operation')
 			{
-				foreach (aParameter : UML::Core::ModelElement) in (ref.parameter) where (aParameter.oclIsTypeOf(!UML::Core::Parameter!))
+				foreach (aParameter : UML::Core::ModelElement) in (getProxySubject().oclAsType(!UML::Core::Operation!).parameter) where (aParameter.oclIsTypeOf(!UML::Core::Parameter!))
 				{
 					addChild (aParameter, 'Parameter');
 				}
@@ -79,22 +52,42 @@ class Container extends ContainmentDefaultAdapter::Container
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////
-	addChild (ref : UML::Namespace;  role : Standard::String) : Container
+	/** Definition of the Factory Method declared in ContainmentDefaultAdapter::AbstractContainer */
+	createContainer () : ContainmentView::Container
 	{
-		result : Container;
-		
-		result := new Container();
-		result.ref := ref;
-		result.setName (ref.name.oclAsType(!Standard::String!));
-		result.setRole (role);
-
-		this.contents := this.contents.including (result);
-		
-		return this;
+		return  new Containment4UML::Container();
 	}
 
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	getProxySubjectName (subject : Standard::OclAny) : Standard::String
+	{
+		element : UML::Core::ModelElement;
+		result  : Standard::String;
+
+		element := subject.oclAsType(!UML::Core::ModelElement!);
+		
+		// we need to check that the name is null or not.
+		if (isNull(element.name))  { result := '';}
+		else                       { result := element.name.oclAsType(!Standard::String!); }
+		
+		return result;
+	}
+
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	setProxySubjectName (subject : Standard::OclAny;  name : Standard::String)
+	{
+		subject.oclAsType(!UML::Core::ModelElement!).name := name;
+	}
+
+
+	/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
+	initTheModel (modelPath : Standard::String) 
+	{
+		driver : MDRDriver::MDRModelManager;
+		driver := new MDRDriver::MDRModelManager();
+		driver.init();
+		UML := driver.getModelFromXMI ('../../MetaModels/UML/UML_metamodel.xmi', 'UML', modelPath,  modelPath, modelPath.concat('.modified'));
+	}
+	
 }
 

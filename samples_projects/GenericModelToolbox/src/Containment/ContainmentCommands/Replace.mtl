@@ -1,0 +1,50 @@
+library ContainmentCommands;
+
+class Replace extends Navigate
+{
+	searchExp  : Standard::String;
+	replaceExp : Standard::String;
+	roleExp    : Standard::String;
+	
+	/** */
+	init (
+		searchExp  : Standard::String;  
+		replaceExp : Standard::String;  
+		roleExp    : Standard::String
+	) : ContainmentView::Command
+	{
+		this.searchExp  := searchExp;
+		this.replaceExp := replaceExp;
+		this.roleExp    := roleExp;
+		return this;
+	}
+
+
+	/** */
+	execute (container : ContainmentView::Container) : Standard::OclAny
+ 	{
+ 		replace : Standard::String;
+ 		result  : Standard::Set;
+
+ 		result := container.execute (new ContainmentCommands::Find().init(searchExp,roleExp));
+ 		
+		foreach (c : ContainmentView::Container) in (result)
+		{
+			JavaCode [
+				java.util.regex.Pattern pattern = java.util.regex.Pattern.compile (BMTL_searchExp.getTheString());
+				java.util.regex.Matcher matcher = pattern.matcher (BMTL_c.BMTL_getName().getTheString());
+				BMTL_replace = new BMTLString (matcher.replaceAll (BMTL_replaceExp.getTheString()) );
+			];
+
+			foo (c, replace);			
+		}
+		
+		return result;
+	}
+	
+	/** */
+	foo (container : ContainmentView::Container;  newName : Standard::String)
+	{
+		container.setName (newName);
+	}
+}
