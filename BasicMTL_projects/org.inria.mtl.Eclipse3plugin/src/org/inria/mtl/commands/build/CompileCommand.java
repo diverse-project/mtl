@@ -85,9 +85,6 @@ public class CompileCommand extends MTLCommand
 	 */
 	public Object mainExecute() throws Exception 
 	{
-		// we create a new compiler
-		BasicMtlCompiler.Compiler Comp = new BasicMtlCompiler.Compiler();
-			
 		// we may want some debugging messages for the compiler
 		MTLCommand.log().debug ("CompileCommand : mtlSourceFolder     = " + getStringForMtlSourceFolder());
 		MTLCommand.log().debug ("CompileCommand : libraryName         = " + getStringForLibraryName());
@@ -96,7 +93,7 @@ public class CompileCommand extends MTLCommand
 		MTLCommand.log().debug ("CompileCommand : tllClasspathFolders = " + getStringForTllClasspathFolders());
 		 
 		// we launch the compiler
-		Comp.compileFromDirectory (
+		BasicMtlCompiler.Compiler.instance().compileFromDirectory (
             /* the MTL source folder */   getStringForMtlSourceFolder(),
 			/* the library name */        getStringForLibraryName(),
 			/* the TLL target folder */   getStringForTllTargetFolder(),
