@@ -1,0 +1,124 @@
+/******************************************************************************
+ * $Id: PoseidonDriver.mtl,v 1.1 2004-10-13 14:38:18 jpthibau Exp $
+ * This native library is used to provide the specific functions needed to open, load, save models
+ * with the MDR repository embedded in Poseidon
+ * its behavior is slightly different from MDRDriver itself
+ *	- it recognizes Poseidon models so 
+ *		- it doesn't store automatically the results of these models at the end of the JVM
+ *  	- dispose doesn't remove the model from MDR extent
+ * - usual behavior is kept for models not from Poseidon.
+ ******************************************************************************/
+
+
+library PoseidonDriver;
+// as native, it is not allowed to inherit from another lib
+// Lib parameters :
+// No parameter for this lib 
+
+/**
+  * this class hold the different initialization part of the driver and methods that enable to get 
+  * a Poseidon MDR RepositoryModel
+  */
+class PoseidonModelManager
+tag mangle := specialtag [PoseidonDriver.BMTL_PoseidonModelManager];
+tag type := specialtag [PoseidonDriver.BMTL_PoseidonModelManager.TheType];
+tag DoNotGenerate := booleantag true;
+{
+	// allthis is only comments, the real definition is in the real java file
+	// however here is the available methods of this class according to the mangle adopted for the 
+	// different classes in this library
+	/**
+	  * initialize the driver so the driver could run properly
+	  * Must be called for a correct behavior
+	  */	  
+	init() : PoseidonModelManager
+	{
+	}
+	
+	/**
+	  * return an existing model (ie. equivalent to a library)
+	  * this driver method is versy special as it return an object that conforms to a BasicMtl library
+	  * Parameters: 
+	  *		repository: name of the repository that contains the model, null if you want to use the default repository
+	  *		modelName: name of the model you want to retreive
+	  */
+	connectModel ( repository: Standard::String;
+			   modelName : Standard::String ): RepositoryModel
+	{
+	}
+	
+	/**
+	  * return an exisiting model from Poseidon model extent
+	  *	Equivalent to getModel(null, modelName)
+	  */
+	connectPoseidonModel ( modelName : Standard::String ): RepositoryModel
+	{
+	}
+	/**
+	  * return the name of the first model in Poseidon model extent
+	  */
+	connectPoseidonCurrentModelName() : Standard::String
+	{
+	}
+			
+	/**
+	  * return the MOF metamodel as a model (meta model is itself)
+	  */
+	connectRepositoryMOF () : RepositoryModel 
+	{}
+	
+	/**
+	  * return the UML metamodel as a model (metamodel is MOF)
+	  */
+	connectPoseidonUML () : RepositoryModel 
+	{}
+	
+	/**
+	  * return the UML profiles as a model (metamodel is UML)
+	  */
+	connectPoseidonUMLProfiles () : RepositoryModel 
+	{}	
+	
+	/** allow to freely create new models not managed by poseidon 
+	  * Parameter:
+	  *		metamodelXmiFileName :  file from which the metamodel is loaded, 
+	  *							    null if  metamodelName is the name of an existing model in the repository
+	  *		metamodelName:  name of the metamodel, must be unique in the repository, 
+	  *						maybe the name of an existing model to be used as a metamodel
+	  *		metaPackageToInstaciate: name of the top element of the metamodel
+	  *		ModelName:	name for the model, must be unique in the system 
+	  *		modelXmiInputFileName: file from which the model is loaded
+	  *		modelXmiOuputFileName: file where the model will be saved
+	  */
+	createModelFromXMI(
+		metamodelXmiFileName, 
+		metamodelName,	
+		metaPackageToInstanciate, 
+		modelName, 
+		modelXmiInputFileName, 
+		modelXmiOuputFileName : Standard::String ) : RepositoryModel
+	{	
+	}
+	
+	/**
+	 * serialize/store the model (usually on disk)
+	 */
+	storeModel( modelName : Standard::String)
+	{
+	}
+	
+	
+	
+	/**
+	 * remove the reference to this model from the model manager
+	 * Note: depending if the model was obtained from XMI or by getting it from Poseidon reposiory,
+	 *	the model will or will not be removed from MDR as it will probably be used again by Poseidon itself
+	 * if it was created there : delete the model
+	 * if it was simply connected : simply remove the reference
+	 */
+	disposeModel(modelName : Standard::String)
+	{
+	}
+	
+}
+

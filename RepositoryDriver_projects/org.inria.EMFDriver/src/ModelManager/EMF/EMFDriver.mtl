@@ -1,0 +1,129 @@
+// -----------------------------------------------------------------------------
+// $Id: EMFDriver.mtl,v 1.1 2004-10-13 14:36:02 jpthibau Exp $
+//
+// This native library is used to provide the specific functions needed to open, load, save models
+// with the EMF repository
+
+
+library EMFDriver;
+// as native, it is not allowed to inherit from another lib
+// Lib parameters :
+// No parameter for this lib 
+
+/**
+  * this class hold the different methods that enable to get 
+  * a EMF RepositoryModel
+  */
+class EMFModelManager
+tag mangle := specialtag [EMFDriver.EMFModelManager];
+tag type := specialtag [EMFDriver.EMFModelManager.TheType];
+tag DoNotGenerate := booleantag true;
+{
+	// allthis is only comments, the real definition is in the real java file
+	// however here is the available methods of this class according to the mangle adopted for the 
+	// different classes in this library
+	/**
+	  * return a model (ie. equivalent to a library)
+	  * gives access to a model previously loaded or created
+	  * It has no effect on the content of this model nor its storage file.
+	  */
+	/*getModel ( modelName : Standard::String ): RepositoryModel
+	{
+	}*/
+	
+	/* createModel(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		StringValue modelFileExtension, : precise the editingDomain needed to load the XMI file (for instance 'ecore' => EditingDomain for ecore models
+		StringValue modelXmiInputFileName) : the filename containing model data.
+	/* one of the simpliest way to get started
+	createModel(
+		modelName,
+		modelFileExtension, 
+		modelXmiInputFileName : Standard::String ) : RepositoryModel
+	{	
+	}*/
+	
+	/* loadModelFromXMI(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		StringValue modelFileExtension, : precise the editingDomain needed to load the XMI file (for instance 'ecore' => EditingDomain for ecore models
+		StringValue modelXmiInputFileName) : the filename containing model data.
+	/* one of the simpliest way to get started
+	loadModelFromXMI(
+		modelName,
+		modelFileExtension, 
+		modelXmiInputFileName : Standard::String ) : RepositoryModel
+	{	
+	}*/
+	
+	/* saveModelToXMI(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		the previous filename used by loadFrom or saveAs is used to store the model, its content is overwritten with model data.
+	/* one of the simpliest way to get started
+	saveModelToXMI(
+		modelName : Standard::String ) : Standard::Void
+	{	
+	}*/
+
+	/* saveModelAsXMI(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		StringValue modelXmiOutputFileName) : the filename to store the model, create or overwritte the file to store data.
+	/* one of the simpliest way to get started
+	saveModelAsXMI(
+		modelName,
+		modelXmiOutputFileName : Standard::String ) : Standard::Void
+	{	
+	}*/
+
+	/* dispose() : Standard::Set
+	   try to cleanup the models manager in removing all "safe" managed models
+	   this function returns a set of modified and unsaved models.
+	   The application has to remove or save these unsaved models
+	   till a call to dipose() returns an empty set.
+	   Otherwise unsaved models are maintained in the model manager. 
+	/* one of the simpliest way to get started
+	dispose() : Standard::Set
+	{	
+	}*/
+
+	/* disposeModel(
+		StringValue modelName, : the name under which the model is registered in the modelsTable of the EMFDriver
+		removes the model from the managed models. If the model was not saved but modiied, it saves it before release. 
+	/* one of the simpliest way to get started
+	disposeModel(
+		modelName : Standard::String ) : Standard::Void
+	{	
+	}*/
+
+	/* saveAllModelsToXMI()
+		Save all models currently under management of the model manager.
+	/* one of the simpliest way to get started
+	saveAllModelsToXMI() : Standard::Void
+	{	
+	}*/
+}
+
+//*************************************************************************
+//   here are some classe used by the GetModel method of the ModelManager
+
+/**
+  *  a metamodel in the Emf context (abstract)
+  */
+class EmfMetamodel
+// maps to org.irisa.triskell.MT.repository.EMFDriver.Java.Metamodel, 
+// and doesn't generate it as it will use the java version of it.
+tag mangle := specialtag [org.irisa.triskell.MT.repository.EMFDriver.Java.Metamodel];
+tag DoNotGenerate := booleantag true;
+{	
+	// look in the java file for description
+}
+
+/**
+  *  model in the EMF context (abstract)
+  */
+class EmfModel
+// maps to org.irisa.triskell.MT.repository.EMFDriver.Java.Model
+tag mangle := specialtag [org.irisa.triskell.MT.repository.EMFDriver.Java.Model];
+tag DoNotGenerate := booleantag true;
+{
+	// look in the java file for description
+}

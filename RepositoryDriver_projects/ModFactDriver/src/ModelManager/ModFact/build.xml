@@ -1,0 +1,32 @@
+<!-- $Id: build.xml,v 1.1 2004-10-13 14:31:57 jpthibau Exp $ -->
+<project name="ModFactDriver modelmanager" default="compile_mtl" basedir=".">
+	<description>
+        Compile the BasicMtl wraper to generate code to access ModFactDriver.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location=".."/>
+	
+	<!-- This compilation depends on the org.inria.BasicMtl.runtime project -->
+	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
+
+	<!-- Compiler and standard TLLs are supposed to be already built -->
+	<property name="ANTLR2JavaCode" location="..\..\..\..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
+	<property name="BasicMtlTLLs" location="..\..\..\..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
+
+	<target name="compile_mtl"
+        description="compile the mtl driver manager" >
+ 		<java jar="${ANTLR2JavaCode}" 
+						fork="true"
+	           			failonerror="true">
+		         <arg value="${src}/ModFact/"/>
+	         	<arg value="-TLLLoadingPaths"/>
+		         <arg value="${BasicMtlTLLs}/"/>  
+	         	<arg value="-TLLPath"/> 
+	         	<arg value="${src}/TLL/"/>  
+		         <arg value="-PackageName"/> 
+		         <arg value="ModFactDriver"/> 
+		         <arg value="-BinPath"/> 
+		         <arg value="${src}/build/"/> 
+	       	</java>
+		</target>
+</project>
