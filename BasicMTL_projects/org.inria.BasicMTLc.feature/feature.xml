@@ -2,7 +2,7 @@
 <feature
       id="org.inria.BasicMTLc"
       label="BasicMTL compiler and editors"
-      version="0.0.4"
+      version="0.0.5"
       provider-name="INRIA">
 
    <install-handler/>
@@ -56,6 +56,12 @@ Content and is also available at http://www.gnu.org/copyleft/lesser.html.
          id="org.inria.mtl"
          download-size="0"
          install-size="0"
-         version="0.0.4"/>
+         version="0.0.5"/>
+
+   <plugin
+         id="org.inria.BasicMTL.compiler"
+         download-size="0"
+         install-size="0"
+         version="0.0.1"/>
 
 </feature>

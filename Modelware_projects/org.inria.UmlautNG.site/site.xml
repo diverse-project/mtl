@@ -6,7 +6,7 @@
 It proposes:
 - BasicMTL compiler (with its Eclipse editors, builder, perspective, etc)
    </description>
-   <feature url="features/org.inria.UmlautNG_0.0.4.jar" id="org.inria.UmlautNG" version="0.0.4">
+   <feature url="features/org.inria.UmlautNG_0.0.5.jar" id="org.inria.UmlautNG" version="0.0.5">
       <category name="BasicMTL"/>
    </feature>
    <category-def name="BasicMTL" label="BasicMTL features">

@@ -2,7 +2,7 @@
 <feature
       id="org.inria.UmlautNG"
       label="UmlautNG Framework and compilers"
-      version="0.0.4"
+      version="0.0.5"
       provider-name="INRIA"
       image="umlaut_ng_medium.gif">
 
@@ -54,12 +54,12 @@ Content and is also available at http://www.gnu.org/copyleft/lesser.html.
 
    <includes
          id="org.inria.BasicMTL.runtime"
-         version="0.0.3"
+         version="0.0.4"
          name="BasicMTL runtime"/>
 
    <includes
          id="org.inria.BasicMTLc"
-         version="0.0.4"
+         version="0.0.5"
          name="BasicMTL compiler and editors"/>
 
 </feature>
