@@ -1,5 +1,5 @@
 /*
-* $Id: Controller.java,v 1.1 2004-05-28 16:53:18 sdzale Exp $
+* $Id: Controller.java,v 1.2 2004-06-24 09:23:38 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -91,10 +91,11 @@ public class Controller
 				if (o instanceof Entry)
 				{
 					Entry e = (Entry) o;
+					System.out.println("add entry :"+e.getMessage()+"  "+e.getLevel().toString()+"  "+e.getLoggerName());
 
 					logfile.add(e);
 					fireUpdate(e);
-					System.out.println("add entry");
+					//System.out.println("add entry");
 				}
 			}
 		});
@@ -145,7 +146,7 @@ public class Controller
 	}
 
 	public void fireUpdate(Entry entry)
-	{
+	{	System.out.println("LISTENER ");
 		for (Iterator iter = listeners.iterator(); iter.hasNext(); )
 			((IControllerListener) iter.next()).update(entry);
 	}

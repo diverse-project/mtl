@@ -1,5 +1,5 @@
 /*
-* $Id: ClearAction.java,v 1.1 2004-05-28 16:54:11 sdzale Exp $
+* $Id: ClearAction.java,v 1.2 2004-06-24 09:23:21 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -35,6 +35,9 @@ public class ClearAction extends Action
 
 	public void run()
 	{
+		System.out.println("Clear Action ");
+		System.out.println("logfile length avant :"+Controller.getInstance().getLogfile().toArray().length);
 		Controller.getInstance().clear();
+		System.out.println("logfile length :"+Controller.getInstance().getLogfile().toArray().length);
 	}
 }

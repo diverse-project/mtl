@@ -1,5 +1,5 @@
 /*
-* $Id: SourcesPage.java,v 1.5 2004-06-22 08:39:26 sdzale Exp $
+* $Id: SourcesPage.java,v 1.6 2004-06-24 09:23:34 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -84,8 +84,7 @@ public class SourcesPage extends BuildPathBasePage {
 		fWorkspaceRoot= root;
 		fClassPathList= classPathList;
 	
-		//fOutputLocationField= outputLocationField;
-		
+			
 		fSWTControl= null;
 				
 		SourceContainerAdapter adapter= new SourceContainerAdapter();

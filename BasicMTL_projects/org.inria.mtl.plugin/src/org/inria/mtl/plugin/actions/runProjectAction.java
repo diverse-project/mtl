@@ -1,5 +1,5 @@
 /*
-* $Id: runProjectAction.java,v 1.1 2004-06-22 08:39:24 sdzale Exp $
+* $Id: runProjectAction.java,v 1.2 2004-06-24 09:23:22 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -30,6 +31,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.core.MTLCore;
+import org.irisa.triskell.MT.utils.Java.Mangler;
 
 
 public class runProjectAction implements IWorkbenchWindowActionDelegate {
@@ -59,25 +61,25 @@ public class runProjectAction implements IWorkbenchWindowActionDelegate {
 		Shell shell = new Shell();
 		
 		try{
-			System.out.println("main class action");
-		if (selection instanceof StructuredSelection)
+			if (selection instanceof StructuredSelection)
 			{
-				System.out.println("main class action2");
 				currentSelection = (StructuredSelection)selection;
 				java.util.Iterator it = currentSelection.iterator();
 				while (it.hasNext())
 					{
-						System.out.println("main class action 3"+selection.toString());
-					//  if (it instanceof IResource){
-						System.out.println("main class action 4");
 						IResource item = (IResource) it.next ();
-						System.out.println("main class action 5 " +item.getType()+"  "+item.getName());
-							if (item instanceof IProject){
+						if (item instanceof IProject){
 								//the project selected
 								currentProject=item.getProject();
 								MTLCore.setProject(currentProject);
 								String mainClass=MTLPlugin.getDefault().getModel(currentProject).getMainClassFolder();
-								System.out.println("main class :"+mainClass);
+								//System.out.println("main class :"+mainClass);
+								IPath pClass=new Path(mainClass);
+								//System.out.println("main class Name:"+pClass.removeFirstSegments(pClass.segmentCount()-1));
+								String className=Mangler.mangle("BMTL",pClass.removeFirstSegments(pClass.segmentCount()-1).lastSegment());
+								//System.out.println("main class Name last:"+className);
+								
+								
 								
 //								ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();   
 //								ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);   

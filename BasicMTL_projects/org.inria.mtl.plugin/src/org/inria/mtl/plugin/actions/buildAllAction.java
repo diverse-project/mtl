@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.7 2004-06-18 14:20:38 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.8 2004-06-24 09:23:24 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -7,6 +7,7 @@ package org.inria.mtl.plugin.actions;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -23,6 +24,7 @@ import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.builders.MTLNature;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
+import org.inria.mtl.plugin.views.MTLConsole;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -38,7 +40,10 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
 	private IPreferenceStore store=null;
+	private ISelection selection=null;
 	private boolean auto_build=false;
+	
+	private boolean cleanconsole=true; 
 
 	/**
 	 * The constructor.
@@ -61,6 +66,13 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
+//		La compilation est lancée par une action du menu
+			  if (!MTLPlugin.MenuAction){
+				  MTLPlugin.MenuAction=cleanconsole;
+			  }else{
+				  MTLConsole.cleanConsole();
+			  }
+		
 	if (store.getBoolean(PreferenceConstants.AUTO_COMPILE)){
 			
 		for (int i=0;i<projects.length;i++){
@@ -68,7 +80,7 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 			
 			//voir comment contrôler cette exécution
 				if (projects[i].hasNature(MTLNature.NATURE_ID)){
-					System.out.println("build All"+projects[i].getName());
+					//System.out.println("build All"+projects[i].getName());
 					
 					currentProject=projects[i].getProject();
 					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
@@ -100,10 +112,36 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		this.selection=selection;
+		try{
+				
+			if (selection instanceof StructuredSelection){
+				currentSelection = (StructuredSelection)selection;
+				java.util.Iterator it = currentSelection.iterator();
+				while (it.hasNext())
+				{
+					if (it instanceof IResource){
+					 IResource item = (IResource) it.next ();
+						if (item instanceof IProject){
+							currentProject=item.getProject();
+							MTLCore.setProject(currentProject);
+							MTLModel.setProject(currentProject);
+						}else{
+								it.next();
+				 		}
+					}else{
+						it.next();
+					}
+				}
+			}	
+		}catch (Exception E){
+				System.out.println("Erreur build all Action");
+				//System.out.println(E.getMessage());
+		}
 
 	}
-
-	/**
+	
+		/**
 	 * We can use this method to dispose of any system
 	 * resources we previously allocated.
 	 * @see IWorkbenchWindowActionDelegate#dispose

@@ -1,5 +1,5 @@
 /*
-* $Id: MainClassChoicePage.java,v 1.1 2004-06-22 08:39:27 sdzale Exp $
+* $Id: MainClassChoicePage.java,v 1.2 2004-06-24 09:23:34 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -67,8 +67,7 @@ public class MainClassChoicePage extends BuildPathBasePage {
 			fCurrProject= jproject.getProject();
 			fProjPath= fCurrProject.getProject().getFullPath();	
 			updateSourceFoldersList(fCurrProject);
-			//updateProjectsList(jproject);
-		}
+			}
 	
 	public Control getControl(Composite parent) {
 		PixelConverter converter= new PixelConverter(parent);

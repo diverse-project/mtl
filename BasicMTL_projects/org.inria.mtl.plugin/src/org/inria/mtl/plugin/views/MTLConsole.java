@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.5 2004-06-18 14:20:45 sdzale Exp $
+* $Id: MTLConsole.java,v 1.6 2004-06-24 09:23:27 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -36,6 +37,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -56,11 +58,13 @@ public class MTLConsole extends ViewPart {
 
   public static final String CONSOLE_ID =
 	"org.inria.mtl.plugin.views.mtlconsoleview";
+  public static ServerAction serverAction;
+  public static  ClearAction clearAction;
   private Display display;
   private ViewContentProvider contentProvider;
-  private TableViewer viewer;
-  private ServerAction serverAction;
-  private ClearAction clearAction;
+  private static TableViewer viewer;
+  
+  
   private Action doubleClickAction;
   
   /**
@@ -68,6 +72,11 @@ public class MTLConsole extends ViewPart {
    */
   public MTLConsole() {
 	Controller.getInstance().acquaint(this);
+	//System.out.println()
+	makeActions();
+	serverAction.run();
+	serverAction.setRunning(true);
+	//serverAction.setRunning(true);
   }
 	
   class SelectionSortAdapter extends SelectionAdapter
@@ -105,7 +114,8 @@ public class MTLConsole extends ViewPart {
 		{
 			column = new TableColumn(table, SWT.LEFT);
 			column.setText(TableModel.getColumnHeader(i));		
-			column.addSelectionListener(new SelectionSortAdapter(TableModel.getColumnId(i)));			
+			column.addSelectionListener(new SelectionSortAdapter(TableModel.getColumnId(i)));
+			column.setWidth(TableModel.getColumnHeader(i).length()*10+80);			
 		}
 
 		viewer = new TableViewer(table);
@@ -116,7 +126,10 @@ public class MTLConsole extends ViewPart {
 		viewer.setSorter(new Sorter(TableModel.TIME));
 	
 
-		makeActions();
+		//makeActions();
+		//System.out.println("MAKE ACTIONS");
+		//serverAction.run();
+		//serverAction.setRunning(true);
 		hookContextMenu();
 		contributeToActionBars();
 		
@@ -134,19 +147,35 @@ public class MTLConsole extends ViewPart {
 
 		public void update(Entry entry)
 		{
+			//final RGB rgb2 = new RGB(255, 255, 255);
 			getDisplay().asyncExec(new Runnable()
 			{
 				public void run()
 				{	
+//					try{
+//							viewer.refresh();
+//					}catch (Exception E){
+//						System.out.println("Erreur refresh "+E);
+//					}
+					
 					try{
+					int k=Controller.getInstance().getLogfile().toArray().length;	
 					Object[] oo = contentProvider.getElements(null);
-					System.out.println("run MTLConsole :"+oo.length);
 					int i = viewer.getTable().getItemCount();
+//					System.out.println(viewer.getTable().getItems().toString());
+					System.out.println("run MTLConsole :Contents :"+oo.length+" viewer :"+i+"  nb in log :"+k);
+//					System.out.println("test-1 ");
 					Object o = oo[i];
+					//System.out.println("test0 ");
 					viewer.add(o);
+					//System.out.println("test1 ");
+					//viewer.getTable().getItem(i-1).setBackground(new Color(getDisplay(),rgb2));
 					viewer.getTable().getItem(i).setBackground(new Color(getDisplay(), getRowBackgroundRGB((Entry) o, i)));
+					//System.out.println("test2 :"+((Entry) o).toString()+"   "+((Entry) o).getMessage()+"  "+((Entry) o).getLevel());;
 					viewer.reveal(o);
+					//System.out.println("test3 :"+getRowBackgroundRGB((Entry) o, i));
 					}catch(Exception E){
+						System.out.println("MTLConsole Run error:"+E);
 						
 					}
 				}
@@ -155,8 +184,8 @@ public class MTLConsole extends ViewPart {
 				{
 						Controller ctrl = Controller.getInstance();
 						RGB rgb;
-					IPreferenceStore store=MTLPlugin.getDefault().getPreferenceStore();
-
+						IPreferenceStore store=MTLPlugin.getDefault().getPreferenceStore();
+						
 						switch (entry.getLevel().toInt())
 						{
 							case Level.DEBUG_INT :
@@ -265,7 +294,7 @@ public class MTLConsole extends ViewPart {
 				{
 					ISelection selection = viewer.getSelection();
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
-					showMessage("Double-click detected on " + obj.toString());
+					//showMessage("Double-click detected on " + obj.toString());
 				}
 			};
 		}
@@ -281,10 +310,10 @@ public class MTLConsole extends ViewPart {
 			});
 		}
 	
-		public void showMessage(String message)
-		{
-			MessageDialog.openInformation(viewer.getControl().getShell(), MTLPlugin.PLUGIN_ID, message);
-		}
+//		public void showMessage(String message)
+//		{
+//			MessageDialog.openInformation(viewer.getControl().getShell(), MTLPlugin.PLUGIN_ID, message);
+//		}
 
 		/**
 		 * Passing the focus request to the viewer's control.
@@ -307,9 +336,16 @@ public class MTLConsole extends ViewPart {
 		public void refresh()
 		{
 			try{
-				viewer.refresh();
+				if (viewer!=null){
+					viewer.refresh();
+				}else{
+					System.out.println("VIEWER NULL");
+				}
 			}catch (Exception E){
 				// A voir
+				//System.out.println("cell active :"+viewer.isCellEditorActive());
+				//System.out.println("Pb refresh :"+E.getMessage());
+				//System.out.println("Pb refresh cause :"+E.getCause());
 			}
 			
 					
@@ -327,22 +363,21 @@ public class MTLConsole extends ViewPart {
 		
 		public static void cleanConsole(){
 			try{
+				System.out.println("Console clear"+(serverAction==null));
+			  if (!(serverAction==null)){
+				if (serverAction.isRunning){
+					serverAction.run();
+					serverAction.setRunning(false);
+				}
 				Controller.getInstance().clear();
+//				Voir les actions du menu
+			//	   MTLPlugin.MenuAction=false;
+			  }
+				
+		
 			}catch (Exception E){
 				
-				//Serveur non démarré
-				//permet de démarrer le serveur mais c'est une instance différente du premier serveur
-				
-//				IAction a = ServerAction.getInstance();
-//						if (a != null){
-//									a.run();
-//									Controller.getInstance().clear();
-//						}else{
-//							// A voir
-//							System.out.println(E.getMessage());
-//						}
-				
-			
+				System.out.println("Erreur Console clear :");
 			}
 			
 		}

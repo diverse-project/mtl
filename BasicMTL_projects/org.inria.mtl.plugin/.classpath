@@ -15,8 +15,6 @@
     <classpathentry exported="true" kind="var" path="ECLIPSE_UI_WORKBENCH_TEXTEDITOR"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_JFACE_TEXT"/>
     <classpathentry exported="true" kind="var" path="ECLIPSE_TEXT"/>
-    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLc.jar"/>
-    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLruntime.jar"/>
     <classpathentry exported="true" kind="lib" path="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
     <classpathentry exported="true" kind="lib" path="MTL/bin/ThirdParty/log4j/log4j.jar"/>
     <classpathentry exported="true" kind="var" path="APACHE_XERCES"/>
@@ -25,5 +23,7 @@
     <classpathentry exported="true" kind="var" path="ECLIPSE_SWT_WIN32"/>
     <classpathentry kind="var" path="ECLIPSE_DEBUG_CORE"/>
     <classpathentry kind="var" path="ECLIPSE_JDT_LAUNCHING"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLc.jar"/>
+    <classpathentry exported="true" kind="lib" path="MTL/bin/BasicMTLruntime.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

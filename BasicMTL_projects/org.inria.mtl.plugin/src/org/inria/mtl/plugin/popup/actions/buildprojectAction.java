@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.5 2004-06-18 14:20:33 sdzale Exp $
+* $Id: buildprojectAction.java,v 1.6 2004-06-24 09:23:25 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -51,31 +52,44 @@ public class buildprojectAction implements IObjectActionDelegate {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
+		try{
+			
 	    if (selection instanceof StructuredSelection)
 				{
 					currentSelection = (StructuredSelection)selection;
 					java.util.Iterator it = currentSelection.iterator();
 					while (it.hasNext())
 						{
-							if (it instanceof IResource){
-								IResource item = (IResource) it.next ();
-								if (item instanceof IProject){
-									currentProject=item.getProject();
-									MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-									MTLCore.loadMtlClasspath();
-									IPath[] srcPaths=MTLModel.srcFolders;
-									for (int i =0;i<srcPaths.length;i++){
-										IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
-										long oldGen = srcFolder.getModificationStamp();
-										String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
-										boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+						
+							// if (it instanceof IResource){
+						   //	System.out.println("Build project 2:");
+								 IResource item = (IResource) it.next ();
+								   if (item instanceof IProject){
+						   //			System.out.println("Build project 3:");
+									   currentProject=item.getProject();
+									   MTLCore.setProject(currentProject);
+									   MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+									   MTLCore.loadMtlClasspath();
+									   IPath[] srcPaths=MTLModel.srcFolders;
+									   for (int i =0;i<srcPaths.length;i++){
+										   IFolder srcFolder= currentProject.getFolder(srcPaths[i].removeFirstSegments(1));
 									
-									}
+										   long oldGen = srcFolder.getModificationStamp();
+										   String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
+										   srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+										   boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+									
+									   }
 							  
+									//}
+								 }else{
+								   it.next();
 								 }
-							}
-							}
 						}
+						}
+		}catch (Exception E){
+			//??????????????? lié au setPersitentProperty
+		}
 		
 		
 	}

@@ -1,5 +1,5 @@
 /*
-* $Id: ViewLabelProvider.java,v 1.1 2004-05-28 16:53:02 sdzale Exp $
+* $Id: ViewLabelProvider.java,v 1.2 2004-06-24 09:23:26 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -39,14 +39,14 @@ public class ViewLabelProvider extends LabelProvider implements ITableLabelProvi
 				return getText(SDF.format(entry.getTime()));
 			case TableModel.LOGGERNAME :
 				return getText(entry.getLoggerName());
-			case TableModel.NDC :
-				return getText(entry.getNDC());
+			//case TableModel.NDC :
+			//	return getText(entry.getNDC());
 			case TableModel.THREAD :
 				return getText(entry.getThreadName());
 			case TableModel.MESSAGE :
 				return getText(entry.getMessage());
-			case TableModel.THROWABLE :
-				return getText(entry.getThrowableStrRep());
+			/*case TableModel.THROWABLE :
+				return getText(entry.getThrowableStrRep());*/
 			case TableModel.LOCATION :
 				return getText(entry.getLocationDetails());
 		}

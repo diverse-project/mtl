@@ -1,5 +1,5 @@
 /*
-* $Id: Server.java,v 1.2 2004-06-18 14:20:39 sdzale Exp $
+* $Id: Server.java,v 1.3 2004-06-24 09:23:31 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -41,6 +41,7 @@ public class Server implements Runnable
 	public Server()
 	{
 		Controller.getInstance().acquaint(this);
+		
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class Server implements Runnable
 	{	
 		server = new ServerSocket(Controller.getInstance().getPlugin().getPreferenceStore().getInt(Log4jPreferencePage.P_PORT));
 		server.setReuseAddress(true);
-		
+				
 		thread = new Thread(this);
 		thread.setDaemon(true);
 		thread.start();
@@ -125,7 +126,7 @@ public class Server implements Runnable
 	 */
 	private class SocketListener implements Runnable
 	{
-		private final Socket client;
+		public final Socket client;
 
 		/**
 		 * 

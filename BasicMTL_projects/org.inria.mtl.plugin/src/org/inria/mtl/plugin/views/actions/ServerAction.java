@@ -1,5 +1,5 @@
 /*
-* $Id: ServerAction.java,v 1.2 2004-06-18 14:20:41 sdzale Exp $
+* $Id: ServerAction.java,v 1.3 2004-06-24 09:23:21 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -23,8 +23,8 @@ import org.eclipse.jface.action.Action;
  */
 public class ServerAction extends Action
 {
+	public boolean isRunning = false;
 	private final MTLConsole view;
-	private boolean isRunning = false;
 	private final static String START = "Start server", STOP = "Stop server";
 	
 	private static ServerAction instance = new ServerAction(new MTLConsole());
@@ -52,7 +52,7 @@ public class ServerAction extends Action
 			}
 			catch (IOException e)
 			{
-				view.showMessage("Failed to start server: " + e);
+				//view.showMessage("Failed to start server: " + e);
 				return;
 			}
 		}
@@ -64,7 +64,7 @@ public class ServerAction extends Action
 			}
 			catch (IOException e)
 			{
-				view.showMessage("Failed to stop server: " + e);
+				//view.showMessage("Failed to stop server: " + e);
 				return;
 			}
 		}
@@ -73,7 +73,7 @@ public class ServerAction extends Action
 	/**
 	 * @param b
 	 */
-	public void setRunning(boolean b)
+	public  void setRunning(boolean b)
 	{
 		isRunning = b;
 

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLBuilder.java,v 1.3 2004-06-18 14:20:34 sdzale Exp $
+* $Id: MTLBuilder.java,v 1.4 2004-06-24 09:23:29 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import org.inria.mtl.plugin.MTLPlugin;
+import org.inria.mtl.plugin.views.MTLConsole;
 
 /**
  *  The MTL builder class sinks resource events and directs TLL and Java code generation
@@ -52,18 +53,24 @@ public class MTLBuilder extends IncrementalProjectBuilder {
 		
         monitor.beginTask("Begining MTL transformations ", TOTAL_WORK);
 		try{
-			//System.out.println(get)
+			 
 			//MTLCore.findFolders();
 		}catch (Exception e){
 			System.out.println("Problème avec la lecture du fichier .classpath :"+e.getMessage());
 			}			 	
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
+				MTLConsole.cleanConsole();
+				System.out.println("console vidée IncrementalProjectBuilder.FULL_BUILD");
 				fullBuild(monitor);
 		} else {
 			IResourceDelta delta = getDelta(getProject());
 			if (delta == null) {
+				MTLConsole.cleanConsole();
+				System.out.println("console vidée delta == null");
 				fullBuild(monitor);
 			} else {
+				 if (!MTLPlugin.MenuAction) MTLConsole.cleanConsole();
+				System.out.println("console vidée delta non null :"+MTLPlugin.MenuAction);
 				incrementalBuild(delta, monitor);
 			}
 		}

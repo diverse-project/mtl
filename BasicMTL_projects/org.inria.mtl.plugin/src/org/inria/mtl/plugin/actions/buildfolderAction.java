@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.6 2004-06-18 14:20:38 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.7 2004-06-24 09:23:23 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -20,6 +20,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLModel;
+import org.inria.mtl.plugin.views.MTLConsole;
 
 public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
@@ -28,8 +29,9 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	private IFolder srcFolder=null;
 	private ISelection selection=null;
 	
-
-
+	private boolean cleanconsole=true; 
+	
+	
 	/**
 	 * Constructor for buildprojectAction.
 	 */
@@ -50,7 +52,15 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 		Shell shell = new Shell();
 		currentSelection = null;
 		
+		//La compilation est lancée par une action du menu
+		if (!MTLPlugin.MenuAction){
+			MTLPlugin.MenuAction=cleanconsole;
+		}else{
+			MTLConsole.cleanConsole();
+		}
+		
 	try{
+		//System.out.println("Build folder :"+MTLPlugin.MenuAction);
 		if (selection instanceof StructuredSelection)
 			{
 				
@@ -59,10 +69,11 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 				
 				while (it.hasNext() )
 				{	
-					System.out.println("Build folder2");
+					
 					IResource item = (IResource) it.next ();
-				//	System.out.println("current :"+currentSelection.toString());
+				
 					if (item instanceof IFolder){
+				
 						currentProject=item.getProject();
 						srcFolder=(IFolder)item;
 																	
@@ -72,8 +83,8 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
 						boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 										
-						System.out.println("FOLDER ACTION COMPILE:"+srcFolder.getFullPath()+"   "+ oldGen+"  new gen "+newGen);
-						System.out.println("*******************************************************");
+//						System.out.println("FOLDER ACTION COMPILE:"+srcFolder.getFullPath()+"   "+ oldGen+"  new gen "+newGen);
+//						System.out.println("*******************************************************");
 					}
 				}
 			}

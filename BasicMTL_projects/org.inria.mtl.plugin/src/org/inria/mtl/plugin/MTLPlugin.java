@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPlugin.java,v 1.5 2004-06-15 15:14:01 sdzale Exp $
+* $Id: MTLPlugin.java,v 1.6 2004-06-24 09:23:33 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -58,6 +58,9 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	private MTLEditorEnvironment fMTLEditorEnvironment;
 	
 	private IWorkingCopyManager fWorkingCopyManager;
+	
+	//Flag qui permet de savoir que la compilation a été déclenchée par une action du Menu 
+	public static boolean MenuAction =false;
 	
 
 	/**

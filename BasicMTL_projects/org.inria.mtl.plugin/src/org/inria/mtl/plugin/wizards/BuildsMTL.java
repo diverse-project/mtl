@@ -1,5 +1,5 @@
 /*
-* $Id: BuildsMTL.java,v 1.6 2004-06-22 08:39:29 sdzale Exp $
+* $Id: BuildsMTL.java,v 1.7 2004-06-24 09:23:28 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -266,18 +266,18 @@ public class BuildsMTL {
 			projectExists= (project.exists() && project.getFile(".mtlclasspath").exists()); //$NON-NLS-1$
 		
 			if  (projectExists) {
-				if (outputLocation == null) {
-					outputLocation=  fCurrJProject.getOutputLocation();
-				}
+//				if (outputLocation == null) {
+//					outputLocation=  fCurrJProject.getOutputLocation();
+//				}
 				if (classpathEntries == null) {
 					MTLCore.setProject(MTLModel.getProject());
 					classpathEntries=  MTLCore.readClasspathFile();
 				}
 			}
-				if (classpathEntries != null) {
+			if (classpathEntries != null) {
 					newClassPath= getExistingEntries(classpathEntries);
 			}
-		} catch (CoreException e) {
+		} catch (Exception e) {
 			MTLPlugin.log(e);
 		}
 	//	if (newClassPath == null) {
@@ -296,12 +296,10 @@ public class BuildsMTL {
 		fClassPathList.setElements(newClassPath);
 		fClassPathList.setCheckedElements(exportedEntries);
 		
-		
 		if (fSourceContainerPage != null) {
 			fSourceContainerPage.init(fCurrJProject);
 			fProjectsPage.init(fCurrJProject);
 			fLibrariesPage.init(fCurrJProject);
-
 		}
 
 		doStatusLineUpdate();
@@ -330,13 +328,6 @@ public class BuildsMTL {
 			return fCurrJProject;
 		}
 		
-	/**
-	 * Returns the current output location. Note that the path returned must not be valid.
-	 */	
-//	public IPath getOutputLocation() {
-//		return new Path(fBuildPathDialogField.getText()).makeAbsolute();
-//	}
-//	
 	/**
 	 * Returns the current class path (raw). Note that the entries returned must not be valid.
 	 */	

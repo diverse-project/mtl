@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.5 2004-06-18 14:20:37 sdzale Exp $
+* $Id: buildprojectAction.java,v 1.6 2004-06-24 09:23:23 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -24,6 +24,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.core.MTLCore;
+import org.inria.mtl.plugin.views.MTLConsole;
 
 
 public class buildprojectAction implements IWorkbenchWindowActionDelegate {
@@ -32,6 +33,8 @@ public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 	private ISelection selection=null;
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
+	
+	private boolean cleanconsole=true; 
 
 	/**
 	 * Constructor for buildprojectAction.
@@ -54,17 +57,27 @@ public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects =workspaceRoot.getProjects();
 		
+//		La compilation est lancée par une action du menu
+			  if (!MTLPlugin.MenuAction){
+				  MTLPlugin.MenuAction=cleanconsole;
+			  }else{
+				  MTLConsole.cleanConsole();
+			  }
+		
 		try{
-				
+			System.out.println("Build project 1:");	
 		if (selection instanceof StructuredSelection)
 			{
 				currentSelection = (StructuredSelection)selection;
 				java.util.Iterator it = currentSelection.iterator();
 				while (it.hasNext())
 					{
-					  if (it instanceof IResource){
+						
+					 // if (it instanceof IResource){
+					//	System.out.println("Build project 2:");
 						  IResource item = (IResource) it.next ();
 							if (item instanceof IProject){
+					//			System.out.println("Build project 3:");
 								currentProject=item.getProject();
 								MTLCore.setProject(currentProject);
 								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
@@ -80,7 +93,7 @@ public class buildprojectAction implements IWorkbenchWindowActionDelegate {
 									
 								}
 							  
-							 }
+							 //}
 						  }else{
 						  	it.next();
 						  }

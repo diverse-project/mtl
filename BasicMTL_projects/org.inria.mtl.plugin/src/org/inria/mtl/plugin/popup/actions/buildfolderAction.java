@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.5 2004-06-18 14:20:31 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.6 2004-06-24 09:23:25 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -66,22 +66,24 @@ try{
 			java.util.Iterator it = currentSelection.iterator();
 				
 			while (it.hasNext() )
-			{	
-				IResource item = (IResource) it.next ();
-				if (item instanceof IFolder){
-					currentProject=item.getProject();
-					srcFolder=(IFolder)item;
+				{	
+					
+					IResource item = (IResource) it.next ();
+				
+					if (item instanceof IFolder){
+				
+						currentProject=item.getProject();
+						srcFolder=(IFolder)item;
 																	
-					long oldGen = srcFolder.getModificationStamp();
-					//On fait en sorte que le fichier soit obligatoirement compilé
-					String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
-					srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
-					//Remove old resources generated 
-							
+						long oldGen = srcFolder.getModificationStamp();
+						//On fait en sorte que le fichier soit obligatoirement compilé
+						String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
+						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+						boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+										
+					}
 				}
 			}
-		}
-			boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 	}catch(Exception E){
 			System.out.println(E.getMessage());
 		}

@@ -1,5 +1,5 @@
 /*
-* $Id: TableModel.java,v 1.1 2004-05-28 16:53:01 sdzale Exp $
+* $Id: TableModel.java,v 1.2 2004-06-24 09:23:27 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -20,11 +20,11 @@ import org.apache.log4j.Level;
  */
 public class TableModel
 {
-	public static final int LEVEL = 0, TIME = 1, LOGGERNAME = 2, NDC = 3, THREAD = 4, MESSAGE = 5, THROWABLE = 6, LOCATION = 7;
+	public static final int LEVEL = 0, TIME = 1, LOGGERNAME = 2, /*NDC = 3,*/ THREAD = 3, MESSAGE = 4, /*THROWABLE = 5,*/ LOCATION = 5;
 
-	private static final int[] COLUMNS = {LEVEL, TIME, LOGGERNAME, NDC, THREAD, MESSAGE, THROWABLE, LOCATION};
+	private static final int[] COLUMNS = {LEVEL, TIME, LOGGERNAME, /*NDC,*/ THREAD, MESSAGE, /*THROWABLE,*/ LOCATION};
 	
-	private static final String[] NAMES = {"", "Time", "Logger", "NDC", "Thread", "Message", "Throwable", "Location"};
+	private static final String[] NAMES = {"", "Time", "Logger", /*"NDC",*/ "Thread", "Message", /*"Throwable",*/ "Location"};
 
 	public static final List PRIORITIES = new ArrayList(5);
 	static

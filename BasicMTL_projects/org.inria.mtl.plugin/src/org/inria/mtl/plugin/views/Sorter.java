@@ -1,5 +1,5 @@
 /*
-* $Id: Sorter.java,v 1.1 2004-05-28 16:53:02 sdzale Exp $
+* $Id: Sorter.java,v 1.2 2004-06-24 09:23:26 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -68,14 +68,14 @@ public class Sorter extends ViewerSorter
 				return compareTime(a, b);
 			case TableModel.LOGGERNAME :
 				return compareLoggerName(a, b);
-			case TableModel.NDC :
-				return compareNDC(a, b);
+			//case TableModel.NDC :
+			//	return compareNDC(a, b);
 			case TableModel.THREAD :
 				return compareThreadName(a, b);
 			case TableModel.MESSAGE :
 				return compareMessage(a, b);
-			case TableModel.THROWABLE :
-				return compareThrowableStrRep(a, b);
+			/*case TableModel.THROWABLE :
+				return compareThrowableStrRep(a, b);*/
 			case TableModel.LOCATION :
 				return compareLocationDetails(a, b);
 		}

@@ -1,5 +1,5 @@
 /*
-* $Id: BuildPathBasePage.java,v 1.1 2004-06-22 08:39:30 sdzale Exp $
+* $Id: BuildPathBasePage.java,v 1.2 2004-06-24 09:23:28 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -20,7 +20,6 @@ public abstract class BuildPathBasePage {
 	public abstract boolean isEntryKind(int kind);
 			
 	protected void filterAndSetSelection(List list) {
-		System.out.println("Passé ici");
 		ArrayList res= new ArrayList(list.size());
 		for (int i= list.size()-1; i >= 0; i--) {
 			Object curr= list.get(i);

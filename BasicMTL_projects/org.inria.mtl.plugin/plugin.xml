@@ -163,7 +163,7 @@
             </separator>
             
          </menu>
-         <action 
+   <!--      <action 
                label="%build.all.projects" 
                icon="icons/cAllProjects.gif"
                tooltip="%tooltip.build.all.projects"
@@ -174,7 +174,7 @@
                enablesFor="+">
 			   <selection class="org.eclipse.core.resources.IProject">
 			   </selection>
-         </action>
+         </action>-->
          <action 
                label="%build.project"
                icon="icons/cProject.gif"
@@ -199,7 +199,7 @@
 			   <selection class="org.eclipse.core.resources.IFolder">
 			   </selection>
          </action>
-       <!--  <action 
+    <!--     <action 
                label="%run.project"
                icon="icons/start.gif"
                tooltip="%tooltip.run.project"
