@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.2 2003-08-08 15:49:26 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.3 2003-08-09 15:17:53 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -151,8 +151,8 @@ public class allReferedTypes {
 					}
 				else //extern library class::...
 					if (aType.size()==2) {
-						if (checkStandardLib(aType,firstName)) correctlyChecked++;
-						else if (checkTLLClass(aType,firstName,theLib)) correctlyChecked++;
+						/*if (checkStandardLib(aType,firstName)) correctlyChecked++;
+						else*/ if (checkTLLClass(aType,firstName,theLib)) correctlyChecked++;
 							else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName+aType.get(1));
 									errors++;} 
 					}

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.3 2003-08-09 15:16:08 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -24,7 +24,7 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		if (mangling == null)
 			mangle=Mangler.mangle("BMTL_",userClassName);
-		else mangle=(String)mangling.getValue();
+		else mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		UserClass theCreatedClass=new UserClass(userClassName,mangle,lineNumber);
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");

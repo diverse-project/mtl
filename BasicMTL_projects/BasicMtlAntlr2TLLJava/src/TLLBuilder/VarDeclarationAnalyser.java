@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarDeclarationAnalyser.java,v 1.1 2003-08-06 16:18:46 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarDeclarationAnalyser.java,v 1.2 2003-08-09 15:16:08 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -24,7 +24,7 @@ public class VarDeclarationAnalyser extends ASTTopDownVisitor.VarDeclarationAnal
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		if (mangling == null)
 			mangle=Mangler.mangle("BMTL_",varName);
-		else mangle=(String)mangling.getValue();
+		else mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
 		int lineNumber=-1000; //do we have to add a lineNumber Property ?
 //		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		VarDeclaration theCreatedVarDeclaration=new VarDeclaration(varName,mangle,false,lineNumber);

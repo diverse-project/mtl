@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/NativeLibraryAnalyser.java,v 1.2 2003-08-08 15:26:16 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/NativeLibraryAnalyser.java,v 1.3 2003-08-09 15:16:08 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -32,7 +32,7 @@ public class NativeLibraryAnalyser extends ASTTopDownVisitor.NativeLibraryAnalys
 		  mangle=Mangler.mangle("BMTLLib_",libName);
 		  libPackageName=(String)context.get("LibrraryDefaultPackage");
 	  }
-	  else { mangle=(String)mangling.getValue();
+	  else { mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
 		  libPackageName=AWK.eliminateLastFieldOf(mangle,".");
 		  mangle=AWK.lastFieldOf(mangle,".");}
 	  if (context.containsKey("TheCreatedLibrary")) 

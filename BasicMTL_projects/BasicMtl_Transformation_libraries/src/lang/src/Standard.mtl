@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.1 2003-08-08 17:00:42 jpthibau Exp $
+// $Id: Standard.mtl,v 1.2 2003-08-09 15:19:50 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -143,7 +143,7 @@ class ModelElement extends OclAny
 tag mangle = specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.ModelElementValueImpl]; 
 tag DoNotGenerate = booleantag true;
 {			
-	delete()
+	delete():Void
 	tag mangle = specialtag [delete];
 	{
 	}
@@ -455,7 +455,7 @@ class Iterator extends OclAny
 tag mangle = specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl]; 
 tag DoNotGenerate = booleantag true;
 {
-	start()
+	start():Void
 	{
       // Positions the iterator to the first object in the
       // aggregate to be traversed.
@@ -473,7 +473,7 @@ tag DoNotGenerate = booleantag true;
       // pre  not is_off
 	}
    	
-   	next()
+   	next():Void
    	{
       	// Positions the iterator to the next object in the sequence.
 		// pre:  not is_off
@@ -679,7 +679,7 @@ tag DoNotGenerate = booleantag true;
 	}
 }
 
-class OrderedSet extends collection
+class OrderedSet extends Collection
 tag mangle = specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl]; 
 tag DoNotGenerate = booleantag true;
 {
