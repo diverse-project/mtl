@@ -16,6 +16,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElement_o
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.TypeValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
 import org.irisa.triskell.MT.repository.API.Java.IsQueryException;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
@@ -118,6 +119,18 @@ public class BMTLModelElement
 
 	public void deleteTheModelElement() throws Exception {
 		this.getModelElementDelegate().deleteTheModelElement();
+	}
+
+	/** */
+	public void addListener (EventListener listener) 
+	{
+		this.getModelElementDelegate().addListener (listener);
+	}
+
+	/** */
+	public void removeListener (EventListener listener) 
+	{
+		this.getModelElementDelegate().removeListener (listener);
 	}
 	
 }
