@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: TraceabilityLibrary.mtl,v 1.2 2004-01-29 10:55:32 edrezen Exp $
+ * $Id: TraceabilityLibrary.mtl,v 1.3 2004-02-09 09:56:24 edrezen Exp $
  *
  * This library is intended to provide a way to associate elements coming from
  * two different metamodels, which is useful for traceability stuff.
@@ -26,10 +26,10 @@
  *
  * When the source and target metamodels have been enhanced, the Traceability class provides
  * the following public methods : 
- *    - init : initialization of a Traceability object after instanciation
  *    - associateElementToElement : associate two Element objects
  *    - getAssociationSet : retrieve the elements set given a Element object and the 
  *                          association end role
+ *    - delete
  *
  * Note : This library has been designed to link elements between two distinct metamodels,
  * but it can also be used with the identical source and target metamodels; this could be
@@ -40,11 +40,7 @@
 
 library TraceabilityLibrary;
 
-model SourceMetamodel : RepositoryModel;
-model TargetMetamodel : RepositoryModel;
-
-
-class Traceability
+class TraceabilityInterface
 {
 
 	/******************************************************************************
@@ -59,12 +55,12 @@ class Traceability
 	 ******************************************************************************/
 
 	init (
+		driver : MDRDriver::MDRModelManager;
 		source : RepositoryModel;
 		target : RepositoryModel
 	)
 	{
-		SourceMetamodel := source;
-		TargetMetamodel := target;
+		'ERROR, TraceabilityLibrary::TraceabilityInterface::init() is abstract'.toOut();
 	}
 
 
@@ -88,11 +84,7 @@ class Traceability
 		targetRole    : Standard::String
 	)
 	{
-		sourceElement.uid := sourceElement.oclUid();
-		targetElement.uid := targetElement.oclUid();
-	
-		Source_addTraceableElement (sourceElement, targetElement, targetRole);
-		Target_addTraceableElement (targetElement, sourceElement, sourceRole);
+		'ERROR, TraceabilityLibrary::TraceabilityInterface::associateElementToElement() is abstract'.toOut();
 	}
 	
 	
@@ -112,24 +104,8 @@ class Traceability
 		role    : Standard::String
 	) : Standard::Set
 	{
-		result : Standard::Set;
-		
-		// we instanciate the result set
-		result := new Standard::Set ();
-		
-		// we determine if the element is coming from source or target metamodel
-		if (element.oclIsKindOf (!SourceMetamodel::Element!) )
-		{
-			result := Source_getAssociationSet (element.oclAsType(!SourceMetamodel::Element!), role);
-		}
-
-		if (element.oclIsKindOf (!TargetMetamodel::Element!) )
-		{
-			'Target_getAssociationSet  NOT IMPLEMENTED YET...'.toOut();
-			// result := Target_getAssociationSet (element.oclAsType(!TargetMetamodel::Element!), role);
-		}
-		
-		return result;
+		'ERROR, TraceabilityLibrary::TraceabilityInterface::getAssociationSet() is abstract'.toOut();
+		return null;
 	}
 
 
@@ -144,271 +120,6 @@ class Traceability
 	
 	deleteElement (element : Standard::ModelElement) 
 	{
-		// we determine if the element is coming from source or target metamodel
-		if (element.oclIsKindOf (!SourceMetamodel::Element!) )
-		{
-			Source_deleteElement (element.oclAsType(!SourceMetamodel::Element!));
-		}
-
-		if (element.oclIsKindOf (!TargetMetamodel::Element!) )
-		{
-			Target_deleteElement (element.oclAsType(!TargetMetamodel::Element!));
-		}
+		'ERROR, TraceabilityLibrary::TraceabilityInterface::deleteElement() is abstract'.toOut();
 	}
-
-	
-	
-	/******************************************************************************
-	 * name       : Source_getAssociationSet
-	 * purpose    : see getAssociationSet (specialized for Source side)
-	 * visibility : private
-	 * remark     : this specialization exists due to type constraints
-	 ******************************************************************************/
-	
-	Source_getAssociationSet (
-		element : SourceMetamodel::Element;
-		role    : Standard::String
-	) : Standard::Set
-	{
-		result           : Standard::Set;
-		elementIterator  : Standard::Iterator;
-		retrievedElement : TargetMetamodel::Element;
-		item             : SourceMetamodel::TraceableElement;
-		itemId           : Standard::String;
-		itemRole         : Standard::String;
-		
-		// we instanciate the result set	
-		result := new Standard::Set();
-	
-		// we loop over the traceable elements of the given element
-		elementIterator := element.tracedElements.getNewIterator();
-		elementIterator.start();
-		while (elementIterator.isOn() )
-		{	
-			// we retrieve information about the current traceable item
-			item     := elementIterator.item().oclAsType(!SourceMetamodel::TraceableElement!);
-			itemId   := item.uid;
-			itemRole := item.role;
-	
-			// if the role is the wanted one, we may add it to the result
-			if (itemRole.[=](role) )
-			{
-				retrievedElement := Target_getElementById (itemId);
-				if isNull(retrievedElement).[not]()
-				{
-					result := result.including (retrievedElement);
-				}
-			}
-			
-			elementIterator.next();
-		}
-	
-		return result;
-	}
-	
-	
-	/******************************************************************************
-	 * name       : Source_getElementById
-	 * purpose    : get an element trough its id
-	 * visibility : private
-	 * in         : givenId : id of the element to be retrieved
-	 * out        : the element (may be null)
-	 * remark     : lookup done in the source metamodel
-	 ******************************************************************************/
-	
-	Source_getElementById (givenId : Standard::String) : SourceMetamodel::Element
-	{
-		result          : SourceMetamodel::Element;
-		elementIterator : Standard::Iterator;
-		item            : SourceMetamodel::Element;
-		itemId          : Standard::String;
-	
-		elementIterator := !SourceMetamodel::Element!.allInstances().getNewIterator();
-		elementIterator.start ();
-		while isNull(result).[and](elementIterator.isOn())
-		{
-			item := elementIterator.item().oclAsType (!SourceMetamodel::Element!);
-			itemId := item.uid;
-					
-			if (itemId.[=](givenId))
-			{
-				result := item;
-			}
-			elementIterator.next();
-		}
-			
-		return result;
-	}
-	
-	
-	/******************************************************************************
-	 * name       : Target_getElementById
-	 * purpose    : get an element trough its id
-	 * visibility : private
-	 * in         : givenId : id of the element to be retrieved
-	 * out        : the element (may be null)
-	 * remark     : lookup done in the target metamodel
-	 ******************************************************************************/
-	
-	Target_getElementById (givenId : Standard::String) : TargetMetamodel::Element
-	{
-		result          : TargetMetamodel::Element;
-		elementIterator : Standard::Iterator;
-		item            : TargetMetamodel::Element;
-		itemId          : Standard::String;
-	
-		elementIterator := !TargetMetamodel::Element!.allInstances().getNewIterator();
-		elementIterator.start ();
-		while isNull(result).[and](elementIterator.isOn())
-		{
-			item := elementIterator.item().oclAsType (!TargetMetamodel::Element!);
-			itemId := item.uid;
-					
-			if (itemId.[=](givenId))
-			{
-				result := item;
-			}
-			elementIterator.next();
-		}
-			
-		return result;
-	}
-	
-	
-	
-	/******************************************************************************
-	 * name       : Source_addTraceableElement
-	 * purpose    : add an element of traceability for a given element
-	 * visibility : private
-	 * in         : sourceElement : element that receive the element of traceability
-	 *              targetElement : element to be traced
-	 *              role          : role of the targetElement in the association end
-	 * out        : none
-	 * remark     : add done in the source metamodel
-	 ******************************************************************************/
-	
-	Source_addTraceableElement (
-		sourceElement : SourceMetamodel::Element;
-		targetElement : TargetMetamodel::Element;
-		role          : Standard::String
-	)
-	{
-		traceableElement : SourceMetamodel::TraceableElement;
-		
-		// we instanciate a new tracability element for the source element
-		traceableElement := new SourceMetamodel::TraceableElement ();
-	
-		// we set its attributes
-		traceableElement.uid   := targetElement.oclUid();
-		traceableElement.role := role;
-	
-		// we link the tracability element to the source element 
-		associate ( 
-			tracer         := sourceElement    : SourceMetamodel::Element,
-			tracedElements := traceableElement : SourceMetamodel::TraceableElement
-		);			
-	}
-	
-	
-	/******************************************************************************
-	 * name       : Target_addTraceableElement
-	 * purpose    : add an element of traceability for a given element
-	 * visibility : private
-	 * in         : sourceElement : element that receive the element of traceability
-	 *              targetElement : element to be traced
-	 *              role          : role of the targetElement in the association end
-	 * out        : none
-	 * remark     : add done in the target metamodel
-	 ******************************************************************************/
-	
-	Target_addTraceableElement (
-		targetElement : TargetMetamodel::Element;
-		sourceElement : SourceMetamodel::Element;
-		role          : Standard::String
-	)
-	{
-		traceableElement : TargetMetamodel::TraceableElement;
-		
-		// we instanciate a new tracability element for the source element
-		traceableElement := new TargetMetamodel::TraceableElement ();
-	
-		// we set its attributes
-		traceableElement.uid   := sourceElement.oclUid();
-		traceableElement.role := role;
-	
-		// we link the tracability element to the source element 
-		associate ( 
-			tracer         := targetElement    : TargetMetamodel::Element,
-			tracedElements := traceableElement : TargetMetamodel::TraceableElement
-		);			
-	}
-
-	
-	/******************************************************************************
-	 * name       : Source_deleteElement
-	 * purpose    : see deleteElement
-	 * visibility : private
-	 ******************************************************************************/
-	
-	Source_deleteElement (element : SourceMetamodel::Element) 
-	{
-		traceableIterator : Standard::Iterator;
-		traceableElement  : TargetMetamodel::TraceableElement;
-		traceableId       : Standard::String;
-				
-		// we retrieve in the target model all elements that reference the current source element
-		// in a traceability association. This means that we get all TargetMetamodel::TraceableElement
-		// whose uid is the same as the current one, and then delete them.
-		traceableIterator := !TargetMetamodel::TraceableElement!.allInstances().getNewIterator();
-		traceableIterator.start ();
-		while (traceableIterator.isOn())
-		{
-			traceableElement := traceableIterator.item().oclAsType (!TargetMetamodel::TraceableElement!);
-			traceableId      := traceableElement.uid;
-					
-			//if (traceableId.[=](element.uid))
-			//{
-			//	delete (traceableElement);
-			//}
-			traceableIterator.next();
-		}
-		
-		// now we can delete the source element itself
-		//delete (element);
-	}
-
-
-	/******************************************************************************
-	 * name       : Target_deleteElement
-	 * purpose    : see deleteElement
-	 * visibility : private
-	 ******************************************************************************/
-	
-	Target_deleteElement (element : TargetMetamodel::Element) 
-	{
-		traceableIterator : Standard::Iterator;
-		traceableElement  : SourceMetamodel::TraceableElement;
-		traceableId       : Standard::String;
-				
-		// we retrieve in the source model all elements that reference the current target element
-		// in a traceability association. This means that we get all SourceMetamodel::TraceableElement
-		// whose uid is the same as the current one, and then delete them.
-		traceableIterator := !SourceMetamodel::TraceableElement!.allInstances().getNewIterator();
-		traceableIterator.start ();
-		while (traceableIterator.isOn())
-		{
-			traceableElement := traceableIterator.item().oclAsType (!SourceMetamodel::TraceableElement!);
-			traceableId      := traceableElement.uid;
-					
-			//if (traceableId.[=](element.uid))
-			//{
-			//	delete (traceableElement);
-			//}
-			traceableIterator.next();
-		}
-		
-		// now we can delete the target element itself
-		//delete (element);
-	}
-
 }	

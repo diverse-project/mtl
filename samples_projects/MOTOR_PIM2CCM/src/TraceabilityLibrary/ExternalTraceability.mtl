@@ -1,0 +1,145 @@
+/******************************************************************************
+ * $Id: ExternalTraceability.mtl,v 1.1 2004-02-09 09:56:24 edrezen Exp $
+ ******************************************************************************/
+
+library TraceabilityLibrary;
+
+model MediatorMetamodel : RepositoryModel;
+
+class ExternalTraceability extends EnhancedMetamodelsTraceability
+{
+	/******************************************************************************
+	 * name       : init
+	 * purpose    : initialization of a Traceability object
+	 * visibility : public
+	 * in         : source : source model
+	 *            : target : target model
+	 * out        : none
+	 * remark     : must be called after instanciation of the object
+	 * example    : 
+	 ******************************************************************************/
+	init (
+		theDriver : MDRDriver::MDRModelManager;
+		theSource : RepositoryModel;
+		theTarget : RepositoryModel
+	)
+	{
+		MediatorModelOut_filename : Standard::String;
+	
+		// we call the init of the super class.
+		self.oclAsType(!TraceabilityLibrary::EnhancedMetamodelsTraceability!).init (theDriver, theSource, theTarget);
+
+		// we build the name of the Mediator model
+		MediatorModelOut_filename := './MEDIATOR_output.xmi';
+
+		// we initialize the specific Mediator Metamodel
+		MediatorMetamodel := this.driver.getModelFromXMI (
+			'./src/TraceabilityLibrary/ExternalTraceability_MOF.xml',
+			'ExternalTraceability',
+			'mediatorModel', 
+			null,
+			MediatorModelOut_filename
+		);
+	}
+
+
+	/******************************************************************************
+	 * name       : addTraceableElement
+	 * remark     : 
+	 ******************************************************************************/
+	addTraceableElement (
+		sourceElement : SourceMetamodel::Element;
+		sourceRole    : Standard::String;
+		targetElement : TargetMetamodel::Element;
+		targetRole    : Standard::String
+	)
+	{
+		traceable : MediatorMetamodel::Traceable;
+		source    : MediatorMetamodel::AssociationEnd;
+		target    : MediatorMetamodel::AssociationEnd;
+		
+		// we instanciate a new tracability element for the source element
+		traceable:= new MediatorMetamodel::Traceable ();
+
+		// we instanciate the source and target AssociationEnd elements
+		source := new MediatorMetamodel::AssociationEnd ();
+		target := new MediatorMetamodel::AssociationEnd ();
+
+		// we set the information of the two AssociationEnd elements
+		source.role := sourceRole;
+		source.uid  := sourceElement.oclUid();
+
+		target.role := targetRole;
+		target.uid  := targetElement.oclUid();		
+
+		// we link the tracability element to the two AssociationEnd elements
+		associate ( 
+			mediator := traceable : MediatorMetamodel::Traceable,
+			source   := source    : MediatorMetamodel::AssociationEnd
+		);			
+		associate ( 
+			mediator := traceable : MediatorMetamodel::Traceable,
+			target   := target    : MediatorMetamodel::AssociationEnd
+		);			
+	}
+
+
+	/******************************************************************************
+	 * name       : Source_getAssociationSet
+	 * purpose    : see getAssociationSet (specialized for Source side)
+	 * visibility : private
+	 * remark     : this specialization exists due to type constraints
+	 ******************************************************************************/
+	Source_getAssociationSet (
+		element : SourceMetamodel::Element;
+		role    : Standard::String
+	) : Standard::Set
+	{
+		result             : Standard::Set;
+		traceablesIterator : Standard::Iterator;
+		traceable          : MediatorMetamodel::Traceable;
+
+		sourceAssociationEnd     : MediatorMetamodel::AssociationEnd;
+		targetAssociationEnd     : MediatorMetamodel::AssociationEnd;
+
+		retrievedElement   : TargetMetamodel::Element;
+				
+		b1 : Standard::Boolean;
+		b2 : Standard::Boolean;
+		
+				
+		// we instanciate the result set	
+		result := new Standard::Set();
+		
+		// we loop over the traceable elements of the given element
+		traceablesIterator := !MediatorMetamodel::Traceable!.allInstances().getNewIterator();
+		traceablesIterator.start();
+		while (traceablesIterator.isOn() )
+		{	
+			// we retrieve the curent Traceable from the iterator
+			traceable := traceablesIterator.item().oclAsType(!MediatorMetamodel::Traceable!);
+
+			// we retrieve the source and target AssociationEnds of the Traceable element
+			sourceAssociationEnd := traceable.source.oclAsType (!MediatorMetamodel::AssociationEnd!);
+			targetAssociationEnd := traceable.target.oclAsType (!MediatorMetamodel::AssociationEnd!);
+		
+			b1 := sourceAssociationEnd.uid.[=](element.oclUid());
+			b2 := targetAssociationEnd.role.[=](role);
+			
+			// if the role is the wanted one, we may add it to the result
+			if (b1.[and](b2) )
+			{
+				retrievedElement := Target_getElementById (targetAssociationEnd.uid.oclAsType(!Standard::String!));
+				if isNull(retrievedElement).[not]()
+				{
+					result := result.including (retrievedElement);
+				}
+			}
+
+			traceablesIterator.next ();
+		}
+	
+		return result;
+	}
+
+}

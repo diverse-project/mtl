@@ -1,0 +1,251 @@
+/******************************************************************************
+ * $Id: EnhancedMetamodelsTraceability.mtl,v 1.1 2004-02-09 09:56:24 edrezen Exp $
+ ******************************************************************************/
+
+library TraceabilityLibrary;
+
+model SourceMetamodel : RepositoryModel;
+model TargetMetamodel : RepositoryModel;
+
+class EnhancedMetamodelsTraceability extends TraceabilityInterface
+{
+	driver : MDRDriver::MDRModelManager;
+
+	/******************************************************************************
+	 * name       : init
+	 * purpose    : initialization of a Traceability object
+	 * visibility : public
+	 * in         : source : source model
+	 *            : target : target model
+	 * out        : none
+	 * remark     : must be called after instanciation of the object
+	 * example    : 
+	 ******************************************************************************/
+
+	init (
+		theDriver : MDRDriver::MDRModelManager;
+		theSource : RepositoryModel;
+		theTarget : RepositoryModel
+	)
+	{
+		driver          := theDriver;
+		SourceMetamodel := theSource;
+		TargetMetamodel := theTarget;
+	}
+
+
+	/******************************************************************************
+	 * name       : associateElementToElement
+	 * purpose    : associate two Element objects through two given roles
+	 * visibility : public
+	 * in         : sourceElement : source Element object to be linked
+	 *              sourceRole    : role of the source Element object in the association
+	 *              targetElement : target Element object to be linked
+	 *              targetRole    : role of the target Element object in the association
+	 * out        : none
+	 * remark     : NO CHECK IS DONE TO SEE IF THE TWO ELEMENTS ARE ALREADY ASSOCIATED
+	 * example    : associateElementToElement (e1,'owner', e2,'feature');
+	 ******************************************************************************/
+
+	associateElementToElement (
+		sourceElement : SourceMetamodel::Element;
+		sourceRole    : Standard::String;
+		targetElement : TargetMetamodel::Element;
+		targetRole    : Standard::String
+	)
+	{
+		addTraceableElement (sourceElement, sourceRole, targetElement, targetRole);
+	}
+	
+	
+	/******************************************************************************
+	 * name       : getAssociationSet
+	 * purpose    : retrieve the set of elements linked to an element for a given role
+	 * visibility : public
+	 * in         : element : element to get the association end from
+	 *              role    : name of the association end
+	 * out        : set of elements
+	 * remark     : the result set may be empty but always instanciated
+	 * example    : getAssociation (class, 'feature');
+	 ******************************************************************************/
+	
+	getAssociationSet (
+		element : Standard::ModelElement;
+		role    : Standard::String
+	) : Standard::Set
+	{
+		result : Standard::Set;
+		
+		// we instanciate the result set
+		result := new Standard::Set ();
+		
+		// we determine if the element is coming from source or target metamodel
+		if (element.oclIsKindOf (!SourceMetamodel::Element!) )
+		{
+			result := Source_getAssociationSet (element.oclAsType(!SourceMetamodel::Element!), role);
+		}
+
+		if (element.oclIsKindOf (!TargetMetamodel::Element!) )
+		{
+			result := Target_getAssociationSet (element.oclAsType(!TargetMetamodel::Element!), role);
+		}
+		
+		return result;
+	}
+
+
+	/******************************************************************************
+	 * name       : deleteElement
+	 * purpose    : delete an element and update its traceability associations
+	 * visibility : public
+	 * in         : element : element to be deleted
+	 * out        : 
+	 * remark     : 
+	 ******************************************************************************/
+	
+	deleteElement (element : Standard::ModelElement) 
+	{
+		// we determine if the element is coming from source or target metamodel
+		if (element.oclIsKindOf (!SourceMetamodel::Element!) )
+		{
+			Source_deleteElement (element.oclAsType(!SourceMetamodel::Element!));
+		}
+
+		if (element.oclIsKindOf (!TargetMetamodel::Element!) )
+		{
+			Target_deleteElement (element.oclAsType(!TargetMetamodel::Element!));
+		}
+	}
+	
+	
+	/******************************************************************************
+	 * name       : Source_getElementById
+	 * purpose    : get an element trough its id
+	 * visibility : private
+	 * in         : givenId : id of the element to be retrieved
+	 * out        : the element (may be null)
+	 * remark     : lookup done in the source metamodel
+	 ******************************************************************************/
+	
+	Source_getElementById (givenId : Standard::String) : SourceMetamodel::Element
+	{
+		result          : SourceMetamodel::Element;
+		elementIterator : Standard::Iterator;
+		item            : SourceMetamodel::Element;
+		itemId          : Standard::String;
+	
+		elementIterator := !SourceMetamodel::Element!.allInstances().getNewIterator();
+		elementIterator.start ();
+		while isNull(result).[and](elementIterator.isOn())
+		{
+			item := elementIterator.item().oclAsType (!SourceMetamodel::Element!);
+			itemId := item.oclUid ();
+					
+			if (itemId.[=](givenId))
+			{
+				result := item;
+			}
+			elementIterator.next();
+		}
+			
+		return result;
+	}
+	
+	
+	/******************************************************************************
+	 * name       : Target_getElementById
+	 * purpose    : get an element trough its id
+	 * visibility : private
+	 * in         : givenId : id of the element to be retrieved
+	 * out        : the element (may be null)
+	 * remark     : lookup done in the target metamodel
+	 ******************************************************************************/
+	
+	Target_getElementById (givenId : Standard::String) : TargetMetamodel::Element
+	{
+		result          : TargetMetamodel::Element;
+		elementIterator : Standard::Iterator;
+		item            : TargetMetamodel::Element;
+		itemId          : Standard::String;
+	
+		elementIterator := !TargetMetamodel::Element!.allInstances().getNewIterator();
+		elementIterator.start ();
+		while isNull(result).[and](elementIterator.isOn())
+		{
+			item := elementIterator.item().oclAsType (!TargetMetamodel::Element!);
+			itemId := item.oclUid();
+					
+			if (itemId.[=](givenId))
+			{
+				result := item;
+			}
+			elementIterator.next();
+		}
+			
+		return result;
+	}
+
+	
+	/******************************************************************************
+	 * name       : addTraceableElement
+	 * remark     : 
+	 ******************************************************************************/
+	addTraceableElement (
+		sourceElement : SourceMetamodel::Element;
+		sourceRole    : Standard::String;
+		targetElement : TargetMetamodel::Element;
+		targetRole    : Standard::String
+	)
+	{
+		'ERROR, TraceabilityLibrary::EnhancedMetamodelsTraceable::addTraceableElement() is abstract'.toOut();
+	}
+
+
+	/******************************************************************************
+	 * name       : Source_getAssociationSet 
+	 * remark     : 
+	 ******************************************************************************/
+	Source_getAssociationSet (
+		element : SourceMetamodel::Element;
+		role    : Standard::String
+	) : Standard::Set
+	{
+		'ERROR, TraceabilityLibrary::EnhancedMetamodelsTraceable::Source_getAssociationSet() is abstract'.toOut();
+		return null;
+	}
+
+
+	/******************************************************************************
+	 * name       : Target_getAssociationSet 
+	 * remark     : 
+	 ******************************************************************************/
+	Target_getAssociationSet (
+		element : TargetMetamodel::Element;
+		role    : Standard::String
+	) : Standard::Set
+	{
+		'ERROR, TraceabilityLibrary::EnhancedMetamodelsTraceable::Target_getAssociationSet() is abstract'.toOut();
+		return null;
+	}
+
+
+	/******************************************************************************
+	 * name       : Source_deleteElement 
+	 * remark     : 
+	 ******************************************************************************/
+	Source_deleteElement (element : SourceMetamodel::Element) 
+	{
+		'ERROR, TraceabilityLibrary::EnhancedMetamodelsTraceable::Source_deleteElement() is abstract'.toOut();
+	}
+
+
+	/******************************************************************************
+	 * name       : Target_deleteElement 
+	 * remark     : 
+	 ******************************************************************************/
+	Target_deleteElement (element : TargetMetamodel::Element) 
+	{
+		'ERROR, TraceabilityLibrary::EnhancedMetamodelsTraceable::Target_deleteElement() is abstract'.toOut();
+	}
+
+}	

@@ -1,0 +1,134 @@
+/******************************************************************************
+ * $Id: main.mtl,v 1.1 2004-02-09 09:56:25 edrezen Exp $
+ * Entry point for the project
+ ******************************************************************************/
+
+library PIM2CCM_Transformation;
+
+model	thePimMetamodel : RepositoryModel;
+model	thePsmMetamodel : RepositoryModel;
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+main (args : Standard::Sequence) : Standard::Void
+{
+	// local variables
+
+	driver         : MDRDriver::MDRModelManager;
+    projectPath    : Standard::String;
+
+	PimMetamodel_filename : Standard::String;
+	PimMetamodel_package  : Standard::String;
+	PimModelIn_filename   : Standard::String;
+	PimModelOut_filename  : Standard::String;
+
+	PsmMetamodel_filename : Standard::String;
+	PsmMetamodel_package  : Standard::String;
+	PsmModelOut_filename  : Standard::String;
+
+	aTransformation   : PIM2CCMTransformation;
+
+	traceability : TraceabilityLibrary::TraceabilityInterface;
+
+	argsParser : ArgumentsParser;
+	
+	//////////////////////////////////////////////////
+    // we initialize the MDR driver			
+	//////////////////////////////////////////////////
+	driver := new MDRDriver::MDRModelManager();
+	driver.init();
+
+	argsParser := new ArgumentsParser ();
+	argsParser.init (args);
+	
+	//////////////////////////////////////////////////
+	// we define some filenames 
+	//////////////////////////////////////////////////
+	projectPath := argsParser.getArg();
+	
+	//////////////////////////////////////////////////
+	// we initialize the PIM Design metamodel
+	//////////////////////////////////////////////////
+
+	PimMetamodel_filename := projectPath.concat (argsParser.getArg());
+	PimMetamodel_package  := argsParser.getArg();
+	PimModelIn_filename   := projectPath.concat (argsParser.getArg());
+	PimModelOut_filename  := projectPath.concat (argsParser.getArg());
+
+	thePimMetamodel := driver.getModelFromXMI (
+		PimMetamodel_filename, 
+		PimMetamodel_package,
+		'sourceModel', 
+		PimModelIn_filename,
+		PimModelOut_filename
+	);
+
+	//////////////////////////////////////////////////
+	// we initialize the PSM metamodel
+	//////////////////////////////////////////////////
+
+	PsmMetamodel_filename := projectPath.concat (argsParser.getArg());
+	PsmMetamodel_package  := argsParser.getArg();
+	PsmModelOut_filename  := projectPath.concat (argsParser.getArg());
+
+	thePsmMetamodel:= driver.getModelFromXMI (
+		PsmMetamodel_filename, 
+		PsmMetamodel_package,
+		'targetModel', 
+		null,
+		PsmModelOut_filename
+	);
+ 
+	//////////////////////////////////////////////////
+	// we instanciate a kind of traceability
+	//////////////////////////////////////////////////
+    //traceability := new TraceabilityLibrary::InternalTraceability ();
+    traceability := new TraceabilityLibrary::ExternalTraceability ();    
+    traceability.init (driver, thePimMetamodel, thePsmMetamodel);
+
+	//////////////////////////////////////////////////
+	// we launch the transformation
+	//////////////////////////////////////////////////
+	aTransformation := new PIM2CCMTransformation ();
+	aTransformation.Init (thePimMetamodel, thePsmMetamodel, traceability);
+	aTransformation.Execute ();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class ArgumentsParser
+{
+	argsIterator : Standard::Iterator;
+
+	// initialization
+	init (someArgs : Standard::Sequence)
+	{
+		argsIterator := someArgs.getNewIterator();
+		argsIterator.start();
+	}
+	
+	// get the current arg and move the cursor in the iterator
+	getArg () : Standard::String
+	{
+		result     : Standard::String;
+		nullResult : Standard::String;
+
+		result := argsIterator.item ().oclAsType (!Standard::String!);
+		if (result.[=](' '))
+		{
+			result := nullResult;
+		}
+
+		argsIterator.next ();
+
+		return result;
+	}
+}
+
+ 
