@@ -1,3 +1,4 @@
+$Id: configuration.txt,v 1.2 2003-09-15 12:49:36 dvojtise Exp $
 Errorlink eclipse plugin allows to have hyperlinks in the console. 
 This is usefull for example when you have an error message with line indication
 and you want to directly jump to this file to look at the error.

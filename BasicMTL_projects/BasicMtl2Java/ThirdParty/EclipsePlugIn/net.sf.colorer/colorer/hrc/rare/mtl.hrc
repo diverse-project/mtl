@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- $Id$
+    BasicMTL Files
+-->
+<!DOCTYPE hrc PUBLIC "-//Cail Lomecb//DTD Colorer HRC take5//EN" "../hrc.dtd">
+<hrc version="take5" xmlns="http://colorer.sf.net/2003/hrc">
+   <type name="mtl" access="public">
+
+      <import type="def"/>
+
+      <region name='LibraryOutline' parent='def:Outlined'/>
+      <region name='PackageOutline' parent='def:Outlined'/>
+      <region name='ImportOutline' parent='def:Outlined'/> 
+      <region name='TagOutline' parent='def:Outlined'/>
+
+      <region name='ClassOutline' parent='def:Outlined'/>
+      <region name='InnerClassOutline' parent='def:Outlined'/>
+      <region name='InterfaceOutline' parent='def:Outlined'/>
+      <region name='MethodOutline' parent='def:Outlined'/>
+      <region name='NativeOutline' parent='def:Outlined'/>
+     <!-- <region name='TagOutline' parent='def:Outlined'/> -->
+
+      <region name='StringEscape' parent='def:StringContent'/>
+      <region name='KeywordModifier' parent='def:Keyword'/>
+
+
+
+      <scheme name="mtl"> 
+      	<regexp match="/^ \s* (package) \s* ([\w\$\.]+)?/x"
+                region1='def:Keyword' region2='PackageOutline'/>
+         <regexp match="/^ \s* (library) \s* ([\w\$\.]+)?/x"
+                region1='def:Keyword' region2='LibraryOutline'/>
+         <regexp match="/^ \s* (import) \s* ([\w\$\.\*]+)?/x"
+                region1='def:Keyword' region2='ImportOutline'/>
+          <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
+                region1='def:Keyword' region2='TagOutline'/>
+
+
+         <inherit scheme="MtlComments"/>
+         <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <regexp match="/ \b (?{Keyword}library) \s+ (?{LibraryOutline}[\w_]+ [\w_:\$]*?) /x"/>
+
+         <keywords region="KeywordModifier">
+            <word name='abstract'/>
+            <!-- <word name='library'/>-->
+            <word name='private'/>
+            <word name='protected'/>
+            <word name='public'/>
+            <word name='static'/>
+            <word name='model'/>
+            <word name="throws"/>
+            <word name="extends"/>
+            <word name="implements"/>
+         </keywords>
+
+         <block start="/(\{)/" end="/(\})/" scheme="TypeDeclaration"
+                region00="def:SymbolStrong" region01="def:PairStart"
+                region10="def:SymbolStrong" region11="def:PairEnd"/>
+      </scheme>
+
+
+      <scheme name="StringContent">
+         <regexp match="/\\[^uU0-7]/" region0="StringEscape"/>
+         <regexp match="/\\$/" region0="StringEscape"/>
+         <regexp match="/\\[uU][\da-fA-F]{1,8}/" region0="StringEscape"/>
+         <regexp match="/\\[0-7]{1,12}/" region0="StringEscape"/>
+         <regexp match="/[^\\\&#34;]$/" region0="Error"/>
+         <regexp match="/[^\\\&#39;]$/" region0="Error"/>
+         <!-- &#39; -->
+      </scheme>
+
+      <scheme name="DocumentationComment">
+         <!--!!!
+         <inherit scheme="htmlTagCall">
+            <virtual scheme="htmlPairs" subst-scheme="empty"/>
+         </inherit>
+         -->
+         <inherit scheme="NetAddresses"/>
+         <keywords region="CommentContent">
+            <symb name="*"/><symb name=","/>
+            <symb name=":"/><symb name=";"/>
+            <symb name="+"/><symb name="-"/>
+            <symb name="/"/>
+         </keywords>
+         <regexp match="/ &lt; \/? \w+ &gt; /x" region0="CommentContent"/>
+         <regexp match="/ \b ([0-9\.]+) \b /x" region0="Number"/>
+         <regexp match="/(\@author)\s+(\S.*)/x" region1="CommentContent" region2="CommentContent"/>
+         <!--regexp match="/(\@)(\w+)/" region1="Symbol"-->
+         <keywords region="CommentContent">
+            <word name="@beaninfo"/>
+            <word name="@deprecated"/>
+            <word name="@exception"/>
+            <word name="@param"/>
+            <word name="@return"/>
+            <word name="@see"/>
+            <word name="@seealso"/>
+            <word name="@serial"/>
+            <word name="@since"/>
+            <word name="@modified"/>
+            <word name="@throws"/>
+            <word name="@version"/>
+            <symb name="@(#)"/>
+            <symb name="#"/>
+            <symb name="@"/>
+         </keywords>
+      </scheme>
+
+      <scheme name="MtlComments">
+         <regexp match="/\/\*\*\//" region="Comment"/>
+         <block start="/\/\//" end="/$/" scheme="Comment" region="LineComment"/>
+         <block start="/\/\*\*/" end="/\*\//" scheme="DocumentationComment"
+                region="CommentDoc" region00="PairStart" region10="PairEnd"/>
+         <block start="/\/\*/" end="/\*\//" scheme="Comment"
+                region="Comment" region00="PairStart" region10="PairEnd"/>
+      </scheme>
+
+
+      <scheme name="TypeDeclaration">
+
+         <inherit scheme="MtlComments"/>
+
+         <regexp match="/ \b (?{Keyword}new) \s+ (?{InnerClassOutline}[\w_]+ [\w_:\$]*?) \M \s*\([^\(\)]*\) \s* ([\{]|$) /x"/>
+         <regexp match="/ \M\b native .+? (?{NativeOutline}[\w_]+ [\w_:\$]*?) \s*\( /x"/>
+
+         <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <regexp match="/ \b (?{Keyword}tag) \s+ (?{TagOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         
+          <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
+                region1='def:Keyword' region2='TagOutline'/>
+
+         <inherit scheme="def:PairedBrackets">
+            <virtual scheme="def:PairedBrackets" subst-scheme="TypeDeclaration"/>
+         </inherit>
+
+         <!-- numbers -->
+         <inherit scheme="def:CHexNumber"/>
+         <inherit scheme="def:FloatNumber"/>
+         <inherit scheme="def:DecNumber"/>
+
+         <!-- strings -->
+         <!-- <block start="/&#34;/" end="/&#34;|$/" scheme="StringContent" region="String"/> -->
+         <block start="/'/" end="/'/" scheme="StringContent" region="String"/>
+         <!-- character none in mtl 
+         <regexp match="/' \\u[\da-fA-F]{1,4} '/ix" region="Character"/>
+         <inherit scheme="c:Character"/>
+		-->
+         <!-- Standard Symbols -->
+         <keywords region="def:Error">
+            <symb name="["/><symb name="]"/>
+            <symb name="{"/><symb name="}"/>
+            <symb name="("/><symb name=")"/>
+            <symb name="*/"/>
+         </keywords>
+         <keywords region="def:Symbol">
+            <symb name=";" region="def:SymbolStrong"/>
+            <symb name="="/><symb name="+"/><symb name="-"/>
+            <symb name="/"/><symb name="*"/>
+            <symb name="&amp;"/><symb name="^"/>
+            <symb name="|"/><symb name=":"/>
+            <symb name=","/><symb name="."/>
+            <symb name="!"/><symb name="~"/>
+            <symb name="&lt;"/><symb name="&gt;"/>
+            <symb name="%"/><symb name="?"/>
+            <symb name="#"/><symb name="@"/>
+         </keywords>
+         <keywords region="def:Keyword">
+            <word name="break"/>
+            <word name="catch"/>
+            <word name="else"/>
+            <word name="if"/>
+            <word name="library"/>
+            <word name="model"/>
+            <word name="new"/>
+            <word name="null"/>
+            <word name="return"/>
+            <word name="try"/>
+            <word name="this"/>
+            <word name="throw"/>
+            <word name="while"/>
+         </keywords>
+         <keywords region="KeywordModifier">
+            <word name='abstract'/>
+            <word name='final'/>
+            <word name='private'/>
+            <word name='protected'/>
+            <word name='public'/>
+            <word name='static'/>
+            <word name='strictfp'/>
+            <word name="throws"/>
+            <word name="extends"/>
+            <word name="implements"/>
+         </keywords>
+         <keywords region="KeywordModifier">
+            <word name='native'/>
+            <word name='synchronized'/>
+            <word name='threadsafe'/>
+            <word name='volatile'/>
+            <word name='transient'/>
+         </keywords>
+         <keywords region="def:TypeKeyword">
+         	<!--  classes from standard -->
+        <!--    <word name='Boolean'/>
+            <word name='Real'/>
+            <word name='Integer'/>
+            <word name="Iterator"/>
+            <word name='String'/>
+            <word name='Set'/>
+            <word name='Collection'/>
+            <word name='Void'/>
+            <word name='OclAny'/>
+            <word name='OclType'/>
+            <word name='Bag'/>
+			<word name='BMTLLibrary'/>
+			<word name='BMTLObject'/>
+			<word name='ModelElement'/>
+			<word name='Object'/>
+			<word name='OrderedSet'/>
+			<word name='Sequence'/>
+			-->
+         </keywords>
+         <keywords region="def:ClassKeyword">
+         	<!--  user classes that are largely used  -->
+           <!-- <word name="MDRDriver"/>
+            <word name="MDRModelManager"/>
+            -->s
+         </keywords>
+
+         <regexp match="/\M \b (?{MethodOutline}[\:\w_*&amp;~]+?) \s* \( [^\)\(]*? \) [\w\s\{]*? $/x"/>
+         <!-- return new Object(...) -->
+         <regexp match="/^\s* \M \b ([\:\w_*&amp;~]+?\s+)+ (?{MethodOutline}[\:\w_*&amp;~]+?) \s* \( [^\)\(]*? \) \s* ; \s* $/x"/>
+
+      </scheme>
+
+   </type>
+</hrc>
+<!-- ***** BEGIN LICENSE BLOCK *****
+   - Version: MPL 1.1/GPL 2.0/LGPL 2.1
+   -
+   - The contents of this file are subject to the Mozilla Public License Version
+   - 1.1 (the "License"); you may not use this file except in compliance with
+   - the License. You may obtain a copy of the License at
+   - http://www.mozilla.org/MPL/
+   -
+   - Software distributed under the License is distributed on an "AS IS" basis,
+   - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+   - for the specific language governing rights and limitations under the
+   - License.
+   -
+   - The Original Code is the Colorer Library.
+   -
+   - The Initial Developer of the Original Code is
+   - Cail Lomecb <ruiv@uic.nnov.ru>.
+   - Portions created by the Initial Developer are Copyright (C) 1999-2003
+   - the Initial Developer. All Rights Reserved.
+   -
+   - Contributor(s):
+   -
+   - Alternatively, the contents of this file may be used under the terms of
+   - either the GNU General Public License Version 2 or later (the "GPL"), or
+   - the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+   - in which case the provisions of the GPL or the LGPL are applicable instead
+   - of those above. If you wish to allow use of your version of this file only
+   - under the terms of either the GPL or the LGPL, and not to allow others to
+   - use your version of this file under the terms of the MPL, indicate your
+   - decision by deleting the provisions above and replace them with the notice
+   - and other provisions required by the LGPL or the GPL. If you do not delete
+   - the provisions above, a recipient may use your version of this file under
+   - the terms of any one of the MPL, the GPL or the LGPL.
+   -
+   - ***** END LICENSE BLOCK ***** -->
