@@ -1,0 +1,83 @@
+<!-- $Id: build.xml,v 1.1 2003-10-17 15:27:24 jpthibau Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="compile AssociationView" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="./src"/>
+	<property name="bin" location="./bin/"/>
+	<property name="build" location="./build/"/>
+
+
+	<!-- classpath for compiling and running MTL file -->
+	<path id="MTLcompiler.class.path">
+    	<pathelement path="${java.class.path}/"/>
+    	<pathelement path="."/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MTDataTypes\dist\bin\MTDataTypes.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMTLRuntime\dist\bin\BasicMTLRuntime.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\RepositoryAPI\dist\bin\RepositoryAPI.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MDRDriver\dist\bin\MDRDriver.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\dist\bin\Utils.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\ThirdParty\log4j\log4j.jar"/>
+    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\bin"/>
+  	</path>
+  	
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="compile AssociationView" depends="init"
+  	 	description="Generate code for AssociationView.mtl">
+<!--	 	<java jar="../BasicMtl2Java/LibInheritance/dist/bin/FacadeInheritance.jar" -->
+	 	<java jar="../FacadeInheritance/dist/bin/FacadeInheritance.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+<!--          <arg value="-TLLLoadingPaths"/> 
+         <arg value="C:\PROJET_MTL\ECLIPSE\workspace\BMTLStandard\build\src\TLL\;C:\PROJET_MTL\ECLIPSE\workspace\BMTLASTJava\build\src\TLL\"/> --> 
+         <arg value="-PackageName"/> 
+         <arg value="AssociationView"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/AssociationView/"/> 
+       </java>
+ 
+	</target>
+
+	
+	<target name="compile generated code" depends="compile AssociationView">
+		<description>
+  			compile the generated Java Code
+  		</description>		
+   		<!-- there is also one java file in the src directory -->
+  		<javac srcdir="${src}" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  		<javac srcdir="${build}/src/java/AssociationView" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+<!--	    	<classpath>
+			    <pathelement location="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtlASTJava\dist\bin\BasicMtlASTJava.jar"/>
+			    <pathelement path="${classpath}"/>
+			</classpath> -->
+   		</javac>		
+	</target>
+	
+	<target name="clean"
+        description="clean up AssociationView lib" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/AssociationView"/>    
+    	<delete dir="${build}/src/UncheckedTLL/AssociationView.tll"/>
+    	<delete dir="${build}/src/TLL/AssociationView.tll"/>    
+  	</target>
+</project>

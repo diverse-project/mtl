@@ -1,0 +1,65 @@
+// $Id: Library.mtl,v 1.1 2003-10-17 15:27:25 jpthibau Exp $
+// part of the BasicMtlASTWithAssociationView Library
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTWithAssociationView extends BasicMtlASTView;
+ 
+ class Library extends  ASTNode,BasicMtlASTView::Library refines  BasicMtlASTView::Library {
+
+/*	name : Standard::String;
+	getter name is getName;
+	setter name is setName;
+	
+	getName() : Standard::String
+	{
+	return name;
+	}
+	
+	setName(myName : Standard::String) : Standard::Void
+	{
+	name := myName;
+	}
+
+	testName() : Standard::Void
+	{
+		self.oclAsType(!BasicMtlASTView::Library!).name := self.oclAsType(!BasicMtlASTView::Library!).name;
+		self.name := self.name;
+	} */
+	
+/*	knownAssociations : Standard::Set;
+	
+	getAssociation (associationType : Standard::OclType) : BasicMtlASTView::UserClass
+	{
+	instances : Standard::Set;
+	iterator : standard::Iterator;
+	associationClass : BasicMtlASTView::UserClass;
+	instances := associationType.allInstances();
+	if isNull(instances).not() {
+		iterator := instances.getNewIterator();
+		iterator.start();
+		associationClass := iterator.item().oclAsType(!BasicMtlASTView::UserClass!);
+	}
+	else {
+		associationClass := associationType.newInstance();
+	}
+	}*/
+	 
+	transformAllAssociations(templatesLib : Library) : Standard::Void
+	//transform association classes into attributes references
+	{
+	assocInstances : Standard::Set;
+	instances : Standard::Iterator;
+	associationClass : BasicMtlASTView::UserClass;
+	assocInstances := !Association!.allInstances();
+	instances := assocInstances.getNewIterator();
+	instances.start();
+	while instances.isOn() {
+		associationClass := instances.item().oclAsType(!Association!).transformAssociation(templatesLib,self.definedClasses);
+		self.definedClasses := self.definedClasses.including(associationClass);
+		instances.next();
+	}
+ }
+}
+

@@ -1,0 +1,1 @@
+This library defines the association and its trnasformation to userClasses.
