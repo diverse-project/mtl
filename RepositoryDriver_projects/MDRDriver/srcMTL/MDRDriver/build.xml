@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2004-10-19 08:03:57 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.1 2004-10-19 08:54:38 dvojtise Exp $ -->
 <project name="MDRDriver modelmanager" default="compile_mtl" basedir=".">
 	<description>
         Compile the BasicMtl wraper to generate code to access MDRDriver.

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: MDRDriver.mtl,v 1.1 2004-10-18 14:59:27 jpthibau Exp $
+// $Id: MDRDriver.mtl,v 1.1 2004-10-19 08:54:38 dvojtise Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
