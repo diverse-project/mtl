@@ -324,4 +324,27 @@ public static MTLPlugin instance() {
 				return ImageDescriptor.getMissingImageDescriptor();
 			}
 		}
+		 
+		 
+		 /** Returns the separator. Should use the System property in order to be independant of the system. */
+		 public static char getSeparator ()
+		 {
+		 	return '\\';
+		 }
+
+		 
+		 /** We provide a generic log4j logger access; the type of the logger (such as 'BMTLCompile') is given as argument.
+		  * It allows to use different loggers for different parts of the MTL plugin. 
+		  * */
+		 private static boolean isLog4jConfigured = false;
+		 public static org.apache.log4j.Logger getLogger (String type)
+		 {
+		 	if (isLog4jConfigured==false)
+		 	{
+			 	String logFile = MTLPlugin.getDefault().getLocation() +	getSeparator() + "MTL" + getSeparator() + "bin" + getSeparator() + "log4j_configuration.xml";
+			 	org.apache.log4j.xml.DOMConfigurator.configure (logFile);
+				isLog4jConfigured = true;
+		 	}
+		 	return org.apache.log4j.Logger.getLogger (type);
+		 }
 }
