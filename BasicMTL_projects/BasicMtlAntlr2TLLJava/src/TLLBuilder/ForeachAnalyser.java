@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ForeachAnalyser.java,v 1.1 2004-04-21 18:18:27 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ForeachAnalyser.java,v 1.2 2004-04-21 18:42:18 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,7 +24,6 @@ public class ForeachAnalyser extends ASTTopDownVisitor.ForeachAnalyser
 		java.util.Map context
 	)
 	{	
-System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachBefore");		
 		int lineNumber = Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		
 		// we build the AST TLL node for the Foreach object
@@ -50,12 +49,6 @@ System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachBefore");
 		java.util.Vector knownVarDecls = (java.util.Vector)context.get("DeclaredParametersandVars");
 		knownVarDecls.addElement(varDec);
 		context.put("DeclaredParametersandVars",knownVarDecls);
-
-/*		
-		java.util.Vector blockVarDeclarations = (java.util.Vector)context.get("BlockVarDeclarations");
-		blockVarDeclarations.addElement ( varDec);
-		context.put("BlockVarDeclarations",blockVarDeclarations);
-		*/
 	}
 
 
@@ -81,7 +74,6 @@ System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachBefore");
 	{	
 		Foreach theCreatedForeach = (Foreach)theForeach;
 		Instruction instr = (Instruction)objectInstr;
-System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachInstruction : " + instr.toString());
 		theCreatedForeach.appendBody(instr);
 	}
 
@@ -92,10 +84,7 @@ System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachInstructio
 		java.util.Map context
 	)
 	{	
-System.out.println ("BasicMtlAntlr2TLLJava:// ForeachAnalyser::ForeachAfter");
-
 		Foreach theCreatedForeach = (Foreach)theForeach;
-
 		context.put("Instruction",theCreatedForeach);
 
 	}
