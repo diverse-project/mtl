@@ -1,5 +1,5 @@
 /************************************************************
- * $Id: PLDerivation.mtl,v 1.2 2003-11-06 15:42:10 dvojtise Exp $ *
+ * $Id: PLDerivation.mtl,v 1.3 2003-12-02 15:31:00 dvojtise Exp $ *
  ************************************************************/
 library PLDerivation;
 
@@ -69,7 +69,6 @@ derivePL (concreteFactory : source_model::Core::Class) {
 	//Variant selection
 	selectedVariants := newSet();
 	operationIterator := concreteFactory.feature.getNewIterator();
-	operationIterator.start();
 	while operationIterator.isOn() {
 		feature := operationIterator.item().oclAsType(!source_model::Core::Feature!);
 		if feature.oclIsKindOf(!source_model::Core::Operation!).and(feature.name.substring(1, 4).[=]('new_')) {
@@ -97,7 +96,6 @@ derivePL (concreteFactory : source_model::Core::Class) {
 	
 	classesToDelete := newSet();
 	classesIterator := !source_model::Core::Class!.allInstances().getNewIterator();
-	classesIterator.start();
 	while classesIterator.isOn() {
 		aClass := classesIterator.item().oclAsType(!source_model::Core::Class!);
 		name := aClass.name;
@@ -127,7 +125,7 @@ removeUnusefullFactories (concreteFactory : source_model::Core::Class) {
 		while superClasses.size().[<>](1) {
 			superClasses := collectDirectSuperClasses(superClasses);
 		}
-		ancestor := superClasses.getNewIterator().nextItem();
+		ancestor := superClasses.getNewIterator().item();
 		collectDelete(allSubClasses(ancestor), new HasNotSubClassCondition().initHasNotSubClassCondition(concreteFactory));
 	}
 }
@@ -137,7 +135,6 @@ findClass (name: Standard::String) : source_model::Core::Class {
 	aClass : source_model::Core::Class;
 	
 	allClassesIt := !source_model::Core::Class!.allInstances().getNewIterator();
-	allClassesIt.start();
 	while allClassesIt.isOn() {
 		aClass := allClassesIt.item().oclAsType(!source_model::Core::Class!);
 		if aClass.name.[=](name) {
@@ -155,7 +152,6 @@ getReturnType (operation : source_model::Core::Operation) : source_model::Core::
 	!source_model::Data_Types::ParameterDirectionKind!.allInstances();
 	
 	parameterIterator := operation.parameter.getNewIterator();
-	parameterIterator.start();
 	while parameterIterator.isOn() {
 		parameter := parameterIterator.item();
 		if parameter.kind.name.[=]('pdk_return') {
@@ -173,7 +169,6 @@ subGeneralizations (clazz : source_model::Core::Class) : Standard::Set {
 	
 	ret := newSet();
 	generalizationIterator := !source_model::Core::Generalization!.allInstances().getNewIterator();
-	generalizationIterator.start();
 	while generalizationIterator.isOn() {
 		generalization := generalizationIterator.item();
 		if generalization.parent.[=](clazz) {
@@ -192,7 +187,6 @@ allSubClasses (clazz : source_model::Core::GeneralizableElement) : Standard::Set
 	
 	ret := newSet();
 	generalizationIterator := !source_model::Core::Generalization!.allInstances().getNewIterator();
-	generalizationIterator.start();
 	while generalizationIterator.isOn() {
 		generalization := generalizationIterator.item();
 		if generalization.parent.[=](clazz) {
@@ -212,7 +206,6 @@ collectModelElementsNames (set : Standard::Set) : Standard::Set {
 	
 	ret := newSet();
 	iterator := set.getNewIterator();
-	iterator.start();
 	while iterator.isOn() {
 		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
 		ret := ret.including(element.name.oclAsType(!Standard::String!));
@@ -245,7 +238,6 @@ collectDelete (set : Standard::Set; condition : Condition) {
 	name		: Standard::String;
 	
 	iterator := set.getNewIterator();
-	iterator.start();
 	while iterator.isOn() {
 		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
 		if condition.canRemove(element) {
@@ -264,7 +256,6 @@ isStereotyped (clazz : source_model::Core::Class; stereotypeName : Standard::Str
 	stereotype			: source_model::Core::Stereotype;
 	
 	stereotypeIterator := clazz.stereotype.getNewIterator();
-	stereotypeIterator.start();
 	while stereotypeIterator.isOn() {
 		stereotype := stereotypeIterator.item().oclAsType(!source_model::Core::Stereotype!);
 		if stereotype.name.[=](stereotypeName) {
@@ -299,7 +290,6 @@ directSuperClasses (clazz : source_model::Core::Class) : Standard::Set {
 	
 	ret := newSet();
 	generalizationIterator := clazz.generalization.getNewIterator();
-	generalizationIterator.start();
 	while generalizationIterator.isOn() {
 		generalization := generalizationIterator.item();
 		ret := ret.including(generalization.parent.oclAsType(!source_model::Core::Class!));
@@ -316,7 +306,6 @@ collectDirectSuperClasses (set : Standard::Set) : Standard::Set {
 	
 	ret := newSet();
 	iterator := set.getNewIterator();
-	iterator.start();
 	while iterator.isOn() {
 		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
 		ret := ret.union(directSuperClasses(element));
