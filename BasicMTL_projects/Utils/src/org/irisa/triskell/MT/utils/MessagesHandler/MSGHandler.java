@@ -1,4 +1,4 @@
-/* $Id: MSGHandler.java,v 1.3 2004-06-10 10:19:26 jpthibau Exp $
+/* $Id: MSGHandler.java,v 1.4 2004-06-10 15:35:18 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -40,36 +40,36 @@ public class MSGHandler {
 	}
 	
 	public static void info(Class origin,int originLineNumber,String msg) {
-		log.info(msg);
 		if (allMessages == null)
 		init();
+		log.info(msg);
 		allMessages.add(new CompilerMessage("info",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 
 	public static void warn(Class origin,int originLineNumber,String msg) {
-		log.warn(msg);
 		if (allMessages == null)
 		init();
+		log.warn(msg);
 		allMessages.add(new CompilerMessage("warn",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 	public static void debug(Class origin,int originLineNumber,String msg) {
-		log.debug(msg);
 		if (allMessages == null)
 		init();
+		log.debug(msg);
 		allMessages.add(new CompilerMessage("debug",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 	
 	public static void error(Class origin,int originLineNumber,String msg) {
-		log.error(msg);
 		if (allMessages == null)
 		init();
+		log.error(msg);
 		allMessages.add(new CompilerMessage("error",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
 	}
 
 	public static void fatal(Class origin,int originLineNumber,String msg) throws Exception {
-		log.error(msg);
 		if (allMessages == null)
 		init();
+		log.error(msg);
 		allMessages.add(new CompilerMessage("fatal",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));
 		throw new Exception("Basic MTL Fatal Error.");
 	}
