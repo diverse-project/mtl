@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.5 2004-01-22 12:30:16 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.6 2004-02-26 09:52:58 jpthibau Exp $ -->
 <project name="Build,run all tests" default="run all" basedir=".">
 	<description>
         Build and run all tests of the CompilerTests project
@@ -22,6 +22,8 @@
 	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="compile" inheritAll="false"/>
 	    <echo>Building "MultipleInheritence" test.</echo>
 	    <ant antfile="${basedir}/MultipleInheritence/build.xml" dir="${basedir}/MultipleInheritence" target="compile" inheritAll="false"/>
+	    <echo>Building "acceptSamples (visitors example)" test.</echo>
+	    <ant antfile="${basedir}/acceptSamples/build.xml" dir="${basedir}/acceptSamples" target="compile" inheritAll="false"/>
 	    
 	</target>
   
@@ -42,6 +44,8 @@
 	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="run AssociationTry" inheritAll="false"/>
 		<echo>Running "MultipleInheritence" test.</echo>
 	    <ant antfile="${basedir}/MultipleInheritence/build.xml" dir="${basedir}/MultipleInheritence" target="run MultipleInheritence" inheritAll="false"/>
+	    <echo>Runing "acceptSamples (visitors example)" test.</echo>
+	    <ant antfile="${basedir}/acceptSamples/build.xml" dir="${basedir}/acceptSamples" target="run sample" inheritAll="false"/>
 	    <echo>Running "behavioral_tests" test.</echo>
 	    <ant antfile="${basedir}/behavioral_tests/test1/build.xml" dir="${basedir}/behavioral_tests/test1" target="run test1" inheritAll="false"/>
    	    <ant antfile="${basedir}/behavioral_tests/test2/build.xml" dir="${basedir}/behavioral_tests/test2" target="run test2" inheritAll="false"/>
