@@ -1,0 +1,126 @@
+// $Id: IntegerTests.mtl,v 1.1 2004-01-16 14:16:55 dvojtise Exp $
+// This class tests various points on the Integer implementation with MTL
+
+library test1Library1;
+
+class IntegerTests
+{
+	nbErrors : Standard::Integer;
+	
+	aMemberInterger1 : Standard::Integer;
+	
+	runTests()
+	{
+		nbErrors := 0;
+		'starting Integer tests'.toOut();
+		testSerie1();
+		testSerie2();
+		
+		if nbErrors.[<](0)
+		{
+			throws 'Integer Tests detected some errors !!! please checks the log';
+		}		
+		'Integer tests done'.toOut();
+	}
+
+	// tests on the use of unaffected/null integer
+	testSerie1()
+	{
+		aLocalInteger1, aLocalInteger2 : Standard::Integer;
+		exceptionThrown : Standard::Boolean;
+		
+		if isNull(aLocalInteger1)
+		{
+			'ok: unaffected aLocalInteger1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aLocalInteger1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}				
+		// --------------------------------
+		if isNull(aMemberInterger1)
+		{
+			'ok: unaffected aMemberInterger1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aMemberInterger1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------		
+		// checks incorrect usage
+		exceptionThrown := false;
+		JavaCode [try { ];
+		aLocalInteger1.toOut(); 
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: unaffected aLocalInteger1 usage correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'unaffected aLocalInteger1 usage DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------
+		aLocalInteger2 := 0;
+		aLocalInteger2.toOut();
+		
+		// --------------------------------
+		exceptionThrown := false;
+		JavaCode [try { ];
+		aLocalInteger2 := aLocalInteger2.[+](null); 
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: aLocalInteger2.[+](null); correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'aLocalInteger2.[+](null); DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}	
+		// --------------------------------
+		exceptionThrown := false;
+		JavaCode [try { ];
+		aLocalInteger2 := aLocalInteger2.[-](null); 
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: aLocalInteger2.[-](null); correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'aLocalInteger2.[-](null); DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}	
+		
+	}
+
+	// tests of methods of integer
+	testSerie2()
+	{
+		aLocalInteger1, aLocalInteger2 : Standard::Integer;
+		exceptionThrown : Standard::Boolean;
+		
+		aLocalInteger2 := 0;
+		aLocalInteger2.toOut();
+		aLocalInteger2.[+](1);	// no side effect, doesn't change aLocalInteger2 value
+		if aLocalInteger2.[=](0)
+		{	'ok: integer + has no side effect'.toOut();
+		}
+		else
+		{
+			'integer + has side effect !'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+	
+	}
+}

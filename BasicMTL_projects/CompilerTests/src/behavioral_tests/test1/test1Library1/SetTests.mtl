@@ -1,0 +1,103 @@
+// $Id: SetTests.mtl,v 1.1 2004-01-16 14:16:55 dvojtise Exp $
+// This class tests various points on the Set implementation with MTL
+
+library test1Library1;
+
+class SetTests
+{
+	nbErrors : Standard::Integer;
+	
+	aMemberSet1 : Standard::Set;
+	
+	runTests()
+	{
+		nbErrors := 0;
+		'starting Set tests'.toOut();
+		testSerie1();
+		
+		if nbErrors.[<](0)
+		{
+			throws 'Set Tests detected some errors !!! please checks the log';
+		}		
+		'Set tests done'.toOut();
+	}
+
+	testSerie1()
+	{
+		aLocalSet1, aLocalSet2 : Standard::Set;
+		exceptionThrown : Standard::Boolean;
+		
+		if isNull(aLocalSet1)
+		{
+			'ok: unaffected aLocalSet1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aLocalSet1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------						
+		if isNull(aMemberSet1)
+		{
+			'ok: unaffected aMemberSet1 is null'.toOut();
+		}
+		else
+		{
+			'unaffected aMemberSet1 is NOT null'.toErr();			
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------		
+		// checks incorrect usage
+		exceptionThrown := false;
+		JavaCode [try { ];
+		aLocalSet1.toOut(); 
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: unaffected aLocalSet1 usage correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'unaffected aLocalSet1 usage DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------
+		aLocalSet2 := new Standard::Set();
+		JavaCode [try { ];
+		aLocalSet2.includes(null);
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: aLocalSet2.includes(null); correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'aLocalSet2.includes(null); DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+		// --------------------------------
+		aLocalSet2 := new Standard::Set();
+		JavaCode [try { ];
+		aLocalSet2.including(null);
+		JavaCode [} catch (java.lang.NullPointerException e) { ];
+			exceptionThrown := true;
+		JavaCode [}];
+		if exceptionThrown
+		{
+			'ok: aLocalSet2.including(null); correctly throw a NullPointer exception'.toOut();
+		}
+		else
+		{
+			'aLocalSet2.including(null); DID NOT throw a NullPointer exception'.toErr();
+			nbErrors := nbErrors.[+](1);
+		}
+	}
+
+
+
+
+}

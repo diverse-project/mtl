@@ -1,4 +1,4 @@
-// $Id: test1a.mtl,v 1.2 2004-01-16 10:51:01 dvojtise Exp $
+// $Id: test1a.mtl,v 1.3 2004-01-16 14:16:55 dvojtise Exp $
 // This file is intend to verify various constructs that should work with the parser
 // this is a simple test approach, a better way should be to create various files and use them separately with junit
 
@@ -18,10 +18,12 @@ model aModel2 : test1Library2;
 
 main():Standard::Void
 {
-	aString 		: Standard::String;
-	anotherString 	: Standard::String;
-	anInteger 		: Standard::Integer;
-	aClass1			: TestClass1;
+	aString 			: Standard::String;
+	anotherString 		: Standard::String;
+	anInteger 			: Standard::Integer;
+	aClass1				: TestClass1;
+	anIntegerTest 		: IntegerTests;
+	aSetTest 			: SetTests;
 	
 	
 	// aLogger : SimpleLogger;	
@@ -50,6 +52,13 @@ main():Standard::Void
 	
 	aClass1 := new TestClass1();
 	aClass1.verifyBug151();
+	
+	// integer tests
+	anIntegerTest := new IntegerTests();
+	anIntegerTest.runTests();
+	// set tests
+	aSetTest := new SetTests();
+	aSetTest.runTests();
 	
 	
 	'end   main():Standard::Void'.toOut();
