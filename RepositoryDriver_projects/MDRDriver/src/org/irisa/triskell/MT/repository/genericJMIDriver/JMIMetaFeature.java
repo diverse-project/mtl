@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaFeature.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.List;
 
@@ -7,17 +11,21 @@ import javax.jmi.model.VisibilityKind;
 
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
-public class MDRMetaFeature 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaFeature 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement
     implements org.irisa.triskell.MT.repository.API.Java.MetaFeature
 {
-    private final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass scope;
+    private final org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass scope;
 
     private final String name;
 
     private List delegates;
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaFeature getDelegates (int i) {
-        return (org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaFeature)this.delegates.get(i);
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaFeature getDelegates (int i) {
+        return (org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaFeature)this.delegates.get(i);
     }
     protected int cardDelegates () {
         return this.delegates.size();
@@ -57,24 +65,24 @@ public class MDRMetaFeature
     }
 
 
-    protected MDRMetaFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    protected JMIMetaFeature(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         String name,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass scope,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaFeature[] delegates)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass scope,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaFeature[] delegates)
     {
         super(api, null);
 		this.name = name;
     	this.scope = scope;
-		this.delegates = java.util.Arrays.asList(delegates == null ? new MDRMetaFeature[0] : delegates);
+		this.delegates = java.util.Arrays.asList(delegates == null ? new JMIMetaFeature[0] : delegates);
     }
 
-    public MDRMetaFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaFeature(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         String name,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass scope)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass scope)
     {
-		this(api, name, scope, new MDRMetaFeature [] {new MDRMetaAttribute(api, name, scope), new MDRMetaAssociationEnd(api, name, scope, null), new MDRMetaOperation(api, name, scope)});
+		this(api, name, scope, new JMIMetaFeature [] {new JMIMetaAttribute(api, name, scope), new JMIMetaAssociationEnd(api, name, scope, null), new JMIMetaOperation(api, name, scope)});
     }
 
     public org.irisa.triskell.MT.repository.API.Java.MetaClass getScope()
@@ -92,9 +100,9 @@ public class MDRMetaFeature
 		return this.getKind() + ' ' + this.getName() + (this.getScope() == null ? "" : (" scoped " + this.getScope().toString()));
     }
 
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature retreiveRef(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured contextualElement,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    public org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature retreiveRef(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured contextualElement,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
     {
@@ -103,7 +111,7 @@ public class MDRMetaFeature
 		if (this.getScope() == null)
 			levelSuperTypes.add(self.getRefClass().refMetaObject());
 		else
-			levelSuperTypes.add(((MDRMetaClass)this.getScope()).getRefClass().refMetaObject());
+			levelSuperTypes.add(((JMIMetaClass)this.getScope()).getRefClass().refMetaObject());
 		java.util.Set alreadyExplored = new java.util.HashSet();
 		javax.jmi.model.Namespace explored;
 		javax.jmi.model.ModelElement me;
@@ -172,9 +180,9 @@ public class MDRMetaFeature
 		return "feature";
     }
 
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature retreiveRef(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured contextualElement,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    public org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature retreiveRef(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured contextualElement,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.Namespace owner)
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
@@ -216,7 +224,7 @@ public class MDRMetaFeature
 
     protected boolean checkVisibility(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured context)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context)
         throws VisibilityException
     {
 		javax.jmi.model.ModelElement contextClassRef = context == null ? null : (javax.jmi.model.ModelElement)context.getRefClass().refMetaObject();
@@ -232,7 +240,7 @@ public class MDRMetaFeature
 
     protected boolean checkScopeKind(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self)
         throws ScopeException
     {
 		if (self.isMetaObject() && (element instanceof javax.jmi.model.Feature) && (!(((javax.jmi.model.Feature)element).getScope().toString().equals("class_level"))))
@@ -249,8 +257,8 @@ public class MDRMetaFeature
 
     protected boolean checkAll(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured context,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
     {
@@ -265,8 +273,8 @@ public class MDRMetaFeature
 		return true;
     }
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature toExecutableFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature toExecutableFeature(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.ModelElement me)
     {

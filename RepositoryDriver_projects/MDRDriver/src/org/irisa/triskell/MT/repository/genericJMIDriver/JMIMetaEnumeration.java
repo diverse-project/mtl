@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaEnumeration.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.Arrays;
 
@@ -26,8 +30,12 @@ import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.NoMoreElementException;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDRMetaEnumeration 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaType
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaEnumeration 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaType
     implements org.irisa.triskell.MT.repository.API.Java.MetaClass, org.irisa.triskell.MT.repository.API.Java.ModelElement, TypeValue
 {
     private final javax.jmi.reflect.RefPackage packageContainer;
@@ -36,11 +44,11 @@ public class MDRMetaEnumeration
 
     private final javax.jmi.model.EnumerationType refMetaObject;
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDREnumered[] enumered = null;
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDREnumered getEnumered (int i) {
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIEnumered[] enumered = null;
+    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIEnumered getEnumered (int i) {
         return this.enumered[i];
     }
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDREnumered[] getEnumered () {
+    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIEnumered[] getEnumered () {
         return this.enumered;
     }
     public int cardEnumered () {
@@ -48,40 +56,40 @@ public class MDRMetaEnumeration
     }
     
 	public String [] getPartsAsStrings () {
-		MDREnumered [] enums = this.getEnumered();
+		JMIEnumered [] enums = this.getEnumered();
 		String [] enumStrings = new String [enums.length];
 		for (int i = 0; i < enums.length; ++i)
 			enumStrings[i] = enums[i].getTheEnum();
 		return enumStrings;
 	}
 	
-    private class MDREnumType extends EnumType {
+    private class JMIEnumType extends EnumType {
     	
-		public MDREnumType() {
-			super(MDRMetaEnumeration.this.getPartsAsStrings(), new Type [] {ModelElementType.TheInstance});
+		public JMIEnumType() {
+			super(JMIMetaEnumeration.this.getPartsAsStrings(), new Type [] {ModelElementType.TheInstance});
 		}
 
 		public boolean isKindOfInternal (Value v) {
-			return (v instanceof MDREnumered) && ((MDREnumered)v).isKindOf(MDRMetaEnumeration.this);
+			return (v instanceof JMIEnumered) && ((JMIEnumered)v).isKindOf(JMIMetaEnumeration.this);
 		}
 		
 		public boolean equals (Type parentType) {
-			return parentType == this || ((parentType instanceof MDREnumType) && MDRMetaEnumeration.this.equals(((MDREnumType)parentType).getOwner()));
+			return parentType == this || ((parentType instanceof JMIEnumType) && JMIMetaEnumeration.this.equals(((JMIEnumType)parentType).getOwner()));
 		}
 
 		public CollectionValue allInstances() throws Exception {
-			return MDRMetaEnumeration.this.allInstances();
+			return JMIMetaEnumeration.this.allInstances();
 		}
 		
-		protected final MDRMetaEnumeration getOwner () {
-			return MDRMetaEnumeration.this;
+		protected final JMIMetaEnumeration getOwner () {
+			return JMIMetaEnumeration.this;
 		}
 
     }
-    private transient MDREnumType enumType = null;
-    private MDREnumType getEnumType () {
+    private transient JMIEnumType enumType = null;
+    private JMIEnumType getEnumType () {
     	if (this.enumType == null)
-    		this.enumType = new MDREnumType();
+    		this.enumType = new JMIEnumType();
     	return this.enumType;
     }
     
@@ -115,29 +123,29 @@ public class MDRMetaEnumeration
         public boolean match(
             org.irisa.triskell.MT.repository.API.Java.ModelElement element)
         {
-			return (element instanceof EnumValue) && (((EnumValue)element).getEnumeration().equals(MDRMetaEnumeration.this.getQualifiedName())) && (((EnumValue)element).getTheEnum().equals(this.getName()));
+			return (element instanceof EnumValue) && (((EnumValue)element).getEnumeration().equals(JMIMetaEnumeration.this.getQualifiedName())) && (((EnumValue)element).getTheEnum().equals(this.getName()));
         }
     }
 
 
-    public MDRMetaEnumeration(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaEnumeration(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.model.EnumerationType metaObject,
         javax.jmi.reflect.RefPackage container)
     {
 		this(api, metaObject, container, null);
     }
 
-    public MDRMetaEnumeration(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaEnumeration(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.model.EnumerationType metaObject,
         javax.jmi.reflect.RefClass container)
     {
 		this(api, metaObject, null, container);
     }
 
-    public MDRMetaEnumeration(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaEnumeration(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.model.EnumerationType metaObject,
         javax.jmi.reflect.RefPackage packageContainer,
         javax.jmi.reflect.RefClass classContainer)
@@ -157,7 +165,7 @@ public class MDRMetaEnumeration
     
     public ModelElementIterator allInstancesIterator () {
     	this.createAllInstances();
-    	return new MDREnumeredIterator(this);
+    	return new JMIEnumeredIterator(this);
     }
 
     public org.irisa.triskell.MT.repository.API.Java.ModelElement instanciate(
@@ -168,9 +176,9 @@ public class MDRMetaEnumeration
 		if ((arguments != null) && (arguments.length == 1) && (arguments[0] instanceof StringValue)) {
 			ret = this.findInstance(((StringValue)arguments[0]).getTheString());
 			if (ret == null)
-				ret = new MDRException("The enumered " + ((StringValue)arguments[0]).getTheString() + " does not exists in the enumeration " + this.toString(), this.getSpecificAPI());			
+				ret = new JMIException("The enumered " + ((StringValue)arguments[0]).getTheString() + " does not exists in the enumeration " + this.toString(), this.getSpecificAPI());			
 		} else
-			ret = new MDRException("Cannot instancitate an enumeration; you may build one by giving its name as the argument of the constructor.", this.getSpecificAPI());
+			ret = new JMIException("Cannot instancitate an enumeration; you may build one by giving its name as the argument of the constructor.", this.getSpecificAPI());
 		return ret;
     }
 
@@ -185,7 +193,7 @@ public class MDRMetaEnumeration
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
     {
-		MDREnumered ret = null;
+		JMIEnumered ret = null;
     	if ((arguments == null || arguments.length == 0) && !(feature instanceof MetaAssociationEnd) && !(feature instanceof MetaOperation))
     		ret = this.findInstance(feature.getName());
     	if (ret == null)
@@ -254,7 +262,7 @@ public class MDRMetaEnumeration
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (rhs == this) || ((rhs instanceof MDRMetaEnumeration) && (this.getSpecificAPI().equals(((MDRMetaEnumeration)rhs).getSpecificAPI())) && (((MetaClass)rhs).getQualifiedName().equals(this.getQualifiedName())));
+		return (rhs == this) || ((rhs instanceof JMIMetaEnumeration) && (this.getSpecificAPI().equals(((JMIMetaEnumeration)rhs).getSpecificAPI())) && (((MetaClass)rhs).getQualifiedName().equals(this.getQualifiedName())));
     }
 
     public org.irisa.triskell.MT.DataTypes.Java.Value invoke(
@@ -265,7 +273,7 @@ public class MDRMetaEnumeration
         throws org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException, MultipleCommandException
     {
     	if (arguments == null || arguments.length == 0) {
-    		MDREnumered e = this.findInstance(name);
+    		JMIEnumered e = this.findInstance(name);
     		if (e != null)
     			return e;
     	}
@@ -292,23 +300,23 @@ public class MDRMetaEnumeration
     {
     	if (this.enumered == null) {
 			java.util.List values = this.refMetaObject.getLabels();
-			this.enumered = new MDREnumered [values.size()];
+			this.enumered = new JMIEnumered [values.size()];
 			java.util.Iterator valuesIt = values.iterator();
 			int index = 0;
 			if (this.packageContainer != null)
 				while (valuesIt.hasNext())
-					this.enumered[index++] = new MDREnumered(this, this.packageContainer.refGetEnum(this.refMetaObject, (String)valuesIt.next()));
+					this.enumered[index++] = new JMIEnumered(this, this.packageContainer.refGetEnum(this.refMetaObject, (String)valuesIt.next()));
 			else
 				while (valuesIt.hasNext())
-					this.enumered[index++] = new MDREnumered(this, this.classContainer.refGetEnum(this.refMetaObject, (String)valuesIt.next()));
+					this.enumered[index++] = new JMIEnumered(this, this.classContainer.refGetEnum(this.refMetaObject, (String)valuesIt.next()));
 		}
     }
 
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDREnumered findInstance(
+    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIEnumered findInstance(
         String name)
     {
     	try {
-    		return (MDREnumered)this.allInstancesIterator(new EnumeredNameLookupConstraint(name)).next();
+    		return (JMIEnumered)this.allInstancesIterator(new EnumeredNameLookupConstraint(name)).next();
     	} catch (NoMoreElementException x) {
     		return null;
     	}
@@ -334,12 +342,12 @@ public class MDRMetaEnumeration
 
 
 	public boolean isKindOf(Value v) {
-		return (v instanceof MDREnumered) && ((MDREnumered)v).isKindOf(this);
+		return (v instanceof JMIEnumered) && ((JMIEnumered)v).isKindOf(this);
 	}
 
 
 	public boolean isTypeOf(Value v) {
-		return (v instanceof MDREnumered) && ((MDREnumered)v).isTypeOf(this);
+		return (v instanceof JMIEnumered) && ((JMIEnumered)v).isTypeOf(this);
 	}
 
 	/* (non-Javadoc)

@@ -1,20 +1,28 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIModelElementIterator.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import javax.jmi.reflect.RefObject;
 import java.util.Collection;
 
-public class MDRModelElementIterator 
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIModelElementIterator 
     implements org.irisa.triskell.MT.repository.API.Java.ModelElementIterator
 {
-    protected final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api;
+    protected final org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api;
 
     protected final Collection refObjects;
 
     private java.util.Iterator refIterator = null;
 
 
-    public MDRModelElementIterator(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIModelElementIterator(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         java.util.Collection ref)
     {
     	this.api = api;

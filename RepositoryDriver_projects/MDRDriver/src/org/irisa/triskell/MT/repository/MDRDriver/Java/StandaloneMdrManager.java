@@ -1,3 +1,9 @@
+/*
+ * $Id: StandaloneMdrManager.java,v 1.2 2004-02-16 15:44:17 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;

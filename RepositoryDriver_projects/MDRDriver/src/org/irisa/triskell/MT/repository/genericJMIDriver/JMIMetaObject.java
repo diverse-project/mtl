@@ -1,26 +1,34 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaObject.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.model.GeneralizableElement;
+// import javax.jmi.model.GeneralizableElement;
 import javax.jmi.reflect.RefClass;
 
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
+// import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
-import org.irisa.triskell.MT.repository.API.Java.CommonException;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
+// import org.irisa.triskell.MT.repository.API.Java.CommonException;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
-import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
+// import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDRMetaObject 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaObject 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured
     implements TypeValue
 {
-    private final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass metaClass;
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass getMetaClass () {
+    private final org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass metaClass;
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass getMetaClass () {
         return this.metaClass;
     }
     protected int cardMetaClass () {
@@ -29,8 +37,8 @@ public class MDRMetaObject
     }
 
 
-    public MDRMetaObject(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass metaClass)
+    public JMIMetaObject(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass metaClass)
     {
         super(false, null, metaClass.getSpecificAPI(), metaClass.getRefClass());
 		this.metaClass = metaClass;
@@ -39,7 +47,7 @@ public class MDRMetaObject
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (rhs instanceof MDRMetaObject) && (this.getMetaClass().equals(((MDRMetaObject)rhs).getMetaClass()));
+		return (rhs instanceof JMIMetaObject) && (this.getMetaClass().equals(((JMIMetaObject)rhs).getMetaClass()));
     }
 
     public String toString()

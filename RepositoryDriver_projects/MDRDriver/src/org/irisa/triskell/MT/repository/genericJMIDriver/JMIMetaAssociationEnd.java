@@ -1,21 +1,18 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaAssociationEnd.java,v 1.1 2004-02-16 15:44:32 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import java.util.*;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import java.lang.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-
-public class MDRMetaAssociationEnd 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaFeature
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaAssociationEnd 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaFeature
     implements org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd
 {
-    protected final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass type;
+    protected final org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass type;
 
 /*    public static class InvolvedAssociation 
     {
@@ -66,11 +63,11 @@ public class MDRMetaAssociationEnd
     }*/
 
 
-    public MDRMetaAssociationEnd(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaAssociationEnd(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         String name,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass scope,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass type)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass scope,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass type)
     {
         super(api, name, scope, null);
 		this.type = type;
@@ -86,15 +83,15 @@ public class MDRMetaAssociationEnd
 		return "association end";
     }
 
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature retreiveRef(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured contextualElement,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    public org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature retreiveRef(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured contextualElement,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.Namespace owner)
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
     {
 		ExecutableFeature ret = super.retreiveRef(contextualElement, self, arguments, owner);
-    	if (ret == null && !System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true") && (owner instanceof javax.jmi.model.MofClass)) {
+    	if (ret == null && !System.getProperty(JMIAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true") && (owner instanceof javax.jmi.model.MofClass)) {
 				javax.jmi.model.AssociationEnd me = null, tmp;
 				javax.jmi.model.Classifier retType = null, tmpType;
 			java.util.Collection involved = this.getSpecificAPI().getRelatedAssociationEnds((javax.jmi.model.MofClass)owner);
@@ -130,7 +127,7 @@ public class MDRMetaAssociationEnd
 			javax.jmi.model.ModelElement aet;
 		while (assIt.hasNext()) {
     		ass = (javax.jmi.reflect.RefAssociation)assIt.next();
-    		aes = MDRMetaAssociation.getAssociationEnds(ass);
+    		aes = JMIMetaAssociation.getAssociationEnds(ass);
     		aeIt = aes.iterator();
 			while (aeIt.hasNext()) {
     			ae = (javax.jmi.model.AssociationEnd)aeIt.next();
@@ -166,7 +163,7 @@ public class MDRMetaAssociationEnd
     {
 		if (this.getType() == null)
 	    	return true;
-	    javax.jmi.model.Classifier elementType = ((javax.jmi.model.TypedElement)element).getType(), thisType = (javax.jmi.model.Classifier)((MDRMetaClass)this.getType()).getRefClass().refMetaObject();
+	    javax.jmi.model.Classifier elementType = ((javax.jmi.model.TypedElement)element).getType(), thisType = (javax.jmi.model.Classifier)((JMIMetaClass)this.getType()).getRefClass().refMetaObject();
 		return elementType.equals(thisType) || elementType.allSupertypes().contains(thisType);
     }
 
@@ -201,8 +198,8 @@ public class MDRMetaAssociationEnd
 
     protected boolean checkAll(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured context,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
         throws ElementNotFoundException, VisibilityException, MultipleDeclarationException, ScopeException
     {
@@ -211,7 +208,7 @@ public class MDRMetaAssociationEnd
 
     protected boolean checkVisibility(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured context)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured context)
         throws VisibilityException
     {
 		return ((! (element instanceof javax.jmi.model.AssociationEnd)) || ((javax.jmi.model.AssociationEnd)element).isNavigable()) && super.checkVisibility(element, context);
@@ -219,7 +216,7 @@ public class MDRMetaAssociationEnd
 
     protected boolean checkScopeKind(
         javax.jmi.model.ModelElement element,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self)
         throws ScopeException
     {
 		if (self.isMetaObject())
@@ -227,8 +224,8 @@ public class MDRMetaAssociationEnd
 		return super.checkScopeKind(element, self);
     }
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature toExecutableFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature toExecutableFeature(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.ModelElement me)
     {

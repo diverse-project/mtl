@@ -1,9 +1,15 @@
+/*
+ * $Id: Test.java,v 1.8 2004-02-16 15:44:39 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.Test;
 
-import javax.jmi.model.Classifier;
-import javax.jmi.model.ClassifierClass;
-import javax.jmi.model.EnumerationType;
-import javax.jmi.model.MofClass;
+//import javax.jmi.model.Classifier;
+//import javax.jmi.model.ClassifierClass;
+//import javax.jmi.model.EnumerationType;
+//import javax.jmi.model.MofClass;
 import javax.jmi.reflect.*;
 import java.util.*;
 import java.io.*;
@@ -15,6 +21,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.*;
+import org.irisa.triskell.MT.repository.genericJMIDriver.*;
 import org.irisa.triskell.MT.utils.Java.*;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.apache.log4j.Logger;
@@ -245,7 +252,7 @@ public class Test
 	public static void rien() {}
 	
 	public static void testLoadStore () throws Exception {
-		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/test.xml", rootPath + "/ThirdParty/MDR/Test/models/testResult.xml"));
+		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml"));
 		api.startup(null);
 		ModelElementIterator attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		MetaAttribute vis = api.getMetaAttribute("visibility", null);
@@ -294,7 +301,7 @@ public class Test
 		
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
+		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
 		api.startup(null);
 		attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		//To be reloaded because the api has changed...
@@ -307,7 +314,7 @@ public class Test
 		if (anAttribute != null && !anAttributeName.isUndefined() && !anAttributeTypeName.isUndefined()) {
 			attributes.reset();
 			final MetaFeature nameFeature = api.getMetaAttribute("name", null), typeFeature = api.getMetaAssociationEnd("type", null, null);
-			attributes = new MDRConstrainedModelElementIterator(new MDRConstrainedModelElementIterator(attributes, new LookupConstraint() {
+			attributes = new JMIConstrainedModelElementIterator(new JMIConstrainedModelElementIterator(attributes, new LookupConstraint() {
 				public boolean match(org.irisa.triskell.MT.repository.API.Java.ModelElement element) {
 					try {
 						return ((ModelElement)element.getFeatureValue(null, typeFeature, null)).getFeatureValue(null, nameFeature, null).equals(anAttributeTypeName);
@@ -324,7 +331,7 @@ public class Test
 	}
 	
 	public static void testMOFModel () throws Exception {
-		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read));
 		api.startup(null);
 		if (api.getMdrRepository().getExtent("UML 1.3") == null)
 			throw new Exception("Error: MDR extent UML 1.3 not found...");
@@ -449,7 +456,7 @@ public class Test
 		}
 		
 		
-		ModelElementIterator umlclazzcontentsiterator = new MDRConstrainedModelElementIterator(new ModelElementIterator () {
+		ModelElementIterator umlclazzcontentsiterator = new JMIConstrainedModelElementIterator(new ModelElementIterator () {
 			int index = 0;
 			
 			public int size() {
@@ -464,7 +471,7 @@ public class Test
 			   throws NoMoreElementException {
 				if (! this.hasNext())
 					throw new NoMoreElementException();
-				return (MDRModelElement)umlclazzcontents.getTheCollection()[index++];
+				return (JMIModelElement)umlclazzcontents.getTheCollection()[index++];
 			}
 
 			public void reset() {
@@ -516,7 +523,7 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel (String repName) throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), repName, new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName, new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
 		api.startup(null);
 
 		MetaClass table = api.getMetaClass(new String [] {"SimpleDB", "Table"});
@@ -545,31 +552,31 @@ public class Test
 		
 		for (int i = 0, j; i < ends1.length; ++i) {
 			ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ends1[i], ae_null});
-			if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+			if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 				throw new Exception("Different proxies for the same association !");
 				
 			ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ae_null, ends1[i]});
-			if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+			if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 				throw new Exception("Different proxies for the same association !");
 				
 			for (j = 0; j < ends2.length; ++j) {
 				ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ends1[i], ends2[j]});
-				if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+				if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 					throw new Exception("Different proxies for the same association !");
 					
 				ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ends2[j], ends1[i]});
-				if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+				if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 					throw new Exception("Different proxies for the same association !");
 			}
 		}
 		
 		for (int j = 0; j < ends2.length; ++j) { 
 			ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ends2[j], ae_null});
-			if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+			if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 				throw new Exception("Different proxies for the same association !");
 				
 			ass2 = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] {ae_null, ends2[j]});
-			if (!((MDRMetaAssociation)ass1).getRefMetaObject().equals(((MDRMetaAssociation)ass2).getRefMetaObject()))
+			if (!((JMIMetaAssociation)ass1).getRefMetaObject().equals(((JMIMetaAssociation)ass2).getRefMetaObject()))
 				throw new Exception("Different proxies for the same association !");
 		}
 		
@@ -606,7 +613,7 @@ public class Test
 			
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), repName+"Res", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), repName+"Res", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 		api.startup(null);
 		
 		
@@ -653,7 +660,7 @@ public class Test
 		
 		it.reset();
 		while (it.hasNext()) {
-			if (! ass.refLinkExists(((RefObject)((MDRModelElement)championship).getRef()), ((RefObject)((MDRModelElement)it.next()).getRef())))
+			if (! ass.refLinkExists(((RefObject)((JMIModelElement)championship).getRef()), ((RefObject)((JMIModelElement)it.next()).getRef())))
 				throw new Exception ("Cannot retreive all links.");
 		}
 		
@@ -716,7 +723,7 @@ public class Test
 	
 	public static void testSimpleTableDBModel2 () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 			api.startup(null);
 			throw new Exception("Test testSimpleTableDBModel2 passed while should not...");
 		} catch (CreationFailedException x) {
@@ -724,13 +731,13 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel3 () throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 		api.startup(null);
 	}
 	
 	public static void testUnknownMetamodel () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null));
 			api.startup(null);
 			throw new Exception("Test testUnknownMetamodel passed while should not...");
 		} catch (java.io.FileNotFoundException x) {
@@ -741,7 +748,7 @@ public class Test
 		final PrintStream err = System.err;
 		try {
 			System.setErr(new PrintStream(new OutputStream () {public void write(int b) throws IOException{}}));
-			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 			api.startup(null);
 			throw new Exception("Test testBadMetamodel passed while should not...");
 		} catch (javax.jmi.xmi.MalformedXMIException x) {
@@ -751,7 +758,7 @@ public class Test
 	}
 	
 	public static void testErwan () throws Exception {
-        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/MOFmetamodel.xml",new String [] {"SimpleUmlMM"}), "MyModel", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
+        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/../ThirdParty/MDR/Test/models/MOFmetamodel.xml",new String [] {"SimpleUmlMM"}), "MyModel", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
         
         api.startup(null); 
 
@@ -864,7 +871,7 @@ public class Test
     }
 	
 	public static void testUML13Model () throws Exception {
-		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/test.xml", XmiModel.Read));
+		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel(rootPath + "/../ThirdParty/MDR/Test/models/test.xml", XmiModel.Read));
 		api.startup(null);
 
 		MetaClass classifier = api.getMetaClass(new String [] {"UML", "Foundation", "Core", "Classifier"});
@@ -882,7 +889,7 @@ public class Test
 		ModelElementIterator instances = classifier.allInstancesIterator(null);
 		StringBuffer sbuf = new StringBuffer();
 		while (instances.hasNext()) {
-			sbuf.append(((MDRModelElement)instances.next()));
+			sbuf.append(((JMIModelElement)instances.next()));
 		}
 		
 		try {
@@ -909,14 +916,14 @@ public class Test
 			});
 		
 		if (object.isUndefined())
-			throw new Exception("MDRMetaClass.instanciate test failed (" + object.getErrorMessage() + ").");
+			throw new Exception("JMIMetaClass.instanciate test failed (" + object.getErrorMessage() + ").");
 		
 		Value objectName = object.getFeatureValue(null, api.getMetaFeature("name", null), null); 
 		if (! new StringValueImpl(false, null, "MaClasse").equals(objectName))
-			throw new Exception("MDRMetaClass.instanciate test failed (attribute name was not set to MaClass but to " + (objectName == null ? "null" : objectName.toString()) + ").");
+			throw new Exception("JMIMetaClass.instanciate test failed (attribute name was not set to MaClass but to " + (objectName == null ? "null" : objectName.toString()) + ").");
 		Value objectVis = object.getFeatureValue(null, api.getMetaFeature("visibility", null), null); 
 		if (! new StringValueImpl(false, null, "MaClasse").equals(objectName))
-			throw new Exception("MDRMetaClass.instanciate test failed (attribute visibility was not set to vk_protected but to " + (objectVis == null ? "null" : objectVis.toString()) + ").");
+			throw new Exception("JMIMetaClass.instanciate test failed (attribute visibility was not set to vk_protected but to " + (objectVis == null ? "null" : objectVis.toString()) + ").");
 		
 		try {
 			Value v = object.getFeatureValue(null, api.getMetaFeature("toto", null), null);
@@ -925,28 +932,28 @@ public class Test
 		
 		
 		if (! object.isKindOf(clazz))
-			throw new Exception("MDRModelElement.isKindOf direct test failed.");
+			throw new Exception("JMIModelElement.isKindOf direct test failed.");
 		if (! object.isTypeOf(clazz))
-			throw new Exception("MDRModelElement.isTypeOf direct test failed.");
+			throw new Exception("JMIModelElement.isTypeOf direct test failed.");
 		if (! object.isKindOf(classifier))
-			throw new Exception("MDRModelElement.isKindOf transitive test failed.");
+			throw new Exception("JMIModelElement.isKindOf transitive test failed.");
 		if (object.isTypeOf(classifier))
-			throw new Exception("MDRModelElement.isTypeOf transitive test failed.");
+			throw new Exception("JMIModelElement.isTypeOf transitive test failed.");
 		if (object.isKindOf(stereotype))
-			throw new Exception("MDRModelElement.isKindOf false test failed.");
+			throw new Exception("JMIModelElement.isKindOf false test failed.");
 		if (object.isTypeOf(stereotype))
-			throw new Exception("MDRModelElement.isTypeOf false test failed.");
+			throw new Exception("JMIModelElement.isTypeOf false test failed.");
 			
 		try {
 			ModelElement unk = classifier.instanciate(null, null);
-			throw new Exception("MDRMetaClass.instanciate test failed (can instanciate abstract class).");
+			throw new Exception("JMIMetaClass.instanciate test failed (can instanciate abstract class).");
 		} catch (Exception x) {
 		}
 			
 		try {
 			ModelElement enum = visibilityKind.instanciate(null, new Value [] {new StringValueImpl(false, null, "toto")});
 			if (! enum.isUndefined())
-				throw new Exception("MDRMetaEnumeration.instanciate: found " + enum.toString());
+				throw new Exception("JMIMetaEnumeration.instanciate: found " + enum.toString());
 		} catch (UnknownElementException x) {
 		}
 		
@@ -957,22 +964,22 @@ public class Test
 		
 		
 		if (! object.isKindOf(clazz))
-			throw new Exception("MDRModelElement.isKindOf direct test failed.");
+			throw new Exception("JMIModelElement.isKindOf direct test failed.");
 		if (! object.isTypeOf(clazz))
-			throw new Exception("MDRModelElement.isTypeOf direct test failed.");
+			throw new Exception("JMIModelElement.isTypeOf direct test failed.");
 		if (! object.isKindOf(classifier))
-			throw new Exception("MDRModelElement.isKindOf transitive test failed.");
+			throw new Exception("JMIModelElement.isKindOf transitive test failed.");
 		if (object.isTypeOf(classifier))
-			throw new Exception("MDRModelElement.isTypeOf transitive test failed.");
+			throw new Exception("JMIModelElement.isTypeOf transitive test failed.");
 		if (object.isKindOf(stereotype))
-			throw new Exception("MDRModelElement.isKindOf false test failed.");
+			throw new Exception("JMIModelElement.isKindOf false test failed.");
 		if (object.isTypeOf(stereotype))
-			throw new Exception("MDRModelElement.isTypeOf false test failed.");
+			throw new Exception("JMIModelElement.isTypeOf false test failed.");
 		
 
 		ModelElement vkpriv = visibilityKind.instanciate(null, new Value [] {new StringValueImpl(false, null, "vk_private")});
 		if (vkpriv != visibilityKind2.getMetaObject().getFeatureValue(null, api.getMetaFeature("vk_private", null), null))
-			throw new Exception ("MDRMetaEnumeration: a single enumered leads to several proxies...");
+			throw new Exception ("JMIMetaEnumeration: a single enumered leads to several proxies...");
 		
 		
 

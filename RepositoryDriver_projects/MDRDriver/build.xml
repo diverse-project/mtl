@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-09-05 12:13:43 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.5 2004-02-16 15:45:04 dvojtise Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MDRDriver" default="dist" basedir=".">
 	<description>
@@ -84,7 +84,7 @@
 		<copy todir="${dist}/bin/ThirdParty/MDR">
 			<fileset dir="${mdr}"/>
 		</copy>
-		<copy todir="${dist}/bin/ThirdParty/MDR/Test/models">
+		<copy todir="${dist}/ThirdParty/MDR/Test/models">
 			<fileset dir="ThirdParty/MDR/Test/models"/>
 		</copy>
 	    <copy file="log4j_configuration.xml"
@@ -93,7 +93,7 @@
 	    	
 	    	
 		<mkdir dir="${dist}/test"/>
-	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="false">
+	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="true">
 	    	<classpath>
 			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
 			    <pathelement location="${dist}/bin/RepositoryAPI.jar"/>

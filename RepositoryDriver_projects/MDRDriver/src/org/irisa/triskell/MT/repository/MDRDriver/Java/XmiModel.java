@@ -1,9 +1,15 @@
+/*
+ * $Id: XmiModel.java,v 1.4 2004-02-16 15:44:20 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import java.io.File;
 
 public class XmiModel 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.Model
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.Model
 {
 	public static final byte Read = 0;
 	public static final byte Write = 1;
@@ -45,7 +51,7 @@ public class XmiModel
     }
 
     public void load(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
     	String uri;
@@ -59,7 +65,7 @@ public class XmiModel
     }
 
     public void store(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
     	String store = this.getXmiStoringFile();

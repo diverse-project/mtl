@@ -1,4 +1,10 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: ExecutableJMIAssociationEnd.java,v 1.1 2004-02-16 15:44:33 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ * 
+ * Copyright 2003 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.Iterator;
 
@@ -8,8 +14,11 @@ import javax.jmi.model.Reference;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
+/**
+ * Object to be used with the genric JMI implementation of the repository API
+ */
 public class ExecutableJMIAssociationEnd 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature
 {
     protected javax.jmi.model.AssociationEnd associationEnd;
     public javax.jmi.model.AssociationEnd getAssociationEnd () {
@@ -22,8 +31,8 @@ public class ExecutableJMIAssociationEnd
 
 
     public ExecutableJMIAssociationEnd(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         javax.jmi.model.AssociationEnd associationEnd)
     {
         super(api, self, null);
@@ -63,7 +72,7 @@ public class ExecutableJMIAssociationEnd
     }
     
     protected void ensureAssociationEndIgnore (ModelElement contextualElement) throws org.irisa.triskell.MT.repository.API.Java.IllegalAccessException {
-        if (System.getProperty(MDRAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true")) {
+        if (System.getProperty(JMIAPI.getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY(), "true").equalsIgnoreCase("true")) {
         	MofClass selfClazz = (MofClass)this.getSelf().getRefClass().refMetaObject();
         	Iterator contentsIt = selfClazz.getContents().iterator();
         	Object o;

@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIStruct.java,v 1.1 2004-02-16 15:44:35 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,17 +20,21 @@ import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDRStruct 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIStruct 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement
     implements org.irisa.triskell.MT.DataTypes.Java.TupleValue, org.irisa.triskell.MT.repository.API.Java.ModelElement
 {
     private final javax.jmi.reflect.RefStruct refStruct;
 
-    private final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaStructure type;
+    private final org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaStructure type;
 
 
-    public MDRStruct(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaStructure type,
+    public JMIStruct(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaStructure type,
         javax.jmi.reflect.RefStruct refStruct)
     {
         super(type.getSpecificAPI(), refStruct);
@@ -44,7 +52,7 @@ public class MDRStruct
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof MDRStruct) ? (this.refStruct.equals(((MDRStruct)rhs).refStruct)) : rhs != null && rhs.equals(this));
+		return (this == rhs) || ((rhs instanceof JMIStruct) ? (this.refStruct.equals(((JMIStruct)rhs).refStruct)) : rhs != null && rhs.equals(this));
     }
 
     public String getErrorMessage()
@@ -116,7 +124,7 @@ public class MDRStruct
 		javax.jmi.model.Classifier fieldType = field == null ? null : field.getType();
 		javax.jmi.model.CollectionType fieldCollectionType = field != null && (fieldType instanceof javax.jmi.model.CollectionType) ? (javax.jmi.model.CollectionType)fieldType : null;
 		if (field == null)
-			return new MDRException("No tuple part named " + partName + '.', this.getSpecificAPI());
+			return new JMIException("No tuple part named " + partName + '.', this.getSpecificAPI());
 
 		return this.getSpecificAPI().java2value(this.refStruct.refGetValue(partName), fieldCollectionType == null ? true : fieldCollectionType.getMultiplicity().isOrdered(), fieldCollectionType == null ? false : fieldCollectionType.getMultiplicity().isUnique(), false);
     }

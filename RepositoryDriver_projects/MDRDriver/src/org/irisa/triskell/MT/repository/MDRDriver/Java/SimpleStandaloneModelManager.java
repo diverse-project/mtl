@@ -1,7 +1,10 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.6 2003-09-23 17:15:42 ffondeme Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.7 2004-02-16 15:44:18 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license 
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
@@ -10,23 +13,22 @@ import javax.jmi.model.ClassifierClass;
 import javax.jmi.model.EnumerationType;
 import javax.jmi.model.MofClass;
 import javax.jmi.reflect.*;*/
-import java.util.*;
+// import java.util.*;
 import java.io.*;
-import java.lang.reflect.*;
+//import java.lang.reflect.*;
 
 /*import org.irisa.triskell.MT.DataTypes.Java.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.*;*/
-import org.irisa.triskell.MT.repository.API.Java.API;
+import org.irisa.triskell.MT.repository.API.Java.*;*/
+import org.irisa.triskell.MT.repository.genericJMIDriver.*;
 import org.irisa.triskell.MT.utils.Java.*;
-import org.netbeans.api.mdr.CreationFailedException;
+// import org.netbeans.api.mdr.CreationFailedException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -155,9 +157,9 @@ public class SimpleStandaloneModelManager {
 	 */
 	public MDRAPI getModel(
 		String repository,
-		org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel metamodel,
+		org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel metamodel,
 		String modelName,
-		org.irisa.triskell.MT.repository.MDRDriver.Java.Model model)
+		org.irisa.triskell.MT.repository.genericJMIDriver.Model model)
 		throws java.lang.Exception
 	{
 		if (! isInitialized) throw new Exception("Driver not correctly initialized");

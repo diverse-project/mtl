@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaClass.java,v 1.1 2004-02-16 15:44:35 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,35 +10,39 @@ import java.util.Iterator;
 import javax.jmi.model.MofClass;
 import javax.jmi.reflect.AlreadyExistsException;
 
-import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+// import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+// import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
+// import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
-import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
+// import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDRMetaClass 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaType
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaClass 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaType
     implements org.irisa.triskell.MT.repository.API.Java.MetaClass
 {
     private javax.jmi.reflect.RefClass refClass;
 
-    private org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaObject metaObject;
+    private org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaObject metaObject;
 
 
-    public MDRMetaClass(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaClass(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.reflect.RefClass ref)
     {
 		this(api, ref, retreiveQualifiedName(ref));
     }
 
-    public MDRMetaClass(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaClass(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.reflect.RefClass ref,
         String[] qualifiedName)
     {
@@ -43,7 +51,7 @@ public class MDRMetaClass
     }
     
     public ModelElementIterator allInstancesIterator () {
-    	return new MDRModelElementIterator(this.getSpecificAPI(), this.getRefClass().refAllOfType());
+    	return new JMIModelElementIterator(this.getSpecificAPI(), this.getRefClass().refAllOfType());
     }
 
     /**
@@ -52,7 +60,7 @@ public class MDRMetaClass
     public org.irisa.triskell.MT.repository.API.Java.ModelElement getMetaObject()
     {
 		if (this.metaObject == null)
-			this.metaObject = new MDRMetaObject(this);
+			this.metaObject = new JMIMetaObject(this);
 		return this.metaObject;
     }
 
@@ -109,9 +117,9 @@ public class MDRMetaClass
 			return true;
 		if (ModelElementType.TheInstance.conformsTo(parentType))
 			return true;
-		if (! (parentType instanceof MDRMetaClass))
+		if (! (parentType instanceof JMIMetaClass))
 			return false;
-		MDRMetaClass parentClass = (MDRMetaClass)parentType;
+		JMIMetaClass parentClass = (JMIMetaClass)parentType;
 		if (! this.getSpecificAPI().equals(parentClass.getSpecificAPI()))
 			return false;
 			 
@@ -135,11 +143,11 @@ public class MDRMetaClass
 	}
 
 	public boolean isKindOf(Value v) {
-		return (v instanceof MDRModelElement) && ((MDRModelElement)v).isKindOf(this);
+		return (v instanceof JMIModelElement) && ((JMIModelElement)v).isKindOf(this);
 	}
 
 	public boolean isTypeOf(Value v) {
-		return (v instanceof MDRModelElement) && ((MDRModelElement)v).isTypeOf(this);
+		return (v instanceof JMIModelElement) && ((JMIModelElement)v).isTypeOf(this);
 	}
 
 }

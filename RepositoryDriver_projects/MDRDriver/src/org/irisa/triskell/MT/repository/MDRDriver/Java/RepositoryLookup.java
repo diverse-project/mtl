@@ -1,7 +1,13 @@
+/*
+ * $Id: RepositoryLookup.java,v 1.2 2004-02-16 15:44:29 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import org.openide.util.Lookup;
-import org.openide.util.LookupListener;
+// import org.openide.util.LookupListener;
 import org.netbeans.lib.jmi.xmi.XMISaxReaderImpl;
 import org.netbeans.lib.jmi.xmi.XMIWriterImpl;
 import org.netbeans.lib.jmi.mapping.JMIMapperImpl;

@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIModelElement.java,v 1.1 2004-02-16 15:44:38 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+ package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import javax.jmi.reflect.RefClass;
 
@@ -6,8 +10,12 @@ import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementCommandGroup;
 
-public class MDRModelElement 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIModelElement 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured
 {
     private final javax.jmi.reflect.RefObject refObject;
     protected javax.jmi.reflect.RefObject getRefObject () {
@@ -18,13 +26,13 @@ public class MDRModelElement
         else return 1;
     }
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass type;
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass type;
 
 
-    public MDRModelElement(
+    public JMIModelElement(
         boolean undefined,
         String error,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.reflect.RefObject ref)
     {
         super(undefined, error, api, ref);
@@ -55,7 +63,7 @@ public class MDRModelElement
     public boolean isKindOf(
         org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
     {
-		return (classifier instanceof MDRMetaClass) && this.refObject.refIsInstanceOf(((MDRMetaClass)classifier).getRefClass().refMetaObject(), true);
+		return (classifier instanceof JMIMetaClass) && this.refObject.refIsInstanceOf(((JMIMetaClass)classifier).getRefClass().refMetaObject(), true);
     }
 
     /**
@@ -72,7 +80,7 @@ public class MDRModelElement
     public boolean isTypeOf(
         org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
     {
-		return (classifier instanceof MDRMetaClass) && this.refObject.refIsInstanceOf(((MDRMetaClass)classifier).getRefClass().refMetaObject(), false);
+		return (classifier instanceof JMIMetaClass) && this.refObject.refIsInstanceOf(((JMIMetaClass)classifier).getRefClass().refMetaObject(), false);
     }
 
     public String toString()
@@ -83,7 +91,7 @@ public class MDRModelElement
     public Type getType()
     {
 		if (this.type == null) {
-			this.type = (MDRMetaClass)this.getSpecificAPI().getMetaClass((RefClass)this.refObject.refClass());
+			this.type = (JMIMetaClass)this.getSpecificAPI().getMetaClass((RefClass)this.refObject.refClass());
 		}
 		return this.type;
     }

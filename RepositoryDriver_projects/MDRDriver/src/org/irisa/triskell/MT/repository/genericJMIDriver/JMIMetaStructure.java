@@ -1,15 +1,19 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaStructure.java,v 1.1 2004-02-16 15:44:32 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+// import java.util.Iterator;
 
 import javax.jmi.model.StructureField;
 import javax.jmi.model.StructureType;
 import javax.jmi.reflect.RefClass;
 import javax.jmi.reflect.RefPackage;
 
-import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+// import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
@@ -21,7 +25,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementTy
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Tuple.TupleType;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
+// import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
@@ -30,8 +34,12 @@ import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDRMetaStructure
-	extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaType
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaStructure
+	extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaType
 	implements MetaClass, ModelElement,TypeValue {
 	private final javax.jmi.reflect.RefClass classContainer;
 
@@ -54,33 +62,33 @@ public class MDRMetaStructure
 		}
 		return ret;
 	}
-	private class MDRStructType extends TupleType {
+	private class JMIStructType extends TupleType {
 
-		public MDRStructType() {
+		public JMIStructType() {
 			super(
-				MDRMetaStructure.this.getQualifiedName(),
+				JMIMetaStructure.this.getQualifiedName(),
 				new Type[] { ModelElementType.TheInstance },
-				MDRMetaStructure.this.getTupleParts());
+				JMIMetaStructure.this.getTupleParts());
 		}
 
 		public boolean isKindOfInternal(Value v) {
-			return (v instanceof MDRStruct)
-				&& ((MDRStruct) v).isKindOf(MDRMetaStructure.this);
+			return (v instanceof JMIStruct)
+				&& ((JMIStruct) v).isKindOf(JMIMetaStructure.this);
 		}
 
 		public boolean equals(Type parentType) {
 			return parentType == this
-				|| ((parentType instanceof MDRStructType)
-					&& MDRMetaStructure.this.equals(
-						((MDRStructType) parentType).getOwner()));
+				|| ((parentType instanceof JMIStructType)
+					&& JMIMetaStructure.this.equals(
+						((JMIStructType) parentType).getOwner()));
 		}
 
 		public CollectionValue allInstances() throws Exception {
-			return MDRMetaStructure.this.allInstances();
+			return JMIMetaStructure.this.allInstances();
 		}
 
-		protected final MDRMetaStructure getOwner() {
-			return MDRMetaStructure.this;
+		protected final JMIMetaStructure getOwner() {
+			return JMIMetaStructure.this;
 		}
 
 		public boolean conformsTo(Type type)
@@ -90,10 +98,10 @@ public class MDRMetaStructure
 		}
 
 	}
-	private transient MDRStructType structType = null;
-	public MDRStructType getStructType() {
+	private transient JMIStructType structType = null;
+	public JMIStructType getStructType() {
 		if (this.structType == null)
-			this.structType = new MDRStructType();
+			this.structType = new JMIStructType();
 		return this.structType;
 	}
 
@@ -101,18 +109,18 @@ public class MDRMetaStructure
 		return this.structType;
 	}
 
-	public MDRMetaStructure(MDRAPI api,StructureType metaObject,RefPackage packageContainer,RefClass classContainer) {
+	public JMIMetaStructure(JMIAPI api,StructureType metaObject,RefPackage packageContainer,RefClass classContainer) {
 		super(api, metaObject, null, retreiveQualifiedName(metaObject));
 		this.refMetaObject = metaObject;
 		this.packageContainer = packageContainer;
 		this.classContainer = classContainer;
 	}
 
-	public MDRMetaStructure(MDRAPI api,StructureType metaObject,RefPackage packageContainer) {
+	public JMIMetaStructure(JMIAPI api,StructureType metaObject,RefPackage packageContainer) {
 		this(api, metaObject, packageContainer, null);
 	}
 
-	public MDRMetaStructure(MDRAPI api, StructureType metaObject, RefClass classContainer) {
+	public JMIMetaStructure(JMIAPI api, StructureType metaObject, RefClass classContainer) {
 		this(api, metaObject, null, classContainer);
 	}
 
@@ -135,8 +143,8 @@ public class MDRMetaStructure
 
 	public boolean equals(Value rhs) {
 		return (this == rhs)
-			|| ((rhs instanceof MDRMetaStructure)
-				&& (this.refMetaObject.equals(((MDRMetaStructure) rhs).refMetaObject)));
+			|| ((rhs instanceof JMIMetaStructure)
+				&& (this.refMetaObject.equals(((JMIMetaStructure) rhs).refMetaObject)));
 	}
 
 	public void accept(ValueVisitor visitor) {
@@ -183,7 +191,7 @@ public class MDRMetaStructure
 	}
 
 	public ModelElementIterator allInstancesIterator() {
-		return new MDRModelElementIterator(
+		return new JMIModelElementIterator(
 			this.getSpecificAPI(),
 			new java.util.ArrayList(0));
 	}
@@ -228,7 +236,7 @@ public class MDRMetaStructure
 						this.refMetaObject,
 						javaArguments));
 		} catch (Exception x) {
-			return new MDRException(x.getMessage(), this.getSpecificAPI());
+			return new JMIException(x.getMessage(), this.getSpecificAPI());
 		}
 	}
 
@@ -274,11 +282,11 @@ public class MDRMetaStructure
 	}
 
 	public boolean isKindOf(Value v) {
-		return (v instanceof MDRStruct) && ((MDRStruct) v).isKindOf(this);
+		return (v instanceof JMIStruct) && ((JMIStruct) v).isKindOf(this);
 	}
 
 	public boolean isTypeOf(Value v) {
-		return (v instanceof MDRStruct) && ((MDRStruct) v).isTypeOf(this);
+		return (v instanceof JMIStruct) && ((JMIStruct) v).isTypeOf(this);
 	}
 
 	/* (non-Javadoc)

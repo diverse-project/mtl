@@ -1,26 +1,33 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/**
+ * $Id: JMIUndefinedModelElement.java,v 1.1 2004-02-16 15:44:34 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
-
-abstract public class MDRUndefinedModelElement 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+abstract public class JMIUndefinedModelElement 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement
     implements org.irisa.triskell.MT.repository.API.Java.ModelElement
 {
-    protected static final org.irisa.triskell.MT.repository.API.Java.CommonException NullPointerCommonException = MDRAPI.getNullPointerException();
+    protected static final org.irisa.triskell.MT.repository.API.Java.CommonException NullPointerCommonException = JMIAPI.getNullPointerException();
     public static org.irisa.triskell.MT.repository.API.Java.CommonException getNullPointerCommonException () {
-        return MDRUndefinedModelElement.NullPointerCommonException;
+        return JMIUndefinedModelElement.NullPointerCommonException;
     }
     public static int cardNullPointerCommonException () {
-        if ( MDRUndefinedModelElement.NullPointerCommonException == null ) return 0;
+        if ( JMIUndefinedModelElement.NullPointerCommonException == null ) return 0;
         else return 1;
     }
 
 
-    MDRUndefinedModelElement(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+    JMIUndefinedModelElement(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
         super(api, null);
     }
@@ -41,7 +48,7 @@ abstract public class MDRUndefinedModelElement
     public void delete()
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException
     {
-		throw MDRAPI.getNullPointerException();
+		throw JMIAPI.getNullPointerException();
     }
 
     public boolean isKindOf(
@@ -83,7 +90,7 @@ abstract public class MDRUndefinedModelElement
         org.irisa.triskell.MT.DataTypes.Java.Value value)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException, org.irisa.triskell.MT.repository.API.Java.IllegalAccessException
     {
-		throw MDRAPI.getNullPointerException();
+		throw JMIAPI.getNullPointerException();
     }
 
     public boolean isMetaObject()

@@ -1,17 +1,16 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: ExecutableJMIFeature.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ * 
+ * Copyright 2003 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import java.lang.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-
+/**
+ * Object to be used with the genric JMI implementation of the repository API
+ */
 public class ExecutableJMIFeature 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature
 {
     protected javax.jmi.model.Feature feature;
     public javax.jmi.model.Feature getFeature () {
@@ -24,8 +23,8 @@ public class ExecutableJMIFeature
 
 
     public ExecutableJMIFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         javax.jmi.model.Feature feature)
     {
         super(api, self, null);

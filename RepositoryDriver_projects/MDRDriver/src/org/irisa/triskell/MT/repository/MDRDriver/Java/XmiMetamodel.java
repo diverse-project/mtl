@@ -1,3 +1,9 @@
+/*
+ * $Id: XmiMetamodel.java,v 1.4 2004-02-16 15:44:30 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import java.io.File;
@@ -15,7 +21,7 @@ import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRepository;
 
 public class XmiMetamodel 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel
 {
     public final String [] xmiFiles;
     public String [] getXmiFiles () {
@@ -63,12 +69,12 @@ public class XmiMetamodel
     }
 
     public javax.jmi.reflect.RefPackage getRefPackage(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
-			String metamodelRepositoryName = this.createMetamodelName(api);
+			String metamodelRepositoryName = this.createMetamodelName((MDRAPI)api);
 			api.getLog().debug("Creating repository " + metamodelRepositoryName + " for metamodel.");
-	        MDRepository rep = api.getMdrRepository();
+	        MDRepository rep = ((MDRAPI)api).getMdrRepository();
 			ModelPackage metametaPackage = (ModelPackage)rep.createExtent(metamodelRepositoryName);
 			String [] files = this.getXmiFiles();
 			java.util.Collection readen = new java.util.ArrayList();

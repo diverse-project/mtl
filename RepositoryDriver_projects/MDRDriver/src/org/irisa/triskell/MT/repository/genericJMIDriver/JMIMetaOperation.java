@@ -1,24 +1,22 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaOperation.java,v 1.1 2004-02-16 15:44:31 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import java.lang.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-
-public class MDRMetaOperation 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaFeature
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaOperation 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaFeature
     implements org.irisa.triskell.MT.repository.API.Java.MetaOperation
 {
 
-    public MDRMetaOperation(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaOperation(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         String name,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass scope)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaClass scope)
     {
         super(api, name, scope, null);
     }
@@ -42,8 +40,8 @@ public class MDRMetaOperation
 		return element instanceof javax.jmi.model.Operation;
     }
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature toExecutableFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature toExecutableFeature(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.ModelElement me)
     {

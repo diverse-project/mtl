@@ -1,40 +1,46 @@
+/*
+ * $Id: LoadedMetamodel.java,v 1.3 2004-02-16 15:44:18 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import javax.jmi.xmi.*;
+// import javax.jmi.xmi.*;
 import javax.jmi.reflect.*;
 import javax.jmi.model.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
+// import org.irisa.triskell.MT.repository.API.Java.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Collection;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
+//import org.netbeans.api.mdr.*;
+//import java.util.Map;
+//import java.util.ArrayList;
+//import java.util.Collection;
+//import org.irisa.triskell.MT.DataTypes.Java.*;
+//import org.irisa.triskell.MT.DataTypes.Java.Value;
 
-import javax.jmi.xmi.*;
-import javax.jmi.xmi.XmiReader;
-import javax.jmi.xmi.XmiWriter;
-import org.netbeans.api.mdr.*;
-import org.netbeans.api.mdr.MDRManager;
-import org.netbeans.api.mdr.MDRepository;
-import javax.jmi.reflect.*;
+//import javax.jmi.xmi.*;
+//import javax.jmi.xmi.XmiReader;
+//import javax.jmi.xmi.XmiWriter;
+//import org.netbeans.api.mdr.*;
+//import org.netbeans.api.mdr.MDRManager;
+//import org.netbeans.api.mdr.MDRepository;
+//import javax.jmi.reflect.*;
 import javax.jmi.reflect.RefPackage;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
-import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
-import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
-import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
-import org.irisa.triskell.MT.repository.API.Java.ModelRole;
-import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+//import org.irisa.triskell.MT.repository.API.Java.*;
+//import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
+//import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
+//import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
+//import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
+//import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
+//import org.irisa.triskell.MT.repository.API.Java.ModelRole;
+//import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.utils.Java.AWK;
-import org.apache.log4j.Logger;
-import javax.jmi.model.*;
+//import org.apache.log4j.Logger;
+//import javax.jmi.model.*;
 import javax.jmi.model.MofPackage;
 
 public class LoadedMetamodel 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel
 {
     public final String metamodelPackageName;
     public String getMetamodelPackageName () {
@@ -62,11 +68,11 @@ public class LoadedMetamodel
     }
 
     public javax.jmi.reflect.RefPackage getRefPackage(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
 		api.getLog().debug("Retreiving metamodel repository " + this.getMetamodelPackageName() + '.');
-		RefPackage metamodelModel = api.getMdrRepository().getExtent(this.getMetamodelPackageName());
+		RefPackage metamodelModel = ((MDRAPI)api).getMdrRepository().getExtent(this.getMetamodelPackageName());
 		if (metamodelModel == null)
 			throw new Exception("The model " + this.getMetamodelPackageName() + " does not exists.");
 		if (! (metamodelModel instanceof ModelPackage))
@@ -91,6 +97,6 @@ public class LoadedMetamodel
 		}
 		
 		api.getLog().debug("Instanciating metamodel from repository " + this.getMetamodelPackageName() + " to repository " + api.getModelName() + " with root package " + this.getRootPackage());
-		return api.getMdrRepository().createExtent(api.getModelName(), (MofPackage)metaPackageToInstanciate);
+		return ((MDRAPI)api).getMdrRepository().createExtent(api.getModelName(), (MofPackage)metaPackageToInstanciate);
     }
 }

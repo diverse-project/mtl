@@ -1,18 +1,28 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIMetaAssociation.java,v 1.1 2004-02-16 15:44:37 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ * 
+ * Copyright 2003 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import java.util.*;
-import javax.jmi.xmi.*;
+// import javax.jmi.xmi.*;
 import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
+// import org.netbeans.api.mdr.*;
+// import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import javax.jmi.model.*;
-import org.apache.log4j.*;
+// import org.apache.log4j.*;
 import org.irisa.triskell.MT.utils.Java.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 
-public class MDRMetaAssociation 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIMetaAssociation 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaElement
     implements org.irisa.triskell.MT.repository.API.Java.MetaAssociation
 {
     protected final javax.jmi.reflect.RefAssociation refMetaObject;
@@ -38,8 +48,8 @@ public class MDRMetaAssociation
 		return this.ends;
 	}
 
-    public MDRMetaAssociation(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaAssociation(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         javax.jmi.reflect.RefAssociation refMetaObject)
     {
         super(api, refMetaObject, null, retreiveQualifiedName((javax.jmi.model.Association)refMetaObject.refMetaObject()));
@@ -77,7 +87,7 @@ public class MDRMetaAssociation
         boolean associate)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.IllegalAccessException, org.irisa.triskell.MT.repository.API.Java.CommonException
     {
-    	if (contextualElement != null && !((javax.jmi.model.ModelElement)((MDRModelElement)contextualElement).getRefClass().refMetaObject()).isVisible((javax.jmi.model.ModelElement)this.getRefMetaObject().refMetaObject()))
+    	if (contextualElement != null && !((javax.jmi.model.ModelElement)((JMIModelElement)contextualElement).getRefClass().refMetaObject()).isVisible((javax.jmi.model.ModelElement)this.getRefMetaObject().refMetaObject()))
     		throw new org.irisa.triskell.MT.repository.API.Java.IllegalAccessException(contextualElement, this);
     	
     	ModelRole [] sortedRoles = (ModelRole[]) new PositionSorter(this.getEnds(), roles, criteria).sort();
@@ -86,14 +96,14 @@ public class MDRMetaAssociation
     	if (sortedRoles.length != 2)
     		throw new RuntimeException("Internal error.", new Exception("Unsupported cardinality " + sortedRoles.length + " for association " + this.toString()));
     	
-    	boolean exists = this.getRefMetaObject().refLinkExists((RefObject)((MDRElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((MDRElement)sortedRoles[1].getModelElement()).getRef());
+    	boolean exists = this.getRefMetaObject().refLinkExists((RefObject)((JMIElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((JMIElement)sortedRoles[1].getModelElement()).getRef());
     	try {
     		if (associate) {
     			if (! exists)
-    				this.getRefMetaObject().refAddLink((RefObject)((MDRElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((MDRElement)sortedRoles[1].getModelElement()).getRef());
+    				this.getRefMetaObject().refAddLink((RefObject)((JMIElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((JMIElement)sortedRoles[1].getModelElement()).getRef());
     		} else {
     			if (exists)
-    				this.getRefMetaObject().refRemoveLink((RefObject)((MDRElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((MDRElement)sortedRoles[1].getModelElement()).getRef());
+    				this.getRefMetaObject().refRemoveLink((RefObject)((JMIElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((JMIElement)sortedRoles[1].getModelElement()).getRef());
     		}
 		} catch (InvalidObjectException x) {
 			String msg = "Cannot operate on deleted object.";
@@ -149,7 +159,7 @@ public class MDRMetaAssociation
 		return ret;
     }
     
-    public static RefAssociation retreiveAssociation (MDRMetaAssociationEnd [] ends, RefPackage pack) {
+    public static RefAssociation retreiveAssociation (JMIMetaAssociationEnd [] ends, RefPackage pack) {
     	RefAssociation ret;
     	PositionSorter sorter;
     	Iterator it = pack.refAllAssociations().iterator();
@@ -173,13 +183,13 @@ public class MDRMetaAssociation
 abstract class EndPointCriterium
     implements org.irisa.triskell.MT.utils.Java.PositionSorter.Criterium
 {
-	protected MDRMetaAssociationEnd getEnd (Object o) {
-    	MDRMetaAssociationEnd elt=null;
+	protected JMIMetaAssociationEnd getEnd (Object o) {
+    	JMIMetaAssociationEnd elt=null;
     	String en;
-    	if (o instanceof MDRMetaAssociationEnd)
-    		elt = (MDRMetaAssociationEnd)o;
-    	else if (o instanceof MDRRole)
-    		elt = (MDRMetaAssociationEnd)((MDRRole)o).getMetaAssociationEnd();
+    	if (o instanceof JMIMetaAssociationEnd)
+    		elt = (JMIMetaAssociationEnd)o;
+    	else if (o instanceof JMIRole)
+    		elt = (JMIMetaAssociationEnd)((JMIRole)o).getMetaAssociationEnd();
     	return elt;
 	}
 }

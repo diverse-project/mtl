@@ -1,8 +1,9 @@
 /*
+ * $Id: MDRLogger.java,v 1.2 2004-02-16 15:44:25 dvojtise Exp $
+ * Authors : ffondeme
  * Created on 1 avr. 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * 
+ * Copyright 2004 - INRIA - LGPL license 
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
@@ -10,13 +11,11 @@ import java.util.Date;
 import java.util.Hashtable;
 
 import org.openide.ErrorManager;
-import org.openide.ErrorManager.Annotation;
+// import org.openide.ErrorManager.Annotation;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Connects MDR logger to the driver logger
  */
 public class MDRLogger extends ErrorManager {
 	

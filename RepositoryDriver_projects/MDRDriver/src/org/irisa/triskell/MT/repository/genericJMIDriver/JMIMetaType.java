@@ -1,10 +1,8 @@
 /*
- * Created on 4 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: JMIMetaType.java,v 1.1 2004-02-16 15:44:32 dvojtise Exp $
+ * Authors : ffondeme dvojtise
  */
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
@@ -14,16 +12,14 @@ import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 /**
- * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
  */
-public abstract class MDRMetaType extends MDRMetaElement implements Type {
+public abstract class JMIMetaType extends JMIMetaElement implements Type {
 
 
-    public MDRMetaType(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaType(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         java.lang.Object ref,
         String name,
         String[] qualifiedName)
@@ -45,7 +41,7 @@ public abstract class MDRMetaType extends MDRMetaElement implements Type {
     public ModelElementIterator allInstancesIterator (LookupConstraint constraint) {
     	ModelElementIterator ret = this.allInstancesIterator();
     	if (constraint != null)
-    		ret = new MDRConstrainedModelElementIterator(ret, constraint);
+    		ret = new JMIConstrainedModelElementIterator(ret, constraint);
     	return ret;
     }
     
@@ -65,6 +61,6 @@ public abstract class MDRMetaType extends MDRMetaElement implements Type {
     public CollectionValue allInstancesWithConstraint(LookupConstraint constraint)
         throws UnknownElementException
     {
-		return MDRAPI.toCollectionValue(this.allInstancesIterator(constraint), CollectionKind.set_kind, false);
+		return JMIAPI.toCollectionValue(this.allInstancesIterator(constraint), CollectionKind.set_kind, false);
     }
 }

@@ -1,19 +1,21 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: ExecutableFeature.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ * 
+ * Copyright 2003 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import java.util.*;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 
+/**
+ * Object to be used with the genric JMI implementation of the repository API
+ */
 abstract public class ExecutableFeature 
 {
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self;
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured getSelf () {
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self;
+    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured getSelf () {
         return this.self;
     }
     public int cardSelf () {
@@ -32,8 +34,8 @@ abstract public class ExecutableFeature
         return this.arguments.length;
     }
 
-    protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api;
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI getApi () {
+    protected org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api;
+    public org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI getApi () {
         return this.api;
     }
     public int cardApi () {
@@ -43,8 +45,8 @@ abstract public class ExecutableFeature
 
 
     public ExecutableFeature(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
     {
 		this.api = api;
@@ -58,10 +60,10 @@ abstract public class ExecutableFeature
     public static java.util.List adaptArguments(
         javax.jmi.model.Operation operation,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
 		try {
-			javax.jmi.model.Parameter [] parameters = MDRMetaFeature.getParameters(operation, new String [] {"in_dir", "inout_dir", "out_dir"});
+			javax.jmi.model.Parameter [] parameters = JMIMetaFeature.getParameters(operation, new String [] {"in_dir", "inout_dir", "out_dir"});
 			java.util.List ret = new java.util.ArrayList(parameters.length);
 			Object toAdd;
 			for (int parameterIndex = 0, argumentIndex = 0; parameterIndex < parameters.length; ++parameterIndex) {
@@ -80,8 +82,8 @@ abstract public class ExecutableFeature
 								||	(typeClassifier instanceof javax.jmi.model.StructureType)
 								) {						
 								java.util.List typeQualifiedName = parameters[parameterIndex].getType().getQualifiedName();
-								MDRMetaClass typeMDR = (MDRMetaClass)api.getMetaClass((String[])typeQualifiedName.toArray(new String[typeQualifiedName.size()]));
-								type = typeMDR.getRefClass().getClass();
+								JMIMetaClass typeJMI = (JMIMetaClass)api.getMetaClass((String[])typeQualifiedName.toArray(new String[typeQualifiedName.size()]));
+								type = typeJMI.getRefClass().getClass();
 							} else if (typeClassifier instanceof javax.jmi.model.DataType) {
 								String typeName = typeClassifier.getName();
 								if (typeName.equals("String"))
@@ -120,15 +122,15 @@ abstract public class ExecutableFeature
         javax.jmi.model.Operation operation,
         java.util.List javaArguments,
         java.lang.Object result,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
 		java.util.List outResults = new java.util.ArrayList();
-		javax.jmi.model.Parameter [] parameters = MDRMetaFeature.getParameters(operation, new String [] {"in_dir", "inout_dir", "out_dir"});
+		javax.jmi.model.Parameter [] parameters = JMIMetaFeature.getParameters(operation, new String [] {"in_dir", "inout_dir", "out_dir"});
 		for (int parameterIndex = 0; parameterIndex < parameters.length; ++parameterIndex)
 			if (parameters[parameterIndex].getDirection().toString().equals("inout_dir") || parameters[parameterIndex].getDirection().toString().equals("out_dir"))
 				outResults.add(new org.irisa.triskell.MT.DataTypes.Java.defaultImpl.TupleElementImpl(parameters[parameterIndex].getName(), api.java2value(((Object[])javaArguments.get(parameterIndex))[0], parameters[parameterIndex].getMultiplicity().isOrdered(), parameters[parameterIndex].getMultiplicity().isUnique(), false)));
 
-		javax.jmi.model.Parameter [] returnParameters = MDRMetaFeature.getParameters(operation, new String [] {"return_dir"});
+		javax.jmi.model.Parameter [] returnParameters = JMIMetaFeature.getParameters(operation, new String [] {"return_dir"});
 		javax.jmi.model.Parameter returnParameter = returnParameters.length > 0 ? returnParameters[0] : null;
 		Value ret = api.java2value(result, returnParameter == null ? false : returnParameter.getMultiplicity().isOrdered(), returnParameter == null ? false : returnParameter.getMultiplicity().isUnique(), false);
 		if (!outResults.isEmpty()) {

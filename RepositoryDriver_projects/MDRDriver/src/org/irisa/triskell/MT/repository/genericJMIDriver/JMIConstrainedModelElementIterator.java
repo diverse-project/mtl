@@ -1,10 +1,20 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIConstrainedModelElementIterator.java,v 1.1 2004-02-16 15:44:37 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ * 
+ * Copyright 2003 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.reflect.RefObject;
+// import javax.jmi.reflect.RefObject;
 import java.util.List;
 import java.util.ArrayList;
 
-public class MDRConstrainedModelElementIterator 
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIConstrainedModelElementIterator 
     implements org.irisa.triskell.MT.repository.API.Java.ModelElementIterator
 {
     protected org.irisa.triskell.MT.repository.API.Java.LookupConstraint constraint;
@@ -23,7 +33,7 @@ public class MDRConstrainedModelElementIterator
     private final org.irisa.triskell.MT.repository.API.Java.ModelElementIterator delegate;
 
 
-    public MDRConstrainedModelElementIterator(
+    public JMIConstrainedModelElementIterator(
         org.irisa.triskell.MT.repository.API.Java.ModelElementIterator delegate,
         org.irisa.triskell.MT.repository.API.Java.LookupConstraint constraint)
     {

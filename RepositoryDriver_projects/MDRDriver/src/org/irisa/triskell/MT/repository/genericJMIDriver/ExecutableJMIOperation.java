@@ -1,17 +1,14 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: ExecutableJMIOperation.java,v 1.1 2004-02-16 15:44:32 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import java.lang.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-
+/**
+ * Object to be used with the genric JMI implementation of the repository API
+ */
 public class ExecutableJMIOperation 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.ExecutableFeature
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.ExecutableFeature
 {
     protected javax.jmi.model.Operation operation;
     public javax.jmi.model.Operation getOperation () {
@@ -24,8 +21,8 @@ public class ExecutableJMIOperation
 
 
     public ExecutableJMIOperation(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured self,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIFeatured self,
         org.irisa.triskell.MT.DataTypes.Java.Value[] arguments,
         javax.jmi.model.Operation operation)
     {

@@ -1,24 +1,25 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/**
+ * $Id: JMIException.java,v 1.1 2004-02-16 15:44:35 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
 
-public class MDRException 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRUndefinedModelElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIException 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIUndefinedModelElement
 {
     private final String message;
 
 
-    public MDRException(
+    public JMIException(
         String message,
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
         super(api);
 		this.message = message;
@@ -35,7 +36,7 @@ public class MDRException
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof MDRException) && ((this.getErrorMessage() == null) && (((MDRException)rhs).getErrorMessage() == null) || this.getErrorMessage().equals(((MDRException)rhs).getErrorMessage())));
+		return (this == rhs) || ((rhs instanceof JMIException) && ((this.getErrorMessage() == null) && (((JMIException)rhs).getErrorMessage() == null) || this.getErrorMessage().equals(((JMIException)rhs).getErrorMessage())));
     }
 
     public String getErrorMessage()

@@ -1,18 +1,18 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/**
+ * $Id: JMIMetaElement.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * author : dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
-import java.util.*;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
-abstract public class MDRMetaElement 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+abstract public class JMIMetaElement 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement
     implements org.irisa.triskell.MT.repository.API.Java.MetaElement
 {
     private final String name;
@@ -22,13 +22,13 @@ abstract public class MDRMetaElement
     private transient String qualifiedNameAsString = null;
 
 
-    public MDRMetaElement(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI api,
+    public JMIMetaElement(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api,
         java.lang.Object ref,
         String name,
         String[] qualifiedName)
     {
-        		super(api, ref);
+        super(api, ref);
 		this.name = name == null ? (qualifiedName == null ? null : qualifiedName[qualifiedName.length-1]) : name;
 		this.qualifiedName = qualifiedName;
     }

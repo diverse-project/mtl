@@ -1,4 +1,8 @@
-package org.irisa.triskell.MT.repository.MDRDriver.Java;
+/*
+ * $Id: JMIEnumered.java,v 1.1 2004-02-16 15:44:36 dvojtise Exp $
+ * Authors : ffondeme dvojtise
+ */
+package org.irisa.triskell.MT.repository.genericJMIDriver;
 
 import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
@@ -8,17 +12,21 @@ import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
-public class MDREnumered 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
+/**
+ * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
+ * This serve as the base for all Driver that uses JMI to connect to the repository 
+ */
+public class JMIEnumered 
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement
     implements org.irisa.triskell.MT.repository.API.Java.ModelElement, org.irisa.triskell.MT.DataTypes.Java.EnumValue
 {
-    private final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaEnumeration type;
+    private final org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaEnumeration type;
 
     private final javax.jmi.reflect.RefEnum refEnum;
 
 
-    public MDREnumered(
-        org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaEnumeration type,
+    public JMIEnumered(
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIMetaEnumeration type,
         javax.jmi.reflect.RefEnum refEnum)
     {
         super(type.getSpecificAPI(), refEnum);
