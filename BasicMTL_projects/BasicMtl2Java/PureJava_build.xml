@@ -1,4 +1,4 @@
-<!-- $Id: PureJava_build.xml,v 1.5 2003-11-03 08:33:50 dvojtise Exp $ -->
+<!-- $Id: PureJava_build.xml,v 1.6 2003-12-16 08:13:11 jpthibau Exp $ -->
 <project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -12,6 +12,7 @@
 	
 	<!-- The necessary libraries compilation prrocess -->
 	<property name="Standard" location="src/Standard"/>
+	<property name="DefaultVisitors" location="src/DefaultVisitors"/>
 	
 	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and Facade projects -->
 	<property name="Utils"  location="${base}\Utils"/>
@@ -46,6 +47,7 @@
 	    
 	    <!-- <ant antfile="${src}/Standard/build.xml" dir="src/Standard" target="compile Standard"/> -->
 	    <ant antfile="${src}/Standard/build.xml" dir="${src}/Standard" target="compile Standard" inheritAll="false"/>
+	    <ant antfile="${src}/DefaultVisitors/build.xml" dir="${src}/DefaultVisitors" target="compile DefaultVisitors" inheritAll="false"/>
 	</target>
 	
 		
@@ -140,9 +142,13 @@
   		<mkdir dir="${dist}/Runtime/"/>
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
+  		<mkdir dir="${dist}/Runtime/src/DefaultVisitors"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
+  		</copy>
+  		<copy todir="${dist}/Runtime/src/DefaultVisitors">
+  			<fileset dir="${base}/BMTLDefaultVisitors"/>
   		</copy>
   		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>

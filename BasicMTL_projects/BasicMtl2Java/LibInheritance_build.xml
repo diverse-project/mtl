@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.6 2003-11-14 17:29:44 jpthibau Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.7 2003-12-16 08:13:11 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -18,6 +18,7 @@
 	
 	<!-- The necessary libraries compilation process -->
 	<property name="Standard" location="src/Standard"/>
+	<property name="DefaultVisitors" location="src/DefaultVisitors"/>
 	
 	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker, BasicMtlJavaCodeGenerator and FacadeInheritance projects -->
 	<property name="Utils"  location="${base}\Utils"/>
@@ -203,6 +204,17 @@
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">
+	         <arg value="${base}/BMTLDefaultVisitors/src/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${src}/TLL/"/>  
+	         <arg value="-PackageName"/> 
+	         <arg value="DefaultVisitors"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${src}/DefaultVisitors/"/> 
+       	</java> 
+  		<java jar="${ANTLR2JavaCode}" 
+					fork="true"
+           			failonerror="true">
 	         <arg value="${base}/BMTLRepositoryDriver/src/"/>
 	         <arg value="-TLLPath"/> 
 	         <arg value="${src}/TLL/"/>  
@@ -275,10 +287,14 @@
   		<mkdir dir="${dist}/Runtime/"/>
   		<mkdir dir="${dist}/Runtime/src"/>
   		<mkdir dir="${dist}/Runtime/src/Standard"/>
+  		<mkdir dir="${dist}/Runtime/src/DefaultVisitors"/>
   		<mkdir dir="${dist}/Runtime/src/RepositoryDriver"/>
   		<mkdir dir="${dist}/Runtime/src/BasicMtlASTView"/>
   		<copy todir="${dist}/Runtime/src/Standard">
   			<fileset dir="${base}/BMTLStandard"/>
+  		</copy>
+  		<copy todir="${dist}/Runtime/src/DefaultVisitors">
+  			<fileset dir="${base}/BMTLDefaultVisitors"/>
   		</copy>
   		<copy  todir="${dist}/Runtime/src/RepositoryDriver">
   			<fileset dir="${base}/BMTLRepositoryDriver"/>
