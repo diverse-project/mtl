@@ -1,0 +1,143 @@
+/**************************************************************************
+ * $Id: MyTransformationModel.mtl,v 1.1 2003-12-18 15:13:45 dvojtise Exp $
+ * Description :	this transformation model aims to demonstrate some MTL concepts
+ *	it describes the connection to a repository which contains a UML1.4 model
+ *************************************************************************/	
+
+library MyTransformationModel;
+ 
+model source_model : RepositoryModel;  // a Repository model
+
+main() : Standard::Void
+{
+	myClass : MyTransformationClass;
+	
+	myClass := new MyTransformationClass();
+	myClass.connectSourceModel();
+	myClass.navigateSourceModel();
+	
+}
+class MyTransformationClass
+{
+	connectSourceModel()
+	{
+		// local variables
+		mdrdriver        									: MDRDriver::MDRModelManager;
+		metamodelFilename, inputFilename, outputFilename 	: Standard::String; 
+		// we define some filenames 
+		metamodelFilename := 'Uml1.4_Metamodel.xmi';
+		inputFilename     := 'Sample_Uml14_Model.xmi';
+		outputFilename    := 'Sample_Uml14_Model_modified.xmi';
+
+	    // we initialize the MDR driver			
+		mdrdriver := new MDRDriver::MDRModelManager();
+		mdrdriver.init();
+		 
+		// intanciate the model, save result in another file
+		source_model := mdrdriver.getModelFromXMI (
+			metamodelFilename, 
+			'UML',			// name of the root package in the Uml1.4 metamodel
+			'UML1.4_model', // name of the new model in the repository
+			inputFilename,
+			outputFilename
+		);		
+	}
+	
+	/**************************************************************************
+	 * Name :			getEntryPointInUml14SourceModel: 
+	 * Description :	we are looking for a simple entry point of Uml14 model
+	 * 	as there is usually only one Package of type Model in a uml14 model 
+	 *		if not, one should use getEntryPointsInUml14SourceModel()
+	 * 	return the first element of this Set
+	 *************************************************************************/	
+	getEntryPointInUml14SourceModel() : source_model::Model_Management::Package
+	{
+		modelIterator : Standard::Iterator;		
+		modelIterator := getEntryPointsInUml14SourceModel().getNewIterator();		
+		// in Uml14, Model is a kind of Package, so we return a Package, because people know it better 
+		// than Model
+		return modelIterator.item().oclAsType(!source_model::Model_Management::Package!);		
+	}
+	
+	/**************************************************************************
+	 * Name :			getEntryPointsInUml14SourceModel: 
+	 * Description :	return the a set of all declared entry points for uml14 model
+	 *************************************************************************/
+	getEntryPointsInUml14SourceModel() : Standard::Set
+	{		
+		return !source_model::Model_Management::Model!.allInstances();		
+	}
+	
+	/**************************************************************************
+	 * Name :			navigateSourceModel 
+	 * Description :	illustrates the navigation in the model
+	 *************************************************************************/
+	navigateSourceModel()
+	{				
+		umlEntryPoint 	: source_model::Model_Management::Package;
+		packageIterator : Standard::Iterator;
+		meSet			: Standard::Set;
+		aOwnedElement  	: source_model::Core::ModelElement;
+		
+		
+		umlEntryPoint := getEntryPointInUml14SourceModel();		
+		'navigate the attribute name and display it'.toOut();
+		umlEntryPoint.name.toOut(); 		
+		'navigating an association returns a Set'.toOut();
+		meSet := umlEntryPoint.ownedElement;
+		packageIterator := meSet.getNewIterator();
+		while packageIterator.isOn()
+		{
+			// item() returns an oclAny, so we need to cast it into the real type, that is ModelElement	if we want to do something with it
+			aOwnedElement := packageIterator.item().oclAsType(!source_model::Core::ModelElement!);
+			aOwnedElement.name.toOut();
+			packageIterator.next();
+		}
+		// do something more complex
+		'navigate recursively the ownedElement and display their names'.toOut();
+		allOwnedElementName(umlEntryPoint,'').toOut();
+	}
+
+	/**************************************************************************
+	 * Name :			allOwnedElementName: 
+	 * Description :	return a displayable String (with tabulation) containing the 
+	 * 	name of all	the ModelElements owned by this element :
+	 *		that is, following recursively the ownedElement composition from Namespace
+	 *************************************************************************/
+	allOwnedElementName(aNamespace : source_model::Core::Namespace;
+						tabsString 	: Standard::String				) : Standard::String
+	{
+		aOwnedElement  	: source_model::Core::ModelElement;
+		aModelElement  	: source_model::Core::ModelElement;
+		it 				: Standard::Iterator;
+		returnedString  : Standard::String;
+		nameString  	: Standard::String;
+		
+	
+		returnedString := tabsString;
+		nameString := aNamespace.name;
+		
+		returnedString := returnedString.concat(nameString);
+		returnedString := returnedString.concat(' :\n');
+
+		// navigate the ownedElement association
+		it := aNamespace.ownedElement.getNewIterator();			
+		while it.isOn()
+		{
+			if it.item().oclIsKindOf(!source_model::Core::Namespace!)
+			{
+				returnedString := returnedString.concat(allOwnedElementName(it.item().oclAsType (!source_model::Core::Namespace!),tabsString.concat('   ')));			
+			}
+			else
+			{	// not of type Core::Namespace so it doesn't have the ownedElement composition
+				returnedString := returnedString.concat(tabsString.concat('   '));	
+				nameString := it.item().oclAsType (!source_model::Core::ModelElement!).name;
+				returnedString := returnedString.concat(nameString);
+			}
+			returnedString := returnedString.concat('\n');
+			it.next();
+		}
+		// we return the result
+		return returnedString;
+	}
+}

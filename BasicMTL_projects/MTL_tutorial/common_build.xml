@@ -1,0 +1,106 @@
+<!-- $Id: common_build.xml,v 1.1 2003-12-18 15:13:43 dvojtise Exp $ -->
+<project name="common_build" default="compile" basedir=".">
+	<description>
+        Common Build file for using the BasicMTL compiler
+        build a library from a directory.
+	</description>
+
+	<!-- set global properties for this build -->
+<!--	<property name="build.bin" location="build/bin"/>
+	<property name="build.src" location="build/src"/>
+	
+	<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation"/>
+	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/dist/bin"/> -->
+	<!-- The compilation tool -->
+<!--	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
+	<property name="Runtime.TLL.path" value="${MTLcompiler.path}/src/TLL"/>-->
+	<!-- The runtime environment -->
+<!--	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+-->	
+	<path id="current.class.path">
+	  	<pathelement path="${BasicMTLRuntime.jar}"/>
+	</path>
+	  	
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+	<!-- ORDINARILY, ONLY BELOW PROPERTIES HAVE TO BE SET -->
+	<!--           ( and the project name )               -->
+	<!-- ************************************************ -->
+	<!-- set user properties for this build -->
+	
+	<!-- <property name="src" location="src"/>
+	<property name="user.src.path" value="${src}/UML_Utils"/>
+	<property name="user.package.name" value="UML_Utils"/>
+	<property name="user.build.src" value="${build.src}/UML_Utils"/>
+	<property name="user.needed.TLL.path" value="${Runtime.TLL.path}"/> --><!-- other TLL needed in order to comile this one -->
+
+	<!-- ************************************************ -->
+	<!-- ************************************************ -->
+
+	
+	<target name="init common">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directories structures used by compile -->
+	    <mkdir dir="${build.src}"/>
+	    <mkdir dir="${build.bin}"/> 
+	</target>
+	
+	
+		
+  
+	<target name="clean common"
+        description="clean up intermediate files" >
+    	<!-- Delete the ${builtsrc}, {$builtbin} and  directory trees -->
+    	<delete file="${build.src}/TLL/${user.package.name}.tll"/>    
+    	<delete dir="${user.build.src}"/>    
+  	</target>
+
+  	<target name="compile common" description="compile all the sources in .class files" depends="init common">
+  		<!-- generate java files from the mtl files -->
+  		<!--<echo>TEMPLATEPATH=${MTLcompiler.jar.path}/</echo>
+  		<echo>${BasicMTLc.jar} ${user.src.path}/ </echo>
+  		<echo>-TLLPath ${build.src}/TLL/ </echo>
+  		<echo>-TLLLoadingPaths ${user.needed.TLL.path}/ </echo>
+  		<echo>-PackageName ${user.package.name} </echo>
+  		<echo>-BinPath ${user.build.src}/ </echo>-->
+  		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
+  		<java jar="${BasicMTLc.jar}" 
+					fork="true"
+           			failonerror="true">
+			<sysproperty key="TEMPLATEPATH" value="${template}/"/>
+	         <arg value="${user.src.path}/"/>
+	         <arg value="-TLLPath"/> 
+	         <arg value="${build.src}/TLL/"/>  
+	         <arg value="-TLLLoadingPaths"/>
+	         <arg value="${user.needed.TLL.path}/"/>
+	         <arg value="-PackageName"/> 
+	         <arg value="${user.package.name}"/> 
+	         <arg value="-BinPath"/> 
+	         <arg value="${user.build.src}/"/> 
+       	</java> 
+  		<!-- final java compile -->
+  		<javac srcdir="${build.src}" 
+    	    destdir="${build.bin}"
+   			debug="true">
+   			<classpath >
+   				<pathelement path="${MTLcompiler.path}/bin"/>
+   				<path refid="current.class.path"/> 
+   			</classpath>
+   		</javac>
+  	</target>
+
+  	<target name="run common" description="run the transformation">
+  		<!-- target may not work if there is no main in the library -->
+		<java classname="${user.package.name}.BMTLLib_${user.package.name}" fork="true">
+		<arg value="-h"/>
+		<classpath>
+			<pathelement path="${build.bin}/"/>
+			<pathelement path="${BasicMTLRuntime.jar}"/>
+   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
+		</classpath>
+       	</java> 
+	</target>
+
+
+</project>
