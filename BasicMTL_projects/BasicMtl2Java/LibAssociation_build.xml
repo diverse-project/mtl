@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_build.xml,v 1.3 2003-10-29 11:09:24 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_build.xml,v 1.4 2003-10-31 12:17:55 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -16,7 +16,7 @@
 	<!-- The compilation tool (link to the BasicMTL compiler used to compile this version) -->
 	<property name="MTLcompiler.jar.path" location="LibAssociationBoot/dist/bin"/>
 	<property name="MTLcompiler.Runtime.path" location="LibAssociationBoot/dist/bin/Runtime"/>
-	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTL.jar"/>
+	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	
 	<!-- classpath for compiling the compiler -->
 	<path id="compileCompiler.class.path">
@@ -73,7 +73,7 @@
 		<ant antfile="LibAssociation_common_build.xml" dir="." target="create_jar common" inheritAll="true"/>
 		<!-- specific jar creation steps -->				
 	</target>
-	<target name="dist" >
+	<target name="dist" depends="create_jar" >
 		<!-- call common part -->
 		<ant antfile="LibAssociation_common_build.xml" dir="." target="dist common" inheritAll="true"/>
 		<!-- specific jar creation steps -->				

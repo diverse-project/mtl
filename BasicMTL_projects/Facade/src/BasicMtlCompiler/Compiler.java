@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/Facade/src/BasicMtlCompiler/Compiler.java,v 1.1 2003-10-14 07:31:56 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/Facade/src/BasicMtlCompiler/Compiler.java,v 1.2 2003-10-31 12:21:05 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -43,7 +43,7 @@ public class Compiler {
 			String defaultTLLPath=null;
 			String TLLLoadingPaths=null;
 			String defaultBinPath=null;
-			for (int j=1;j<4;j++) { //possible three optional arguments
+			for (int j=1;j<5;j++) { //possible four optional arguments
 			if ((argsEnd > 2)
 			 && (args[argsEnd-2].equalsIgnoreCase("-PackageName")
 				|| args[argsEnd-2].equalsIgnoreCase("-TLLPath")
@@ -52,7 +52,7 @@ public class Compiler {
 				{	if (args[argsEnd-2].equalsIgnoreCase("-PackageName"))
 						defaultPackagePrefix=args[argsEnd-1];
 					else if (args[argsEnd-2].equalsIgnoreCase("-TLLPath"))
-							defaultTLLPath=args[argsEnd-1]+"TLL/";
+							defaultTLLPath=args[argsEnd-1];
 						else if (args[argsEnd-2].equalsIgnoreCase("-TLLLoadingPaths"))
 								TLLLoadingPaths=args[argsEnd-1];
 							else defaultBinPath=args[argsEnd-1]; 

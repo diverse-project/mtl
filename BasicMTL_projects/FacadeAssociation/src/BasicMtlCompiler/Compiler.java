@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.1 2003-10-14 07:30:28 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.2 2003-10-31 12:20:11 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -26,10 +26,16 @@ import antlr2ASTView.antlr2astViewParser;
  */
 public class Compiler {
 
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
-	
+
+	public static String checkPathEnd(String path)
+	{	if (path.charAt(path.length()-1)=='/'
+			|| path.charAt(path.length()-1)=='\\')
+			return path;
+		return path+'/';
+}
+		
 	public static void main(String[] args)
 	{
 		try {
@@ -44,7 +50,8 @@ public class Compiler {
 			String defaultTLLPath=null;
 			String TLLLoadingPaths=null;
 			String defaultBinPath=null;
-			for (int j=1;j<4;j++) { //possible three optional arguments
+			String sourcesDir=null;
+			for (int j=1;j<5;j++) { //possible four optional arguments
 			if ((argsEnd > 2)
 			 && (args[argsEnd-2].equalsIgnoreCase("-PackageName")
 				|| args[argsEnd-2].equalsIgnoreCase("-TLLPath")
@@ -53,18 +60,19 @@ public class Compiler {
 				{	if (args[argsEnd-2].equalsIgnoreCase("-PackageName"))
 						defaultPackagePrefix=args[argsEnd-1];
 					else if (args[argsEnd-2].equalsIgnoreCase("-TLLPath"))
-							defaultTLLPath=args[argsEnd-1]+"TLL/";
+							defaultTLLPath=checkPathEnd(args[argsEnd-1]);
 						else if (args[argsEnd-2].equalsIgnoreCase("-TLLLoadingPaths"))
-								TLLLoadingPaths=args[argsEnd-1];
+								TLLLoadingPaths=checkPathEnd(args[argsEnd-1]);
 							else defaultBinPath=args[argsEnd-1]; 
 					argsEnd=argsEnd-2;
 				}
 			}
 			if (defaultPackagePrefix==null) defaultPackagePrefix="org.irisa.triskell.MT.ThirdParty.";
 			if (defaultTLLPath==null)
-				defaultTLLPath=tllPrefix;
+				log.error("No -TLLPath option,don't known where tostore produced TLL");
 			java.util.Vector filenamesArguments=new java.util.Vector();
-			String filesList[]=new java.io.File(args[0]).list();
+			sourcesDir=checkPathEnd(args[0]);
+			String filesList[]=new java.io.File(sourcesDir).list();
 			for (int i=0;i<filesList.length;i++)
 			{
 				// checks if file exists
