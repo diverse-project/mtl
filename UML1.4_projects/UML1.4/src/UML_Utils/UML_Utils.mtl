@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML_Utils.mtl,v 1.1 2003-11-04 12:48:22 dvojtise Exp $
+ * $Id: UML_Utils.mtl,v 1.2 2003-12-11 10:37:07 kodent Exp $
  * This library provides tools function to manipulate objects of UML1.4 metamodel
  * It is inspired by some usefull Objecteering J method for some metaclasses.
  * It should avoid to have some repetitive MTL code. 
@@ -248,10 +248,47 @@ addParameterToBehavioralFeature (
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-// category : 
-// name     : 
-// purpose  : 
+// category : UML::Core::ModelElement
+// name     : IsModelElementTaggedValue
+// purpose  : Tells if a model element has a given tagged value (given as a string)
 // in       :
 // out      :
 // remark   : 
 ////////////////////////////////////////////////////////////////////////////////////
+
+IsModelElementTaggedValue (
+	elt : source_model::Core::ModelElement;
+	value : Standard::String
+) : Standard::Boolean
+{
+	result   : Standard::Boolean;
+	iterator : Standard::Iterator;
+	tg       : source_model::Core::TaggedValue;
+	tgval    : Standard::String;
+	itValue  : Standard::Iterator;
+	
+	result := false;
+
+	iterator := elt.taggedValue.getNewIterator();
+	iterator.start();
+	while result.[=](false).[and] (iterator.isOn()) 
+	{		
+		tg := iterator.item().oclAsType(!source_model::Core::TaggedValue!);
+
+		itValue := tg.dataValue.getNewIterator ();
+		itValue.start();
+		while result.[=](false).[and] (itValue.isOn())
+		{
+			tgval := itValue.item().oclAsType(!Standard::String!);
+			if (tgval.[=](value))
+			{
+				result := true;
+			}
+			itValue.next();
+		}
+		iterator.next();
+	}
+	
+	return result;
+}
+	
