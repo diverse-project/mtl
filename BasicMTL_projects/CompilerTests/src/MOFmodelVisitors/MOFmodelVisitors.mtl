@@ -1,7 +1,7 @@
 library MOFmodelVisitors;
 
-model MOF : RepositoryModel;		// should be a UML1.4 MetaModel
-model mdrdriver    : MDRDriver;
+//model MOFModel : RepositoryModel;		// should be a UML1.4 MetaModel
+//model mdrdriver    : MDRDriver;
 
  
 /********************************************/
@@ -17,6 +17,7 @@ main() : Standard::Void
 	metamodelFilename : Standard::String;
 	inputFilename     : Standard::String;
 	outputFilename    : Standard::String;
+	MOF : Standard::RepositoryAPI;
 	test : Test1;
 
 	// we define some filenames 
@@ -36,10 +37,11 @@ main() : Standard::Void
 		'MOF_model', 
 		inputFilename,
 		outputFilename
-	);
+	).oclAsType(!Standard::RepositoryAPI!);
+//	MOF:=MOFModel.oclAsType(!Standard::RepositoryAPI!);
 
 	test := new Test1 ();
-	test.run();
+	test.run(MOF);
 
 	'End of test !'.toOut();
 }
@@ -91,7 +93,7 @@ visitTag(instance : Standard::OclAny; context : Standard::OclAny) : Standard::Oc
 class Test1
 {
 	/** */
-	run ()
+	run (MOF:Standard::RepositoryAPI)
 	{
 		iterator : Standard::Iterator;
 		anElt : MOF::Model::ModelElement;
@@ -100,7 +102,7 @@ class Test1
 
 		aCV := new CV();
 		anIV := new IV();
-		iterator := !MOF::Model::ModelElement!.allInstances().getNewIterator();
+		iterator := MOF.getTypeFromName('Model::ModelElement').allInstances().getNewIterator();
 		while iterator.isOn() {
 			anElt := iterator.item();
 //			anElt.toOut();
