@@ -3,9 +3,10 @@
     <classpathentry kind="src" path="src"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="src" path="/BasicMtlAntlr"/>
-    <classpathentry kind="src" path="/BasicMtlAntlr2BasicMtlAstJava"/>
-    <classpathentry kind="src" path="/BasicMtlAstJava"/>
     <classpathentry kind="src" path="/BasicMtlTLLJava"/>
     <classpathentry kind="lib" path="ThirdParty/log4j/log4j.jar"/>
+    <classpathentry kind="src" path="/BasicMtlAntlr2BasicMtlAstJava"/>
+    <classpathentry kind="src" path="/BasicMtlAstJava"/>
+    <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
