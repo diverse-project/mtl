@@ -4,12 +4,10 @@
    id="org.inria.BasicMTL.runtime"
    name="BasicMTL Runtime Plug-in"
    version="0.0.3"
-   provider-name="INRIA">
+   provider-name="INRIA"
+   class="org.inria.BasicMTL.runtime.RuntimePlugin">
 
    <runtime>
-      <library name="ThirdParty/MDR/nbmdr.jar">
-         <export name="*"/>
-      </library>
       <library name="ThirdParty/log4j/log4j.jar">
          <export name="*"/>
       </library>
@@ -52,15 +50,12 @@
       <library name="BasicMTLruntime.jar">
          <export name="*"/>
       </library>
+      <library name="ThirdParty/MDR/nbmdr.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.inria.EMFDriver"/>
-      <import plugin="org.eclipse.emf.ecore.edit"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.emf"/>
-      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
 </plugin>

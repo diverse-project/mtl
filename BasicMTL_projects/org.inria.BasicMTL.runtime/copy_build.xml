@@ -1,11 +1,11 @@
-<!-- $Id: copy_build.xml,v 1.1 2004-08-10 12:28:05 dvojtise Exp $ -->
+<!-- $Id: copy_build.xml,v 1.2 2004-08-16 11:40:16 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="get all" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
 	</description>
 	<!-- set global properties for this build -->
 	<!-- the following properties must be set by the caller -->
-	<property name="src" location="src"/>
+	<property name="src" location="build/src"/>
 	<property name="bin" location="bin"/>
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
@@ -106,6 +106,14 @@
   		</copy>
   		
   	</target>
+	
+	<target name="unzip_jars">
+		<unzip dest="Build/bin">
+		    <fileset dir=".">
+		        <include name="ThirdParty/**/*.jar"/>
+		    </fileset>
+		</unzip>
+	</target>
   	<target name="get_sources" description="copy sources files from the different projects">
   		<copy  todir="${src}/org">
   			<fileset dir="${LibAssociation}/src/org">

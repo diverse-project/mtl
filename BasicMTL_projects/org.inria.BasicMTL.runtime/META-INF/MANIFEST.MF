@@ -2,23 +2,9 @@ Manifest-Version: 1.0
 Bundle-Name: BasicMTL Runtime Plug-in
 Bundle-SymbolicName: org.inria.BasicMTL.runtime
 Bundle-Version: 0.0.3
-Bundle-ClassPath: ThirdParty/MDR/nbmdr.jar,
- ThirdParty/log4j/log4j.jar,
- ThirdParty/MDR/jmi.jar,
- ThirdParty/MDR/jmiutils.jar,
- ThirdParty/MDR/mdrapi.jar,
- ThirdParty/MDR/mof.jar,
- ThirdParty/MDR/openide-lookup.jar,
- ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar,
- ThirdParty/ModFact/v1_0_0/JMI1_0.jar,
- ThirdParty/ModFact/v1_0_0/JMIEngine.jar,
- ThirdParty/ModFact/v1_0_0/JMIRepository.jar,
- ThirdParty/ModFact/v1_0_0/ow_monolog.jar,
- ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar,
- ThirdParty/JUnit/junit.jar,
- BasicMTLruntime.jar
-Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActivator
+Bundle-ClassPath: ThirdParty/log4j/log4j.jar,ThirdParty/MDR/jmi.jar,ThirdParty/MDR/jmiutils.jar,ThirdParty/MDR/mdrapi.jar,ThirdParty/MDR/mof.jar,ThirdParty/MDR/openide-lookup.jar,ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar,ThirdParty/ModFact/v1_0_0/JMI1_0.jar,ThirdParty/ModFact/v1_0_0/JMIEngine.jar,ThirdParty/ModFact/v1_0_0/JMIRepository.jar,ThirdParty/ModFact/v1_0_0/ow_monolog.jar,ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar,runtime.jar,ThirdParty/MDR/nbmdr.jar,ThirdParty/JUnit/junit.jar
+Bundle-Activator: org.inria.BasicMTL.runtime.RuntimePlugin
 Bundle-Vendor: INRIA
 Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime
 Eclipse-AutoStart: true
-Require-Bundle: org.eclipse.core.runtime.compatibility

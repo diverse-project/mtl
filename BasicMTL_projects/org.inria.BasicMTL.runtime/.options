@@ -1,0 +1,4 @@
+org.inria.BasicMTL.runtime/debug = true
+org.inria.BasicMTL.runtime/debug/flag = true
+org.inria.BasicMTL.runtime/debug/filter = *
+org.inria.BasicMTL.runtime/trace/contexts = true

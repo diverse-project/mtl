@@ -41,14 +41,14 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 
-	<target name="BasicMTLruntime.jar" depends="init" unless="BasicMTLruntime.jar" description="Create jar: BasicMTLruntime.jar.">
-		<delete dir="${temp.folder}/BasicMTLruntime.jar.bin"/>
-		<mkdir dir="${temp.folder}/BasicMTLruntime.jar.bin"/>
+	<target name="runtime.jar" depends="init" unless="runtime.jar" description="Create jar: runtime.jar.">
+		<delete dir="${temp.folder}/runtime.jar.bin"/>
+		<mkdir dir="${temp.folder}/runtime.jar.bin"/>
 		<!-- compile the source code -->
-		<javac destdir="${temp.folder}/BasicMTLruntime.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
+		<javac destdir="${temp.folder}/runtime.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
 			<compilerarg line="${compilerArg}"/>
 			<classpath>
-				<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="../../plugins/org.eclipse.core.runtime_3.0.0/bin/"/>
 				<pathelement path="../../plugins/org.eclipse.core.runtime_3.0.0/runtime.jar"/>
 				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/core.jar"/>
 				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/console.jar"/>
@@ -56,8 +56,6 @@
 				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/resolver.jar"/>
 				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/defaultAdaptor.jar"/>
 				<pathelement path="../../plugins/org.eclipse.osgi_3.0.0/eclipseAdaptor.jar"/>
-				<pathelement path="../../plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
-				<pathelement path="ThirdParty/MDR/nbmdr.jar"/>
 				<pathelement path="ThirdParty/log4j/log4j.jar"/>
 				<pathelement path="ThirdParty/MDR/jmi.jar"/>
 				<pathelement path="ThirdParty/MDR/jmiutils.jar"/>
@@ -70,43 +68,48 @@
 				<pathelement path="ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="ThirdParty/MDR/nbmdr.jar"/>
 				<pathelement path="ThirdParty/JUnit/junit.jar"/>
+				<pathelement path="runtime.jar"/>
 			</classpath>
 			<src path="src/"			/>
+			<src path="build/src/"			/>
 			</javac>
 		<!-- Copy necessary resources -->
-		<copy todir="${temp.folder}/BasicMTLruntime.jar.bin" failonerror="true">
+		<copy todir="${temp.folder}/runtime.jar.bin" failonerror="true">
 			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="build/src/" excludes="**/*.java, **/package.htm*"			/>
 		</copy>
 		<mkdir dir="${build.result.folder}"/>
-		<jar jarfile="${build.result.folder}/BasicMTLruntime.jar" basedir="${temp.folder}/BasicMTLruntime.jar.bin"/>
-		<delete dir="${temp.folder}/BasicMTLruntime.jar.bin"/>
+		<jar jarfile="${build.result.folder}/runtime.jar" basedir="${temp.folder}/runtime.jar.bin"/>
+		<delete dir="${temp.folder}/runtime.jar.bin"/>
 	</target>
 
-	<target name="BasicMTLruntimesrc.zip" depends="init" unless="BasicMTLruntimesrc.zip">
+	<target name="runtimesrc.zip" depends="init" unless="runtimesrc.zip">
 		<mkdir dir="${build.result.folder}"/>
-		<zip zipfile="${build.result.folder}/BasicMTLruntimesrc.zip" filesonly="false" whenempty="skip" update="false">
+		<zip zipfile="${build.result.folder}/runtimesrc.zip" filesonly="false" whenempty="skip" update="false">
 			<fileset dir="src/" includes="**/*.java"			/>
+			<fileset dir="build/src/" includes="**/*.java"			/>
 		</zip>
 	</target>
 
 	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.inria.BasicMTL.runtime.">
-		<available property="BasicMTLruntime.jar" file="${build.result.folder}/BasicMTLruntime.jar"/>
-		<antcall target="BasicMTLruntime.jar"/>
+		<available property="runtime.jar" file="${build.result.folder}/runtime.jar"/>
+		<antcall target="runtime.jar"/>
 	</target>
 
 	<target name="build.sources" depends="init">
-		<available property="BasicMTLruntimesrc.zip" file="${build.result.folder}/BasicMTLruntimesrc.zip"/>
-		<antcall target="BasicMTLruntimesrc.zip"/>
+		<available property="runtimesrc.zip" file="${build.result.folder}/runtimesrc.zip"/>
+		<antcall target="runtimesrc.zip"/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3"/>
 		<copy todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="true">
-			<fileset dir="${build.result.folder}" includes="BasicMTLruntime.jar"			/>
+			<fileset dir="${build.result.folder}" includes="runtime.jar"			/>
 		</copy>
 		<copy todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="true">
-			<fileset dir="${basedir}" includes="plugin.xml,BasicMTLruntime.jar,bin/,META-INF/,src/,ThirdParty/"			/>
+			<fileset dir="${basedir}" includes="plugin.xml,runtime.jar,bin/,src/,ThirdParty/,build/,META-INF/,manifest/"			/>
 		</copy>
 	</target>
 
@@ -115,17 +118,17 @@
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3"/>
-		<copy file="${build.result.folder}/BasicMTLruntimesrc.zip" todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="false"/>
+		<copy file="${build.result.folder}/runtimesrc.zip" todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="false"/>
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3"/>
-		<copy file="${temp.folder}/BasicMTLruntime.jar.bin.log" todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="false"/>
+		<copy file="${temp.folder}/runtime.jar.bin.log" todir="${destination.temp.folder}/org.inria.BasicMTL.runtime_0.0.3" failonerror="false"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: org.inria.BasicMTL.runtime of all the zips, jars and logs created.">
-		<delete file="${build.result.folder}/BasicMTLruntime.jar"/>
-		<delete file="${build.result.folder}/BasicMTLruntimesrc.zip"/>
+		<delete file="${build.result.folder}/runtime.jar"/>
+		<delete file="${build.result.folder}/runtimesrc.zip"/>
 		<delete file="${plugin.destination}/org.inria.BasicMTL.runtime_0.0.3.jar"/>
 		<delete file="${plugin.destination}/org.inria.BasicMTL.runtime_0.0.3.zip"/>
 		<delete dir="${temp.folder}"/>
