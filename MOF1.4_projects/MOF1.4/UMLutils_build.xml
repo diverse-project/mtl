@@ -1,10 +1,11 @@
-<!-- $Id: MOFtests_build.xml,v 1.2 2004-03-17 15:46:38 edrezen Exp $ -->
-<project name="MOF tests" default="compile" basedir=".">
+<!-- $Id $ -->
+<project name="UML_Utils" default="compile" basedir=".">
 	<description>
-        Build file for compiling and running MOF tests
+        Build file for compiling UML_Utils
 	</description>
 
-	<property name="library.name" value="MOFtests"/>
+
+	<property name="library.name" value="UMLutils"/>
 
 	<property name="src" location="src"/>
 	<property name="build.bin" location="build/bin"/>
@@ -12,9 +13,6 @@
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
-
-	<property name="BasicMTLRuntime.jar" location="../BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar"/>
-
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->
@@ -32,19 +30,5 @@
   	<target name="compile" description="compile all the sources in .class files" depends="init">
   		<ant antfile="common_build.xml" dir="." target="compile common" inheritAll="true"/>
   	</target>
-
-  	<target name="run" description="run the transformation">
-  		<!-- cannot run the default target due to the mangling of the _
-  			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
-  		<java classname="${user.package.name}.BMTLLib_MOFtests" fork="true">
-			<arg value="${model}" />
-		<classpath>
-			<pathelement path="${build.bin}/"/>
-			<pathelement path="${BasicMTLRuntime.jar}"/>
-   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
-		</classpath>
-       	</java>
-	</target>
-
 
 </project>
