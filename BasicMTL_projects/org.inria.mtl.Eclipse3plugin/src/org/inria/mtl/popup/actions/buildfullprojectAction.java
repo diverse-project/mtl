@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.3 2004-10-22 07:45:25 edrezen Exp $
+* $Id: buildfullprojectAction.java,v 1.1 2004-10-22 07:45:25 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -15,7 +15,7 @@ import org.inria.mtl.commands.MTLCommandExecutor;
  * Build a project 
  */
 
-public class buildprojectAction extends MTLActionWithSelection
+public class buildfullprojectAction extends MTLActionWithSelection
 {
 	////////////////////////////////////////////////////////////////////////////////
 	// METHODS
@@ -28,7 +28,7 @@ public class buildprojectAction extends MTLActionWithSelection
 		if (item instanceof IProject)
 		{
 			// we launch a command that do our job.
-			MTLCommandExecutor.buildProject (item.getProject());
+			MTLCommandExecutor.buildFullProject (item.getProject());
 		}
 	}
 }

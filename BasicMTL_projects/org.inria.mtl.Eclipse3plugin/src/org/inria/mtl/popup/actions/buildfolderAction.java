@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.2 2004-08-26 12:40:22 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.3 2004-10-22 07:45:25 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,86 +8,27 @@
 package org.inria.mtl.popup.actions;
 
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
-import org.inria.mtl.MTLPlugin;
-import org.inria.mtl.builders.MTLModel;
+import org.inria.mtl.commands.MTLCommandExecutor;
 
 /**
  * @author sdzale
  * Build a folder source 
  */
-public class buildfolderAction implements IObjectActionDelegate {
-	private StructuredSelection currentSelection = null;
-	private IProject currentProject = null;
-	private IFolder srcFolder=null;
-	private ISelection selection=null;
+public class buildfolderAction extends MTLActionWithSelection 
+{
+	////////////////////////////////////////////////////////////////////////////////
+	// METHODS
+	////////////////////////////////////////////////////////////////////////////////
 
-
-	/**
-	 * Constructor for buildprojectAction.
-	 */
-	public buildfolderAction() {
-		super();
-	}
-
-	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-	}
-
-	/**
-	 * @see IActionDelegate#run(IAction)
-	 */
-	public void run(IAction action) {
-		Shell shell = new Shell();
-	currentSelection = null;
-try{
-	if (selection instanceof StructuredSelection)
+	/** Implementation of a Template Method primitive. */ 
+	public void ProcessResource (IResource item) throws Exception 
+	{
+		// we are interested in Folder resources
+		if (item instanceof IFolder)
 		{
-				
-			currentSelection = (StructuredSelection)selection;
-			java.util.Iterator it = currentSelection.iterator();
-				
-			while (it.hasNext() )
-				{	
-					
-					IResource item = (IResource) it.next ();
-				
-					if (item instanceof IFolder){
-				
-						currentProject=item.getProject();
-						srcFolder=(IFolder)item;
-																	
-						long oldGen = srcFolder.getModificationStamp();
-						//On fait en sorte que le fichier soit obligatoirement compilé
-						String newGen=((oldGen==100)?new Long(oldGen-1).toString():new Long(oldGen+1).toString());
-						srcFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
-						boolean i=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-										
-					}
-				}
-			}
-	}catch(Exception E){
-			System.out.println(E.getMessage());
+			// we launch a command that do our job.
+			MTLCommandExecutor.buildFolder ((IFolder)item);
 		}
 	}
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection=selection;
-		}
-
-	
-   
 }
