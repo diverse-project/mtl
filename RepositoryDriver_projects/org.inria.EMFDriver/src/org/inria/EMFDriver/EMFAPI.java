@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.5 2004-06-23 15:14:37 dvojtise Exp $
+/* $Id: EMFAPI.java,v 1.6 2004-09-08 07:07:41 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -358,9 +358,11 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 	 */
 	public MetaClass getMetaClass(String[] name)
 		throws UnknownElementException {
-		if (name.length != 2)
-			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(new EMFUnknownElement(this, "meta class " + name));
-		String fullName = name[0]+name[1];
+//		if (name.length != 2)
+//			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(new EMFUnknownElement(this, "meta class " + name));
+		String fullName=name[0];
+		for (int i=1;i<name.length;i++)
+			fullName=fullName+"::"+name[i];
 		MetaClass mc = (MetaClass)this.metaclassesTable.get(fullName);
 		if (mc == null) {
 			boolean found = false;
@@ -368,15 +370,30 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 			Iterator metaClassesIter = metaClasses.keySet().iterator();
 			while (metaClassesIter.hasNext() && !found) {
 				EMFChildElement elt = (EMFChildElement)metaClasses.get(metaClassesIter.next());
-				if (name[0].equals(elt.childDescriptor.getEReference().getContainerClass().getName())
-					&& name[1].equals(elt.childDescriptor.getEValue().eClass().getName()) ) {
+				String eltName=computeTreeName(elt);
+				if (fullName.equals(eltName)) {
+/*				if (name[0].equals(elt.childDescriptor.getEReference().getContainerClass().getName())
+					&& name[1].equals(elt.childDescriptor.getEValue().eClass().getName()) ) {*/
 					mc = new EMFMetaClass(this,elt);
 					found = true;
 				}
 			}
-			if (! found) throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(new EMFUnknownElement(this, "meta class " + name));
+			if (! found) {
+				System.err.println("EMFAPI.getMetaClass() : MetaClass "+fullName+"not found.");
+				throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(new EMFUnknownElement(this, "meta class " + name));
+			}
 		}
 		return mc;
+	}
+	
+	public static String computeTreeName(EMFChildElement elt) {
+		String result=elt.childDescriptor.getEValue().eClass().getName();
+		EPackage includingPackage = elt.childDescriptor.getEValue().eClass().getEPackage();
+		while (includingPackage.getESuperPackage()!=null) {
+			result=includingPackage.getName()+"::"+result;
+			includingPackage=includingPackage.getESuperPackage();
+		}
+		return result;
 	}
 
 	public org.irisa.triskell.MT.repository.API.Java.MetaClass getMetaClass(
