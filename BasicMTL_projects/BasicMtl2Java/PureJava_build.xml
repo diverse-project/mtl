@@ -1,4 +1,4 @@
-<!-- $Id: PureJava_build.xml,v 1.4 2003-10-31 15:49:48 dpollet Exp $ -->
+<!-- $Id: PureJava_build.xml,v 1.5 2003-11-03 08:33:50 dvojtise Exp $ -->
 <project name="BasicMtl2Java_PureJava" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -105,7 +105,7 @@
 	    
 	    <antcall target="compile_BasicMTL_compiler"/>
   	</target>
-  	<target name="dist" description="create a complete distribution of the BMTL compiler">
+  	<target name="dist" depends="compile_BasicMTL_compiler" description="create a complete distribution of the BMTL compiler">
   		<mkdir dir="${dist}"/>
   		<mkdir dir="${dist}/bin"/>  		
   		<!-- copy compiler jar files from their respective directories-->
