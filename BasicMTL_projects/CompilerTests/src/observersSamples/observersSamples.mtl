@@ -45,11 +45,38 @@ class HelloGetObserver extends DefaultObservers::Observer {
 	}
 }
 
+class HelloDeleteObserver extends DefaultObservers::Observer {
+
+	notifyPreDelete(object : Standard::BMTLObject) : Standard::Boolean {
+		'DELETE will be done'.toOut();
+		object.toOut();
+		return true;
+	}
+
+	notifyPostDelete(object : Standard::BMTLObject) : Standard::Void {
+		'DELETE has been done'.toOut();
+		object.toOut();
+	}
+}
+
+class HelloNewObserver extends DefaultObservers::Observer {
+
+	notifyPostNew(object : Standard::BMTLObject) : Standard::Void {
+		'NEW has been done'.toOut();
+		object.toOut();
+	}
+}
+
 main() : Standard::Void	{
 	hw : Hello;
+	instances : Standard::Set;
 	obs : HelloObserver;
 	setObs : HelloSetObserver;
 	getObs : HelloGetObserver;
+	deleteObs : HelloDeleteObserver;
+	newObs : HelloNewObserver;
+	//DEFAULT
+	//*******
 	hw := new Hello();
 	obs := new HelloObserver();
 	hw.addPreObserver(obs,'S');
@@ -64,6 +91,8 @@ main() : Standard::Void	{
 	hw.run();
 	self.removePreObserver(obs,!observersSamples::Hello!,'S');
 	self.removePostObserver(obs,!observersSamples::Hello!,'S');
+	//SETTER
+	//******
 	setObs := new HelloSetObserver();
 	hw.addPreObserver(setObs,'S');
 	hw.addPostObserver(setObs,'S');
@@ -73,10 +102,30 @@ main() : Standard::Void	{
 	hw.removePreObserver(setObs,'S');
 	hw.removePostObserver(setObs,'S');
 	self.removePostObserver(setObs,!observersSamples::Hello!,'S');
+	//GETTER
+	//******
 	getObs := new HelloGetObserver();
 	hw.addPreObserver(getObs,'G');
 	self.addPreObserver(getObs,!observersSamples::Hello!,'G');
 	hw.init('Hi Getter !!!');
 	hw.run();
 	hw.msg.toOut();
+	hw.removePreObserver(getObs,'G');
+	self.removePreObserver(getObs,!observersSamples::Hello!,'G');
+	//DELETE
+	//******
+	deleteObs := new HelloDeleteObserver();
+	hw.addPreObserver(deleteObs,'D');
+	self.addPostObserver(deleteObs,!observersSamples::Hello!,'D');
+	hw.delete();
+	self.removePostObserver(deleteObs,!observersSamples::Hello!,'D');
+	//NEW
+	//***
+	hw := new Hello();
+	instances := !observersSamples::Hello!.allInstances();
+	instances.toOut();
+	newObs := new HelloNewObserver();
+//	self.addPreObserver(newObs,!observersSamples::Hello!,'N');
+	self.addPostObserver(newObs,!observersSamples::Hello!,'N');
+	hw := new Hello();
 }

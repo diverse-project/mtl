@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: TheLibraryClassAnalyser.java,v 1.13 2004-07-16 09:20:50 jpthibau Exp $
+ * $Id: TheLibraryClassAnalyser.java,v 1.14 2004-07-16 13:41:34 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -127,8 +127,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".addObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue());");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".addObserver(\"PreDelete\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'N' : System.err.println(\"addPreObserver(...) has no meaning for New ! Use addPostObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".addObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue()); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
@@ -136,8 +138,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".removeObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue());");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".removeObserver(\"PreDelete\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'N' : System.err.println(\"removePreObserver(...) has no meaning for New ! Use removePostObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".removeObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue()); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
@@ -165,8 +169,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : System.err.println(\"addPostObserver(...'G') has no meaning for Getter !\");");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".addObserver(\"PostDelete\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'N' : "+ASTnode.getMangle()+".addObserver(\"PostNew\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"addPostObserver(...) has no meaning for Getter ! Use addPreObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue()); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_addPostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");
@@ -174,8 +180,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : System.err.println(\"removePostObserver(...'G') has no meaning for Getter !\");");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".removeObserver(\"PostDelete\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'N' : "+ASTnode.getMangle()+".removeObserver(\"PostNew\",obs,type.getOclTypeDelegate().getValue()); break;");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"removePostObserver(...) has no meaning for Getter ! Use removePreObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue()); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForInterface.println("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLOclTypeInterface type,BMTLString opSelection);");

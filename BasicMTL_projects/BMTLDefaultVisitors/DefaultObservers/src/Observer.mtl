@@ -2,6 +2,24 @@ library DefaultObservers;
 
 class Observer {
 
+	//Delete
+	notifyPreDelete(object : Standard::BMTLObject) :Standard::Boolean
+	{
+		'Default "notifyPreDelete(object : Standard::BMTLObject) :Standard::Boolean" implemenattion. Redefine this method in your own observer. The boolean result,if false,inhibits the delete operation.'.toOut();
+		return true;
+	}
+	notifyPostDelete(object : Standard::BMTLObject) : Standard::Void
+	{
+		'Default "notifyPostDelete(object : Standard::BMTLObject) : Standard::Void" implemenattion. Redefine this method in your own observer,if necessary.'.toOut();
+	}
+
+	//New
+	//addPreObserver has no meaning : the object has to be created to be observed
+	notifyPostNew(object : Standard::BMTLObject) : Standard::Void
+	{
+		'Default "notifyPostNew(object : Standard::BMTLObject) : Standard::Void" implemenattion. Redefine this method in your own observer,if necessary.'.toOut();
+	}
+
 	//Getter
 	//addPostObserver has no meaning : the attribute value is returned and no code follows this return.
 	notifyPreGet(object : Standard::BMTLObject;attributeName : Standard::String) :Standard::Boolean
@@ -10,6 +28,7 @@ class Observer {
 		return true;
 	}
 
+	//Setter
 	notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean
 	{
 		'Default "notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean" implemenattion. Redefine this method in your own observer. The boolean result,if false,inhibits the set operation.'.toOut();

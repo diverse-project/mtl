@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.10 2004-07-16 09:20:50 jpthibau Exp $
+ * $Id: UserClassAnalyser.java,v 1.11 2004-07-16 13:41:34 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -76,16 +76,18 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".addObserver(\"PreGet\",obs);");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs);");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".addObserver(\"PreDelete\",obs); break;");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".addObserver(\"PreGet\",obs); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePreObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLString opSelection) {");
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".removeObserver(\"PreGet\",obs);");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs);");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".removeObserver(\"PreDelete\",obs); break;");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".removeObserver(\"PreGet\",obs); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForClass.println("public java.util.Vector getPreObservsers(String observationPoint) {");
@@ -97,16 +99,18 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : System.err.println(\"addPostObserver(...'G') has no meaning for Getter !\");");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs);");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".addObserver(\"PostDelete\",obs); break;");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"addPostObserver(...) has no meaning for Getter ! Use addPreObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_removePostObserver(DefaultObservers.BMTL_ObserverInterface obs,BMTLString opSelection) {");
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
-			outputForClass.println("\t\tcase 'G' : System.err.println(\"removePostObserver(...'G') has no meaning for Getter !\");");
-			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs);");
+			outputForClass.println("\t\tcase 'D' : "+ASTnode.getMangle()+".removeObserver(\"PostDelete\",obs); break;");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"removePostObserver(...) has no meaning for Getter ! Use removePreObserver instead.\"); break;");
+			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs); break;");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
 			outputForClass.println("public java.util.Vector getPostObservsers(String observationPoint) {");
@@ -166,6 +170,18 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		outputForClass.println("/*====================*/");
 		outputForClass.println("public "+ASTnode.getMangle()+'('+generatedLibCompleteMangledName+"Interface libRef)");
 		outputForClass.println("{ super(\""+JavaStringLiteralEncoder.encodeString(ASTnode.getName())+"\");");
+/*		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tboolean doNew=true;");
+			outputForClass.println("\tjava.util.Vector preObservers = theLib.getPreObservsers(\"PreNew\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doNewCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreNew(this);");
+			outputForClass.println("\t\tif (! doNewCond.getTheBoolean()) doNew=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\tif (doNew) {"); }*/
 		outputForClass.println("theLib = libRef;");
 		outputForClass.println("inheritanceMap=new java.util.Hashtable();");
 		outputForClass.println("inheritanceMap.put(\""+JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(ASTnode.getQualifiedName(), "::"))+"\",this);");
@@ -193,6 +209,15 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 					outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(("+externLibCompleteName+")theLib.getUsedLibrary(\""+externLib+"\"),inheritanceMap,this);");// ("+externCompleteParentName+")((BMTLType)this.getLibrary().getMetaClass(new String [] {\"" + AWK.mergeCollection(aParentType, "\", \"") + "\"})).instanciateReference(inheritanceMap,this);");
 				}
 		}
+		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tjava.util.Vector postObservers = theLib.getPostObservsers(\"PostNew\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (postObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = postObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\t((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPostNew(this);");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}"); }
 		outputForClass.println('}');
 		outputForClass.println();
 		outputForClass.println("/* Indirect constructor              */");
@@ -200,6 +225,18 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		outputForClass.println("/*===================================*/");
 		outputForClass.println("public "+ASTnode.getMangle()+"("+generatedLibCompleteMangledName+"Interface libRef,java.util.Hashtable map,"+ASTnode.getMangle()+"Interface o)");
 		outputForClass.println("{ super(\""+JavaStringLiteralEncoder.encodeString(ASTnode.getName())+"\");");
+/*		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tboolean doNew=true;");
+			outputForClass.println("\tjava.util.Vector preObservers = theLib.getPreObservsers(\"PreNew\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doNewCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreNew(this);");
+			outputForClass.println("\t\tif (! doNewCond.getTheBoolean()) doNew=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\tif (doNew) {"); }*/
 		outputForClass.println("theLib = (" + generatedLibCompleteMangledName + "Interface)libRef.getLibrary();");
 		outputForClass.println("inheritanceMap = map;");
 		outputForClass.println("theCaller=o;");
@@ -226,14 +263,47 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 					outputForClass.println("else BMTLRef_"+externParentName+"= new "+externCompleteParentName+"(("+externLibCompleteName+")theLib.getUsedLibrary(\""+externLib+"\"),map,o);");// ("+externCompleteParentName+")((BMTLType)this.getLibrary().getMetaClass(new String [] {\"" + AWK.mergeCollection(aParentType, "\", \"") + "\"})).instanciateReference(map,(BMTLObject)o);");
 				}
 		}
+		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tjava.util.Vector postObservers = theLib.getPostObservsers(\"PostNew\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (postObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = postObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\t((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPostNew(this);");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}"); }
 		outputForClass.println("}");
 		outputForClass.println();
 		outputForClass.println("/*=================*/");
 		outputForClass.println("/* CLASS FINALIZER */");
 		outputForClass.println("/*=================*/");
 		outputForClass.println("public boolean isValid = true;");
-		outputForClass.println("public void delete()");
-		outputForClass.println("{ if (isValid) {");
+		outputForClass.println("public void delete() {");
+		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tthis.BMTL_delete (BMTLBoolean.FALSE); }");
+			outputForClass.println("public org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface BMTL_delete(BMTLBooleanInterface trueDelete) {");
+			outputForClass.println("\tboolean doDelete=true;");
+			outputForClass.println("\tif (! trueDelete.getTheBoolean()) {");
+			outputForClass.println("\tjava.util.Vector preObservers = theLib.getPreObservsers(\"PreDelete\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doDeleteCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreDelete(this);");
+			outputForClass.println("\t\tif (! doDeleteCond.getTheBoolean()) doDelete=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\tpreObservers = this.getPreObservsers(\"PreDelete\");");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doDeleteCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreDelete(this);");
+			outputForClass.println("\t\tif (! doDeleteCond.getTheBoolean()) doDelete=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\t}if (trueDelete.getTheBoolean() || doDelete)"); }
+		outputForClass.println("\tif (isValid) {");
 		limit=ASTnode.getInheritance().size();
 		for (i=0;i<limit;i++) {
 			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
@@ -243,6 +313,25 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 		outputForClass.println("    theLib.removeInstance(\""+JavaStringLiteralEncoder.encodeString(ASTnode.getName())+"\",this);");
 		outputForClass.println("    this.isValid = false;");
 		outputForClass.println("  }");
+		if (((Boolean)ASTnode.getProperty("ObservableClass").getValue()).booleanValue()) {
+			outputForClass.println("\tif (! trueDelete.getTheBoolean()) {");
+			outputForClass.println("\tjava.util.Vector postObservers = theLib.getPostObservsers(\"PostDelete\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (postObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = postObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\t((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPostDelete(this);");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\tpostObservers = this.getPostObservsers(\"PostDelete\");");
+			outputForClass.println("\tif (postObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = postObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\t((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPostDelete(this);");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t} }");
+			outputForClass.println("return BMTLVoid.TheInstance;"); }
 		outputForClass.println('}');
 		outputForClass.println();
 		outputForClass.println("/*====================*/");
