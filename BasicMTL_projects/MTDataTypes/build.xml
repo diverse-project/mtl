@@ -1,0 +1,105 @@
+<!-- $Id: build.xml,v 1.1 2003-08-11 18:54:56 ffondeme Exp $ -->
+<!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
+<project name="MTDataTypes" default="dist" basedir=".">
+	<description>
+        Standard library, provided with an implementation and predefined operations.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="srcOfp" location="srcOfp"/>
+	<property name="bin" location="bin"/>
+	<property name="dist"  location="dist"/>
+	
+	<!-- This project depends on the Utils project -->
+	<property name="Utils"  location="..\Utils"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	    
+	    <!-- This project depends on the Utils project -->
+	    <echo>Building the "Utils" project.</echo>
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="dist" inheritAll="false"/>
+	    <echo>"Utils" project built.</echo>
+	</target>
+  
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
+	    <javac srcdir="${src};${srcOfp}"
+    	    destdir="${bin}"
+   			classpath=".;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            sourcepath="src"
+            classpath="bin;$ {Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+            <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>  
+				<attribute name="Class-Path" value="Utils.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+		<!-- This project depends on the Utils project -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${Utils}\dist\bin"/>
+		</copy>
+	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
+	    <copy file="ThirdParty/log4j/log4j_configuration"
+	    	todir="${dist}/bin/ThirdParty/log4j"
+	    	overwrite="true"/>
+	    	
+		<mkdir dir="${dist}/test"/>
+	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="true">
+	    	<classpath>
+			    <pathelement location="${dist}/bin/${ant.project.name}.jar"/>
+			    <pathelement location="${dist}/bin/Utils.jar"/>
+			    <pathelement path="${classpath}"/>
+			</classpath>
+			<formatter type="plain"/>
+	    	<test outfile="dist/test/report" name="org.irisa.triskell.MT.DataTypes.Test.AllDataTypeTests"/>
+	    </junit>
+	</target>
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>
+    	<delete dir="${dist}"/> 
+  	</target>
+
+  	<target name="deep_clean" depends="clean"
+        description="deep clean up (including depending projects)" >
+	    
+	    <!-- This project depends on the Utils project -->
+	    <ant antfile="${Utils}\build.xml" dir="${Utils}" target="deep_clean" inheritAll="false"/>
+    </target>
+</project>
