@@ -35,7 +35,10 @@
           <regexp match="/^ \s* (tag) \s* ([\w\$\.\*]+)?/x"
                 region1='def:Keyword' region2='TagOutline'/>
 
-
+		 <!-- library methods -->
+		 <regexp match="/^ \s* \b (?{MethodOutline}[\w_*&amp;~]+? \s* \( [^\)\(]*? \) \s* [\:\w\s]*) \s* \{* \s* $/x"
+         	region1='def:Function'/>
+         	
          <inherit scheme="MtlComments"/>
          <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>
          <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
@@ -228,7 +231,8 @@
             -->s
          </keywords>
 
-         <regexp match="/\b (?{MethodOutline}[\w_*&amp;~]+?) \s* \( [^\)\(]*? \) \s* [\:]+ \s* [\:\w\s]* [\s\{]*? /x"/>
+		 <!-- class methods -->
+         <regexp match="/^ \s* \b (?{MethodOutline}[\w_*&amp;~]+? \s* \( [^\)\(]*? \) \s* [\:\w\s]*) \s* \{* \s* $/x"/>
 
       </scheme>
 
