@@ -68,7 +68,7 @@ public class GetFileFromCompilerMessageCommand extends MTLCommand
 			result = MTLCore.getProject().getFile(subPath);
 		}
 		else 
-		{ //Propriété file non nulle
+		{ 
 			if (getMessage().getFileName()!=null)
 			{
 				String subPath = getMessage().getFileName().substring (

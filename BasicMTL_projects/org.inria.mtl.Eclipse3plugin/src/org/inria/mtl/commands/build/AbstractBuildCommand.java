@@ -5,9 +5,11 @@
 package org.inria.mtl.commands.build;
 
 import java.util.Collection;
+import java.util.Observer;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.inria.mtl.MTLPlugin;
@@ -49,6 +51,12 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	public AbstractBuildCommand (Collection dependencies)
 	{
 		setDependencies (dependencies);
+		
+		// we manage the classifier observers
+		for (java.util.Iterator it=observers.iterator(); it.hasNext(); )
+		{
+			this.addObserver ((Observer) it.next());
+		}
 	}
 	
 
@@ -59,11 +67,14 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	/** */
 	public Object preExecute() throws Exception 
 	{
+		// we may have to do nothing
+		if (getDependencies().size()==0)  {return Boolean.TRUE; }
+		
 		// some clean up before starting
 		MTLConsole.cleanConsole();
 		
 		// we initialize the message handler
-		MSGHandler.reinit();
+		MSGHandler.init();
 
 		// we clean the previous markers
 		for (java.util.Iterator it=getDependencies().iterator(); it.hasNext(); )
@@ -80,30 +91,44 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	/** */
 	public Object mainExecute () throws Exception
 	{
-		// we loop over all the source folders that need to be compiled
-		java.util.Iterator it = getDependencies().iterator();
-		while (it.hasNext())
+		// we may have to do nothing
+		if (getDependencies().size()==0)  {return Boolean.TRUE; }
+
+		try {
+			// we loop over all the source folders that need to be compiled
+			java.util.Iterator it = getDependencies().iterator();
+			while (it.hasNext())
+			{
+				// we get the item loop IPath object and remove the project segment
+				IPath loopPath = (IPath)it.next();
+				
+				// we retrieve the corresponding IFolder object			
+				IFolder loopFolder = (IFolder) MTLPlugin.getWorkspace().getRoot().findMember (loopPath);
+	
+				// we retrieve the corresponding project
+				IProject project = loopFolder.getProject();
+				
+				// we may want to notify observers that we are about to start the compilation
+				this.notifyObservers (new Object[] {"before", loopFolder});
+	
+				// we launch the compilation
+				Boolean result = (Boolean) MTLCommandExecutor.compile (
+					loopFolder, 
+					loopFolder.getName(), 
+					MTLModel.srcJavaFolder, 
+					MTLModel.tllFolder, 
+					(Collection) MTLCommandExecutor.getTllPaths(project)
+				);
+	
+				// we may want to notify observers that we have finished the compilation
+				this.notifyObservers (new Object[] {"after", loopFolder.getName(), MTLModel.tllFolder});
+			}
+		}
+		catch (Exception e)
 		{
-			// we get the item loop IPath object and remove the project segment
-			IPath loopPath = (IPath)it.next();
-			
-			// we retrieve the corresponding IFolder object			
-			IFolder loopFolder = (IFolder) MTLPlugin.getWorkspace().getRoot().findMember (loopPath);
-
-			// we may want to notify observers that we are about to start the compilation
-			this.notifyObservers (loopFolder);
-
-			// we launch the compilation
-			Boolean result = (Boolean) MTLCommandExecutor.compile (
-				loopFolder, 
-				loopFolder.getName(), 
-				MTLModel.srcJavaFolder, 
-				MTLModel.tllFolder, 
-				(Collection) MTLCommandExecutor.getTllPaths()
-			);
-
-			// we may want to notify observers that we have finished the compilation
-			this.notifyObservers (null);
+			// the compiler may have launched an exception because of compilation errors.
+			// in that case, we must proceed the post execution.
+			postExecute();
 		}
 
 		return Boolean.TRUE;
@@ -113,9 +138,21 @@ abstract public class AbstractBuildCommand extends MTLCommand
 	/** */
 	public Object postExecute() throws Exception 
 	{
+		// we may have to do nothing
+		if (getDependencies().size()==0)  {return Boolean.TRUE; }
+
 		// some post processings...
 		MTLCommandExecutor.createMarkers (MSGHandler.allMessages);
 		
 		return super.postExecute();
 	}
+
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// CLASSIFIER OBSERVERS MANAGEMENT
+	////////////////////////////////////////////////////////////////////////////////
+	static private java.util.Collection observers = new java.util.HashSet();
+	public static void addClassifierObserver    (Observer observer) { observers.add (observer);   }
+	public static void removeClassifierObserver (Observer observer) { observers.remove(observer); }
+
 }

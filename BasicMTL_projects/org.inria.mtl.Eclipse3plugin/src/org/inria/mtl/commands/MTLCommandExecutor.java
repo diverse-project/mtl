@@ -3,10 +3,12 @@
  */
 package org.inria.mtl.commands;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.inria.mtl.commands.build.BuildCommandFactory;
+import org.inria.mtl.commands.edition.EditionCommandFactory;
 import org.inria.mtl.commands.markers.MarkersCommandFactory;
 import org.inria.mtl.commands.resources.ResourcesCommandFactory;
 import org.inria.mtl.commands.tag.TagCommandFactory;
@@ -24,6 +26,7 @@ public class MTLCommandExecutor
 	static private MarkersCommandFactory   markers  = new MarkersCommandFactory (); 
 	static private ResourcesCommandFactory resource = new ResourcesCommandFactory (); 
 	static private TagCommandFactory       tag      = new TagCommandFactory (); 
+	static private EditionCommandFactory   edition  = new EditionCommandFactory (); 
 	
 	////////////////////////////////////////////////////////////////////////////////
 	// BUILD COMMANDS
@@ -93,11 +96,25 @@ public class MTLCommandExecutor
 
 	/**
 	 * @throws Exception */
-	static public Object getTllPaths () throws Exception
+	static public Object getTllPaths (IProject project) throws Exception
 	{
-		return build.createGetTllPathsCommand().execute ();
+		return build.createGetTllPathsCommand(project).execute ();
 	}
-	
+
+	/**
+	 * @throws Exception */
+	static public Object getRuntimeTLL () throws Exception
+	{
+		return build.createGetRuntimeTLLCommand ().execute ();
+	}
+
+	/**
+	 * @throws Exception */
+	static public Object getUserTLL (IProject project) throws Exception
+	{
+		return build.createGetUserTLLCommand (project).execute ();
+	}
+
 	
 	////////////////////////////////////////////////////////////////////////////////
 	// MARKERS COMMANDS
@@ -158,5 +175,24 @@ public class MTLCommandExecutor
 	{
 		return 	tag.createGetTagResourceCommand (resource).execute ();
 	}
+
 	
+	////////////////////////////////////////////////////////////////////////////////
+	// EDITION COMMANDS
+	////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * @throws Exception */
+	static public Object openFile (IFile file) throws Exception
+	{
+		return 	edition.createOpenFileCommand (file).execute ();
+	}
+
+	/**
+	 * @throws Exception */
+	static public Object gotoLine (int lineNumber) throws Exception
+	{
+		return 	edition.createGotoLineCommand (lineNumber).execute ();
+	}
+
 }

@@ -7,6 +7,7 @@
 package org.inria.mtl.commands;
 
 import java.util.Observable;
+
 import org.inria.mtl.MTLPlugin;
 
 /**
@@ -61,6 +62,10 @@ abstract public class MTLCommand extends Observable
 	}
 
 	
+	////////////////////////////////////////////////////////////////////////////////
+	// OBSERVER/OBSERVABLE MANAGEMENT
+	////////////////////////////////////////////////////////////////////////////////
+	
 	/** */
 	public void notifyObservers () 
 	{
@@ -74,7 +79,7 @@ abstract public class MTLCommand extends Observable
 		super.notifyObservers(arg);
 		this.clearChanged();
 	}
-
+	
 	
 	////////////////////////////////////////////////////////////////////////////////
 	// LOGGING MANAGEMENT

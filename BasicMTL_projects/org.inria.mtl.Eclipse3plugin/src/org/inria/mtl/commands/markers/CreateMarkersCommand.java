@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.inria.mtl.commands.MTLCommand;
 import org.inria.mtl.commands.MTLCommandExecutor;
+import org.inria.mtl.core.MTLCore;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerMessage;
 
 /**
@@ -76,9 +77,12 @@ public class CreateMarkersCommand extends MTLCommand
     public void createMarkersTask (CompilerMessage cMessage) throws Exception 
 	{
     	// we retrieve the file corresponding to the CompilerMessage
-		IFile currentFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
+		//IFile currentFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
 		
-		if (currentFile != null)
+    	IFile currentFile = MTLCore.getProject().getFile(cMessage.getFileName());
+System.out.println ("========================== " + currentFile);    	
+    	
+		if (currentFile!=null && currentFile.exists())
 		{
 	    	String message = cMessage.getMessage();
 	    	String type    = cMessage.getMessageType();

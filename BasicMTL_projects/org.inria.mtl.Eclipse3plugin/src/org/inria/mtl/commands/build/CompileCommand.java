@@ -6,12 +6,12 @@ package org.inria.mtl.commands.build;
 
 import java.util.Collection;
 
-import org.eclipse.core.resources.*;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.commands.MTLCommand;
 import org.inria.mtl.commands.MTLCommandExecutor;
-import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 /**
  * @author edrezen

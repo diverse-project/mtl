@@ -1,11 +1,12 @@
 /*
- * Created on 21 oct. 2004
+ * Created on 28 oct. 2004
  *
  */
 package org.inria.mtl.commands.build;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IResource;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.commands.MTLCommand;
@@ -14,28 +15,27 @@ import org.inria.mtl.core.MTLCore;
 /**
  * @author edrezen
  *
- * This method builds a collection of IPath objects that refer folders to be used by the 
- * compiler in the TLL classpath.
  */
-public class GetTllPathsCommand extends MTLCommand 
+public class GetUserTLLCommand extends MTLCommand
 {
 	////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////
-
 	private IProject project;
+	public IProject getProject() { return project; }
+	public void setProject(IProject project) { this.project = project; }
 	
 	
 	////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////
-	
+
 	/** */
-	public GetTllPathsCommand (IProject project) 
+	public GetUserTLLCommand (IProject project)
 	{
 		setProject (project);
 	}
-
+	
 
 	////////////////////////////////////////////////////////////////////////////////
 	// METHODS
@@ -53,37 +53,22 @@ public class GetTllPathsCommand extends MTLCommand
 	/** */
 	public Object mainExecute() throws Exception 
 	{
-		java.util.Collection result = new java.util.Vector ();  // collection of IPath objects
-
-		// we build a Collection of IPath objects that represents TLL files to be used by the compiler
-		for (int i=0; i<MTLModel.libFolders.length; i++)
+		java.util.Collection result = new java.util.Vector ();
+		
+		IResource[] members = MTLModel.tllFolder.members();
+		for (int i=0; i<members.length; i++)
 		{
-			IPath path = MTLModel.libFolders[i];
-			String ext = path.getFileExtension();
-			
-			if (ext!=null && ext.equals("tll"))
+			if (members[i] instanceof IFile)
 			{
-				path = path.removeLastSegments(1);
-			}
-
-			if (! result.contains (path))
-			{
-				result.add (path);
+				IFile file = (IFile)members[i];
+				if (file.getFileExtension().equals("tll"))
+				{
+					result.add (file.getLocation().toOSString());
+				}
 			}
 		}
 
+		// we return the result
 		return result;
-	}
-	
-	
-	////////////////////////////////////////////////////////////////////////////////
-	// GETTERS AND SETTERS
-	////////////////////////////////////////////////////////////////////////////////
-	
-	public IProject getProject() {
-		return project;
-	}
-	public void setProject(IProject project) {
-		this.project = project;
 	}
 }

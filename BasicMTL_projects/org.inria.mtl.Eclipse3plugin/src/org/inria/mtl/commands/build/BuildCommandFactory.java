@@ -7,7 +7,6 @@ package org.inria.mtl.commands.build;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.inria.mtl.commands.MTLCommand;
-import org.inria.mtl.commands.MTLCommandDebug;
 import org.inria.mtl.commands.MTLCommandWithProgressMonitor;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerMessage;
 
@@ -26,7 +25,8 @@ public class BuildCommandFactory
 	 * @throws Exception */
 	public MTLCommand createBuildFolderCommand (IFolder theFolder) throws Exception
 	{
-		return new MTLCommandDebug (new BuildFolderCommand (theFolder));
+		MTLCommand result = new BuildFolderCommand (theFolder);
+		return result;
 	}
 
 	/**
@@ -84,8 +84,21 @@ public class BuildCommandFactory
 	}
 	
 	/** */
-	public MTLCommand createGetTllPathsCommand ()
+	public MTLCommand createGetTllPathsCommand (IProject project)
 	{
-		return new GetTllPathsCommand ();
+		return new GetTllPathsCommand (project);
 	}
+
+	/** */
+	public MTLCommand createGetRuntimeTLLCommand ()
+	{
+		return new GetRuntimeTLLCommand ();
+	}
+
+	/** */
+	public MTLCommand createGetUserTLLCommand (IProject project)
+	{
+		return new GetUserTLLCommand (project);
+	}
+
 }

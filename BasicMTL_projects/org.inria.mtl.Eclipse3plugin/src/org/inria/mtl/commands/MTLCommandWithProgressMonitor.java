@@ -7,6 +7,7 @@ package org.inria.mtl.commands;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -114,13 +115,18 @@ public class MTLCommandWithProgressMonitor extends MTLCommandDelegate implements
 		// we should use a Visitor instead of the instanceof ?
 		if (o instanceof AbstractBuildCommand)
 		{
-			if (arg != null)
+			if (arg instanceof Object[])
 			{
-				getMonitor().subTask (arg.toString());
-			}
-			else
-			{
-				getMonitor().worked (1);
+				Object[] args = (Object[])arg;
+				if (args[0]=="before")
+				{
+					IFolder folder = (IFolder) args[1];
+					getMonitor().subTask (folder.getName());
+				}
+				else if (args[0]=="after")
+				{
+					getMonitor().worked (1);
+				} 
 			}
 		}
 	}
