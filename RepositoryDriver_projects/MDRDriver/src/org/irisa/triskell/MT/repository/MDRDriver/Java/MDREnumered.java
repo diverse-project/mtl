@@ -101,7 +101,7 @@ public class MDREnumered
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof EnumValue) && (((EnumValue)rhs).getEnumeration().equals(this.getEnumeration())) && (((EnumValue)rhs).getTheEnum().equals(this.getTheEnum())));
+		return (this == rhs) || ((rhs instanceof EnumValue) ? (((EnumValue)rhs).getEnumeration().equals(this.getEnumeration())) && (((EnumValue)rhs).getTheEnum().equals(this.getTheEnum())) : rhs != null && rhs.equals(this));
     }
 
     public org.irisa.triskell.MT.DataTypes.Java.Value invoke(

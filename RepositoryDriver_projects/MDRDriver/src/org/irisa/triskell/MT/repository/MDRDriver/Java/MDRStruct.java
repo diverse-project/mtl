@@ -44,7 +44,7 @@ public class MDRStruct
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof MDRStruct) ? (this.refStruct.equals(((MDRStruct)rhs).refStruct)) : super.equals(rhs));
+		return (this == rhs) || ((rhs instanceof MDRStruct) ? (this.refStruct.equals(((MDRStruct)rhs).refStruct)) : rhs != null && rhs.equals(this));
     }
 
     public String getErrorMessage()
