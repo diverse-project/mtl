@@ -15,9 +15,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceConverter;
+//import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.RGB;
+//import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -25,9 +25,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.editors.MTLDocumentProviders;
-import org.inria.mtl.editors.utils.MTLEditorColorProvider;
+//import org.inria.mtl.editors.utils.MTLEditorColorProvider;
 import org.inria.mtl.editors.utils.MTLEditorEnvironment;
-import org.inria.mtl.preferences.Log4jPreferencePage;
+//import org.inria.mtl.preferences.Log4jPreferencePage;
 import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.views.controller.Controller;
 import org.osgi.framework.BundleContext;
@@ -91,6 +91,7 @@ public class MTLPlugin extends AbstractUIPlugin {
 			resourceBundle = null;
 		}
 	}
+	
 	/**  Gets the model of the given project
 	 *
 	 *@param  proj  The project 
@@ -217,8 +218,9 @@ public static MTLPlugin instance() {
 	 * MTL Plugin initialization preferences
 	 */
 	 protected void initializeDefaultPreferences(IPreferenceStore store) {
-		super.initializeDefaultPreferences(store);
-	 	store.setDefault(PreferencesConstants.AUTO_COMPILE, false);
+		
+	 	super.initializeDefaultPreferences(store);
+/*	 	store.setDefault(PreferencesConstants.AUTO_COMPILE, false);
 		store.setDefault(PreferencesConstants.SHOW_OUTPUT_IN_CONSOLE, false);
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_MULTI_LINE_COMMENT_COLOR, MTLEditorColorProvider.MULTI_LINE_COMMENT);
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR, MTLEditorColorProvider.SINGLE_LINE_COMMENT);
@@ -232,12 +234,12 @@ public static MTLPlugin instance() {
 		
 		store.setDefault(Log4jPreferencePage.P_PORT, 4445);
 		
-		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(192, 192, 255));
+		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(240, 240, 255));
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(255, 255, 255));
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(255, 255, 192));
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_PROBLEM_INDICATION_COLOR, new RGB(192, 255, 192));
 		PreferenceConverter.setDefault(store, PreferencesConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(255, 0, 0));
-
+*/
 		PreferencesConstants.initializeDefaultValues(store);
 	}
 	 
