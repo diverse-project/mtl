@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.1 2004-04-21 18:20:29 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ForeachAnalyser.java,v 1.2 2004-04-28 07:29:13 edrezen Exp $
  * Created on 7 août 2003
  *
  */
@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
+import CodeGeneration.BMTLCompiler;
+
 /**
  * @author jpthibau
  *
@@ -18,80 +20,94 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
  */
 public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser 
 {
-	VarDeclaration theVarDeclaration = null;
-	String genSymbol;
-
-
 	/** */
 	public Object ForeachBefore (Foreach ASTnode,java.util.Map context)
 	{	
 		// we generate a symbol for the iterator
-		genSymbol = CommonFunctions.generateNewSymbol();
+		String genSymbol = CommonFunctions.generateNewSymbol();
 
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 	
-		theVarDeclaration = ASTnode.getVarDeclaration();
-		
-		outputForClass.print ("org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface " + genSymbol + 
-	" = (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface)CommonFunctions.toBMTLDataType(");
+		outputForClass.print (
+			"org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface " 
+			+ genSymbol 
+			+ " = (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface)CommonFunctions.toBMTLDataType("
+		);
 
 		return genSymbol;
 	}
 
 
 	/** */
-	public void ForeachAfter (Object theForeach, Foreach ASTnode, java.util.Map context)
+	public void ForeachAfter (
+		Foreach ASTnode, 
+		Object createdObject, 
+		java.util.Map context
+	)
 	{	
-		String genSymbol=(String)theForeach;
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		
-		outputForClass.println (genSymbol + ".BMTL_next();");		
+		if (ASTnode.getCondition() != null)
+		{
+			outputForClass.println ("} // end of foreach 'where' condition");
+		}
+		outputForClass.println ((String)createdObject + ".BMTL_next();");		
 		outputForClass.println ("}");
+
+		context.put("NeedsSemiColumn", Boolean.FALSE);		
+	}
+
+	
+	/** */
+	public void ForeachCondition (
+		Foreach ASTnode, 
+		Object createdObject, 
+		java.util.Map context
+	) 
+	{
+		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+
+		if (ASTnode.getCondition() != null)
+		{
+			outputForClass.println (").getTheBoolean()) {");
+		}
 	}
 
 
 	/** */
-    public void ForeachVarDeclaration (
-        Object theForeach,
-        Object varDeclaration,
-        Map context
-   	) 
-   	{
-		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		
-		VarDeclaration varDec = this.theVarDeclaration;
-
-		outputForClass.print (varDec.getMangle());
-		outputForClass.print (" = ");
-		outputForClass.print ("(");
-		outputForClass.print (varDec.getType().getDeclarationName());
-		outputForClass.print (")");
-		outputForClass.print ("CommonFunctions.toBMTLDataType (" + genSymbol + ".BMTL_item())");
-		outputForClass.println (";");
-    }
-
-
-	/** */
     public void ForeachCollection (
-        Object theForeach,
-        Object collection,
-        Map context
+		Foreach ASTnode, 
+		Object createdObject, 
+		java.util.Map context
 	) 
 	{
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		
 		outputForClass.println (".invoke (null, \"getNewIterator\",	new Value[]{}, new String[]{ModelElement.OperationDiscriminant}	) );" );
 
-		outputForClass.println ("while (" + genSymbol + ".BMTL_isOn().getTheBoolean())");
+		outputForClass.println ("while (" + (String)createdObject + ".BMTL_isOn().getTheBoolean())");
 		outputForClass.println ("{");
+
+		outputForClass.print (ASTnode.getVarDeclaration().getMangle());
+		outputForClass.print (" = ");
+		outputForClass.print ("(");
+		outputForClass.print (ASTnode.getVarDeclaration().getType().getDeclarationName());
+		outputForClass.print (")");
+		outputForClass.print ("CommonFunctions.toBMTLDataType (" + (String)createdObject + ".BMTL_item())");
+		outputForClass.println (";");
+		
+		if (ASTnode.getCondition() != null)
+		{
+			outputForClass.print ("if ( ((BooleanValue)");
+		}
     }
 	
 	
 	/** */
 	public void ForeachBodyInstruction (
-		Object theForeach,
-		Object instr,
-		Map context
+		Instruction instr, 
+		Object createdObject, 
+		java.util.Map context
 	) 
 	{
 		Boolean needsColumn = (Boolean)context.get("NeedsSemiColumn");
