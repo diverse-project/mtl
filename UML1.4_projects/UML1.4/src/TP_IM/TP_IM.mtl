@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: TP_IM.mtl,v 1.1 2003-11-26 14:38:00 dvojtise Exp $
+ * $Id: TP_IM.mtl,v 1.2 2003-11-27 16:51:09 dvojtise Exp $
  * 
  *
  ******************************************************************************/
@@ -30,8 +30,8 @@ main() : Standard::Void
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
 	// inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
 	// outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
-	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML.xml');
-	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML_modified.xml');
+	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/testmodel.xmi');
+	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/testmodel_modified.xmi');
 
 
 
@@ -62,15 +62,20 @@ main() : Standard::Void
 
 test_Utils()
 {
-	classIterator : Standard::Iterator;
-	aClass        : source_model::Core::Class;	
+	classIterator 	: Standard::Iterator;
+	aClass        	: source_model::Core::Class;	
+	aMsg			: Standard::String;
 	
 	'ShowDirectParent of all classes'.toOut();
 	classIterator := !source_model::Core::Class!.allInstances().getNewIterator();
 	while classIterator.isOn() 
 	{
 		aClass := classIterator.item().oclAsType(!source_model::Core::Class!);
+		// aMsg := 'Direct parents of ';
+		// aMsg := aMsg.concat(aClass.name);
+		// aMsg.toOut();
 		uml_utils.setValuesName(uml_utils.directSuperClasses(aClass)).toOut();
+		uml_utils.flat(aClass, '').toOut();
 		classIterator.next();
 	}
 }
