@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<!--
+     Build file for the plugin "AccordUmlProject"
+	 Customize poseidon.lib.dir and helpers.dir to your needs
+     author: JvV, April 2002
+-->
+
+
+<project name="PoseidonDriverTest" default="usage" basedir=".">
+
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+  <target name="init" >
+    <tstamp/>
+    
+    <!-- customize this to your Project name-->
+    <property name="Name" value="PoseidonDriverTest"/>
+    <property name="shortName" value="PoseidonDriverTest"/> <!-- PoseidonDriverTest"/>-->
+    <property name="name" value="PoseidonDriverTestPlugin"/> <!-- PoseidonDriverTestPlugin"/>-->
+    <property name="shortname" value="PoseidonDriverTest"/>
+    <property name="version" value="0.0.1"/>
+    <property name="version.man" value="1.1"/>
+    <property name="version.zip" value="1.1"/>
+    <property name="modulePath" value="org/irisa/triskell/${shortname}/modules"/>
+    <property name="year" value="2004"/>
+    <property name="build.compiler" value="modern"/>
+
+
+    <echo message="------------------- Plugin '${Name}' Version ${version} (unstable) [${year}] ----------------"/>
+
+    <property name="debug" value="off"/>
+    <property name="optimize" value="off"/>
+    <property name="deprecation" value="off"/>
+
+    <property name="src.dir" value="./src/java"/>
+    <property name="docs.dir" value="./docs"/>
+    
+    <!-- customize this to your Poseidon directory -->
+    <!--<property name="poseidon.dir" value="/usr/local/poseidon/poseidonPE-2.5.0"/>-->
+  	<property name="poseidon.dir" value="C:\Program Files\Poseidon For UML PE 3.0"/>
+    <property name="poseidon.lib.dir" value="${poseidon.dir}/lib"/> 
+    <property name="lib.dir" value="./lib"/>
+	<property name="helpers.dir" value="${poseidon.lib.dir}"/>
+    <property name="netbeans.libs" value="${helpers.dir}/openide.jar:${helpers.dir}/core.jar"/>
+    <property name="dist.dir" value="./dist"/>
+    <property name="mdr.libs" value="${poseidon.lib.dir}/mdrapi.jar:${poseidon.lib.dir}/mdrtoolkit.jar:${poseidon.lib.dir}/nbmdr.jar:${poseidon.lib.dir}/mof.jar:${poseidon.lib.dir}/jmiuml14.jar:${poseidon.lib.dir}/jmi.jar:${poseidon.lib.dir}/mdr_service.jar"/>
+    <property name="poseidon.libs" value="${mdr.libs}:${poseidon.lib.dir}/uml14.jar:${poseidon.lib.dir}/services.jar:${poseidon.lib.dir}/poseidonCore.jar:${poseidon.lib.dir}/enhancedEditor.jar:${poseidon.lib.dir}/log4j.jar:${poseidon.lib.dir}/velocity.jar:${poseidon.lib.dir}/reveng.jar:${poseidon.lib.dir}/states.jar:${poseidon.lib.dir}/states_pres.jar:${poseidon.lib.dir}/codeGen.jar:${poseidon.lib.dir}/classes.jar:${poseidon.lib.dir}/usecase_pres.jar:${poseidon.lib.dir}/usecase.jar:${poseidon.lib.dir}/classes_pres.jar:${poseidon.lib.dir}/sequence.jar:${poseidon.lib.dir}/sequence_pres.jar:${poseidon.lib.dir}/jboogie.jar:${poseidon.lib.dir}/alloy.jar:${poseidon.lib.dir}/antlr.jar:${poseidon.lib.dir}/axis.jar:${poseidon.lib.dir}/batik-awt-util.jar:${poseidon.lib.dir}/commons-discovery.jar:${poseidon.lib.dir}/commons-logging.jar:${poseidon.lib.dir}/edit-on-javabean-sdk-swing.jar:${poseidon.lib.dir}/example.jar:${poseidon.lib.dir}/foxtrot.jar:${poseidon.lib.dir}/freehep-base.jar:${poseidon.lib.dir}/freehep-graphics2d.jar:${poseidon.lib.dir}/freehepgraphicsio.jar:${poseidon.lib.dir}/freehep-graphicsio-pdf.jar:${poseidon.lib.dir}/freehep-graphicsio-ps.jar:${poseidon.lib.dir}/J2PrinterWorks.jar:${poseidon.lib.dir}/jaxrpc.jar:${poseidon.lib.dir}/jboogie.jar:${poseidon.lib.dir}/jdom.jar:${poseidon.lib.dir}/jmi.jar:${poseidon.lib.dir}/jmitoolkit.jar:${poseidon.lib.dir}/jmiuml14di.jar:${poseidon.lib.dir}/jmiutils.jar:${poseidon.lib.dir}/mdr_service.jar:${poseidon.lib.dir}/mdrapi.jar:${poseidon.lib.dir}/mof.jar:${poseidon.lib.dir}/nb-editor.jar:${poseidon.lib.dir}/nbmdr.jar:${poseidon.lib.dir}/piccolo.jar:${poseidon.lib.dir}/piccolox.jar:${poseidon.lib.dir}/poseidon.jar:${poseidon.lib.dir}/poseidonAnt.jar:${poseidon.lib.dir}/revengutil.jar:${poseidon.lib.dir}/saaj.jar:${poseidon.lib.dir}/templates.jar:${poseidon.lib.dir}/trove.jar:${poseidon.lib.dir}/umldoc.jar:${poseidon.lib.dir}/umlplugin.jar:${poseidon.lib.dir}/umltojava.jar:${poseidon.lib.dir}/velocity-dep-1.2.jar:${poseidon.lib.dir}/openide-util.jar:${poseidon.lib.dir}/di20.jar"/>
+    <property name="manifest" value="${modulePath}/${shortname}.mf"/>
+    <property name="layerfile" value="${modulePath}/layer.xml"/>
+  	<property name="mtl.libs" value="../org.inria.BasicMTL.runtime/runtime.jar:../PoseidonDriver/dist/bin/PoseidonDriver.jar:../MDRDriver/lib/MDRDriver.jar"/>
+    <property name="classpath" value=".:bin:${poseidon.libs}:${netbeans.libs}:${mtl.libs}"/>
+
+    <property name="build.dir" location="./build"/>
+    <property name="build.src" location="${build.dir}/src/java"/>
+    <property name="build.dest" value="${build.dir}/classes"/>
+  	
+  	<!-- This compilation depends on the org.inria.BasicMtl.runtime project -->
+  	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
+
+  	<!-- Compiler and standard TLLs are supposed to be already built -->
+  	<property name="MTL2JavaCode" location="..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
+  	<property name="mtl.tlls" value="..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL\;..\PoseidonDriver\build\TLL\"/>
+
+  	<property name="mtl.user.library1" value="PoseidonTools"/>
+  	<property name="mtl.user.library2" value="PoseidonTest"/>
+  	<property name="mtl.user.library3" value="UML_Utils"/>
+  	<property name="mtl.user.library4" value="UMLDi_Utils"/>
+  	  	
+  	<property name="mtl.src.dir" value="src/MTL"/>
+
+    <property file="${user.home}/.ant.properties" />
+
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Help on usage                                                       -->
+  <!-- =================================================================== -->
+  <target name="usage" depends="init">
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+  	<echo message="   compile      --> compiles the source code"/>
+    <echo message="   package      --> generates the ${name}.jar file"/>
+    <echo message="   cd-dist      --> generates the distribution zip file"/>
+    <echo message="   clean        --> cleans up the directory"/>
+    <echo message="   usage        --> show this message (default)"/>
+    <echo message=""/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="init">
+    <!-- create directories -->
+    <echo message="Preparing the build directories"/>
+    <mkdir dir="${build.dir}"/>
+  	<mkdir dir="${build.dir}/TLL"/>
+  	<mkdir dir="${build.dir}/src"/>
+  	<mkdir dir="${build.dir}/src/java"/>
+  	
+  	<echo> copying UML_Utils and UMLDi_Utils libraries from UML1.4 projects </echo>
+  	<copy todir="${build.dir}/src/MTL/UML_Utils">
+  	  	 	<fileset dir="../UML1.4/src/UML_Utils" />
+  	</copy>
+  	<copy todir="${build.dir}/src/MTL/UMLDi_Utils">
+  	  	 	<fileset dir="../UML1.4/src/UMLDi_Utils" />
+  	</copy>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+
+  <target name="compile" depends="prepare">
+  	<antcall target="compile_mtl"/>
+  	<antcall target="compile_java"/>
+  </target>
+  <target name="compile_java">
+    <echo message="Compiling the sources using ${build.compiler}"/>
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+    <mkdir dir="${build.src}"/>
+
+    
+  	
+  	 <filter token="version" value="${version}"/>
+  	 <filter token="fullname" value="${Name}"/>
+  	 <copy file="${src.dir}/${modulePath}/${shortName}Plugin.java" filtering="on" todir="${build.src}/${modulePath}"/>
+  	 <native2ascii src="${src.dir}" dest="${build.src}" includes="**/*ResourceBundle_de.java"/>
+
+  	 <copy todir="${build.src}">
+  	 	<fileset dir="${src.dir}" includes="**/*.java" excludes="CVS/** ${modulePath}/${shortName}Module.java ${modulePath}/${shortName}Plugin.java **/*ResourceBundle_de.java" />
+  	 </copy>
+  	
+	<echo message="${classpath}"/> 
+  	<echo message="${build.src}:${src.dir}"/>
+  	<javac 
+           destdir="${build.dest}"
+           debug="true"
+           deprecation="${deprecation}"
+	   classpath="${classpath}"
+           optimize="${optimize}"
+    >
+  	    <!--<src path="${src.dir}"/>-->
+  	    <src path="${build.src}"/>
+  	</javac>
+
+    
+
+  </target>
+  <target name="compile_mtl" depends="init"
+	        description="compile the mtl code" >
+
+			<java jar="${MTL2JavaCode}" 
+							fork="true"
+		           			failonerror="true">
+			         <arg value="${build.dir}/src/MTL/${mtl.user.library3}/"/>
+		         	 <arg value="-TLLLoadingPaths"/>
+			         <arg value="${mtl.tlls}"/>  
+		         	 <arg value="-TLLPath"/> 
+		         	 <arg value="${build.dir}/TLL/"/>  
+			         <arg value="-PackageName"/> 
+			         <arg value="${mtl.user.library3}"/> 
+			         <arg value="-BinPath"/> 
+			         <arg value="${build.dir}/src/java/${mtl.user.library3}/"/> 
+		    </java>
+  			<java jar="${MTL2JavaCode}" 
+  								fork="true"
+  			           			failonerror="true">
+  				         <arg value="${build.dir}/src/MTL/${mtl.user.library4}/"/>
+  			         	 <arg value="-TLLLoadingPaths"/>
+  				         <arg value="${mtl.tlls}"/>  
+  			         	 <arg value="-TLLPath"/> 
+  			         	 <arg value="${build.dir}/TLL/"/>  
+  				         <arg value="-PackageName"/> 
+  				         <arg value="${mtl.user.library4}"/> 
+  				         <arg value="-BinPath"/> 
+  				         <arg value="${build.dir}/src/java/${mtl.user.library4}/"/> 
+  			</java>
+	 		<java jar="${MTL2JavaCode}" 
+							fork="true"
+		           			failonerror="true">
+			         <arg value="${mtl.src.dir}/${mtl.user.library1}/"/>
+		         	 <arg value="-TLLLoadingPaths"/>
+			         <arg value="${mtl.tlls}"/>  
+		         	 <arg value="-TLLPath"/> 
+		         	 <arg value="${build.dir}/TLL/"/>  
+			         <arg value="-PackageName"/> 
+			         <arg value="${mtl.user.library1}"/> 
+			         <arg value="-BinPath"/> 
+			         <arg value="${build.dir}/src/java/${mtl.user.library1}/"/> 
+		    </java>
+  			<java jar="${MTL2JavaCode}" 
+  								fork="true"
+  			           			failonerror="true">
+  				         <arg value="${mtl.src.dir}/${mtl.user.library2}/"/>
+  			         	 <arg value="-TLLLoadingPaths"/>
+  				         <arg value="${mtl.tlls}"/>  
+  			         	 <arg value="-TLLPath"/> 
+  			         	 <arg value="${build.dir}/TLL/"/>  
+  				         <arg value="-PackageName"/> 
+  				         <arg value="${mtl.user.library2}"/> 
+  				         <arg value="-BinPath"/> 
+  				         <arg value="${build.dir}/src/java/${mtl.user.library2}/"/> 
+  			    </java>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target name="package" depends="compile">
+    <mkdir dir="${lib.dir}"/>
+	<delete file="${poseidon.lib.dir}/${name}.jar" failonerror="false"/>
+
+    <filter token="version" value="${version.man}"/>
+    <copy file="${src.dir}/${manifest}" tofile="${build.dest}/${manifest}" filtering="on" />
+  	<!-- a more clever version would probably separate the UML_Utils and UMLDi_Utils part of this jar in another one -->
+    <jar jarfile="${lib.dir}/${name}.jar"
+         basedir="${build.dest}"
+         includes="**"
+         excludes="${manifest}"
+         manifest="${build.dest}/${manifest}"/>
+    </target>
+
+	<!-- =================================================================== -->
+  <!-- deploy the jars in Poseidon directory                                          -->
+  <!-- =================================================================== -->
+  <target name="deploy" depends="package">
+    <copy todir="${poseidon.lib.dir}" >    
+    	<fileset dir="${lib.dir}"/>
+    </copy>
+  </target>
+ 
+  <!-- =================================================================== -->
+  <!-- Clean targets                                                       -->
+  <!-- =================================================================== -->
+  <target name="clean" >
+    <delete dir="${build.dest}"/>
+    <delete dir="${build.dir}"/>
+	<delete file="${lib.dir}/${name}.jar"/>
+	<delete file="${dist.dir}/${name}-${version.zip}.zip"/>
+  </target>
+
+
+</project>
+
+<!-- End of file -->

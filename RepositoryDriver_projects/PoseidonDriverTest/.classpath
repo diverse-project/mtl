@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="PoseidonTools/*" kind="src" path="src/java"/>
+	<classpathentry excluding="**/PoseidonDriverTest/libs/**|**/PoseidonDriverTest/modules/**|**/PoseidonDriverTest/poseidonLibs/**" kind="src" path="build/src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/PoseidonDriver"/>
+	<classpathentry kind="src" path="/org.inria.BasicMTL.runtime"/>
+	<classpathentry kind="src" path="/MDRDriver"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/poseidon_3.0_libs"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
