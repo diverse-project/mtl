@@ -1,20 +1,15 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.7 2003-12-16 07:56:36 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.8 2004-04-06 07:51:29 dvojtise Exp $
  * Created on 16 juil. 2003
  *
+ * Copyright 2004 - INRIA - LGPL license
  */
 package antlr2ASTView;
 
-/**
- * @author jpthibau
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-import java.io.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Vector;
+//import java.io.*;
+//port java.util.Arrays;
+//port java.util.Collection;
+//port java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
@@ -33,7 +28,7 @@ import BasicMtlASTWithAssociationView.BMTL_EndPointInterface;*/
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import org.irisa.triskell.MT.utils.Java.Directories;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
+//import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
@@ -41,11 +36,16 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLInteger;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLOrderedSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLReal;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.BasicMTL.TopTypes.*;
+
+
+/**
+ * Implements an ANTLR walker action in order to create a BasicMTL AST from a text file with mtl syntax
+ * @author jpthibau
+ */
 
 public class antlr2astView implements ANTLRWalkerActionsInterface {
 
@@ -599,6 +599,7 @@ public Object negateExpr(Object expr,String lineNumber)
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
+	node.set_BMTL_caller((BMTL_ExpressionInterface)expr);
 	return (BMTL_ExpressionInterface)node; }
 
 public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber)
