@@ -6,13 +6,10 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
-import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-
-import sun.security.action.GetLongAction;
 
 /**
  * @author edrezen

@@ -9,9 +9,7 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 import javax.jmi.reflect.RefObject;
 
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.Event;
-import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 

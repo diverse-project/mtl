@@ -8,12 +8,7 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
 import org.irisa.triskell.MT.repository.API.Java.Event;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
-import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.netbeans.api.mdr.events.AttributeEvent;
-import org.netbeans.api.mdr.events.MDRChangeEvent;
-import org.netbeans.api.mdr.events.MDRChangeListener;
-import org.netbeans.api.mdr.events.MDRPreChangeListener;
 
 
 /** This class is a special event listener that listens for attribute related events.

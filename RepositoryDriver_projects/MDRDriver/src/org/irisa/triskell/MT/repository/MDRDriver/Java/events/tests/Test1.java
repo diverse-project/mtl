@@ -7,16 +7,10 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events.tests;
 
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
-import org.irisa.triskell.MT.repository.API.Java.AssociationEvent;
-import org.irisa.triskell.MT.repository.API.Java.AttributeEvent;
-import org.irisa.triskell.MT.repository.API.Java.Event;
-import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
-import org.irisa.triskell.MT.repository.API.Java.InstanceEvent;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDRAttributeEvent;
 
 
 

@@ -9,10 +9,8 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.Event;
-import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.API.Java.InstanceEventKind;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 
 /** This class is specific event related to instances. 

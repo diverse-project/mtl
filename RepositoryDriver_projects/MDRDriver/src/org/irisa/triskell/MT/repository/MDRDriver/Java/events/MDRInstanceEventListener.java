@@ -6,13 +6,9 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
-import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.Event;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.netbeans.api.mdr.events.InstanceEvent;
-import org.netbeans.api.mdr.events.MDRChangeEvent;
-import org.netbeans.api.mdr.events.MDRChangeListener;
 
 
 /** This class is a special event listener that listens for instances related events.

@@ -6,9 +6,6 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events.tests;
 
-import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.events.MDREventListenerFactory;
 
 /**
  * @author edrezen

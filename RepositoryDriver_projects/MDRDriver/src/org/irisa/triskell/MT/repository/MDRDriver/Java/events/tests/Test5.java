@@ -54,11 +54,11 @@ public class Test5 extends TestCommand
 				new EventListenerCommand () {
 					public void execute(Event event) {
 						InstanceEvent theEvent = (InstanceEvent)event;
-						System.out.println ("POST INSTANCE : " + theEvent.getKind());
+						System.out.println ("POST INSTANCE : " + theEvent.getKind() + " / " + theEvent.getInstance());
 
 						if (theEvent.getKind()==InstanceEventKind.instanceCreate)
 						{
-							System.out.println (theEvent.getInstance().toString());
+							//System.out.println (theEvent.getInstance().toString());
 							getAPI().addListenerToElement (
 								(Element)theEvent.getInstance(),
 								getAPI().getEventListenerFactory().createAttributeEventListener (
@@ -85,7 +85,7 @@ public class Test5 extends TestCommand
         // we perform some actions with the metaclass; we should have notifications
 		////////////////////////////////////////////////////////////////////////////////
         ModelElement me_compositeur=null;
-        for (int i=0; i<500; i++)
+        for (int i=0; i<100; i++)
         {
             me_compositeur = mc_Class.instanciate (null,null);
             me_compositeur.setAttributeValue (me_compositeur,ma_name,new StringValueImpl(false,null, new Integer(i).toString()));
