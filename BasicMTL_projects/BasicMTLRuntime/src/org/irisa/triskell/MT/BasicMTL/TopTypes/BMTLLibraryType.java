@@ -1,8 +1,9 @@
 /*
  * Created on 12 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: BMTLLibraryType.java,v 1.5 2004-02-17 08:58:21 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
@@ -11,16 +12,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.WeakHashMap;
+//import java.util.WeakHashMap;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
-import org.irisa.triskell.MT.DataTypes.Java.Type;
+//import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
-import org.irisa.triskell.MT.utils.Java.FilteredCollection;
-import org.irisa.triskell.MT.utils.Java.FilteredIterator;
-import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
+//import org.irisa.triskell.MT.utils.Java.FilteredCollection;
+//import org.irisa.triskell.MT.utils.Java.FilteredIterator;
+//import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
 
 /**
  * @author ffondeme

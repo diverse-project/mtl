@@ -1,17 +1,20 @@
 /*
  * Created on 18 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: BMTLOclAnyInterface.java,v 1.3 2004-02-17 08:58:23 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
-import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
-import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.ValueImpl;
 
+/**
+ * @author ffondeme
+ * Definition of accessible methods from BasicMTL on OclAny objects (i.e all objects )
+ *  
+ */
 public interface BMTLOclAnyInterface extends Value, BMTLDataTypeInterface {
 	public Value getOclAnyDelegate ();
 	

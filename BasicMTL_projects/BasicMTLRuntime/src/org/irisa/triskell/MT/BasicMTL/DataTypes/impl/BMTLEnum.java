@@ -1,20 +1,18 @@
 /*
  * Created on 20 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: BMTLEnum.java,v 1.2 2004-02-17 08:58:25 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLEnumeredInterface;
 import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Implementation of the Enum data type for BasicMTL. It does the wrapping between BasicMTL and MTDataType impoementation (which use commands)
  */
 public class BMTLEnum extends BMTLOclAny implements BMTLEnumeredInterface {
 

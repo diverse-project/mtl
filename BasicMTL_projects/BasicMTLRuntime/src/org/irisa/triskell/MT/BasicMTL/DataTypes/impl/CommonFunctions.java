@@ -1,16 +1,17 @@
 /*
  * Created on 20 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: CommonFunctions.java,v 1.4 2004-02-17 08:58:24 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
+//import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLInterface;
-import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType;
+//import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType;
 import org.irisa.triskell.MT.DataTypes.Java.BooleanValue;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
@@ -27,17 +28,15 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
-import org.irisa.triskell.MT.repository.API.Java.API;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
+//import org.irisa.triskell.MT.repository.API.Java.API;
+//import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
+//import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
-import org.irisa.triskell.MT.repository.API.Java.ModelRole;
+//import org.irisa.triskell.MT.repository.API.Java.ModelRole;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * a set of tools functions to be used with the BMTL to Java wrapper 
  */
 public class CommonFunctions {
 	private static ToBMTLDataTypeVisitor toBMTLDataType = new ToBMTLDataTypeVisitor();
@@ -66,6 +65,10 @@ public class CommonFunctions {
 	}
 }
 
+/**
+ * @author ffondeme
+ * a set of tools functions to be used with the BMTL to Java wrapper 
+ */
 class ToBMTLDataTypeVisitor implements ValueVisitor {
 	public Value distilled;
 	

@@ -1,22 +1,20 @@
 /*
  * Created on 19 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * $Id: BMTLBag.java,v 1.4 2004-02-17 08:58:25 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
-import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.Bag_including;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Implementation of the Bag data type for BasicMTL. It does the wrapping between BasicMTL and MTDataType impoementation (which use commands)
  */
 public class BMTLBag extends BMTLCollection implements BMTLBagInterface {
 	

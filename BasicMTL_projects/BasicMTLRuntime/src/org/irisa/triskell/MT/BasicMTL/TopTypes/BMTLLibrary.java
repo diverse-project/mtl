@@ -1,17 +1,17 @@
+/*
+ * Created on May 26, 2003
+ * $Id: BMTLLibrary.java,v 1.5 2004-02-17 08:58:21 dvojtise Exp $
+ * Authors : ffondeme
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
-import org.irisa.triskell.MT.DataTypes.Java.commands.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.irisa.triskell.MT.repository.API.Java.API;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.*;
+//import org.irisa.triskell.MT.DataTypes.Java.*;
+//import org.irisa.triskell.MT.repository.API.Java.API;
 
 import java.text.Collator;
 import java.util.*;
-
-/*
- * Created on May 26, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 
 /**
  * @author ffondeme
