@@ -119,6 +119,8 @@ class BaseProcess:
             # Set the {library.name} property
             self.setProperty("library.name", lib_name, type="value")
 
+            self.setProperty("user.package.name", lib+"/${library.name}", type="value")
+
             # Deprecated : Add target to recompile the depend"ed" project
             #for prj_path in prj_path_list :
             #    prj_name = prj_path[:prj_path.rfind("/")-len(prj_path)]
@@ -331,7 +333,6 @@ class DOMAntimtl(BaseProcess) :
             elif (kind_val == "output_tll") :
                 name = "build.tll"
                 self.setProperty(name, path, properties)
-
             index+=1
         # note : if there is only one elt in path_list, no semi-colon is added.
         return ";".join(path_list)
