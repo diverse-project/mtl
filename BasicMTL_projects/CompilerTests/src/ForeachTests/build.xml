@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2004-04-20 16:52:35 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-10-13 15:36:43 jpthibau Exp $ -->
 <project name="acceptSamples" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -18,9 +18,11 @@
 	<property name="ANTLR2JavaCode" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<!-- The runtime environment -->
 	<property name="MTLcompiler.Runtime" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	<property name="MDRDriver.path" location="../../../MDRDriver"/>
 	
 	<path id="current.class.path">
 	  	<pathelement path="${MTLcompiler.Runtime}"/>
+		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -31,7 +33,7 @@
 	<!-- set sample properties for this build -->
 	<property name="Sample src Folder" value="${src}/"/>
 	<property name="Sample Package" value="Foreach"/>
-	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${builtsrc}/TLL/"/>
+	<property name="Sample Loaded TLL" value="${MTLcompiler.path}/src/TLL/;${builtsrc}/TLL/;${MDRDriver.path}/src/ModelManager/TLL/;${builtsrc}/TLL/"/>
 	<property name="Sample built src" value="${builtsrc}/Foreach/"/>
 
 	<!-- ************************************************ -->
@@ -94,7 +96,8 @@
 		<classpath>
 			<pathelement path="${builtbin}/"/>
 			<pathelement path="${MTLcompiler.Runtime}"/>
-   			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+  			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
 	</target>
