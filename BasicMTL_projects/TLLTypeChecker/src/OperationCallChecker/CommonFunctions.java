@@ -8,6 +8,7 @@ package OperationCallChecker;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 import TypeChecker.TLLtypechecking;
 ;
@@ -28,7 +29,7 @@ public class CommonFunctions {
 			if (operation.getParameters(i).getName().equals(name))
 				declaration = operation.getParameters(i);
 		if (declaration == null)
-			TLLtypechecking.getLog().error("line " + line + ": Unknown variable " + name);
+			MSGHandler.error("line " + line + ": Unknown variable " + name);
 		return declaration;
 	}
 }

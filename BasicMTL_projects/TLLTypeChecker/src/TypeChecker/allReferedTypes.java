@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.18 2004-04-07 16:38:37 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.19 2004-06-04 13:02:36 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -302,7 +303,7 @@ public class allReferedTypes {
 			if (checkType((QualifiedName)allReferedTypes.get(i), theLib))
 				correctlyChecked++;
 			}
-		TLLtypechecking.getLog().debug(correctlyChecked+" types correctly checked.");
+		MSGHandler.debug(correctlyChecked+" types correctly checked.");
 		return errors+warnings;
 	}
 	
@@ -320,18 +321,18 @@ public class allReferedTypes {
 				else if (checkExternLibName(aType,firstName,theLib)) return true;
 					else 
 					{
-						TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
-						TLLtypechecking.getLog().debug("   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
+						MSGHandler.error("Unknown Local Type: "+firstName);
+						MSGHandler.debug("   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
 						// retreive the location where this QualifiedName was used
 						for(int i =0; i < aType.cardTypeForVarDeclarations(); i++)
 						{
-							TLLtypechecking.getLog().error("   " +
+							MSGHandler.error("   " +
 								aType.getTypeForVarDeclarations(i).getProperty("FileName").getValue() + ", line " +
 								aType.getTypeForVarDeclarations(i).getProperty("LineNumber").getValue());
 						}
 						for(int i =0; i < aType.cardTypeForFeatures(); i++)
 						{
-							TLLtypechecking.getLog().error("   " +
+							MSGHandler.error("   " +
 								aType.getTypeForFeatures(i).getProperty("FileName").getValue() + ", line " +
 								aType.getTypeForFeatures(i).getProperty("LineNumber").getValue());
 						}
@@ -342,19 +343,19 @@ public class allReferedTypes {
 				if (aType.size()==2) {
 					/*if (checkStandardLib(aType,firstName)) return true;
 					else*/ if (checkTLLClass(aType,firstName,theLib)) return true;
-						else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName + "::" +aType.get(1));
+						else { MSGHandler.error("Extern class type not found:"+firstName + "::" +aType.get(1));
 								errors++;} 
 				}
 				else //type which is not a model element and has more than 2 components
 					//Certainly a mistake !
 				{ 
 					String  typeComponentMsg;
-					TLLtypechecking.getLog().error("Undeclared model or extern class type having more than 2 components !");;
-					TLLtypechecking.getLog().error(firstName+" may be the undeclared model");
+					MSGHandler.error("Undeclared model or extern class type having more than 2 components !");;
+					MSGHandler.error(firstName+" may be the undeclared model");
 					typeComponentMsg  = "The type components : ";
 					for(int j=0;j<aType.size();j++)
 						typeComponentMsg+="<"+aType.get(j)+"> ";
-					TLLtypechecking.getLog().error(typeComponentMsg);
+					MSGHandler.error(typeComponentMsg);
 					errors++;
 				}
 		return false;

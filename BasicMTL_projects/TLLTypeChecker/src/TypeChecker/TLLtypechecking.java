@@ -1,15 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.11 2004-03-17 10:56:16 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.12 2004-06-04 13:02:35 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
 import java.io.*;
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.irisa.triskell.MT.utils.Java.Directories;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import ANTLR2TLLJava.*;
@@ -28,11 +25,6 @@ public class TLLtypechecking {
 	public static java.util.Vector defaultTLLPaths=null;
 	public static String defaultTLLPath=null;
 	public static java.util.Hashtable loadedLibraries=new java.util.Hashtable();
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
-
-	public static org.apache.log4j.Logger getLog () {
-			return TLLtypechecking.log;
-	}
 
 /*	public static void main(String[] args)
 	{	try {
@@ -200,13 +192,13 @@ public class TLLtypechecking {
 				context.put("Error", Boolean.FALSE);
 				visitor.visit(theLib,context);
 				errorOccured = errorOccured || ((Boolean)context.get("Error")).booleanValue();
-				log.info("Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
+				MSGHandler.info("Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
 				Library.store(theLib.getName()+tllSuffix,theLib,defaultTLLPath);
 			}
 		}
 			else errorOccured = true;
 	if (errorOccured) {
-			log.info("There are warnings or errors, TLL not synthetized !");
+			MSGHandler.info("There are warnings or errors, TLL not synthetized !");
 			return null; 
 	}
 	return theLib;
@@ -215,12 +207,6 @@ public class TLLtypechecking {
 	public static void main(String[] args)
 	{	
 		boolean viaView=false;
-		try {
-			String filePath = new java.io.File(Directories.getRootPath(TLLtypechecking.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
-		catch(java.io.IOException e) {
-							System.err.println("Can't state log4j in BMTLParser"); }
 		if (args.length > 0) {
 			int argsEnd=args.length;
 			String defaultPackagePrefix=null;
@@ -253,12 +239,12 @@ public class TLLtypechecking {
 				filenamesArguments.addElement(args[i]);
 				}
 				else{				
-					log.warn("File not readable : "+args[i]+" => file ignored !!!");
+					MSGHandler.warn("File not readable : "+args[i]+" => file ignored !!!");
 				}
 			}
 			if (filenamesArguments.size() == 0)
 			{
-				log.error("No file to process");
+				MSGHandler.error("No file to process");
 			}
 			else
 			  checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,null,null);
@@ -267,6 +253,6 @@ public class TLLtypechecking {
 	}
 	static void showUsage()
 	{
-		log.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
+		MSGHandler.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 }

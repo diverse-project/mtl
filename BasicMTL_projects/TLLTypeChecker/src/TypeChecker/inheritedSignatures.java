@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.11 2004-03-17 17:03:24 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.12 2004-06-04 13:02:36 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -8,6 +8,7 @@ package TypeChecker;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeAccessor;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.apache.log4j.Logger;
 
 /**
@@ -152,7 +153,7 @@ public class inheritedSignatures {
 					allReferedTypes.checkTLLClass(origin, parentName, theLib);
 					return addSignatures(aClass,parentClass,origin,relayer, theLib);}
 		}
-	TLLtypechecking.getLog().error("the inherited parent"+parentName+" can't be resolved !");
+	MSGHandler.error("the inherited parent"+parentName+" can't be resolved !");
 	return true; 
 	}
 
@@ -169,7 +170,7 @@ public class inheritedSignatures {
 				    	return addSignatures(aClass,parentClass,origin,relayer, theLib); }
 			}
 		}
-		TLLtypechecking.getLog().error("the inherited parent class "+parentName+"::"+className+" can't be resolved !");
+		MSGHandler.error("the inherited parent class "+parentName+"::"+className+" can't be resolved !");
 		return true; 
 	}
 	
@@ -234,9 +235,9 @@ public class inheritedSignatures {
 			remainingUnsolved=remaining;
 		}
 		if (remainingUnsolved.size()!=0)
-			{	TLLtypechecking.getLog().error("There are errors or there is an inheritance loop between following classes");
+			{	MSGHandler.error("There are errors or there is an inheritance loop between following classes");
 				for (int i=0;i<remainingUnsolved.size();i++)
-					TLLtypechecking.getLog().error(((UserDefinedClass)remainingUnsolved.get(i)).getName());
+					MSGHandler.error(((UserDefinedClass)remainingUnsolved.get(i)).getName());
 			} 
 		return remainingUnsolved.size();
 	}
