@@ -1,5 +1,5 @@
 /*
- * $Id: antlr2astViewParser.java,v 1.8 2004-10-18 16:00:00 jpthibau Exp $
+ * $Id: antlr2astViewParser.java,v 1.9 2004-10-28 08:57:39 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -19,7 +19,7 @@ import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 
 //import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRASTWalker.antlrParserInterface;
-import ANTLRParser.*;
+//import ANTLRParser.*;
 import BasicMtlASTWithAssociationView.*;
 
 public class antlr2astViewParser implements antlrParserInterface {
