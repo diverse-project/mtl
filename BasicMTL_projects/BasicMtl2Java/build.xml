@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.5 2003-10-31 13:28:12 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.6 2003-10-31 13:29:26 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="LibAssociation dist" basedir=".">
 	<description>
         Build for the different BasicMTL compilers following the bootstrap process
@@ -8,7 +8,7 @@
     	<ant antfile="PureJava_build.xml" target="dist"/>
   	</target>
 	<!--<target name="LibInheritance dist">-->
-	<target name="LibInheritance dist" depends="PureJava dist">>
+	<target name="LibInheritance dist" depends="PureJava dist">
     	<ant antfile="LibInheritance_build.xml" target="dist"/>
   	</target>
 	<target name="LibAssociation_boot dist" depends="LibInheritance dist">    	
