@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.4 2003-08-14 21:00:20 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.5 2003-08-19 08:50:45 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -48,6 +48,10 @@ public class allReferedTypes {
 			loadedTLL=(Library)TLLtypechecking.loadedLibraries.get(libName);
 		else {
 			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
+			if (loadedTLL == null) 
+			{ 
+				return null;
+			}
 			TLLtypechecking.loadedLibraries.put(libName,loadedTLL);
 			if ((checkIsnotAView(loadedTLL.getName(),theLib))
 				&& (checkIsnotAnInheritedLib(loadedTLL.getName(),theLib))) {
@@ -162,7 +166,7 @@ public class allReferedTypes {
 		else if (aType.size()==1) { //a single name
 				if (checkLocalClass(aType,firstName,theLib)) return true;
 				else	if (checkExternLibName(aType,firstName,theLib)) return true;
-						else {TLLtypechecking.getLog().error("Unknown Local Type"+firstName);
+						else {TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
 								errors++;} 
 				}
 			else //extern library class::...
