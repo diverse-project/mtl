@@ -1,11 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.5 2003-09-10 10:23:03 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.6 2004-03-19 17:45:32 edrezen Exp $
  * Created on 1 août 2003
  *
  */
 package OperationCallChecker;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 /**
  * @author jpthibau
@@ -28,20 +29,50 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 
 	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context)
 	{	Expression theCaller=(Expression)ASTnode.getCaller();
+
 		if (theCaller instanceof org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarCall)
 			{	VarCall caller=(VarCall)theCaller;
 				if (caller.getModelEltVar())
 					ASTnode.setIsToInvoke(true);
 			}
-		if ((theCaller instanceof OperationCall) && ((OperationCall)theCaller).getIsToInvoke()) {
-			ASTnode.setIsToInvoke(true);
+
+		if (theCaller instanceof OperationCall) 
+		{
+			OperationCall opCall = (OperationCall)theCaller;
+
+			if (opCall.getIsToInvoke())
+			{			
+				ASTnode.setIsToInvoke(true);
+			}
+			else if (opCall.getKind().equals(OperationKind.getAttributeCall()))
+			{
+				// In the case of an attribute call, we try to retrieve the Attribute object 
+				// from the OperationCall object. This property has been set during the build
+				// of the AST (VarCallAnalyser) where the full information about the attribute
+				// were available
+				Property prop = opCall.getProperty ("Attribute");
+				if (prop!=null)
+				{
+					Attribute attribute = (Attribute)prop.getValue();
+				
+					// In the special case where the attribute is of a type coming from the
+					// repository, the operation call must be an invoke.
+					if (attribute.getFeatureType().getIsRepositoryModel())
+					{
+						ASTnode.setIsToInvoke(true);
+					}
+				}
+			}
 		}
+
 		if (ASTnode.getOclAsType() != null && ASTnode.getOclAsType().getIsRepositoryModel()) {
 			ASTnode.setIsToInvoke(true);
 		}
+
 		if (theCaller != null && theCaller.getToBeCasted() != null && theCaller.getToBeCasted().getIsRepositoryModel()) {
 			ASTnode.setIsToInvoke(true);
 		}
+
 		if (theCaller != null && (theCaller instanceof OclTypeLiteral) && ((OclTypeLiteral)theCaller).getTheType().getIsRepositoryModel()) {
 			ASTnode.setIsToInvoke(true);
 		}
