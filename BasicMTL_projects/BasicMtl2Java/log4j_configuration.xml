@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl2Java/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.6 $ 				-->
-<!-- $Date: 2004-05-25 09:06:45 $ 	-->
-<!-- $Author: dvojtise $ 		  	-->
+<!-- $Revision: 1.7 $ 				-->
+<!-- $Date: 2004-06-10 10:18:43 $ 	-->
+<!-- $Author: jpthibau $ 		  	-->
 <!-- Description: This is the configuration file for log4j it allows to tune the level of log you will receive 
 	it also allows to tune where you will receive them. -->
 
@@ -79,6 +79,9 @@
 	</appender >
 
   <!-- tune the level depending on the module that send the log -->
+  <logger name="MSGHandler">
+    <level value="INFO"/>
+  </logger>
   <logger name="BMTLParser">
     <level value="INFO"/>
   </logger>
