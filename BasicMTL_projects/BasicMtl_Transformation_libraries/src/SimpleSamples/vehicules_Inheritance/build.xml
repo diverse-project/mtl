@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-06 15:47:33 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-08 15:22:09 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -20,7 +20,7 @@
 	</target>
 	
 	<target name="vehicule_antlr2tll" depends="init"
-  	 	description="Parse vehicule.mtl to an UncheckedTLL">
+  	 	description="Parse vehicule.mtl to a TLL">
 	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
            fork="true"
            failonerror="true"
@@ -28,107 +28,210 @@
          <arg value="${src}\vehicule.mtl"/> 
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
-       <!--  <classpath>
-           <pathelement location="../../../../BasicMtlAntlr2TLLJava/dist/bin/BasicMtlASTJava.jar"/>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Vehicule"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile vehicule" depends="vehicule_antlr2tll"
+  	 	description="Generate code for vehicule.mtl">
+	    <mkdir dir="${bin}/Vehicule"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="vehiculeLib"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Vehicule/"/> 
        </java>
  
 	</target>
   
-	<target name="aquatique_antlr2tll" depends="init"
-  	 	description="Parse aquatique.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+	<target name="aquatique_antlr2tll" depends="vehicule_antlr2tll"
+  	 	description="Parse aquatique.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
            >
          <arg value="${src}\aquatique.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Aquatique"/> 
        </java>
  
 	</target>
-	
-	<target name="terrestre_antlr2tll" depends="init"
-  	 	description="Parse terrestre.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+
+	<target name="compile aquatique" depends="aquatique_antlr2tll"
+  	 	description="Generate code for aquatique.mtl">
+	    <mkdir dir="${bin}/Aquatique"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
+           >
+         <arg value="aquatiqueLib"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Aquatique/"/> 
+       </java>
+ 
+	</target>
+  
+	<target name="terrestre_antlr2tll" depends="vehicule_antlr2tll"
+  	 	description="Parse terrestre.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+           fork="true"
+           failonerror="true"
            >
          <arg value="${src}\terrestre.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Terrestre"/> 
        </java>
  
 	</target>
-	
-	<target name="amphibie_antlr2tll" depends="init"
-  	 	description="Parse amphibie.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+
+	<target name="compile terrestre" depends="terrestre_antlr2tll"
+  	 	description="Generate code for terrestre.mtl">
+	    <mkdir dir="${bin}/Terrestre"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
+           >
+         <arg value="terrestreLib"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Terrestre/"/> 
+       </java>
+ 
+	</target>
+  
+	<target name="amphibie_antlr2tll" depends="aquatique_antlr2tll,terrestre_antlr2tll"
+  	 	description="Parse amphibie.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+           fork="true"
+           failonerror="true"
            >
          <arg value="${src}\amphibie.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Amphibie"/> 
        </java>
  
 	</target>
-	
-	<target name="amphibieherite_antlr2tll" depends="init"
-  	 	description="Parse amphibieherite.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+
+	<target name="compile amphibie" depends="amphibie_antlr2tll"
+  	 	description="Generate code for amphibie.mtl">
+	    <mkdir dir="${bin}/Amphibie"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
+           >
+         <arg value="amphibie"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Amphibie/"/> 
+       </java>
+ 
+	</target>
+  
+	<target name="amphibieherite_antlr2tll" depends="aquatique_antlr2tll,terrestre_antlr2tll"
+  	 	description="Parse amphibieherite.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+           fork="true"
+           failonerror="true"
            >
          <arg value="${src}\amphibieherite.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Amphibieherite"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile amphibieherite" depends="amphibieherite_antlr2tll"
+  	 	description="Generate code for amphibieherite.mtl">
+	    <mkdir dir="${bin}/Amphibieherite"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="amphibieherite"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Amphibieherite/"/> 
        </java>
  
 	</target>
 	
 	<target name="caracteristiques_antlr2tll" depends="init"
-  	 	description="Parse caracteristiques.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+  	 	description="Parse caracteristiques.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
            >
          <arg value="${src}\caracteristiques.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Caracteristiques"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile caracteristiques" depends="caracteristiques_antlr2tll"
+  	 	description="Generate code for caracteristiques.mtl">
+	    <mkdir dir="${bin}/Caracteristiques"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="caracteristiquesVehicule"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Caracteristiques/"/> 
        </java>
  
 	</target>
 	
-	<target name="testvehicules_antlr2tll" depends="init"
-  	 	description="Parse testvehicules.mtl to an UncheckedTLL">
-	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+	<target name="testvehicules_antlr2tll" depends="caracteristiques_antlr2tll,amphibie_antlr2tll,amphibieherite_antlr2tll"
+  	 	description="Parse testvehicules.mtl to a TLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
            fork="true"
            failonerror="true"
-           maxmemory="128m"
            >
          <arg value="${src}\testvehicules.mtl"/> 
-       <!--  <classpath>
-           <pathelement path="${java.class.path}"/>
-         </classpath>
-        -->
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="SimpleSamples.vehicules_Inheritance.bin.Testvehicules"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile testvehicules" depends="testvehicules_antlr2tll"
+  	 	description="Generate code for testvehicules.mtl">
+	    <mkdir dir="${bin}/Testvehicules"/>
+	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="testvehicules"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${bin}/Testvehicules/"/> 
        </java>
  
 	</target>
@@ -137,10 +240,6 @@
         description="clean up SimpleSamples" >
     	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
     	<delete dir="${bin}"/>    
-    	<delete >
-    		<fileset dir="${build}/src">
-  				<include name="**/*"/>
-			</fileset>    		
-    	</delete>
+    	<delete dir="${build}"/>    
   	</target>
 </project>

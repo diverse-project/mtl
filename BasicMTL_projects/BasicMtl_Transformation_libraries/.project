@@ -3,6 +3,8 @@
 	<name>BasicMtl_Transformation_libraries</name>
 	<comment></comment>
 	<projects>
+		<project>MTDataTypes</project>
+		<project>RepositoryAPI</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
