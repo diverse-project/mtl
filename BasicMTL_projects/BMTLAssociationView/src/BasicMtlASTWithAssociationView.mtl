@@ -1,0 +1,330 @@
+// $Id: Library.mtl,v 1.2 2003/12/03 04:29:52 ffondeme Exp $
+// part of the BasicMtlASTWithAssociationView Library
+// This file defines the classes that have multiple inheritance indetermisn and solve them
+// may be we can imagine a way to get it automaticaly when we use the library extends 
+ 
+library BasicMtlASTWithAssociationView extends BasicMtlASTView;
+ 
+class Associate extends  BasicMtlASTView::Associate, Instruction refines  BasicMtlASTView::Associate 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::Associate!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_AssociateInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fAssociate().BMTL_toASTJava()];
+	}
+}
+
+
+class BasicMtlLibrary extends  BasicMtlASTView::BasicMtlLibrary, Library refines  BasicMtlASTView::BasicMtlLibrary 
+{
+	transformInheritedLibrary() : Standard::Void
+	{
+		self.oclAsType(!BasicMtlASTView::BasicMtlLibrary!).transformInheritedLibrary();
+	}
+	
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::BasicMtlLibrary!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_BasicMtlLibraryInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fBasicMtlLibrary().BMTL_toASTJava()];
+	}
+}
+
+
+class BMTLTypeProperty extends  BasicMtlASTView::BMTLTypeProperty, Property refines  BasicMtlASTView::BMTLTypeProperty 
+{
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{
+		self.oclAsType(!BasicMtlASTView::BMTLTypeProperty!).setTheValue(newValue); 
+
+	}
+	getTheValue():Standard::OclAny
+	{	
+		return self.oclAsType(!BasicMtlASTView::BMTLTypeProperty!).getTheValue(); 		
+	}
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::BMTLTypeProperty!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_BMTLTypePropertyInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fBMTLTypeProperty().BMTL_toASTJava()];
+	}
+}
+
+
+class BooleanLiteral extends  BasicMtlASTView::BooleanLiteral, Literal refines  BasicMtlASTView::BooleanLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::IntLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_BooleanLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fBooleanLiteral().BMTL_toASTJava()];
+	}
+}
+
+class If extends  BasicMtlASTView::If, Instruction refines  BasicMtlASTView::If 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::If!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_IfInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fIf().BMTL_toASTJava()];
+	}
+}
+
+
+class InheritanceProperty extends  BasicMtlASTView::InheritanceProperty, Property refines  BasicMtlASTView::InheritanceProperty 
+{
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{
+		self.oclAsType(!BasicMtlASTView::InheritanceProperty!).setTheValue(newValue); 
+
+	}
+	getTheValue():Standard::OclAny
+	{	
+		return self.oclAsType(!BasicMtlASTView::InheritanceProperty!).getTheValue(); 		
+	}
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::InheritanceProperty!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_InheritancePropertyInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fInheritanceProperty().BMTL_toASTJava()];
+	}
+}
+
+
+class IntLiteral extends  BasicMtlASTView::IntLiteral, Literal refines  BasicMtlASTView::IntLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::IntLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_IntLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fIntLiteral().BMTL_toASTJava()];
+	}
+}
+
+class JavaCodeLiteral extends  BasicMtlASTView::JavaCodeLiteral, Literal refines  BasicMtlASTView::JavaCodeLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::JavaCodeLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_JavaCodeLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fJavaCodeLiteral().BMTL_toASTJava()];
+	}
+}
+
+class ModelRef extends  BasicMtlASTView::ModelRef, Library refines  BasicMtlASTView::ModelRef 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::ModelRef!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_ModelRefInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fModelRef().BMTL_toASTJava()];
+	}
+}
+
+class NewObject extends BasicMtlASTView::NewObject,  Expression refines  BasicMtlASTView::NewObject 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::NewObject!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_NewObjectInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fNewObject().BMTL_toASTJava()];
+	}
+}
+
+
+class NullLiteral extends  BasicMtlASTView::NullLiteral, Literal refines  BasicMtlASTView::NullLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::NullLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_NullLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fNullLiteral().BMTL_toASTJava()];
+	}
+}
+
+class OclAsType extends BasicMtlASTView::OclAsType, Expression refines  BasicMtlASTView::OclAsType 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::OclAsType!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_OclAsTypeInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fOclAsType().BMTL_toASTJava()];
+	}
+}
+
+class OclTypeLiteral extends BasicMtlASTView::OclTypeLiteral, Literal refines  BasicMtlASTView::OclTypeLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::OclTypeLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_OclTypeLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fOclTypeLiteral().BMTL_toASTJava()];
+	}
+}
+
+class OperationCall extends  BasicMtlASTView::OperationCall, Expression refines  BasicMtlASTView::OperationCall 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::OperationCall!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_OperationCallInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fOperationCall().BMTL_toASTJava()];
+	}
+}
+
+class RealLiteral extends  BasicMtlASTView::RealLiteral, Literal refines  BasicMtlASTView::RealLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::RealLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_RealLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fRealLiteral().BMTL_toASTJava()];
+	}
+}
+
+class RepositoryRef extends BasicMtlASTView::RepositoryRef, ModelRef refines  BasicMtlASTView::RepositoryRef 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::RepositoryRef!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_RepositoryRefInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fRepositoryRef().BMTL_toASTJava()];
+	}
+}
+
+class Return extends  BasicMtlASTView::Return, Instruction refines  BasicMtlASTView::Return 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::Return!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_ReturnInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fReturn().BMTL_toASTJava()];
+	}
+}
+
+class SelfLiteral extends  BasicMtlASTView::SelfLiteral, Literal refines  BasicMtlASTView::SelfLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::SelfLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_SelfLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fSelfLiteral().BMTL_toASTJava()];
+	}
+}
+
+class StringLiteral extends BasicMtlASTView::StringLiteral, Literal refines  BasicMtlASTView::StringLiteral 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::StringLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_StringLiteralInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fStringLiteral().BMTL_toASTJava()];
+	}
+}
+
+class StringProperty extends  BasicMtlASTView::StringProperty, Property refines  BasicMtlASTView::StringProperty 
+{
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{
+		self.oclAsType(!BasicMtlASTView::StringProperty!).setTheValue(newValue); 
+
+	}
+	getTheValue():Standard::OclAny
+	{	
+		return self.oclAsType(!BasicMtlASTView::StringProperty!).getTheValue(); 		
+	}
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::StringProperty!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_StringPropertyInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fStringProperty().BMTL_toASTJava()];
+	}
+}
+
+class Throws extends BasicMtlASTView::Throws, Instruction refines  BasicMtlASTView::Throws 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::Throws!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_ThrowsInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fThrows().BMTL_toASTJava()];
+	}
+}
+
+class Try extends BasicMtlASTView::Try, Instruction refines  BasicMtlASTView::Try 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::Try!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_TryInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fTry().BMTL_toASTJava()];
+	}
+}
+
+class TypedModelRef extends  BasicMtlASTView::TypedModelRef, ModelRef refines  BasicMtlASTView::TypedModelRef 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::TypedModelRef!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_TypedModelRefInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fTypedModelRef().BMTL_toASTJava()];
+	}
+}
+
+class VarCall extends BasicMtlASTView::VarCall, Expression refines  BasicMtlASTView::VarCall 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::IntLiteral!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_VarCallInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fVarCall().BMTL_toASTJava()];
+	}
+}
+
+class VarSetting extends  BasicMtlASTView::VarSetting, Instruction refines  BasicMtlASTView::VarSetting 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::VarSetting!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_VarSettingInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fVarSetting().BMTL_toASTJava()];
+	}
+}
+
+class While extends  BasicMtlASTView::While, Instruction refines  BasicMtlASTView::While 
+{
+	toASTJava() : ASTJava::Object
+	{
+		// return self.oclAsType(!BasicMtlASTView::While!).toASTJava(); 
+		// pb doesn't work ??? this is due to the mangling of ASTJava::Ojbect into Object and then the generated code doesn't works
+		// here is the corrected code
+		JavaCode [return (Object)((BasicMtlASTView.BMTL_WhileInterface)CommonFunctions.toBMTLDataType(theCaller)).getRef_BMTL_BasicMtlASTView_5fWhile().BMTL_toASTJava()];
+	}
+}
