@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.1 2003-10-14 15:56:19 jpthibau Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.2 2003-11-03 15:39:18 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -42,12 +42,14 @@
 		operations.next();
 	}
 	}
+	if isNull(self.oclAsType(!Library!).definedClasses).not() {
 	classes := self.oclAsType(!Library!).definedClasses.getNewIterator();
 	classes.start();
 	while classes.isOn() {
 		aClass := classes.item().oclAsType(!UserClass!);
 		JavaCode [theBasicMtlLibrary.appendDefinedClasses((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass)BMTL_aClass.BMTL_toASTJava())];
 		classes.next();
+	}
 	}
 	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 	properties.start();
