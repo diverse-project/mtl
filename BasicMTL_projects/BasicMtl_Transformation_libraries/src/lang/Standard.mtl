@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.4 2003-08-07 07:07:24 dvojtise Exp $
+// $Id: Standard.mtl,v 1.5 2003-08-08 15:22:27 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -406,7 +406,7 @@ tag DoNotGenerate = booleantag true;
 }
 
 class Boolean extends OclAny
-tag mangle = specialtag [org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl]; 
+tag mangle = specialtag [BooleanValue]; 
 tag DoNotGenerate = booleantag true;
 {
 	// infix or (b : Boolean) : Boolean

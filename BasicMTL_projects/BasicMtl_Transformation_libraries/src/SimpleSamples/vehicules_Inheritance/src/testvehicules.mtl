@@ -4,5 +4,5 @@ library testVehicules;
 // Entry point operation : main
 /********************************************/
 
-main()
+main():Standard::void
 {}
