@@ -1,4 +1,4 @@
-<!-- $Id: main_build.xml,v 1.1 2004-10-27 07:59:18 dvojtise Exp $ -->
+<!-- $Id: main_build.xml,v 1.2 2004-10-27 12:05:09 dvojtise Exp $ -->
 <project name="org.inria.BasicMTL.runtime" default="compile" basedir=".">
 	<description>
         main Build file for the org.inria.BasicMTL.runtime
@@ -7,9 +7,11 @@
 	<!-- set global properties for this build -->
 	
 	  	
-	
+	<target name="get sources" description="get additional sources">
+		<ant antfile="copy_build.xml"/>
+	</target>
   	
-  	<target name="compile" description="compile all this plugin">  		 		
+  	<target name="compile" description="compile all this plugin" depends="get sources">  		 		
   		<ant antfile="build.xml">
   			<property name="javacVerbose" value="false"/>
   			<property name="javacFailOnError" value="true"/>
