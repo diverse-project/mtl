@@ -42,6 +42,30 @@ public class Operation
         return this.instructions.size();
     }
 
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute isGetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getIsGetterFor () {
+        return this.isGetterFor;
+    }
+    public void setIsGetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute value) {
+        this.isGetterFor = value; 
+    }
+    public int cardIsGetterFor () {
+        if ( this.isGetterFor == null ) return 0;
+        else return 1;
+    }
+
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute isSetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getIsSetterFor () {
+        return this.isSetterFor;
+    }
+    public void setIsSetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute value) {
+        this.isSetterFor = value; 
+    }
+    public int cardIsSetterFor () {
+        if ( this.isSetterFor == null ) return 0;
+        else return 1;
+    }
+
     /**
       * The type of the returned value of the operation. Empty if the operation does ot return a value.
       */
@@ -166,30 +190,6 @@ public class Operation
     }
     public int cardRedefinedOperations () {
         return this.redefinedOperations.size();
-    }
-
-    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute isGetterFor;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getIsGetterFor () {
-        return this.isGetterFor;
-    }
-    public void setIsGetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute value) {
-        this.isGetterFor = value; 
-    }
-    public int cardIsGetterFor () {
-        if ( this.isGetterFor == null ) return 0;
-        else return 1;
-    }
-
-    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute isSetterFor;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute getIsSetterFor () {
-        return this.isSetterFor;
-    }
-    public void setIsSetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute value) {
-        this.isSetterFor = value; 
-    }
-    public int cardIsSetterFor () {
-        if ( this.isSetterFor == null ) return 0;
-        else return 1;
     }
 
 
