@@ -1,0 +1,498 @@
+/*
+ * $Id: ModFactAPI.java,v 1.1 2004-02-16 15:46:48 dvojtise Exp $
+ * Authors : ffondeme xblanc dvojtise
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
+package org.irisa.triskell.MT.repository.ModFactDriver.Java;
+
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.Collection;
+//import java.util.Hashtable;
+//import java.util.Iterator;
+//import java.util.LinkedList;
+//import java.util.List;
+//import java.util.Map;
+//
+//import javax.jmi.model.AliasType;
+//import javax.jmi.model.Association;
+//import javax.jmi.model.Classifier;
+//import javax.jmi.model.CollectionType;
+//import javax.jmi.model.EnumerationType;
+//import javax.jmi.model.ModelElement;
+//import javax.jmi.model.MofClass;
+//import javax.jmi.model.MofPackage;
+//import javax.jmi.model.MultiplicityType;
+//import javax.jmi.model.PrimitiveType;
+//import javax.jmi.model.StructureType;
+//import javax.jmi.reflect.RefAssociation;
+//import javax.jmi.reflect.RefBaseObject;
+//import javax.jmi.reflect.RefClass;
+//import javax.jmi.reflect.RefEnum;
+//import javax.jmi.reflect.RefObject;
+//import javax.jmi.reflect.RefPackage;
+//import javax.jmi.reflect.RefStruct;
+import javax.jmi.xmi.XmiReader;
+import javax.jmi.xmi.XmiWriter;
+
+import org.apache.log4j.Logger;
+//import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+//import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+//import org.irisa.triskell.MT.DataTypes.Java.Type;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.BagType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.BooleanType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Integer.IntegerType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.OclString.StringType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.SequenceType;
+//import org.irisa.triskell.MT.DataTypes.Java.commands.Set.SetType;
+//import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
+//import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
+//import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
+//import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
+//import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
+//import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
+//import org.irisa.triskell.MT.utils.Java.AWK;
+//import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
+import org.objectweb.modfact.jmi.xmi.XmiReaderImpl;
+import org.objectweb.modfact.jmi.xmi.XmiWriterImpl;
+/*import org.netbeans.api.mdr.CreationFailedException;*/
+
+/**
+  * The system property
+  * "org.irisa.triskell.MT.repository.MDRDriver.ignoreAssociationEndsForNavigation"
+  * indicates if association ends should not be explored
+  * while asking for a feature or an association end value,
+  * even if the corresponding reference does not exist.
+  * Notions of reference and AssociationEnd are specific to MOF 1.x
+  */
+public class ModFactAPI 
+	extends org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI
+    implements org.irisa.triskell.MT.repository.API.Java.API
+{
+ /*   protected static final javax.jmi.xmi.XmiReader reader;
+    public static javax.jmi.xmi.XmiReader getReader () {
+        return MDRAPI.reader;
+    }
+    public static int cardReader () {
+        if ( MDRAPI.reader == null ) return 0;
+        else return 1;
+    }
+
+    protected static final javax.jmi.xmi.XmiWriter writer;
+    public static javax.jmi.xmi.XmiWriter getWriter () {
+        return MDRAPI.writer;
+    }
+    public static int cardWriter () {
+        if ( MDRAPI.writer == null ) return 0;
+        else return 1;
+    }
+*/
+//    protected static final org.netbeans.api.mdr.MDRManager mdrManager;
+//    public static org.netbeans.api.mdr.MDRManager getMdrManager () {
+//        return MDRAPI.mdrManager;
+//    }
+//    public static int cardMdrManager () {
+//        if ( MDRAPI.mdrManager == null ) return 0;
+//        else return 1;
+//    }
+
+    protected static final org.apache.log4j.Logger staticLog = Logger.getLogger("ModFactDriver");
+/* 
+    public static org.apache.log4j.Logger getStaticLog () {
+        return staticLog;
+    }
+    public static int cardStaticLog () {
+        if ( staticLog == null ) return 0;
+        else return 1;
+    }
+    
+    protected static final org.irisa.triskell.MT.repository.API.Java.CommonException nullPointerException = new org.irisa.triskell.MT.repository.API.Java.CommonException("Null pointer exception.");
+    public static org.irisa.triskell.MT.repository.API.Java.CommonException getNullPointerException () {
+    	return nullPointerException;
+    }
+    public static int cardNullPointerException () {
+    	if (nullPointerException == null) return 0;
+    	else return 1;
+    }
+
+    protected final org.apache.log4j.Logger log;
+    public org.apache.log4j.Logger getLog () {
+        return this.log;
+    }
+    public int cardLog () {
+        if ( this.log == null ) return 0;
+        else return 1;
+    }
+
+    protected static final String IGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY = "org.irisa.triskell.MT.repository.ModFactDriver.ignoreAssociationEndsForNavigation";
+    public static String getIGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY () {
+        return MDRAPI.IGNORE_ASSOCIATION_ENDS_FOR_NAVIGATION_KEY;
+    }
+    
+    private java.lang.ref.SoftReference relatedAssociationEnds = null;
+    
+    protected static final java.util.Comparator refComparator = new java.util.Comparator () {
+    	public int compare(Object o1, Object o2) {
+    		return ((javax.jmi.reflect.RefBaseObject)o1).refMofId().compareTo(((javax.jmi.reflect.RefBaseObject)o2).refMofId());
+    	}
+    };
+*/
+    protected ModFactRepository modfactRepository = new ModFactRepository();
+    public ModFactRepository getModfactRepository () {
+        return this.modfactRepository;
+    }
+//    public int cardMdrRepository () {
+//        if ( this.mdrRepository == null ) return 0;
+//        else return 1;
+//    }
+/*
+    protected final javax.jmi.reflect.RefPackage model;
+    public javax.jmi.reflect.RefPackage getModel () {
+        return this.model;
+    }
+    public int cardModel () {
+        if ( this.model == null ) return 0;
+        else return 1;
+    }
+
+    public final String modelName;
+    public String getModelName () {
+        return this.modelName;
+    }
+
+    protected final Map elements = new Hashtable();
+
+    private final Map refPackages = new Hashtable();
+
+    private final Map refClasses = new Hashtable();
+
+    private final Map refAssociations = new Hashtable();
+
+    protected Value2Java values2javaConverter;
+    public Value2Java getValues2javaConverter () {
+        return this.values2javaConverter;
+    }
+    public int cardValues2javaConverter () {
+        if ( this.values2javaConverter == null ) return 0;
+        else return 1;
+    }
+
+    private final Map refEnumerations = new Hashtable();
+
+    private Map primitiveTypes;
+
+    private final Map refStructures = new Hashtable();
+*/
+    private final org.irisa.triskell.MT.repository.genericJMIDriver.Model manipulatedModel;
+/*
+    public class Value2Java 
+        implements org.irisa.triskell.MT.DataTypes.Java.ValueVisitor
+    {
+        private java.lang.Object distilled;
+        protected java.lang.Object getDistilled () {
+            return this.distilled;
+        }
+        protected int cardDistilled () {
+            if ( this.distilled == null ) return 0;
+            else return 1;
+        }
+
+        protected final boolean out;
+        public boolean getOut () {
+            return this.out;
+        }
+
+        protected final boolean multiple;
+        public boolean getMultiple () {
+            return this.multiple;
+        }
+
+
+        public Value2Java(
+            boolean out,
+            boolean multiple)
+        {
+			this.out = out;
+			this.multiple = multiple;
+        }
+
+        public void visitValue(
+            org.irisa.triskell.MT.DataTypes.Java.Value value)
+        {
+        	this.distilled = null;
+        }
+
+        public void visitPrimitiveValue(
+            org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue value)
+        {
+			this.distilled = value.getValue();
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else
+					this.distilled = new String [] {(String)this.distilled};
+			}
+        }
+
+        public void visitBooleanValue(
+            org.irisa.triskell.MT.DataTypes.Java.BooleanValue value)
+        {
+			this.distilled = value.getTheBoolean() ? Boolean.TRUE : Boolean.FALSE;
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else
+					this.distilled = new Boolean [] {(Boolean)this.distilled};
+			}
+        }
+
+        public void visitStringValue(
+            org.irisa.triskell.MT.DataTypes.Java.StringValue value)
+        {
+        	this.distilled = value.getTheString();
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else
+					this.distilled = new String [] {(String)this.distilled};
+			}
+        }
+
+        public void visitRealValue(
+            org.irisa.triskell.MT.DataTypes.Java.RealValue value)
+        {
+        	this.distilled = new Float(value.getTheReal());
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else
+					this.distilled = new Float [] {(Float)this.distilled};
+			}
+        }
+
+        public void visitIntegerValue(
+            org.irisa.triskell.MT.DataTypes.Java.IntegerValue value)
+        {
+			this.distilled = new Integer(value.getTheInteger());
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else
+					this.distilled = new Integer [] {(Integer)this.distilled};
+			}
+        }
+
+        public void visitEnumValue(
+            org.irisa.triskell.MT.DataTypes.Java.EnumValue value)
+        {
+			if (! (value instanceof MDREnumered))
+				throw new RuntimeException("This enumered is not from the good model");
+			this.distilled = ((MDREnumered)value).getRef();
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else {
+					Object val = this.distilled;
+					this.distilled = java.lang.reflect.Array.newInstance(this.distilled.getClass(), 1);
+					java.lang.reflect.Array.set(this.distilled, 1, val);
+				}
+			}
+        }
+
+        public void visitCollectionValue(
+            org.irisa.triskell.MT.DataTypes.Java.CollectionValue value)
+        {
+	org.irisa.triskell.MT.DataTypes.Java.Value [] theCollection = value.getTheCollection();
+//        	CollectionKind theKind = value.getKind();
+			Object [] result = new Object [value.getTheCollection().length];
+        	for (int i = 0; i < theCollection.length; ++i) {
+				theCollection[i].accept(this);
+        		result[i] = this.distilled;
+        	}
+			this.distilled = java.util.Arrays.asList(result);
+			if (out)
+				this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+        }
+
+        public void visitModelElementValue(
+            org.irisa.triskell.MT.DataTypes.Java.ModelElementValue value)
+        {
+			if (value instanceof MDRElement) {
+				this.distilled = ((MDRElement)value).getRef();
+			} else if (value instanceof MDREnumered) {
+					this.distilled = ((MDREnumered)value).getRef();
+			} else if (value instanceof MDRStruct) {
+					this.distilled = ((MDRStruct)value).getRef();
+			} else if (value.isUndefined()) {
+				this.distilled = new Throwable(value.getErrorMessage());
+			} else
+				throw new RuntimeException("This element is not from the good model");
+
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else {
+					Object val = this.distilled;
+					this.distilled = java.lang.reflect.Array.newInstance(this.distilled.getClass(), 1);
+					java.lang.reflect.Array.set(this.distilled, 1, val);
+				}
+			}
+        }
+
+        public void visitTupleValue(
+            org.irisa.triskell.MT.DataTypes.Java.TupleValue value)
+        {
+			if (! (value instanceof MDRStruct))
+				throw new RuntimeException("This tuple is not from the good model");
+			this.distilled = ((MDRStruct)value).getRef();
+			if (multiple) {
+				Object val = this.distilled;
+				this.distilled = new java.util.ArrayList(1);
+				((java.util.List)this.distilled).add(val);
+			}
+			if (out) {
+				if (multiple)
+					this.distilled = new java.util.List [] {(java.util.List)this.distilled};
+				else {
+					Object val = this.distilled;
+					this.distilled = java.lang.reflect.Array.newInstance(this.distilled.getClass(), 1);
+					java.lang.reflect.Array.set(this.distilled, 1, val);
+				}
+			}
+        }
+
+        public void visitVoidValue(
+            org.irisa.triskell.MT.DataTypes.Java.VoidValue value)
+        {
+        	throw new RuntimeException("Cannot convert a Void value.");
+        }
+
+        public void visitTypeValue(
+            org.irisa.triskell.MT.DataTypes.Java.TypeValue value)
+        {
+        	throw new RuntimeException("Cannot convert a Type value.");
+        }
+
+        public void visitNullValue(
+            org.irisa.triskell.MT.DataTypes.Java.NullValue value)
+        {
+        	this.distilled = null;
+        }
+    }
+*/
+
+
+    public ModFactAPI(
+        String repository,
+        org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel metamodel,
+        String modelName,
+        org.irisa.triskell.MT.repository.genericJMIDriver.Model model)
+        throws java.lang.Exception
+    {
+		super(repository, metamodel, modelName, model, Logger.getLogger("ModFactDriver." + modelName));
+		synchronized(ModFactAPI.class) {
+			
+			this.getLog().debug("Initializing ModFact driver:\tmodel name is : " + this.getModelName() + '.');
+	
+//			if (repository != null) {
+//				this.getLog().debug("Initializing MDR driver:\tloading repository : " + repository + '.');
+//				this.mdrRepository = mdrManager.getRepository(repository);
+//			} else {
+//				this.getLog().debug("Initializing MDR driver:\tloading default repository.");
+//				this.mdrRepository = mdrManager.getDefaultRepository();
+//			}
+//			if (this.mdrRepository.getExtent(modelName) != null)
+//				throw new CreationFailedException("Repository " + modelName + " already exists.");
+
+			this.getLog().debug("Initializing ModFact driver:\tinitializing metamodel.");
+			super.setModel( metamodel.getRefPackage(this));
+	
+			this.getLog().debug("Initializing ModFact driver:\tloading model.");
+			this.manipulatedModel = model;
+			model.load(this);
+    	}
+    }
+
+    public synchronized void startup(
+        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
+    {
+		this.getLog().debug("Starting up  driver " + this.getModelName() + '.');
+    }
+
+    /**
+      * Giving a Boolean value as the first element of the arguments determines if the used extend should be removed.
+      */
+    public synchronized void shutdown(
+        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
+    {
+		this.getLog().debug("Finalizing ModFact driver " + this.getModelName() + '.');
+		try {
+			if (this.manipulatedModel != null)
+				this.manipulatedModel.store(this);
+		} catch (Exception x) {
+			throw new RuntimeException("Problem storing resulting model.", x);
+		} finally {
+			if (arguments != null && (arguments[0] instanceof org.irisa.triskell.MT.DataTypes.Java.BooleanValue) && ((org.irisa.triskell.MT.DataTypes.Java.BooleanValue)arguments[0]).getTheBoolean())
+				this.getModel().refDelete();
+		}
+    }
+
+    
+    
+
+
+static {
+		ModFactAPI.getStaticLog().info("Setting up ModFact.");
+		// System.setProperty("org.openide.util.Lookup", "org.irisa.triskell.MT.repository.ModFactDriver.Java.RepositoryLookup");
+		// mdrManager = org.netbeans.api.mdr.MDRManager.getDefault();
+		reader = (XmiReader) new XmiReaderImpl(); //RepositoryLookup.getDefault().lookup(XmiReader.class);
+		writer = (XmiWriter) new XmiWriterImpl(); //RepositoryLookup.getDefault().lookup(XmiWriter.class);
+		Runtime.getRuntime().addShutdownHook(new Thread (new Runnable () {
+			public void run () {
+				ModFactAPI.getStaticLog().info("Shutting down ModFact.");
+				//MDRAPI.mdrManager.shutdownAll();
+			}
+		}));
+	
+
+}
+}

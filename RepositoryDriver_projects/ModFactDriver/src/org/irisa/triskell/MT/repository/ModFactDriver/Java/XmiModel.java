@@ -1,9 +1,16 @@
+/*
+ * $Id: XmiModel.java,v 1.2 2004-02-16 15:46:45 dvojtise Exp $
+ * Authors : ffondeme xblanc dvojtise
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.ModFactDriver.Java;
 
 import java.io.File;
+import org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI;
 
 public class XmiModel 
-    extends org.irisa.triskell.MT.repository.ModFactDriver.Java.Model
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.Model
 {
 	public static final byte Read = 0;
 	public static final byte Write = 1;
@@ -45,7 +52,7 @@ public class XmiModel
     }
 
     public void load(
-        org.irisa.triskell.MT.repository.ModFactDriver.Java.MDRAPI api)
+		org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
     	String uri;
@@ -54,19 +61,20 @@ public class XmiModel
 	    	for (int i = 0; i < load.length; ++i) {
 				uri = new File(load[i]).toURI().toString();
 				api.getLog().info("Loading model from XMI file " + uri + '.');
-				MDRAPI.getReader().read(uri, api.getModel());
+				JMIAPI.getReader().read(uri, api.getModel());
 	    	}
     }
 
     public void store(
-        org.irisa.triskell.MT.repository.ModFactDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
     	String store = this.getXmiStoringFile();
     	if (store != null) {
 			java.io.OutputStream out = new java.io.BufferedOutputStream(new java.io.FileOutputStream(new File(store)));
-			api.getLog().info("Storing model to XMI file " + store + '.');
-			MDRAPI.getWriter().write(out, api.getModel(), "1.2");
+			api.getLog().info("Storing model to XMI file (DVK test 1.1) " + store + '.');
+			// MDRAPI.getWriter().write(out, api.getModel(), "1.2");
+			JMIAPI.getWriter().write(out, api.getModel(), "1.1");
 			out.flush();
 			out.close();
     	}

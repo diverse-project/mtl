@@ -1,14 +1,16 @@
 /*
  * Created on 28 janv. 2004
  *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * $Id: ModFactRepository.java,v 1.2 2004-02-16 15:46:39 dvojtise Exp $
+ * Authors : ffondeme xblanc dvojtise
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.repository.ModFactDriver.Java;
 
 import java.util.*;
 
-import javax.jmi.reflect.RefBaseObject;
+//import javax.jmi.reflect.RefBaseObject;
 import javax.jmi.reflect.RefObject;
 import javax.jmi.reflect.RefPackage;
 

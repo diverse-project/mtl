@@ -1,3 +1,9 @@
+/*
+ * $Id: XmiMetamodel.java,v 1.2 2004-02-16 15:46:44 dvojtise Exp $
+ * Authors : ffondeme xblanc dvojtise
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.repository.ModFactDriver.Java;
 
 import java.io.File;
@@ -9,13 +15,13 @@ import java.util.List;
 import javax.jmi.model.ModelPackage;
 import javax.jmi.model.MofPackage;
 
+import org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI;
+
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
-/*import org.netbeans.api.mdr.CreationFailedException;
-import org.netbeans.api.mdr.MDRepository;*/
 
 public class XmiMetamodel 
-    extends org.irisa.triskell.MT.repository.ModFactDriver.Java.Metamodel
+    extends org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel
 {
     public final String [] xmiFiles;
     public String [] getXmiFiles () {
@@ -63,13 +69,13 @@ public class XmiMetamodel
     }
 
     public javax.jmi.reflect.RefPackage getRefPackage(
-        org.irisa.triskell.MT.repository.ModFactDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
         throws java.lang.Exception
     {
 			String metamodelRepositoryName = this.createMetamodelName(api);
 			api.getLog().debug("Creating repository " + metamodelRepositoryName + " for metamodel.");
 			//		MDRepository rep = api.getModfactRepository();
-			ModFactRepository rep = api.getModfactRepository();
+			ModFactRepository rep = ((ModFactAPI)api).getModfactRepository();
 			
 			ModelPackage metametaPackage = (ModelPackage)rep.createExtent(metamodelRepositoryName);
 			String [] files = this.getXmiFiles();
@@ -77,7 +83,7 @@ public class XmiMetamodel
 			for (int i = 0; i < files.length; ++i) {
 				String uri = new File(files[i]).toURI().toString();
 				api.getLog().debug("Reading metamodel into repository " + metamodelRepositoryName + " from XMI file " + uri);
-				readen.addAll(MDRAPI.getReader().read(uri, metametaPackage));
+				readen.addAll(JMIAPI.getReader().read(uri, metametaPackage));
 				api.getLog().debug("Retreiving meta package to be instanciated.");
 			}
 				
@@ -146,7 +152,7 @@ public class XmiMetamodel
     }
 
     protected String createMetamodelName(
-        org.irisa.triskell.MT.repository.ModFactDriver.Java.MDRAPI api)
+        org.irisa.triskell.MT.repository.genericJMIDriver.JMIAPI api)
     {
 			StringBuffer fullMetamodelName = new StringBuffer();
 			String metamodelName;
@@ -163,7 +169,7 @@ public class XmiMetamodel
 			}
 			final String basicMetamodelName = fullMetamodelName.toString();
 			metamodelName = basicMetamodelName; 
-			HashSet alreadyDefinedNames = new HashSet(Arrays.asList(api.getModfactRepository().getExtentNames()));
+			HashSet alreadyDefinedNames = new HashSet(Arrays.asList(((ModFactAPI)api).getModfactRepository().getExtentNames()));
 			for (int i = 2; alreadyDefinedNames.contains(metamodelName); ++i)
 				metamodelName = basicMetamodelName + Integer.toString(i);
 			return metamodelName;
