@@ -1,9 +1,12 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.2 2003-12-05 13:22:59 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.3 2003-12-11 15:39:40 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
 # it copies correct distribution to the modelware.inria.fr web site
+
+# BE CAREFUL : you need to contact Didier for every change in this script if you want to use it every night !!!
+# 		the script cannot be checkout automaticaly as it is its role to checkout the latest version ...
 
 # This scripts runs on Solaris at irisa.
 
@@ -37,7 +40,11 @@ ant |& tee $BASE/ant_BasicMtl2Java.log
 # check for errors and send mail to admin
 setenv ERRORS_IN_BUILD `grep FAILED  $BASE/ant_BasicMtl2Java.log`
 if ( "$ERRORS_IN_BUILD" != "" ) then
-   echo "The build failed, tests not run, please have a look in the log file: $BASE/ant_BasicMtl2Java.log \nthis may be normal for a short time, or someone may have forgotten to commit a file" | Mail -s "[Modelware] Night build failed" modelware-cvs@irisa.fr
+   	echo "The build failed, tests not run, please have a look in the log file: $BASE/ant_BasicMtl2Java.log " >msg.txt
+   	echo "this may be normal for a short time, or someone may have forgotten to commit a file" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/ant_BasicMtl2Java.log >> msg.txt   	
+    cat msg.txt | Mail -s "[Modelware] Night build failed" modelware-cvs@irisa.fr
     exit
 endif
 
@@ -46,7 +53,11 @@ ant "build all" "run all" |& tee $BASE/ant_CompilerTests.log
 # check for errors and send mail to admin
 setenv ERRORS_IN_BUILD `grep FAILED $BASE/ant_CompilerTests.log`
 if ( "$ERRORS_IN_BUILD" != "" ) then
-   echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_CompilerTests.log \nhowever the compiler was succefully compiled" | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
+   	echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_CompilerTests.log " > msg.txt
+   	echo "however the compiler was succefully compiled" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/$BASE/ant_CompilerTests.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
     exit
 endif
 
@@ -55,7 +66,11 @@ ant |& tee $BASE/ant_UML14.log
 # check for errors and send mail to admin
 setenv ERRORS_IN_BUILD `grep FAILED $BASE/ant_UML14.log`
 if ( "$ERRORS_IN_BUILD" != "" ) then
-   echo "The UML14 tests failed, please have a look in the log file: $BASE/ant_UML14.log \nhowever the compiler compilation and CompilerTests were successfull" | Mail -s "[Modelware] Night build tests failed" modelware-cvs@irisa.fr
+	echo "The UML14 tests failed, please have a look in the log file: $BASE/ant_UML14.log " > msg.txt
+	echo "however the compiler compilation and CompilerTests were successfull"	>> msg.txt
+   	echo "---" >> msg.txt
+	cat $BASE/ant_UML14.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build tests failed" modelware-cvs@irisa.fr
     exit
 endif
 rm /site/w3e/WWW/modelware/htdocs/MTengine_latest_build/*.zip
