@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ThrowsAnalyser.java,v 1.3 2003-12-16 07:53:59 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ThrowsAnalyser.java,v 1.4 2003-12-19 15:24:14 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -23,7 +23,7 @@ public class ThrowsAnalyser extends ASTTopDownVisitor.ThrowsAnalyser {
 	public void ThrowsExpression(Object theThrows,Object objectExpr,java.util.Map context)
 	{	Throws theCreatedThrows=(Throws)theThrows;
 		Expression expr=(Expression)objectExpr;
-		expr.setIsTrownExpression(true);
+//		expr.setIsTrownExpression(true);
 		theCreatedThrows.setThrownExpression(expr);
 	}
 

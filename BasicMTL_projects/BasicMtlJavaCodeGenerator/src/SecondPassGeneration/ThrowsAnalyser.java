@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ThrowsAnalyser.java,v 1.6 2003-12-16 07:51:44 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ThrowsAnalyser.java,v 1.7 2003-12-19 15:24:39 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -20,7 +20,7 @@ public class ThrowsAnalyser extends TLLTopDownVisitor.ThrowsAnalyser {
 
 	public Object ThrowsBefore(Throws ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print("throw ");
+		outputForClass.print("throw (java.lang.Throwable)");
 		return null; }
 
 /*	public Object ThrowsBefore(Throws ASTnode,java.util.Map context)
