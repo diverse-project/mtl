@@ -1,5 +1,5 @@
 /*
-* $Id: ResourceChangeListener.java,v 1.2 2004-08-26 12:40:31 sdzale Exp $
+* $Id: ResourceChangeListener.java,v 1.3 2004-09-01 13:02:58 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -69,9 +69,9 @@ public class ResourceChangeListener
 				case IResourceChangeEvent.PRE_DELETE:
 					break;
 				case IResourceChangeEvent.POST_CHANGE:
-					//if (Auto_build){
+					if (Auto_build){
 						event.getDelta().accept(this);
-					//}
+					}
 					break;
 				case IResourceChangeEvent.PRE_BUILD:
 					break;
