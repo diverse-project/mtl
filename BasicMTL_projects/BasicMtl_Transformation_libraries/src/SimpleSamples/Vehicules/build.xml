@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-08-14 21:37:43 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.5 2003-08-20 15:54:13 ffondeme Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -39,8 +39,8 @@
  
 	</target>
 
-	<target name="compile vehicule" depends="vehicule_antlr2tll"
-  	 	description="Generate code for vehicule.mtl">
+	<target name="fast compile vehicule" depends="init"
+  	 	description="Generate code for vehicule.tll">
 	    <mkdir dir="${build}/src/java/Vehicule"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -52,6 +52,11 @@
          <arg value="-BinPath"/> 
          <arg value="${build}/src/java/Vehicule/"/> 
        </java>
+ 
+	</target>
+
+	<target name="compile vehicule" depends="vehicule_antlr2tll, fast compile vehicule"
+  	 	description="Generate code for vehicule.mtl">
  
 	</target>
   
@@ -70,8 +75,8 @@
  
 	</target>
 
-	<target name="compile aquatique" depends="aquatique_antlr2tll"
-  	 	description="Generate code for aquatique.mtl">
+	<target name="fast compile aquatique" depends="init"
+  	 	description="Generate code for aquatique.tll">
 	    <mkdir dir="${build}/src/java/Aquatique"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -83,6 +88,11 @@
          <arg value="-BinPath"/> 
          <arg value="${build}/src/java/Aquatique/"/> 
        </java>
+ 
+	</target>
+
+	<target name="compile aquatique" depends="aquatique_antlr2tll, fast compile aquatique"
+  	 	description="Generate code for aquatique.mtl">
  
 	</target>
   
@@ -101,8 +111,8 @@
  
 	</target>
 
-	<target name="compile terrestre" depends="terrestre_antlr2tll"
-  	 	description="Generate code for terrestre.mtl">
+	<target name="fast compile terrestre" depends="init"
+  	 	description="Generate code for terrestre.tll">
 	    <mkdir dir="${build}/src/java/Terrestre"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -114,6 +124,11 @@
          <arg value="-BinPath"/> 
          <arg value="${build}/src/java/Terrestre/"/> 
        </java>
+ 
+	</target>
+
+	<target name="compile terrestre" depends="terrestre_antlr2tll,fast compile terrestre"
+  	 	description="Generate code for terrestre.mtl">
  
 	</target>
   
@@ -132,8 +147,8 @@
  
 	</target>
 
-	<target name="compile amphibie" depends="amphibie_antlr2tll"
-  	 	description="Generate code for amphibie.mtl">
+	<target name="fast compile amphibie" depends="init"
+  	 	description="Generate code for amphibie.tll">
 	    <mkdir dir="${build}/src/java/Amphibie"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -145,6 +160,11 @@
          <arg value="-BinPath"/> 
          <arg value="${build}/src/java/Amphibie/"/> 
        </java>
+ 
+	</target>
+
+	<target name="compile amphibie" depends="amphibie_antlr2tll,fast compile amphibie"
+  	 	description="Generate code for amphibie.mtl">
  
 	</target>
   
@@ -163,8 +183,8 @@
  
 	</target>
 
-	<target name="compile amphibieherite" depends="amphibieherite_antlr2tll"
-  	 	description="Generate code for amphibieherite.mtl">
+	<target name="fast compile amphibieherite" depends="init"
+  	 	description="Generate code for amphibieherite.tll">
 	    <mkdir dir="${build}/src/java/Amphibieherite"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -178,6 +198,9 @@
        </java>
  
 	</target>
+
+	<target name="compile amphibieherite" depends="amphibieherite_antlr2tll,fast compile amphibieherite"
+  	 	description="Generate code for amphibieherite.mtl"/>
 	
 	<target name="caracteristiques_antlr2tll" depends="init"
   	 	description="Parse caracteristiques.mtl to a TLL">
@@ -194,8 +217,8 @@
  
 	</target>
 
-	<target name="compile caracteristiques" depends="caracteristiques_antlr2tll"
-  	 	description="Generate code for caracteristiques.mtl">
+	<target name="fast compile caracteristiques" depends="init"
+  	 	description="Generate code for caracteristiques.tll">
 	    <mkdir dir="${build}/src/java/Caracteristiques"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -209,6 +232,10 @@
        </java>
  
 	</target>
+	
+
+	<target name="compile caracteristiques" depends="caracteristiques_antlr2tll,fast compile caracteristiques"
+  	 	description="Generate code for caracteristiques.tll"/>
 	
 	<target name="testvehicules_antlr2tll" depends="caracteristiques_antlr2tll,amphibie_antlr2tll,amphibieherite_antlr2tll"
   	 	description="Parse testvehicules.mtl to a TLL">
@@ -225,8 +252,8 @@
  
 	</target>
 
-	<target name="compile testvehicules" depends="testvehicules_antlr2tll"
-  	 	description="Generate code for testvehicules.mtl">
+	<target name="fast compile testvehicules" depends="init"
+  	 	description="Generate code for testvehicules.tll">
 	    <mkdir dir="${build}/src/java/Testvehicules"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -240,6 +267,9 @@
        </java>
  
 	</target>
+
+	<target name="compile testvehicules" depends="testvehicules_antlr2tll,fast compile testvehicules"
+  	 	description="Generate code for testvehicules.mtl"/>
 	
 	<target name="completevehicules_antlr2tll"
   	 	description="Parse completevehicule.mtl to a TLL">
@@ -256,8 +286,8 @@
  
 	</target>
 
-	<target name="compile completeVehicules" depends="completevehicules_antlr2tll"
-  	 	description="Generate code for completevehicule.mtl">
+	<target name="fast compile completeVehicules" depends="init"
+  	 	description="Generate code for completevehicule.tll">
 	    <mkdir dir="${build}/src/java/CompleteVehicule"/>
 	 	<java jar="${CodeGenerator}" 
            fork="true"
@@ -271,6 +301,11 @@
        </java>
  
 	</target>
+
+	<target name="compile completeVehicules" depends="completevehicules_antlr2tll,fast compile completeVehicules"
+  	 	description="Generate code for completevehicule.mtl"/>
+  	 
+  	<!--target name="compile all" depends="vehicule_antlr2tll,vehicule_antlr2tll,terrestre_antlr2tll,amphibieherite_antlr2tll,amphibie_antlr2tll,caracteristiques_antlr2tll,testvehicules_antlr2tll,completevehicules_antlr2tll,fast compile vehicule,fast compile aquatique,fast compile terrestre,fast compile amphibie,fast compile amphiieherite,,fast compile caracteristiques,fast compile testvehicules,fast compile completeVehicules"/-->
 
 	<target name="clean"
         description="clean up SimpleSamples" >
