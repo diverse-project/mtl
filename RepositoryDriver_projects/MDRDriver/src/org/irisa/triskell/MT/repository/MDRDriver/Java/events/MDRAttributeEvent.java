@@ -6,6 +6,10 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
+import org.irisa.triskell.MT.DataTypes.Java.StringValue;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.AttributeEventKind;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
@@ -53,6 +57,27 @@ public class MDRAttributeEvent extends MDREvent implements org.irisa.triskell.MT
 	private void setKind (AttributeEventKind kind) 
 	{
 		this.kind = kind;
+	}
+
+	/** */
+	public StringValue getAttributeName() 
+	{
+		org.netbeans.api.mdr.events.AttributeEvent evt = (org.netbeans.api.mdr.events.AttributeEvent)getRef();
+		return new StringValueImpl (false,null,evt.getAttributeName());
+	}
+
+	/** */
+	public Value getNewValue() 
+	{
+		Object value = ((org.netbeans.api.mdr.events.AttributeEvent)getRef()).getNewElement();
+		return (value==null ? new UndefinedValueImpl (null) : getAPI().java2value (value,false,false,false) );  
+	}
+
+	/** */
+	public Value getOldValue() 
+	{
+		Object value = ((org.netbeans.api.mdr.events.AttributeEvent)getRef()).getOldElement();
+		return (value==null ? new UndefinedValueImpl (null) : getAPI().java2value (value,false,false,false) );  
 	}
 	
 }

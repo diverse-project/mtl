@@ -55,4 +55,10 @@ public class MDRAssociationEvent extends MDREvent implements org.irisa.triskell.
 		this.kind = kind;
 	}
 
+	/** */
+	public String getEndName ()
+	{
+		org.netbeans.api.mdr.events.AssociationEvent evt = (org.netbeans.api.mdr.events.AssociationEvent)getRef();
+		return evt.getEndName();
+	}
 }

@@ -45,4 +45,10 @@ abstract public class MDREvent implements Event
 	{
 		return api.getModelElement ((RefObject) getRef().getSource());
 	}
+	
+	/** */
+	public MDRAPI getAPI ()
+	{
+		return this.api;
+	}
 }

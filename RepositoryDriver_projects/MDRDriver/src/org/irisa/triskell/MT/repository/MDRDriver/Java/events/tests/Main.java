@@ -16,6 +16,6 @@ public class Main {
 
 	public static void main(String[] args) throws Exception 
 	{
-		new Test2().execute(null);
+		new Test3().execute(null);
 	}
 }

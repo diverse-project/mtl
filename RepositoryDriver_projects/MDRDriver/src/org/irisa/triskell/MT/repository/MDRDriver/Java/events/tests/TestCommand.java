@@ -90,7 +90,7 @@ public abstract class TestCommand
 	/** */
 	Object preExecute (Object context)
 	{
-		getLog().info("<TEST>");
+		getLog().info("<" + this.getClass().getName() + ">");
 		return null;
 	}
 
@@ -104,7 +104,7 @@ public abstract class TestCommand
 	/** */
 	Object postExecute (Object context)
 	{
-		getLog().info("</TEST>");
+		getLog().info("</" + this.getClass().getName() + ">");
 		return null;
 	}
 
