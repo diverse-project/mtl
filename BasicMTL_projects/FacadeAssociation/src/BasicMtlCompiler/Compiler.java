@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.20 2004-11-04 17:30:41 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.21 2004-11-04 17:40:14 edrezen Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -90,16 +90,15 @@ public class Compiler implements java.util.Observer
 			sourcesDir=checkPathEnd(args[0]);
 			
 			// ok let's do the stuff...
-			Compiler thisCompilerFacade = new Compiler();
 			try {
-				thisCompilerFacade.compileFromDirectory(sourcesDir,defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);
+				Compiler.instance().compileFromDirectory(sourcesDir,defaultPackagePrefix, defaultTLLPath, TLLLoadingPaths, defaultBinPath);
 			}
 			catch (CompilerException e)
 			{
 				System.err.println("Compilation error found");
 				System.exit(-1);		
 			}
-			if (thisCompilerFacade.hasErrorOccured)
+			if (Compiler.instance().hasErrorOccured)
 			{
 				System.err.println("error occured");
 				System.exit(-1);
