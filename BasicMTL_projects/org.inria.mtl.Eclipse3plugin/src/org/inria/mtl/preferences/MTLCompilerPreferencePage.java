@@ -1,8 +1,10 @@
 package org.inria.mtl.preferences;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.inria.mtl.MTLPlugin;
@@ -38,5 +40,11 @@ public class MTLCompilerPreferencePage extends org.eclipse.jface.preference.Fiel
 		mtlPath.setPreferenceName( PreferencesConstants.MTL_COMPILER_PATH );
 		mtlPath.setPreferenceStore( preferenceStore );
 		addField( mtlPath );
+	}
+	
+	public boolean performOk() {
+		Shell shell = new Shell();
+		MessageDialog.openInformation(shell,"MTL Compiler",	"The new compiler will be take in charge if you restart Eclipse...");
+		return super.performOk();
 	}
 }
