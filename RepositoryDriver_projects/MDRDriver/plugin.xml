@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 <plugin
-   id="MDRDriver"
+   id="org.inria.BasicMTL.MDRDriver"
    name="MDRDriver"
-   version="1.0.0">
+   version="0.0.1"
+   provider-name="INRIA"
+   class="org.inria.BasicMTL.MDRDriver.MDRDriverPlugin">
+   <runtime>
+      <library name="ThirdParty/MDR/official/jmi.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/official/jmiutils.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/official/mdrapi.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/official/mof.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/official/nbmdr.jar">
+         <export name="*"/>
+      </library>
+      <library name="ThirdParty/MDR/official/openide-lookup.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/MDRDriver.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
    <requires>
       <import plugin="org.inria.BasicMTL.runtime"/>
+      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
 </plugin>

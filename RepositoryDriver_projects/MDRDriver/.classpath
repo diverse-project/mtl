@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="**/CVS/*" kind="src" path="src"/>
-	<classpathentry kind="src" path="build/src"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/jmi.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/jmiutils.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/mdrapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/mof.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/nbmdr.jar"/>
+	<classpathentry exported="true" kind="lib" path="ThirdParty/MDR/official/openide-lookup.jar"/>
+	<classpathentry kind="src" path="build/src/java"/>
+	<classpathentry excluding="**/CVS/*" kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/RepositoryAPI"/>
-	<classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
-	<classpathentry kind="src" path="/Utils"/>
-	<classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/jmi.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/jmiutils.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/mdrapi.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/mof.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/nbmdr.jar"/>
-	<classpathentry kind="lib" path="ThirdParty/MDR/official/openide-lookup.jar"/>
-	<classpathentry kind="src" path="/org.inria.BasicMTL.runtime"/>
-	<classpathentry kind="src" path="/MTDataTypes"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

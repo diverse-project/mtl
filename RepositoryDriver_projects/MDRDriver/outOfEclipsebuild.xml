@@ -1,4 +1,4 @@
-<!-- $Id: outOfEclipsebuild.xml,v 1.4 2004-10-19 09:07:49 jpthibau Exp $ -->
+<!-- $Id: outOfEclipsebuild.xml,v 1.5 2004-10-25 12:44:23 dvojtise Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MDRDriver" default="dist" basedir=".">
 	<description>
@@ -6,8 +6,9 @@
 	</description>
 	<!-- set global properties for this build -->
 	<property name="mdr"  location="ThirdParty/MDR/official"/>
-	<property name="srcMTL" location="srcMTL"/>
-	<property name="src" location="src"/>
+	<property name="srcMTL" location="src/MTL"/>
+	<property name="src" location="src/java"/>
+	<property name="build.src" location="build/src/java"/>
 	<property name="bin" location="bin"/>
 	<property name="dist"  location="dist"/>
 	<property name="mdr.jars.src"  location="${mdr}/jmi.jar;${mdr}/jmiutils.jar;${mdr}/mdrapi.jar;${mdr}/mof.jar;${mdr}/nbmdr.jar;${mdr}/openide-lookup.jar"/>
@@ -22,6 +23,7 @@
 	<property name="ANTLR2JavaCode" location="..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
 	<property name="BasicMtlTLLs" location="..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
 
+	<property name="classpath" value=".;${mdr.jars.src};${BasicMtlRuntime}\runtime.jar;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"/>
 	<target name="init">
     	<!-- Create the time stamp -->
     	<tstamp/>
@@ -44,13 +46,13 @@
 	<target name="compile_java" depends="compile_mtl"
         description="compile the source " >
     	<!-- Compile the java code from ${src},${srcOfp} into ${bin} -->
-<!--	    <javac srcdir="${src}"
+	    <javac srcdir="${build.src}"
     	    destdir="${bin}"
-   			classpath=".;${mdr.jars.src};${RepositoryAPI}\bin;${MTDataTypes}\bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
-   			debug="true"/> -->
+   			classpath="${classpath}"
+   			debug="true"/> 
 	    <javac srcdir="${src}"
     	    destdir="${bin}"
-   			classpath=".;${mdr.jars.src};${BasicMtlRuntime}\runtime.jar;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar"
+   			classpath="${classpath}"
    			debug="true"/>
 	</target>
   	<target name="full_javadoc" 

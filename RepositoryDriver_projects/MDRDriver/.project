@@ -3,9 +3,6 @@
 	<name>MDRDriver</name>
 	<comment></comment>
 	<projects>
-		<project>MTDataTypes</project>
-		<project>RepositoryAPI</project>
-		<project>Utils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
