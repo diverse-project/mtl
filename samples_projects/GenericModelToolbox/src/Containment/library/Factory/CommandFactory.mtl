@@ -72,6 +72,7 @@ package Factory
 			{
 				aToStringDeep := new Containment::Commands_ToStringDeep ();
 			}
+			aToStringDeep.init (true);
 			return aToStringDeep;
 		}
 	
