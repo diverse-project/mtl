@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.4 2003-07-17 16:06:05 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.1 2003-07-24 09:54:31 dvojtise Exp $ */
 header {
 package ANTLRParser;
 

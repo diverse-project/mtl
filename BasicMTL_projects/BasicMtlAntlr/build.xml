@@ -1,0 +1,97 @@
+<!-- $Id: build.xml,v 1.1 2003-07-24 09:54:33 dvojtise Exp $ -->
+<project name="BasicMtlAntlr" default="compile_java" basedir=".">
+	<description>
+        Build file for the Antlr Parser
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+    	<mkdir dir="${build}/src/ANTLRParser"/>
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	</target>
+
+	<target name="compile_antlr" depends="init"
+  	 	description="compile the antlr grammar to java files ">
+	 	<antlr 
+    		target="${src}/ANTLRParser/basicmtl.g"
+	    	outputdirectory="build/src/ANTLRParser"	        
+		/> 
+	</target>
+  
+	<target name="compile_java" depends="init,compile_antlr"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src};${build}\src into ${bin} -->
+	    <javac srcdir="${src};${build}\src" 
+    	    destdir="${bin}"
+   			classpath="ThirdParty\ANTLR\antlrfull.jar;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar"/>
+	</target>
+  	<target name="full_javadoc" 
+  		description="create a full javadoc document that describes all the classes of the project">
+	    <javadoc destdir="docs\javadoc" access="private" use="true"
+            notree="false" nonavbar="false" noindex="false"
+            splitindex="true" author="true" version="true"
+            nodeprecatedlist="false" nodeprecated="false"
+            packagenames="ANTLRASTWalker,ANTLRParser"
+            sourcepath="build\src;src"
+            classpath="bin;ThirdParty\ANTLR\antlrfull.jar;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar" doctitle="Basic MTL ANTLR Parser internal Documentation">
+            <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+            <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
+        </javadoc>
+	</target>
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/BasicMtlAntlr.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>   
+		    	<attribute name="Main-Class" value="ANTLRParser.BMTLParser"/>
+				<attribute name="Class-Path" value="log4j.jar junit.jar antlrfull.jar"/>
+		    	<section name="BasicMTLAntlr">
+		      		<attribute name="Specification-Title" value="BasicMTLAntlr"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
+	    <copy file="ThirdParty/log4j/log4j_configuration"
+	    	todir="${dist}/bin/ThirdParty/log4j"/>
+	    <copy file="ThirdParty/log4j/log4j.jar"
+	    	todir="${dist}/bin"/>
+	    <copy file="ThirdParty/junit/junit.jar"
+	    	todir="${dist}/bin"/>
+	    <copy file="ThirdParty/ANTLR/antlrfull.jar"
+	    	todir="${dist}/bin"/>
+	</target>
+  	<target name="clean"
+        description="clean up" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+    	<delete >
+    		<fileset dir="${build}/src">
+  				<include name="**/*"/>
+			</fileset>    		
+    	</delete>
+    	<delete dir="${dist}"/> 
+  	</target>
+</project>

@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.3 2003-07-17 16:06:05 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.1 2003-07-24 09:54:31 dvojtise Exp $
 
 package ANTLRASTWalker;
 

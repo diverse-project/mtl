@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/ANTLRParser/BMTLParser.java,v 1.1 2003-07-17 16:06:05 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.1 2003-07-24 09:54:31 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
