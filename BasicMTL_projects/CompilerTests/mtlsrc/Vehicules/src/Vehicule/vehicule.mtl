@@ -1,0 +1,12 @@
+library vehiculeLib;
+
+
+/*********************************************/
+/*               classe vehicule             */
+/*********************************************/
+class vehicule {
+vitessemaxi:Standard::Integer;
+passagers:Standard::Integer;
+
+
+}

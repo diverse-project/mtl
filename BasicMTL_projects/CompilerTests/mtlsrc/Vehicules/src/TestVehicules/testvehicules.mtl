@@ -1,0 +1,292 @@
+library testVehicules;
+
+model M : RepositoryModel;
+model N : vehiculeLib;
+
+class clazz {
+	vehicule:vehiculeLib::vehicule;
+	entier:Standard::Integer;
+	me:M::Classe;
+	wasInOp : Standard::Boolean;
+	
+	init ():clazz {
+		wasInOp := false;
+		return this;
+	}
+	
+	op (param : Standard::String) {
+		vm : N::vehicule;
+		set : Standard::Set;
+		theSelf : clazz;
+		wasInOp := true;
+		theSelf := self;
+		
+		1.toOut();
+	
+		theSelf.vehicule := new amphibieherite::vehiculeAmphibieHerite();
+		if vehicule.oclIsTypeOf(!amphibieherite::vehiculeAmphibieHerite!).not() {
+			throws 'Problem with attribute object affectation';
+		}
+		vehicule.toOut();
+		self.entier := param.toInteger();
+		if entier.[<>](789) {
+			throws 'Problem with attribute data type affectation';
+		}
+		entier.toOut();
+		vehicule := new N::vehicule();
+		vm := theSelf.vehicule;
+		vm := new N::vehicule();
+		theSelf.vehicule := vm;
+		set := !M::Table!.allInstances();
+		set.toOut();
+		me := new M::Table();
+		me.toOut();
+		set := !M::Table!.allInstances();
+		set.toOut();
+		testVehicules.toto(null, null);
+		M;
+		N;
+		testVehicules.M;
+		testVehicules.N;
+	}
+	
+}
+
+class clazz2 extends clazz {
+	wasInOp2 : Standard::Boolean;
+
+	init () : clazz {
+		wasInOp2 := false;
+		return self.oclAsType(!clazz!).init();
+	}
+	
+	op (param : Standard::String) {
+		self.oclAsType(!clazz!).op(param);
+		self.wasInOp2 := true;
+		if self.wasInOp.not() {
+			throw 'oclAsType has problems';
+		}
+		oclAsType(!clazz2!).wasInOp := false;
+	}
+}
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main(args : Standard::Sequence):Standard::Void
+{
+	vehicule : vehiculeLib::vehicule;
+	terrestre : terrestreLib::vehiculeTerrestre;
+	amphibie : amphibieherite::vehiculeAmphibieHerite;
+	modelManager : MDRDriver::MDRModelManager;
+	o : Standard::OclAny;
+	t : Standard::OclType;
+	m : Standard::ModelElement;
+	r : Standard::Real;
+	i : Standard::Integer;
+	s : Standard::String;
+	c : clazz;
+	it : Standard::Iterator;
+	
+	it := args.getNewIterator();
+	it.start();
+	while it.isOn() {
+		it.item().toOut();
+		it.next();
+	}
+	
+	N := new vehiculeLib();
+	modelManager := new MDRDriver::MDRModelManager();
+	modelManager.init();
+	M := modelManager.getModelFromXMI(
+									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\TableMM.xml',
+									'MyModel',
+									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\Championship.xml',
+									null);
+	
+	vehicule := new vehiculeLib::vehicule();
+	vehicule.vitessemaxi := 250;
+	vehicule.passagers := 5;
+	vehicule.vitessemaxi := vehicule.passagers;
+	
+	o := vehicule;
+	!testVehicules!.allInstances();
+	!vehiculeLib::vehicule!.allInstances();
+	vehicule := o.oclAsType(!vehiculeLib::vehicule!);
+	
+	if 'toto'.[=]('tutu') {
+		throws 'OclAny.=(OclAny) has problems';
+	}
+	if vehicule.[<>](vehicule) {
+		throws 'OclAny.<>(OclAny) has problems';
+	}
+	if vehicule.oclIsUndefined() {
+		throws 'OclAny.oclIsUndefined() has problems';
+	}
+	if vehicule.oclIsTypeOf(!vehiculeLib::vehicule!).not() {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if vehicule.oclIsTypeOf(!Standard::BMTLObject!) {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if self.oclIsTypeOf(!Standard::BMTLLibrary!) {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if self.oclIsTypeOf(!testVehicules!).not() {
+		throws 'OclAny.oclIsTypeOf(OclType) has problems';
+	}
+	if vehicule.oclIsKindOf(!vehiculeLib::vehicule!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if vehicule.oclIsKindOf(!Standard::BMTLObject!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if self.oclIsKindOf(!Standard::BMTLLibrary!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	if self.oclIsKindOf(!testVehicules!).not() {
+		throws 'OclAny.oclIsKindOf(OclType) has problems';
+	}
+	
+	t := !vehiculeLib::vehicule!;
+	
+//	if t.allInstances().size().[=](0) {
+//		throws 'OclType.oclIsTypeOf(OclType) has problems';
+//	}
+//	if t.oclQualifiedName().at(0).[<>]('vehiculeLib') {
+//		throws 'OclType.oclQualifiedName() has problems';
+//	}
+	if t.oclName().[<>]('vehicule') {
+		throws 'OclType.oclName() has problems';
+	}
+	
+	m := null;
+
+	r := -0.1;
+	
+	if r.[-]().[<>](0.1) {
+		throws 'Real.-() has problems';
+	}
+	if r.[+](1.5).[<>](1.4) {
+		throws 'Real.+(Real) has problems';
+	}
+	if r.[-](1.5).[<>](-1.6) {
+		throws 'Real.-(Real) has problems';
+	}
+	if r.[*](1.5).[<>](-0.15) {
+		throws 'Real.*(Real) has problems';
+	}
+	if r.[/](1.5).[<>](-0.06666666666666666666666666666666666666666666) {
+		throws 'Real./(Real) has problems';
+	}
+	if r.abs().[<>](0.1) {
+		throws 'Real.abs() has problems';
+	}
+	if r.floor().[<>](-1) {
+		throws 'Real.floor() has problems';
+	}
+	if r.round().[<>](0) {
+		throws 'Real.round() has problems';
+	}
+	if r.max(-1.9).[<>](-0.1) {
+		throws 'Real.abs() has problems';
+	}
+	if r.min(-1.9).[<>](-1.9) {
+		throws 'Real.abs() has problems';
+	}
+	if r.[<](-1.9) {
+		throws 'Real.<(Real) has problems';
+	}
+	if r.[>](-1.9).not() {
+		throws 'Real.>(Real) has problems';
+	}
+	if r.[<=](-1.9) {
+		throws 'Real.<=(Real) has problems';
+	}
+	if r.[>=](-1.9).not() {
+		throws 'Real.>=(Real) has problems';
+	}
+	if r.toString().[<>]('-0.1') {
+		throws 'Real.toString() has problems';
+	}
+	
+	i := -12;
+	
+	if i.[-]().[<>](12) {
+		throws 'Integer.-() has problems';
+	}
+	if i.[+](3).[<>](-9) {
+		throws 'Integer.+(Integer) has problems';
+	}
+	if i.[-](3).[<>](-15) {
+		throws 'Integer.-(Integer) has problems';
+	}
+	if i.[*](3).[<>](-36) {
+		throws 'Integer.*(Integer) has problems';
+	}
+	if i.[/](3).[<>](-4) {
+		throws 'Real./(Real) has problems';
+	}
+	if i.abs().[<>](12) {
+		throws 'Integer.abs() has problems';
+	}
+	if i.[div](5).[<>](-2) {
+		throws 'Integer.div(Integer) has problems';
+	}
+	if i.mod(5).[<>](-2) {
+		throws 'Integer.mod(Integer) has problems';
+	}
+	if i.max(5).[<>](5) {
+		throws 'Integer.max(Integer) has problems';
+	}
+	if i.min(5).[<>](-12) {
+		throws 'Integer.min(Integer) has problems';
+	}
+	
+	s := 'toto';
+	
+	if s.size().[<>](4) {
+		throws 'String.size() has problems.';
+	}
+	if s.concat('tutu').[<>]('tototutu') {
+		throws 'String.concat(String) has problems.';
+	}
+	if s.substring(2,4).[<>]('oto') {
+		throws 'String.substring(Integer, Integer) has problems.';
+	}
+	if '123'.toInteger().[<>](123) {
+		throws 'String.toInteger() has problems.';
+	}
+	if '123.456'.toReal().[<>](123.456) {
+		throws 'String.toReal() has problems.';
+	}
+	
+	self.toto ('1234', vehicule);
+	toto ('1234', vehicule);
+//TODO	oclAsType(!testVehicules!).toto('123456', null);
+	
+	terrestre := new terrestreLib::vehiculeTerrestre();
+	amphibie := new amphibieherite::vehiculeAmphibieHerite();
+	terrestre.vitessemaxi := 123;
+	if terrestre.vitessemaxi.[<>](123) {
+		throws 'Problem affecting / accessing inherited fields';
+	}
+	terrestre.nbreroues := 4;
+	amphibie.vitessemaxi := terrestre.vitessemaxi;
+	if amphibie.vitessemaxi.[<>](123) {
+		throws 'Problem affecting / accessing deeply inherited fields';
+	}
+	
+	c := new clazz2();
+//TODO	c.op('789');
+//TODO	if c.oclAsType(!clazz2!).wasInOp2.not() {
+//TODO		throw 'oclAsType has problems';
+//TODO	}
+	
+	'testVehicule passed...'.toOut();
+	self.toOut();
+	vehicule.toOut();
+}
+
+toto(arg0 : Standard::String; arg1 : vehiculeLib::vehicule) {}

@@ -28,4 +28,6 @@ public interface BMTLLibInterface extends BMTLInterface, BMTLOclAnyInterface {
 	List allClassInstances (String className);
 	
 	BMTLLibInterface getLibrary();
+	
+	BMTLLibInterface getUsedLibrary(String libName);
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.9 2003-10-14 07:43:21 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.10 2003-11-03 12:19:15 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -236,6 +236,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 		for(i=0;i<limit;i++)
 			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
 				outputForClass.println("public " + aUsedLib.getDeclarationName() + " BMTLRef_"+aUsedLib.getExternMangledName()+';');
+//TODO check ComeBack before refine introduction
+//				outputForClass.println("public " + aUsedLib.getDeclarationName() + " getRef_"+aUsedLib.getExternMangledName()+"() {");
+//				outputForClass.println("return BMTLRef_"+aUsedLib.getExternMangledName()+"; }");
+//				outputForInterface.println("public " + aUsedLib.getDeclarationName() + " getRef_"+aUsedLib.getExternMangledName()+"();");
 			}
 		outputForClass.println("private void buildAllUsedLibs() {");
 		for(i=0;i<limit;i++)
@@ -246,6 +250,23 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 					outputForClass.println("BMTLRef_"+aUsedLib.getExternMangledName()+'='+aUsedLib.getExternCompleteName()+".TheInstance;");
 			}
 		outputForClass.println("}\n");
+		outputForClass.println("public BMTLLibInterface getUsedLibrary(String libName) {");
+		outputForClass.println("//Used libraries");
+		for(i=0;i<limit;i++)
+			{	QualifiedName aUsedLib=(QualifiedName)theLib.getUsedLibs(i);
+				if (! aUsedLib.getIsModelType() && ! aUsedLib.getIsRepositoryModel())
+					outputForClass.println("if (libName.equals(\""+aUsedLib.getExternMangledName()+"\")) return this.BMTLRef_"+aUsedLib.getExternMangledName()+';');
+			}
+		outputForClass.println("//Inherited libraries");
+		limit=ASTnode.getInheritance().size();
+		// Inheritance from other defined libraries
+		//=======================================
+		for (i=0;i<limit;i++) {
+			QualifiedName aParentType = (QualifiedName)ASTnode.getInheritance().get(i);
+			String externParentName=aParentType.getExternMangledName();
+			outputForClass.println("if (libName.equals(\""+externParentName+"\")) return this.BMTLRef_"+externParentName+';');
+		}
+		outputForClass.println("return this; } //current library by default\n");
 		outputForClass.println("private void buildAllClassTypes() {");
 		limit=theLib.cardClasses();
 		for (i=0;i<limit;i++) {

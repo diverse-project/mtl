@@ -1,0 +1,10 @@
+library aquatiqueLib;
+
+
+/********************************************/
+// classe vehiculeAquatique
+/********************************************/
+class vehiculeAquatique extends vehiculeLib::vehicule {
+formeCarene:Standard::Real;
+TypeDeMoteurMarin:Standard::Real;
+}

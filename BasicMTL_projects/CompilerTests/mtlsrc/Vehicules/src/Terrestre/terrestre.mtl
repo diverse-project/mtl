@@ -1,0 +1,11 @@
+library terrestreLib;
+
+/********************************************/
+// classe vehiculeTerrestre
+/********************************************/
+class vehiculeTerrestre extends vehiculeLib::vehicule {
+nbrerouesmini:Standard::Integer;
+nbreroues:Standard::Integer;
+TypeDeMoteur:Standard::Real;
+
+}
