@@ -12,25 +12,26 @@
       <library name="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
       <library name="MTL/bin/BasicMTLc.jar"/>
       <library name="MTL/bin/BasicMTLruntime.jar"/>
-       </runtime>
-   <requires>
-    <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.pde.ui"/>
-      <import plugin="org.eclipse.jdt.ui"/>
-      <import plugin="org.eclipse.jdt.core"/> 
-      <import plugin="org.eclipse.text"/>
-    <import plugin="org.apache.ant" optional="true"/>
-    <import plugin="org.eclipse.team.core" optional="true"/>
-    <import plugin="org.eclipse.ui.editors"/>
-    <import plugin="org.eclipse.ui.workbench.texteditor"/>
-   </requires>
-	 <extension
+    </runtime>
+   	<requires>
+   		<import plugin="org.eclipse.core.resources"/>
+    	<import plugin="org.eclipse.ui"/>
+      	<import plugin="org.eclipse.jface.text"/>
+      	<import plugin="org.eclipse.ui.views"/>
+      	<import plugin="org.eclipse.ui.ide"/>
+      	<import plugin="org.eclipse.core.runtime"/>
+      	<import plugin="org.eclipse.swt"/>
+      	<import plugin="org.eclipse.pde.ui"/>
+      	<import plugin="org.eclipse.jdt.ui"/>
+      	<import plugin="org.eclipse.jdt.core"/> 
+      	<import plugin="org.eclipse.text"/>
+      	<import plugin="org.eclipse.debug.core"/>
+   		<import plugin="org.apache.ant" optional="true"/>
+   		<import plugin="org.eclipse.team.core" optional="true"/>
+   		<import plugin="org.eclipse.ui.editors"/>
+   		<import plugin="org.eclipse.ui.workbench.texteditor"/>
+   	</requires>
+	<extension
          point="org.eclipse.ui.perspectives">
       <perspective
             name="%MTLPerspective"
@@ -38,40 +39,40 @@
             class="org.inria.mtl.perspectives.MTLPerspective"
             id="org.inria.mtl.MTLPerspective">
       </perspective>
-   </extension>
+   	</extension>
     <extension point="org.eclipse.ui.perspectiveExtensions">
-  <perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
-  <perspectiveShortcut id="org.eclipse.ui.resourcePerspective" /> 
-  <perspectiveShortcut id="org.eclipse.jdt.ui.JavaPerspective" />
-  	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
- </perspectiveExtension>
- <perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
- <showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
- 	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	 <actionSet id="org.inria.mtl.actionSet" /> 
-  </perspectiveExtension>
-  <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
- 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
-  	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  <actionSet id="org.inria.mtl.actionSet" /> 
-  </perspectiveExtension>
- <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
- 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  	<actionSet id="org.inria.mtl.actionSet" /> 
-  </perspectiveExtension>
+  		<perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
+  			<perspectiveShortcut id="org.eclipse.ui.resourcePerspective" /> 
+  			<perspectiveShortcut id="org.eclipse.jdt.ui.JavaPerspective" />
+  			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+ 		</perspectiveExtension>
+ 		<perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
+ 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+ 			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
+  	 		<actionSet id="org.inria.mtl.actionSet" /> 
+  		</perspectiveExtension>
+  		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+ 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+  			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
+  			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
+  			<actionSet id="org.inria.mtl.actionSet" /> 
+  		</perspectiveExtension>
+ 		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+ 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
+  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
+  			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
+  			<actionSet id="org.inria.mtl.actionSet" /> 
+  		</perspectiveExtension>
   </extension>
   <!-- =========================================================================== -->
 <!-- Nature  and Builder of the project                                                                 -->
@@ -165,7 +166,7 @@
          </action>-->
          <action 
                label="%build.project"
-               icon="icons/cProject.gif"
+               icon="icons/compile_folder_blue.gif"
                tooltip="%tooltip.build.project"
                class="org.inria.mtl.actions.buildprojectAction"
                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
@@ -177,7 +178,7 @@
          </action>
          <action 
                label="%build.folder"
-               icon="icons/cFolder.gif"
+               icon="icons/compile_folder_yellow.gif"
                tooltip="%tooltip.build.folder"
                class="org.inria.mtl.actions.buildfolderAction"
                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
@@ -588,7 +589,7 @@
 		 </category>
       <view
             name="%mtlConsoleView"
-            icon="icons/fmtl2.gif"
+            icon="icons/mtl_console.gif"
             category="MTLPlugin"
             class="org.inria.mtl.views.MTLConsole"
             id="org.inria.mtl.views.mtlconsoleview">
@@ -634,4 +635,8 @@
  <extension point="org.eclipse.help.toc">
   <toc file="toc.xml" primary="true" />  
   </extension>
-  </plugin>
+
+	
+
+
+</plugin>
