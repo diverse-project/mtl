@@ -1,8 +1,7 @@
 /*
+ * $Id: BMTLType.java,v 1.7 2004-01-22 11:04:06 uid104 Exp $
  * Created on 18 juin 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.BasicMTL.TopTypes;
 
@@ -11,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
+// import java.util.Iterator;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
@@ -19,9 +18,9 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+// import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
 import org.irisa.triskell.MT.utils.Java.AWK;
 
@@ -33,7 +32,7 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 	protected final String [] qualifiedName;
 	
 	/**
-	 * 
+	 * constructor
 	 * @param qualifiedName
 	 * @param clazz Must be the interface representent
 	 * @param parents collection of CommandGroup
@@ -131,6 +130,17 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		} catch (InstantiationException x) {
 			throw new RuntimeException("Cannot instanciate a new object of class " + this.getQualifiedNameAsString() + " (environment said " + x.getMessage() + ")");
 		}
+	}
+	
+	public Value instanciateFromJavaObject (Object javaObject)
+	{
+		// default behavior : no java object can be used to create a mtl object of this type.
+		// currently only SystemException objects overwrite this method
+		return null;
+	}	
+	public boolean isInstanciableFromJavaObject (Object javaObject)
+	{
+		return false;
 	}
 	
 	private transient Constructor refConstructor = null;

@@ -1,8 +1,5 @@
-/*
+/* $Id: MDRModelManager.java,v 1.2 2004-01-22 11:06:30 uid104 Exp $
  * Created on 25 août 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package MDRDriver;
 
@@ -49,8 +46,7 @@ import org.irisa.triskell.MT.utils.Java.AWK;
 /**
  * @author ffondeme
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ *	Implementation of MDRModelManager BMTL object using SimpleStandaloneModelManager from the repository driver
  */
 public class MDRModelManager extends SimpleStandaloneModelManager implements BMTLObjectInterface, Value {
 	protected static final String n = "MDRModelManager";
@@ -97,6 +93,17 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 
 	 public Value instanciate() {
 		return new MDRModelManager();
+	 }
+
+	 public Value instanciateFromJavaObject (Object javaObject)
+	 {
+		 // currently, no java object allows to create a MDRModelManager 
+		 // DVK : currently we have no use for that 
+		 return null;
+	 }	
+	 public boolean isInstanciableFromJavaObject (Object javaObject)
+	 {
+		 return false;
 	 }
      	
 	};
@@ -372,5 +379,4 @@ public class MDRModelManager extends SimpleStandaloneModelManager implements BMT
 	public Model BMTL_getMdrXMIModel(StringValue loadingFile, StringValue storingFile) {
 		return super.getMdrXMIModel(loadingFile.getTheString(), storingFile.getTheString());
 	}
-
 }

@@ -1,4 +1,4 @@
-/*
+/* $Id: FileOutput.java,v 1.3 2004-01-22 11:04:02 uid104 Exp $
  * Created on 4 déc. 2003
  *
  * To change the template for this generated file go to
@@ -42,8 +42,7 @@ import org.irisa.triskell.MT.utils.Java.AWK;
 /**
  * @author edrezen
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Implementation of FileOutput BMTL object using Java io library
  */
 public class FileOutput implements Value,BMTLObjectInterface
 {
@@ -152,6 +151,16 @@ public class FileOutput implements Value,BMTLObjectInterface
         public String getQualifiedNameAsString() 
         {
 			return AWK.merge (qualifiedName, "::");        
+		}
+		public Value instanciateFromJavaObject (Object javaObject)
+		{
+			// currently, no java object allows to create a FileOutput 
+		 	// DVK : currently we have no use for that 
+			return null;
+		}	
+		public boolean isInstanciableFromJavaObject (Object javaObject)
+		{
+			return false;
 		}
 
 	};
