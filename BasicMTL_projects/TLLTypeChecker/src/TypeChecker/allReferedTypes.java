@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.15 2004-03-17 10:56:16 dvojtise Exp $
+ * $Id: allReferedTypes.java,v 1.16 2004-04-01 12:58:30 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -268,9 +268,26 @@ public class allReferedTypes {
 		if (checkModel(aType,firstName,theLib)) return true;
 		else if (aType.size()==1 || firstName.equals(theLib.getName())) { //a single name
 				if (checkLocalClass(aType,(String)aType.get(aType.size() - 1),theLib)) return true;
-				else	if (checkExternLibName(aType,firstName,theLib)) return true;
-						else {TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
-								errors++;} 
+				else if (checkExternLibName(aType,firstName,theLib)) return true;
+					else 
+					{
+						TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
+						TLLtypechecking.getLog().error("card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
+						// retreive the location where this QualifiedName was used
+						for(int i =0; i < aType.cardTypeForVarDeclarations(); i++)
+						{
+							TLLtypechecking.getLog().error("   " +
+								aType.getTypeForVarDeclarations(i).getProperty("FileName").getValue() + ", line " +
+								aType.getTypeForVarDeclarations(i).getProperty("LineNumber").getValue());
+						}
+						for(int i =0; i < aType.cardTypeForFeatures(); i++)
+						{
+							TLLtypechecking.getLog().error("   " +
+								aType.getTypeForFeatures(i).getProperty("FileName").getValue() + ", line " +
+								aType.getTypeForFeatures(i).getProperty("LineNumber").getValue());
+						}
+						errors++;
+					} 
 				}
 			else //extern library class::...
 				if (aType.size()==2) {
