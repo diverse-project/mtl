@@ -1,8 +1,13 @@
-<!-- $Id: LibInheritance_build.xml,v 1.4 2004-10-13 14:11:36 jpthibau Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.5 2004-10-25 12:25:29 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
 	</description>
+	<!-- **************************************************************************** -->
+	<!-- * Warning: this file is versionned controlled in a specific directory    	* -->
+	<!-- *          then copied to its proper place (due to management of 			* -->
+	<!-- *			eclipse versions )												* -->
+	<!-- **************************************************************************** -->
 	<!-- set global properties for this build -->
 	<property name="src" location="LibInheritance/src"/>
 	<property name="bin" location="LibInheritance/bin"/>

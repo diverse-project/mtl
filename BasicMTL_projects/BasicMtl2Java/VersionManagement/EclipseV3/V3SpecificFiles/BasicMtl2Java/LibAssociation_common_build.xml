@@ -1,8 +1,13 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.6 2004-10-13 14:11:36 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.7 2004-10-25 12:25:29 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
 	</description>
+	<!-- **************************************************************************** -->
+	<!-- * Warning: this file is versionned controlled in a specific directory    	* -->
+	<!-- *          then copied to its proper place (due to management of 			* -->
+	<!-- *			eclipse versions )												* -->
+	<!-- **************************************************************************** -->
 	<!-- set global properties for this build -->
 	<!-- the following properties must be set by the caller -->
 	<!--<property name="src" location="LibAssociation/src"/>
