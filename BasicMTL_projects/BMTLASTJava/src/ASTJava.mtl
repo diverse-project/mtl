@@ -1,0 +1,81 @@
+// $Id: ASTJava.mtl,v 1.1 2003-10-14 15:58:41 jpthibau Exp $
+// Describe all classes of the ASTJava
+// used by all "toASTJava()" functions that map ASTView to ASTJava 
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library ASTJava;
+ 
+class Object
+tag mangle := specialtag [Object];
+ { }
+
+class ASTNode
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ASTNode];
+ { }
+ 
+class Library
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library];
+ { }
+ 
+class UserClass
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass];
+ { }
+ 
+class Attribute
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute];
+ { }
+ 
+class Operation
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation];
+ { }
+ 
+class Instruction
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction];
+ { }
+ 
+class While
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.While];
+ { }
+ 
+class Expression
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression];
+ { }
+ 
+class BooleanLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BooleanLiteral];
+ { }
+ 
+class IntLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.IntLiteral];
+ { }
+
+class RealLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.RealLiteral];
+ { }
+
+class StringLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.StringLiteral];
+ { }
+
+class NullLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.NullLiteral];
+ { }
+
+class OclTypeLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclTypeLiteral];
+ { }
+
+class SelfLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.SelfLiteral];
+ { }
+
+class JavaCodeLiteral
+tag mangle := specialtag [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.JavaCodeLiteral];
+ { }
+
+class Property
+tag mangle := specialtag [org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property];
+ { }
+ 

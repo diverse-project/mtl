@@ -1,0 +1,27 @@
+// $Id: OclTypeLiteral.mtl,v 1.1 2003-10-14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class OclTypeLiteral extends Literal {
+ 
+ 	typeValue : Standard::OrderedSet;
+ 
+	toASTJava() : ASTJava::Object
+	{
+	typeValues : Standard::Iterator;
+	aTypeValue : Standard::String;
+	JavaCode [	java.util.Vector qualifiedName=new java.util.Vector()];
+	typeValues := self.typeValue.getNewIterator();
+	typeValues.start();
+	while typeValues.isOn() {
+		aTypeValue := typeValues.item().oclAsType(!Standard::String!);
+		JavaCode [qualifiedName.addElement(BMTL_aTypeValue.getTheString())];
+		typeValues.next();
+	}
+	JavaCode [return new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclTypeLiteral(qualifiedName)];
+	}
+ }

@@ -1,0 +1,291 @@
+// $Id: AssociationTemplates.mtl,v 1.1 2003-10-14 15:52:24 jpthibau Exp $
+// part of the BasicMtlASTWithAssociationView Library
+//methods required to merge code in produced classes during the associations transformation process
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library AssociationTemplates;
+ //*************************************************************************** 
+ //templates functions that will be merged to the created and updated classes
+ // THIS .mtl FILE IS LOADED DURING ASSOCIATIONS TRANSFORMATION
+ // BUT IS NEVER COMPILED
+//*************************************************************************** 
+
+// for the EndPoint class
+
+getASSOCIATIONNAMEROLENAME () : Standard::Set //templates ASSOCIATIONNAME ROLENAME
+{	return self.ASSOCIATIONNAME.getRole('ROLENAME',self); }
+
+//the same returning an ordered Set
+getOrderedASSOCIATIONNAMEROLENAME () : Standard::OrderedSet //templates ASSOCIATIONNAME ROLENAME
+{	return self.ASSOCIATIONNAME.getOrderedRole('ROLENAME',self); }
+
+setASSOCIATIONNAMEROLENAME (value : Standard::Set) //templates ASSOCIATIONNAME ROLENAME
+{	'You can not directly set a role. You should use associate or dissociate instructions !'.toErr(); }
+
+setOrderedASSOCIATIONNAMEROLENAME (value : Standard::OrderedSet) //templates ASSOCIATIONNAME ROLENAME
+{	'You can not directly set a role. You should use associate or dissociate instructions!'.toErr(); }
+
+ASSOCIATIONNAMEsetLink(theAssociation : ASSOCIATIONNAME) : Standard::Void //template ASSOCIATIONNAME
+{	self.ASSOCIATIONNAME := theAssociation;
+}
+
+// for the association class
+
+buildLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Standard::OrderedSet) : Standard::Set
+{	theNewLinkedElements : ASSOCIATIONNAME;
+	rolesElts,instancesElts : Standard::Iterator;
+	theNewLink,aSet : Standard::Set;
+	anOrderedSet : Standard::OrderedSet;
+
+	theNewLinkedElements := new ASSOCIATIONNAME();
+	instancesElts := instances.getNewIterator();
+	rolesElts := roles.getNewIterator();
+	instancesElts.start();
+	rolesElts.start();
+	while instancesElts.isOn() {
+		if ref.[=](instancesElts.item()).not() {
+			if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
+				anOrderedSet := new Standard::OrderedSet();
+				anOrderedSet := anOrderedSet.including(instancesElts.item());
+				theNewLinkedElements.orderedSet(rolesElts.item().oclAsType(!Standard::String!),anOrderedSet);
+				}
+			else {
+				aSet := new Standard::Set();
+				aSet := aSet.including(instancesElts.item());
+				theNewLinkedElements.set(rolesElts.item().oclAsType(!Standard::String!),aSet);
+			}
+		}
+		instancesElts.next();
+		rolesElts.next();
+	}
+	theNewLinkedElements.validity := true;
+	theNewLink := new Standard::Set();
+	theNewLink := theNewLink.including(ref);
+	theNewLink := theNewLink.including(theNewLinkedElements);
+	return theNewLink;
+}
+
+updateLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Standard::OrderedSet)
+{	rolesElts,instancesElts : Standard::Iterator;
+	aSet : Standard::Set;
+	anOrderedSet : Standard::OrderedSet;
+	
+	instancesElts := instances.getNewIterator();
+	rolesElts := roles.getNewIterator();
+	instancesElts.start();
+	rolesElts.start();
+	while instancesElts.isOn() {
+		if ref.[=](instancesElts.item()).not() {
+			if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
+				if self.validity {
+					anOrderedSet := self.orderedGet(rolesElts.item().oclAsType(!Standard::String!));}
+				else {
+					anOrderedSet := new Standard::OrderedSet(); }
+				anOrderedSet := anOrderedSet.including(instancesElts.item());
+				self.orderedSet(rolesElts.item().oclAsType(!Standard::String!),anOrderedSet);
+				}
+			else {
+				if self.validity {
+					aSet := self.get(rolesElts.item().oclAsType(!Standard::String!));}
+				else {
+					aSet := new Standard::Set(); }
+				aSet := aSet.including(instancesElts.item());
+				self.set(rolesElts.item().oclAsType(!Standard::String!),aSet);
+			}
+		}
+		instancesElts.next();
+		rolesElts.next();
+	}
+	self.validity := true;
+}
+
+removeLink(ref : Standard::OclAny;roles : Standard::OrderedSet;instances : Standard::OrderedSet)
+{	rolesElts,instancesElts,elements : Standard::Iterator;
+	actualSet,aSet : Standard::Set;
+	actualOrderedSet,anOrderedSet : Standard::OrderedSet;
+	
+	if self.validity { //test wether this links set is operational  
+		instancesElts := instances.getNewIterator();
+		rolesElts := roles.getNewIterator();
+		instancesElts.start();
+		rolesElts.start();
+		while instancesElts.isOn() {
+			if ref.[=](instancesElts.item()).not() {
+				if isOrdered(rolesElts.item().oclAsType(!Standard::String!)) {
+					actualOrderedSet := self.orderedGet(rolesElts.item().oclAsType(!Standard::String!));
+					anOrderedSet := new Standard::OrderedSet();
+					elements := actualOrderedSet.getNewIterator();
+					elements.start();
+					while elements.isOn()
+					{
+						if elements.item().[=](instancesElts.item()).not()
+							{	anOrderedSet := anOrderedSet.including(elements.item()); }
+						elements.next();
+					}
+					if anOrderedSet.size().[=](0)
+					{	self.validity := false; } //no more references present
+					self.orderedSet(rolesElts.item().oclAsType(!Standard::String!),anOrderedSet);
+					}
+				else {
+					actualSet := self.get(rolesElts.item().oclAsType(!Standard::String!));
+					aSet := new Standard::Set();
+					elements := actualSet.getNewIterator();
+					elements.start();
+					while elements.isOn()
+					{
+						if elements.item().[=](instancesElts.item()).not()
+							{	aSet := aSet.including(elements.item()); }
+						elements.next();
+					}
+					if aSet.size().[=](0)
+					{	self.validity := false; } //no more references present
+					self.set(rolesElts.item().oclAsType(!Standard::String!),aSet);
+				}
+			}
+			instancesElts.next();
+			rolesElts.next();
+		}
+	}
+}
+
+associateOperation (roles : Standard::OrderedSet;instances : Standard::OrderedSet)
+{	elements,rolesIterator : Standard::Iterator;
+	examined,found : Standard::Set;
+	if isNull(allKnownLinks) {
+		allKnownLinks := new Standard::Set();
+		rolesIterator := instances.getNewIterator();
+		rolesIterator.start();
+		while rolesIterator.isOn() {
+			allKnownLinks := allKnownLinks.including(buildLink(rolesIterator.item(),roles,instances));
+			rolesIterator.next();
+		}
+	}
+	else {
+		rolesIterator := instances.getNewIterator();
+		rolesIterator.start();
+		while rolesIterator.isOn() {
+			examined := null;
+			found := null;
+			elements := allKnownLinks.getNewIterator();
+			elements.start();
+			while elements.isOn().and(isNull(found)) {
+				examined := elements.item().oclAsType(!Standard::Set!);
+				if examined.at(1).[=](rolesIterator.item())
+				{	found := examined; }
+				elements.next();
+			}
+			if isNull(found) {
+			 	allKnownLinks := allKnownLinks.including(buildLink(rolesIterator.item(),roles,instances)); }
+			else {
+				found.at(2).oclAsType(!ASSOCIATIONNAME!).updateLink(rolesIterator.item(),roles,instances);}
+			rolesIterator.next();
+		}
+	}
+}
+
+dissociateOperation (roles : Standard::OrderedSet;instances : Standard::OrderedSet)
+{	elements,rolesIterator : Standard::Iterator;
+	examined,found : Standard::Set;
+	if isNull(allKnownLinks).not() {
+		rolesIterator := instances.getNewIterator();
+		rolesIterator.start();
+		while rolesIterator.isOn() {
+			examined := null;
+			found := null;
+			elements := allKnownLinks.getNewIterator();
+			elements.start();
+			while elements.isOn().and(isNull(found)) {
+				examined := elements.item().oclAsType(!Standard::Set!);
+				if examined.at(1).[=](rolesIterator.item())
+				{	found := examined; }
+				elements.next();
+			}
+			if isNull(found).not() {
+				found.at(2).oclAsType(!ASSOCIATIONNAME!).removeLink(rolesIterator.item(),roles,instances);}
+			rolesIterator.next();
+		}
+	}
+}
+
+getRole (roleName : Standard::String; ref : Standard::OclAny) : Standard::Set
+{	elements : Standard::Iterator;
+	examined,found : Standard::Set;
+	examined := null;
+	found := null;
+	if isNull(allKnownLinks).not()
+	{	elements := allKnownLinks.getNewIterator();
+		elements.start();
+		while elements.isOn().and(isNull(found)) {
+			examined := elements.item().oclAsType(!Standard::Set!);
+			if examined.at(1).[=](ref)
+			{	found := examined; }
+			elements.next();
+		}
+	}
+	if isNull(found) { return null; }
+	return found.at(2).oclAsType(!ASSOCIATIONAME!).get(roleName);
+}
+
+getOrderedRole (roleName : Standard::String; ref : Standard::OclAny) : Standard::OrderedSet
+{	elements : Standard::Iterator;
+	examined,found : Standard::Set;
+	examined := null;
+	found := null;
+	if isNull(allKnownLinks).not()
+	{	elements := allKnownLinks.getNewIterator();
+		elements.start();
+		while elements.isOn().and(isNull(found)) {
+			examined := elements.item().oclAsType(!Standard::Set!);
+			if examined.at(1).[=](ref)
+			{	found := examined; }
+			elements.next();
+		}
+	}
+	if isNull(found) { return null; }
+	return found.at(2).oclAsType(!ASSOCIATIONAME!).orderedGet(roleName);
+}
+
+lowerMultiplicity(roleName : Standard::String)
+{	if roleName.[=]('ROLENAME')
+	{	return 0; }
+}
+
+upperMultiplicity(roleName : Standard::String)
+{	if roleName.[=]('ROLENAME')
+	{	return 0; }
+}
+
+isOrdered(roleName : Standard::String) : Standard::Boolean
+{	if roleName.[=]('ROLENAME')
+	{	return true; }
+	if roleName.[=]('ROLENAME')
+	{	return false; }
+	'role is unknown'.concat(roleName).toErr();
+	return false;
+}
+
+get(roleName : Standard::String) : Standard::Set
+{	if roleName.[=]('ROLENAME')
+	{	return self.ROLENAME; }
+	return null;	
+}
+
+orderedGet(roleName : Standard::String) : Standard:: OrderedSet
+{	if roleName.[=]('ROLENAME')
+	{	return self.ROLENAME; }
+	return null;	
+}
+
+set(roleName : Standard::String; value : Standard::Set) : Standard::Void
+{	if roleName.[=]('ROLENAME')
+	{	self.ROLENAME := value; }	
+}
+
+orderedSet(roleName : Standard::String; value : Standard::OrderedSet) : Standard::Void
+{	if roleName.[=]('ROLENAME')
+	{	self.ROLENAME := value; }	
+}
+
+}

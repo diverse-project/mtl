@@ -1,0 +1,29 @@
+// $Id: Attribute.mtl,v 1.1 2003-10-14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Attribute extends ASTNode {
+ 
+	name : Standard::String;
+	possibleGetter : Operation;
+	possibleSetter : Operation;
+
+	toASTJava() : ASTJava::Object
+	{
+	properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute theAttribute=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute(this.BMTL_name.getTheString())];
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theAttribute.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theAttribute];
+	}
+ }

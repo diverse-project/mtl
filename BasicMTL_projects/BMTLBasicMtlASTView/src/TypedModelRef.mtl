@@ -1,0 +1,27 @@
+// $Id: TypedModelRef.mtl,v 1.1 2003-10-14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class TypedModelRef extends ModelRef {
+ 
+	typeName : Standard::String;
+
+	toASTJava() : ASTJava::Object
+	{
+	properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.TypedModelRef theTypedModelRef=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.TypedModelRef(this.get_BMTL_name().getTheString(),this.BMTL_typeName.getTheString())];
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theTypedModelRef.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theTypedModelRef];
+	}
+ }

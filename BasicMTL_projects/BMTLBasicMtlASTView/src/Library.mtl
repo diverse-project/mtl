@@ -1,0 +1,42 @@
+// $Id: Library.mtl,v 1.1 2003-10-14 15:56:20 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Library extends ASTNode {
+
+	definedClasses : Standard::Set;
+	definedOperations : Standard::Set;
+	name : Standard::String;
+	
+	//for compiler tests on transformation(s) needs
+	hasInheritance : Standard::Boolean;
+	hasAssociation : Standard::Boolean;
+	
+	appendDefinedOperations(anOp : Operation) : Standard::Void
+	{	if isNull(definedOperations)
+			{ JavaCode [BMTL_definedOperations=new BMTLSet()]; }
+		definedOperations := definedOperations.including(anOp).oclAsType(!Standard::Set!);
+	}
+ 
+	appendDefinedClasses(aClass : UserClass) : Standard::Void
+	{	if isNull(definedClasses)
+			{ JavaCode [BMTL_definedClasses=new BMTLSet()]; }
+		definedClasses := definedClasses.including(aClass).oclAsType(!Standard::Set!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+		'toASTJava SHOULD BE DONE ONLY ON SUBCLASS BasicMtlLibrary'.toErr();
+		return null;
+	}
+
+	transformInheritedLibrary() : Standard::Void
+	{
+		'transformInheritedLibrary SHOULD BE DONE ONLY ON SUBCLASS BasicMtlLibrary'.toErr();
+	}
+
+ }

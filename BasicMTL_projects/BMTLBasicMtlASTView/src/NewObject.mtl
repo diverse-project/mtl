@@ -1,0 +1,44 @@
+// $Id: NewObject.mtl,v 1.1 2003-10-14 15:56:20 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class NewObject extends Expression {
+
+//	type : UserClass;
+	arguments : Standard::OrderedSet;
+ 
+	appendArguments(arg : Expression) : Standard::Void
+	{	if isNull(arguments)
+			{ JavaCode [BMTL_arguments=new BMTLOrderedSet()]; }
+		arguments := arguments.append(arg).oclAsType(!Standard::OrderedSet!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	theArguments,properties : Standard::Iterator;
+	anArgument : Expression;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.NewObject theNewObject=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.NewObject()];
+	if isNull(arguments).not() { 
+	theArguments := arguments.getNewIterator();
+	theArguments.start();
+	while theArguments.isOn() {
+		anArgument := theArguments.item().oclAsType(!Expression!);
+		JavaCode [theNewObject.appendArguments((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_anArgument.BMTL_toASTJava())];
+		theArguments.next();
+	}
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theNewObject.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theNewObject];
+	}
+ }

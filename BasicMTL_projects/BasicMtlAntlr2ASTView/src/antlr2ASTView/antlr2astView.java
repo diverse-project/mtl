@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.1 2003-09-17 09:04:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.2 2003-10-14 15:51:47 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -22,7 +22,8 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
-import BasicMtlASTView.*;
+//import BasicMtlASTView.BMTL_ASTNodeInterface;
+import BasicMtlASTWithAssociationView.*;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
@@ -48,7 +49,10 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 	public static org.apache.log4j.Logger getLog () {
 			return BMTLParser.log;
 	}
-	private static BMTLLib_BasicMtlASTView theCreatedLib;
+	private static BMTLLib_BasicMtlASTWithAssociationView theCreatedLib;
+	private BMTL_LibraryInterface theBuiltAST=null;
+	private boolean hasInheritance=false;
+	private boolean hasAssociation=false;
 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); }
@@ -137,19 +141,29 @@ return expr; }
 /* ANTLRWalkerActionsInterface implemented functions */
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes)
 {	int i;
-	BMTL_LibraryInterface node=(BMTL_LibraryInterface)header;
+//	BMTL_LibraryInterface node=(BMTL_LibraryInterface)header;
+	if (this.theBuiltAST==null)
+	this.theBuiltAST=(BMTL_LibraryInterface)header;
 	try {
 	for(i=0;i<models.size();i++)
-		((BMTL_BasicMtlLibraryInterface)node).BMTL_appendParameters((BMTL_ModelRefInterface)models.get(i)); 
+		((BMTL_BasicMtlLibraryInterface)this.theBuiltAST).BMTL_appendParameters((BMTL_ModelRefInterface)models.get(i)); 
+//		((BMTL_BasicMtlLibraryInterface)node).BMTL_appendParameters((BMTL_ModelRefInterface)models.get(i)); 
 	for(i=0;i<methods.size();i++)
-		node.BMTL_appendDefinedOperations((BMTL_OperationInterface)methods.get(i)); 
+		this.theBuiltAST.BMTL_appendDefinedOperations((BMTL_OperationInterface)methods.get(i)); 
+//		node.BMTL_appendDefinedOperations((BMTL_OperationInterface)methods.get(i)); 
 	for(i=0;i<classes.size();i++)
-		node.BMTL_appendDefinedClasses((BMTL_UserClassInterface)classes.get(i)); 
+		this.theBuiltAST.BMTL_appendDefinedClasses((BMTL_UserClassInterface)classes.get(i)); 
+//		node.BMTL_appendDefinedClasses((BMTL_UserClassInterface)classes.get(i)); 
 	} catch (Throwable e) {e.printStackTrace();}
-	return node; }
+	this.theBuiltAST.set_BMTL_hasInheritance(new BMTLBoolean(this.hasInheritance));
+	this.theBuiltAST.set_BMTL_hasAssociation(new BMTLBoolean(this.hasAssociation));
+	return this.theBuiltAST; }
+//	return node; }
 
 public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector tags)
-{	BMTL_LibraryInterface node=(BMTL_LibraryInterface)libHeader;
+{//test => to remove	BMTL_BasicMtlLibraryInterface BMLInode=(BMTL_BasicMtlLibraryInterface)libHeader;
+//	test => to remove	BasicMtlASTView.BMTL_LibraryInterface BLInode=BMLInode.getRef_BMTL_BasicMtlASTView_5fLibrary();
+	BMTL_LibraryInterface node=(BMTL_LibraryInterface)libHeader;
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	putTags((BMTL_ASTNodeInterface)node,tags);
@@ -157,9 +171,11 @@ public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector 
 	return node; }
 
 public Object bmtllibraryHeader(String libName,Object inheritance)
-{	theCreatedLib = new BMTLLib_BasicMtlASTView();
+{	theCreatedLib = new BMTLLib_BasicMtlASTWithAssociationView();
 	BMTL_BasicMtlLibrary node=(BMTL_BasicMtlLibrary)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"BasicMtlLibrary"})).instanciate();
 	node.set_BMTL_name(new BMTLString(libName));
+	if (inheritance != null
+		&& ((java.util.Vector)inheritance).size() > 0) this.hasInheritance =true;
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Inheritance"),(java.util.Vector)inheritance,"InheritanceTag");
 	} catch (Throwable e) {e.printStackTrace();}
@@ -192,8 +208,45 @@ public Object model(String lineNumber,String modelName,String viewName)
 		return node;
 	}
 }
+
+public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints)
+{	int i;
+	BMTL_Association node=(BMTL_Association)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Association"})).instanciate();
+	node.set_BMTL_name(new BMTLString(associationName));
+	try {
+	for (i=0;i<endPoints.size();i++) 
+		node.BMTL_appendEndPoints((BMTL_EndPointInterface)endPoints.get(i));
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	putTags((BMTL_ASTNodeInterface)node,tags);
+	} catch (Throwable e) {e.printStackTrace();}
+	this.hasAssociation = true;
+	return node;
+}
+
+public Object endPoint(String lineNumber,String roleName,String className,Object multiplicity,boolean isComposition,boolean isAggregation,boolean isOrdered,boolean isNavigable,java.util.Vector theTags)
+{	BMTL_EndPoint node=(BMTL_EndPoint)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"EndPoint"})).instanciate();
+	node.set_BMTL_roleName(new BMTLString(roleName));
+	node.set_BMTL_className(new BMTLString(className));
+	node.set_BMTL_isComposition(new BMTLBoolean(isComposition));
+	node.set_BMTL_isAggregation(new BMTLBoolean(isAggregation));
+	node.set_BMTL_isOrdered(new BMTLBoolean(isOrdered));
+	node.set_BMTL_isNavigable(new BMTLBoolean(isNavigable));
+	node.set_BMTL_multiplicity((BMTL_MultiplicityInterface)multiplicity);
+	try {
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	} catch (Throwable e) {e.printStackTrace();}
+	return node;
+}
+
+public Object multiplicity (String lowerBound,String upperBound)
+{	BMTL_Multiplicity node=(BMTL_Multiplicity)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Multiplicity"})).instanciate();
+	node.set_BMTL_lowerBound(new BMTLInteger(Integer.parseInt(lowerBound)));
+	node.set_BMTL_upperBound(new BMTLInteger(Integer.parseInt(upperBound)));
+	return node;
+
+}
 	
-public Object classDefinition(String lineNumber,String className,Object inheritance,java.util.Vector tags,java.util.Vector attributes,java.util.Vector methods)
+public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
 {	int i;
 	BMTL_UserClass node=(BMTL_UserClass)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"UserClass"})).instanciate();
 	node.set_BMTL_name(new BMTLString(className));
@@ -204,8 +257,13 @@ public Object classDefinition(String lineNumber,String className,Object inherita
 			node.BMTL_appendDefinedAttributes((BMTL_AttributeInterface)declaredAttributes.get(j)); 
 	}
 	for(i=0;i<methods.size();i++)
-		node.BMTL_appendDefinedMethods((BMTL_OperationInterface)methods.get(i)); 
+		node.BMTL_appendDefinedMethods((BMTL_OperationInterface)methods.get(i));
+	for(i=0;i<settersGetters.size();i++) {
+		java.util.Vector theSetterGetter = (java.util.Vector)settersGetters.get(i);
+		node.BMTL_joinAttributeOperation(new BMTLBoolean(((Boolean)theSetterGetter.get(0)).booleanValue()),new BMTLString((String)theSetterGetter.get(1)),new BMTLString((String)theSetterGetter.get(2)));
+	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Inheritance"),(java.util.Vector)inheritance,"InheritanceTag");
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Refinement"),(java.util.Vector)refinement,"InheritanceTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
@@ -227,6 +285,14 @@ public Object attribute(Object localVarDef,java.util.Vector tags)
 		declaredAttributes.addElement(attrib);
 	}
 	return declaredAttributes; }
+
+public Object setterGetter(boolean isGetter,String attributeName,String operationName)
+{	java.util.Vector theSetterGetter=new java.util.Vector();
+	theSetterGetter.addElement(new Boolean(isGetter));
+	theSetterGetter.addElement(attributeName);
+	theSetterGetter.addElement(operationName);
+	return theSetterGetter;
+}
 
 public Object method(String creation,String methodName,String lineNumber,Object parameters,Object returnedType,String throwsException,java.util.Vector localVars,java.util.Vector instructions,java.util.Vector tags)
 {	int i,j;
@@ -265,7 +331,7 @@ public Object method(String creation,String methodName,String lineNumber,Object 
 	if (throwsException != null) node.set_BMTL_throwsExceptionValue(BMTLBoolean.TRUE);
 	else  node.set_BMTL_throwsExceptionValue(BMTLBoolean.FALSE);
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
-	putTags(node,tags);
+	putTags((BMTL_ASTNodeInterface)node,tags);
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
@@ -298,7 +364,7 @@ public Object expressionInstr(Object expression,String lineNumber)
 public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 	BMTL_ASTNodeInterface node=null;
 	try {
-	BMTL_PropertyInterface kindProp = ((BMTL_ASTNodeInterface)destTree).BMTL_getProperty(new BMTLString("kind"));
+	BMTL_PropertyInterface kindProp = (BMTL_PropertyInterface)((BMTL_ASTNodeInterface)destTree).BMTL_getProperty(new BMTLString("kind"));
 	if ((destTree instanceof BMTL_OperationCall) && !kindProp.BMTL_isNull(kindProp).getTheBoolean() && kindProp.BMTL_getTheValue().equals(new BMTLString("AttributeGetter"))) {
 		node= (BMTL_ASTNodeInterface)destTree;
 		node.BMTL_setProperty(new BMTLString("kind"), new BMTLString("AttributeSetter"));
@@ -414,22 +480,22 @@ public Object newExpr(Object theClass,String methodName,Object arguments,String 
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("CreationMethod"),new BMTLString(methodName),"StringTag");
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
-	return (BMTL_ExpressionInterface)putPropertyCalls(node,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)node,propertyCalls); }
 
 public Object intLiteral(String value,java.util.Vector propertyCalls)
 {	BMTL_IntLiteral theLiteral=(BMTL_IntLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"IntLiteral"})).instanciate();
 	theLiteral.set_BMTL_value (new BMTLInteger(Integer.parseInt(value)));
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object realLiteral(String value,java.util.Vector propertyCalls)
 {	BMTL_RealLiteral theLiteral=(BMTL_RealLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"RealLiteral"})).instanciate();
 	theLiteral.set_BMTL_value (new BMTLReal(Double.parseDouble(value)));
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object stringLiteral(String value,java.util.Vector propertyCalls)
 {	BMTL_StringLiteral theLiteral=(BMTL_StringLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"StringLiteral"})).instanciate();
 	theLiteral.set_BMTL_value (new BMTLString(value));
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object javaCodeLiteral(String value)
 {	BMTL_JavaCodeLiteral theLiteral=(BMTL_JavaCodeLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"JavaCodeLiteral"})).instanciate();
@@ -443,25 +509,25 @@ public Object oclTypeLiteral(Object type,java.util.Vector propertyCalls)
 	for (int i=0;i<theType.size();i++)
 		theCollection[i]=new BMTLString((String)theType.get(i));
 	theLiteral.set_BMTL_typeValue (new BMTLOrderedSet(theCollection));
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object selfLiteral(java.util.Vector propertyCalls)
 {	BMTL_SelfLiteral theLiteral=(BMTL_SelfLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"SelfLiteral"})).instanciate();
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object nullLiteral(java.util.Vector propertyCalls)
 {	BMTL_NullLiteral theLiteral=(BMTL_NullLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"NullLiteral"})).instanciate();
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object trueLiteral(java.util.Vector propertyCalls)
 {	BMTL_BooleanLiteral theLiteral=(BMTL_BooleanLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"BooleanLiteral"})).instanciate();
 	theLiteral.set_BMTL_value(BMTLBoolean.TRUE);
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object falseLiteral(java.util.Vector propertyCalls)
 {	BMTL_BooleanLiteral theLiteral=(BMTL_BooleanLiteral)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"BooleanLiteral"})).instanciate();
 	theLiteral.set_BMTL_value(BMTLBoolean.FALSE);
-	return (BMTL_ExpressionInterface)putPropertyCalls(theLiteral,propertyCalls); }
+	return (BMTL_ExpressionInterface)putPropertyCalls((BMTL_ExpressionInterface)theLiteral,propertyCalls); }
 
 public Object attributeOrVariable(String name,java.util.Vector propertyCalls)
 {	BMTL_ExpressionInterface expr;
@@ -474,7 +540,7 @@ public Object attributeGetter(String attributeName)
 {	BMTL_OperationCall ret = (BMTL_OperationCall)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"OperationCall"})).instanciate();
 	ret.set_BMTL_name(new BMTLString(attributeName));
 	try {
-	putProperty(ret,new BMTLString("kind"), new BMTLString("AttributeGetter"), "StringTag");
+	putProperty((BMTL_ASTNodeInterface)ret,new BMTLString("kind"), new BMTLString("AttributeGetter"), "StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return ret; }
 
@@ -499,14 +565,22 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 	} catch (Throwable e) {e.printStackTrace();}
 	return (BMTL_ExpressionInterface)node; }
 
-public Object oclAsType(Object type,String lineNumber)
-{	java.util.Vector qualifiers=(java.util.Vector)type;
-	BMTL_OclAsType node=(BMTL_OclAsType)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"OclAsType"})).instanciate();
+public Object oclAsType(Object type,String lineNumber,String theType,String theMethod,String theParameter,boolean isAConstant)
+{	BMTL_OclAsType node=(BMTL_OclAsType)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"OclAsType"})).instanciate();
+	java.util.Vector qualifiers=(java.util.Vector)type;
 	try {
-	for(int i=0;i<qualifiers.size();i++)
-		node.BMTL_appendType(new BMTLString((String)qualifiers.get(i)));
-	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+		for(int i=0;i<qualifiers.size();i++)
+			node.BMTL_appendType(new BMTLString((String)qualifiers.get(i)));
+		putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
+	if (isAConstant)
+	{	node.set_BMTL_isAConstant(BMTLBoolean.TRUE);
+	}
+	else {
+		node.set_BMTL_isAConstant(BMTLBoolean.FALSE);
+		node.set_BMTL_typeVar(new BMTLString(theType));
+		node.set_BMTL_methodVar(new BMTLString(theMethod));
+		node.set_BMTL_parameterVar(new BMTLString(theParameter)); }
 	return (BMTL_ExpressionInterface)node; }
 
 public Object arguments(java.util.Vector expressions)

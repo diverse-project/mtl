@@ -1,0 +1,23 @@
+// $Id: StringProperty.mtl,v 1.1 2003-10-14 15:56:22 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class StringProperty extends Property {
+ 
+	value : Standard::String;
+	
+	getTheValue():Standard::OclAny
+	{	return value.oclAsType(!Standard::OclAny!); }
+	
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{	value := newValue.oclAsType(!Standard::String!); }
+	
+	toASTJava() : ASTJava::Object
+	{
+	JavaCode [return new org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property(this.get_BMTL_name().getTheString(),BMTL_value.getTheString(),this.get_BMTL_tagType().getTheString())];
+	}
+ }

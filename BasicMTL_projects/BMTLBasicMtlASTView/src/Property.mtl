@@ -1,0 +1,26 @@
+// $Id: Property.mtl,v 1.1 2003-10-14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Property {
+ 
+	name : Standard::String;
+	tagType : Standard::String;
+	
+	getTheValue():Standard::OclAny
+	{	'Property has no value, use one of its subclass!'.toErr();
+		return null; }
+	
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{	'Property has no value, use one of its subclass!'.toErr(); }
+
+	toASTJava() : ASTJava::Object
+	{
+		'toASTJava SHOULD BE DONE ONLY ON SUBCLASSES OF Property'.toErr();
+		return null;
+	}
+ }
