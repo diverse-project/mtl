@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-11-04 15:30:27 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-12-05 14:07:38 dvojtise Exp $ -->
 <project name="AssociationTry" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -81,8 +81,8 @@
    		</javac>
   	</target>
 
-  	<target name="run sample" description="run the sample program">
-		<java classname="${Sample Package}.BMTLLib_${Sample Package}" fork="true">
+  	<target name="run AssociationTry" description="run the AssociationTry program">
+		<java classname="${Sample Package}.BMTLLib_${Sample Package}" fork="true" failonerror="yes">
 		<arg value="-h"/>
 		<classpath>
 			<pathelement path="${builtbin}/"/>

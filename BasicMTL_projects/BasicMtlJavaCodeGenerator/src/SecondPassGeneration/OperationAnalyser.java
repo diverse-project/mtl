@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.9 2003-10-14 14:35:40 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.10 2003-12-05 14:07:46 dvojtise Exp $
  * Created on 7 août 2003
  *
  */
@@ -61,6 +61,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 				boolean isLib = clazz instanceof TheLibraryClass; 
 				outputForClass.println("    System.err.println(\"Problem while executing the main function of " + (isLib ? "library " : "class ") + JavaStringLiteralEncoder.encodeString(AWK.mergeCollection(clazz.getQualifiedName(), "::")) + ":\");");
 				outputForClass.println("    t.printStackTrace();");
+				outputForClass.println("    System.exit(-1);");				
 				outputForClass.println("  }");
 				outputForClass.println('}'); 
 			}

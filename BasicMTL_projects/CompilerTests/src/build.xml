@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-11-04 15:30:31 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-12-05 14:07:37 dvojtise Exp $ -->
 <project name="Build,run all tests" default="run all" basedir=".">
 	<description>
         Build and run all tests of the CompilerTests project
@@ -30,8 +30,8 @@
   	<target name="run all" > <!-- depends="build all"> -->
 	    <!-- call successively each runner -->
 	    <echo>Running "Vehicules" test.</echo>
-	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="run sample" inheritAll="false"/>
+	    <ant antfile="${basedir}/Vehicules/TestVehicules/build.xml" dir="${basedir}/Vehicules/TestVehicules" target="run TestVehicules" inheritAll="false"/>
 	    <echo>Running "AssociationTry" test.</echo>
-	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="run sample" inheritAll="false"/>
+	    <ant antfile="${basedir}/AssociationTry/build.xml" dir="${basedir}/AssociationTry" target="run AssociationTry" inheritAll="false"/>
   	</target>
 </project>
