@@ -1,5 +1,5 @@
 /*
-* $Id: MTLBuilder.java,v 1.2 2004-08-26 12:40:30 sdzale Exp $
+* $Id: MTLBuilder.java,v 1.3 2004-09-10 12:41:48 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -92,11 +92,12 @@ public class MTLBuilder extends IncrementalProjectBuilder {
 				if (MTLPlugin.MenuAction){
 					MTLConsole.cleanConsole();
 					//System.out.println("console vidée IncrementalProjectBuilder.FULL_BUILD");
-					System.out.println(" BUILD PROJ3"+getProject());
+					//System.out.println(" BUILD PROJ3"+getProject());
 					//MTLModel.buildReferencesProjects(getProject());
-					System.out.println(" AVANT");
+					//System.out.println(" AVANT");
 					fullBuild(monitor);
-					System.out.println(" MENUACTION EST FAUX");
+					MTLPlugin.MenuAction=false;
+					//System.out.println(" MENUACTION EST VRAI");
 				}else{
 					System.out.println("AUTOCOMPILE & MENUACTION ST FAUX");
 				}
