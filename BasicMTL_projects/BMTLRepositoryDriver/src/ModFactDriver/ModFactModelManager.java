@@ -1,4 +1,4 @@
-/* $Id: ModFactModelManager.java,v 1.2 2004-01-29 16:46:23 xblanc Exp $
+/* $Id: ModFactModelManager.java,v 1.3 2004-02-16 15:48:43 dvojtise Exp $
  * Created on 25 août 2003
  */
 package ModFactDriver;
@@ -34,9 +34,9 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toErr;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 import org.irisa.triskell.MT.repository.ModFactDriver.Java.ImplementedMetamodel;
 import org.irisa.triskell.MT.repository.ModFactDriver.Java.LoadedMetamodel;
-import org.irisa.triskell.MT.repository.ModFactDriver.Java.MDRAPI;
-import org.irisa.triskell.MT.repository.ModFactDriver.Java.Metamodel;
-import org.irisa.triskell.MT.repository.ModFactDriver.Java.Model;
+import org.irisa.triskell.MT.repository.ModFactDriver.Java.ModFactAPI;
+import org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel;
+import org.irisa.triskell.MT.repository.genericJMIDriver.Model;
 import org.irisa.triskell.MT.repository.ModFactDriver.Java.MofMetamodel;
 import org.irisa.triskell.MT.repository.ModFactDriver.Java.SimpleStandaloneModelManager;
 import org.irisa.triskell.MT.repository.ModFactDriver.Java.XmiMetamodel;
@@ -117,7 +117,7 @@ public class ModFactModelManager extends SimpleStandaloneModelManager implements
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModel(java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel, java.lang.String, org.irisa.triskell.MT.repository.MDRDriver.Java.Model)
 	 */
-	public MDRAPI BMTL_getModel(
+	public ModFactAPI BMTL_getModel(
 		StringValue repository,
 		Metamodel metamodel,
 		StringValue modelName,
@@ -129,14 +129,14 @@ public class ModFactModelManager extends SimpleStandaloneModelManager implements
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelfromGUI(java.lang.String)
 	 */
-	public MDRAPI BMTL_getModelfromGUI(StringValue userMessage) throws Exception {
+	public ModFactAPI BMTL_getModelfromGUI(StringValue userMessage) throws Exception {
 		return this.getModelfromGUI(userMessage == null ? null : userMessage.getTheString());
 	}
 
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public MDRAPI BMTL_getModelFromXMI(
+	public ModFactAPI BMTL_getModelFromXMI(
 		StringValue metamodelXmiFileName,
 		StringValue modelName,
 		StringValue modelXmiInputFileName,
@@ -152,7 +152,7 @@ public class ModFactModelManager extends SimpleStandaloneModelManager implements
 	/* (non-Javadoc)
 	 * @see org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager#getModelFromXMI(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public MDRAPI BMTL_getModelFromXMI(
+	public ModFactAPI BMTL_getModelFromXMI(
 		StringValue metamodelXmiFileName,
 		StringValue metaPackageToInstanciate,
 		StringValue modelName,

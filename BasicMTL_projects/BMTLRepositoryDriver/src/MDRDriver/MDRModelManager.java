@@ -1,4 +1,4 @@
-/* $Id: MDRModelManager.java,v 1.2 2004-01-22 11:06:30 uid104 Exp $
+/* $Id: MDRModelManager.java,v 1.3 2004-02-16 15:48:44 dvojtise Exp $
  * Created on 25 août 2003
  */
 package MDRDriver;
@@ -35,8 +35,8 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAny_toOut;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.ImplementedMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.LoadedMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.Metamodel;
-import org.irisa.triskell.MT.repository.MDRDriver.Java.Model;
+import org.irisa.triskell.MT.repository.genericJMIDriver.Metamodel;
+import org.irisa.triskell.MT.repository.genericJMIDriver.Model;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MofMetamodel;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.SimpleStandaloneModelManager;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.XmiMetamodel;
