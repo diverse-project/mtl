@@ -140,14 +140,16 @@ public class CompileCommand extends MTLCommand
 		while (it.hasNext())
 		{
 			IPath path = (IPath) it.next();
+			String s = checkPathEnd (path.toOSString());
+			
 			if (result==null)
 			{
-				result = checkPathEnd (path.toOSString());
+				result = s;
 			}
 			else
 			{
 				result = result.concat(";");
-				result = result.concat (path.toOSString());
+				result = result.concat (s);
 			}
 		}
 		
