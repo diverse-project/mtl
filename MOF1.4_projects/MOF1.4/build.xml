@@ -1,19 +1,29 @@
-<!-- $Id: build.xml,v 1.3 2004-02-18 10:57:00 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.4 2004-02-18 13:06:15 dvojtise Exp $ -->
 
 <project name="MOF" default="run MOF test" basedir=".">
-
-	<target name="run MOF test" > 
-
-  		<!--ant antfile="MOFview_build.xml"     dir="." target="compile"/-->
-  		<!--ant antfile="MOFvisitors_build.xml" dir="." target="compile"/-->
-  		<!--ant antfile="MOFadapter_build.xml"  dir="." target="compile"/-->
+	<description>
+		Main build file for MOF1.4 project
+	</description>
+	<target name="build MOF test" description="">
+		<ant antfile="MOFview_build.xml"     dir="." target="compile"/>
+  		<ant antfile="MOFvisitors_build.xml" dir="." target="compile"/>
+  		<ant antfile="MOFadapter_build.xml"  dir="." target="compile"/>
   		<ant antfile="MOFhelper_build.xml"   dir="." target="compile"/>
-  		<ant antfile="MOFtests_build.xml"    dir="." target="compile"/>
-
+  		<ant antfile="MOFtests_build.xml"    dir="." target="compile"/>		
+	</target>
+	
+	<target name="run MOF test" description="">   		
   		<ant antfile="MOFtests_build.xml" dir="." target="run"> 
 	  		<property name="model" value="Models/UML/UML_model.xmi"/> 	
-	  	</ant>
-	  			
+	  	</ant>	  			
+  	</target>
+  	
+  	<target name="clean"  description="">   		
+  		<ant antfile="MOFview_build.xml"     dir="." target="clean"/>
+  		<ant antfile="MOFvisitors_build.xml" dir="." target="clean"/>
+  		<ant antfile="MOFadapter_build.xml"  dir="." target="clean"/>
+  		<ant antfile="MOFhelper_build.xml"   dir="." target="clean"/>
+  		<ant antfile="MOFtests_build.xml"    dir="." target="clean"/>	
   	</target>
 
 
