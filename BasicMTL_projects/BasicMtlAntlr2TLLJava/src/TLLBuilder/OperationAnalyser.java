@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: OperationAnalyser.java,v 1.6 2004-04-01 12:54:52 dvojtise Exp $
+ * $Id: OperationAnalyser.java,v 1.7 2004-04-06 07:54:38 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -13,16 +13,20 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
+ * Creates the TLL structures for an operation. input is a BasicMTL AST - output is a BasicMTL TLL
  * @author jpthibau
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 
+	/**
+	 * action to take when visiting an Operation in a BasicMTL AST : create a BasicMTLTLL operation
+	 */
 	public Object OperationBefore(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation ASTnode,java.util.Map context)
 	{	String operationName=ASTnode.getName();
 		String mangle=null;
+		Property FileNameProperty=null;
+		String FileName; 
+		
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		if (mangling == null)
 			mangle=Mangler.mangle("BMTL_",operationName);
@@ -35,7 +39,9 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 		Operation theCreatedOp=new Operation(operationName,mangle,throwException,isConstructor,lineNumber);
 		//		transmit the file name and line number to the new var for traceability.
 		theCreatedOp.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
-		theCreatedOp.createNewProperty("FileName",ASTnode.getProperty("FileName").getValue(),"String");
+		FileNameProperty = ASTnode.getProperty("FileName");
+		if (FileNameProperty == null) FileName = "Unknown file location for variable "+operationName; 
+		else FileName = (String)FileNameProperty.getValue();		
 		if (! isConstructor) {
 			Property returnedType=(Property)ASTnode.getProperty("returnedType");
 			BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");

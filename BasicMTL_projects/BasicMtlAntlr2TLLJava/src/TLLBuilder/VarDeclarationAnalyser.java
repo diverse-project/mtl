@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: VarDeclarationAnalyser.java,v 1.4 2004-04-01 12:54:52 dvojtise Exp $
+ * $Id: VarDeclarationAnalyser.java,v 1.5 2004-04-06 07:54:38 dvojtise Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -13,27 +13,46 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
+ * Creates the TLL structures for a Variable declaration. input is a BasicMTL AST - output is a BasicMTL TLL
  * @author jpthibau
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class VarDeclarationAnalyser extends ASTTopDownVisitor.VarDeclarationAnalyser {
 
+	/**
+	 * action to take when visiting a Variable declaration in a BasicMTL AST : create a BasicMTLTLL Variable declaration
+	 */
 	public void VarDeclarationAction(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration ASTnode,java.util.Map context)
 	{	String varName=ASTnode.getName();
 		String mangle=null;
+		Property FileNameProperty=null;
+		Property LineNumberProperty=null;
+		String FileName; 
+		int lineNumber;
+		String lineNumberString;
+		
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		if (mangling == null)
 			mangle=Mangler.mangle("BMTL_",varName);
 		else mangle=(String)((java.util.Vector)mangling.getValue()).get(2);
-		int lineNumber=-1000; //do we have to add a lineNumber Property ?
-//		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
+
+		LineNumberProperty = ASTnode.getProperty("LineNumber");
+		if (LineNumberProperty == null) 
+		{
+			lineNumber=-1000;
+			lineNumberString = "(Unknown line number)";
+		} 
+		else
+		{ 
+			lineNumber=Integer.parseInt((String)LineNumberProperty.getValue());
+			lineNumberString =  (String)LineNumberProperty.getValue();
+		} 
 		VarDeclaration theCreatedVarDeclaration=new VarDeclaration(varName,mangle,false,lineNumber);
 		// transmit the file name and line number to the new var for traceability.
-		theCreatedVarDeclaration.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
-		theCreatedVarDeclaration.createNewProperty("FileName",ASTnode.getProperty("FileName").getValue(),"String");
-		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		theCreatedVarDeclaration.createNewProperty("LineNumber",lineNumberString,"String");
+		FileNameProperty = ASTnode.getProperty("FileName");
+		if (FileNameProperty == null) FileName = "Unknown file location for variable "+varName; 
+		else FileName = (String)FileNameProperty.getValue();		
+		theCreatedVarDeclaration.createNewProperty("FileName",FileName,"String");BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
 		Property varType=(Property)ASTnode.getProperty("Type");
 		QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)varType.getValue(),theCreatedLib);
 		type.appendTypeForVarDeclarations(theCreatedVarDeclaration);
