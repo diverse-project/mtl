@@ -22,5 +22,5 @@ testMethod(theClass : UML::Core::Class)
 
 getSetOfElement() : Standard::Set
 	{
-		return null;
+		return !UML::Core::Class!.allInstances();
 	}

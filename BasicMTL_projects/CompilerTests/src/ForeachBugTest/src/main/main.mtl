@@ -15,9 +15,9 @@ main(){
 	mdrdriver         	: 	MDRDriver::MDRModelManager;
 
 	// we define some filenames 
-	metaModelFileName := 'MetaModel/UML_metamodel';
-	inputFileName     := 'Model/model.xmi';
-	outputFileName	  := 'Model/model-updated.xmi';
+	metaModelFileName := 'metamodel/UML_metamodel.xmi';
+	inputFileName     := 'model/model.xmi';
+	outputFileName	  := 'model/model-updated.xmi';
 	
 	// we initialize the MDR driver		
 	mdrdriver := new MDRDriver::MDRModelManager();
@@ -32,20 +32,22 @@ main(){
 		outputFileName
 	);		
 	
-		
-	testForeach();
-	
+	// we instanciate the other library		
+	lib := new testLib();
+	lib.init (UML);
+			
+	// we launch the testing method			
+	new TestClass().testForeach();
 }
-class TestClass {
 
 
+class TestClass
+{
 	testForeach()
 	{
-		
 		foreach (aClass : UML::Core::Class) in ( lib.getSetOfElement() )
 		{
 			lib.testMethod(aClass);
 		}
-	
 	}
 }
