@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.5 2004-10-19 11:52:19 dvojtise Exp $
+* $Id: MTLConsole.java,v 1.6 2004-10-25 13:16:15 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -156,11 +156,14 @@ public class MTLConsole extends ViewPart {
 			getDisplay().asyncExec(new Runnable()
 			{
 				public void run()
-				{				
-					try{
-					int k=Controller.getInstance().getLogfile().toArray().length;	
+				{	
+					// the console may have been closed...
+					if (viewer==null) { return; }
+					
+					try {
 					Object[] oo = contentProvider.getElements(null);
 					int i = viewer.getTable().getItemCount();
+					
 					//System.out.println(viewer.getTable().getItems().toString());
 					Object o = oo[i];
 					viewer.add(o);
@@ -323,52 +326,45 @@ public class MTLConsole extends ViewPart {
 			return display;
 		}
 
-		/**
-		 * 
-		 */
-		public void refresh()
+		
+	/** */
+	public void refresh()
+	{
+		if (getDisplay()==null)
 		{
-			//System.out.println("IN REFRESH0 :"+ (getDisplay()==null));
-		 try{
-			getDisplay().syncExec(new Runnable()
-					{
-						public void run()
-						{	
-							//System.out.println("IN REFRESH0");
-							try{
-								if (viewer!=null){
-					                viewer.refresh();
-					
-								}else{
-									System.out.println("VIEWER NULL");
-								}
-			}catch (Exception E){
-				System.out.println("PBS WITH VIEW REFRESH :"+E);
-				// A voir
-			}
-			
-					
+			return;
 		}
+		try {
+			getDisplay().syncExec(new Runnable() {
+		 		public void run()
+		 		{	
+					if (viewer!=null) 
+					{
+						viewer.refresh();
 					}
-			);
-		 }catch(Exception e){
+		 		}
+		 	});
+		 }
+		 catch(Exception e)
+		 {
 		 	System.out.println("PBS  :"+e);
 		 	e.printStackTrace();
 		 }
-		
 	}
 		
+
+// SEEMS TO BE NOT USED	
+//		public static MTLConsole getConsole() {
+//		IWorkbenchPage page =
+//			PlatformUI
+//				.getWorkbench()
+//				.getActiveWorkbenchWindow()
+//				.getActivePage();
+//		MTLConsole console = (MTLConsole) page.findView(MTLConsole.CONSOLE_ID);
+//		return console;
+//		}
 		
-		public static MTLConsole getConsole() {
-		IWorkbenchPage page =
-			PlatformUI
-				.getWorkbench()
-				.getActiveWorkbenchWindow()
-				.getActivePage();
-		MTLConsole console = (MTLConsole) page.findView(MTLConsole.CONSOLE_ID);
-		return console;
-		}
-		
+	
 		public static void cleanConsole(){
 			System.out.println("CLEAN CONSOLE");
 			try{

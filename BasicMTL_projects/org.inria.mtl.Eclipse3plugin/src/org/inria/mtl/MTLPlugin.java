@@ -29,6 +29,7 @@ import org.inria.mtl.editors.MTLDocumentProviders;
 import org.inria.mtl.editors.utils.MTLEditorEnvironment;
 //import org.inria.mtl.preferences.Log4jPreferencePage;
 import org.inria.mtl.preferences.PreferencesConstants;
+import org.inria.mtl.views.actions.ServerAction;
 import org.inria.mtl.views.controller.Controller;
 import org.osgi.framework.BundleContext;
 
@@ -341,6 +342,10 @@ public static MTLPlugin instance() {
 		 {
 		 	if (isLog4jConfigured==false)
 		 	{
+		 		// we may have to start the server
+		 		ServerAction.getInstance().run();
+		 		ServerAction.getInstance().setRunning (true);
+		 		
 			 	String logFile = MTLPlugin.getDefault().getLocation() +	getSeparator() + "MTL" + getSeparator() + "bin" + getSeparator() + "log4j_configuration.xml";
 			 	org.apache.log4j.xml.DOMConfigurator.configure (logFile);
 				isLog4jConfigured = true;
