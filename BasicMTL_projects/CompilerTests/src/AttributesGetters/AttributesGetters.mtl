@@ -1,0 +1,104 @@
+library AttributesGetters;
+
+model MOF : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver    : MDRDriver;
+
+ 
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main() : Standard::Void
+{	 
+	// local variables
+
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+	test : Test1;
+
+	// we define some filenames 
+	projectPath       := './';
+	metamodelFilename := projectPath.concat ('metamodels/MOF_metamodel.xmi');
+	inputFilename     := projectPath.concat ('models/UML_model.xmi');
+	outputFilename    := projectPath.concat ('models/UML_model_MODIFIED.xmi');
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	MOF := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'Model',		// name of the root package in the Uml1.4 metamodel
+		'MOF_model', 
+		inputFilename,
+		outputFilename
+	);
+
+	test := new Test1 ();
+	test.foo();
+
+	'That s all folks !'.toOut();
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+
+class Data
+{
+	n : Standard::Integer;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+
+class Test1
+{
+	att2 : MOF::Model::Class;
+	att1 : Data;
+
+	/** */
+	foo ()
+	{
+		// function to retrieve a Repository object
+		iterator : Standard::Iterator;
+		aClass : MOF::Model::Class;
+
+		iterator := !MOF::Model::Class!.allInstances().getNewIterator();
+		aClass := iterator.item().oclAsType (!MOF::Model::Class!);
+
+		bar (aClass);
+	}
+	
+		
+	/** */
+	bar (aClass : MOF::Model::Class)
+	{
+		att2 := aClass;
+		
+		////////////////////////////////////////
+		// test on Repository object
+		////////////////////////////////////////
+		aClass.name := 'pipo';
+		att2.name.toOut();
+
+		att2.name   := 'bimbo';
+		att2.name.toOut();
+
+
+		////////////////////////////////////////
+		// test on MTL object
+		////////////////////////////////////////
+		att1 := new Data ();
+		att1.n := 3; 
+		att1.n.toOut();
+	}
+}
+
