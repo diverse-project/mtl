@@ -1,10 +1,11 @@
-<!-- $Id: BasicMTL_UserManual_build.xml,v 1.2 2005-03-16 15:51:50 dvojtise Exp $ -->
+<!-- $Id: BasicMTL_UserManual_build.xml,v 1.3 2005-03-22 22:24:43 dvojtise Exp $ -->
 <project name="BasicMTL_UserManual" default="all">
 	<!-- configuration properties -->
 	<!-- tool location -->
 	<property name="ant.docbook.styler.dir" location="../../ant-docbook-styler" />
     <property name="ant.docbook.styler"     value="ant-build-docbook.xml" />
-	<property name="ooo2dbk.dir"			location="T:/bin/multiplatform/ooo2dbk"/>
+	<!--<property name="ooo2dbk.dir"			location="T:/bin/multiplatform/ooo2dbk"/>-->
+	<property name="ooo2dbk.dir"			location="c:/ooo2dbk"/>
 	<property name="ooo2dbk.file"			location="${ooo2dbk.dir}/ooo2dbk"/>
 	<!--<property name="python.exe"				location="C:\OpenOffice.org1.1.4\program\python.bat"/>-->
 	<property name="python.exe"				location="C:\python24\python.exe"/>
@@ -46,10 +47,22 @@
 		<!-- only one doc at this time -->
 		<!-- note : voir comment on peut améliorer le script avec une config, 
 					en particulier la possibilité d'ajouter un docbook file ? == merge ??-->
-		<copy todir="${build.docbook.dir}/${project.name}">
+		<tstamp>
+			<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>
+		</tstamp>
+		
+		<!--<copy todir="${build.docbook.dir}/${project.name}" >
 						<fileset file="${OOo.source.dir}/ooo2dbk.xml"/>
+			<filterset>
+				<filter token="BUILDDATE" value="${TODAY_UK}"/>
+			</filterset>
+		</copy>-->
+		<filter token="BUILD.DATE" value="${TODAY_UK}"/>
+		<copy file="${build.docbook.dir}/${project.name}/${project.name}.docb.xml" 
+			tofile="${build.docbook.dir}/${project.name}/index.xml"
+			filtering="true"
+			overwrite="true">
 		</copy>
-		<copy file="${build.docbook.dir}/${project.name}/${project.name}.docb.xml" tofile="${build.docbook.dir}/${project.name}/index.xml"/>
 	</target>
 	
 	<target name="html.single" depends="prepare_index.xml">
