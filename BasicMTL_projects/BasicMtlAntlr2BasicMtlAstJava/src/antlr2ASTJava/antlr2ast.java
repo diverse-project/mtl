@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.17 2004-04-28 07:26:24 edrezen Exp $
+ * $Id: antlr2ast.java,v 1.18 2004-06-04 13:39:11 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -17,40 +17,24 @@ package antlr2ASTJava;
 import java.util.Arrays;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.*;
-import org.irisa.triskell.MT.utils.Java.Directories;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 public class antlr2ast implements ANTLRWalkerActionsInterface {
 
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
-
-	public static org.apache.log4j.Logger getLog () {
-			return BMTLParser.log;
-	}
-	
 	private static Library theBuiltAST=null; //<<<Accumulation>>>
 
 public Library buildLibraryFromText(String fileName)
 { return ((Library)BMTLParser.Parse(fileName,this)); }
 
 public static void main(String[] args)
-{	try {
-		String filePath = new java.io.File(Directories.getRootPath(antlr2ast.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-		LogManager.resetConfiguration();
-		DOMConfigurator.configure(filePath); }
-	catch(java.io.IOException e) {
-		System.err.println("Can't state log4j in BMTLParser"); }
-	if (args.length > 0)
+{	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2ast().buildLibraryFromText(args[i]);
-	else log.error("USAGE : java BMTL <sourcefiles>");
+	else MSGHandler.error("USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -198,7 +182,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 			if (node.getDefinedMethods(j).getName().equals((String)theSetterGetter.get(2)))
 				theOperation = node.getDefinedMethods(j);
 		if (theAttribute == null | theOperation==null)
-			log.error("Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
+			MSGHandler.error("Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
 		else {
 			if (((Boolean)theSetterGetter.get(0)).booleanValue())
 				{	theAttribute.setGetter(theOperation);
@@ -299,7 +283,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 	} else if (destTree instanceof VarCall) {
 		node= new VarSetting(((VarCall)destTree).getVarName(),(Expression)sourceTree);
 	} else {
-		getLog().error(lineNumber + ": Can just affect variable or attributes.");
+		MSGHandler.error(lineNumber + ": Can just affect variable or attributes.");
 		return null;
 	}
 	putProperty(node,"LineNumber",lineNumber,"StringTag");

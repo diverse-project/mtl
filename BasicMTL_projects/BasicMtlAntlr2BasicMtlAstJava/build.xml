@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-10-14 15:00:10 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.5 2004-06-04 13:39:10 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2BasicMtlAstJava" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -79,9 +79,6 @@
 			<fileset dir="${BasicMtlAntlr}\dist\bin"/>
 		</copy>
 		
-	    <copy file="log4j_configuration.xml"
-	    	todir="${dist}/bin"
-	    	overwrite="true"/>
 	</target>
 
   	<target name="clean"
