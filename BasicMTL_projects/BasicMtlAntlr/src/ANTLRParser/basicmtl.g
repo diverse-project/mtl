@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.14 2003-10-14 15:38:06 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.15 2003-12-02 18:22:29 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -71,13 +71,13 @@ exception catch [RecognitionException ex] {
 	;
 /*===============================================================
 libheader
-	: "library"^ IDENTIFIER (inheritance)?
+	: ( "library" | "model" ) IDENTIFIER (inheritance)?
 	| "nativelibrary"^ IDENTIFIER
 ==================================================================*/
 libheader returns [Object tree=null;]
 {	Object l1=null;
 }
-	: "library" s1:IDENTIFIER (l1=inheritance)? 
+	: ("library" | "model" ) s1:IDENTIFIER (l1=inheritance)? 
 		{ tree=walker.bmtllibraryHeader(s1.getText(),l1); }
 	| "nativelibrary" s2:IDENTIFIER 
 	{ tree=walker.nativeLibHeader(s2.getText()); }
@@ -324,19 +324,16 @@ instruction
 	 : ((IDENTIFIER POINT)? IDENTIFIER RECEIVES) => (IDENTIFIER POINT)? IDENTIFIER RECEIVES expression semicolon
 	| expression n:semicolon
 	| "return" (OPENBRACKET expression CLOSEBRACKET)? semicolon
-	| "while" expression openbrace (instruction)* CLOSEBRACE
-	| "if" expression openbrace (instruction )+ CLOSEBRACE ( "else" OPENBRACE! (instruction)+ CLOSEBRACE )?
+	| "while" expression bodyinstr
+	| "if" expression bodyinstr ( "else" bodyinstr )?
 	| "throws" expression semicolon
-	| "try" openbrace ( instruction )+
-	  ("catch" IDENTIFIER COLON type openbrace (instruction )+ CLOSEBRACE )+
-	  ( "finally" OPENBRACE! (instruction )+ CLOSEBRACE )? CLOSEBRACE
+	| "try" bodyinstr
+	  ("catch" IDENTIFIER COLON type bodyinstr )+
+	  ( "finally" bodyinstr )? CLOSEBRACE
 	| "associate" openbracket associateEndPoint ( COMMA associateEndPoint )+ CLOSEBRACKET SEMICOLON!
 ==================================================================*/
 instruction returns [Object tree=null;]
-{	java.util.Vector theInstructions=new java.util.Vector();
-	java.util.Vector theElseInstructions=new java.util.Vector();
-	java.util.Vector theCatchInstructions=null;
-	java.util.Vector theCatches=new java.util.Vector();
+{	java.util.Vector theCatches=new java.util.Vector();
 	java.util.Vector theAssociatePoints=new java.util.Vector();
 	String classIdentifier = null;
 	String n;
@@ -344,35 +341,49 @@ instruction returns [Object tree=null;]
 	Object l2=null;
 	Object l3=null;
 	Object l4=null;
-	Object l5=null;
-	Object l6=null;
+	Object body=null;
+	Object body2=null;
+	Object body3=null;
 	boolean isAssociate=false;
 }
 	: tree=expression (r:RECEIVES l1=expression {tree = walker.affectation(l1, tree, Integer.toString(r.getLine()));})? n=semicolon
 	  {tree=walker.expressionInstr(tree,n);}
-	| "return" ((OPENBRACKET)? tree=expression (CLOSEBRACKET)?)? n=semicolon
+	| "return" (tree=expression)? n=semicolon
 	  {tree=walker.returnInstr(tree,n);}
-	| "while" tree=expression n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
-	  {tree=walker.whileInstr(tree,theInstructions,n);}	
-	| "if" (OPENBRACKET)? tree=expression (CLOSEBRACKET)? n=openbrace (l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
-		( "else" OPENBRACE (l2=instruction {theElseInstructions.addElement(l2);} )+ CLOSEBRACE)?
-	  {tree=walker.ifInstr(tree,theInstructions,theElseInstructions,n);}
-	| ("throws"|"throw") (OPENBRACKET)? tree=expression (CLOSEBRACKET)?  n=semicolon
+	| "while" tree=expression body=bodyinstr
+	  {tree=walker.whileInstr(tree,body);}	
+	| "if" tree=expression body=bodyinstr
+		( "else" body2=bodyinstr)?
+	  {tree=walker.ifInstr(tree,body,body2);}
+	| ("throws"|"throw") tree=expression  n=semicolon
 	  {tree=walker.throwsInstr(tree,n);}
-	| "try" n=openbrace ( l1=instruction {theInstructions.addElement(l1);} )+ CLOSEBRACE
-	  ({theCatchInstructions=new java.util.Vector();}
-	   "catch" s3:IDENTIFIER COLON l2=type n=openbrace (l3=instruction {theCatchInstructions.addElement(l3);})+ CLOSEBRACE
+	| "try" body=bodyinstr
+	  ("catch" s3:IDENTIFIER COLON l2=type body2=bodyinstr
 	    { java.util.Vector v=new java.util.Vector();
 	      v.addElement(s3.getText());
 	      v.addElement(l2);
-	      v.addElement(n);
-	      v.addElement(theCatchInstructions);
+	      v.addElement(body2);
 	      theCatches.addElement(v); } )+ 
-	  ( "finally" OPENBRACE (l4=instruction {theElseInstructions.addElement(l4);} )+ CLOSEBRACE)? CLOSEBRACE
-	  {tree=walker.tryInstr(theInstructions,theCatches,theElseInstructions,n);}
-	| ("dissociate" | "associate" {isAssociate=true; } ) n=openbracket l5=associateEndPoint {theAssociatePoints.addElement(l5);} 
-		( COMMA l6=associateEndPoint {theAssociatePoints.addElement(l6);} )+ CLOSEBRACKET SEMICOLON
+	  ( "finally" body3=bodyinstr)?
+	  {tree=walker.tryInstr(body,theCatches,body3);}
+	| ("dissociate" | "associate" {isAssociate=true; } ) n=openbracket l3=associateEndPoint {theAssociatePoints.addElement(l3);} 
+		( COMMA l4=associateEndPoint {theAssociatePoints.addElement(l4);} )+ CLOSEBRACKET SEMICOLON
 	  {tree=walker.associateInstr(isAssociate,theAssociatePoints,n); }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	;
+
+/*===============================================================
+bodyinstr
+	 : openbrace (instruction)* CLOSEBRACE
+==================================================================*/
+bodyinstr returns [Object tree=null;]
+{	java.util.Vector theInstructions=new java.util.Vector();
+	String n;
+	Object l1=null;
+}
+	: n=openbrace (l1=instruction {theInstructions.addElement(l1);} )* CLOSEBRACE
+	  {tree=walker.bodyInstr(theInstructions,n);}	
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -392,6 +403,40 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 expression :
+	 singleexpr
+==================================================================*/
+expression returns [Object tree=null;]
+{	Object expr=null;
+}
+:
+	 (OPENBRACKET expression CLOSEBRACKET IDENTIFIER) => OPENBRACKET tree=expression CLOSEBRACKET op1:IDENTIFIER expr=expression
+	  {tree=walker.exprOpExpr(tree,op1.getText(),expr,Integer.toString(op1.getLine())); }
+	 | (OPENBRACKET) => OPENBRACKET expr=expression CLOSEBRACKET
+	  {tree=expr; }
+	 | (singleexpr IDENTIFIER) => tree=singleexpr op2:IDENTIFIER expr=expression
+	  {tree=walker.exprOpExpr(tree,op2.getText(),expr,Integer.toString(op2.getLine())); }
+	 | expr=singleexpr
+	  {tree=expr; }
+exception catch [RecognitionException ex] {
+	throw ex; }
+	; 
+
+/*===============================================================
+singleexpr :
+	 "JavaCode" IDENTIFIER
+	| "new" type (POINT IDENTIFIER)? openbracket CLOSEBRACKET  (POINT propertyCall )*
+	| CHARORSTRING (POINT propertyCall )*
+	| NUM_INT (POINT propertyCall )*
+	| NUM_FLOAT (POINT propertyCall )*
+	| EXCLAM type EXCLAM (POINT propertyCall )*
+	| ("self"|"this") (POINT propertyCall )*
+	| "null" (POINT propertyCall )*
+	| "true" (POINT propertyCall )* 
+	| "false" (POINT propertyCall )* 
+	| IDENTIFIER (POINT propertyCall )*
+	| operationCall (POINT propertyCall )*
+	| "not" expression
+//previous version was :
 	 "JavaCode" TAGVALUE
 	| "new" type (POINT IDENTIFIER)? openbracket (arguments)? CLOSEBRACKET (propertyCall)*
 	| CHARORSTRING (propertyCall)*
@@ -405,9 +450,10 @@ expression :
 	| (type POINT IDENTIFIER OPENBRACKET) => type (POINT propertyCall)+ //variable.method() or library.staticmethod() 
 	| (IDENTIFIER OPENBRACKET) => (propertyCall)+ //direct operation call
 	| (IDENTIFIER POINT IDENTIFIER) => IDENTIFIER (POINT IDENTIFIER)+ //attribute getter
-	| IDENTIFIER // variable reference 
+	| IDENTIFIER // variable reference
+	| "not" expression 
 ==================================================================*/
-expression returns [Object tree=null;]
+singleexpr returns [Object tree=null;]
 {	java.util.Vector theCalls=new java.util.Vector();
 	java.util.Vector theAttributes=new java.util.Vector();
 	String n;
@@ -440,6 +486,8 @@ expression returns [Object tree=null;]
 		{tree=walker.attributeOrVariable(id.getText(),theCalls); }
 	| l1=operationCall {theCalls.addElement(l1);} (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.selfLiteral(theCalls); }
+	| n=notKeyword tree=expression
+		{tree=walker.negateExpr(tree,n); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	; 
@@ -623,6 +671,13 @@ openbrace : OPENBRACE
 openbrace returns [String number=null;]
 	: o:OPENBRACE {number=Integer.toString(o.getLine()); }
 	  ;
+/*===============================================================
+notKeyword : "not"
+==================================================================*/
+/* remember the line number of the not */
+notKeyword returns [String number=null;]
+	: o:"not" {number=Integer.toString(o.getLine()); }
+	  ;
 
 /*==========================================*/
 /*                                          */
@@ -690,7 +745,7 @@ ML_COMMENT
 // that after we match the rule, we look in the literals table to see
 // if it's a literal or really an identifer
 IDENTIFIER options {testLiterals=true;}
-	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$'/*|'+'|'-'|'*'| '/'|'|'|'&'|'%' | '<' | '>'*/ ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'|'|'&'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*)
+	: 	(( 'a'..'z'|'A'..'Z'|'_'|'$'/*|'+'|'-'|'*'| '/'|'&'|'|' | '%' | '<' | '>'*/ ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'&'|'|'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*)
 	|	TAGVALUE
 	;
 	

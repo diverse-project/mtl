@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.1 2003-10-17 16:20:59 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.2 2003-12-02 18:25:35 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -390,8 +390,10 @@ public Object returnInstr(Object expression,String lineNumber)
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
-public Object whileInstr(Object expression,java.util.Vector instructions,String lineNumber)
-{	BMTL_While node=(BMTL_While)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"While"})).instanciate();
+public Object whileInstr(Object expression,Object body)
+{	java.util.Vector instructions=(java.util.Vector)((java.util.Vector)body).get(0);
+	String lineNumber=(String)((java.util.Vector)body).get(1);
+	BMTL_While node=(BMTL_While)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"While"})).instanciate();
 	node.set_BMTL_condition((BMTL_ExpressionInterface)expression);
 	try {
 	for(int i=0;i<instructions.size();i++)
@@ -400,8 +402,11 @@ public Object whileInstr(Object expression,java.util.Vector instructions,String 
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
-public Object ifInstr(Object expression,java.util.Vector thenInstructions,java.util.Vector elseInstructions,String lineNumber)
+public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
+	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
+	java.util.Vector elseInstructions=(java.util.Vector)((java.util.Vector)elseBody).get(0);
+	String lineNumber=(String)((java.util.Vector)thenBody).get(0);
 	BMTL_If node=(BMTL_If)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"If"})).instanciate();
 	node.set_BMTL_condition((BMTL_ExpressionInterface)expression);
 	try {
@@ -421,8 +426,11 @@ public Object throwsInstr(Object expression,String lineNumber)
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
-public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber)
+public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 {	int i;
+	java.util.Vector instructions=(java.util.Vector)((java.util.Vector)tryBody).get(0);
+	java.util.Vector finallyInstructions=(java.util.Vector)((java.util.Vector)finBody).get(0);
+	String lineNumber=(String)((java.util.Vector)tryBody).get(0);
 	BMTL_Try node=(BMTL_Try)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Try"})).instanciate();
 	try {
 	for(i=0;i<instructions.size();i++)
@@ -431,8 +439,9 @@ public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,ja
 		java.util.Vector theCatch=(java.util.Vector)catches.get(i);
 		String varName=(String)theCatch.get(0);
 		java.util.Vector varType=(java.util.Vector)theCatch.get(1);
-		String line=(String)theCatch.get(2);
-		java.util.Vector catchInstructions=(java.util.Vector)theCatch.get(3);
+		java.util.Vector theCatchBody=(java.util.Vector)theCatch.get(2);
+		java.util.Vector catchInstructions=(java.util.Vector)theCatchBody.get(0);
+		String line=(String)theCatchBody.get(1);
 		BMTL_Catch aCatch=(BMTL_Catch)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Catch"})).instanciate();
 		BMTL_VarDeclaration var=(BMTL_VarDeclaration)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"VarDeclaration"})).instanciate();
 		var.set_BMTL_name(new BMTLString(varName));
@@ -468,6 +477,12 @@ public Object associateEndPoint(String role,Object endObject,Object type)
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("Type"),(java.util.Vector)type,"TypeTag");
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
+
+public Object bodyInstr(java.util.Vector instructions,String lineNumber)
+{	java.util.Vector result=new java.util.Vector();
+	result.addElement(instructions);
+	result.addElement(lineNumber);
+	return result; }
 
 public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector propertyCalls)
 {	java.util.Vector args=(java.util.Vector)arguments;
@@ -563,6 +578,24 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 		}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
+	return (BMTL_ExpressionInterface)node; }
+
+public Object negateExpr(Object expr,String lineNumber)
+{	BMTL_OperationCall node=(BMTL_OperationCall)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"OperationCall"})).instanciate();
+	node.set_BMTL_name(new BMTLString("not"));
+	try {
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	} catch (Throwable e) {e.printStackTrace();}
+	return (BMTL_ExpressionInterface)node; }
+
+public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber)
+{	BMTL_OperationCall node=(BMTL_OperationCall)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"OperationCall"})).instanciate();
+	node.set_BMTL_name(new BMTLString(operator));
+	try {
+	node.BMTL_appendArguments((BMTL_ExpressionInterface)expr2);
+	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
+	} catch (Throwable e) {e.printStackTrace();}
+	node.set_BMTL_caller((BMTL_ExpressionInterface)expr1);
 	return (BMTL_ExpressionInterface)node; }
 
 public Object oclAsType(Object type,String lineNumber,String theType,String theMethod,String theParameter,boolean isAConstant)

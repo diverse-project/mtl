@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.6 2003-10-14 15:38:06 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.7 2003-12-02 18:22:27 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -39,15 +39,17 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber);
 
 public Object returnInstr(Object expression,String lineNumber);
 
-public Object whileInstr(Object expression,java.util.Vector instructions,String lineNumber);
+public Object whileInstr(Object expression,Object body);
 
-public Object ifInstr(Object expression,java.util.Vector thenInstructions,java.util.Vector elseInstructions,String lineNumber);
+public Object ifInstr(Object expression,Object thenBody,Object elseBody);
 
 public Object throwsInstr(Object expression,String lineNumber);
 
-public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber);
+public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody);
 
 public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,String lineNumber);
+
+public Object bodyInstr(java.util.Vector instructions,String lineNumber);
 
 public Object associateEndPoint(String role,Object endObject,Object type);
 
@@ -76,6 +78,10 @@ public Object attributeOrVariable(String name,java.util.Vector propertyCalls);
 public Object attributeGetter(String attributeName);
 
 public Object variableName(String value);
+
+public Object negateExpr(Object expr,String lineNumber);
+
+public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber);
 
 public Object directOperationCalls(java.util.Vector theCalls);
 

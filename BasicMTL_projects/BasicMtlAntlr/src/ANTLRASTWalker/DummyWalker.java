@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.6 2003-10-14 15:38:06 jpthibau Exp $
+//$Id: DummyWalker.java,v 1.7 2003-12-02 18:22:27 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -40,17 +40,19 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object returnInstr(Object expression,String lineNumber) { return null; }
 
-	public Object whileInstr(Object expression,java.util.Vector instructions,String lineNumber) { return null; }
+	public Object whileInstr(Object expression,Object body) { return null; }
 
-	public Object ifInstr(Object expression,java.util.Vector thenInstructions,java.util.Vector elseInstructions,String lineNumber) { return null; }
+	public Object ifInstr(Object expression,Object thenBody,Object elseBody) { return null; }
 
 	public Object throwsInstr(Object expression,String lineNumber) { return null; }
 
-	public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber) { return null; }
+	public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody) { return null; }
 
 	public Object associateInstr(boolean isAssociate,java.util.Vector endPoints,String lineNumber) { return null; }
 
 	public Object associateEndPoint(String role,Object endObject,Object type) { return null; }
+
+	public Object bodyInstr(java.util.Vector instructions,String lineNumber) { return null; }
 
 	public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector operationCalls) { return null; }
 
@@ -75,6 +77,10 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 	public Object attributeOrVariable(String name,java.util.Vector operationCalls) { return null; }
 
 	public Object variableName(String value) { return null; }
+	
+	public Object negateExpr(Object expr,String lineNumber) { return null; }
+
+	public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber) { return null; }
 
 	public Object directOperationCalls(java.util.Vector theCalls) { return null; }
 	

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.11 2003-10-14 14:59:20 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.12 2003-12-02 18:25:30 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -278,15 +278,20 @@ public Object returnInstr(Object expression,String lineNumber)
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 
-public Object whileInstr(Object expression,java.util.Vector instructions,String lineNumber)
-{	While node=new While((Expression)expression);
+public Object whileInstr(Object expression,Object body)
+{	java.util.Vector instructions=(java.util.Vector)((java.util.Vector)body).get(0);
+	String lineNumber=(String)((java.util.Vector)body).get(1);
+	While node=new While((Expression)expression);
 	for(int i=0;i<instructions.size();i++)
 		node.appendBody((Instruction)instructions.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 
-public Object ifInstr(Object expression,java.util.Vector thenInstructions,java.util.Vector elseInstructions,String lineNumber)
+public Object ifInstr(Object expression,Object thenBody,Object elseBody)
 {	int i;
+	java.util.Vector thenInstructions=(java.util.Vector)((java.util.Vector)thenBody).get(0);
+	java.util.Vector elseInstructions=(java.util.Vector)((java.util.Vector)elseBody).get(0);
+	String lineNumber=(String)((java.util.Vector)thenBody).get(0);
 	If node=new If((Expression)expression);
 	for(i=0;i<thenInstructions.size();i++)
 		node.appendThenBody((Instruction)thenInstructions.get(i));
@@ -300,8 +305,11 @@ public Object throwsInstr(Object expression,String lineNumber)
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return node; }
 
-public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,java.util.Vector finallyInstructions,String lineNumber)
+public Object tryInstr(Object tryBody,java.util.Vector catches,Object finBody)
 {	int i;
+	java.util.Vector instructions=(java.util.Vector)((java.util.Vector)tryBody).get(0);
+	java.util.Vector finallyInstructions=(java.util.Vector)((java.util.Vector)finBody).get(0);
+	String lineNumber=(String)((java.util.Vector)tryBody).get(0);
 	Try node=new Try();
 	for(i=0;i<instructions.size();i++)
 		node.appendTryBody((Instruction)instructions.get(i));
@@ -309,8 +317,9 @@ public Object tryInstr(java.util.Vector instructions,java.util.Vector catches,ja
 		java.util.Vector theCatch=(java.util.Vector)catches.get(i);
 		String varName=(String)theCatch.get(0);
 		java.util.Vector varType=(java.util.Vector)theCatch.get(1);
-		String line=(String)theCatch.get(2);
-		java.util.Vector catchInstructions=(java.util.Vector)theCatch.get(3);
+		java.util.Vector theCatchBody=(java.util.Vector)theCatch.get(2);
+		java.util.Vector catchInstructions=(java.util.Vector)theCatchBody.get(0);
+		String line=(String)theCatchBody.get(1);
 		Catch aCatch=new Catch();
 		VarDeclaration var=new VarDeclaration(varName,false);
 		putProperty(var,"Type",varType,"SpecialTag");
@@ -337,6 +346,12 @@ public Object associateEndPoint(String role,Object endObject,Object type)
 	node.setExpression((Expression)endObject);
 	putProperty(node,"Type",type,"SpecialTag");
 	return node; }
+
+public Object bodyInstr(java.util.Vector instructions,String lineNumber)
+{	java.util.Vector result=new java.util.Vector();
+	result.addElement(instructions);
+	result.addElement(lineNumber);
+	return result; }
 
 public Object newExpr(Object theClass,String methodName,Object arguments,String lineNumber,java.util.Vector propertyCalls)
 {	java.util.Vector args=(java.util.Vector)arguments;
@@ -408,6 +423,18 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 		for(int i=0;i<args.size();i++) {
 			node.appendArguments((Expression)args.get(i));
 		}
+	putProperty(node,"LineNumber",lineNumber,"StringTag");
+	return (Expression)node; }
+
+public Object negateExpr(Object expr,String lineNumber)
+{	OperationCall node=new OperationCall("not");
+	putProperty(node,"LineNumber",lineNumber,"StringTag");
+	return (Expression)node; }
+
+public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber)
+{	OperationCall node=new OperationCall(operator);
+	node.appendArguments((Expression)expr2);
+	node.setCaller((Expression)expr1);
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return (Expression)node; }
 
