@@ -24,6 +24,9 @@ public class CommonFunctions {
 		for (int i = operation.cardDeclaredVariables()-1; declaration == null && i >= 0; --i)
 			if (operation.getDeclaredVariables(i).getName().equals(name))
 				declaration = operation.getDeclaredVariables(i);
+		for (int i = operation.cardParameters()-1; declaration == null && i >= 0; --i)
+			if (operation.getParameters(i).getName().equals(name))
+				declaration = operation.getParameters(i);
 		if (declaration == null)
 			TLLtypechecking.getLog().error("line " + line + ": Unknown variable " + name);
 		return declaration;
