@@ -41,7 +41,7 @@
          	
          <inherit scheme="MtlComments"/>
          <!-- <regexp match="/ \b (?{Keyword}interface) \s+ (?{InterfaceOutline}[\w_]+ [\w_:\$]*?) /x"/>-->
-         <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
+         <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]* [\w_:\$]*?) /x"/>
          <regexp match="/ \b (?{Keyword}library) \s+ (?{LibraryOutline}[\w_]+ [\w_:\$]*?) /x"/>
 
          <keywords region="KeywordModifier">
@@ -117,19 +117,24 @@
                 region="Comment" region00="PairStart" region10="PairEnd"/>
       </scheme>
 
+	  <scheme name="EscapedStringBlock">
+         <block start="/\[/" end="/\]/" scheme="Comment"
+                region="Comment" region00="PairStart" region10="PairEnd"/>
+      </scheme>
 
       <scheme name="TypeDeclaration">
 
          <inherit scheme="MtlComments"/>
+         <inherit scheme="EscapedStringBlock"/>
 
          <regexp match="/ \b (?{Keyword}new) \s+ (?{InnerClassOutline}[\w_]+ [\w_:\$]*?) \M \s*\([^\(\)]*\) \s* ([\{]|$) /x"/>
 
          <regexp match="/ \b (?{Keyword}class) \s+ (?{ClassOutline}[\w_]+ [\w_:\$]*?) /x"/>
          <!-- <regexp match="/ \b (?{Keyword}tag) \s+ (?{TagOutline}[\w_]+ [\w_:\$]*?) /x"/>-->
          
-          <regexp match="/^ \s* (JavaCode) \s* ([\w\$\s\.\*]+)?/x"
-                region1='def:Keyword' region2='TagOutline'/>
-
+         <!-- <regexp match="/^ \s* (JavaCode) \s* ([\w\$\s\.\*]+)?/x"
+                region1='def:Keyword' region2='Comment'/>
+		 -->
          <inherit scheme="def:PairedBrackets">
             <virtual scheme="def:PairedBrackets" subst-scheme="TypeDeclaration"/>
          </inherit>
@@ -170,7 +175,10 @@
             <word name="catch"/>
             <word name="else"/>
             <word name="elseif"/>
+            <word name="foreach"/>
             <word name="if"/>
+            <word name="in"/>
+            <word name="JavaCode"/>
             <word name="library"/>
             <word name="model"/>
             <word name="new"/>
