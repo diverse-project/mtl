@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclAsTypeAnalyser.java,v 1.1 2003-08-21 20:03:07 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/OclAsTypeAnalyser.java,v 1.2 2003-10-14 15:15:33 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -19,10 +19,20 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
  */
 public class OclAsTypeAnalyser extends ASTTopDownVisitor.OclAsTypeAnalyser {
 
-	public void OclAsTypeType(Object expr, Vector type, Map context) {
-		if (expr == null)
-			expr = new SelfLiteral();
-		((Expression)expr).setToBeCasted(CommonFunctions.findOrAddType(type, (BasicMtlLibrary)context.get("TheCreatedLibrary")));
+	public void OclAsTypeType(boolean isConstant,Object expr, Vector type,String typeVar,String methodVar,String parameterVar,java.util.Map context) {
+		if (isConstant)
+		{	if (expr == null)
+				expr = new SelfLiteral();
+			((Expression)expr).setToBeCasted(CommonFunctions.findOrAddType(type, (BasicMtlLibrary)context.get("TheCreatedLibrary")));
+		}
+		else
+			{	if (expr == null)
+					expr = new SelfLiteral(); //TODO check this part
+				((Expression)expr).setToBeCasted(CommonFunctions.findOrAddType(type, (BasicMtlLibrary)context.get("TheCreatedLibrary")));
+				((Expression)expr).setToBeCastedWithTypeVar(typeVar);
+				((Expression)expr).setToBeCastedWithMethodVar(methodVar);
+				((Expression)expr).setToBeCastedWithParameterVar(parameterVar);
+		}
 	}
 
 }

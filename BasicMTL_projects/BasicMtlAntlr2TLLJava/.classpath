@@ -4,13 +4,12 @@
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="src" path="/BasicMtlAntlr"/>
     <classpathentry kind="src" path="/BasicMtlTLLJava"/>
-    <classpathentry kind="src" path="/BasicMtlAntlr2BasicMtlAstJava"/>
     <classpathentry kind="src" path="/BasicMtlAstJava"/>
     <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="lib" path="/Utils/ThirdParty/log4j/log4j.jar"/>
-    <classpathentry kind="src" path="/BasicMtlAntlr2ASTView"/>
     <classpathentry kind="src" path="/BasicMtl_Transformation_libraries"/>
     <classpathentry kind="src" path="/BasicMTLRuntime"/>
     <classpathentry kind="src" path="/MTDataTypes"/>
+    <classpathentry kind="src" path="/BasicMtlAntlr2BasicMtlAstJava"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.7 2003-08-22 18:26:29 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.8 2003-10-14 15:15:33 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -41,6 +41,18 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		if (typeTag != null)
 			theCreatedClass.createNewProperty("type", typeTag.getValue(), "String");
 		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		Property refinement=(Property)ASTnode.getProperty("Refinement");
+		InheritedTypesList refinedTypesList=new InheritedTypesList();
+		if (refinement!=null) {
+		java.util.Vector refinedTypes=(java.util.Vector)refinement.getValue();
+		for (int i=0;i<refinedTypes.size();i++) {
+			QualifiedName refinedName=new QualifiedName();
+			java.util.Vector aRefinedType=(java.util.Vector)refinedTypes.get(i);
+			for(int j=0;j<aRefinedType.size();j++) refinedName.addElement(aRefinedType.get(j));
+			refinedTypesList.addElement(refinedName);
+		}
+		}
+		theCreatedClass.setRefinement(refinedTypesList);
 		Property inheritance=(Property)ASTnode.getProperty("Inheritance");
 		InheritedTypesList parentsTypesList=new InheritedTypesList();
 		if (inheritance!=null) {
@@ -107,8 +119,38 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		theCreatedClass.appendDefinedFeatures(op);
 	}
 
+	public void joinAttributeWithOp(UserClass theCreatedClass,String attributeName,String OpName,boolean getterlink)
+	{	Attribute theAttribute=null;
+		Operation theOperation=null;
+		for(int i=0;i<theCreatedClass.cardDefinedFeatures();i++)
+		{	if (theCreatedClass.getDefinedFeatures(i).getName().equals(attributeName))
+				theAttribute=(Attribute)theCreatedClass.getDefinedFeatures(i);
+			if (theCreatedClass.getDefinedFeatures(i).getName().equals(OpName))
+						theOperation=(Operation)theCreatedClass.getDefinedFeatures(i);
+		}
+		if (theAttribute!=null && theOperation!=null)
+		{	if (getterlink) {
+				theAttribute.setGetter(theOperation);
+				theOperation.setIsGetterFor(theAttribute);
+			}
+			else {
+				theAttribute.setSetter(theOperation);
+				theOperation.setIsSetterFor(theAttribute);
+			}
+		}
+	}
+	
 	public void UserClassAfter(Object theUserClass,org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass ASTnode,java.util.Map context)
 	{	UserClass theCreatedClass=(UserClass)theUserClass;
+		//rely attributes getters and setters to their methods
+		for (int i=0;i<ASTnode.cardDefinedAttributes();i++)
+		{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theGetter=ASTnode.getDefinedAttributes(i).getGetter();
+			org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theSetter=ASTnode.getDefinedAttributes(i).getSetter();
+			if (theGetter!=null)
+				joinAttributeWithOp(theCreatedClass,ASTnode.getDefinedAttributes(i).getName(),theGetter.getName(),true);
+			if (theSetter!=null)
+				joinAttributeWithOp(theCreatedClass,ASTnode.getDefinedAttributes(i).getName(),theSetter.getName(),false);
+		}
 		context.put("UserClass",theCreatedClass);
 		context.remove("InClass");
 	}

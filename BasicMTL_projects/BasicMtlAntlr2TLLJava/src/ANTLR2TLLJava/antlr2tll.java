@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.5 2003-09-17 07:20:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.6 2003-10-14 15:15:51 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -13,9 +13,9 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+
+import ANTLRASTWalker.antlrParserInterface;
 import antlr2ASTJava.*;
-//import antlr2ASTView.*; //+++++ Added for View production +++
-//import BasicMtlASTView.*; //+++++ Added for View production +++
 
 /**
  * @author jpthibau
@@ -33,13 +33,11 @@ public class antlr2tll {
 			return antlr2tll.log;
 	}
 
-	public static String TLLProducer(java.util.Vector filenames,String defaultPackagePrefix,String defaultUncheckedTLLPath)
+/*	public static String TLLProducer(java.util.Vector filenames,String defaultPackagePrefix,String defaultUncheckedTLLPath,antlrParserInterface ASTproducer)
 	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
-//		BMTL_LibraryInterface parsedBMTLLib; //+++++ Added for View production +++
-		antlr2ast ASTproducer=new antlr2ast();
-//		antlr2astView ASTViewproducer=new antlr2astView(); //+++++ Added for View production +++
 		BasicMtlLibrary theCreatedLib=null;
 		java.util.Hashtable context=new java.util.Hashtable();
+		if (ASTproducer==null) ASTproducer=new antlr2astJavaParser().newParser();
 		context.put("LibrraryDefaultPackage",defaultPackagePrefix);
 		DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("TLLBuilder");
 		for (int i=0;i<filenames.size();i++) {
@@ -47,10 +45,6 @@ public class antlr2tll {
 			//the context contains the created  TLL that udpdates at each step
 			if (theCreatedLib != null) context.put("TheCreatedLibrary",theCreatedLib);
 			parsedLib=ASTproducer.buildLibraryFromText((String)filenames.get(i));
-//			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i)); //+++++ Added for View production +++
-//			try {
-//			parsedLib=(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library)parsedBMTLLib.BMTL_toASTJava(); //+++++ Added for View production +++
-//			} catch (Throwable e) {e.printStackTrace();}
 			context.put("visitor", visitor);
 			visitor.visit(parsedLib,context);
 			theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
@@ -62,6 +56,31 @@ public class antlr2tll {
 			log.info("TLL library wrote to "+defaultUncheckedTLLPath+theCreatedLib.getName()+tllSuffix);
 			Library.store(theCreatedLib.getName()+tllSuffix,theCreatedLib,defaultUncheckedTLLPath);} 
 		return theCreatedLib.getName();
+	}*/
+
+	public static BasicMtlLibrary TLLProducer(java.util.Vector filenames,String defaultPackagePrefix,antlrParserInterface ASTproducer)
+	{	org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib=null;
+		BasicMtlLibrary theCreatedLib=null;
+		java.util.Hashtable context=new java.util.Hashtable();
+		if (ASTproducer==null) ASTproducer=new antlr2astJavaParser().newParser();
+		context.put("LibrraryDefaultPackage",defaultPackagePrefix);
+		DefaultAnalysingVisitor visitor = new DefaultAnalysingVisitor("TLLBuilder");
+/*		for (int i=0;i<filenames.size();i++) {
+			//to add the new parsed file to the TLL when several files are given
+			//the context contains the created  TLL that udpdates at each step
+			if (theCreatedLib != null) context.put("TheCreatedLibrary",theCreatedLib);
+			parsedLib=ASTproducer.buildLibraryFromText((String)filenames.get(i));
+			context.put("visitor", visitor);
+			visitor.visit(parsedLib,context);
+			theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		}*/
+		//<<<Accumulation>>>
+		parsedLib=ASTproducer.buildLibraryFromTexts(filenames);
+		context.put("visitor", visitor);
+		visitor.visit(parsedLib,context);
+		theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		//<<<Accumulation>>>
+		return theCreatedLib;
 	}
 	
 	public static void main(String[] args)
@@ -90,8 +109,10 @@ public class antlr2tll {
 			java.util.Vector filenamesArguments=new java.util.Vector();
 			for (int i=0;i<argsEnd;i++)
 				filenamesArguments.addElement(args[i]);
-			TLLProducer(filenamesArguments,defaultPackagePrefix,defaultUncheckedTLLPath);
-			}
+//			TLLProducer(filenamesArguments,defaultPackagePrefix,defaultUncheckedTLLPath,null);
+			BasicMtlLibrary theCreatedLib=TLLProducer(filenamesArguments,defaultPackagePrefix,null);
+			Library.store(theCreatedLib.getName()+tllSuffix,theCreatedLib,tllPrefix);
+						}
 		else log.error("USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 

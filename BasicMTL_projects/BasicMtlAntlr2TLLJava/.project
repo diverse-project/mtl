@@ -5,7 +5,6 @@
 	<projects>
 		<project>BasicMTLRuntime</project>
 		<project>BasicMtlAntlr</project>
-		<project>BasicMtlAntlr2ASTView</project>
 		<project>BasicMtlAntlr2BasicMtlAstJava</project>
 		<project>BasicMtlAstJava</project>
 		<project>BasicMtlTLLJava</project>
