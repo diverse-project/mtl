@@ -1,4 +1,4 @@
-/* $Id: CompilerMessage.java,v 1.1 2004-06-09 09:35:08 jpthibau Exp $
+/* $Id: CompilerMessage.java,v 1.2 2004-10-18 15:16:09 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -13,30 +13,44 @@ package org.irisa.triskell.MT.utils.MessagesHandler;
  */
 public class CompilerMessage {
 	String message;
+	String NDC;
 	String fileName;
-	int lineNumber;
+	String className;
+	String methodName;
+	String lineNumber;
 	String messageType;
-	Class origin;
-	int originLineNumber;
 		
-	public CompilerMessage(String type,String msg,String file,int lineNumber,Class origin,int originLine) {
+	public CompilerMessage(String type,String msg,String ndc,String file,String className,String methodName,String lineNumber) {
 		this.messageType =type;
 		this.message = msg;
+		this.NDC=ndc;
 		this.fileName = file;
+		this.className=className;
+		this.methodName=methodName;
 		this.lineNumber = lineNumber;
-		this.origin = origin;
-		this.originLineNumber = originLine;
 	}
 	
 	public String getMessage() {
 		return this.message;
 	}
 
+	public String getNDC() {
+		return this.NDC;
+	}
+
 	public String getFileName() {
 		return this.fileName;
 	}
 
-	public int getLineNumber() {
+	public String getClassName() {
+		return this.className;
+	}
+
+	public String getMethodName() {
+		return this.methodName;
+	}
+
+	public String getLineNumber() {
 		return this.lineNumber;
 	}
 
@@ -44,11 +58,4 @@ public class CompilerMessage {
 		return this.messageType;
 	}
 
-	public Class getOrigin() {
-		return this.origin;
-	}
-
-	public int getOriginLineNumber() {
-		return this.originLineNumber;
-	}
 }

@@ -1,6 +1,6 @@
 /*
  * Created on 1 août 2003
- * $Id: ForeachAnalyser.java,v 1.4 2004-07-07 14:17:12 edrezen Exp $
+ * $Id: ForeachAnalyser.java,v 1.5 2004-10-18 15:14:48 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -9,6 +9,7 @@ package OperationCallChecker;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
@@ -22,6 +23,7 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
  */
 public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser 
 {
+	static final Logger log=Logger.getLogger("MSGHandler");
 	// we need to extract OperationCall objects whose caller is a VarCall
 	// we look up into caller and arguments
 	public class VarCallExtractor implements Visitor
@@ -37,7 +39,7 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 				
 				if (oc.getCaller()==null)
 				{
-					MSGHandler.debug (ForeachAnalyser.class,40, "null caller for an OperationCall");				
+					log.debug ("null caller for an OperationCall");				
 					return;	
 				}
 				

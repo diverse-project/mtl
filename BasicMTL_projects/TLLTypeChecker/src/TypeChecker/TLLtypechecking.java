@@ -1,11 +1,13 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.14 2004-09-10 13:23:45 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.15 2004-10-18 15:14:47 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
 
 import java.io.*;
+
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
@@ -25,6 +27,7 @@ public class TLLtypechecking {
 	public static java.util.Vector defaultTLLPaths=null;
 	public static String defaultTLLPath=null;
 	public static java.util.Hashtable loadedLibraries=new java.util.Hashtable();
+	static final Logger log=Logger.getLogger("MSGHandler");
 
 /*	public static void main(String[] args)
 	{	try {
@@ -192,13 +195,13 @@ public class TLLtypechecking {
 				context.put("Error", Boolean.FALSE);
 				visitor.visit(theLib,context);
 				errorOccured = errorOccured || ((Boolean)context.get("Error")).booleanValue();
-				MSGHandler.info(TLLtypechecking.class,195,"Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
+				log.info("Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
 				Library.store(theLib.getName()+tllSuffix,theLib,defaultTLLPath);
 			}
 		}
 			else errorOccured = true;
 	if (errorOccured) {
-			MSGHandler.info(TLLtypechecking.class,201,"There are warnings or errors, TLL not synthetized !");
+			log.info("There are warnings or errors, TLL not synthetized !");
 			return null; 
 	}
 	return theLib;
@@ -239,12 +242,12 @@ public class TLLtypechecking {
 				filenamesArguments.addElement(args[i]);
 				}
 				else{				
-					MSGHandler.warn(TLLtypechecking.class,242,"File not readable : "+args[i]+" => file ignored !!!");
+					log.warn("File not readable : "+args[i]+" => file ignored !!!");
 				}
 			}
 			if (filenamesArguments.size() == 0)
 			{
-				MSGHandler.error(TLLtypechecking.class,247,"No file to process");
+				log.error("No file to process");
 			}
 			else
 			  checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,null,null);
@@ -256,6 +259,6 @@ public class TLLtypechecking {
 	}
 	static void showUsage()
 	{
-		MSGHandler.error(TLLtypechecking.class,256,"USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
+		log.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 }

@@ -6,6 +6,7 @@
  */
 package OperationCallChecker;
 
+import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.VarDeclaration;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
@@ -20,6 +21,8 @@ import TypeChecker.TLLtypechecking;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class CommonFunctions {
+	static final Logger log=Logger.getLogger("MSGHandler");
+
 	public static VarDeclaration getVarDeclaration (Operation operation, String name, int line) {
 		VarDeclaration declaration = null;
 		for (int i = operation.cardDeclaredVariables()-1; declaration == null && i >= 0; --i)
@@ -29,7 +32,7 @@ public class CommonFunctions {
 			if (operation.getParameters(i).getName().equals(name))
 				declaration = operation.getParameters(i);
 		if (declaration == null)
-			MSGHandler.error(CommonFunctions.class,32,"line " + line + ": Unknown variable " + name);
+			log.error("line " + line + ": Unknown variable " + name);
 		return declaration;
 	}
 }

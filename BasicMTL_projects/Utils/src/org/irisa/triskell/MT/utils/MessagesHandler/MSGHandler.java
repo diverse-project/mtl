@@ -1,12 +1,14 @@
-/* $Id: MSGHandler.java,v 1.5 2004-06-22 15:05:10 dvojtise Exp $
+/* $Id: MSGHandler.java,v 1.6 2004-10-18 15:16:09 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.irisa.triskell.MT.utils.MessagesHandler;
 
+import java.util.Enumeration;
 import java.util.Vector;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -43,6 +45,9 @@ public class MSGHandler {
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); 
 			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
+			Logger logger=Logger.getLogger("MSGHandler");
+			if (logger.getAppender("MSGHandlerAppender")==null)
+				logger.addAppender(new MSGHandlerAppender());
 		}
 		catch(java.io.IOException e) {
 			System.err.println("Can't state log4j in MSGHandler");
@@ -58,7 +63,7 @@ public class MSGHandler {
 			
 	}
 	
-	public static void info(Class origin,int originLineNumber,String msg) {
+/*	public static void info(Class origin,int originLineNumber,String msg) {
 		if (allMessages == null) init();
 		log.info(msg);
 		allMessages.add(new CompilerMessage("info",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));		
@@ -87,5 +92,5 @@ public class MSGHandler {
 		log.error(msg);
 		allMessages.add(new CompilerMessage("fatal",msg,processedMtlFile,processedMtlLineNumber,origin,originLineNumber));
 		throw new CompilerException("Basic MTL Fatal Error.");
-	}
+	}*/
 }
