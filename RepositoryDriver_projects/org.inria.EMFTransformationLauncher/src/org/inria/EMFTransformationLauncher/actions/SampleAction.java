@@ -15,30 +15,28 @@ import org.eclipse.emf.ecore.*;
 
 import java.util.Map;
 
+/* necessary imports for ECore editing domain creation */
+import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+
+
 //***************************************************************
 //===============================================================
 //change this import according to the application you want to run
-import FileAccessTest.*;
-import AllInstancesTest.*;
-import EltsCreationAndSettingTest.*;
-import library2documentationExample.*;
 import AssociateDissociateTest.*;
-import PLDerivationTest.*;
 //==============================================================
 
 
 /******** CHANGE TO THE APPROPRIATE FACTORY FOR THE MODEL YOU WANT TO ACCESS
  * *************************************************************************
  * =========================================================================
- * @author jpthibau
- */
-import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+  */
 import org.eclipse.example.library.impl.LibraryFactoryImpl;
 import org.eclipse.example.library.LibraryPackage;
 import org.eclipse.example.library.LibraryFactory;
 import org.eclipse.example.library.provider.LibraryItemProviderAdapterFactory;
+
 /* *************************************************************************
 * =========================================================================
 */
@@ -66,44 +64,55 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		/******** CHANGE TO THE APPROPRIATE FACTORY FOR THE MODEL YOU WANT TO ACCESS
-		 * *************************************************************************
-		 * =========================================================================
-		 */
+		Map registry = EPackage.Registry.INSTANCE;
+
+		/* ECore editing domain creation as provider1 */
 		EditingDomainProvider provider1 = new EditingDomainProvider("ecore",new EcoreItemProviderAdapterFactory());
 
-		EditingDomainProvider provider2 = new EditingDomainProvider("library",new LibraryItemProviderAdapterFactory());
-
-		Map registry = EPackage.Registry.INSTANCE;
 		String ecorePackageURI = EcorePackage.eNS_URI;
 		EcorePackage ecorePackage = (EcorePackage) registry.get(ecorePackageURI);
 		EcoreFactory ecoreFactory = ecorePackage.getEcoreFactory();
 		provider1.setRootElement(ecoreFactory.createEPackage());
 
+		EMFDriver.addEditingDomainProvider("ecore",provider1);
+
+		/******** CHANGE TO THE APPROPRIATE FACTORY FOR THE MODEL YOU WANT TO ACCESS
+		 * *************************************************************************
+		 * =========================================================================
+		 */
+		EditingDomainProvider provider2 = new EditingDomainProvider("library",new LibraryItemProviderAdapterFactory());
+
 		String libraryPackageURI = LibraryPackage.eNS_URI;
 		LibraryPackage libraryPackage = (LibraryPackage) registry.get(libraryPackageURI);
 		LibraryFactory libraryFactory = libraryPackage.getLibraryFactory();
 		provider2.setRootElement(libraryFactory.createLibrary());
+
+		EMFDriver.addEditingDomainProvider("library",provider2);
 		/* *************************************************************************
 		* =========================================================================
 		*/
-		//ADD HERE ANY EDITING DOMAIN YOU NEED
-		EMFDriver.addEditingDomainProvider("ecore",provider1);
-		EMFDriver.addEditingDomainProvider("library",provider2);
 
 		//RUN THE APPROPRIATE APPLICATION BY CALLING ITS ENTRYPOINT METHOD
 		try {
 //			new BMTLLib_FileAccessTest().BMTL_runTransformation();
-			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
+//			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
 //			new BMTLLib_EltsCreationAndSettingTest().BMTL_runTransformation();
 //			new BMTLLib_library2documentationExample().BMTL_runTransformation();
-//TODO		new BMTLLib_AssociateDissociateTest().BMTL_runTransformation();
-		new BMTLLib_PLDerivationTest().BMTL_runTransformation();
+		new BMTLLib_AssociateDissociateTest().BMTL_runTransformation();
+//		new BMTLLib_PLDerivationTest().BMTL_runTransformation();
 		}
 		catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
 							 e.printStackTrace();}
 		provider1.dispose();
+
+		/******** CHANGE TO THE APPROPRIATE PROVIDER TO DISPOSE
+		 * *************************************************************************
+		 * =========================================================================
+		 */
 		provider2.dispose();
+		/* *************************************************************************
+		* =========================================================================
+		*/
 	}
 
 	/**
