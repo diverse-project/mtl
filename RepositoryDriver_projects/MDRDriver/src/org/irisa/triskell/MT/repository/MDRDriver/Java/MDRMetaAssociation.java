@@ -5,7 +5,6 @@ import javax.jmi.xmi.*;
 import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
 import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import javax.jmi.model.*;
 import org.apache.log4j.*;
@@ -96,8 +95,20 @@ public class MDRMetaAssociation
     			if (exists)
     				this.getRefMetaObject().refRemoveLink((RefObject)((MDRElement)sortedRoles[0].getModelElement()).getRef(), (RefObject)((MDRElement)sortedRoles[1].getModelElement()).getRef());
     		}
+		} catch (InvalidObjectException x) {
+			String msg = "Cannot operate on deleted object.";
+			String xmsg = x.getMessage();
+			if (xmsg != null && xmsg.length() > 0)
+				msg += " (" + xmsg + ')';
+			throw new CommonException(msg);
+    	} catch (CompositionViolationException x) {
+    		String msg = "You are linking an element threw a composition link while already composed by another element.";
+    		String xmsg = x.getMessage();
+    		if (xmsg != null && xmsg.length() > 0)
+    			msg += " (" + xmsg + ')';
+    		throw new CommonException(msg);
     	} catch (Exception x) {
-    		throw new CommonException(x.getMessage());
+    		throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
     	}
     		
     }

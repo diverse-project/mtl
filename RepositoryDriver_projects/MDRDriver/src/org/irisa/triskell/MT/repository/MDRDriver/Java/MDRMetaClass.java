@@ -1,11 +1,24 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
+import javax.jmi.model.MofClass;
+import javax.jmi.reflect.AlreadyExistsException;
+
+import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.repository.API.Java.CommonException;
+import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
+import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
+import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 public class MDRMetaClass 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaElement
+    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaType
     implements org.irisa.triskell.MT.repository.API.Java.MetaClass
 {
     private javax.jmi.reflect.RefClass refClass;
@@ -28,24 +41,9 @@ public class MDRMetaClass
         super(api, ref, qualifiedName == null ? (String)ref.refGetValue("name") : qualifiedName[qualifiedName.length - 1], qualifiedName);
 		this.refClass = ref;
     }
-
-    /**
-      * @see org.irisa.triskell.MT.repository.API.Java.MetaClass#allInstances() 
-      */
-    public org.irisa.triskell.MT.repository.API.Java.ModelElementIterator allInstances()
-        throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
-    {
-		return new MDRModelElementIterator(this.getSpecificAPI(), this.getRefClass().refAllOfType());
-    }
-
-    /**
-      * @see org.irisa.triskell.MT.repository.API.Java.MetaClass#allInstancesWithConstraint(org.irisa.triskell.MT.repository.API.Java.LookupConstraint) 
-      */
-    public org.irisa.triskell.MT.repository.API.Java.ModelElementIterator allInstancesWithConstraint(
-        org.irisa.triskell.MT.repository.API.Java.LookupConstraint constraint)
-        throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
-    {
-		return new MDRConstrainedModelElementIterator(this.allInstances(), constraint);
+    
+    public ModelElementIterator allInstancesIterator () {
+    	return new MDRModelElementIterator(this.getSpecificAPI(), this.getRefClass().refAllOfType());
     }
 
     /**
@@ -74,11 +72,16 @@ public class MDRMetaClass
 			for (int i = 0; i < (arguments == null ? 0 : arguments.length); ++i)
 				javaArguments.add(this.getSpecificAPI().value2java(arguments[i], false, false));
 			ret = this.getSpecificAPI().getModelElement(this.refClass.refCreateInstance(arguments == null ? null : javaArguments));
+		} catch (AlreadyExistsException x) {
+			if (((MofClass)this.getRefClass().refMetaObject()).isSingleton())
+				throw new CommonException("Cannot build a second value of singleton " + this.toString());
+			else
+				throw new CommonException(x.getMessage());
 		} catch (Exception x) {
-			throw new org.irisa.triskell.MT.repository.API.Java.CommonException(x.getMessage());
+			throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
 		}
 		if (ret == null)
-			throw new org.irisa.triskell.MT.repository.API.Java.CommonException(this.toString() + ": construction failed (unknown reason).");
+			throw new CommonException(this.toString() + ": construction failed (unknown reason).");
 		return ret;
     }
 
@@ -100,4 +103,43 @@ public class MDRMetaClass
     {
 		return this.refClass;
     }
+
+	public boolean conformsTo(Type parentType) {
+		if (this.equals(parentType))
+			return true;
+		if (ModelElementType.TheInstance.conformsTo(parentType))
+			return true;
+		if (! (parentType instanceof MDRMetaClass))
+			return false;
+		MDRMetaClass parentClass = (MDRMetaClass)parentType;
+		if (! this.getSpecificAPI().equals(parentClass.getSpecificAPI()))
+			return false;
+			 
+		MofClass parentMOFClass = (MofClass)parentClass.getRefClass().refMetaObject();
+		ArrayList conforming = new ArrayList(1);
+		conforming.add((MofClass)this.getRefClass());
+		Iterator it;
+		do {
+			it = conforming.iterator();
+			while (it.hasNext()) {
+				if (it.next().equals(parentMOFClass))
+					return true;
+			}
+			
+			it = conforming.iterator();
+			conforming = new ArrayList();
+			while (it.hasNext())
+				conforming.addAll(((MofClass)it.next()).getSupertypes());
+		} while (! conforming.isEmpty());
+		return false;
+	}
+
+	public boolean isKindOf(Value v) {
+		return (v instanceof MDRModelElement) && ((MDRModelElement)v).isKindOf(this);
+	}
+
+	public boolean isTypeOf(Value v) {
+		return (v instanceof MDRModelElement) && ((MDRModelElement)v).isTypeOf(this);
+	}
+
 }

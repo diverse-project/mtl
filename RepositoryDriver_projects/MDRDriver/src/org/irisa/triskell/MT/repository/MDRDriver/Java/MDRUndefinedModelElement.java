@@ -1,45 +1,15 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Collection;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import javax.jmi.xmi.XmiReader;
-import javax.jmi.xmi.XmiWriter;
-import org.netbeans.api.mdr.MDRManager;
-import org.netbeans.api.mdr.MDRepository;
-import javax.jmi.reflect.RefPackage;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
-import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
-import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
-import org.irisa.triskell.MT.repository.API.Java.ModelRole;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
-import org.apache.log4j.Logger;
-import org.netbeans.api.mdr.CreationFailedException;
-import javax.jmi.reflect.RefClass;
-import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
-import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
-import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
-import org.irisa.triskell.MT.repository.API.Java.CommonException;
-import javax.jmi.reflect.RefObject;
-import java.util.List;
-import java.util.Iterator;
-import org.irisa.triskell.MT.repository.API.Java.MetaClass;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+
 
 abstract public class MDRUndefinedModelElement 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
     implements org.irisa.triskell.MT.repository.API.Java.ModelElement
 {
-    protected static final org.irisa.triskell.MT.repository.API.Java.CommonException NullPointerCommonException = new org.irisa.triskell.MT.repository.API.Java.CommonException("Null pointer exception.");
+    protected static final org.irisa.triskell.MT.repository.API.Java.CommonException NullPointerCommonException = MDRAPI.getNullPointerException();
     public static org.irisa.triskell.MT.repository.API.Java.CommonException getNullPointerCommonException () {
         return MDRUndefinedModelElement.NullPointerCommonException;
     }
@@ -95,10 +65,10 @@ abstract public class MDRUndefinedModelElement
 		return org.irisa.triskell.MT.DataTypes.Java.defaultImpl.NullValueImpl.getNullPointerUndefined();
     }
 
-    public org.irisa.triskell.MT.DataTypes.Java.Value invokeQueryOperation(
-        org.irisa.triskell.MT.repository.API.Java.ModelElement p0,
-        org.irisa.triskell.MT.repository.API.Java.MetaOperation p1,
-        org.irisa.triskell.MT.DataTypes.Java.Value[] p2)
+    public Value invokeQueryOperation(
+        ModelElement p0,
+        MetaOperation p1,
+        Value[] p2)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.IllegalAccessException, org.irisa.triskell.MT.repository.API.Java.CommonException, org.irisa.triskell.MT.repository.API.Java.IsQueryException
     {
 		return org.irisa.triskell.MT.DataTypes.Java.defaultImpl.NullValueImpl.getNullPointerUndefined();

@@ -1,34 +1,10 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Collection;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
-import javax.jmi.xmi.XmiReader;
-import javax.jmi.xmi.XmiWriter;
-import org.netbeans.api.mdr.MDRManager;
-import org.netbeans.api.mdr.MDRepository;
-import javax.jmi.reflect.RefPackage;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
-import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
-import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
-import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
-import org.irisa.triskell.MT.repository.API.Java.ModelRole;
-import org.apache.log4j.Logger;
-import org.netbeans.api.mdr.CreationFailedException;
 import javax.jmi.reflect.RefClass;
-import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
-import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
-import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
-import org.irisa.triskell.MT.repository.API.Java.CommonException;
+
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementCommandGroup;
 
 public class MDRModelElement 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured
@@ -100,7 +76,7 @@ public class MDRModelElement
 		return "model element " + this.getTheModelElement() + " instance of " + this.getType().toString();
     }
 
-    public org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass getType()
+    public Type getType()
     {
 		if (this.type == null) {
 			this.type = (MDRMetaClass)this.getSpecificAPI().getMetaClass((RefClass)this.refObject.refClass());
@@ -112,4 +88,9 @@ public class MDRModelElement
     {
 		return this.getRefObject().refClass();
     }
+
+	protected CommandGroup getBaseCommandGroup() {
+		return ModelElementCommandGroup.TheInstance;
+	}
+
 }

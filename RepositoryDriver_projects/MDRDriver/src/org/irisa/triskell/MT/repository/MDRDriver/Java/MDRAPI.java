@@ -1,13 +1,27 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 
+import javax.jmi.model.AliasType;
+import javax.jmi.model.Association;
+import javax.jmi.model.Classifier;
+import javax.jmi.model.CollectionType;
 import javax.jmi.model.EnumerationType;
+import javax.jmi.model.ModelElement;
+import javax.jmi.model.MofClass;
+import javax.jmi.model.MofPackage;
+import javax.jmi.model.MultiplicityType;
+import javax.jmi.model.Namespace;
+import javax.jmi.model.PrimitiveType;
 import javax.jmi.model.StructureType;
+import javax.jmi.model.TypedElement;
 import javax.jmi.reflect.RefAssociation;
+import javax.jmi.reflect.RefBaseObject;
 import javax.jmi.reflect.RefClass;
 import javax.jmi.reflect.RefEnum;
 import javax.jmi.reflect.RefObject;
@@ -17,7 +31,24 @@ import javax.jmi.xmi.XmiReader;
 import javax.jmi.xmi.XmiWriter;
 
 import org.apache.log4j.Logger;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Bag.BagType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Boolean.BooleanType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Integer.IntegerType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet.OrderedSetType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Real.RealType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Sequence.SequenceType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Set.SetType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.String.StringType;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.OrderedSetValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SequenceValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
+import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
+import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
 import org.netbeans.api.mdr.CreationFailedException;
@@ -366,6 +397,12 @@ public class MDRAPI
         	throw new RuntimeException("Cannot convert a Void value.");
         }
 
+        public void visitTypeValue(
+            org.irisa.triskell.MT.DataTypes.Java.TypeValue value)
+        {
+        	throw new RuntimeException("Cannot convert a Type value.");
+        }
+
         public void visitNullValue(
             org.irisa.triskell.MT.DataTypes.Java.NullValue value)
         {
@@ -531,7 +568,7 @@ public class MDRAPI
 				throw new Exception("meta class not found"); 
 
 		} catch (Exception x) {
-			this.getLog().debug("Searchching class " + qualifiedNameAsString + " failed (" + x.getMessage() + ").");
+			this.getLog().debug("Searching class " + qualifiedNameAsString + " failed (" + x.getMessage() + ").");
 			throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(new MDRUnknownElement(this, "meta class " + org.irisa.triskell.MT.utils.Java.AWK.merge(qualifiedName, Type.PackageIndirection)));
 		}
     }
@@ -842,6 +879,114 @@ public class MDRAPI
 		return new MDRException(object.toString() + " : unrecognized value.", this);
     }
     
+    /**
+     * Does not take care of enumeration ans structures...
+     */
+    protected RefBaseObject findFromMetaObject(ModelElement e) {
+    	LinkedList l = new LinkedList();
+    	ModelElement f = e;
+    	do {
+    		l.addFirst(f);
+    		f = f.getContainer(); 
+    	} while (f != null);
+    	RefBaseObject o = this.getModel();
+    	Iterator i = l.iterator();
+    	if (o.refMetaObject().equals(l.getFirst()))
+    		i.next();
+    	while (i.hasNext()) {
+    		f = (ModelElement)i.next();
+    		if (o instanceof RefPackage) {
+    			if (f instanceof MofPackage)
+    				o = ((RefPackage)o).refPackage(f);
+    			else if (f instanceof MofClass) 
+    				o = ((RefPackage)o).refClass(f);
+    			else if (f instanceof Association)
+    				o = ((RefPackage)o).refAssociation(f);
+    			else
+    				o = null;
+    		} else
+    			o = null;
+    		if (o == null)
+    			throw new IllegalArgumentException("Cannot retreive element from meta object.");
+    	}
+    	return o;
+    }
+     
+    public RefPackage findPackageFromMetaObject (MofPackage p) {    	
+		return (RefPackage)this.findFromMetaObject(p);
+    }
+    
+    public RefAssociation findAssociationFromMetaObject (Association a) { 	
+		return (RefAssociation)this.findFromMetaObject(a);
+    } 
+    
+    public RefClass findClassFromMetaObject (MofClass c) { 	
+		return (RefClass)this.findFromMetaObject(c);
+    }  
+    
+
+    public Type getTypeOf(Classifier type, MultiplicityType m)
+    {
+		Type ret;
+		
+		while (type instanceof AliasType)
+			type = ((AliasType)type).getType();
+		
+		if (type instanceof CollectionType) {
+			ret = this.getTypeOf(((CollectionType)type).getType(), ((CollectionType)type).getMultiplicity());
+    	} else if (type instanceof MofClass)
+			ret = this.getMetaClass(this.findClassFromMetaObject((MofClass)type));
+		else if (type instanceof EnumerationType) {
+			RefBaseObject o = this.findFromMetaObject(type.getContainer());
+			if (o instanceof RefPackage)
+				ret = this.getMetaEnumeredWithPackOwner((EnumerationType)type, (RefPackage)o);
+			else if (o instanceof RefClass)
+				ret = this.getMetaEnumeredWithClassOwner((EnumerationType)type, (RefClass)o);
+			else 
+				throw new RuntimeException("Unrecognized type for enumeration " + this.qualifiedName(type.getQualifiedName()));
+		} else if (type instanceof StructureType) {
+			RefBaseObject o = this.findFromMetaObject(type.getContainer());
+			if (o instanceof RefPackage)
+				ret = this.getMetaStructureWithPackOwner((StructureType)type, (RefPackage)o);
+			else if (o instanceof RefClass)
+				ret = this.getMetaStructureWithClassOwner((StructureType)type, (RefClass)o);
+			else 
+				throw new RuntimeException("Unrecognized type for structure " + this.qualifiedName(type.getQualifiedName()));
+		} else if (type instanceof PrimitiveType) {
+			String name = type.getName();
+	    	if (name.equals("Boolean"))
+	    		ret = BooleanType.TheInstance;
+	    	else if (name.equals("String"))
+				ret = StringType.TheInstance;
+	    	else if (name.equals("Long"))
+				ret = StringType.TheInstance;
+	    	else if (name.equals("Integer"))
+				ret = IntegerType.TheInstance;
+	    	else if (name.equals("Double"))
+				ret = RealType.TheInstance;
+	    	else if (name.equals("Float"))
+				ret = RealType.TheInstance;
+			else
+				throw new RuntimeException("Unrecognized type for primitive type " + name);
+    	} else
+			throw new RuntimeException("Unrecognized type " + this.qualifiedName(type.getQualifiedName()));
+		
+		if (m != null && m.getUpper() > 1){
+			boolean isOrdered = m.isOrdered();
+			boolean isUnique = m.isUnique();
+			if ((!isOrdered) && (!isUnique))
+				ret = BagType.getBagType(ret);
+			else if ((!isOrdered) && isUnique)
+				ret = SetType.getSetType(ret);
+			else if (isOrdered && (!isUnique))
+				ret = SequenceType.getSequenceType(ret);
+			else
+				ret = OrderedSetType.getOrderedSetType(ret);
+		}
+		
+		return ret;
+    }
+    
     public class JMI2JavaConverterIterator implements Iterator {
     	protected final Iterator delegate;
     	protected final boolean isOrdered;
@@ -992,6 +1137,15 @@ public class MDRAPI
 		while (it.hasNext()) {
 			completeRelatedAssociationEnds((javax.jmi.reflect.RefPackage)it.next(), map);
 		}
+    }
+    
+    public static CollectionValue toCollectionValue (ModelElementIterator it, CollectionKind collectionKind, boolean checkSet) {
+    	Collection c = new IteratingFinalList(new ModelElementIteratorToJavaIteratorConverter(it));
+		if (collectionKind == CollectionKind.set_kind) return new SetValueImpl(false, null, c, checkSet);
+		if (collectionKind == CollectionKind.bag_kind) return new BagValueImpl(false, null, c);
+		if (collectionKind == CollectionKind.sequence_kind) return new SequenceValueImpl(false, null, c);
+		if (collectionKind == CollectionKind.ordered_set_kind) return new OrderedSetValueImpl(false, null, c, checkSet);
+		throw new RuntimeException ("Unsupported collection kind.");
     }
 
 

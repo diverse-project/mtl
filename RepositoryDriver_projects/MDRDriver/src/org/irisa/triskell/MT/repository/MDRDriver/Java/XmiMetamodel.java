@@ -1,11 +1,15 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import javax.jmi.model.*;
 import org.netbeans.api.mdr.CreationFailedException;
+import org.netbeans.api.mdr.MDRObject;
+import org.netbeans.api.mdr.MDRepository;
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 
@@ -63,7 +67,8 @@ public class XmiMetamodel
     {
 			String metamodelRepositoryName = this.createMetamodelName(api);
 			api.getLog().debug("Creating repository " + metamodelRepositoryName + " for metamodel.");
-			ModelPackage metametaPackage = (ModelPackage)api.getMdrRepository().createExtent(metamodelRepositoryName);
+	        MDRepository rep = api.getMdrRepository();
+			ModelPackage metametaPackage = (ModelPackage)rep.createExtent(metamodelRepositoryName);
 			String [] files = this.getXmiFiles();
 			java.util.Collection readen = new java.util.ArrayList();
 			for (int i = 0; i < files.length; ++i) {
@@ -74,7 +79,7 @@ public class XmiMetamodel
 			}
 				
 			MofPackage metaPackageToInstanciate = null;
-			Object o;
+			/**/Object o;
 			Iterator it = readen.iterator();
 			while (it.hasNext() && (metaPackageToInstanciate == null || this.getRootPackage() == null)) {
 				o = it.next();
@@ -86,13 +91,53 @@ public class XmiMetamodel
 						throw new CreationFailedException("Multiple meta package can be instanciated; please, select one explicitly.");
 					metaPackageToInstanciate = (MofPackage)o;
 				}
-			}
+			}/*/
+			
+			//Another way to do the same thing; got it from mdr itself...
+	        ArrayList rps;
+	        Iterator it;
+	        MofPackage p;
+	        rep.beginTrans(false);
+	        try {
+	            MofPackageClass pc = metametaPackage.getMofPackage();
+	            rps = new ArrayList();
+	            Collection instances = pc.refAllOfClass();
+	            it = instances.iterator();
+	            for (int i=0; it.hasNext();) {
+	                p = (MofPackage)it.next();
+	                if ( p.getContainer() == null ) {
+	                    rps.add( p );
+	                    i++;
+	                }
+	            }
+	            Object[] children = new Object[ rps.size() ];
+	            rps.toArray( children );
+	        } finally {
+	            rep.endTrans();
+	        }
+	        
+	        String rp = this.getRootPackage();
+	        if (rp == null) {
+	        	if (rps.size() == 1)
+	        		metaPackageToInstanciate = (MofPackage)rps.get(0);
+	        } else {
+	        	for (it = rps.iterator(); it.hasNext(); ) {
+	        		p = (MofPackage)it.next();
+	        		if (p.getName().equals(rp)) {
+	        			if (metaPackageToInstanciate == null)
+	        				metaPackageToInstanciate = p;
+	        			else
+	        				throw new CreationFailedException("Multiple meta package can be instanciated; please, select one explicitly.");
+	        		}
+	        	}
+	        }//*/
+			
 				
 			if (metaPackageToInstanciate == null)
 				throw new CreationFailedException("Cannot find meta package to instanciate; check name; note this package must be a root package");
 			
 			api.getLog().debug("Instanciating metamodel from repository " + metamodelRepositoryName + " to repository " + api.getModelName());
-			return api.getMdrRepository().createExtent(api.getModelName(), metaPackageToInstanciate);
+			return rep.createExtent(api.getModelName(), metaPackageToInstanciate);
     }
 
     protected String createMetamodelName(

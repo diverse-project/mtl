@@ -4,9 +4,9 @@ import javax.jmi.xmi.*;
 import javax.jmi.reflect.*;
 import org.irisa.triskell.MT.DataTypes.Java.*;
 import org.netbeans.api.mdr.*;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import javax.jmi.model.*;
-import java.lang.*;
 import org.apache.log4j.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 
@@ -52,4 +52,9 @@ public class MDRException
     {
 		return this.getErrorMessage();
     }
+
+	public Type getType() {
+		return OclAnyType.TheInstance;
+	}
+
 }

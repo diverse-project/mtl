@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.irisa.triskell.MT.DataTypes.Java.*;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
 
 import javax.jmi.xmi.*;
 import javax.jmi.xmi.XmiReader;

@@ -1,17 +1,12 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import java.util.*;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
+import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.enum.EnumCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.enum.EnumType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
+import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 public class MDREnumered 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
@@ -48,13 +43,13 @@ public class MDREnumered
     public boolean isTypeOf(
         org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
     {
-		return classifier.equals(this.type);
+		return this.getType().equals(classifier);
     }
 
     public boolean isKindOf(
         org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
     {
-		return this.isTypeOf(classifier);
+		return this.getType().conformsTo(classifier);
     }
 
     public org.irisa.triskell.MT.DataTypes.Java.Value getFeatureValue(
@@ -75,10 +70,10 @@ public class MDREnumered
 		throw new UnknownElementException(argument);
     }
 
-    public org.irisa.triskell.MT.DataTypes.Java.Value invokeQueryOperation(
-        org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement,
-        org.irisa.triskell.MT.repository.API.Java.MetaOperation feature,
-        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
+    public Value invokeQueryOperation(
+        ModelElement contextualElement,
+        MetaOperation feature,
+        Value[] arguments)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
     {
 		throw new UnknownElementException(feature);
@@ -138,13 +133,13 @@ public class MDREnumered
 		return this.getTheEnum();
     }
 
-    public String getType()
+    public Type getType()
     {
-		return org.irisa.triskell.MT.utils.Java.AWK.merge(this.getEnumeration(), "::");
+    	return this.type;
     }
 
     public String getUniqId()
     {
-		return this.toString();
+		return this.getTheModelElement();
     }
 }

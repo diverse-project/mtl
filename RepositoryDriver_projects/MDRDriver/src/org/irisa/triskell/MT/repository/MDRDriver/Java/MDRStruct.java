@@ -1,18 +1,20 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import java.util.List;
 import java.util.Arrays;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
+import java.util.List;
+
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
+import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
+import org.irisa.triskell.MT.repository.API.Java.MetaClass;
+import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 public class MDRStruct 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
@@ -157,19 +159,18 @@ public class MDRStruct
 		return this.toString();
     }
 
-    public org.irisa.triskell.MT.DataTypes.Java.Value invokeQueryOperation(
-        org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement,
-        org.irisa.triskell.MT.repository.API.Java.MetaOperation feature,
-        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
+    public Value invokeQueryOperation(
+        ModelElement contextualElement,
+        MetaOperation feature,
+        Value[] arguments)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
     {
 		throw new UnknownElementException(feature);
     }
 
-    public boolean isKindOf(
-        org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
+    public boolean isKindOf(MetaClass classifier)
     {
-		return this.isTypeOf(classifier);
+		return ModelElementType.TheInstance.conformsTo(classifier) || this.getType().conformsTo(classifier);
     }
 
     public boolean isMetaObject()
@@ -177,10 +178,9 @@ public class MDRStruct
 		return false;
     }
 
-    public boolean isTypeOf(
-        org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
+    public boolean isTypeOf(MetaClass classifier)
     {
-		return this.type.equals(classifier);
+		return this.getType().equals(classifier);
     }
 
     public void setAttributeValue(
@@ -200,4 +200,9 @@ public class MDRStruct
     public void delete()
     {
     }
+
+	public Type getType() {
+		return this.type.getStructType();
+	}
+
 }

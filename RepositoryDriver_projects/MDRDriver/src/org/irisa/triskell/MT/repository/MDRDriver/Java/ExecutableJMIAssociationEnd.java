@@ -39,19 +39,20 @@ public class ExecutableJMIAssociationEnd
 		boolean isUnique =  this.getAssociationEnd().getMultiplicity().isUnique();
 		int maxMultiplicity = this.getAssociationEnd().getMultiplicity().getUpper();
 		javax.jmi.model.Association mass = (javax.jmi.model.Association)(this.getAssociationEnd()).getContainer();
-		java.util.LinkedList mpacks = new java.util.LinkedList();
-		javax.jmi.model.MofPackage mpack = (javax.jmi.model.MofPackage)mass.getContainer();
-		do {
-			mpacks.addFirst(mpack);
-			mpack = (javax.jmi.model.MofPackage)mpack.getContainer();
-		} while (mpack != null);
-		javax.jmi.reflect.RefPackage pack = this.getApi().getModel();
-		java.util.Iterator mpacksIt = mpacks.iterator();
-		if (pack.refMetaObject().equals(mpacks.getFirst()))
-			mpacksIt.next();
-		while (mpacksIt.hasNext())
-			pack = pack.refPackage(((javax.jmi.model.MofPackage)mpacksIt.next()));
-		javax.jmi.reflect.RefAssociation ass = pack.refAssociation(mass);
+//		java.util.LinkedList mpacks = new java.util.LinkedList();
+//		javax.jmi.model.MofPackage mpack = (javax.jmi.model.MofPackage)mass.getContainer();
+//		do {
+//			mpacks.addFirst(mpack);
+//			mpack = (javax.jmi.model.MofPackage)mpack.getContainer();
+//		} while (mpack != null);
+//		javax.jmi.reflect.RefPackage pack = this.getApi().getModel();
+//		java.util.Iterator mpacksIt = mpacks.iterator();
+//		if (pack.refMetaObject().equals(mpacks.getFirst()))
+//			mpacksIt.next();
+//		while (mpacksIt.hasNext())
+//			pack = pack.refPackage(((javax.jmi.model.MofPackage)mpacksIt.next()));
+//		javax.jmi.reflect.RefAssociation ass = pack.refAssociation(mass);
+		javax.jmi.reflect.RefAssociation ass = this.getApi().findAssociationFromMetaObject(mass);
 		
 		Object res = ass.refQuery(this.getAssociationEnd().otherEnd(), (javax.jmi.reflect.RefObject)this.getSelf().getRefFeatured());
 		if (maxMultiplicity == 1) {

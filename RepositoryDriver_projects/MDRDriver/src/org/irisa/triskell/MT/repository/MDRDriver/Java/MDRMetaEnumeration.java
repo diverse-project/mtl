@@ -1,24 +1,34 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import java.util.*;
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
+import java.util.Arrays;
+
+import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.EnumValue;
+import org.irisa.triskell.MT.DataTypes.Java.StringValue;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
 import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementCommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.enum.EnumCommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.enum.EnumType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
+import org.irisa.triskell.MT.repository.API.Java.CommonException;
+import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
+import org.irisa.triskell.MT.repository.API.Java.MetaClass;
+import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
+import org.irisa.triskell.MT.repository.API.Java.NoMoreElementException;
+import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 public class MDRMetaEnumeration 
-    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaElement
-    implements org.irisa.triskell.MT.repository.API.Java.MetaClass, org.irisa.triskell.MT.repository.API.Java.ModelElement
+    extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaType
+    implements org.irisa.triskell.MT.repository.API.Java.MetaClass, org.irisa.triskell.MT.repository.API.Java.ModelElement, TypeValue
 {
     private final javax.jmi.reflect.RefPackage packageContainer;
 
@@ -37,14 +47,52 @@ public class MDRMetaEnumeration
         return this.enumered.length;
     }
     
-    private transient EnumCommandGroup commandGroup = null;
-    public EnumCommandGroup getCommandGroup () {
+	public String [] getPartsAsStrings () {
+		MDREnumered [] enums = this.getEnumered();
+		String [] enumStrings = new String [enums.length];
+		for (int i = 0; i < enums.length; ++i)
+			enumStrings[i] = enums[i].getTheEnum();
+		return enumStrings;
+	}
+	
+    private class MDREnumType extends EnumType {
+    	
+		public MDREnumType() {
+			super(MDRMetaEnumeration.this.getPartsAsStrings());
+		}
+
+		public boolean isKindOfInternal (Value v) {
+			return (v instanceof MDREnumered) && ((MDREnumered)v).isKindOf(MDRMetaEnumeration.this);
+		}
+		
+		public boolean equals (Type parentType) {
+			return parentType == this || ((parentType instanceof MDREnumType) && MDRMetaEnumeration.this.equals(((MDREnumType)parentType).getOwner()));
+		}
+
+		public CollectionValue allInstances() throws Exception {
+			return MDRMetaEnumeration.this.allInstances();
+		}
+		
+		protected final MDRMetaEnumeration getOwner () {
+			return MDRMetaEnumeration.this;
+		}
+
+    }
+    private transient MDREnumType enumType = null;
+    private MDREnumType getEnumType () {
+    	if (this.enumType == null)
+    		this.enumType = new MDREnumType();
+    	return this.enumType;
+    }
+    
+    public Type getType () {
+    	return OclTypeType.TheInstance;
+    }
+    
+    private transient CommandGroupImpl commandGroup = null;
+    public CommandGroupImpl getCommandGroup () {
     	if (this.commandGroup == null) {
-    		MDREnumered [] enums = this.getEnumered();
-    		String [] enumStrings = new String [enums.length];
-    		for (int i = 0; i < enums.length; ++i)
-    			enumStrings[i] = enums[i].getTheEnum();
-    		this.commandGroup = new EnumCommandGroup(new EnumType(enumStrings));
+    		this.commandGroup = new CommandGroupImpl(this, Arrays.asList(new CommandGroup [] {new EnumCommandGroup(this.getEnumType()), ModelElementCommandGroup.TheInstance}));
     	}
     	return this.commandGroup;
     }
@@ -106,19 +154,10 @@ public class MDRMetaEnumeration
 
 		return this;
     }
-
-    public org.irisa.triskell.MT.repository.API.Java.ModelElementIterator allInstances()
-    {
-		this.createAllInstances();
-		return new MDREnumeredIterator(this);
-    }
-
-    public org.irisa.triskell.MT.repository.API.Java.ModelElementIterator allInstancesWithConstraint(
-        org.irisa.triskell.MT.repository.API.Java.LookupConstraint constraint)
-    {
-
-
-		return new MDRConstrainedModelElementIterator(this.allInstances(), constraint);
+    
+    public ModelElementIterator allInstancesIterator () {
+    	this.createAllInstances();
+    	return new MDREnumeredIterator(this);
     }
 
     public org.irisa.triskell.MT.repository.API.Java.ModelElement instanciate(
@@ -164,10 +203,10 @@ public class MDRMetaEnumeration
     	throw new CommonException("Cannot affect an enumered value");
     }
 
-    public org.irisa.triskell.MT.DataTypes.Java.Value invokeQueryOperation(
-        org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement,
-        org.irisa.triskell.MT.repository.API.Java.MetaOperation feature,
-        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
+    public Value invokeQueryOperation(
+        ModelElement contextualElement,
+        MetaOperation feature,
+        Value[] arguments)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException
     {
 		throw new UnknownElementException(feature);
@@ -214,7 +253,7 @@ public class MDRMetaEnumeration
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (rhs == this) || ((rhs instanceof MetaClass) && (((MetaClass)rhs).getQualifiedName().equals(this.getQualifiedName())));
+		return (rhs == this) || ((rhs instanceof MDRMetaEnumeration) && (this.getSpecificAPI().equals(((MDRMetaEnumeration)rhs).getSpecificAPI())) && (((MetaClass)rhs).getQualifiedName().equals(this.getQualifiedName())));
     }
 
     public org.irisa.triskell.MT.DataTypes.Java.Value invoke(
@@ -263,7 +302,7 @@ public class MDRMetaEnumeration
         String name)
     {
     	try {
-    		return (MDREnumered)this.allInstancesWithConstraint(new EnumeredNameLookupConstraint(name)).next();
+    		return (MDREnumered)this.allInstancesIterator(new EnumeredNameLookupConstraint(name)).next();
     	} catch (NoMoreElementException x) {
     		return null;
     	}
@@ -282,4 +321,33 @@ public class MDRMetaEnumeration
 		qualifiedNameAsCollection.toArray(ret);
 		return ret;
     }
+
+	public boolean conformsTo(Type parentType) {
+		return ModelElementType.TheInstance.conformsTo(parentType) || this.getEnumType().conformsTo(parentType);
+	}
+
+
+	public boolean isKindOf(Value v) {
+		return (v instanceof MDREnumered) && ((MDREnumered)v).isKindOf(this);
+	}
+
+
+	public boolean isTypeOf(Value v) {
+		return (v instanceof MDREnumered) && ((MDREnumered)v).isTypeOf(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.DataTypes.Java.TypeValue#getTheType()
+	 */
+	public Type getTheType() {
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue#getValue()
+	 */
+	public String getValue() {
+		return this.getQualifiedNameAsString();
+	}
+
 }

@@ -1,56 +1,26 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-
 import java.util.Arrays;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Collection;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.irisa.triskell.MT.DataTypes.Java.Value;
-import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
-
-import javax.jmi.xmi.*;
-import javax.jmi.xmi.XmiReader;
-import javax.jmi.xmi.XmiWriter;
-import org.netbeans.api.mdr.*;
-import org.netbeans.api.mdr.MDRManager;
-import org.netbeans.api.mdr.MDRepository;
-import javax.jmi.reflect.*;
-import javax.jmi.reflect.RefPackage;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
-import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
-import org.irisa.triskell.MT.repository.API.Java.MetaFeature;
-import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
-import org.irisa.triskell.MT.repository.API.Java.MetaOperation;
-import org.irisa.triskell.MT.repository.API.Java.ModelRole;
-import org.apache.log4j.Logger;
-import org.netbeans.api.mdr.*;
-import org.netbeans.api.mdr.CreationFailedException;
-import javax.jmi.reflect.*;
-import javax.jmi.reflect.RefClass;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
-import org.irisa.triskell.MT.repository.API.Java.LookupConstraint;
-import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
-import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
-import org.irisa.triskell.MT.repository.API.Java.CommonException;
-
 import java.util.List;
+
+import javax.jmi.reflect.InvalidCallException;
+import javax.jmi.reflect.InvalidObjectException;
+
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.repository.API.Java.CommonException;
+import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
+import org.irisa.triskell.MT.repository.API.Java.IsQueryException;
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
+import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 abstract public class MDRFeatured 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
     implements org.irisa.triskell.MT.repository.API.Java.ModelElement
 {
-	public static final String AttributeGetDiscriminant = "AttributeGet";
+	//public static final String AttributeGetDiscriminant = "AttributeGet";
 	
     protected final javax.jmi.reflect.RefFeatured refFeatured;
     public javax.jmi.reflect.RefFeatured getRefFeatured () {
@@ -94,7 +64,7 @@ abstract public class MDRFeatured
 		boolean attribute = discs.contains(ModelElement.AttributeDiscriminant);
 		boolean associationEnd = discs.contains(ModelElement.AssociationDiscriminant);
 		boolean operation = discs.contains(ModelElement.OperationDiscriminant);
-		boolean feature = ! (attribute && associationEnd && operation);
+		boolean feature = ! (attribute || associationEnd || operation);
     	try {
 			c = scopeQualifiedName == null ? null : (MDRMetaClass)this.getSpecificAPI().getMetaClass(scopeQualifiedName);
 			if (feature)
@@ -110,7 +80,7 @@ abstract public class MDRFeatured
 						f = new MDRMetaFeature(this.getSpecificAPI(), name, c, new MDRMetaFeature [] {f, g});
 				}
 				if (operation) {
-					f = (MDRMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
+					g = (MDRMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
 					if (f == null)
 						f = g;
 					else
@@ -119,30 +89,34 @@ abstract public class MDRFeatured
 			}
 			return ((MDRMetaFeature)f).retreiveRef(null, this, arguments).execute();
     	} catch (MDRMetaFeature.VisibilityException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.toString());
+    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
     	} catch (MDRMetaFeature.MultipleDeclarationException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.toString());
+    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
     	} catch (MDRMetaFeature.ScopeException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.toString());
+    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
     	} catch (Exception x) {
     		if ((x instanceof UnknownElementException) && (scopeQualifiedName != null) && (c == null) && (!Arrays.equals(OclAnyType.TheInstance.getQualifiedName(), scopeQualifiedName)))
-    			throw new UnknownCommandException(this, name, arguments, discriminants, x.toString());
-    		if ((! discs.contains(AttributeGetDiscriminant)) && name.startsWith("get_") && (arguments == null || arguments.length == 0) && (operation || feature)){
-				return this.invoke(scopeQualifiedName, name.substring(4), arguments, new String [] {AttributeDiscriminant, AssociationDiscriminant, AttributeGetDiscriminant});
-    		} else if (name.startsWith("set_") && (arguments != null && arguments.length == 1) && (operation || feature)) {
-    			f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name.substring(4), c);
-    			try {
-    				this.setAttributeValue(null, (MetaAttribute)f, arguments[0]);
-    			} catch (CommonException y) {
-    			} catch (IllegalAccessException y) {
-    				throw new UnknownCommandException(this, name, arguments, discriminants, y.toString());
-    			} catch (UnknownElementException y) {
-    			}
-    		}
+    			throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
+    		//Uncomment the following would make the driver able to answer the operation message get_<attribute name> : <attribute type> and set_<attribute name> (<attribute type) wich are the accessor of an attribute
+//    		if ((! discs.contains(AttributeGetDiscriminant)) && name.startsWith("get_") && (arguments == null || arguments.length == 0) && (operation || feature)){
+//				return this.invoke(scopeQualifiedName, name.substring(4), arguments, new String [] {AttributeDiscriminant, AssociationDiscriminant, AttributeGetDiscriminant});
+//    		} else if (name.startsWith("set_") && (arguments != null && arguments.length == 1) && (operation || feature)) {
+//    			f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name.substring(4), c);
+//    			try {
+//    				this.setAttributeValue(null, (MetaAttribute)f, arguments[0]);
+//    				return VoidValueImpl.getTheInstance();
+//    			} catch (CommonException y) {
+//    			} catch (IllegalAccessException y) {
+//    				throw new UnknownCommandException(this, name, arguments, discriminants, y.toString());
+//    			} catch (UnknownElementException y) {
+//    			}
+//    		}
     		
-    		return OclAnyCommandGroup.TheInstance.invoke(scopeQualifiedName, this, name, arguments, discriminants);
+    		return this.getBaseCommandGroup().invoke(scopeQualifiedName, this, name, arguments, discriminants);
     	}
     }
+    
+    protected abstract CommandGroup getBaseCommandGroup ();
 
     /**
       * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#getFeatureValue(org.irisa.triskell.MT.repository.API.Java.ModelElement, org.irisa.triskell.MT.repository.API.Java.MetaFeature, org.irisa.triskell.MT.DataTypes.Java.Value[]) 
@@ -163,33 +137,45 @@ abstract public class MDRFeatured
     		throw new CommonException(feature.toString() + " is not accessible in a classifier scope.");
     	} catch (MDRMetaFeature.VisibilityException x) {
 			throw new IllegalAccessException(contextualElement, feature);
+		} catch (InvalidObjectException x) {
+			String msg = "Cannot operate on deleted object.";
+			String xmsg = x.getMessage();
+			if (xmsg != null && xmsg.length() > 0)
+				msg += " (" + xmsg + ')';
+			throw new CommonException(msg);
     	} catch (Exception x) {
-			throw new CommonException(x.getMessage());
-			}
+			throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
+		}
     }
 
     public org.irisa.triskell.MT.DataTypes.Java.Value invokeQueryOperation(
-        org.irisa.triskell.MT.repository.API.Java.ModelElement p0,
-        org.irisa.triskell.MT.repository.API.Java.MetaOperation p1,
-        org.irisa.triskell.MT.DataTypes.Java.Value[] p2)
+        org.irisa.triskell.MT.repository.API.Java.ModelElement contextualElement,
+        org.irisa.triskell.MT.repository.API.Java.MetaOperation feature,
+        org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
         throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.IllegalAccessException, org.irisa.triskell.MT.repository.API.Java.CommonException, org.irisa.triskell.MT.repository.API.Java.IsQueryException
     {
 		try {
-			ExecutableJMIOperation op = (ExecutableJMIOperation)((MDRMetaFeature)p1).retreiveRef((MDRFeatured)p0, this, p2);
+			ExecutableJMIOperation op = (ExecutableJMIOperation)((MDRMetaFeature)feature).retreiveRef((MDRFeatured)contextualElement, this, arguments);
 			if (op.operation.isQuery())
 				return op.execute();
 			else
-				throw new IsQueryException(p1);
+				throw new IsQueryException(feature);
 		} catch (MDRMetaFeature.ElementNotFoundException x) {
-    		throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(p1);
+    		throw new org.irisa.triskell.MT.repository.API.Java.UnknownElementException(feature);
     	} catch (MDRMetaFeature.MultipleDeclarationException x) {
-    		throw new CommonException(p1.toString() + " is ambiguous for " + this.toString() + '.');
+    		throw new CommonException(feature.toString() + " is ambiguous for " + this.toString() + '.');
     	} catch (MDRMetaFeature.ScopeException x) {
-    		throw new CommonException(p1.toString() + " is not accessible in a classifier scope.");
+    		throw new CommonException(feature.toString() + " is not accessible in a classifier scope.");
     	} catch (MDRMetaFeature.VisibilityException x) {
-			throw new IllegalAccessException(p0, p1);
+			throw new IllegalAccessException(contextualElement, feature);
+		} catch (InvalidObjectException x) {
+			String msg = "Cannot operate on deleted object.";
+			String xmsg = x.getMessage();
+			if (xmsg != null && xmsg.length() > 0)
+				msg += " (" + xmsg + ')';
+			throw new CommonException(msg);
     	} catch (Exception x) {
-			throw new CommonException(x.getMessage());
+			throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
 		}
     }
 
@@ -212,8 +198,10 @@ abstract public class MDRFeatured
 			throw new CommonException(argument.toString() + " is not accessible in a classifier scope.");
 		} catch (MDRMetaFeature.VisibilityException x) {
 			throw new IllegalAccessException(contextualElement, argument);
+		} catch (InvalidCallException x) {
+			throw new CommonException("Check you are not attempting to modify a non-changeable resource.");
 		} catch (Exception x) {
-			throw new CommonException(x.getMessage());
+			throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
 		}
     }
 
@@ -244,7 +232,7 @@ abstract public class MDRFeatured
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
-		return (this == rhs) || ((rhs instanceof MDRFeatured) && (this.refFeatured == ((MDRFeatured)rhs).refFeatured) && (rhs.isUndefined() == ((MDRFeatured)rhs).isUndefined()) && ((this.getErrorMessage() == null && ((MDRFeatured)rhs).getErrorMessage() == null) || (this.getErrorMessage().equals(((MDRFeatured)rhs).getErrorMessage()))));
+		return (this == rhs) || ((rhs instanceof MDRFeatured) && (this.refFeatured == ((MDRFeatured)rhs).refFeatured) && (this.isUndefined() == ((MDRFeatured)rhs).isUndefined()) && (this.isUndefined() || (this.getErrorMessage() == null && ((MDRFeatured)rhs).getErrorMessage() == null) || (this.getErrorMessage().equals(((MDRFeatured)rhs).getErrorMessage()))));
     }
 
     public boolean equals(

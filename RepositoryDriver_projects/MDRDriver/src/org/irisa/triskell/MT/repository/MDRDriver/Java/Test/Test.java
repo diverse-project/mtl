@@ -10,6 +10,8 @@ import java.io.*;
 import java.lang.reflect.*;
 
 import org.irisa.triskell.MT.DataTypes.Java.*;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
 import org.irisa.triskell.MT.repository.API.Java.*;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.*;
@@ -20,6 +22,15 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
+ * This class is a multithreaded test for the MDR driver. It requires the models<br>
+ *  - ../MDRDriver/ThirdParty/MDR/Test/models/test.xml<br>
+ *  - ../MDRDriver/ThirdParty/MDR/Test/models/UML13-JMI.xml<br>
+ *  - ../MDRDriver/ThirdParty/MDR/Test/models/UML13.xml<br>
+ *  - ../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml<br>
+ *  - ../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml<br>
+ * 
+ * It uses log4j, whose configuration should be in ../MDRDriver/ThirdParty/log4j/log4j_configuration
+ * 
  * "org.netbeans.mdr.byteCodeDir" is a system property indicating where to place the bytecode that MDR generates, according to the manipulated metamodels.
  * Tu use it, you may do System.setProperty or invoke the JVM with option -Dorg.netbeans.mdr.byteCodeDir=<Path to put the binaries>
  */
@@ -221,11 +232,42 @@ public class Test
 	public static void testLoadStore () throws Exception {
 		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/test.xml", "../MDRDriver/ThirdParty/MDR/Test/models/testResult.xml"));
 		api.startup(null);
-		ModelElementIterator attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstances();
+		ModelElementIterator attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		MetaAttribute vis = api.getMetaAttribute("visibility", null);
 		Value priv = api.getMetaClass(new String [] {"Foundation", "Data_Types", "VisibilityKind"}).getMetaObject().getFeatureValue(null, api.getMetaFeature("vk_private", null), null);
+		ModelElement att = null;
 		while (attributes.hasNext()) {
-			attributes.next().setAttributeValue(null, vis, priv);
+			att = attributes.next();
+			att.setAttributeValue(null, vis, priv);
+			//Accessor response from driver is abandonned
+//			att.invoke(null, "set_visibility", new Value [] {priv}, new String [] {ModelElement.OperationDiscriminant});
+			if (! priv.equals(att.invoke(null, "visibility", null, null)))
+				throw new RuntimeException("Invalid attribute value (through invoke)");
+			if (! priv.equals(att.invoke(null, "visibility", null, new String [] {ModelElement.AttributeDiscriminant})))
+				throw new RuntimeException("Invalid attribute value (through invoke 2");
+			if (! priv.equals(att.invoke(null, "visibility", null, new String [] {ModelElement.OperationDiscriminant, ModelElement.AttributeDiscriminant})))
+				throw new RuntimeException("Invalid attribute value (through invoke 3");
+			//Accessor response from driver is abandonned
+//			if (! priv.equals(att.invoke(null, "get_visibility", null, new String [] {ModelElement.OperationDiscriminant, ModelElement.AttributeDiscriminant})))
+//				throw new RuntimeException("Invalid attribute value (through invoke 4; accessor get");
+			try {
+				att.invoke(null, "visibility", null, new String [] {ModelElement.AssociationDiscriminant, ModelElement.OperationDiscriminant});
+				throw new RuntimeException("invoke should fail: attribute accessed while discriminant are not allowing this");
+			} catch (RuntimeException x) {
+				throw x;
+			} catch (Exception x) {
+			}
+		}
+		if (! att.invoke(null, "oclIsUndefined", null, null).equals(BooleanValueImpl.FALSE))
+			throw new RuntimeException("Cannt invoke predefined operation isUndefined on a ModelElement");
+		if (! att.invoke(new String [] {"OclAny"}, "oclIsUndefined", null, null).equals(BooleanValueImpl.FALSE))
+			throw new RuntimeException("Cannt invoke predefined operation isUndefined on a ModelElement");
+		try {
+			att.invoke(null, "xfgnikbht", null, new String [] {ModelElement.AssociationDiscriminant, ModelElement.OperationDiscriminant});
+			throw new RuntimeException("invoke should fail: this operation does not exists");
+		} catch (RuntimeException x) {
+			throw x;
+		} catch (Exception x) {
 		}
 		
 		attributes.reset();
@@ -238,7 +280,7 @@ public class Test
 		
 		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
 		api.startup(null);
-		attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstances();
+		attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		//To be reloaded because the api has changed...
 		vis = api.getMetaAttribute("visibility", null);
 		priv = api.getMetaClass(new String [] {"Foundation", "Data_Types", "VisibilityKind"}).getMetaObject().getFeatureValue(null, api.getMetaFeature("vk_private", null), null);
@@ -348,7 +390,7 @@ public class Test
 			throw new Exception ("Problem with primitive type referencing...");
 
 		
-		ModelElementIterator umlclazziterator = api.getMetaClass(new String [] {"Model", "Class"}).allInstancesWithConstraint(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "Class"))); 
+		ModelElementIterator umlclazziterator = api.getMetaClass(new String [] {"Model", "Class"}).allInstancesIterator(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "Class"))); 
 		ModelElement umlclazz = umlclazziterator.next();
 		
 		if (umlclazziterator.hasNext())
@@ -375,6 +417,22 @@ public class Test
 		}
 		
 		final CollectionValue umlclazzcontents = (CollectionValue)umlclazz.getFeatureValue(null, api.getMetaFeature("contents", null), null);
+		
+		if (!umlclazzcontents.equals(umlclazz.invoke(new String [] {"Model", "Namespace"}, "contents", null, null)))
+			throw new RuntimeException("Cannot retreive the same class contents with classic and invoke method.");
+		if (!umlclazzcontents.equals(umlclazz.invoke(new String [] {"Namespace"}, "contents", null, new String [] {ModelElement.AssociationDiscriminant})))
+			throw new RuntimeException("Cannot retreive the same class contents with classic and invoke method. (with discriminants)");
+		if (!umlclazzcontents.equals(umlclazz.invoke(new String [] {"Namespace"}, "contents", null, new String [] {ModelElement.AssociationDiscriminant, ModelElement.AttributeDiscriminant})))
+			throw new RuntimeException("Cannot retreive the same class contents with classic and invoke method. (with 2 discriminants)");
+		try {
+			umlclazz.invoke(new String [] {"ModelElement"}, "contents", null, null);
+			throw new RuntimeException("Found impossible method (exists but oclAsType excluding it).");
+		} catch (RuntimeException x) {
+			throw x;
+		} catch (Exception x) {
+		}
+		
+		
 		ModelElementIterator umlclazzcontentsiterator = new MDRConstrainedModelElementIterator(new ModelElementIterator () {
 			int index = 0;
 			
@@ -416,7 +474,7 @@ public class Test
 		if (! umlclazzcontentsiterator.next().getFeatureValue(null, api.getMetaAttribute("name", null), null).equals(new StringValueImpl(false, null, "isActive")))
 			throw new Exception ("Found isActive but has no name isActive !!!");
 
-		ModelElement umlpackage = api.getMetaClass(new String [] {"Model", "Class"}).allInstancesWithConstraint(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "Package"))).next(); 
+		ModelElement umlpackage = api.getMetaClass(new String [] {"Model", "Class"}).allInstancesIterator(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "Package"))).next(); 
 		TupleValue objectDependent = (TupleValue)umlclazz.getFeatureValue(null, api.getMetaOperation("isRequiredBecause", null), new Value [] {umlpackage});
 		if (objectDependent.isUndefined())
 			throw new Exception("isRequiredBecause failed: " + objectDependent.getErrorMessage());
@@ -440,7 +498,7 @@ public class Test
 		if (! objectDependent.getPart("toto").isUndefined())
 			throw new Exception("Found unknown tuple part toto !");
 			
-		ModelElement ownedElement = api.getMetaClass(new String [] {"Model", "AssociationEnd"}).allInstancesWithConstraint(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "ownedElement"))).next();
+		ModelElement ownedElement = api.getMetaClass(new String [] {"Model", "AssociationEnd"}).allInstancesIterator(new FeatureValueConstraint(api, "name", new StringValueImpl(false, null, "ownedElement"))).next();
 		Value v = ownedElement.getFeatureValue(null, api.getMetaFeature("multiplicity", null), null);
 		if (! new TupleValueImpl(false, null, new TupleElementImpl[] {new TupleElementImpl("lower", new IntegerValueImpl(false, null, 0)), new TupleElementImpl("upper", new IntegerValueImpl(false, null, -1)), new TupleElementImpl("isOrdered", new BooleanValueImpl(false, null, false)), new TupleElementImpl("isUnique", new BooleanValueImpl(false, null, true))}).equals(v))
 			throw new Exception("Bad multiplicity for AssociationEnd.");
@@ -542,18 +600,18 @@ public class Test
 		
 		
 		table = api.getMetaClass(new String [] {"SimpleDB", "Table"});
-		ModelElementIterator it = table.allInstances();
+		ModelElementIterator it = table.allInstancesIterator(null);
 		if (it.size() != 1)
 			throw new Exception ("Invalid number of tables !");
 		
 		MetaAttribute name = api.getMetaAttribute("name", null);
 		
-		championship = table.allInstances().next();
+		championship = table.allInstancesIterator(null).next();
 		if (! championship.getFeatureValue(null, name, null).equals(new StringValueImpl(false, null, "Championship")))
 			throw new Exception ("The instanciated table has not the righht name.");
 		
 		column = api.getMetaClass(new String [] {"SimpleDB", "Column"});
-		it = column.allInstances();
+		it = column.allInstancesIterator(null);
 		if (it.size() != 5)
 			throw new Exception ("Invalid number of columns !");
 			
@@ -607,6 +665,39 @@ public class Test
 			if (! championship.equals(score2.getFeatureValue(null, api.getMetaAssociationEnd(null, table, null), null)))
 				throw new Exception("AssociationEnd navigation fails");
 		}
+		
+		if (! championship.invoke(null, "oclIsTypeOf", new Value [] {new TypeValueImpl(false, null, table)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to not be of meta-type Table");
+		if (! championship.invoke(null, "oclIsKindOf", new Value [] {new TypeValueImpl(false, null, table)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to not be of meta-kind Table");
+		if (championship.invoke(null, "oclIsTypeOf", new Value [] {new TypeValueImpl(false, null, column)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to be of meta-type Column");
+		if (championship.invoke(null, "oclIsKindOf", new Value [] {new TypeValueImpl(false, null, column)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to be of meta-kind Column");
+		if (championship.invoke(null, "oclIsTypeOf", new Value [] {new TypeValueImpl(false, null, ModelElementType.TheInstance)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to be of abstract meta-kind ModelElement");
+		if (! championship.invoke(null, "oclIsKindOf", new Value [] {new TypeValueImpl(false, null, ModelElementType.TheInstance)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems not to be of meta-type ModelElement");
+		if (! championship.invoke(null, "oclIsKindOf", new Value [] {new TypeValueImpl(false, null, OclAnyType.TheInstance)}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems not to be of meta-kind OclAny");
+			
+		
+		if (! championship.invoke(null, "oclIsTypeOf", new Value [] {table.getMetaObject()}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to not be of meta-type Table");
+		if (! championship.invoke(null, "oclIsKindOf", new Value [] {table.getMetaObject()}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to not be of meta-kind Table");
+		if (championship.invoke(null, "oclIsTypeOf", new Value [] {column.getMetaObject()}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to be of meta-type Column");
+		if (championship.invoke(null, "oclIsKindOf", new Value [] {column.getMetaObject()}, null).equals(BooleanValueImpl.TRUE))
+			throw new RuntimeException("the table Championship seems to be of meta-kind Column");
+		
+		if (!column.allInstances().equals(column.getMetaObject().invoke(null, "allInstances", null, null)))
+			throw new RuntimeException("Problem with allInstances operation over meta type.");
+		if (! column.getMetaObject().invoke(null, "oclName", null, null).equals(new StringValueImpl(false, null, "Column")))
+			throw new RuntimeException("Problem with name operation over meta type.");
+		if (! column.getMetaObject().invoke(null, "oclQualifiedName", null, null).equals(new SequenceValueImpl(false, null, new Value [] {new StringValueImpl(false, null, "SimpleDB"), new StringValueImpl(false, null, "Column")})))
+			throw new RuntimeException("Problem with qualifiedName operation over meta type.");
+			
 			
 		
 		api.shutdown(null);
@@ -646,6 +737,7 @@ public class Test
 		} finally {
 			System.setErr(err);
 		}
+        MDRAPI api = new MDRAPI(null, new XmiMetamodel("../TestErwan/models/MOFmetamodel.xml","SimpleUmlMM"), "MyModel", new XmiModel("../TestErwan/models/instance.xmi", XmiModel.Write));
 	}
 	
 	public static void testUML13Model () throws Exception {
@@ -664,7 +756,7 @@ public class Test
 		MetaClass stereotype = api.getMetaClass(new String [] {"Foundation", "Extension_Mechanisms", "Stereotype"});
 		
 		
-		ModelElementIterator instances = classifier.allInstances();
+		ModelElementIterator instances = classifier.allInstancesIterator(null);
 		StringBuffer sbuf = new StringBuffer();
 		while (instances.hasNext()) {
 			sbuf.append(((MDRModelElement)instances.next()));
@@ -755,8 +847,11 @@ public class Test
 			throw new Exception("MDRModelElement.isTypeOf false test failed.");
 		
 
-		if (visibilityKind.instanciate(null, new Value [] {new StringValueImpl(false, null, "vk_private")}) != visibilityKind2.getMetaObject().getFeatureValue(null, api.getMetaFeature("vk_private", null), null))
+		ModelElement vkpriv = visibilityKind.instanciate(null, new Value [] {new StringValueImpl(false, null, "vk_private")});
+		if (vkpriv != visibilityKind2.getMetaObject().getFeatureValue(null, api.getMetaFeature("vk_private", null), null))
 			throw new Exception ("MDRMetaEnumeration: a single enumered leads to several proxies...");
+		
+		
 
 		// TODO Some tests using enumeration contained by a classifier...
 		

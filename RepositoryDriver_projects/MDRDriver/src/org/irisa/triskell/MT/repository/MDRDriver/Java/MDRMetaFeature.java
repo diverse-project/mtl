@@ -1,25 +1,11 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
-import java.util.*;
+import java.util.List;
 
-import javax.jmi.xmi.*;
-import javax.jmi.reflect.*;
-import org.irisa.triskell.MT.DataTypes.Java.*;
-import org.netbeans.api.mdr.*;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Command;
-import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Type;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.modelElement.ModelElementType;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import javax.jmi.model.*;
-import org.apache.log4j.*;
-import org.irisa.triskell.MT.repository.API.Java.*;
-import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
-import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
+import javax.jmi.model.Parameter;
+import javax.jmi.model.VisibilityKind;
+
+import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 
 public class MDRMetaFeature 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRElement
@@ -45,16 +31,29 @@ public class MDRMetaFeature
     public static class VisibilityException 
         extends java.lang.Exception
     {
+    	public VisibilityException (ModelElement contextualElement) {
+    		this(contextualElement, null);
+    	}
+    	public VisibilityException (ModelElement contextualElement, VisibilityKind foundVisibility) {
+    		super((contextualElement == null ? "Any element" : ("The contextual element " + contextualElement.getTheModelElement() + " of type " + contextualElement.getType().getQualifiedName())) + " has no access to this resource." + (foundVisibility == null ? "" : (" Found visibility is " + foundVisibility.toString() + '.')));
+    	}
     }
 
     public static class MultipleDeclarationException 
         extends java.lang.Exception
     {
+    	
+    	public MultipleDeclarationException ()  {
+    		super("Different possibilities found for resource; be more precise...");
+    	}
     }
 
     public static class ScopeException 
         extends java.lang.Exception
     {
+    	public ScopeException () {
+    		super("Cannot access an instance-level resource a static way.");
+    	}
     }
 
 
@@ -104,7 +103,7 @@ public class MDRMetaFeature
 		if (this.getScope() == null)
 			levelSuperTypes.add(self.getRefClass().refMetaObject());
 		else
-			levelSuperTypes.add(((MDRMetaClass)this.getScope()).getRefClass());
+			levelSuperTypes.add(((MDRMetaClass)this.getScope()).getRefClass().refMetaObject());
 		java.util.Set alreadyExplored = new java.util.HashSet();
 		javax.jmi.model.Namespace explored;
 		javax.jmi.model.ModelElement me;
@@ -116,7 +115,7 @@ public class MDRMetaFeature
 				tmp = this.retreiveRef(contextualElement, self, arguments, explored);
 				if (tmp != null) {
 					if (ret == null)
-						return ret = tmp;
+						ret = tmp;
 					else
 						throw new MultipleDeclarationException();
 				}
@@ -222,9 +221,12 @@ public class MDRMetaFeature
     {
 		javax.jmi.model.ModelElement contextClassRef = context == null ? null : (javax.jmi.model.ModelElement)context.getRefClass().refMetaObject();
 		if ((contextClassRef != null) && (! contextClassRef.isVisible(element)))
-			throw new VisibilityException();
-		if (contextClassRef == null && (element instanceof javax.jmi.model.Feature) && !((javax.jmi.model.Feature)element).getVisibility().toString().equals("public_vis"))
-				throw new VisibilityException();
+			throw new VisibilityException(context);
+		if (contextClassRef == null && (element instanceof javax.jmi.model.Feature)) {
+		 	VisibilityKind vis = ((javax.jmi.model.Feature)element).getVisibility();
+		 	if (!vis.toString().equals("public_vis"))
+				throw new VisibilityException(context, vis);
+		}
 		return true;
     }
 

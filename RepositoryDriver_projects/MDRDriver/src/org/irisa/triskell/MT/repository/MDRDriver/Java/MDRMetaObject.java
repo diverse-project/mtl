@@ -1,15 +1,23 @@
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
 import javax.jmi.model.GeneralizableElement;
+import javax.jmi.reflect.RefClass;
 
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeCommandGroup;
+import org.irisa.triskell.MT.DataTypes.Java.commands.OclType.OclTypeType;
+import org.irisa.triskell.MT.DataTypes.Java.commands.ModelElement.ModelElementType;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
 import org.irisa.triskell.MT.repository.API.Java.MetaClass;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 public class MDRMetaObject 
     extends org.irisa.triskell.MT.repository.MDRDriver.Java.MDRFeatured
+    implements TypeValue
 {
     private final org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass metaClass;
     protected org.irisa.triskell.MT.repository.MDRDriver.Java.MDRMetaClass getMetaClass () {
@@ -28,86 +36,59 @@ public class MDRMetaObject
 		this.metaClass = metaClass;
     }
 
-    /**
-      * (non-Javadoc)
-      */
     public boolean equals(
         org.irisa.triskell.MT.DataTypes.Java.Value rhs)
     {
 		return (rhs instanceof MDRMetaObject) && (this.getMetaClass().equals(((MDRMetaObject)rhs).getMetaClass()));
     }
 
-    /**
-      * (non-Javadoc)
-      * @see java.lang.Object#toString()
-      */
     public String toString()
     {
 		return this.getMetaClass().toString();
     }
 
-    /**
-      * (non-Javadoc)
-      * 
-      * 
-      * 
-      * 
-      * 
-      * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#delete() 
-      */
-    public void delete()
-        throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException
+    public void delete() throws UnknownElementException, CommonException {}
+    
+    public boolean isKindOf(MetaClass classifier)
     {
-
-
+		return this.getMetaClass().conformsTo(classifier);
     }
 
-    /**
-      * (non-Javadoc)
-      * 
-      * 
-      * 
-      * 
-      * 
-      * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#isKindOf(org.irisa.triskell.MT.repository.API.Java.MetaClass) 
-      */
-    public boolean isKindOf(
-        org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
-    {
-		return this.isTypeOf(classifier) || (classifier == OclAnyType.TheInstance) || ((classifier instanceof MDRMetaClass) && ((GeneralizableElement)this.getRefClass().refMetaObject()).allSupertypes().contains(((MDRMetaClass)classifier).getRefClass().refMetaObject()));
-    }
-
-    /**
-      * (non-Javadoc)
-      * 
-      * 
-      * 
-      * 
-      * 
-      * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#isMetaObject() 
-      */
     public boolean isMetaObject()
     {
 		return true;
     }
 
-    /**
-      * (non-Javadoc)
-      * 
-      * 
-      * 
-      * 
-      * 
-      * @see org.irisa.triskell.MT.repository.API.Java.ModelElement#isTypeOf(org.irisa.triskell.MT.repository.API.Java.MetaClass) 
-      */
-    public boolean isTypeOf(
-        org.irisa.triskell.MT.repository.API.Java.MetaClass classifier)
+    public boolean isTypeOf(MetaClass classifier)
     {
 		return this.getMetaClass().equals(classifier);
     }
 
-    public javax.jmi.reflect.RefClass getRefClass()
+    public RefClass getRefClass()
     {
 		return this.getMetaClass().getRefClass();
     }
+
+	public Type getType() {
+		return OclTypeType.TheInstance;
+	}
+
+	protected CommandGroup getBaseCommandGroup() {
+		return OclTypeCommandGroup.TheInstance;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.DataTypes.Java.TypeValue#getTheType()
+	 */
+	public Type getTheType() {
+		return this.getMetaClass(); 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.irisa.triskell.MT.DataTypes.Java.PrimitiveValue#getValue()
+	 */
+	public String getValue() {
+		return this.getMetaClass().getQualifiedNameAsString();
+	}
+
 }
