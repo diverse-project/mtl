@@ -1,0 +1,166 @@
+// $Id: SimpleUML_Transformations.mtl,v 1.1 2003-08-29 07:32:54 dvojtise Exp $
+// This file contains various transformations that applies on SimpleUML MM
+
+
+// Syntax used : BasicMTL V1.5 syntax cf. basicmtlParser.mtl V1.5
+
+
+library SimpleUML_Transformations;
+
+// Lib local model
+model source_model : RepositoryModel;		// should be a SimpleUML MetaModel
+
+// Typed model 
+model mdrdriver : MDRDriver;
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{	
+	// local variables
+	mdrdriver : MDRDriver::MDRModelManager;
+	
+	
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\MetaModel\\\SimpleUmlMM_MOF.xml', 
+						'SimpleUmlMM',
+						'SimpleUML_source_model', 
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\models\\SimpleUML_FullExample.xml',
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\models\\SimpleUML_FullExample_modified.xml');
+
+	transform();
+	associations2attributes();
+	
+	
+}
+
+
+
+transform():Standard::Void
+{
+	// local variables
+	classIterator : Standard::Iterator;
+	classSet : Standard::Set;
+	aClass : source_model::Class;	
+	
+	classSet := !source_model::Class!.allInstances();
+	
+	classIterator := classSet.getNewIterator();
+	classIterator.start();
+	
+	while classIterator.isOn() 
+	{		
+		aClass := classIterator.item().oclAsType(!source_model::Class!);
+		ModifyClass(aClass); 
+		
+			
+		classIterator.next();
+	}
+	
+		
+}
+
+ModifyClass(sourceClass : source_model::Class) 
+{
+	// local variables
+	anAttribute : source_model::Attribute;
+	className : Standard::String;
+	
+	
+	// create new attribute for this class
+	anAttribute := new source_model::Attribute();
+	className := sourceClass.name; 
+	
+	anAttribute.name := 'new_attribute'.concat(className);
+	
+	//associate (owner := sourceClass : source_model::Class, attribute := anAttribute : source_model::Attribute);
+	associate ( attribute := anAttribute : source_model::Attribute, owner := sourceClass : source_model::Class);
+	
+	
+	// change class name
+	sourceClass.name := className.concat('_changed');
+	
+}
+
+/** 
+ * break all associations in two attributes
+ */
+associations2attributes()
+{
+	// local variables
+	associationIterator : Standard::Iterator;
+	associationSet : Standard::Set;
+	anAssociation : source_model::Association;	
+	
+	associationSet := !source_model::Association!.allInstances();
+	
+	associationIterator := associationSet.getNewIterator();
+	associationIterator.start();
+	
+	while associationIterator.isOn() 
+	{		
+		anAssociation := associationIterator.item().oclAsType(!source_model::Association!);
+		association2attributes(anAssociation); 					
+		associationIterator.next();
+	}
+}
+/** 
+ * break an association in two attributes
+ */
+association2attributes(anAssociation : source_model::Association)
+{	
+	// local variables
+	sourceClass, destClass : source_model::Class;
+	sourceClassName, destClassName, associationName : Standard::String;	
+	name : Standard::String;
+	
+	// get source
+	sourceClass := anAssociation.source;
+	sourceClassName := sourceClass.name;
+	// get destination
+	destClass := anAssociation.destination;
+	destClassName := destClass.name;
+	
+	// add attribute on source
+	associationName := anAssociation.name;
+		// as the association in SimpleUML  have no role name, we simply use the class name + the association name
+	
+	name := 'association_';
+	name := name.concat(associationName);
+	name := name.concat('_');
+	name := name.concat(sourceClassName);
+	//name := 'association_'.concat(anAssociation.name).concat('_').concat(sourceClass.name);
+	addAttribute(sourceClass, name, destClass);
+	// add attribute on destination
+	//name := 'association_'.concat(anAssociation.name).concat('_').concat(destClass.name);
+	addAttribute(destClass, name, sourceClass);	
+	
+	// remove association
+		// TO DO not supported yet !!
+	// dissociate(source := sourceClass : source_model::Class, forward := anAssociation : source_model::Association); 
+	// dissociate(source := sourceClass : source_model::Class, forward := anAssociation : source_model::Association);
+	//delete(anAssociation.oclAsType(!source_model::Association!));
+	anAssociation.delete();
+}
+
+/** 
+ * add an attribute on a class
+ */
+addAttribute(aClass: source_model::Class; name : Standard::String; attributeType : source_model::ModelElement)
+{
+	// local variables
+	anAttribute : source_model::Attribute;
+		
+	// create new attribute for this class
+	anAttribute := new source_model::Attribute();
+	anAttribute.name := name;		
+	associate ( typed := anAttribute : source_model::Attribute, type := attributeType : source_model::Classifier);
+	associate ( attribute := anAttribute : source_model::Attribute, owner := aClass : source_model::Class);
+	
+}

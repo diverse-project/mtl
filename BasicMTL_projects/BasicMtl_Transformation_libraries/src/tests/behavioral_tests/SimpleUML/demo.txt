@@ -1,0 +1,10 @@
+SimpleUML_Transformations.mtl was used for the 1rst Motor  demo (28/08/2003)
+in objecteering with Metamodelling profile
+	with TRISKELL_Metamodelling_Test.ofp (from \\sea\triskell\MT\dev\MT_shared\ObjecteeringProfiles\Metamodelling\sample)
+		(make a copy first if not connected)
+	generate SimpleUML MM in C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\src\SimpleUML\MetaModel
+	and the sample Model in C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\src\SimpleUML\Modles
+	
+	run target "run simpleUML" from Eclipse
+	
+	load result in objecteering
