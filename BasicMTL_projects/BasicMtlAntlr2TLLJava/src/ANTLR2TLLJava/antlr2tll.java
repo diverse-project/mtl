@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.2 2003-08-12 14:52:27 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.3 2003-08-19 09:26:25 dvojtise Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -25,7 +25,7 @@ public class antlr2tll {
 
 	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
+	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLAntlr2TLLJava");
 
 	public static org.apache.log4j.Logger getLog () {
 			return antlr2tll.log;

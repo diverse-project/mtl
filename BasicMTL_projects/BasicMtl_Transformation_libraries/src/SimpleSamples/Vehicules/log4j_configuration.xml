@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/SimpleSamples/Vehicules/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- $Date: 2003-08-08 16:43:08 $ -->
-<!-- $Author: jpthibau $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- $Date: 2003-08-19 09:26:34 $ -->
+<!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
@@ -22,6 +22,12 @@
   </appender>
 
   <logger name="BMTLParser">
+    <level value="DEBUG"/>
+  </logger>
+  <logger name="BMTLAntlr2TLLJava">
+    <level value="DEBUG"/>
+  </logger>
+  <logger name="BMTLTLLTypeChecker">
     <level value="DEBUG"/>
   </logger>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/lang/log4j_configuration.xml,v $ -->
-<!-- $Revision: 1.2 $ -->
-<!-- $Date: 2003-08-19 09:26:35 $ -->
+<!-- $Source: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtl_Transformation_libraries/src/tests/parser_tests/log4j_configuration.xml,v $ -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 2003-08-19 09:26:34 $ -->
 <!-- $Author: dvojtise $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -30,7 +30,7 @@
   <logger name="BMTLTLLTypeChecker">
     <level value="DEBUG"/>
   </logger>
-
+  
   <root>
     <level value="WARN"/>
     <appender-ref ref="STDOUT"/>

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.3 2003-08-19 08:50:45 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.4 2003-08-19 09:26:28 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -26,7 +26,7 @@ public class TLLtypechecking {
 	static final String tllSuffix=".tll";
 	public static String defaultTLLPath=null;
 	public static java.util.Hashtable loadedLibraries=new java.util.Hashtable();
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
+	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
 
 	public static org.apache.log4j.Logger getLog () {
 			return TLLtypechecking.log;
