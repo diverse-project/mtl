@@ -1,5 +1,5 @@
 /*
-* $Id: MTLPlugin.java,v 1.3 2004-05-25 09:07:41 sdzale Exp $
+* $Id: MTLPlugin.java,v 1.4 2004-05-28 16:54:17 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.jdt.ui.IWorkingCopyManager;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -35,8 +36,10 @@ import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.builders.MTLNature;
 import org.inria.mtl.plugin.editors.utils.MTLEditorColorProvider;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
+import org.inria.mtl.plugin.preferences.Log4jPreferencePage;
 import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
 import org.inria.mtl.plugin.editors.MTLDocumentProviders;
+import org.inria.mtl.plugin.views.controller.Controller;
 
 
 
@@ -68,15 +71,6 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	
 	public final static String MTL_PROBLEM = "org.irisa.mtl.plugin.MTLPlugin.mtlproblem";
 	
-	public static  String FMTL_BINNAME = "mtlbinfolder"; //$NON-NLS-1$
-	public static  String FMTL_SRCNAME = "mtlsrcfolder"; //$NON-NLS-1$
-	public static  String FJAVA_SRCNAME ="javasrcfolder"; //$NON-NLS-1$
-	//public static  String FMTL_BINNAME = "mtlbinname"; //$NON-NLS-1$
-	public static  String FOUTPUT_BUILDNAME = "output"; //$NON-NLS-1$
-	//public static  IFolder FBUILDFOLDER = new IFolder; //$NON-NLS-1$
-	
-	//public static boolean SHOW_OUTPUT_IN_CONSOLE;
-	
 	public static IPath[] srcFolders ;
 	public static IPath[] libFolders ;
 	public static IPath[] projFolders ;
@@ -95,6 +89,8 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 	public MTLPlugin(IPluginDescriptor descriptor) {
 		super(descriptor);
 		plugin = this;
+		initializeDefaultPluginPreferences();
+		Controller.getInstance().acquaint(this);
 		try {
 			resourceBundle= ResourceBundle.getBundle("org.irisa.mtl.plugin.MTLPluginResources");
 		} catch (MissingResourceException x) {
@@ -186,6 +182,14 @@ public class MTLPlugin extends AbstractUIPlugin implements ISaveParticipant {
 		PreferenceConverter.setDefault(store, PreferenceConstants.MTL_CONSTANT, MTLEditorColorProvider.CONSTANT);
 		PreferenceConverter.setDefault(store, PreferenceConstants.MTL_TYPE, MTLEditorColorProvider.TYPE);
 		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_STRING_COLOR, MTLEditorColorProvider.STRING);
+		
+		store.setDefault(Log4jPreferencePage.P_PORT, 4445);
+		
+		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_DEBUG_INDICATION_COLOR, new RGB(192, 192, 255));
+		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_INFO_INDICATION_COLOR, new RGB(255, 255, 255));
+		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_WARNING_INDICATION_COLOR, new RGB(255, 255, 192));
+		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_PROBLEM_INDICATION_COLOR, new RGB(192, 255, 192));
+		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_FATAL_INDICATION_COLOR, new RGB(255, 0, 0));
 
 		PreferenceConstants.initializeDefaultValues(store);
 	}

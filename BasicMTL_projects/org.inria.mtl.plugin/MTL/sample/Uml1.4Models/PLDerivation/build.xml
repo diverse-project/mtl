@@ -1,0 +1,42 @@
+<!-- $Id: build.xml,v 1.1 2004-05-28 16:53:54 sdzale Exp $ -->
+<!-- Sample script showing how to use the script for packing and unpacking zargo files from poseidon or ArgoUML -->
+<project name="poseidon import export" default="create zargo from source and derived models" basedir=".">
+	<description>
+        target for import export of poseidon files
+	</description>
+	<property name="zargo.template.dir" location="../zargo_template"/>
+	
+	<!-- <target name="extract_xmi">
+		<ant antfile="${zargo.template.dir}/common_build.xml" dir="." target="extract_xmi_from_zargo">
+			<property name="base.name" value="SimpleUmlMM_UML"/>
+    	</ant>    	
+	</target>-->
+	<target name="create zargo from source model"> 	
+		<ant antfile="${zargo.template.dir}/common_build.xml" dir="." target="create_zargo_from_xmi">	
+			<property name="base.name" value="MercurePL"/>	
+    	</ant>
+	</target>
+	<target name="create zargo from derived custom">	
+		<ant antfile="${zargo.template.dir}/common_build.xml" dir="." target="create_zargo_from_xmi">	
+			<property name="base.name" value="CustomMercure"/>	
+			<property name="base.path" location="DerivedProductModel"/>
+    	</ant>
+	</target>
+	<target name="create zargo from derived full">	
+		<ant antfile="${zargo.template.dir}/common_build.xml" dir="." target="create_zargo_from_xmi">	
+			<property name="base.name" value="FullMercure"/>	
+			<property name="base.path" location="DerivedProductModel"/>
+    	</ant>
+	</target>
+	
+	<target name="create zargo from derived mini">	
+		<ant antfile="${zargo.template.dir}/common_build.xml" dir="." target="create_zargo_from_xmi">	
+			<property name="base.name" value="MiniMercure"/>	
+			<property name="base.path" location="DerivedProductModel"/>
+    	</ant>
+	</target>
+	
+	
+	<target name="create zargo from source and derived models" depends="create zargo from source model, create zargo from derived custom, create zargo from derived full, create zargo from derived mini">
+	</target>
+</project>

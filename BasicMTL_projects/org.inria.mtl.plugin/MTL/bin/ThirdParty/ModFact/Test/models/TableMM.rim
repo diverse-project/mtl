@@ -1,0 +1,11 @@
+Importing Category: SimpleDB
+Importing Class: Table
+Importing Attribute: name
+Importing DataType: String
+Importing Class: Column
+Importing Attribute: name
+Importing Class Ref for: Table
+Importing Class Ref for: Column
+Load Association: A_column_table
+    Role1: table
+    Role2: table

@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.4 2004-05-19 09:22:48 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.5 2004-05-28 16:54:21 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -80,15 +80,15 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 			
 			//voir comment contrôler cette exécution
 				if (projects[i].hasNature(MTLNature.NATURE_ID)){
-					
-					currentProject=projects[i].getProject();
-					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-					MTLCore.findFolders();
-					IPath[] srcPaths=MTLModel.srcFolders;
-					for (int j =0;j<srcPaths.length;j++){
-						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
-						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-					}			
+//					
+//					currentProject=projects[i].getProject();
+//					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+//					MTLCore.findFolders();
+//					IPath[] srcPaths=MTLModel.srcFolders;
+//					for (int j =0;j<srcPaths.length;j++){
+//						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+//						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+//					}			
 				}
 			}catch (Exception E){
 				System.out.println("Error :Build all");

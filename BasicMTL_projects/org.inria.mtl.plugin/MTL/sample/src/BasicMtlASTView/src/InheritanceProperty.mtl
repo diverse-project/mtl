@@ -1,0 +1,43 @@
+// $Id: InheritanceProperty.mtl,v 1.1 2003/10/14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class InheritanceProperty extends Property {
+ 
+	value : Standard::Set; //the inherited classes  =  set of type(s)
+	
+	getTheValue():Standard::OclAny
+	{	return value.oclAsType(!Standard::OclAny!); }
+	
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{	value := newValue.oclAsType(!Standard::Set!); }
+
+	toASTJava() : ASTJava::Object
+	{
+	types : Standard::Iterator;
+	aType : Standard::OrderedSet;
+	names : Standard::Iterator;
+	aName : Standard::String;
+	JavaCode [java.util.Vector theVector=new java.util.Vector()];
+	types := value.getNewIterator();
+	types.start();
+	while types.isOn() {
+		aType := types.item().oclAsType(!Standard::OrderedSet!);
+		JavaCode [java.util.Vector theTypeVector=new java.util.Vector()];
+		names := aType.getNewIterator();
+		names.start();
+		while names.isOn() {
+			aName := names.item().oclAsType(!Standard::String!);
+			JavaCode [theTypeVector.addElement(BMTL_aName.getTheString())];
+			names.next();
+		}
+		JavaCode [theVector.addElement(theTypeVector)];
+		types.next();
+	}
+	JavaCode [return new org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property(this.get_BMTL_name().getTheString(),theVector,this.get_BMTL_tagType().getTheString())];
+	}
+ }

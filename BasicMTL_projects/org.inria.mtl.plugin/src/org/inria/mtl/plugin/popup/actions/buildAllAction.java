@@ -1,5 +1,5 @@
 /*
-* $Id: buildAllAction.java,v 1.3 2004-05-19 09:22:44 sdzale Exp $
+* $Id: buildAllAction.java,v 1.4 2004-05-28 16:53:32 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -75,6 +75,7 @@ public class buildAllAction implements IObjectActionDelegate {
 								currentProject=item.getProject();
 								MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
 								MTLCore.findFolders();
+								System.out.println("iciall");
 								IPath[] srcPaths=MTLModel.srcFolders;
 								for (int i =0;i<srcPaths.length;i++){
 									boolean b=MTLPlugin.instance().getModel(currentProject).processResource((IFolder)srcPaths[i]);

@@ -1,5 +1,5 @@
 /*
-* $Id: BuildsMTL.java,v 1.3 2004-05-19 09:21:51 sdzale Exp $
+* $Id: BuildsMTL.java,v 1.4 2004-05-28 16:53:10 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -362,7 +362,7 @@ public class BuildsMTL {
 		IFolder srcFolder;
 		IProject proj =getProject().getProject();
 		IPreferenceStore store= PreferenceConstants.getPreferenceStore();
-		String sourceFolderName= store.getString(PreferenceConstants.MTL_SRCNAME);
+		String sourceFolderName= store.getString(PreferenceConstants.FMTL_SRCNAME);
 	//	if (sourceFolderName.length() > 0) {
 			srcFolder= proj.getFolder(sourceFolderName);
 //		} else {

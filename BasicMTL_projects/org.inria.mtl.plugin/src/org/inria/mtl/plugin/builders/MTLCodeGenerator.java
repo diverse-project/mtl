@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.2 2004-05-19 09:22:18 sdzale Exp $
+* $Id: MTLCodeGenerator.java,v 1.3 2004-05-28 16:52:46 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,34 +7,26 @@
 */ 
 package org.inria.mtl.plugin.builders;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.apache.log4j.xml.DOMConfigurator;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.core.MTLCore;
-import org.inria.mtl.plugin.preferences.MTLMessages;
+import org.inria.mtl.plugin.markers.MTLMarkers;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
-import org.inria.mtl.plugin.views.MTLConsole;
 
 
 /**
@@ -52,6 +44,9 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 	private IFolder outputFolder;;
 	
 	private MTLModel model;
+	
+	/** The error level of the  Parse Exceptions. */
+	private static int errorLevel = MTLMarkers.ERROR;
 
 
 	/**
@@ -64,6 +59,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		try {
 			monitor.beginTask("Generating TLL and JAVA Objects for ...", IProgressMonitor.UNKNOWN);
 			if (checkSourcePath(srcMtlFolder)){
+				System.out.println("Generator run:"+srcMtlFolder.toString());
 				generate(srcMtlFolder,binMtlFolder,srcJavaFolder);
 			}
 		} catch (Exception e) {
@@ -129,92 +125,112 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 	 */
 	public void generate(IFolder srcmtlFolder,IFolder tllFolder, IFolder javaFolder) throws Exception {
 		IPreferenceStore store=MTLPlugin.getDefault().getPreferenceStore();
-//		Default package prefix
-		 String defaultPrefix =srcmtlFolder.getName();
-	  try {
-		  String lastGen = srcmtlFolder.getPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME));
+		String defaultPrefix =srcmtlFolder.getName();
+		
+		//Manage folders
+		IFolder output = srcmtlFolder.getProject().getFolder(store.getString(PreferenceConstants.OUTPUT_BUILDNAME));
+		//store.s
+		//Si on choisit de stocker les bin d'un rep source dans un repertoire particulier de même
+		//nom alors c'est ici qu'on fera les changements
+		IFolder javasrc =output.getFolder(store.getString(PreferenceConstants.FJAVA_SRCNAME));
+		IFolder binjava = output.getFolder(store.getString(PreferenceConstants.FJAVA_BINNAME));
+		IFolder mtlsrc = srcmtlFolder.getProject().getFolder(store.getString(PreferenceConstants.FMTL_SRCNAME));
+		IFolder binmtl = output.getFolder(store.getString(PreferenceConstants.FMTL_BINNAME));
+		
+		
+		//Manage Compiler path
+		String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
+		String pluginPath =MTLPlugin.getDefault().getLocation();
+		if (MTLcompiler_path.length()==0){
+			String compilerFilePath=pluginPath.concat("\\MTL\\bin\\BasicMTLc.jar");
+			String compilerPath=pluginPath.concat("\\MTL");
+			File compFile = new File(compilerFilePath); 
+			if (!(compFile.exists())){
+				Shell shell = new Shell();
+							MessageDialog.openInformation(
+							shell,
+							"MTL Compiler",
+							"Compiler path not define...");
+							return;
+			}
+			MTLcompiler_path=pluginPath;
+		}
+   try {
+   		  System.out.println("Generate :"+mtlsrc.toString()+" exists  "+mtlsrc.exists());
+		  String lastGen = mtlsrc.getPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME));
 		  String newGen = new Long(srcmtlFolder.getModificationStamp()).toString();
 		  if (lastGen != null && lastGen.equals(newGen)) {
 			  return;
 		  }
-		srcmtlFolder.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+	mtlsrc.setPersistentProperty(new QualifiedName(MTLPlugin.PLUGIN_ID, MTLModel.TLL_LASTGENTIME), newGen);
+		
+		
+	   	
 		  
 		  //Find sourceDir parameter for codeGenerator
-		  String sourceDir= srcmtlFolder.getLocation().toOSString();
-		  sourceDir=this.checkPathEnd(sourceDir);
+		  String sourceDir= mtlsrc.getLocation().toOSString();
+		  sourceDir=checkPathEnd(sourceDir);
 		  //System.out.println("sourceDir :"+sourceDir);
 		
-		 //Find defaultPackagePrefix parameter for codeGenerator
-		 //String defaultPackagePrefix=srcJavaFolder.getFullPath().toString();
-
-		//		Find defaultPackagePrefix parameter for codeGenerator
-		   String defaultPackagePrefix=srcmtlFolder.getName();
+		  //		Find defaultPackagePrefix parameter for codeGenerator
+		   String defaultPackagePrefix=mtlsrc.getName();
 
 		  
 		  //Find java Folder source parameter for codeGenerator
-		  String javaDestDir= javaFolder.getLocation().toOSString();
-		  javaDestDir=this.checkPathEnd(javaDestDir);
-		 // System.out.println("javaDestDir :"+javaDestDir);
+		  String javaDestDir= javasrc.getLocation().toOSString();
+		  javaDestDir=checkPathEnd(javaDestDir);
+		 
 		  
 		  //Find tll Folder source parameter for codeGenerator
-		  String tllDestDir= tllFolder.getLocation().toOSString();
-		  tllDestDir=this.checkPathEnd(tllDestDir);
-		  //System.out.println("tllDestDir :"+tllDestDir);
-		  
+		  String tllDestDir= binmtl.getLocation().toOSString();
+		  tllDestDir=checkPathEnd(tllDestDir);
+		 		  
 		  //Compiler parameters
 		  // Find list of tll exported Folders parameter for codeGenerator
 		  //Verify that the compiler path have been defined
 		
-		  String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
-		  if (MTLcompiler_path.length()==0){
-			Shell shell = new Shell();
-				MessageDialog.openInformation(
-					shell,
-					"MTL Compiler",
-					"Compiler path not define...");
-			//System.out.println("Error: Compiler path not define");
-			return;
-		  }
-		  //MTLcompiler_path=this.checkPathEnd(MTLcompiler_path);
+		 
+		MTLcompiler_path=checkPathEnd(MTLcompiler_path);
 		  
-		  //
-		  String MTLcompiler_jar_path=MTLcompiler_path.concat("\\bin");
-		  //MTLcompiler_jar_path=this.checkPathEnd(MTLcompiler_jar_path);
-		  String BasicMTLc_jar=MTLcompiler_jar_path.concat("\\BasicMTLc.jar");
-		  String Runtime_TLL_path=MTLcompiler_path.concat("\\Runtime\\src\\TLL\\");
-		  String BasicMTLRuntime_jar=MTLcompiler_jar_path.concat("\\BasicMTLruntime.jar");
-		  //IFolder runtimePath= new Folder(Runtime_TLL_path);
-		  //boolean test=runtimePath.
+		String BasicMTLc_jar=MTLcompiler_path.concat("bin\\BasicMTLc.jar");
+		String Runtime_TLL_path=MTLcompiler_path.concat("Runtime\\src\\TLL\\");
+		String BasicMTLRuntime_jar=MTLcompiler_path.concat("bin\\BasicMTLruntime.jar");
 		  
-		System.out.println("javaDestDir :"+javaDestDir );
-		System.out.println("tllDestDir :"+tllDestDir);
-		System.out.println("sourceDir :"+sourceDir);
-		System.out.println("Runtime_TLL_path :"+Runtime_TLL_path);
-		System.out.println("defaultPackagePrefix :"+defaultPackagePrefix);
-		  
+//		System.out.println("javaDestDir :"+javaDestDir );
+//		System.out.println("tllDestDir :"+tllDestDir);
+//		System.out.println("sourceDir :"+sourceDir);
+//		System.out.println("Runtime_TLL_path :"+Runtime_TLL_path);
+//		System.out.println("defaultPackagePrefix :"+defaultPackagePrefix);
+//		System.out.println("BasicMTLRuntime :"+BasicMTLRuntime_jar);
+//		  
 		 		  
 		  //remove old problems on the mtl file
-		removeMTLProblems(srcmtlFolder);
+		removeMTLProblems(mtlsrc);
 
 		  try {
 		  	//comment retrouver le dossier où se trouve les .exe de ce fichier
-			  model.removeMTLResources(binMtlFolder,srcmtlFolder);
-			  model.removeMTLResources(srcJavaFolder,srcmtlFolder);
+			  model.removeMTLResources(binmtl,mtlsrc);
+			  model.removeMTLResources(javasrc,mtlsrc);
 			  
 		  } catch (Exception e) {
 			  System.out.println("Warning: problems removing files :" + e.getMessage());
 		  }
 
-		  System.out.println("Generating tll and java objects for " + srcmtlFolder.getName() + "...");
+		  System.out.println("Generating tll and java objects for " + mtlsrc.getName() + "...");
 		  
 		  
 		  //Call the MTL Compiler here
 		  try{
 		  	
 		  BasicMtlCompiler.Compiler Comp=new BasicMtlCompiler.Compiler();
-			System.out.println("Objet créé...");
-			DOMConfigurator.configure ("E:/Projet/org.irisa.mtl.plugin/ThirdParty/MTL/log4j_configuration.xml");
+		  Comp.LogExceptions.clearCompilerResult();
+		  System.out.println("Objet créé...");
+		  String logFile=MTLPlugin.getDefault().getLocation();
+		  logFile=logFile.concat("\\MTL\\bin\\log4j_configuration.xml");
+		  DOMConfigurator.configure (logFile);
 		  Comp.compileFromDirectory(sourceDir,defaultPackagePrefix,tllDestDir,Runtime_TLL_path,javaDestDir);
+		  java.util.Vector problems = Comp.LogExceptions.getAntLrException();
+		  createMarkers(problems);
 		  }catch (Exception E){
 			System.out.println("Problème de compilation..");
 			return;
@@ -230,19 +246,19 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		 model.tagMTLResources(outputFolder, srcmtlFolder);
 		  
 	  } catch (Exception e) {
-//		  IMarker marker = srcmtlFolder.createMarker(MTLPlugin.MTL_PROBLEM);
+//		  IMarker marker = mtlsrc.createMarker(MTLPlugin.MTL_PROBLEM);
 //		  if (marker.exists()) {
 //			  try {
 //				  marker.setAttribute(IMarker.MESSAGE, "MTL Generation : " + e.getMessage());
 //				  marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 //				  marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-//			  } catch (CoreException e1) {
+//			  	} catch (CoreException e1) {
 //				  //ignore
 //			  }
 //		  }
-//		  throw e;
-			System.out.println(e.getMessage());
-  }
+		  throw e;
+//			System.out.println(e.getMessage());
+  	}
   }
   
   
@@ -262,7 +278,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			//System.out.println("Nb fichiers mtl :"+res.length);
 			for (int i=0;i<res.length;i++){
 				if ((res[i].getType()==IResource.FILE) && (res[i].toString().endsWith(".mtl"))){
-					System.out.println(res[i]);
+					//System.out.println(res[i]);
 							return true;
 						}
 					}
@@ -273,27 +289,27 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 	 * Prints out the string represented by the string buffer
 	 */
 	protected void printResultInConsole(String output) {
-		try {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			MTLConsole console = (MTLConsole)page.findView(MTLConsole.CONSOLE_ID);
-			
-			if (console!=null) {
-				console.setOutputText(output);
-			} else if (MTLPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.SHOW_OUTPUT_IN_CONSOLE)==true) {
-				page.showView(MTLConsole.CONSOLE_ID);
-				console = (MTLConsole)page.findView(MTLConsole.CONSOLE_ID);			
-				console.setOutputText(output);
-			}
-		} catch (PartInitException e) {
-			MTLPlugin.getDefault().getLog().log(
-				new Status(
-					IStatus.ERROR,
-					MTLPlugin.PLUGIN_ID,
-					0,
-					MTLMessages.getString("CompilerAction.consoleViewOpeningProblem"),
-					e));
-		}
-		
+//		try {
+//			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+//			MTLConsole console = (MTLConsole)page.findView(MTLConsole.CONSOLE_ID);
+//			
+//			if (console!=null) {
+//				console.setOutputText(output);
+//			} else if (MTLPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.SHOW_OUTPUT_IN_CONSOLE)==true) {
+//				page.showView(MTLConsole.CONSOLE_ID);
+//				console = (MTLConsole)page.findView(MTLConsole.CONSOLE_ID);			
+//				console.setOutputText(output);
+//			}
+//		} catch (PartInitException e) {
+//			MTLPlugin.getDefault().getLog().log(
+//				new Status(
+//					IStatus.ERROR,
+//					MTLPlugin.PLUGIN_ID,
+//					0,
+//					MTLMessages.getString("CompilerAction.consoleViewOpeningProblem"),
+//					e));
+//		}
+//		
 	}	
 	
 	/**
@@ -316,43 +332,69 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 	/**
 	 * Create markers according to the compiler output
 	 */
-	protected void createMarkers(String output, IFile file) throws CoreException {
-		// first delete all the previous markers
-		file.deleteMarkers(IMarker.PROBLEM, false, 0);
-
+	protected void createMarkers(java.util.Vector v) throws CoreException {
+		
 		// and then create the new ones
-		Vector result = new Vector();
-		String fullPath = file.getName();
-
-		StringTokenizer tokenizer = new StringTokenizer(output, "\n"); //$NON-NLS-1$
-		while (tokenizer.hasMoreElements()) {
-			String current = (String) tokenizer.nextElement();
-			if (current.indexOf(fullPath) != -1) {
-				String line =
-					current.substring(
-						current.indexOf(fullPath) + fullPath.length(),
-						current.length());
-				String errorsLocation = line.substring(1, line.indexOf(":") - 1); //$NON-NLS-1$
-				String message = line.substring(line.indexOf(":") + 2, line.length() - 1); //$NON-NLS-1$
-
-				int lineNumber =
-					Integer.parseInt(errorsLocation.substring(0, errorsLocation.indexOf(",")));	//$NON-NLS-1$
-
-				Hashtable attributes = new Hashtable();
-//				MarkerUtilities.setMessage(attributes, message);
-//				if (message.startsWith(ERROR))
-//					attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-//				else if (message.startsWith(WARNING))
-//					attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
-//				else
-//					attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO));
-//				MarkerUtilities.setLineNumber(attributes, lineNumber);
-//				MarkerUtilities.createMarker(file, attributes, IMarker.PROBLEM);
-//
+			for (int i=0;i<v.size();i++){
+		    if (v.elementAt(i) instanceof antlr.RecognitionException){ 
+		    
+		//			first delete all the previous markers
+				antlr.RecognitionException ReX=(antlr.RecognitionException)v.elementAt(i);
+				System.out.println(ReX.fileName+"   "+ReX.line+ "  "+ReX.getMessage()+"  "+ReX.getFilename());
+				//IFile file= IFile(new File(ReX.fileName)); 
+		 		//file.deleteMarkers(IMarker.PROBLEM, false, 0);
+		//new markers
+				//MTLMarkers.setMarker(file,ReX.getMessage(),ReX.getLine(),errorLevel,ReX.getLocalizedMessage());	 		
 			}
 		}
 
 	}
 
+//
+//	/** Create a new task. */
+//	public static final void createNewTask(final int todoStart) {
+//	  final String  todo = SimpleCharStream.currentBuffer.substring(todoStart,
+//																	SimpleCharStream.currentBuffer.indexOf("\n",
+//																										   todoStart)-1);
+//	  if (!PARSER_DEBUG) {
+//		try {
+//		  setMarker(fileToParse,
+//					todo,
+//					SimpleCharStream.getBeginLine(),
+//					MTLMarkers.TASK,
+//					"Line "+SimpleCharStream.getBeginLine());
+//		} catch (CoreException e) {
+//		  MTLPlugin.log(e);
+//		}
+//	  }
+//	}
+//
+	/**
+	  * Create marker for the parse error.
+	  * @param e the ParseException
+	  */
+//	 private static void setMarker(final antlr.RecognitionException e) {
+//	   try {
+//		 if (errorStart == -1) {
+//		   setMarker(fileToParse,
+//					 errorMessage,
+//					 e.currentToken.sourceStart,
+//					 e.currentToken.sourceEnd,
+//					 errorLevel,
+//					 "Line " + e.currentToken.beginLine+", "+e.currentToken.sourceStart+":"+e.currentToken.sourceEnd);
+//		 } else {
+//		   setMarker(fileToParse,
+//					 errorMessage,
+//					 errorStart,
+//					 errorEnd,
+//					 errorLevel,
+//					 "Line " + e.currentToken.beginLine+", "+errorStart+":"+errorEnd);
+//		   errorStart = -1;
+//		   errorEnd = -1;
+//		 }
+//	   } catch (CoreException e2) {
+//		 MTLPlugin.log(e2);
+//	   }
+//	 }
 
 }

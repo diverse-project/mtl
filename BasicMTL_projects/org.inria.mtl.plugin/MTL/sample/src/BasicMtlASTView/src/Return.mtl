@@ -1,0 +1,27 @@
+// $Id: Return.mtl,v 1.1 2003/10/14 15:56:20 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Return extends Instruction {
+ 
+	returnedExpression : Expression;
+
+	toASTJava() : ASTJava::Object
+	{
+	properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Return theReturn=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Return((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_returnedExpression.BMTL_toASTJava())];
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theReturn.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theReturn];
+	}
+ }

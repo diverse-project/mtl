@@ -1,0 +1,76 @@
+<!-- $Id: build.xml,v 1.1 2004-05-28 16:54:18 sdzale Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="compile Standard" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="./src"/>
+	<property name="bin" location="./bin/"/>
+	<property name="build" location="./build/"/>
+
+
+	<!-- classpath for compiling and running MTL file -->
+	<path id="MTLcompiler.class.path">
+    	<pathelement path="${java.class.path}/"/>
+    	<pathelement path="."/>
+    	<pathelement path="../MTDataTypes/dist/bin/MTDataTypes.jar"/>
+    	<pathelement path="../BasicMTLRuntime/dist/bin/BasicMTLRuntime.jar"/>
+    	<pathelement path="../RepositoryAPI/dist/bin/RepositoryAPI.jar"/>
+    	<pathelement path="../MDRDriver/dist/bin/MDRDriver.jar"/>
+    	<pathelement path="../Utils/dist/bin/Utils.jar"/>
+    	<pathelement path="../Utils/ThirdParty/log4j/log4j.jar"/>
+    	<pathelement path="../BasicMtl_Transformation_libraries/bin"/>
+  	</path>
+  	
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="compile Standard" depends="init"
+  	 	description="Generate code for Standard.mtl">
+	 	<java jar="../BasicMtl2Java/PureJava/dist/bin/Facade.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}/"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="Standard"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/Standard/"/> 
+       </java>
+ 
+	</target>
+
+	
+	<target name="compile generated code" depends="compile Standard">
+		<description>
+  			compile the generated Java Code
+  		</description>		
+   		<!-- there is also one java file in the src directory -->
+  		<javac srcdir="${src}" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  		<javac srcdir="${build}/src/java/Standard" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>		
+	</target>
+	
+	<target name="clean"
+        description="clean up Standard lib" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/Standard"/>    
+    	<delete dir="${build}/src/UncheckedTLL/Standard.tll"/>
+    	<delete dir="${build}/src/TLL/Standard.tll"/>    
+  	</target>
+</project>

@@ -1,0 +1,26 @@
+<!-- $Id: build.xml,v 1.1 2004-05-28 16:53:44 sdzale Exp $ -->
+<!-- Usefull script to pack and unpack zargo files from poseidon or ArgoUML -->
+<project name="poseidon import export" default="extract" basedir=".">
+	<description>
+        target for import export of poseidon files
+	</description>
+	
+	<target name="extract">
+		<unzip src="testposeidon.zargo" dest="."/>
+	</target>
+	<target name="create zargo from modified">
+		<mkdir dir="new"/>
+		<copy todir="new">
+		    <fileset dir=".">
+		      <exclude name="**/*.zargo"/>
+		      <exclude name="testposeidon.xmi"/>
+		      <exclude name="new"/>
+    		</fileset>			
+		</copy>
+		<move file="new/testposeidon_modified.xmi" tofile="new/testposeidon.xmi"/>
+		<zip destfile="testposeidon_modified.zargo"
+       		basedir="new"
+		  />
+		
+	</target>
+</project>

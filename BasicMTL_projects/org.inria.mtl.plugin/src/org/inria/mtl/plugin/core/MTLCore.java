@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCore.java,v 1.3 2004-05-25 09:07:46 sdzale Exp $
+* $Id: MTLCore.java,v 1.4 2004-05-28 16:53:07 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -450,14 +450,6 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 		}
 
 		/**
-		 * Returns a default output location.
-		 * This is the project bin folder
-		 */
-//		protected IPath defaultOutputLocation() throws JavaModelException {
-//			return getProject().getFullPath().append("bin"); //$NON-NLS-1$
-//		}
-
-		/**
 		 * Returns the XML String encoding of the class path.
 		 */
 		public static String encodeClasspath(IClasspathEntry[] classpath, IPath outputLocation, boolean useLineSeparator) throws JavaModelException {
@@ -467,7 +459,7 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 			document.appendChild(cpElement);
 
 			for (int i = 0; i < classpath.length; ++i) {
-				cpElement.appendChild(((MtlClasspathEntry)classpath[i]).elementEncode(document, getProject().getFullPath()));
+					cpElement.appendChild(((MtlClasspathEntry)classpath[i]).elementEncode(document, getProject().getFullPath()));
 			}
 
 			if (outputLocation != null) {

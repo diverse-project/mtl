@@ -1,5 +1,5 @@
 /*
-* $Id: Log4jPreferencePage.java,v 1.1 2004-05-25 09:07:42 sdzale Exp $
+* $Id: Log4jPreferencePage.java,v 1.2 2004-05-28 16:53:06 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -44,6 +44,6 @@ public class Log4jPreferencePage extends FieldEditorPreferencePage implements IW
 	 */
 	public void createFieldEditors()
 	{
-		addField(new IntegerFieldEditor(PreferenceConstants.LOG4_PORT, "Server &Port", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(P_PORT, "Server &Port", getFieldEditorParent()));
 	}
 }

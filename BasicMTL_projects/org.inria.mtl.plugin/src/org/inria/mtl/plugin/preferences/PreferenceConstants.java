@@ -1,5 +1,5 @@
 /*
-* $Id: PreferenceConstants.java,v 1.4 2004-05-25 09:07:43 sdzale Exp $
+* $Id: PreferenceConstants.java,v 1.5 2004-05-28 16:53:06 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,7 +8,6 @@
 package org.inria.mtl.plugin.preferences;
 
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
@@ -16,9 +15,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-import org.inria.mtl.plugin.MTLPlugin;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.WorkbenchChainedTextFontFieldEditor;
+import org.inria.mtl.plugin.MTLPlugin;
 
 /**
  * Preference constants used in the MTL-UI preference store. Clients should only read the
@@ -42,43 +41,20 @@ public class PreferenceConstants {
    * are rendered
    * </p>
    */
-  public static final String APPEARANCE_METHOD_RETURNTYPE = "net.sourceforge.phpdt.ui.methodreturntype"; //$NON-NLS-1$
+  public static final String APPEARANCE_METHOD_RETURNTYPE = "org.inria.mtl.plugin.methodreturntype"; //$NON-NLS-1$
   
   
-  public static  String JAVA_SRCNAME = "srcjavafolder"; //$NON-NLS-1$
-  public static  IFolder FJAVA_SRCNAME ;
-  public static  String MTL_SRCNAME = "srcmtlfolder"; //$NON-NLS-1$
-  public static  IFolder FMTL_SRCNAME ; 
-  public static  String JAVA_BINNAME = "binjavafolder"; //$NON-NLS-1$
-  public static   IFolder FJAVA_BINNAME; 
-  public static  String MTL_BINNAME = "binmtlfolder"; //$NON-NLS-1$
-  public static  IFolder FMTL_BINNAME ;
+  public static  String FJAVA_SRCNAME ="srcjavafolder"; //$NON-NLS-1$
+  public static  String FMTL_SRCNAME ="srcmtlfolder"; //$NON-NLS-1$; 
+  public static   String FJAVA_BINNAME = "binjavafolder"; //$NON-NLS-1$; 
+  public static  String FMTL_BINNAME = "binmtlfolder"; //$NON-NLS-1$;
   public static  String OUTPUT_BUILDNAME = "outputfolder"; //$NON-NLS-1$
-  public static  IFolder FOUTPUT_BUILDNAME; 
+  public static  String MODEL_NAME = "modelfolder"; //$NON-NLS-1$
+  public static  String METAMODEL_NAME = "metamodelfolder"; //$NON-NLS-1$
+  
+  
   public static final String SHOW_OUTPUT_IN_CONSOLE = "_show_output_in_console";
   public static final String AUTO_COMPILE = "_auto_compile";
-  
-//  //Editor preferences
-//  /**
-//	* A named preference that holds the color used as the text foreground.
-//	* <p>
-//	* Value is of type <code>String</code>. A RGB color value encoded as a string
-//	* using class <code>PreferenceConverter</code>
-//	* </p>
-//	* 
-//	* @see org.eclipse.jface.resource.StringConverter
-//	* @see org.eclipse.jface.preference.PreferenceConverter
-//	*/
-//   public final static String EDITOR_FOREGROUND_COLOR = AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND;
-//
-//   /**
-//	* A named preference that describes if the system default foreground color
-//	* is used as the text foreground.
-//	* <p>
-//	* Value is of type <code>Boolean</code>.
-//	* </p>
-//	*/
-//   public final static String EDITOR_FOREGROUND_DEFAULT_COLOR = AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT;
 
 	public final static String LOG4_PORT = "log4j.port"; //$NON-NLS-1$
 
@@ -1062,11 +1038,14 @@ public class PreferenceConstants {
 	store.setDefault(PreferenceConstants.MTL_COMPILER_PATH, " ");
 	
 	//MTL Folder settings
-	store.setDefault(PreferenceConstants.JAVA_BINNAME,"bin");
-	store.setDefault(PreferenceConstants.JAVA_SRCNAME,"src");
-	store.setDefault(PreferenceConstants.MTL_BINNAME,"tll");
-	store.setDefault(PreferenceConstants.MTL_SRCNAME,"src");
+	store.setDefault(PreferenceConstants.FJAVA_BINNAME,"bin");
+	store.setDefault(PreferenceConstants.FJAVA_SRCNAME,"src");
+	store.setDefault(PreferenceConstants.FMTL_BINNAME,"tll");
+	store.setDefault(PreferenceConstants.FMTL_SRCNAME,"src");
 	store.setDefault(PreferenceConstants.OUTPUT_BUILDNAME,"build");
+	store.setDefault(PreferenceConstants.MODEL_NAME,"models");
+	store.setDefault(PreferenceConstants.METAMODEL_NAME,"metamodels");
+
 
 	final RGB[] rgbs = new RGB[3];
 	final Display display = Display.getDefault();

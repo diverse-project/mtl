@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.2 2004-05-19 09:22:43 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.3 2004-05-28 16:53:32 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -72,6 +72,7 @@ public class buildfolderAction implements IObjectActionDelegate {
 									{
 										IResource item = (IResource) it.next ();
 										if (item instanceof IFolder){
+											System.out.println("iciFold");
 											currentProject=item.getProject();
 											srcFolder=(IFolder)item;
 										}

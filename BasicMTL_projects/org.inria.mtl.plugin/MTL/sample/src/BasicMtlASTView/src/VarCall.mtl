@@ -1,0 +1,18 @@
+// $Id: VarCall.mtl,v 1.1 2003/10/14 15:56:20 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class VarCall extends Expression {
+ 
+//	relatedDecl : VarDeclaration;
+	varName : Standard::String;
+
+	toASTJava() : ASTJava::Object
+	{
+	JavaCode [return new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarCall(this.BMTL_varName.getTheString())];
+	}
+ }

@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+<!-- template file : $Id$ -->
+<!DOCTYPE argo SYSTEM "argo.dtd" >
+<argo>
+  <documentation>
+    <authorname>#AUTHOR#</authorname>
+    <version>1.61</version>
+    <modifiedWith>1.61</modifiedWith>
+    <description></description>
+    <sourcepath></sourcepath>
+    <classpath></classpath>
+  </documentation>
+  <searchpath href="PROJECT_DIR" />
+  <member
+    type="xmi"
+    name="#FILE#"
+  />
+  <member
+    type="pgml"
+    name="Empty Class Diagram.pgml"
+  />
+  <historyfile name="" />
+</argo>

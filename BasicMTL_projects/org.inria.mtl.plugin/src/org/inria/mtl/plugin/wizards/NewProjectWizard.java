@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.2 2004-05-17 10:16:14 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.3 2004-05-28 16:53:09 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -31,6 +31,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+//import ThirdParty.
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLBuilder;
 import org.inria.mtl.plugin.builders.MTLNature;
@@ -133,29 +134,33 @@ public boolean finish(IProgressMonitor monitor) {
 		newProject.create(null);
 		newProject.open(null);
 		
+		//output folder
 		IFolder output = newProject.getFolder(store.getString(PreferenceConstants.OUTPUT_BUILDNAME));
 		output.create(true, true, null);
+		
+		//		model folder
+		IFolder model = newProject.getFolder(store.getString(PreferenceConstants.MODEL_NAME));
+		model.create(true, true, null);
+		
+		//		metamodel folder
+		IFolder metamodel = newProject.getFolder(store.getString(PreferenceConstants.METAMODEL_NAME));
+		metamodel.create(true, true, null);
+		
+		
 		//
 		//store.s
-		IFolder javasrc =output.getFolder(store.getString(PreferenceConstants.JAVA_SRCNAME));
+		IFolder javasrc =output.getFolder(store.getString(PreferenceConstants.FJAVA_SRCNAME));
 		javasrc.create(true,true,null);	
-		IFolder binjava = output.getFolder(store.getString(PreferenceConstants.JAVA_BINNAME));
+		IFolder binjava = output.getFolder(store.getString(PreferenceConstants.FJAVA_BINNAME));
 		binjava.create(true, true, null);
-		IFolder mtlsrc = newProject.getFolder(store.getString(PreferenceConstants.MTL_SRCNAME));
+		IFolder mtlsrc = newProject.getFolder(store.getString(PreferenceConstants.FMTL_SRCNAME));
 		mtlsrc.create(true, true, null);
-		IFolder binmtl = output.getFolder(store.getString(PreferenceConstants.MTL_BINNAME));
+		IFolder binmtl = output.getFolder(store.getString(PreferenceConstants.FMTL_BINNAME));
 		binmtl.create(true, true, null);
 		
-		String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
-		IPath compilerPath=new Path(MTLcompiler_path);
-		String MTLcompiler_jar_path=MTLcompiler_path.concat("/bin");
-		//MTLcompiler_jar_path=this.checkPathEnd(MTLcompiler_jar_path);
-		String BasicMTLc_jar=MTLcompiler_jar_path.concat("/BasicMTLc.jar");
-		IPath BasicMTLcPath=new Path(BasicMTLc_jar);
+		//A revoir
 		
-		String Runtime_TLL_path=MTLcompiler_path.concat("/Runtime/src/TLL");
-		String BasicMTLRuntime_jar=MTLcompiler_jar_path.concat("/BasicMTLruntime.jar");
-		IPath BasicMTLRuntimePath=new Path(BasicMTLRuntime_jar);
+		String MTLcompiler_path=store.getString(PreferenceConstants.MTL_COMPILER_PATH);
 		if (MTLcompiler_path.length()==0){
 					IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
 					IClasspathEntry[] newcpe = new IClasspathEntry[1] ;			
@@ -174,12 +179,10 @@ public boolean finish(IProgressMonitor monitor) {
 						System.out.println("Nom de projet inexistant");
 					}			
 		  }else{
-					IClasspathEntry[] newcpe1 = new IClasspathEntry[2] ;
-					IClasspathEntry[] newcpe = new IClasspathEntry[3] ;			
+					IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
+					IClasspathEntry[] newcpe = new IClasspathEntry[1] ;			
 					newcpe[0] = JavaCore.newSourceEntry(javasrc.getFullPath());
-					newcpe[1] = JavaCore.newLibraryEntry(BasicMTLcPath,null,null);
-					newcpe[2] = JavaCore.newLibraryEntry(BasicMTLRuntimePath,null,null);
-						
+
 					fJavaPage.setDefaultClassPath(newcpe, true);
 					fJavaPage.setDefaultOutputFolder(binjava.getFullPath());
 					fJavaPage.getRunnable().run(null);
@@ -190,13 +193,12 @@ public boolean finish(IProgressMonitor monitor) {
 					}catch (Exception E){System.out.println("Ajout source incorrect");
 					}
 					try{
-						newcpe1[1]=MTLCore.newContainerEntry(compilerPath);
-						//System.out.println((newcpe1[1].getPath()==null)?"path null":newcpe1[1].getPath().toString()+"  "+newcpe1[1].getEntryKind()+"  "+newcpe1[1].getContentKind());
-					}catch (Exception E){System.out.println("Ajout container incorrect");
+					}catch (Exception E){
+						System.out.println("Ajout container incorrect");
 					}
 					
 					boolean bol=MTLCore.saveClasspath(newcpe1,null);
-					//System.out.println("Sauvegarde réussie");
+					
 					try{
 					
 					IClasspathEntry[] entries = MTLCore.readClasspathFile();
@@ -211,15 +213,18 @@ public boolean finish(IProgressMonitor monitor) {
 		
 		
 		//Settings MTL folder output and input
-		MTLPlugin.FMTL_SRCNAME = mtlsrc.toString();
-		MTLPlugin.FMTL_BINNAME = binmtl.toString();
-		PreferenceConstants.FJAVA_SRCNAME=javasrc;
-		PreferenceConstants.FJAVA_BINNAME=binjava;
-		PreferenceConstants.FMTL_BINNAME=binmtl;
-		PreferenceConstants.FMTL_SRCNAME=mtlsrc;
-		PreferenceConstants.FOUTPUT_BUILDNAME=output;
+		
+//		store.setValue(PreferenceConstants.FJAVA_SRCNAME,javasrc.getFullPath().toString());
+//		store.setValue(PreferenceConstants.FJAVA_BINNAME,binjava.getFullPath().toString());
+//		store.setValue(PreferenceConstants.FMTL_BINNAME,binmtl.getFullPath().toString());
+//		store.setValue(PreferenceConstants.FMTL_SRCNAME,mtlsrc.getFullPath().toString());
+//		store.setValue(PreferenceConstants.OUTPUT_BUILDNAME,output.getFullPath().toString());
 		setBuilder(newProject);
 		
+//		System.out.println("jsrc :"+javasrc.getFullPath().toString());
+//		System.out.println("jcl :"+binjava.getFullPath().toString());
+//		System.out.println("smtl :"+mtlsrc.getFullPath().toString());
+//		System.out.println("tll :"+binmtl.getFullPath().toString());
 		MTLCore.findFolders();
 		
 

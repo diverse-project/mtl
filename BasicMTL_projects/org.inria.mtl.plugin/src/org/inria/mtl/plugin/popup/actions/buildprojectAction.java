@@ -1,5 +1,5 @@
 /*
-* $Id: buildprojectAction.java,v 1.2 2004-05-19 09:22:45 sdzale Exp $
+* $Id: buildprojectAction.java,v 1.3 2004-05-28 16:53:33 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -48,17 +48,6 @@ public class buildprojectAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		Shell shell = new Shell();
 		
-//		MessageDialog.openInformation(
-//			shell,
-//			"MTL",
-//			"Run the project...");
-////			MTLCore.findFolders();
-//		IPath[] srcFolders=MTLPlugin.srcFolders;
-////		for(int i=0;i<srcFolders.length;i++){
-//			try{
-//				//???????????????
-//			}
-//		}
 		
 	}
 
@@ -83,6 +72,7 @@ public class buildprojectAction implements IObjectActionDelegate {
 								IPath[] srcPaths=MTLModel.srcFolders;
 							    for (int i =0;i<srcPaths.length;i++){
 									IFolder srcFolder= currentProject.getFolder(srcPaths[i]);
+									System.out.println("ici");
 									boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
 									
 							    }

@@ -1,0 +1,33 @@
+// $Id: BMTLTypeProperty.mtl,v 1.1 2003/10/14 15:56:19 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class BMTLTypeProperty extends Property {
+ 
+	value : Standard::OrderedSet; //the qualified name =  ordered set of string(s)
+	
+	getTheValue():Standard::OclAny
+	{	return value.oclAsType(!Standard::OclAny!); }
+	
+	setTheValue(newValue : Standard::OclAny):Standard::Void
+	{	value := newValue.oclAsType(!Standard::OrderedSet!); }
+	
+	toASTJava() : ASTJava::Object
+	{
+	names : Standard::Iterator;
+	aName : Standard::String;
+	JavaCode [java.util.Vector theVector=new java.util.Vector()];
+	names := value.getNewIterator();
+	names.start();
+	while names.isOn() {
+		aName := names.item().oclAsType(!Standard::String!);
+		JavaCode [theVector.addElement(BMTL_aName.getTheString())];
+		names.next();
+	}
+	JavaCode [return new org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property(this.get_BMTL_name().getTheString(),theVector,this.get_BMTL_tagType().getTheString())];
+	}
+ }

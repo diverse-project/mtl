@@ -1,0 +1,84 @@
+// $Id: Operation.mtl,v 1.2 2003/12/03 04:30:15 ffondeme Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Operation extends ASTNode {
+ 
+	instructions : Standard::OrderedSet;
+//	returnedType : UserClass;
+	Parameters : Standard::OrderedSet;
+	declaredVariables : Standard::OrderedSet;
+	name : Standard::String;
+	throwsExceptionValue : Standard::Boolean;
+	isGetterFor : Attribute;
+	isSetterFor : Attribute;
+
+	appendParameters(param : VarDeclaration) : Standard::Void
+	{	if isNull(Parameters)
+			{ JavaCode [BMTL_Parameters=new BMTLOrderedSet()]; }
+		Parameters := Parameters.append(param).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+	appendDeclaredVariables(var : VarDeclaration) : Standard::Void
+	{	if isNull(declaredVariables)
+			{ JavaCode [BMTL_declaredVariables=new BMTLOrderedSet()]; }
+		declaredVariables := declaredVariables.append(var).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+	appendInstructions(instr : Instruction) : Standard::Void
+	{	if isNull(instructions)
+			{ JavaCode [BMTL_instructions=new BMTLOrderedSet()]; }
+		instructions := instructions.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	aVarDecl : VarDeclaration;
+	anInstruction : Instruction;
+	aProperty : Property;
+	theParameters,localVars,theInstructions,properties : Standard::Iterator;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theOperation=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation(BMTL_name.getTheString())];
+	if isNull(Parameters).[not]() {
+	theParameters := Parameters.getNewIterator();
+	theParameters.start();
+	while theParameters.isOn() {
+		aVarDecl := theParameters.item().oclAsType(!VarDeclaration!);
+		JavaCode [theOperation.appendParameters((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)BMTL_aVarDecl.BMTL_toASTJava())];
+		theParameters.next();
+	}
+	}
+	if isNull(declaredVariables).[not]() {
+	theParameters := declaredVariables.getNewIterator();
+	theParameters.start();
+	while theParameters.isOn() {
+		aVarDecl := theParameters.item().oclAsType(!VarDeclaration!);
+		JavaCode [theOperation.appendDeclaredVariables((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)BMTL_aVarDecl.BMTL_toASTJava())];
+		theParameters.next();
+	}
+	}
+	if isNull(instructions).[not]() {
+	theInstructions := instructions.getNewIterator();
+	theInstructions.start();
+	while theInstructions.isOn() {
+		anInstruction := theInstructions.item().oclAsType(!Instruction!);
+		JavaCode [theOperation.appendInstructions((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		theInstructions.next();
+	}
+	}
+	if throwsExceptionValue {
+		JavaCode [theOperation.setThrowsException(true)];
+	} 
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theOperation.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theOperation];
+	}
+}

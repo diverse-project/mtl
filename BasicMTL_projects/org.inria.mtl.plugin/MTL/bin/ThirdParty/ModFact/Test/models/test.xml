@@ -1,0 +1,465 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<!-- <!DOCTYPE XMI SYSTEM 'UMLX13-11.dtd' > -->
+<XMI xmi.version = '1.1' xmlns:UML='href://org.omg/UML/1.3' timestamp = 'Tue May 06 19:13:10 2003' >
+ <XMI.header>
+  <XMI.documentation>
+   <XMI.exporter>Unisys.JCR.1</XMI.exporter>
+   <XMI.exporterVersion>1.3.4</XMI.exporterVersion>
+  </XMI.documentation>
+  <XMI.metamodel xmi.name = 'UML' xmi.version = '1.3'/>
+ </XMI.header>
+<XMI.content>
+<!-- ==================== test    [Model] ==================== -->
+<UML:Model xmi.id = 'G.0' 
+  name = 'test' visibility = 'public' isSpecification = 'false' 
+  isRoot = 'false' isLeaf = 'false' isAbstract = 'false' >
+  <UML:Namespace.ownedElement>
+    <!-- ==================== test::Model    [Package] ==================== -->
+    <UML:Package xmi.id = 'S.125.1913.01.1' 
+      name = 'Model' visibility = 'public' isSpecification = 'false' 
+      isRoot = 'false' isLeaf = 'false' isAbstract = 'false' 
+      namespace = 'G.0' >
+      <UML:Namespace.ownedElement>
+        <UML:Stereotype xmi.id = 'S.125.1913.01.19' 
+          name = 'metamodel' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' 
+          icon = '' baseClass = 'Package' 
+          extendedElement = 'S.125.1913.01.1' />
+        <!-- ==================== test::Model::AssAB{3EAD297A02C9}    [Association] ==================== -->
+        <UML:Association xmi.id = 'G.1' 
+          name = 'AssAB' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' >
+          <UML:Association.connection>
+            <!-- ==================== test::Model::AssAB{3EAD297A02C9}.b    [AssociationEnd] ==================== -->
+            <UML:AssociationEnd xmi.id = 'G.2' 
+              name = 'b' visibility = 'public' isSpecification = 'false' 
+              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable' 
+              type = 'S.125.1913.01.7' >
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '0' upper = '-1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <!-- ==================== test::Model::AssAB{3EAD297A02C9}.a    [AssociationEnd] ==================== -->
+            <UML:AssociationEnd xmi.id = 'G.3' 
+              name = 'a' visibility = 'public' isSpecification = 'false' 
+              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'classifier' changeability = 'changeable' 
+              type = 'S.125.1913.01.2' >
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '0' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <!-- ==================== test::Model::A    [Class] ==================== -->
+        <UML:Class xmi.id = 'S.125.1913.01.2' 
+          name = 'A' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'false' isAbstract = 'false' 
+          isActive = 'false' 
+          namespace = 'S.125.1913.01.1' 
+          specialization = 'G.5 G.7' >
+          <UML:Classifier.feature>
+            <!-- ==================== test::Model::A.attaPriv    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.3' 
+              name = 'attaPriv' visibility = 'private' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'S.125.1913.01.16' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+            <!-- ==================== test::Model::A.attaProt    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.4' 
+              name = 'attaProt' visibility = 'protected' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'S.125.1913.01.15' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+            <!-- ==================== test::Model::A.attaPub    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.5' 
+              name = 'attaPub' visibility = 'public' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'S.125.1913.01.10' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+            <!-- ==================== test::Model::A::op    [Operation] ==================== -->
+            <UML:Operation xmi.id = 'S.125.1913.01.6' 
+              name = 'op' visibility = 'public' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              isQuery = 'false' 
+              concurrency = 'sequential' isRoot = 'false' isLeaf = 'false' isAbstract = 'false' specification = '' >
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.3' 
+                  name = 'ain' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.2' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.4' 
+                  name = 'binmul' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.7' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.7' 
+                  name = 'cinout' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.8' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.9' 
+                  name = 'dinoutmul' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.9' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.12' 
+                  name = 'aout' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.2' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.14' 
+                  name = 'pt' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.10' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.15' 
+                  name = 'ptmul' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.10' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.17' 
+                  name = 'ptinout' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.10' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.19' 
+                  name = 'ptinoutmult' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.10' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.22' 
+                  name = 'enum' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.11' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.23' 
+                  name = 'enummul' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.11' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.25' 
+                  name = 'enumout' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.11' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.27' 
+                  name = 'enummulout' visibility = 'public' isSpecification = 'false' 
+                  kind = 'inout' 
+                  type = 'S.125.1913.01.11' >
+                  <UML:Parameter.defaultValue>
+                    <UML:Expression 
+                      language = '' body = '' />
+                  </UML:Parameter.defaultValue>
+                </UML:Parameter>
+                <UML:Parameter xmi.id = 'XX.6.1913.2.30' 
+                  name = 'op.Return' visibility = 'public' isSpecification = 'false' 
+                  kind = 'return' 
+                  type = 'S.125.1913.01.10' >
+                </UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <!-- ==================== test::Model::B    [Class] ==================== -->
+        <UML:Class xmi.id = 'S.125.1913.01.7' 
+          name = 'B' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'false' isAbstract = 'false' 
+          isActive = 'false' 
+          namespace = 'S.125.1913.01.1' 
+          specialization = 'G.6 G.8' />
+        <!-- ==================== test::Model::C    [Class] ==================== -->
+        <UML:Class xmi.id = 'S.125.1913.01.8' 
+          name = 'C' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'false' isLeaf = 'true' isAbstract = 'false' 
+          isActive = 'false' 
+          namespace = 'S.125.1913.01.1' 
+          generalization = 'G.5 G.6' >
+          <UML:Namespace.ownedElement>
+            <UML:Generalization xmi.id = 'G.5' 
+              name = '' visibility = 'public' isSpecification = 'false' 
+              discriminator = '' 
+              child = 'S.125.1913.01.8' parent = 'S.125.1913.01.2' />
+            <UML:Generalization xmi.id = 'G.6' 
+              name = '' visibility = 'public' isSpecification = 'false' 
+              discriminator = '' 
+              child = 'S.125.1913.01.8' parent = 'S.125.1913.01.7' />
+          </UML:Namespace.ownedElement>
+        </UML:Class>
+        <!-- ==================== test::Model::D    [Class] ==================== -->
+        <UML:Class xmi.id = 'S.125.1913.01.9' 
+          name = 'D' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'false' isLeaf = 'true' isAbstract = 'false' 
+          isActive = 'false' 
+          namespace = 'S.125.1913.01.1' 
+          generalization = 'G.7 G.8' >
+          <UML:Namespace.ownedElement>
+            <UML:Generalization xmi.id = 'G.7' 
+              name = '' visibility = 'public' isSpecification = 'false' 
+              discriminator = '' 
+              child = 'S.125.1913.01.9' parent = 'S.125.1913.01.2' />
+            <UML:Generalization xmi.id = 'G.8' 
+              name = '' visibility = 'public' isSpecification = 'false' 
+              discriminator = '' 
+              child = 'S.125.1913.01.9' parent = 'S.125.1913.01.7' />
+          </UML:Namespace.ownedElement>
+        </UML:Class>
+        <!-- ==================== test::Model::Boolean    [DataType] ==================== -->
+        <UML:DataType xmi.id = 'S.125.1913.01.10' 
+          name = 'Boolean' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'true' isAbstract = 'false' 
+          namespace = 'S.125.1913.01.1' />
+        <!-- ==================== test::Model::Enum    [Class] ==================== -->
+        <UML:Class xmi.id = 'S.125.1913.01.11' 
+          name = 'Enum' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'true' isAbstract = 'false' 
+          isActive = 'false' 
+          namespace = 'S.125.1913.01.1' >
+          <UML:Classifier.feature>
+            <!-- ==================== test::Model::Enum.e1    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.12' 
+              name = 'e1' visibility = 'private' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'G.4' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+            <!-- ==================== test::Model::Enum.e2    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.13' 
+              name = 'e2' visibility = 'private' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'G.4' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+            <!-- ==================== test::Model::Enum.e3    [Attribute] ==================== -->
+            <UML:Attribute xmi.id = 'S.125.1913.01.14' 
+              name = 'e3' visibility = 'private' isSpecification = 'false' 
+              ownerScope = 'instance' 
+              changeability = 'changeable' targetScope = 'instance' 
+              type = 'G.4' >
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity >
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange 
+                      lower = '1' upper = '1' />
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression 
+                  language = '' body = '' />
+              </UML:Attribute.initialValue>
+            </UML:Attribute>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <UML:Stereotype xmi.id = 'S.125.1913.02.0' 
+          name = 'enumeration' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' 
+          icon = '' baseClass = 'Class' 
+          extendedElement = 'S.125.1913.01.11' />
+        <!-- ==================== test::Model::String    [DataType] ==================== -->
+        <UML:DataType xmi.id = 'S.125.1913.01.15' 
+          name = 'String' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'true' isAbstract = 'false' 
+          namespace = 'S.125.1913.01.1' />
+        <!-- ==================== test::Model::Integer    [DataType] ==================== -->
+        <UML:DataType xmi.id = 'S.125.1913.01.16' 
+          name = 'Integer' visibility = 'public' isSpecification = 'false' 
+          isRoot = 'true' isLeaf = 'true' isAbstract = 'false' 
+          namespace = 'S.125.1913.01.1' />
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <!-- ==================== <undefined>    [DataType] ==================== -->
+    <UML:DataType xmi.id = 'G.4' 
+      name = '&lt;undefined&gt;' visibility = 'public' isSpecification = 'false' 
+      isRoot = 'false' isLeaf = 'false' isAbstract = 'false' />
+  </UML:Namespace.ownedElement>
+</UML:Model>
+<UML:TaggedValue xmi.id = 'XX.6.1913.1.2' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.2' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.5' 
+  tag = 'RationalRose:Tool#1' value = 'MOF' 
+  modelElement = 'G.0' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.6' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.4' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.8' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.7' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.10' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.9' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.11' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.9' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.13' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'out_dir' 
+  modelElement = 'XX.6.1913.2.12' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.16' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.15' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.18' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.17' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.20' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.19' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.21' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.19' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.24' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.23' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.26' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.25' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.28' 
+  tag = 'RationalRose$MOF:uml2mof.multiplicity' value = '0..*' 
+  modelElement = 'XX.6.1913.2.27' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.29' 
+  tag = 'RationalRose$MOF:rose2mof.direction' value = 'inout_dir' 
+  modelElement = 'XX.6.1913.2.27' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.31' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.7' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.32' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.8' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.33' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.9' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.34' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.10' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.2.35' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.11' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.6.36' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.15' />
+<UML:TaggedValue xmi.id = 'XX.6.1913.6.37' 
+  tag = 'persistence' value = 'transient' 
+  modelElement = 'S.125.1913.01.16' />
+</XMI.content>
+</XMI>

@@ -8,10 +8,10 @@
 
    <runtime>
       <library name="mtl.jar"/>
-      <library name="ThirdParty/MTL/BasicMTLc.jar"/>
-      <library name="ThirdParty/log4j/log4j.jar"/>
-      <library name="ThirdParty/antlr/antlrfull.jar"/>
-      <library name="ThirdParty/Runtime/BasicMTLruntime.jar"/>
+      <library name="MTL/bin/BasicMTLc.jar"/>
+      <library name="MTL/bin/ThirdParty/log4j/log4j.jar"/>
+      <library name="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
+      <library name="MTL/bin/BasicMTLruntime.jar"/>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>
@@ -399,7 +399,7 @@
       <page
             name="%MTLPreferencePageCompilers"
             category="org.inria.plugin.mtl.MTLPreferencePage"
-            class="org.inria.mtl.plugin.preferences.MTLPreferencePageCompiler"
+            class="org.inria.mtl.plugin.preferences.MTLCompilerPreferencePage"
             id="org.inria.plugin.mtl.MTLPreferencePageCompilers">
       </page>
       <page

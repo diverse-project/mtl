@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectPreferencePage.java,v 1.2 2004-05-19 09:21:31 sdzale Exp $
+* $Id: NewProjectPreferencePage.java,v 1.3 2004-05-28 16:53:05 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -42,10 +42,12 @@ import org.inria.mtl.plugin.MTLPlugin;
 
 public class NewProjectPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private static final String OUTPUT_BUILDNAME= PreferenceConstants.OUTPUT_BUILDNAME;
-	private static final String JAVA_SRCNAME= PreferenceConstants.JAVA_SRCNAME;
-	private static final String JAVA_BINNAME= PreferenceConstants.JAVA_BINNAME;
-	private static final String MTL_BINNAME= PreferenceConstants.MTL_BINNAME;
-	private static final String MTL_SRCNAME= PreferenceConstants.MTL_SRCNAME;
+	private static final String JAVA_SRCNAME= PreferenceConstants.FJAVA_SRCNAME;
+	private static final String JAVA_BINNAME= PreferenceConstants.FJAVA_BINNAME;
+	private static final String MTL_BINNAME= PreferenceConstants.FMTL_BINNAME;
+	private static final String MTL_SRCNAME= PreferenceConstants.FMTL_SRCNAME;
+	private static final String MODEL_NAME= PreferenceConstants.MODEL_NAME;
+	private static final String METAMODEL_NAME= PreferenceConstants.METAMODEL_NAME;
 
 
 	
@@ -61,6 +63,8 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 	private Text fMtlBinFolderNameText;
 	private Text fMtlSrcFolderNameText;
 	private Text fOutputFolderNameText;
+	private Text fModelFolderNameText;
+	private Text fMetaModelFolderNameText;
 
 	private Combo fJRECombo;
 
@@ -72,6 +76,8 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 	private Label fJavaSrcFolderNameLabel;
 	private Label fMtlSrcFolderNameLabel;
 	private Label fMtlBinFolderNameLabel;
+	private Label fModelFolderNameLabel;
+	private Label fMetaModelFolderNameLabel;
 
 
 	public NewProjectPreferencePage() {
@@ -100,16 +106,13 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 	}
 
 	public static void initDefaults(IPreferenceStore store) {
-//		store.setDefault(OUTPUT_BUILDNAME, "build"); //$NON-NLS-1$
-//		store.setDefault(JAVA_SRCNAME, "src"); //$NON-NLS-1$
-//		store.setDefault(MTL_SRCNAME, "src"); //$NON-NLS-1$
-//		store.setDefault(JAVA_BINNAME, "bin"); //$NON-NLS-1$
-//		store.setDefault(MTL_BINNAME, "tll"); //$NON-NLS-1$ 
 		store.setDefault(OUTPUT_BUILDNAME, store.getString(PreferenceConstants.OUTPUT_BUILDNAME)); //$NON-NLS-1$
-		store.setDefault(JAVA_SRCNAME, store.getString(PreferenceConstants.JAVA_SRCNAME)); //$NON-NLS-1$
-		store.setDefault(MTL_SRCNAME, store.getString(PreferenceConstants.MTL_SRCNAME)); //$NON-NLS-1$
-		store.setDefault(JAVA_BINNAME, store.getString(PreferenceConstants.JAVA_BINNAME)); //$NON-NLS-1$
-		store.setDefault(MTL_BINNAME, store.getString(PreferenceConstants.MTL_BINNAME)); //$NON-NLS-1$ 
+		store.setDefault(JAVA_SRCNAME, store.getString(PreferenceConstants.FJAVA_SRCNAME)); //$NON-NLS-1$
+		store.setDefault(MTL_SRCNAME, store.getString(PreferenceConstants.FMTL_SRCNAME)); //$NON-NLS-1$
+		store.setDefault(JAVA_BINNAME, store.getString(PreferenceConstants.FJAVA_BINNAME)); //$NON-NLS-1$
+		store.setDefault(MTL_BINNAME, store.getString(PreferenceConstants.FMTL_BINNAME)); //$NON-NLS-1$ 
+		store.setDefault(MODEL_NAME, store.getString(PreferenceConstants.MODEL_NAME)); //$NON-NLS-1$
+		store.setDefault(METAMODEL_NAME, store.getString(PreferenceConstants.METAMODEL_NAME)); //$NON-NLS-1$
 		MTLPlugin.getDefault().savePluginPreferences();
 	}
 	
@@ -223,34 +226,42 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 		fMtlBinFolderNameText= addTextControl(sourceFolderGroup, fMtlBinFolderNameLabel, MTL_BINNAME, indent); //$NON-NLS-1$
 		fMtlBinFolderNameText.addModifyListener(fModifyListener);
 		
+		fModelFolderNameLabel= new Label(sourceFolderGroup, SWT.NONE);
+		fModelFolderNameLabel.setText(MTLMessages.getString("NewMtlProjectPreferencePage.folders.model")); //$NON-NLS-1$
+		fModelFolderNameText= addTextControl(sourceFolderGroup, fModelFolderNameLabel, MODEL_NAME, indent); //$NON-NLS-1$
+		fModelFolderNameText.addModifyListener(fModifyListener);
+		
+		fMetaModelFolderNameLabel= new Label(sourceFolderGroup, SWT.NONE);
+		fMetaModelFolderNameLabel.setText(MTLMessages.getString("NewMtlProjectPreferencePage.folders.metamodel")); //$NON-NLS-1$
+		fMetaModelFolderNameText= addTextControl(sourceFolderGroup, fMetaModelFolderNameLabel, METAMODEL_NAME, indent); //$NON-NLS-1$
+		fMetaModelFolderNameText.addModifyListener(fModifyListener);
+		
 		
 		initDefaults(store);
-		//System.out.println("Validate control1");
 		validateFolders();
-		//System.out.println("Validate control2");
 		Dialog.applyDialogFont(result);
 		return result;
 	}
 	
 	private void validateFolders() {
 	
-			//System.out.println("Test de validation");
 			String OutputName= fOutputFolderNameText.getText();
 			String srcJavaName= fJavaSrcFolderNameText.getText();
 			String binJavaName= fJavaBinFolderNameText.getText();
 			String srcMtlName= fMtlSrcFolderNameText.getText();
 			String binMtlName= fMtlBinFolderNameText.getText();
+			String ModelName= fModelFolderNameText.getText();
+			String MetaModelName= fMetaModelFolderNameText.getText();
 			if (srcJavaName.length() + binJavaName.length()+ binMtlName.length()+ srcMtlName.length() == 0) {
 				updateStatus(new StatusInfo(IStatus.ERROR,  MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.namesempty"))); //$NON-NLS-1$
 				return;
 			}
 			IWorkspace workspace= MTLPlugin.getWorkspace();
-			IProject dmy= workspace.getRoot().getProject("project"); //$NON-NLS-1$
+			IProject currProject= workspace.getRoot().getProject("project"); //$NON-NLS-1$
 			
-			//System.out.println(dmy.getName());
+			
 			IStatus status;
-			IPath srcPath= dmy.getFullPath().append(srcMtlName);
-			//System.out.println(srcPath.toOSString());
+			IPath srcPath= currProject.getFullPath().append(srcMtlName);
 			if (srcMtlName.length() != 0) {
 				status= workspace.validatePath(srcPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
@@ -260,9 +271,7 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 				}
 			}
 			
-			IPath srcJavaPath= dmy.getFullPath().append(srcJavaName);
-			//System.out.println(srcJavaPath.getDevice());
-			//System.out.println(srcJavaPath.toOSString());
+			IPath srcJavaPath= currProject.getFullPath().append(srcJavaName);
 			if (srcJavaName.length() != 0) {
 			status= workspace.validatePath(srcJavaPath.toString(), IResource.FOLDER);
 			if (!status.isOK()) {
@@ -272,8 +281,7 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 				}
 			}
 			
-			IPath binJavaPath= dmy.getFullPath().append(binJavaName);
-			//System.out.println(binJavaPath.getDevice());
+			IPath binJavaPath= currProject.getFullPath().append(binJavaName);
 			if (binJavaName.length() != 0) {
 				status= workspace.validatePath(binJavaPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
@@ -283,8 +291,7 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 					}
 			}
 
-			IPath binMtlPath= dmy.getFullPath().append(binMtlName);
-			//System.out.println(binMtlPath.getDevice());
+			IPath binMtlPath= currProject.getFullPath().append(binMtlName);
 			if (binMtlName.length() != 0) {
 				status= workspace.validatePath(binMtlPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
@@ -295,8 +302,7 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 			}
 	
 		
-			IPath binPath= dmy.getFullPath().append(OutputName);
-			//System.out.println(binPath.getDevice());
+			IPath binPath= currProject.getFullPath().append(OutputName);
 			if (OutputName.length() != 0) {
 				status= workspace.validatePath(binPath.toString(), IResource.FOLDER);
 				if (!status.isOK()) {
@@ -305,14 +311,30 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 					return;
 				}
 			}
-			/*IClasspathEntry entry= JavaCore.newSourceEntry(srcPath);
-			status= JavaConventions.validateClasspath(JavaCore.create(dmy), new IClasspathEntry[] { entry }, binPath);
-			if (!status.isOK()) {
-				String message= MTLMessages.getString("NewJavaProjectPreferencePage.folders.error.invalidcp"); //$NON-NLS-1$
-				updateStatus(new StatusInfo(IStatus.ERROR, message));
-				return;
-			}*/
-		//System.out.println("Validate");
+			
+			
+		    IPath modelPath= currProject.getFullPath().append(OutputName);
+			if (OutputName.length() != 0) {
+				status= workspace.validatePath(binPath.toString(), IResource.FOLDER);
+				if (!status.isOK()) {
+					String message= MTLMessages.getFormattedString("NewJavaProjectPreferencePage.folders.error.invalidbinname", status.getMessage()); //$NON-NLS-1$
+					updateStatus(new StatusInfo(IStatus.ERROR, message));
+					return;
+				}
+			}
+			
+			
+			IPath metamodelPath= currProject.getFullPath().append(OutputName);
+			if (OutputName.length() != 0) {
+				status= workspace.validatePath(binPath.toString(), IResource.FOLDER);
+				if (!status.isOK()) {
+					String message= MTLMessages.getFormattedString("NewJavaProjectPreferencePage.folders.error.invalidbinname", status.getMessage()); //$NON-NLS-1$
+					updateStatus(new StatusInfo(IStatus.ERROR, message));
+					return;
+				}
+			}
+	
+	
 	    this.performOk();
 		updateStatus(new StatusInfo()); // set to OK
 	}
@@ -330,29 +352,22 @@ public class NewProjectPreferencePage extends PreferencePage implements IWorkben
 */	
 	private void controlModified(Widget widget) {
 		try {
-			if (widget == fJavaSrcFolderNameText){ //System.out.println(fJavaSrcFolderNameText.getText()+" Choisi");
-													validateFolders();
-													}; 
-			if (widget == fJavaBinFolderNameText) { 
-													//System.out.println(fJavaBinFolderNameText.getText()+" Choisi");
-													validateFolders();
-													}; 
-			if (widget == fMtlBinFolderNameText) {
-													//System.out.println(fMtlBinFolderNameText.getText()+" Choisi");
-													validateFolders(); 
-													};
-			if (widget == fMtlSrcFolderNameText) {
-													//System.out.println(fMtlSrcFolderNameText.getText()+" Choisi");
-													validateFolders();
-													}; 
-			if (widget == fOutputFolderNameText) {
-													//System.out.println(fOutputFolderNameText.getText()+" Choisi");
-													validateFolders();
-													};
-			} 
+			if (widget == fJavaSrcFolderNameText) validateFolders();
+													 
+			if (widget == fJavaBinFolderNameText) validateFolders();
+													 
+			if (widget == fMtlBinFolderNameText) validateFolders(); 
+												
+			if (widget == fMtlSrcFolderNameText) validateFolders();
+												 
+			if (widget == fOutputFolderNameText) validateFolders();
+												
+			if (widget == fModelFolderNameText) validateFolders();
+												
+			if (widget == fMetaModelFolderNameText ) validateFolders();
+				} 
 		catch (Exception E)
 			{
-				System.out.println("Problème à ce niveau :"+fJavaSrcFolderNameText.getText());
 				System.out.println(E.getMessage());
 			}
 	}	

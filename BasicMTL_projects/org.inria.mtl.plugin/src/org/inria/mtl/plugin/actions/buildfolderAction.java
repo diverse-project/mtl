@@ -1,5 +1,5 @@
 /*
-* $Id: buildfolderAction.java,v 1.3 2004-05-25 09:07:48 sdzale Exp $
+* $Id: buildfolderAction.java,v 1.4 2004-05-28 16:54:21 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -54,21 +54,21 @@ public class buildfolderAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 			currentSelection = null;
-			if (selection instanceof StructuredSelection)
-				{
-					currentSelection = (StructuredSelection)selection;
-					java.util.Iterator it = currentSelection.iterator();
-					while (it.hasNext())
-									{
-										IResource item = (IResource) it.next ();
-										if (item instanceof IFolder){
-											currentProject=item.getProject();
-											srcFolder=(IFolder)item;
-										}
-										
-
-									}
-				}
+//			if (selection instanceof StructuredSelection)
+//				{
+//					currentSelection = (StructuredSelection)selection;
+//					java.util.Iterator it = currentSelection.iterator();
+//					while (it.hasNext())
+//									{
+//										IResource item = (IResource) it.next ();
+//										if (item instanceof IFolder){
+//											currentProject=item.getProject();
+//											srcFolder=(IFolder)item;
+//										}
+//										
+//
+//									}
+//				}
 		}
 
 	/**

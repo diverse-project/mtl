@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.3 2004-05-19 09:22:20 sdzale Exp $
+* $Id: MTLModel.java,v 1.4 2004-05-28 16:52:47 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -13,7 +13,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.core.MTLCore;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
@@ -63,15 +65,20 @@ public class MTLModel {
 	public MTLModel(IProject proj) {
 		super();
 		this.proj = proj;
-		//tllFolder = (IFolder) proj.findMember(MTLPlugin.FMTL_BINNAME);
-		tllFolder = PreferenceConstants.FMTL_BINNAME;
-		//srcMtlFolder = (IFolder) proj.findMember(MTLPlugin.FMTL_SRCNAME);
-		srcMtlFolder = PreferenceConstants.FMTL_SRCNAME;
-		//srcJavaFolder = (IFolder) proj.findMember(MTLPlugin.FJAVA_SRCNAME);
-		srcJavaFolder = PreferenceConstants.FJAVA_SRCNAME;
+		IPreferenceStore store=PreferenceConstants.getPreferenceStore();
+		IPath tll=new Path(store.getString( PreferenceConstants.FMTL_BINNAME));
+		tllFolder =proj.getFolder(tll);
+		//System.out.println("tll :"+tllFolder);
+		IPath srcMtl=new Path(store.getString( PreferenceConstants.FMTL_SRCNAME));
+		srcMtlFolder =proj.getFolder(srcMtl);
+		//System.out.println("srcMtl :"+srcMtl);
+		IPath srcJava=new Path(store.getString( PreferenceConstants.FJAVA_SRCNAME));
+		srcJavaFolder =proj.getFolder(srcJava);
+		//System.out.println("srcJava :"+srcJava);
+		IPath outputFolder=new Path(store.getString( PreferenceConstants.OUTPUT_BUILDNAME));
+		output =proj.getFolder(outputFolder);
+		//System.out.println("output :"+output);
 		 
-		//output =(IFolder)proj.findMember(MTLPlugin.FOUTPUT_BUILDNAME);
-		output =PreferenceConstants.FOUTPUT_BUILDNAME;
 		mtlclasspath = proj.getFile(".mtlclasspath");
 		
 	}
@@ -278,6 +285,7 @@ public class MTLModel {
 	 **/
 	public void removeMTLResources(IFolder srcFolder, IFolder mtl) throws Exception {
 		IResource[] res = srcFolder.members();
+		
 		for (int i = 0; i < res.length; i++) {
 			if (res[i].getType() == IResource.FILE) {
 				String propVal = null;
