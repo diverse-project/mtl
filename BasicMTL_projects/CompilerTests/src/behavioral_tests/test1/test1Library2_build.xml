@@ -14,6 +14,7 @@
 	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	<property name="MDRDriver.path" location="../../../../MDRDriver"/>
 	
 	
 	  	
@@ -54,6 +55,7 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java>-->
