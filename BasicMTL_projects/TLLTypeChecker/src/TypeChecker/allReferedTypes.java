@@ -1,7 +1,8 @@
 /*
- * $Id: allReferedTypes.java,v 1.16 2004-04-01 12:58:30 dvojtise Exp $
+ * $Id: allReferedTypes.java,v 1.17 2004-04-06 08:46:38 dvojtise Exp $
  * Created on 30 juil. 2003
  *
+ * Copyright 2004 - INRIA - LGPL license
  */
 package TypeChecker;
 
@@ -272,7 +273,7 @@ public class allReferedTypes {
 					else 
 					{
 						TLLtypechecking.getLog().error("Unknown Local Type: "+firstName);
-						TLLtypechecking.getLog().error("card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
+						TLLtypechecking.getLog().debug("   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
 						// retreive the location where this QualifiedName was used
 						for(int i =0; i < aType.cardTypeForVarDeclarations(); i++)
 						{
