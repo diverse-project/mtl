@@ -100,9 +100,9 @@ main(args : Standard::Sequence):Standard::Void
 	modelManager := new MDRDriver::MDRModelManager();
 	modelManager.init();
 	M := modelManager.getModelFromXMI(
-									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\TableMM.xml',
+									'..\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\TableMM.xml',
 									'MyModel',
-									'C:\\PROJET_MTL\\ECLIPSE\\workspace\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\Championship.xml',
+									'..\\MDRDriver\\ThirdParty\\MDR\\Test\\models\\Championship.xml',
 									null);
 	
 	vehicule := new vehiculeLib::vehicule();

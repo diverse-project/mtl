@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.6 2003-10-14 15:15:51 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.7 2003-11-14 17:29:52 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -25,7 +25,7 @@ import antlr2ASTJava.*;
  */
 public class antlr2tll {
 
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
+	static final String tllPrefix=".\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLAntlr2TLLJava");
 
@@ -105,7 +105,7 @@ public class antlr2tll {
 				}
 			}
 			if (defaultPackagePrefix==null) defaultPackagePrefix="org.irisa.triskell.MT.ThirdParty.";
-			if (defaultUncheckedTLLPath==null) defaultUncheckedTLLPath="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
+			if (defaultUncheckedTLLPath==null) defaultUncheckedTLLPath=".\\ThirdParty\\TllLibraries\\";
 			java.util.Vector filenamesArguments=new java.util.Vector();
 			for (int i=0;i<argsEnd;i++)
 				filenamesArguments.addElement(args[i]);
@@ -138,7 +138,7 @@ public class antlr2tll {
 				}
 			}
 			if (defaultPackagePrefix==null) defaultPackagePrefix="org.irisa.triskell.MT.ThirdParty.";
-			if (defaultUncheckedTLLPath==null) defaultUncheckedTLLPath="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
+			if (defaultUncheckedTLLPath==null) defaultUncheckedTLLPath=".\\ThirdParty\\TllLibraries\\";
 			org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Library parsedLib;
 			antlr2ast ASTproducer=new antlr2ast();
 			BasicMtlLibrary theCreatedLib=null;

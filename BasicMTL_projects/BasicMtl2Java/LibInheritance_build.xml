@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.5 2003-10-31 15:49:48 dpollet Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.6 2003-11-14 17:29:44 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -200,12 +200,6 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/Standard/"/> 
        	</java> 
-       <!--	C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\src\  
-       	-TLLPath C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\build\src 
-       	-TLLLoadingPaths C:\PROJET_MTL\ECLIPSE\workspace\BMTLStandard\build\src\TLL\;C:\PROJET_MTL\ECLIPSE\workspace\BMTLASTJava\build\src\TLL\ 
-       	-PackageName AssociationView   
-       	-BinPath C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\build/src/java/AssociationTry/
-  		-->
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">

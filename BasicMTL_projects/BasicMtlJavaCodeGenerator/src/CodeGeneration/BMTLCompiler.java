@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.3 2003-10-14 07:42:56 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.4 2003-11-14 17:30:06 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -21,8 +21,8 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
  */
 public class BMTLCompiler {
 
-	static final String binPathName="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BMTLTester\\ThirdParty\\BMTL_bin";
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
+	static final String binPathName="..\\BMTLTester\\ThirdParty\\BMTL_bin";
+	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/Facade/src/BasicMtlCompiler/Compiler.java,v 1.2 2003-10-31 12:21:05 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/Facade/src/BasicMtlCompiler/Compiler.java,v 1.3 2003-11-14 17:30:14 jpthibau Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -25,7 +25,7 @@ import CodeGeneration.BMTLCompiler;
  */
 public class Compiler {
 
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
+	static final String tllPrefix="..\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLTLLTypeChecker");
 	

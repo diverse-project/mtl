@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-10-17 14:45:42 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.3 2003-11-14 17:29:57 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2ASTView" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -66,7 +66,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>   
 		    	<attribute name="Main-Class" value="antlr2ASTView.antlr2astViewParser"/>
-				<attribute name="Class-Path" value="BasicMtlAntlr.jar C:\PROJET_MTL\ECLIPSE\workspace\BMTLBasicMtlASTView\bin BasicMtlAstJava.jar Utils.jar BasicMTLRuntime.jar MTDataTypes.jar RepositoryAPI.jar BasicMtlASTViewDistribution.jar ThirdParty/log4j/log4j.jar"/>
+				<attribute name="Class-Path" value="BasicMtlAntlr.jar ..\BMTLBasicMtlASTView\bin BasicMtlAstJava.jar Utils.jar BasicMTLRuntime.jar MTDataTypes.jar RepositoryAPI.jar BasicMtlASTViewDistribution.jar ThirdParty/log4j/log4j.jar"/>
 		    	<section name="${ant.project.name}">
 		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-10-17 14:33:52 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-11-14 17:29:50 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="compile BasicMtlASTView" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -13,13 +13,13 @@
 	<path id="MTLcompiler.class.path">
     	<pathelement path="${java.class.path}/"/>
     	<pathelement path="."/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MTDataTypes\dist\bin\MTDataTypes.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMTLRuntime\dist\bin\BasicMTLRuntime.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\RepositoryAPI\dist\bin\RepositoryAPI.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\MDRDriver\dist\bin\MDRDriver.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\dist\bin\Utils.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\Utils\ThirdParty\log4j\log4j.jar"/>
-    	<pathelement path="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtl_Transformation_libraries\bin"/>
+    	<pathelement path="../MTDataTypes/dist/bin/MTDataTypes.jar"/>
+    	<pathelement path="../BasicMTLRuntime/dist/bin/BasicMTLRuntime.jar"/>
+    	<pathelement path="../RepositoryAPI/dist/bin/RepositoryAPI.jar"/>
+    	<pathelement path="../MDRDriver/dist/bin/MDRDriver.jar"/>
+    	<pathelement path="../Utils/dist/bin/Utils.jar"/>
+    	<pathelement path="../Utils/ThirdParty/log4j/log4j.jar"/>
+    	<pathelement path="../BasicMtl_Transformation_libraries/bin"/>
   	</path>
   	
 	<target name="init">
@@ -39,11 +39,11 @@
            fork="true"
            failonerror="true"
            >
-         <arg value="${src}\"/> 
+         <arg value="${src}/"/> 
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-TLLLoadingPaths"/> 
-         <arg value="C:\PROJET_MTL\ECLIPSE\workspace\BMTLStandard\build\src\TLL\;C:\PROJET_MTL\ECLIPSE\workspace\BMTLASTJava\build\src\TLL\"/> 
+         <arg value="../BMTLStandard/build/src/TLL/;../BMTLASTJava/build/src/TLL/"/> 
          <arg value="-PackageName"/> 
          <arg value="BasicMtlASTView"/> 
          <arg value="-BinPath"/> 
@@ -66,7 +66,7 @@
     	    destdir="${bin}">
    			<classpath refid="MTLcompiler.class.path"/>
 	    	<classpath>
-			    <pathelement location="C:\PROJET_MTL\ECLIPSE\workspace\BasicMtlASTJava\dist\bin\BasicMtlASTJava.jar"/>
+			    <pathelement location="../BasicMtlASTJava/dist/bin/BasicMtlASTJava.jar"/>
 			    <pathelement path="${classpath}"/>
 			</classpath>
    		</javac>		

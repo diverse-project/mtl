@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.6 2003-11-03 16:29:52 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.7 2003-11-14 17:29:44 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -210,12 +210,6 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${src}/Standard/"/> 
        	</java> 
-       <!--	C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\src\  
-       	-TLLPath C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\build\src 
-       	-TLLLoadingPaths C:\PROJET_MTL\ECLIPSE\workspace\BMTLStandard\build\src\TLL\;C:\PROJET_MTL\ECLIPSE\workspace\BMTLASTJava\build\src\TLL\ 
-       	-PackageName AssociationView   
-       	-BinPath C:\PROJET_MTL\ECLIPSE\workspace\BMTLAssociationTry\build/src/java/AssociationTry/
-  		-->
   		<java jar="${ANTLR2JavaCode}" 
 					fork="true"
            			failonerror="true">

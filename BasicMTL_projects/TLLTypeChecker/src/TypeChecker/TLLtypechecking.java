@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.8 2003-10-14 07:12:54 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.9 2003-11-14 17:29:42 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -22,8 +22,8 @@ import ANTLRASTWalker.antlrParserInterface;
  */
 public class TLLtypechecking {
 
-	static final String tllUncheckedPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\TLLTypeChecker\\ThirdParty\\TllLibraries\\";
+	static final String tllUncheckedPrefix="..\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
+	static final String tllPrefix=".\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 	public static java.util.Vector defaultTLLPaths=null;
 	public static String defaultTLLPath=null;

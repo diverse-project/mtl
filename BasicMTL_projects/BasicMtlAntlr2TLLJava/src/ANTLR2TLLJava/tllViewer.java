@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/tllViewer.java,v 1.2 2003-08-14 20:47:47 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/tllViewer.java,v 1.3 2003-11-14 17:29:52 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -14,7 +14,7 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class tllViewer {
-	static final String tllPrefix="C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
+	static final String tllPrefix="..\\BasicMtlAntlr2TLLJava\\ThirdParty\\TllLibraries\\";
 	static final String tllSuffix=".tll";
 
 	public static void main(String[] args)
