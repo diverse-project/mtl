@@ -65,7 +65,7 @@
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/JMIEngine.jar"/>
-				<pathelement path="ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
+				<pathelement path="ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 				<pathelement path="ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 				<pathelement path="ThirdParty/JUnit/junit.jar"/>
