@@ -31,6 +31,8 @@ import org.inria.mtl.editors.utils.MTLEditorEnvironment;
 import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.views.actions.ServerAction;
 import org.inria.mtl.views.controller.Controller;
+import org.irisa.triskell.MT.utils.Java.LogConfigurationHelper;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -86,6 +88,7 @@ public class MTLPlugin extends AbstractUIPlugin {
 		super();
 		plugin = this;
 		Controller.getInstance().acquaint(this);
+
 		try {
 			resourceBundle = ResourceBundle.getBundle("org.inria.mtl.MTLPluginResources");
 		} catch (MissingResourceException x) {
@@ -342,10 +345,12 @@ public static MTLPlugin instance() {
 		 {
 		 	if (isLog4jConfigured==false)
 		 	{
-		 		// we may have to start the server
+				// we may have to start the server
 		 		ServerAction.getInstance().run();
 		 		ServerAction.getInstance().setRunning (true);
-		 		
+
+		 		System.setProperty ("Directories.RootPath",  MTLPlugin.getDefault().getLocation() +	getSeparator() + "MTL" + getSeparator() + "bin");
+
 			 	String logFile = MTLPlugin.getDefault().getLocation() +	getSeparator() + "MTL" + getSeparator() + "bin" + getSeparator() + "log4j_configuration.xml";
 			 	org.apache.log4j.xml.DOMConfigurator.configure (logFile);
 				isLog4jConfigured = true;

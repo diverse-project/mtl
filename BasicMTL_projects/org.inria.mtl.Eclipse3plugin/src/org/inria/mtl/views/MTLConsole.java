@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.6 2004-10-25 13:16:15 edrezen Exp $
+* $Id: MTLConsole.java,v 1.7 2004-10-29 15:11:46 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -371,10 +371,10 @@ public class MTLConsole extends ViewPart {
 				System.out.println("Server Actif? :"+!(serverAction==null));
 			  if (!(serverAction==null)){
 			  	
-				if (serverAction.isRunning){
-					serverAction.run();
-					serverAction.setRunning(false);
-				}
+//				if (serverAction.isRunning){
+//					serverAction.run();
+//					serverAction.setRunning(false);
+//				}
 				
 				Controller.getInstance().clear();
 				
