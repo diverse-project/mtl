@@ -1,5 +1,5 @@
 /*
-* $Id: MTLConsole.java,v 1.4 2004-10-19 11:46:48 dvojtise Exp $
+* $Id: MTLConsole.java,v 1.5 2004-10-19 11:52:19 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -134,23 +134,7 @@ public class MTLConsole extends ViewPart {
 		viewer.setLabelProvider(new ViewLabelProvider()); // must be AFTER columns!
 		viewer.setUseHashlookup(true);
 		viewer.setInput(Controller.getInstance().getLogfile());
-		viewer.setSorter(new Sorter(TableModel.TIME));
-	
-		/* ****************/
-		/*for (int i = 0; i < TableModel.getColumnCount(); i++)
-		{
-			column = viewer.getTable().getColumn(i) ;
-			switch (i)
-			{
-			case TableModel.LEVEL :
-					column.setWidth(300);
-			case TableModel.MESSAGE :
-				column.setWidth(10000);
-			default:
-				column.setWidth(TableModel.getColumnHeader(i).length()*10+100);
-			}
-		}*/
-		/* ****************/
+		viewer.setSorter(new Sorter(TableModel.TIME));	
 
 		hookContextMenu();
 		contributeToActionBars();
