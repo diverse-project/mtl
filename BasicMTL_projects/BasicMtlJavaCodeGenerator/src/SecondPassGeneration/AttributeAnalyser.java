@@ -1,6 +1,6 @@
 /*
  * Created on 4 Aout. 2003
- * $Id: AttributeAnalyser.java,v 1.7 2004-02-16 17:36:43 dvojtise Exp $
+ * $Id: AttributeAnalyser.java,v 1.8 2004-04-16 17:48:28 ffondeme Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -42,7 +42,7 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 			outputForClass.println("{ return this."+ASTnode.getMangle()+"; }\n");
 		else {
 			outputForClass.println("{ try {\n");
-			outputForClass.println("     return this."+ASTnode.getGetter().getMangle()+"(); }\n");
+			outputForClass.println("     return this.theCaller."+ASTnode.getGetter().getMangle()+"(); }\n");
 			outputForClass.println("catch (Throwable e) { return null; } }\n");
 			} 
 		outputForClass.println("public " + setter.getReturnedType().getDeclarationName() + ' ' +setter.getOpMangle()+" ("+setter.getArgsTypes(0).getDeclarationName()+" value)");
@@ -50,7 +50,7 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 			outputForClass.println("{ this."+ASTnode.getMangle()+"=value;");
 		else {
 			outputForClass.println("{ try {\n");
-			outputForClass.println("     this."+ASTnode.getSetter().getMangle()+"(value); }");
+			outputForClass.println("     this.theCaller."+ASTnode.getSetter().getMangle()+"(value); }");
 			outputForClass.println("catch (Throwable e) {}\n");
 			} 
 		outputForClass.println("return BMTLVoid.TheInstance; }\n");
