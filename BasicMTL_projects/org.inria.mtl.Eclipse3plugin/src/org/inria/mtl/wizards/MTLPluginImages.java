@@ -41,7 +41,7 @@ public class MTLPluginImages {
 	private static final String T_ETOOL= "etool16"; 	//$NON-NLS-1$
 	private static final String T_EVIEW= "eview16"; //$NON-NLS-1$
 
-	public static final String IMG_MTL_PROJ= NAME_PREFIX + "fmtl2.gif"; 			//$NON-NLS-1$
+	public static final String IMG_MTL_PROJ= NAME_PREFIX + "mtl_project_folder.gif"; 			//$NON-NLS-1$
 	/*
 	 * Available cached Images in the Java plug-in image registry.
 	 */
@@ -108,7 +108,7 @@ public class MTLPluginImages {
 	public static final String IMG_OBJS_LOCAL_VARIABLE= NAME_PREFIX + "localvariable_obj.gif"; //$NON-NLS-1$
 	
 	public static final String IMG_OBJS_LIBRARY= NAME_PREFIX + "library_obj.gif"; 		//$NON-NLS-1$
-	public static final String IMG_OBJS_PROJ= NAME_PREFIX + "fmtl2.gif"; 		//$NON-NLS-1$
+	public static final String IMG_OBJS_PROJ= NAME_PREFIX + "mtl_project_folder.gif"; 		//$NON-NLS-1$
 	
 	public static final String IMG_OBJS_JAVADOCTAG= NAME_PREFIX + "jdoc_tag_obj.gif"; 	//$NON-NLS-1$
 	public static final String IMG_OBJS_HTMLTAG= NAME_PREFIX + "html_tag_obj.gif"; 		//$NON-NLS-1$

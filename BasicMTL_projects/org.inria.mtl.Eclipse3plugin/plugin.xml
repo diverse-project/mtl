@@ -34,7 +34,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             name="%MTLPerspective"
-            icon="icons/fmtl.gif"
+            icon="icons/mtl_project_folder.gif"
             class="org.inria.mtl.perspectives.MTLPerspective"
             id="org.inria.mtl.MTLPerspective">
       </perspective>
@@ -94,7 +94,7 @@
      <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
-            icon="icons/fmtl2.gif"
+            icon="icons/mtl_project_folder.gif"
             natureId="org.inria.mtl.MTLNature"
             id="org.inria.mtl.MTLNature">
       </image>
@@ -208,7 +208,7 @@
          </action>
           <action
                label="%menu.newProject"
-               icon="icons/fmtl2.gif"
+               icon="icons/new_mtl_project.gif"
                tooltip="%menu.tooltip.newProject"
                class="org.inria.mtl.actions.NewProjectWizardAction"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
