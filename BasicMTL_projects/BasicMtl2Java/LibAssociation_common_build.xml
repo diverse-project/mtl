@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.20 2004-06-24 16:03:51 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.21 2004-07-26 07:14:23 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -371,7 +371,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar ThirdParty/ModFact/v1_0_0/ow_monolog.jar ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
@@ -399,7 +399,7 @@
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/> 
 		    	<attribute name="Main-Class" value="BasicMtlCompiler.Compiler"/> 
-				<attribute name="Class-Path" value="BasicMTLruntime.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar"/>
+				<attribute name="Class-Path" value="BasicMTLruntime.jar ThirdParty/ANTLR/antlrfull.jar ThirdParty/log4j/log4j.jar ThirdParty/junit/junit.jar ThirdParty/MDR/jmi.jar ThirdParty/MDR/jmiutils.jar ThirdParty/MDR/mdrapi.jar ThirdParty/MDR/mof.jar ThirdParty/MDR/nbmdr.jar ThirdParty/MDR/openide-lookup.jar  ThirdParty/ModFact/v1_0_0/JMI1_0.jar ThirdParty/ModFact/v1_0_0/JMIEngine.jar ThirdParty/ModFact/v1_0_0/JMIRepository.jar ThirdParty/ModFact/v1_0_0/ow_monolog.jar ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 		    	<section name="BasicMTLc">
 		      		<attribute name="Specification-Title" value="BasicMTL"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
