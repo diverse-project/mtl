@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-08-06 16:13:28 jpthibau Exp $ -->
-<project name="BasicMtlTLLJava" default="compile_java" basedir=".">
+<!-- $Id: build.xml,v 1.2 2003-08-08 13:57:27 dvojtise Exp $ -->
+<project name="BasicMtlTLLJava" default="dist" basedir=".">
 	<description>
         Known directories for the BAsicMtlTLL
 	</description>
@@ -30,12 +30,18 @@
 	    <javadoc destdir="docs\javadoc" access="private" use="true"
             notree="false" nonavbar="false" noindex="false"
             splitindex="true" author="true" version="true"
+            packagenames="TLLTopDownVisitor, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java, org.irisa.triskell.MT.visitors.Java.AnalysingVisitor, org.irisa.triskell.MT.visitors.Java.GenericVisitor"
             nodeprecatedlist="false" nodeprecated="false"
-            packagenames="TLLTopDownVisitor"
-            sourcepath="src"
             classpath="bin" doctitle="Basic MTL TLLJava internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
-            <link href="file:/T"/>
+            <!-- <package name="*"/> packagenames="TLLTopDownVisitor, org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java, org.irisa.triskell.MT.visitors.Java.AnalysingVisitor, org.irisa.triskell.MT.visitors.Java.GenericVisitor"
+            -->           
+    		<sourcepath>
+	    		<dirset dir="">
+	        		<include name="src/**"/>
+	        		<include name="srcOfp/**"/>
+	      		</dirset>
+            </sourcepath>      
         </javadoc>
 	</target>
 	<target name="create_jar" depends="compile_java"
@@ -60,11 +66,23 @@
 		</jar>
 	</target>
 	
-	<target name="dist" depends="create_jar"
+	<target name="dist" depends="create_jar,full_javadoc"
 		description="create a distibution">
 		<mkdir dir="${dist}"/>
+	</target>	
+	<target name="redist" depends="clean" description="clean then dist">
+		<antcall target="dist">      
+    	</antcall>   
 	</target>
-
+  	<target name="clean_srcOfp"
+  		description="before a simple Obecjeteering generation it is sometime easier to remove all generated java files but leave the CVS directories">
+  		<delete >
+  			<fileset dir="srcOfp" casesensitive="yes">
+  				<include name="**/*.java"/>
+			</fileset>
+  		</delete>
+  	</target>
+  	
   	<target name="clean"
         description="clean up" >
     	<!-- Delete the {$bin} and ${dist} directory trees -->
