@@ -1,78 +1,1 @@
-/*
- * Created on 16.05.2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-package org.irisa.triskell.MT.DataTypes.Test;
-
-import junit.framework.TestCase;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-
-/**
- * @author rumpe
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-public class StringValueImplTest extends TestCase {
-
-	StringValueImpl svi1;
-	
-	public void setUp() {
-		svi1 = new StringValueImpl(true,"errMess","strVal");
-	}
-
-	public void testCreateGetString() {
-	  String s = svi1.getTheString();
-	  assertEquals(s,"strVal");
-	 }
- 
-	public void testEquals1() {
-	  assertTrue(svi1.equals(svi1));
-	 }
-
-	public void testEquals2() {
-		StringValueImpl svi2 = new StringValueImpl(true,"errMess","strVal");	  
-	  assertTrue(svi1.equals(svi2));
-	 }
-
-	public void testEquals3() {
-	  StringValueImpl svi2 = new StringValueImpl(true,"fgdh   ","strVal");	  
-	  assertFalse(svi1.equals(svi2));
-	 }
-
-	public void testEquals4() {
-	  StringValueImpl svi3 = new StringValueImpl(false,"errMess","strVal");
-	  StringValueImpl svi2 = new StringValueImpl(false,"fgdh   ","strVal");	  
-	  assertTrue(svi3.equals(svi2));
-	 }
-
-	public void testEquals5() {
-	  StringValueImpl svi2 = new StringValueImpl(true,"errMess","------");	  
-	  assertFalse(svi1.equals(svi2));
-	 }
-
-	public void testEquals6() {
-	  StringValueImpl svi2 = new StringValueImpl(false,"errMess","------");	  
-	  assertFalse(svi1.equals(svi2));
-	 }
-
-	public void testEquals7() {
-	  StringValueImpl svi2 = new StringValueImpl(false,".......","------");	  
-	  assertFalse(svi1.equals(svi2));
-	 }
-
-	public void testEquals8() {
-		StringValueImpl svi2 = new StringValueImpl(false,"errMess","strVal");	  
-		assertFalse(svi1.equals(svi2));
-	 }
-
-
-	public void testAccept() {
-		ValueVisitorDummy vis = new ValueVisitorDummy(); 
-		svi1.accept(vis);
-		assertTrue(vis.calledVisitStringValue);
-	 }
-
-}
+/* * Created on 16.05.2003 * * To change this generated comment go to  * Window>Preferences>Java>Code Generation>Code and Comments */package org.irisa.triskell.MT.DataTypes.Test;import junit.framework.TestCase;import org.irisa.triskell.MT.DataTypes.Java.Value;import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;/** * @author rumpe * * To change this generated comment go to  * Window>Preferences>Java>Code Generation>Code and Comments */public class StringValueImplTest extends TestCase {	StringValueImpl svi1, svi2, svi3, svi4;	public void setUp() {		svi1 = new StringValueImpl(true, "errMess", "strVal");		svi2 = new StringValueImpl(false, null, "");		svi3 = new StringValueImpl(false, null, "toto");		svi4 = new StringValueImpl(false, null, "tutu");	}	public void testCreateGetString() {		String s = svi1.getTheString();		assertEquals(s, "strVal");	}	public void testEquals1() {		assertTrue(svi1.equals(svi1));	}	public void testEquals2() {		StringValueImpl svi2 = new StringValueImpl(true, "errMess", "strVal");		assertTrue(svi1.equals(svi2));	}	public void testEquals3() {		StringValueImpl svi2 = new StringValueImpl(true, "fgdh   ", "strVal");		assertFalse(svi1.equals(svi2));	}	public void testEquals4() {		StringValueImpl svi3 = new StringValueImpl(false, "errMess", "strVal");		StringValueImpl svi2 = new StringValueImpl(false, "fgdh   ", "strVal");		assertTrue(svi3.equals(svi2));	}	public void testEquals5() {		StringValueImpl svi2 = new StringValueImpl(true, "errMess", "------");		assertFalse(svi1.equals(svi2));	}	public void testEquals6() {		StringValueImpl svi2 = new StringValueImpl(false, "errMess", "------");		assertFalse(svi1.equals(svi2));	}	public void testEquals7() {		StringValueImpl svi2 = new StringValueImpl(false, ".......", "------");		assertFalse(svi1.equals(svi2));	}	public void testEquals8() {		StringValueImpl svi2 = new StringValueImpl(false, "errMess", "strVal");		assertFalse(svi1.equals(svi2));	}	public void testAccept() {		ValueVisitorDummy vis = new ValueVisitorDummy();		svi1.accept(vis);		assertTrue(vis.calledVisitStringValue);	}		public void testConcat() throws UnknownCommandException, MultipleCommandException {		StringValueImpl res = new StringValueImpl(false, null, "tototutu");		assertEquals(svi2, svi2.invoke(null, "concat", new Value [] {svi2}, null));		assertEquals(svi3, svi3.invoke(null, "concat", new Value [] {svi2}, null));		assertEquals(svi3, svi2.invoke(null, "concat", new Value [] {svi3}, null));		assertEquals(res, svi3.invoke(null, "concat", new Value [] {svi4}, null));		assertTrue(svi1.invoke(null, "concat", new Value [] {svi4}, null).isUndefined());	}		public void testSize() throws UnknownCommandException, MultipleCommandException {		IntegerValueImpl zero = new IntegerValueImpl(false, null, 0);		IntegerValueImpl four = new IntegerValueImpl(false, null, 4);		assertEquals(zero, svi2.invoke(null, "size", null, null));		assertEquals(four, svi3.invoke(null, "size", null, null));	}		public void testSubstring() throws UnknownCommandException, MultipleCommandException {		IntegerValueImpl zero = new IntegerValueImpl(false, null, 0);		IntegerValueImpl one = new IntegerValueImpl(false, null, 1);		IntegerValueImpl two = new IntegerValueImpl(false, null, 2);		IntegerValueImpl minusone = new IntegerValueImpl(false, null, -1);		IntegerValueImpl four = new IntegerValueImpl(false, null, 4);		IntegerValueImpl five = new IntegerValueImpl(false, null, 5); 		StringValueImpl toto = svi3;		StringValueImpl t = new StringValueImpl(false, null, "t");		StringValueImpl oto = new StringValueImpl(false, null, "oto");		assertEquals(svi3, svi3.invoke(null, "substring", new Value []{one, four}, null));		assertEquals(t, svi3.invoke(null, "substring", new Value []{one, one}, null));		assertEquals(oto, svi3.invoke(null, "substring", new Value []{two, four}, null));		assertTrue(svi3.invoke(null, "substring", new Value []{two, five}, null).isUndefined());		assertTrue(svi3.invoke(null, "substring", new Value []{minusone, two}, null).isUndefined());		assertTrue(svi3.invoke(null, "substring", new Value []{two, one}, null).isUndefined());	}		public void testToInteger() throws UnknownCommandException, MultipleCommandException {		IntegerValueImpl zero = new IntegerValueImpl(false, null, 0);		IntegerValueImpl one = new IntegerValueImpl(false, null, 1);		IntegerValueImpl minusone = new IntegerValueImpl(false, null, -1);		IntegerValueImpl five = new IntegerValueImpl(false, null, 5); 		StringValueImpl zeros = new StringValueImpl(false, null, "0");		StringValueImpl ones = new StringValueImpl(false, null, "1");		StringValueImpl minusones = new StringValueImpl(false, null, "-1");		StringValueImpl fives = new StringValueImpl(false, null, "5");		assertEquals(zero, zeros.invoke(null, "toInteger", null, null));		assertEquals(one, ones.invoke(null, "toInteger", null, null));		assertEquals(minusone, minusones.invoke(null, "toInteger", null, null));		assertEquals(five, fives.invoke(null, "toInteger", null, null));		assertTrue(svi1.invoke(null, "toInteger", null, null).isUndefined());		assertTrue(svi2.invoke(null, "toInteger", null, null).isUndefined());	}}

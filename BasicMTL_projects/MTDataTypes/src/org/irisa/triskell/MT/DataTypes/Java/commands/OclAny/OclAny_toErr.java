@@ -4,14 +4,15 @@
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-package org.irisa.triskell.MT.DataTypes.Java.commands.OclString;
+package org.irisa.triskell.MT.DataTypes.Java.commands.OclAny;
 
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IntegerValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 
 /**
  * @author ffondeme
@@ -19,23 +20,20 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.RealValueImpl;
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class String_toInteger extends AbstractCommand {
-	public static final String_toInteger TheInstance = new String_toInteger();
+public class OclAny_toErr extends AbstractCommand {
+	public static final OclAny_toErr TheInstance = new OclAny_toErr();
 
-	protected String_toInteger() {
-		super("toInteger", new Type [] {}, null);
+	protected OclAny_toErr() {
+		super("toErr", new Type [] {}, null);
 	}
 
 	protected Value invokeInternal(Value invoker, Value[] arguments) {
-		String theString = ((StringValue)invoker).getTheString();
-		int theInteger = 0;
-		String error;
-		try {
-			theInteger = Integer.parseInt(theString);
-			error = null;
-		} catch (NumberFormatException x) {
-			error = x.getMessage();
-		}
-		return new IntegerValueImpl(error != null, error, theInteger);
+		System.err.println(invoker);
+		return VoidValueImpl.getTheInstance();
 	}
+
+	public Value invoke(Value invoker, Value[] arguments) {
+		return this.invokeInternal(invoker, arguments);
+	}
+
 }

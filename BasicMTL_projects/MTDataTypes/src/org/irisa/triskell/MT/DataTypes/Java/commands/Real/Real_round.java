@@ -27,6 +27,6 @@ public class Real_round extends AbstractCommand {
 	}
 
 	protected Value invokeInternal(Value invoker, Value[] arguments) {
-		return new RealValueImpl(false, null, Math.round(((RealValue)invoker).getTheReal()));
+		return new IntegerValueImpl(false, null, Math.round(((RealValue)invoker).getTheReal()));
 	}
 }

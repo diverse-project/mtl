@@ -32,6 +32,8 @@ public class OclAnyCommandGroup extends CommandGroupImpl {
 		TheInstance.addCommand(OclAny_errorMessage.TheInstance);
 		TheInstance.addCommand(OclAny_oclIsTypeOf.TheInstance);
 		TheInstance.addCommand(OclAny_oclIsKindOf.TheInstance);
+		TheInstance.addCommand(OclAny_toOut.TheInstance);
+		TheInstance.addCommand(OclAny_toErr.TheInstance);
 	}
 	
 	private OclAnyCommandGroup() {

@@ -35,6 +35,6 @@ public class String_toReal extends AbstractCommand {
 		} catch (NumberFormatException x) {
 			error = x.getMessage();
 		}
-		return new RealValueImpl(error == null, error, theReal);
+		return new RealValueImpl(error != null, error, theReal);
 	}
 }

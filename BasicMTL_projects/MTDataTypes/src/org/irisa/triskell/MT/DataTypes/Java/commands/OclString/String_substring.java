@@ -40,6 +40,6 @@ public class String_substring extends AbstractCommand {
 			error = null;
 		else
 			error = "Incorrect bounds for string substring.";
-		return new StringValueImpl(error == null, error, theString.substring(correctLower-1, correctUpper-1));
+		return new StringValueImpl(error != null, error, theString.substring(correctLower-1, correctUpper));
 	}
 }
