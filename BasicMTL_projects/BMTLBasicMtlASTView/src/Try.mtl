@@ -1,4 +1,4 @@
-// $Id: Try.mtl,v 1.1 2003-10-14 15:56:20 jpthibau Exp $
+// $Id: Try.mtl,v 1.2 2003-12-16 07:39:04 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -51,12 +51,14 @@
 		JavaCode [theTry.appendCatchPart((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch)BMTL_aCatch.BMTL_toASTJava())];
 		catches.next();
 	}
+	if isNull(finalizeBody).[not]() {
 	instructions := finalizeBody.getNewIterator();
 	instructions.start();
 	while instructions.isOn() {
 		anInstruction := instructions.item().oclAsType(!Instruction!);
 		JavaCode [theTry.appendFinalizeBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
 		instructions.next();
+	}
 	}
 	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 	properties.start();

@@ -1,0 +1,49 @@
+library DefaultVisitors;
+
+// **************************
+// * InvokableVisitor class *
+// **************************
+/** 
+  * Visitor for any BasicMTL defined class
+  * this Visitor provides two default methods
+  /*
+  /* visitOclAny(class_to_visit : OclAny; visitor_context : OclAny) : OclAny
+  /* 	which is the default visit method. It has the class_to_visit argument which is the class that
+  /* 	accept this Visitor, and a visitor_context argument which may be any object that has to be passed
+  /* 	between two visited classes (for instance, an accumulator of visited classes).
+  /* 	The visit method has a return value that allow vistors to build something (for instance a tree of visited classes).
+  /* 
+  /* getParent() : Visitor
+  /* 	This method has to return the direct parent visitor of this visitor.
+  /* 	This method allow inhirited visitors reuse, by trying a visit method taht is absent in the current
+  /* 	visitor, but may be present in its father, or great-father(s).
+  /*    This method may serve when defining a father visitor that navigates classes,
+  /*    and many children that do different actions along the same navigation process.
+  /*
+  /* To define a new visitor, one had generally to :
+  /* 1 - define a new Visitor that inherits from standard::Visitor
+  /* 2 - put any number of visitCLASSNAME methods that will visit
+  /* 	the corresponding class (having CLASSNAME as its name).
+  /* 3- Eventually define Visitors that inherit from previously defined ones
+  /*    in this case don't forget to redefine the getParent method to reach
+  /*    Visitor's father. For instance, when V2 inherits from V1, this method just contains
+  /*    the instruction : return self.oclAsType(V1);
+  /* 4 - For each created visitor remeber visitOclAny is the common behaviour for
+  /* 	all classes that lack of thier visitCLASSNAME corresponding method.
+  */
+class InvokableVisitor {
+
+	visitOclAny(class_to_visit : Standard::OclAny; visitor_context : Standard::OclAny) : Standard::OclAny
+	{
+      // default visit method for any class
+      // does nothing and returns null for default BMTLInvokableVisitor
+    return null;
+    }
+
+   	getParent() : InvokableVisitor
+   	{
+      // Returns visitor father, if it exists
+      // returns null for default BMTLInvokableVisitor (has no father)
+    return null;
+   	}
+}

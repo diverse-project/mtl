@@ -1,4 +1,4 @@
-// $Id: OperationCall.mtl,v 1.2 2003-12-03 04:30:15 ffondeme Exp $
+// $Id: OperationCall.mtl,v 1.3 2003-12-16 07:39:04 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -35,7 +35,9 @@
 		theArguments.next();
 	}
 	}
+	if isNull(caller).[not]() {
 	JavaCode [theOperationCall.setCaller((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_caller.BMTL_toASTJava())];
+	}
 	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 	properties.start();
 	while properties.isOn() {
