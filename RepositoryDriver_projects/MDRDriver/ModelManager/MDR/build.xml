@@ -1,11 +1,11 @@
-<!-- $Id: build.xml,v 1.1 2004-10-18 14:59:27 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-10-19 08:03:57 jpthibau Exp $ -->
 <project name="MDRDriver modelmanager" default="compile_mtl" basedir=".">
 	<description>
         Compile the BasicMtl wraper to generate code to access MDRDriver.
 	</description>
 	<!-- set global properties for this build -->
 	<property name="base" location=".."/>
-	<property name="src" location="../../src"/>
+	<property name="src" location="../../build/src"/>
 	
 	<!-- This compilation depends on the org.inria.BasicMtl.runtime project -->
 	<property name="BasicMtlRuntime"  location="..\org.inria.BasicMTL.runtime"/>
@@ -14,7 +14,14 @@
 	<property name="ANTLR2JavaCode" location="..\..\..\BasicMtl2Java\LibAssociation\dist\bin\BasicMTLc.jar"/>
 	<property name="BasicMtlTLLs" location="..\..\..\BasicMtl2Java\LibAssociation\dist\Runtime\src\TLL"/>
 
-	<target name="compile_mtl"
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${src}"/>
+	</target>
+
+	<target name="compile_mtl" depends="init"
         description="compile the mtl driver manager" >
  		<java jar="${ANTLR2JavaCode}" 
 						fork="true"
