@@ -1,4 +1,4 @@
-/* $Id: EMFAPI.java,v 1.8 2004-09-15 08:12:09 jpthibau Exp $
+/* $Id: EMFAPI.java,v 1.9 2004-09-28 14:32:58 edrezen Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -10,6 +10,9 @@ import java.util.Hashtable;
 // import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
 // import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.repository.API.Java.Element;
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
+import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociation;
 import org.irisa.triskell.MT.repository.API.Java.MetaAssociationEnd;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
@@ -654,4 +657,24 @@ implements org.irisa.triskell.MT.repository.API.Java.API
 
 	}
 
+    /** */
+    public void addListenerToElement(Element element, EventListener listener) 
+    {
+    	System.err.println ("NOT IMPLEMENTED FOR EMF...");
+    }
+
+    /** */
+    public void removeListenerToElement(Element element, EventListener listener) 
+    {
+    	System.err.println ("NOT IMPLEMENTED FOR EMF...");
+    }
+    
+
+    /** */
+    public EventListenerFactory getEventListenerFactory() 
+    {
+    	System.err.println ("NOT IMPLEMENTED FOR EMF...");
+    	return null;
+    }
+	
 }
