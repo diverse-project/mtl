@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-09-05 12:13:17 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-10-31 17:48:21 dpollet Exp $ -->
 <project name="Utils" default="dist" basedir=".">
 	<description>
         Miscellaneous utility classes.
@@ -65,8 +65,8 @@
 	    <copy file="log4j_configuration.xml"
 	    	todir="${dist}/bin"
 	    	overwrite="true"/>
-	    <copy todir="${dist}/bin/ThirdParty/junit">
-	    	<fileset dir="ThirdParty/junit"/>
+	    <copy todir="${dist}/bin/ThirdParty/JUnit">
+	    	<fileset dir="ThirdParty/JUnit"/>
 	   	</copy>
 	    <copy todir="${dist}/bin/ThirdParty/log4j">
 	    	<fileset dir="ThirdParty/log4j"/>
