@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.19 2004-10-27 15:50:03 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.20 2004-11-04 17:30:41 edrezen Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -15,8 +15,10 @@ import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.utils.MessagesHandler.CompilerException;
 
 import ANTLRASTWalker.antlrParserInterface;
+import ANTLRParser.BMTLParser;
 import TypeChecker.TLLtypechecking;
 import CodeGeneration.BMTLCompiler;
+import CompilerEvents.CompilerMessageFactory;
 import antlr2ASTView.antlr2astViewParser;
 
 /**
@@ -25,7 +27,22 @@ import antlr2ASTView.antlr2astViewParser;
  * Entry point on the compiler. It defines the main and get the different parameters from the command line. 
  * This version of the basicMtlFacade is for use with BMTLBasicMtlASTView AST
  */
-public class Compiler {
+public class Compiler implements java.util.Observer 
+{
+	static private Compiler singleton;
+	static public Compiler instance() 
+	{
+		if (singleton==null) 
+		{ 
+			// we create the singleton
+			singleton = new Compiler();
+			
+			// we make the compiler an event subscriber for parser events
+			BMTLParser.instance().addObserver (singleton);
+			
+		}
+		return singleton;
+	}
 
 	static final String tllSuffix=".tll";
 	static final Logger log=MSGHandler.init();
@@ -201,6 +218,31 @@ public class Compiler {
 		log.error("where : PackageName indicates the name of the java package that will contain your library(/ies)");
 		log.error("where : BinPath indicates where to generate the java files (it doesn't take into account the package name, so you have to be sure they matches in order to successfully compile your generated java files");
 	}
+	
+
+	/** */
+	public void update (java.util.Observable o, Object arg) 
+	{
+		// We may be interested in events coming from the parser.
+		if (o instanceof BMTLParser)
+		{ 
+			if (arg instanceof Object[])
+			{
+				Object[] args = (Object[])arg;
+				{
+					CompilerMessageFactory.instance().notifyObservers (
+						CompilerMessageFactory.instance().createParsingTrouble (
+							(String)args[1],
+							(String)args[2],
+							(Integer)args[3],
+							(Integer)args[4]
+						)
+					);
+				}
+			}
+		}
+	}
+
 }
 
 
