@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-12-05 10:43:16 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-01-29 10:56:37 edrezen Exp $ -->
 
 <project name="PIM to CCM" default="run PIM to CCM" basedir=".">
 	<description>
@@ -9,8 +9,16 @@
 	<target name="run PIM to CCM" > 
   		<description>
   		</description>  
-  		<ant antfile="PIM2CCM_build.xml" dir="." target="compile"/>
-  		<ant antfile="PIM2CCM_build.xml" dir="." target="run"/>
+  		<ant antfile="TraceabilityLibrary_build.xml" dir="." target="compile"/>
+  		<ant antfile="PIM2CCM_build.xml"             dir="." target="compile"/>
+  		<ant antfile="PIM2CCM_build.xml"             dir="." target="run"/>
+  	</target>
+
+	<target name="run Test MOF" > 
+  		<description>
+  		</description>  
+  		<ant antfile="TestMOF_build.xml" dir="." target="compile"/>
+  		<ant antfile="TestMOF_build.xml" dir="." target="run"/>
   	</target>
 
 
