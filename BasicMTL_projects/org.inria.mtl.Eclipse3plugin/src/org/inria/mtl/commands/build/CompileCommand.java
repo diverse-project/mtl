@@ -6,9 +6,13 @@ package org.inria.mtl.commands.build;
 
 import java.util.Collection;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.commands.MTLCommand;
 import org.inria.mtl.commands.MTLCommandExecutor;
@@ -175,13 +179,19 @@ public class CompileCommand extends MTLCommand
 	}
 
 
-	/** */
-	private void quietCreateFolder (IFolder folder) throws Exception
+	/** Create a folder if needed. It creates the hierarchy of folders if outermost folders do not exists. */
+	private void quietCreateFolder (IFolder folder) throws CoreException 
 	{
-		if (! folder.exists())
+		IProject project = folder.getProject();
+		IPath path = folder.getFullPath().removeFirstSegments(1);
+		for (int i=path.segmentCount()-1; i>=0; i--)
 		{
-			folder.create (true,true,null);
+			IPath loopPath = path.removeLastSegments(i);
+			IFolder loopFolder = project.getFolder (loopPath);
+			if (! loopFolder.exists())
+			{
+				loopFolder.create (true,true,null);
+			}
 		}
 	}
-	
 }
