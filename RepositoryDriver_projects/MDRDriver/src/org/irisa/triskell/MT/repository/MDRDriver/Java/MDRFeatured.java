@@ -10,9 +10,11 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.VoidValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.CommonException;
 import org.irisa.triskell.MT.repository.API.Java.IllegalAccessException;
 import org.irisa.triskell.MT.repository.API.Java.IsQueryException;
+import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
@@ -61,58 +63,75 @@ abstract public class MDRFeatured
     	MDRMetaFeature f = null, g = null;
     	MDRMetaClass c = null;
 		List discs = Arrays.asList(discriminants == null ? new Object [0] : discriminants);
+		boolean setAttribute = discs.contains(ModelElement.AttributeDiscriminant);
 		boolean attribute = discs.contains(ModelElement.AttributeDiscriminant);
 		boolean associationEnd = discs.contains(ModelElement.AssociationDiscriminant);
 		boolean operation = discs.contains(ModelElement.OperationDiscriminant);
 		boolean feature = ! (attribute || associationEnd || operation);
-    	try {
-			c = scopeQualifiedName == null ? null : (MDRMetaClass)this.getSpecificAPI().getMetaClass(scopeQualifiedName);
-			if (feature)
-				f = (MDRMetaFeature)this.getSpecificAPI().getMetaFeature(name, c);
-			else {
-				if (attribute)
-					f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name, c);
-				if (associationEnd) {
-					g = (MDRMetaFeature)this.getSpecificAPI().getMetaAssociationEnd(name, null, c);
-					if (f == null)
-						f = g;
-					else
-						f = new MDRMetaFeature(this.getSpecificAPI(), name, c, new MDRMetaFeature [] {f, g});
-				}
-				if (operation) {
-					g = (MDRMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
-					if (f == null)
-						f = g;
-					else
-						f = new MDRMetaFeature(this.getSpecificAPI(), name, c, new MDRMetaFeature [] {f, g});
-				}
+		if (setAttribute && !feature)
+			throw new UnknownCommandException(this, name, arguments, discriminants, "Cannot both query the model and affect an attribute.");
+		if (setAttribute) { 
+			if (arguments == null || arguments.length != 1)
+				throw new UnknownCommandException(this, name, arguments, discriminants, "One parameter required : the new attriute value.");
+			try {
+				MetaAttribute att = this.getAPI().getMetaAttribute(name, scopeQualifiedName == null ? null : this.getAPI().getMetaClass(scopeQualifiedName));
+				this.setAttributeValue(null, att, arguments[0]);	
+				return VoidValueImpl.getTheInstance();
+			} catch (Exception x) {
+				UnknownCommandException thrown = new UnknownCommandException(this, name, arguments, discriminants, "Problems while affecting attribute: " + x.getMessage());
+				thrown.initCause(x); 
+				throw thrown;
 			}
-			return ((MDRMetaFeature)f).retreiveRef(null, this, arguments).execute();
-    	} catch (MDRMetaFeature.VisibilityException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
-    	} catch (MDRMetaFeature.MultipleDeclarationException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
-    	} catch (MDRMetaFeature.ScopeException x) {
-    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
-    	} catch (Exception x) {
-    		if ((x instanceof UnknownElementException) && (scopeQualifiedName != null) && (c == null) && (!Arrays.equals(OclAnyType.TheInstance.getQualifiedName(), scopeQualifiedName)))
-    			throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
-    		//Uncomment the following would make the driver able to answer the operation message get_<attribute name> : <attribute type> and set_<attribute name> (<attribute type) wich are the accessor of an attribute
-//    		if ((! discs.contains(AttributeGetDiscriminant)) && name.startsWith("get_") && (arguments == null || arguments.length == 0) && (operation || feature)){
-//				return this.invoke(scopeQualifiedName, name.substring(4), arguments, new String [] {AttributeDiscriminant, AssociationDiscriminant, AttributeGetDiscriminant});
-//    		} else if (name.startsWith("set_") && (arguments != null && arguments.length == 1) && (operation || feature)) {
-//    			f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name.substring(4), c);
-//    			try {
-//    				this.setAttributeValue(null, (MetaAttribute)f, arguments[0]);
-//    				return VoidValueImpl.getTheInstance();
-//    			} catch (CommonException y) {
-//    			} catch (IllegalAccessException y) {
-//    				throw new UnknownCommandException(this, name, arguments, discriminants, y.toString());
-//    			} catch (UnknownElementException y) {
-//    			}
-//    		}
-    		
-    		return this.getBaseCommandGroup().invoke(scopeQualifiedName, this, name, arguments, discriminants);
+    	} else {
+	    	try {
+				c = scopeQualifiedName == null ? null : (MDRMetaClass)this.getSpecificAPI().getMetaClass(scopeQualifiedName);
+				if (feature)
+					f = (MDRMetaFeature)this.getSpecificAPI().getMetaFeature(name, c);
+				else {
+					if (attribute)
+						f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name, c);
+					if (associationEnd) {
+						g = (MDRMetaFeature)this.getSpecificAPI().getMetaAssociationEnd(name, null, c);
+						if (f == null)
+							f = g;
+						else
+							f = new MDRMetaFeature(this.getSpecificAPI(), name, c, new MDRMetaFeature [] {f, g});
+					}
+					if (operation) {
+						g = (MDRMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
+						if (f == null)
+							f = g;
+						else
+							f = new MDRMetaFeature(this.getSpecificAPI(), name, c, new MDRMetaFeature [] {f, g});
+					}
+				}
+				return ((MDRMetaFeature)f).retreiveRef(null, this, arguments).execute();
+	    	} catch (MDRMetaFeature.VisibilityException x) {
+	    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
+	    	} catch (MDRMetaFeature.MultipleDeclarationException x) {
+	    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
+	    	} catch (MDRMetaFeature.ScopeException x) {
+	    		throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
+	    	} catch (Exception x) {
+	    		if ((x instanceof UnknownElementException) && (scopeQualifiedName != null) && (c == null) && (!Arrays.equals(OclAnyType.TheInstance.getQualifiedName(), scopeQualifiedName)))
+	    			throw new UnknownCommandException(this, name, arguments, discriminants, x.getMessage());
+	    		//Uncomment the following would make the driver able to answer the operation message get_<attribute name> : <attribute type> and set_<attribute name> (<attribute type) wich are the accessor of an attribute
+	//    		if ((! discs.contains(AttributeGetDiscriminant)) && name.startsWith("get_") && (arguments == null || arguments.length == 0) && (operation || feature)){
+	//				return this.invoke(scopeQualifiedName, name.substring(4), arguments, new String [] {AttributeDiscriminant, AssociationDiscriminant, AttributeGetDiscriminant});
+	//    		} else if (name.startsWith("set_") && (arguments != null && arguments.length == 1) && (operation || feature)) {
+	//    			f = (MDRMetaFeature)this.getSpecificAPI().getMetaAttribute(name.substring(4), c);
+	//    			try {
+	//    				this.setAttributeValue(null, (MetaAttribute)f, arguments[0]);
+	//    				return VoidValueImpl.getTheInstance();
+	//    			} catch (CommonException y) {
+	//    			} catch (IllegalAccessException y) {
+	//    				throw new UnknownCommandException(this, name, arguments, discriminants, y.toString());
+	//    			} catch (UnknownElementException y) {
+	//    			}
+	//    		}
+	    		
+	    		return this.getBaseCommandGroup().invoke(scopeQualifiedName, this, name, arguments, discriminants);
+	    	}
     	}
     }
     
