@@ -1,8 +1,13 @@
 package org.irisa.triskell.MT.DataTypes.Java;
 
 import java.util.*;
-import java.io.Serializable;
+import java.io.*;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
+import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 
+/**
+  * An enumeration for collection posiible kinds. This is mainly used by CollectionValue.getKind() operation.
+  */
 public final class CollectionKind 
     implements java.io.Serializable
 {
