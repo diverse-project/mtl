@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Associations2Attributes.mtl,v 1.1 2004-08-16 11:46:37 dvojtise Exp $
+ * $Id: Associations2Attributes.mtl,v 1.2 2004-09-15 12:55:48 dvojtise Exp $
  * Repository independent transformations that apply to SimpleUML models
  *	includes : 
  *		association 2 attributes 
@@ -23,7 +23,7 @@ class Associations2Attributes
 	  */
 	initmodel( a_source_model:RepositoryModel)
 	{
-		// 'initmodels'.toOut();
+	 	'Associations2Attributes.initmodels()'.toOut();
 		source_model := a_source_model;
 	}
 	/******************************************** 
@@ -47,6 +47,7 @@ class Associations2Attributes
 			association2attributes(anAssociation); 					
 			associationIterator.next();
 		}
+		'Associations2Attributes.associations2attributes() done'.toOut();
 	}
 
 	/******************************************** 
