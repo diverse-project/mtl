@@ -1,0 +1,47 @@
+<!-- $Id: build.xml,v 1.1 2004-02-18 10:04:13 dvojtise Exp $ -->
+<project name="Non regression : Build,run all tests and sample projects" default="run all" basedir=".">
+	<description>
+        Build and run all tests of the CompilerTests project and also compiles and runs known projects
+        This supposes that all these projects are available and uptodate.
+        Use it for non regression tests entry point.
+	</description>
+
+	<target name="build all"
+		description="build CompilerTests and other known projects">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+
+	    <!-- call successively each builder -->
+	    <echo>Building CompilerTests tests.</echo>
+		<ant antfile="${basedir}/src/build.xml" dir="${basedir}/src" target="build all" inheritAll="false"/>
+
+	    
+	</target>
+  
+	<target name="clean"
+        description="clean up built files" >
+    	<!-- Delete the ${build}, {$bin}  directory trees -->
+    	<echo>Cleaninging CompilerTests</echo>
+		<ant antfile="${basedir}/src/build.xml" dir="${basedir}/src" target="clean" inheritAll="false"/>
+    	
+    	<echo>Cleaning "UML1.4" project</echo>
+	    <ant antfile="${basedir}/../UML1.4/build.xml" dir="${basedir}/../UML1.4" target="clean" inheritAll="false"/>
+  	   
+  	   	<echo>Cleaning "SimpleUMLSimpleRDBMS" project</echo>
+	    <ant antfile="${basedir}/../SimpleUMLSimpleRDBMS/build.xml" dir="${basedir}/../SimpleUMLSimpleRDBMS" target="clean" inheritAll="false"/>
+  	   
+  	</target>
+
+  	<target name="run all" > <!-- depends="build all"> -->
+	    <!-- call successively each runner -->
+	    <echo>Running CompilerTests tests.</echo>
+		<ant antfile="${basedir}/src/build.xml" dir="${basedir}/src" target="run all" inheritAll="false"/>
+		
+		<echo>Running  transformation available in "UML1.4" project</echo>
+	    <ant antfile="${basedir}/../UML1.4/build.xml" dir="${basedir}/../UML1.4" target="run all UML14_Transformations" inheritAll="false"/>
+	    
+	    <echo>Running "SimpleUMLSimpleRDBMS" project</echo>
+	    <ant antfile="${basedir}/../SimpleUMLSimpleRDBMS/build.xml" dir="${basedir}/../SimpleUMLSimpleRDBMS" target="run all" inheritAll="false"/>
+  	   
+  	</target>
+</project>
