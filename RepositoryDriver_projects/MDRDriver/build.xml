@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-11 19:18:05 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-12 14:54:01 ffondeme Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MDRDriver" default="dist" basedir=".">
 	<description>
@@ -86,9 +86,8 @@
 		<copy todir="${dist}/bin/ThirdParty/MDR/Test/models">
 			<fileset dir="ThirdParty/MDR/Test/models"/>
 		</copy>
-	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
-	    <copy file="ThirdParty/log4j/log4j_configuration"
-	    	todir="${dist}/bin/ThirdParty/log4j"
+	    <copy file="log4j_configuration.xml"
+	    	todir="${dist}/bin/"
 	    	overwrite="true"/>
 	    	
 	    	

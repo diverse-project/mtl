@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.1 2003-08-08 15:41:13 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.2 2003-08-12 14:52:55 ffondeme Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
@@ -32,7 +33,7 @@ public class BMTLCompiler {
 	
 	public static void main(String[] args)
 	{	try {
-			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(BMTLCompiler.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {

@@ -1,5 +1,5 @@
-<!-- $Id: build.xml,v 1.1 2003-08-06 16:18:47 jpthibau Exp $ -->
-<project name="BasicMtlAntlr2TLLJava" default="compile_java" basedir=".">
+<!-- $Id: build.xml,v 1.2 2003-08-12 14:52:27 ffondeme Exp $ -->
+<project name="BasicMtlAntlr2TLLJava" default="dist" basedir=".">
 	<description>
         Known directories for the Antlr2TLL (Unchecked TLL producer)
 	</description>
@@ -7,6 +7,14 @@
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
 	<property name="dist"  location="dist"/>
+	
+	<!-- This project depends on the BasicMtlAntlr2BasicMtlAstJava and BasicMtlTLLJava project -->
+	<property name="BasicMtlAntlr2BasicMtlAstJava"  location="..\BasicMtlAntlr2BasicMtlAstJava"/>
+	<property name="BasicMtlTLLJava"  location="..\BasicMtlTLLJava"/>
+	<!-- This project deeply depends on the BasicMtlAstJava, BasicMtlAntlr and Utils project -->
+	<property name="BasicMtlAstJava"  location="..\BasicMtlAstJava"/>
+	<property name="BasicMtlAntlr"  location="..\BasicMtlAntlr"/>
+	<property name="Utils"  location="..\Utils"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -15,6 +23,14 @@
 	    <mkdir dir="${bin}"/>
 	    <mkdir dir="${dist}"/>
 	    <mkdir dir="${dist}/bin"/>
+	    
+		<!-- This project depends on the BasicMtlAntlr2BasicMtlAstJava and BasicMtlTLLJava project -->
+	    <echo>Building the "BasicMtlAntlr2BasicMtlAstJava" project.</echo>
+	    <ant antfile="${BasicMtlAntlr2BasicMtlAstJava}\build.xml" dir="${BasicMtlAntlr2BasicMtlAstJava}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlAntlr2BasicMtlAstJava" project built.</echo>
+	    <echo>Building the "BasicMtlTLLJava" project.</echo>
+	    <ant antfile="${BasicMtlTLLJava}\build.xml" dir="${BasicMtlTLLJava}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMtlTLLJava" project built.</echo>
 	</target>
 
 	<target name="compile_java" depends="init"
@@ -22,7 +38,7 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar"/>
+   			classpath=".;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlAntlr2BasicMtlAstJava}\bin;${BasicMtlAstJava}\bin;${BasicMtlTLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar"/>
 	</target>
   	<target name="full_javadoc" 
   		description="create a full javadoc document that describes all the classes of the project">
@@ -32,23 +48,23 @@
             nodeprecatedlist="false" nodeprecated="false"
             packagenames="ANTLR2TLLJava,TLLBuilder"
             sourcepath="src"
-            classpath="bin;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar" doctitle="Basic MTL ANTLR2TLL (Unchecked TLL producer) internal Documentation">
+            classpath="bin;${Utils}\bin;${BasicMtlAntlr}\bin;${BasicMtlAntlr2BasicMtlAstJava}\bin;${BasicMtlAstJava}\bin;${BasicMtlTLLJava}\bin;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Basic MTL ANTLR2TLL (Unchecked TLL producer) internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
         </javadoc>
 	</target>
 	<target name="create_jar" depends="compile_java"
 		description="create the jar file">
-		<jar destfile="${dist}/bin/BasicMtl2TLL.jar">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
 			<!-- files to include in the jar -->
 			<fileset dir="${bin}"/>
 			<!-- manifest to include -->
 		    <manifest>
 		    	<attribute name="Built-By" value="${user.name}"/>   
 		    	<attribute name="Main-Class" value="ANTLR2TLLJava.antlr2tll"/>
-				<attribute name="Class-Path" value="log4j.jar junit.jar BasicMtlAntlr.jar BasicMtlASTJava.jar BasicMtl2AST.jar BasicMtlTLLJava.jar antlrfull.jar"/>
-		    	<section name="BasicMTLAntlr2TLL">
-		      		<attribute name="Specification-Title" value="BasicMTLAntlr2TLL"/>
+				<attribute name="Class-Path" value="log4j.jar junit.jar BasicMtlAntlr.jar BasicMtlASTJava.jar BasicMtl2AST.jar BasicMtlTLLJava.jar BasicMtlAntlr2BasicMtlAstJava.jar antlrfull.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
       				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
       				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
       				<attribute name="Implementation-Title" value="common"/>
@@ -62,29 +78,32 @@
 	<target name="dist" depends="create_jar"
 		description="create a distibution">
 		<mkdir dir="${dist}"/>
-	    <copy file="../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar"
-	    	todir="${dist}/bin/"/>
-	    <copy file="../BasicMtlAntlr/ThirdParty/ANTLR/antlrfull.jar"
-	    	todir="${dist}/bin"/>
-	    <copy file="../BasicMtlAstJava/dist/bin/BasicMtlASTJava.jar"
-	    	todir="${dist}/bin/"/>
-	    <copy file="../BasicMtlAntlr2BasicMtlAstJava/dist/bin/BasicMtl2AST.jar"
-	    	todir="${dist}/bin/"/>
-	    <copy file="../BasicMtlTLLJava/dist/bin/BasicMtlTLLJava.jar"
-	    	todir="${dist}/bin/"/>
-	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
-	    <copy file="ThirdParty/log4j/log4j_configuration"
-	    	todir="${dist}/bin/ThirdParty/log4j"/>
-	    <copy file="../Utils/ThirdParty/log4j/log4j.jar"
-	    	todir="${dist}/bin"/>
-	    <copy file="../Utils/ThirdParty/junit/junit.jar"
-	    	todir="${dist}/bin"/>
+		<!-- This project depends on the BasicMtlAntlr2BasicMtlAstJava and BasicMtlTLLJava project -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlAntlr2BasicMtlAstJava}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlTLLJava}\dist\bin"/>
+		</copy>
+		
+	    
+	    <copy file="log4j_configuration.xml"
+	    	todir="${dist}/bin"
+	    	overwrite="true"/>
 	</target>
 
   	<target name="clean"
         description="clean up" >
     	<!-- Delete the {$bin} and ${dist} directory trees -->
-    	<delete dir="${bin}"/>    
-      	<delete dir="${dist}"/> 
+    	<delete dir="${bin}" failonerror="false"/>    
+      	<delete dir="${dist}" failonerror="false"/> 
   	</target>
+
+  	<target name="deep_clean" depends="clean"
+        description="deep clean up (including depending projects)" >
+	    
+		<!-- This project depends on the BasicMtlAntlr2BasicMtlAstJava and BasicMtlTLLJava project -->
+	    <ant antfile="${BasicMtlAntlr2BasicMtlAstJava}\build.xml" dir="${BasicMtlAntlr2BasicMtlAstJava}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMtlTLLJava}\build.xml" dir="${BasicMtlTLLJava}" target="deep_clean" inheritAll="false"/>
+    </target>
 </project>

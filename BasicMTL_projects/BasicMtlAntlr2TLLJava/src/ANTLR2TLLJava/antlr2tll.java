@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.1 2003-08-06 16:18:48 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/ANTLR2TLLJava/antlr2tll.java,v 1.2 2003-08-12 14:52:27 ffondeme Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import antlr2ASTJava.*;
@@ -56,7 +57,7 @@ public class antlr2tll {
 	
 	public static void main(String[] args)
 	{	try {
-			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(antlr2tll.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {
@@ -87,7 +88,7 @@ public class antlr2tll {
 
 /*	public static void main(String[] args)
 	{	try {
-			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(antlr2tll.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.1 2003-08-06 15:55:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.2 2003-08-12 14:54:56 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -9,6 +9,7 @@ import java.io.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 import ANTLR2TLLJava.*;
@@ -33,7 +34,7 @@ public class TLLtypechecking {
 
 /*	public static void main(String[] args)
 	{	try {
-			String filePath = new java.io.File("ThirdParty/log4j/log4j_configuration").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(TLLtypechecking.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {
@@ -62,7 +63,7 @@ public class TLLtypechecking {
 
 	public static void main(String[] args)
 	{	try {
-			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+			String filePath = new java.io.File(Directories.getRootPath(TLLtypechecking.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {

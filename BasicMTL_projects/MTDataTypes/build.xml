@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-11 18:54:56 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-12 14:54:25 ffondeme Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MTDataTypes" default="dist" basedir=".">
 	<description>
@@ -41,7 +41,7 @@
             splitindex="true" author="true" version="true"
             nodeprecatedlist="false" nodeprecated="false"
             sourcepath="src"
-            classpath="bin;$ {Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
+            classpath="bin;${Utils}\bin;..\Utils\ThirdParty\junit\junit.jar;..\Utils\ThirdParty\log4j\log4j.jar" doctitle="Data Types internal Documentation">
             <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
             <link href="file:/T:/Soft/multiplatform/Java_lib/log4j/jakarta-log4j-1.2.8/docs/api/"/>
         </javadoc>
@@ -73,10 +73,6 @@
 		<copy todir="${dist}/bin">
 			<fileset dir="${Utils}\dist\bin"/>
 		</copy>
-	    <mkdir dir="${dist}/bin/ThirdParty/log4j"/>
-	    <copy file="ThirdParty/log4j/log4j_configuration"
-	    	todir="${dist}/bin/ThirdParty/log4j"
-	    	overwrite="true"/>
 	    	
 		<mkdir dir="${dist}/test"/>
 	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="true">

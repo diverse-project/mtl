@@ -3,7 +3,5 @@
     <classpathentry kind="src" path="src"/>
     <classpathentry kind="src" path="srcOfp"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="O:/Objecteering/modules/TestsForJavaEJB/2.2.k/lib/softeam.jar"/>
-    <classpathentry kind="lib" path="O:/Objecteering/modules/TestsForJavaEJB/2.2.k/lib/junit.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

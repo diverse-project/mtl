@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.1 2003-08-01 16:57:07 dvojtise Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.2 2003-08-12 14:54:01 ffondeme Exp $
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java;
 
@@ -25,7 +25,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -95,10 +95,8 @@ public class SimpleStandaloneModelManager {
 				}
 			});
 
-			// look for the log4j configuration file in the current directory	
-			// @TODO change the default position of the log4j_configuration to the current directory (it ease the deployment and avery project may use its own easily) (or at least in a configuration dir, but not in Third party which is present only in the developpement project
-			String filePath = new java.io.File("../MDRDriver/ThirdParty/log4j/log4j_configuration").getCanonicalPath();				
-			//String filePath = new java.io.File("log4j_configuration").getCanonicalPath();
+			// look for the log4j configuration file in the current directory
+			String filePath = new java.io.File(Directories.getRootPath(SimpleStandaloneModelManager.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath);
 			SimpleStandaloneModelManager.getLog().info("MDR driver initialized...");

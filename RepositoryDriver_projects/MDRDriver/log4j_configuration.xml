@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<!-- $Source: /tmp/cvs2svn/cvsroot/RepositoryDriver_projects/MDRDriver/ThirdParty/log4j/log4j_configuration,v $ -->
-<!-- $Revision: 1.1.1.1 $ -->
-<!-- $Date: 2003-07-23 14:46:43 $ -->
+<!-- $Source: /tmp/cvs2svn/cvsroot/RepositoryDriver_projects/MDRDriver/log4j_configuration.xml,v $ -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 2003-08-12 14:54:01 $ -->
 <!-- $Author: ffondeme $ -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">

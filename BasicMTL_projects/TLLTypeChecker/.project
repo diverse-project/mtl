@@ -5,6 +5,7 @@
 	<projects>
 		<project>BasicMtlAntlr2TLLJava</project>
 		<project>BasicMtlTLLJava</project>
+		<project>Utils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

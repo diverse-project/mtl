@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.3 2003-08-06 16:20:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.4 2003-08-12 14:51:55 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -19,6 +19,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.*;
+import org.irisa.triskell.MT.utils.Java.Directories;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 public class antlr2ast implements ANTLRWalkerActionsInterface {
@@ -34,7 +35,7 @@ public Library buildLibraryFromText(String fileName)
 
 public static void main(String[] args)
 {	try {
-		String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
+		String filePath = new java.io.File(Directories.getRootPath(antlr2ast.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 		LogManager.resetConfiguration();
 		DOMConfigurator.configure(filePath); }
 	catch(java.io.IOException e) {

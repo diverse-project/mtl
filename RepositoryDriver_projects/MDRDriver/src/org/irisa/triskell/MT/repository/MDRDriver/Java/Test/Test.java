@@ -29,7 +29,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  *  - <install_dir>/ThirdParty/MDR/Test/models/TableMM.xml<br>
  *  - <install_dir>/ThirdParty/MDR/Test/models/Championship.xml<br>
  * 
- * It uses log4j, whose configuration should be in <install_dir>/ThirdParty/log4j/log4j_configuration
+ * It uses log4j, whose configuration should be in <install_dir>/log4j_configuration.xml
  * 
  * It is possibel to force <install_dir> by setting a non null value to the syatem property Directories.RootPath (see below)
  * 
@@ -156,7 +156,7 @@ public class Test
 				}
 			});
 					
-			String filePath = new java.io.File(rootPath + "/ThirdParty/log4j/log4j_configuration").getCanonicalPath();
+			String filePath = new java.io.File(rootPath + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath);
 			Test.getLog().info("Starting MDR driver test...");
