@@ -1,0 +1,55 @@
+/******************************************************************************
+ * $Id $
+ * Part of the ModelLibrary that defines the Directory of the SimpleFileSystem model
+ * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
+ *
+ ******************************************************************************/
+
+library SimpleFileSystem;
+
+//-- Lib local models --
+//Repository models
+// Typed models 
+
+
+/********************************************
+ * class Directory
+ ********************************************/
+class Directory 
+{
+	name : Standard::String;
+	directoryExist : Standard::Boolean;
+	
+	/**
+	 * return the full uri for this file
+	 */
+	getURI() : Standard::String
+	{
+		URI : Standard::String;
+		directoryIt : Standard::Iterator;
+		
+		URI := name;
+		
+		return URI;
+	}
+	/**
+	 * internal method that allows to really create the file as everry needed informations are there
+	 * a voir : le cas d'un déplacement, renommage 
+	 */
+	 changeOccurs()
+	 {
+	 	/* if information are enough for concrete file */
+	 	/* if a file already exist then this is a rename */
+	 	/* else this is a file creation */
+	 }
+	
+	/**
+	 * delete the object, if applicable also delete the file
+	 */
+	/*delete()
+	{
+		// really delete the file if it has readonly to false or undefined 
+		// JavaCode [BMTL_endPoints=new BMTLSet()];
+		'delete directory : '.concat(name).toOut();
+	}*/
+} 

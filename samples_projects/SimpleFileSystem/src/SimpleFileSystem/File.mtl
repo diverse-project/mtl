@@ -1,0 +1,62 @@
+/******************************************************************************
+ * $Id $
+ * Part of the ModelLibrary that defines the file class of the SimpleFileSystem model
+ * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
+ *
+ ******************************************************************************/
+
+library SimpleFileSystem;
+
+//-- Lib local models --
+//Repository models
+// Typed models 
+
+	
+/********************************************
+ * class File
+ ********************************************/
+class File 
+{
+	name : Standard::String;
+	fileExist : Standard::Boolean;
+	
+	
+	/**
+	 * return the full uri for this file
+	 */
+	getURI() : Standard::String
+	{
+		URI : Standard::String;
+		directoryIt : Standard::Iterator;
+		
+		URI := name;
+		JavaCode [ if (true){} ];
+		return URI;
+	}
+	/**
+	 * internal method that allows to really create the file as everry needed informations are there
+	 * a voir : le cas d'un déplacement, renommage 
+	 */
+	 changeOccurs()
+	 {
+	 	/* if information are enough for concrete file (ie. name + valid path)*/
+	 	/* if a file already exist then this is a rename */
+	 	/* else this is a file creation */
+	 }
+	 
+	 set_name(newName : Standard::String)
+	 {
+	 	'set_name called'.toOut();
+	 	// name := newName;
+	 }
+	
+	/**
+	 * delete the object, if applicable also delete the file
+	 */
+	/* delete()
+	{
+		// really delete the file if it has readonly to false or undefined 
+		// JavaCode [BMTL_endPoints=new BMTLSet()];
+		'delete file'.concat(name).toOut();
+	}*/
+} 

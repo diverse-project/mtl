@@ -1,0 +1,20 @@
+<!-- $Id: build.xml,v 1.1 2003-11-24 14:05:24 dvojtise Exp $ -->
+<project name="UML14" default="run SimpleFileSystemTest" basedir=".">
+	<description>
+        build for running the test of the simple file system
+	</description>
+	
+	
+	
+	
+	<target name="run SimpleFileSystemTest" > 
+  		<description>
+  		</description> 
+  		<delete dir="build"></delete> 
+  		<ant antfile="SimpleFileSystem_build.xml" dir="." target="compile"/>
+  		<ant antfile="SimpleFileSystemTest_build.xml" dir="." target="compile"/>
+  		<ant antfile="SimpleFileSystemTest_build.xml" dir="." target="run"/>
+  	</target>
+  	
+
+</project>

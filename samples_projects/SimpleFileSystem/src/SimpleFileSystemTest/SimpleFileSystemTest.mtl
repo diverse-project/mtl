@@ -1,0 +1,30 @@
+/******************************************************************************
+ * $Id $
+ * Part of the ModelLibrary that do the associations of the SimpleFileSystem model
+ * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
+ *
+ ******************************************************************************/
+
+library SimpleFileSystemTest;
+
+//-- Lib local models --
+//Repository models
+// Typed models 
+model theSimpleFileSystem : SimpleFileSystem;
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{
+	// local variables
+	aFile : SimpleFileSystem::File;
+	
+	theSimpleFileSystem := new SimpleFileSystem();
+	aFile := theSimpleFileSystem.getFileFromURI('truc.txt');
+	aFile.name := 'truc2.txt';
+	
+}
+	
