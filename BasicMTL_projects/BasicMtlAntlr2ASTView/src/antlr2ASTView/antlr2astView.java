@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.11 2004-06-11 11:31:44 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.12 2004-06-25 13:45:55 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -48,6 +48,7 @@ public class antlr2astView implements ANTLRWalkerActionsInterface {
 
 	private static BMTLLib_BasicMtlASTView theCreatedLib;
 	private static BMTL_LibraryInterface theBuiltAST=null;
+	private static String libraryName = null;
 
 public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 { return ((BMTL_LibraryInterface)BMTLParser.Parse(fileName,this)); }
@@ -156,6 +157,7 @@ public Object bmtllibraryHeader(Object libName,Object inheritance)
 	theCreatedLib = new BMTLLib_BasicMtlASTView();
 	java.util.Vector libNames=(java.util.Vector)libName;
 	String libSurname=(String)libNames.get(0);
+	libraryName = libSurname;
 	BMTLOrderedSetInterface qn=BMTLTypeConverter(libNames);;
 	for (i=1;i < libNames.size();i++) {
 		libSurname=libSurname.concat("_"+(String)libNames.get(i));
@@ -241,6 +243,11 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 {	int i;
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
+	if (classSurname.equals(libraryName)) {
+		MSGHandler.error(antlr2astView.class,247,"The class name cannot have the library name"+classSurname);
+		classNames=new java.util.Vector();
+		classNames.add(classSurname+classSurname);
+	}
 	BMTLOrderedSetInterface qn=BMTLTypeConverter(classNames);;
 	for (i=1;i < classNames.size();i++) {
 		classSurname=classSurname.concat("_"+(String)classNames.get(i));

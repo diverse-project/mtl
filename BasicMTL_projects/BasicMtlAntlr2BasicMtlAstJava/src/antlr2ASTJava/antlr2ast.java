@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.19 2004-06-09 09:41:08 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.20 2004-06-25 13:45:58 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -20,12 +20,14 @@ import java.util.Vector;
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.*;
+import org.irisa.triskell.MT.utils.MessagesHandler.CompilerException;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 
 public class antlr2ast implements ANTLRWalkerActionsInterface {
 
 	private static Library theBuiltAST=null; //<<<Accumulation>>>
+	private static String libraryName = null;
 
 public Library buildLibraryFromText(String fileName)
 { return ((Library)BMTLParser.Parse(fileName,this)); }
@@ -93,6 +95,7 @@ public Object bmtllibraryHeader(Object libName,Object inheritance)
 {	int i;
 	java.util.Vector libNames=(java.util.Vector)libName;
 	String libSurname=(String)libNames.get(0);
+	libraryName = libSurname;
 	BasicMtlLibrary node=new BasicMtlLibrary(libSurname);
 	node.appendQualifiedName(libSurname);
 	for (i=1;i < libNames.size();i++) {
@@ -157,6 +160,11 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 {	int i,j;
 	java.util.Vector classNames=(java.util.Vector)className;
 	String classSurname=(String)classNames.get(0);
+	if (classSurname.equals(libraryName)) {
+		MSGHandler.error(antlr2ast.class,168,"The class name cannot have the library name"+classSurname);
+		classNames=new java.util.Vector();
+		classNames.add(classSurname+classSurname);
+	}
 	UserClass node=new UserClass(classSurname);
 	node.appendQualifiedName(classSurname);
 	for (i=1;i < classNames.size();i++) {
