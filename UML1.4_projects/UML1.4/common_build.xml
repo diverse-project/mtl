@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2003-11-04 12:52:33 dvojtise Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2003-11-06 15:41:22 dvojtise Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -96,7 +96,7 @@
 		<arg value="-h"/>
 		<classpath>
 			<pathelement path="${build.bin}/"/>
-			<pathelement path="${MTLcompiler.Runtime}"/>
+			<pathelement path="${BasicMTLRuntime.jar}"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
