@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.MissingResourceException;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IProject;
@@ -15,32 +16,30 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
-//import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
-//import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
+import org.inria.mtl.commands.MTLCommandExecutor;
 import org.inria.mtl.editors.MTLDocumentProviders;
-//import org.inria.mtl.editors.utils.MTLEditorColorProvider;
 import org.inria.mtl.editors.utils.MTLEditorEnvironment;
-//import org.inria.mtl.preferences.Log4jPreferencePage;
 import org.inria.mtl.preferences.PreferencesConstants;
 import org.inria.mtl.views.actions.ServerAction;
 import org.inria.mtl.views.controller.Controller;
-import org.irisa.triskell.MT.utils.Java.LogConfigurationHelper;
-import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.osgi.framework.BundleContext;
+
+import CompilerEvents.CompilerMessage;
+import CompilerEvents.CompilerMessageFactory;
 
 /**
  * The main plugin class to be used in the desktop.
  * @author     serge DZALE
  * @created    20 March 2004
  */
-public class MTLPlugin extends AbstractUIPlugin {
+public class MTLPlugin extends AbstractUIPlugin implements java.util.Observer {
 	 /** The shared instance. */
 	private static MTLPlugin plugin;
 	 /** Resource bundle */
@@ -88,6 +87,8 @@ public class MTLPlugin extends AbstractUIPlugin {
 		super();
 		plugin = this;
 		Controller.getInstance().acquaint(this);
+
+		CompilerMessageFactory.instance().addObserver (this);
 
 		try {
 			resourceBundle = ResourceBundle.getBundle("org.inria.mtl.MTLPluginResources");
@@ -357,4 +358,21 @@ public static MTLPlugin instance() {
 		 	}
 		 	return org.apache.log4j.Logger.getLogger (type);
 		 }
+
+		 
+	/** */
+	public void update(Observable o, Object arg) 
+	{
+		if (arg instanceof CompilerMessage)
+		{
+			CompilerMessage msg = (CompilerMessage)arg;
+			try {
+				MTLCommandExecutor.createMarkers (msg);
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+		 
 }
