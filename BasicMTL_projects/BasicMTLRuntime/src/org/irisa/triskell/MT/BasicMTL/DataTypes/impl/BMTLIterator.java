@@ -1,8 +1,7 @@
 /*
+ * $Id: BMTLIterator.java,v 1.5 2003-11-24 13:34:40 dvojtise Exp $
  * Created on 20 août 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
@@ -23,8 +22,6 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
 /**
  * @author ffondeme
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BMTLIterator extends BMTLOclAny implements BMTLIteratorInterface {
 
@@ -33,6 +30,8 @@ public class BMTLIterator extends BMTLOclAny implements BMTLIteratorInterface {
 	 */
 	public BMTLIterator(IteratorValueImpl delegate) {
 		super(delegate);
+		/* automatically starts the iterator so it is directly usable */
+		Iterator_start.TheInstance.invoke(this.getDelegate(), null);
 	}
 
 	public IteratorValueImpl getIteratorDelegate() {
