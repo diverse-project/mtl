@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.2 2003-08-05 12:12:42 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.3 2003-08-09 15:10:53 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -113,7 +113,7 @@ classDefinition returns [Object tree=null;]
 	: n=classKeyword s1:IDENTIFIER (l1=inheritance)?
 	(l2=tag {theTags.addElement(l2); } )*
 	OPENBRACE ( l3=attributesDef {theAttributes.addElement(l3); } )*
-	( l4=methodDefinition {theMethods.addElement(l2); } )* CLOSEBRACE 
+	( l4=methodDefinition {theMethods.addElement(l4); } )* CLOSEBRACE 
 	{tree=walker.classDefinition(n,s1.getText(),l1,theTags,theAttributes,theMethods); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
