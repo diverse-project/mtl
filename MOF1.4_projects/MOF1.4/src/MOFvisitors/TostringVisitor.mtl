@@ -1,0 +1,329 @@
+/******************************************************************************
+ * $Id: TostringVisitor.mtl,v 1.1 2004-03-17 15:42:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFvisitors;
+
+
+/******************************************************************************/
+
+/** */
+class TostringVisitorResult extends VisitorResult
+{
+	init () : VisitorResult
+	{
+		this.oclAsType(!VisitorResult!).init();
+		return this;
+	}
+	
+	add (elt : Standard::OclAny) : VisitorResult
+	{
+		str : Standard::String;
+		
+		if (elt.oclIsTypeOf (!Standard::String!))
+		{
+			str := elt.oclAsType (!Standard::String!);
+			str := str.concat ('\n');
+			elt := str.oclAsType (!Standard::OclAny!);
+			//elt.toOut();
+		}
+		return this.oclAsType (!VisitorResult!).add (elt);
+	}
+}
+
+
+/** */
+class TostringVisitorResultFactory extends VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new TostringVisitorResult().init ();
+	}
+}
+
+
+/******************************************************************************/
+
+/** */ 
+class TostringVisitor extends ModelVisitor
+{
+	/** */
+	init () : TostringVisitor 
+	{
+		this.oclAsType(!ModelVisitor!).init (new TostringVisitorResultFactory());
+		return this;
+	}
+
+	/** */
+	visitPackage (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		thePackage : MOFview::Package;
+		result     : MOFvisitors::VisitorResult;
+		indent     : Standard::String;
+		str        : Standard::String;
+
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+		
+		// we retrieve the object		
+		thePackage := instance.oclAsType (!MOFview::Package!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('PACKAGE ');
+		str := str.concat (thePackage.getName());
+		str := str.concat ('\n');
+		str := str.concat('------------------------------------------------------');
+
+		result.add (str);
+	
+		// we increase the indentation
+		indent := indent.concat ('    ');
+	
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitPackage (instance, indent));
+
+		// we return the result
+		return result;
+	}
+	
+	
+	/** */
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass : MOFview::Class;
+		result   : MOFvisitors::VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theClass := instance.oclAsType (!MOFview::Class!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('CLASS ');
+		str := str.concat (theClass.getName());
+		str := str.concat (' with visibility ');
+		str := str.concat (theClass.getVisibility().toString());		
+
+		result.add (str);
+		
+		// we increase the indentation
+		indent := indent.concat ('    ');
+
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitClass(instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitAttribute (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAttribute : MOFview::Attribute;
+		result   : MOFvisitors::VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theAttribute := instance.oclAsType (!MOFview::Attribute!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('ATTRIBUTE ');
+		str := str.concat (theAttribute.getName());
+		str := str.concat (' of type ');
+		str := str.concat (theAttribute.getType().getName());
+		str := str.concat (' with multiplicity ');
+		str := str.concat (theAttribute.getMultiplicity().toString());
+		str := str.concat (' with scope ');
+		str := str.concat (theAttribute.getScope().toString());
+		str := str.concat (' with visibility ');
+		str := str.concat (theAttribute.getVisibility().toString());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitAttribute(instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitReference (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theReference : MOFview::Reference;
+		result       : MOFvisitors::VisitorResult;
+		indent       : Standard::String;
+		str          : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theReference := instance.oclAsType (!MOFview::Reference!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('REFERENCE ');
+		str := str.concat (theReference.getName());
+		str := str.concat (' of type ');
+		str := str.concat (theReference.getType().getName());
+		str := str.concat (' with multiplicity ');
+		str := str.concat (theReference.getMultiplicity().toString());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitReference (instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitImport (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theImport : MOFview::Import;
+		result    : MOFvisitors::VisitorResult;
+		indent    : Standard::String;
+		str       : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theImport := instance.oclAsType (!MOFview::Import!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('IMPORT ');
+		str := str.concat (theImport.getName());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitImport (instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitPrimitiveType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		thePrimitiveType : MOFview::PrimitiveType;
+		result           : MOFvisitors::VisitorResult;
+		indent           : Standard::String;
+		str              : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		thePrimitiveType := instance.oclAsType (!MOFview::PrimitiveType!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('PRIMITIVE TYPE ');
+		str := str.concat (thePrimitiveType.getName());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitPrimitiveType (instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitStructureType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theStructureType : MOFview::StructureType;
+		result           : MOFvisitors::VisitorResult;
+		indent           : Standard::String;
+		str              : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theStructureType := instance.oclAsType (!MOFview::StructureType!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('STRUCTURE TYPE ');
+		str := str.concat (theStructureType.getName());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitStructureType (instance, indent));
+		
+		return result;				
+	}
+
+
+	/** */
+	visitEnumerationType (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theEnumerationType : MOFview::EnumerationType;
+		result             : MOFvisitors::VisitorResult;
+		indent             : Standard::String;
+		str                : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theEnumerationType := instance.oclAsType (!MOFview::EnumerationType!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('ENUMERATION TYPE ');
+		str := str.concat (theEnumerationType.getName());
+
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ModelVisitor!).visitEnumerationType (instance, indent));
+		
+		return result;				
+	}
+
+
+	
+}
