@@ -67,4 +67,10 @@ public final class CollectionKind
     	if (this == sequence_kind) return "Sequence";
     	throw new RuntimeException("Unmanaged collection " + this.kind + '.');
     }
+
+    public boolean equals(
+        org.irisa.triskell.MT.DataTypes.Java.CollectionKind rhs)
+    {
+		return this.kind == rhs.kind;
+    }
 }

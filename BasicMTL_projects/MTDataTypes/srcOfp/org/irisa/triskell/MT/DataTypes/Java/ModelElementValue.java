@@ -19,4 +19,7 @@ public interface ModelElementValue
       * @return  A unique identifier formally designating the model element. If this identifier is empty, this is the special "null" value.
       */
      String getTheModelElement();
+
+     void deleteTheModelElement()
+        throws java.lang.Exception;
 }

@@ -27,6 +27,11 @@ public class StringCommandGroup extends CommandGroupImpl {
 	
 	static {
 		TheInstance = new StringCommandGroup();
+		TheInstance.addCommand(String_concat.TheInstance);
+		TheInstance.addCommand(String_size.TheInstance);
+		TheInstance.addCommand(String_substring.TheInstance);
+		TheInstance.addCommand(String_toReal.TheInstance);
+		TheInstance.addCommand(String_toInteger.TheInstance);
 	}
 	
 	private StringCommandGroup() {
