@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_boot_build.xml,v 1.5 2004-02-27 08:24:38 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_boot_build.xml,v 1.6 2004-09-28 12:59:38 edrezen Exp $ -->
 <project name="BasicMtl2Java_LibAssociation_boot" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -27,7 +27,7 @@
     	<pathelement path="${dist}\bin\ThirdParty\MDR\mof.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\MDR\nbmdr.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\MDR\openide-lookup.jar"/>
-    	<pathelement path="${dist}\bin\ThirdParty\ModFact\v1_0_0\JMIRepository.jar"/>
+    	<pathelement path="${dist}\bin\ThirdParty\ModFact\v1_0_0\ModFactJmi.jar"/>
     	<pathelement path="${dist}\bin\ThirdParty\EMF\org.inria.EMFDriver.jar"/>
   	</path>
 	
