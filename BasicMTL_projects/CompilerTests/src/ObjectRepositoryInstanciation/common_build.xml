@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2004-04-30 07:53:08 fchauvel Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2004-10-14 08:13:59 jpthibau Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -20,6 +20,7 @@
 
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
+		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -47,7 +48,7 @@
   		<!--<echo>TEMPLATEPATH=${MTLcompiler.jar.path}/</echo>
   		<echo>${BasicMTLc.jar} ${user.src.path}/ </echo>
   		<echo>-TLLPath ${build.src}/TLL/ </echo>
-  		<echo>-TLLLoadingPaths ${user.needed.TLL.path}/ </echo>
+  		<echo>-TLLLoadingPaths ${user.needed.TLL.path} </echo>
   		<echo>-PackageName ${user.package.name} </echo>
   		<echo>-BinPath ${user.build.src}/ </echo>-->
   		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
@@ -61,7 +62,7 @@
 	         <arg value="-TLLPath"/> 
 	         <arg value="${build.src}/TLL/"/>  
 	         <arg value="-TLLLoadingPaths"/>
-	         <arg value="${user.needed.TLL.path}/"/>
+	         <arg value="${user.needed.TLL.path}"/>
 	         <arg value="-PackageName"/> 
 	         <arg value="${user.package.name}"/> 
 	         <arg value="-BinPath"/> 
@@ -86,6 +87,7 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
+			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
