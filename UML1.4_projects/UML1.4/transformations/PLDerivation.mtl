@@ -1,0 +1,326 @@
+/*******************************************************
+ * $Id: PLDerivation.mtl,v 1.1 2003-10-24 12:58:14 dvojtise Exp $
+ *******************************************************/
+library PLDerivation;
+
+
+model fullMercure	: RepositoryModel;			// should be a UML1.4 MetaModel
+model customMercure	: RepositoryModel;			// should be a UML1.4 MetaModel
+model miniMercure	: RepositoryModel;			// should be a UML1.4 MetaModel
+
+model source_model	: RepositoryModel;			// should be a UML1.4 MetaModel - used as a temporary variable
+
+
+main() : Standard::Void
+{     
+   // local variables
+   mdrdriver       : MDRDriver::MDRModelManager;
+  
+   mdrdriver := new MDRDriver::MDRModelManager();
+   mdrdriver.init();
+    
+   // intanciate the model, save result in another file
+   fullMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+                       'UML',        // name of the root package in the Uml1.4 metamodel
+                       'FullMercure',
+                       '.\\Uml1.4Models\\MercurePL.xmi',
+                       '.\\DerivedProductModel\\FullMercure.xmi');
+   customMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+                       'UML',        // name of the root package in the Uml1.4 metamodel
+                       'CustomMercure',
+                       '.\\Uml1.4Models\\MercurePL.xmi',
+                       '.\\DerivedProductModel\\CustomMercure.xmi');
+   miniMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+                       'UML',        // name of the root package in the Uml1.4 metamodel
+                       'MiniMercure',
+                       '.\\Uml1.4Models\\MercurePL.xmi',
+                       '.\\DerivedProductModel\\MiniMercure.xmi');
+
+
+
+   'Deriving FullMercure'.toOut();
+   source_model := fullMercure;
+   derivePL(findClass('FullMercure'));
+
+   'Deriving CustomMercure'.toOut();
+   source_model := customMercure;
+   derivePL(findClass('CustomMercure'));
+
+   'Deriving MiniMercure'.toOut();
+   source_model := miniMercure;
+   derivePL(findClass('MiniMercure'));
+  
+   'Derivation done.'.toOut();
+}
+
+derivePL (concreteFactory : source_model::Core::Class) {
+	selectedVariants	: Standard::Set;
+	definedVariants		: Standard::Set;
+	feature				: source_model::Core::Feature;
+	operation			: source_model::Core::Operation;
+	operationIterator	: Standard::Iterator;
+	subClassesNames		: Standard::Set;
+	stereotypesNames	: Standard::Set;
+	classesIterator		: Standard::Iterator;
+	aClass				: source_model::Core::Class;
+	name				: Standard::String;
+	classesToDelete		: Standard::Set;
+	
+	//Variant selection
+	selectedVariants := newSet();
+	operationIterator := concreteFactory.feature.getNewIterator();
+	operationIterator.start();
+	while operationIterator.isOn() {
+		feature := operationIterator.item().oclAsType(!source_model::Core::Feature!);
+		if feature.oclIsKindOf(!source_model::Core::Operation!).and(feature.name.substring(1, 4).[=]('new_')) {
+			operation := feature.oclAsType(!source_model::Core::Operation!);
+			
+			//finding all subtypes names of the return type
+			subClassesNames := collectModelElementsNames(allSubClasses(getReturnType(operation)));
+			
+			//finding all stereotypes names
+			stereotypesNames := collectModelElementsNames(operation.stereotype.oclAsType(!Standard::Set!));
+			
+			//retreiving variants to be selected
+			definedVariants := subClassesNames.intersection(stereotypesNames);
+			
+			//adding this result to the to-keep variant list
+			if definedVariants.isEmpty() {
+				//no variant retreived means all variants are selected
+				selectedVariants := selectedVariants.union(subClassesNames);
+			} else {
+				selectedVariants := selectedVariants.union(definedVariants);
+			}
+		}
+		operationIterator.next();
+	}
+	
+	classesToDelete := newSet();
+	classesIterator := !source_model::Core::Class!.allInstances().getNewIterator();
+	classesIterator.start();
+	while classesIterator.isOn() {
+		aClass := classesIterator.item().oclAsType(!source_model::Core::Class!);
+		name := aClass.name;
+		if isStereotyped(aClass, 'optional').and(selectedVariants.excludes(name)) {
+			subClassesNames := collectModelElementsNames(allSubClasses(aClass));
+			if selectedVariants.excludesAll(subClassesNames) {
+				collectDelete(aClass.generalization.oclAsType(!Standard::Set!));
+				collectDelete(subGeneralizations(aClass));
+				classesToDelete := classesToDelete.including(aClass);
+			}
+		}
+		classesIterator.next();
+	}
+	collectDelete(classesToDelete);
+
+	//optimizeInheritance();
+	
+	removeUnusefullFactories(concreteFactory);
+}
+
+removeUnusefullFactories (concreteFactory : source_model::Core::Class) {
+	superClasses	: Standard::Set;
+	ancestor		: source_model::Core::Class;
+	
+	superClasses := collectDirectSuperClasses(newSet().including(concreteFactory));
+	if superClasses.size().[<>](0) {
+		while superClasses.size().[<>](1) {
+			superClasses := collectDirectSuperClasses(superClasses);
+		}
+		ancestor := superClasses.getNewIterator().nextItem();
+		collectDelete(allSubClasses(ancestor), new HasNotSubClassCondition().initHasNotSubClassCondition(concreteFactory));
+	}
+}
+
+findClass (name: Standard::String) : source_model::Core::Class {
+	allClassesIt : Standard::Iterator;
+	aClass : source_model::Core::Class;
+	
+	allClassesIt := !source_model::Core::Class!.allInstances().getNewIterator();
+	allClassesIt.start();
+	while allClassesIt.isOn() {
+		aClass := allClassesIt.item().oclAsType(!source_model::Core::Class!);
+		if aClass.name.[=](name) {
+			return aClass;
+		}
+		allClassesIt.next();
+	}
+	throw 'Cannot find class named '.concat(name);
+}
+
+getReturnType (operation : source_model::Core::Operation) : source_model::Core::Class {
+	parameterIterator	: Standard::Iterator;
+	parameter			: source_model::Core::Parameter;
+	
+	!source_model::Data_Types::ParameterDirectionKind!.allInstances();
+	
+	parameterIterator := operation.parameter.getNewIterator();
+	parameterIterator.start();
+	while parameterIterator.isOn() {
+		parameter := parameterIterator.item();
+		if parameter.kind.name.[=]('pdk_return') {
+			return parameter.type;
+		}
+		parameterIterator.next();
+	}
+	throw 'Cannot find return type of '.concat(operation.owner.name.oclAsType(!Standard::String!)).concat('.').concat(operation.name.oclAsType(!Standard::String!));
+}
+
+subGeneralizations (clazz : source_model::Core::Class) : Standard::Set {
+	ret 					: Standard::Set;
+	generalizationIterator	: Standard::Iterator;
+	generalization			: source_model::Core::Generalization;
+	
+	ret := newSet();
+	generalizationIterator := !source_model::Core::Generalization!.allInstances().getNewIterator();
+	generalizationIterator.start();
+	while generalizationIterator.isOn() {
+		generalization := generalizationIterator.item();
+		if generalization.parent.[=](clazz) {
+			ret := ret.including(generalization);
+		}
+		generalizationIterator.next();
+	}
+	
+	return ret;
+}
+
+allSubClasses (clazz : source_model::Core::GeneralizableElement) : Standard::Set {
+	ret 					: Standard::Set;
+	generalizationIterator	: Standard::Iterator;
+	generalization			: source_model::Core::Generalization;
+	
+	ret := newSet();
+	generalizationIterator := !source_model::Core::Generalization!.allInstances().getNewIterator();
+	generalizationIterator.start();
+	while generalizationIterator.isOn() {
+		generalization := generalizationIterator.item();
+		if generalization.parent.[=](clazz) {
+			ret := ret.including(generalization.child.oclAsType(!source_model::Core::Class!));
+			ret := ret.union(allSubClasses(generalization.child.oclAsType(!source_model::Core::Class!)));
+		}
+		generalizationIterator.next();
+	}
+	
+	return ret;
+}
+
+collectModelElementsNames (set : Standard::Set) : Standard::Set {
+	ret			: Standard::Set;
+	iterator 	: Standard::Iterator;
+	element		: source_model::Core::ModelElement;
+	
+	ret := newSet();
+	iterator := set.getNewIterator();
+	iterator.start();
+	while iterator.isOn() {
+		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
+		ret := ret.including(element.name.oclAsType(!Standard::String!));
+		iterator.next();
+	}
+	return ret;
+}
+
+collectDelete (set : Standard::Set) {
+	collectDelete(set, new Condition().initCondition(true));
+}
+
+class Condition {
+	condition : Standard::Boolean;
+	
+	initCondition(condition : Standard::Boolean) : Condition {
+		self.condition := condition;
+		return self;
+	}
+
+	canRemove(element : source_model::Core::ModelElement) : Standard::Boolean {
+		return condition;
+	}
+}
+
+collectDelete (set : Standard::Set; condition : Condition) {
+	ret			: Standard::Set;
+	iterator 	: Standard::Iterator;
+	element		: source_model::Core::ModelElement;
+	name		: Standard::String;
+	
+	iterator := set.getNewIterator();
+	iterator.start();
+	while iterator.isOn() {
+		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
+		if condition.canRemove(element) {
+			name := element.name;
+			if isNull(name).not() {
+				'\t'.concat(name).concat(' removed').toOut();	
+			}
+			element.delete();
+		}
+		iterator.next();
+	}
+}
+
+isStereotyped (clazz : source_model::Core::Class; stereotypeName : Standard::String) : Standard::Boolean {
+	stereotypeIterator	: Standard::Iterator;
+	stereotype			: source_model::Core::Stereotype;
+	
+	stereotypeIterator := clazz.stereotype.getNewIterator();
+	stereotypeIterator.start();
+	while stereotypeIterator.isOn() {
+		stereotype := stereotypeIterator.item().oclAsType(!source_model::Core::Stereotype!);
+		if stereotype.name.[=](stereotypeName) {
+			return true;
+		}
+		stereotypeIterator.next();
+	}
+	return false;
+}
+
+class HasNotSubClassCondition extends Condition {
+	subClass : source_model::Core::GeneralizableElement;
+
+	initHasNotSubClassCondition(subClass : source_model::Core::GeneralizableElement) : HasNotSubClassCondition {
+		self.subClass := subClass;
+		return self;
+	}
+
+	canRemove(element : source_model::Core::ModelElement) : Standard::Boolean {
+		if element.oclIsKindOf(!source_model::Core::GeneralizableElement!) {
+			return PLDerivation.allSubClasses(element).including(element).excludes(self.subClass);
+		} else {
+			return true;
+		}
+	}
+}
+
+directSuperClasses (clazz : source_model::Core::Class) : Standard::Set {
+	ret 					: Standard::Set;
+	generalizationIterator	: Standard::Iterator;
+	generalization			: source_model::Core::Generalization;
+	
+	ret := newSet();
+	generalizationIterator := clazz.generalization.getNewIterator();
+	generalizationIterator.start();
+	while generalizationIterator.isOn() {
+		generalization := generalizationIterator.item();
+		ret := ret.including(generalization.parent.oclAsType(!source_model::Core::Class!));
+		generalizationIterator.next();
+	}
+	
+	return ret;
+}
+
+collectDirectSuperClasses (set : Standard::Set) : Standard::Set {
+	ret			: Standard::Set;
+	iterator 	: Standard::Iterator;
+	element		: source_model::Core::ModelElement;
+	
+	ret := newSet();
+	iterator := set.getNewIterator();
+	iterator.start();
+	while iterator.isOn() {
+		element := iterator.item().oclAsType(!source_model::Core::ModelElement!);
+		ret := ret.union(directSuperClasses(element));
+		iterator.next();
+	}
+	return ret;
+}
