@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.1 2003-07-24 09:54:31 dvojtise Exp $
+//$Id: DummyWalker.java,v 1.2 2003-08-05 12:12:42 jpthibau Exp $
 
 package ANTLRASTWalker;
 
@@ -51,6 +51,8 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 	public Object realLiteral(String value,java.util.Vector operationCalls) { return null; }
 
 	public Object stringLiteral(String value,java.util.Vector operationCalls) { return null; }
+
+	public Object oclTypeLiteral(Object type,java.util.Vector operationCalls) { return null; }
 
 	public Object selfLiteral(java.util.Vector operationCalls) { return null; }
 

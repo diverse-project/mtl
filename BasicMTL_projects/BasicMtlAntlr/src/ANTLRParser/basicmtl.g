@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.1 2003-07-24 09:54:31 dvojtise Exp $ */
+/* $Id: basicmtl.g,v 1.2 2003-08-05 12:12:42 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -83,13 +83,13 @@ exception catch [RecognitionException ex] {
 	;
 
 /*===============================================================
-modelUse : ("model" IDENTIFIER ("is" IDENTIFIER)? semicolon)*
+modelUse : ("model" IDENTIFIER (COLON (IDENTIFIER | "RepositoryModel"))? semicolon)*
 ==================================================================*/
 modelUse returns [Object tree=null;]
 {String n;
  String typed=null;
 }
-	: "model" s1:IDENTIFIER ("is" s2:IDENTIFIER {typed=s2.getText(); })? n=semicolon
+	: "model" s1:IDENTIFIER (COLON (s2:IDENTIFIER {typed=s2.getText(); } | "RepositoryModel" {typed="RepositoryModel"; }))? n=semicolon
 	  { tree=walker.model(n,s1.getText(),typed); }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -306,6 +306,7 @@ expression :
 	| CHARORSTRING (operationCall)*
 	| NUM_INT (operationCall)*
 	| NUM_FLOAT (operationCall)*
+	| EXCLAM type EXCLAM (operationCall)*
 	| "self" (operationCall)*
 	| "null" (operationCall)*
 	| "true" (operationCall)*
@@ -332,6 +333,8 @@ expression returns [Object tree=null;]
 		{tree=walker.intLiteral(s3.getText(),theCalls); }
 	| (NUM_FLOAT) => s4:NUM_FLOAT (POINT l2=operationCall {theCalls.addElement(l2); })*
 		{tree=walker.realLiteral(s4.getText(),theCalls); }
+	| EXCLAM tree=type EXCLAM (POINT l2=operationCall {theCalls.addElement(l2); })*
+		{tree=walker.oclTypeLiteral(tree,theCalls); }
 	| ("self") => "self" (POINT l2=operationCall {theCalls.addElement(l2); })*
 		{tree=walker.selfLiteral(theCalls); }
 	| ("null") => "null" (POINT l2=operationCall {theCalls.addElement(l2); })*
@@ -404,12 +407,13 @@ exception catch [RecognitionException ex] {
 
 
 /*===============================================================
-type :  IDENTIFIER (DOUBLECOLON IDENTIFIER  )*
+type :  (IDENTIFIER (DOUBLECOLON IDENTIFIER  )* | "RepositoryModel")
 ==================================================================*/
 type returns [Object tree=null;]
 { java.util.Vector theNamesList=new java.util.Vector(); }
-	: s1:IDENTIFIER {theNamesList.addElement(s1.getText());}
-		(DOUBLECOLON s2:IDENTIFIER {theNamesList.addElement(s2.getText());})* 
+	: (s1:IDENTIFIER {theNamesList.addElement(s1.getText());}
+		(DOUBLECOLON s2:IDENTIFIER {theNamesList.addElement(s2.getText());})*
+		| "RepositoryModel" {theNamesList.addElement("RepositoryModel");} ) 
 	{tree=walker.typeName(theNamesList); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -553,7 +557,8 @@ ML_COMMENT
 			{ LA(2)!='/' }? '*'
 		|	'\r' '\n'		{newline();}
 		|	'\r'			{newline();}
-		|	'\n'			{newline();}
+		|	'\n'			{newline();
+							this.lineNumber++;}
 		|	~('*'|'\n'|'\r')
 		)*
 		"*/"
@@ -564,7 +569,7 @@ ML_COMMENT
 // that after we match the rule, we look in the literals table to see
 // if it's a literal or really an identifer
 IDENTIFIER options {testLiterals=true;}
-	: ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'*'| '/'|'!'|'|'|'&'|'%'|'$' | '<' | '>' ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'!'|'|'|'&'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*
+	: ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'*'| '/'|'|'|'&'|'%'|'$' | '<' | '>' ) ( 'a'..'z'|'A'..'Z'|'_'|'+'|'-'|'|'|'&'|'%'|'$'| '<' | '>' |'=' | SPECIAL |'0'..'9' )*
 	;
 	
 CHARORSTRING :	'\''!
@@ -695,6 +700,9 @@ COLON :	':'
 	;
 
 DIESE : '#'
+	;
+
+EXCLAM : '!'
 	;
 
 TAGVALUE :
