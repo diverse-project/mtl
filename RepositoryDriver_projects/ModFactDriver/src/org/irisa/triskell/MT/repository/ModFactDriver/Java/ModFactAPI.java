@@ -1,5 +1,5 @@
 /*
- * $Id: ModFactAPI.java,v 1.2 2004-09-22 15:22:05 edrezen Exp $
+ * $Id: ModFactAPI.java,v 1.3 2004-09-28 14:34:27 edrezen Exp $
  * Authors : ffondeme xblanc dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -58,6 +58,7 @@ import org.apache.log4j.Logger;
 //import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
+import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
 import org.objectweb.modfact.jmi.xmi.XmiReaderImpl;
 import org.objectweb.modfact.jmi.xmi.XmiWriterImpl;
 /*import org.netbeans.api.mdr.CreationFailedException;*/
@@ -482,14 +483,22 @@ public class ModFactAPI
     /** */
     public void addListenerToElement(Element element, EventListener listener) 
     {
-    	// TODO Auto-generated method stub
+    	getLog().error ("NOT IMPLEMENTED FOR MODFACT...");
     }
 
     /** */
-    public void removeListenerToElement(Element element, EventListener listener) {
-    	// TODO Auto-generated method stub
+    public void removeListenerToElement(Element element, EventListener listener) 
+    {
+    	getLog().error ("NOT IMPLEMENTED FOR MODFACT...");
     }
     
+
+    /** */
+    public EventListenerFactory getEventListenerFactory() 
+    {
+    	getLog().error ("NOT IMPLEMENTED FOR MODFACT...");
+    	return null;
+    }
     
 
 
