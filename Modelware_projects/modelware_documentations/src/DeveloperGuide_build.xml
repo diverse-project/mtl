@@ -1,4 +1,4 @@
-<!-- $Id: DeveloperGuide_build.xml,v 1.1 2005-03-18 16:47:11 dvojtise Exp $ -->
+<!-- $Id: DeveloperGuide_build.xml,v 1.2 2005-03-25 17:14:27 dvojtise Exp $ -->
 <project name="DeveloperGuide" default="all">
 	<!-- configuration properties -->
 	<!-- tool location -->
@@ -8,6 +8,7 @@
 	<property name="ooo2dbk.file"			location="${ooo2dbk.dir}/ooo2dbk"/>
 	<!--<property name="python.exe"				location="C:\OpenOffice.org1.1.4\program\python.bat"/>-->
 	<property name="python.exe"				location="C:\python24\python.exe"/>
+	<property name="hhc.exe"				location="C:\Program Files\HTML Help Workshop\hhc.exe"/>
 	
 	<!-- project configuration -->
 	<property name="project.base.dir" location=".."/>
@@ -16,7 +17,8 @@
 	<property name="build.docbook.dir" location="${build.dir}/docbook42"/>
 	<property name="OOo.source.dir" location="${project.base.dir}/src/OOo"/>
 	<property name="OOo.source.file" location="${OOo.source.dir}/${project.name}.sxw"/>
-	
+	<property name="deployment.dest" location="\\\\jersey\\triskell\\www\\triskell\\prive\\docs"/>
+
 	<target name="all" depends="OOo2dbk, html.single, html.chunked ,pdf.fop, eclipse.help, html.help">
 	</target>
 	
@@ -49,10 +51,17 @@
 		<!-- only one doc at this time -->
 		<!-- note : voir comment on peut améliorer le script avec une config, 
 					en particulier la possibilité d'ajouter un docbook file ? == merge ??-->
-		<copy todir="${build.docbook.dir}/${project.name}">
-						<fileset file="${OOo.source.dir}/ooo2dbk.xml"/>
+		<tstamp>
+			<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>
+		</tstamp>
+		
+
+		<filter token="BUILD.DATE" value="${TODAY_UK}"/>
+		<copy file="${build.docbook.dir}/${project.name}/${project.name}.docb.xml" 
+			tofile="${build.docbook.dir}/${project.name}/index.xml"
+			filtering="true"
+			overwrite="true">
 		</copy>
-		<copy file="${build.docbook.dir}/${project.name}/${project.name}.docb.xml" tofile="${build.docbook.dir}/${project.name}/index.xml"/>
 	</target>
 	
 	<target name="html.single" depends="prepare_index.xml"
@@ -99,7 +108,12 @@
 
         <available property="tmp:help.ok" file="${build.dir}/html.help/${project.name}/index.html" />
         <fail message="not good: HTMLHelp failed." unless="tmp:help.ok" />
-		<!-- TODO call the microsoft tool if we are on a windows OS -->
+		<!-- call the microsoft tool -->
+		<exec dir="${build.dir}/html.help/${project.name}" executable="${hhc.exe}">
+			<arg line="htmlhelp.hhp"/>
+		</exec>
+		<copy tofile="${build.dir}/html.help/${project.name}/${project.name}.chm" 
+			file="${build.dir}/html.help/${project.name}/htmlhelp.chm"/>
 	</target>
 	
 	<target name="eclipse.help" depends="prepare_index.xml"
@@ -153,6 +167,8 @@
 
         <available property="tmp:pdf.fop.ok" file="${build.dir}/pdf.fop/${project.name}/index.pdf" />
         <fail message="not good: pdf fop not found." unless="tmp:pdf.fop.ok" />
+		<copy file="${build.dir}/pdf.fop/${project.name}/index.pdf" 
+			tofile="${build.dir}/pdf.fop/${project.name}/${project.name}.pdf"/>
 	</target>
 
 	<!-- Cleaning targets -->
@@ -182,5 +198,22 @@
 	        <mkdir dir="${project.base.dir}/build/eclipse.help" />
 	</target>
 	
+	<target name="deploy" description="copy documentation files to http://www.irisa.fr/triskell/prive/docs" depends="OOo2dbk, html.single, html.chunked, pdf.fop, html.help">
+	  		<delete dir="${deployment.dest}\\html.single\\${project.name}" failonerror="false"/>
+	  		<delete dir="${deployment.dest}\\html.chunked\\${project.name}" failonerror="false"/>
+			<copy todir="${deployment.dest}\\html.chunked\\${project.name}">
+	  			<fileset dir="${build.dir}\\html.chunked\\${project.name}">
+	  			</fileset>  			
+	  		</copy>
+	  		<copy todir="${deployment.dest}\\html.single\\${project.name}">
+	  			<fileset dir="${build.dir}\\html.single\\${project.name}">
+	  			</fileset>  			
+	  		</copy>
+			<copy file="${build.dir}/pdf.fop/${project.name}/${project.name}.pdf" 
+				todir="${deployment.dest}"/>
+		<copy file="${build.dir}/html.help/${project.name}/${project.name}.chm" 
+			todir="${deployment.dest}"/>
+
+	</target>
 	
 </project>
