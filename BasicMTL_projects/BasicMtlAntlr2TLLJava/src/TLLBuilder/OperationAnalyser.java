@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: OperationAnalyser.java,v 1.7 2004-04-06 07:54:38 dvojtise Exp $
+ * $Id: OperationAnalyser.java,v 1.8 2004-10-26 15:34:40 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -24,8 +24,6 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 	public Object OperationBefore(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation ASTnode,java.util.Map context)
 	{	String operationName=ASTnode.getName();
 		String mangle=null;
-		Property FileNameProperty=null;
-		String FileName; 
 		
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		if (mangling == null)
@@ -37,11 +35,22 @@ public class OperationAnalyser extends ASTTopDownVisitor.OperationAnalyser {
 		boolean throwException=ASTnode.getThrowsException();
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		Operation theCreatedOp=new Operation(operationName,mangle,throwException,isConstructor,lineNumber);
-		//		transmit the file name and line number to the new var for traceability.
-		theCreatedOp.createNewProperty("LineNumber",ASTnode.getProperty("LineNumber").getValue(),"String");
-		FileNameProperty = ASTnode.getProperty("FileName");
-		if (FileNameProperty == null) FileName = "Unknown file location for variable "+operationName; 
-		else FileName = (String)FileNameProperty.getValue();		
+
+		// We retrieve the LineNumber Property from the AST node.
+		// We create a new Property from it for the TLL node.
+		Property fileNumberProperty = ASTnode.getProperty("LineNumber");
+		theCreatedOp.createNewProperty("LineNumber",fileNumberProperty.getValue(),"String");
+		
+		// We retrieve the FileName Property from the AST node. 
+		Property FileNameProperty = ASTnode.getProperty("FileName");
+		String FileName = 
+			(FileNameProperty == null ?
+				"Unknown file location for variable " + operationName :
+				(String)FileNameProperty.getValue()
+			);
+		// We create a new Property from it for the TLL node.
+		theCreatedOp.createNewProperty ("FileName", FileName, "String");
+		
 		if (! isConstructor) {
 			Property returnedType=(Property)ASTnode.getProperty("returnedType");
 			BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");

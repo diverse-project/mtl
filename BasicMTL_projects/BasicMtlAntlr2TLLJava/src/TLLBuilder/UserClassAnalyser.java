@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.12 2004-06-30 09:36:55 jpthibau Exp $
+ * $Id: UserClassAnalyser.java,v 1.13 2004-10-26 15:34:40 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -46,6 +46,23 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		theCreatedClass.setQualifiedName(qn);
 		theCreatedClass.createNewProperty("ObservableClass", observable ? Boolean.TRUE : Boolean.FALSE, "Boolean");
 		theCreatedClass.createNewProperty("ManualMangling", manualMangling ? Boolean.TRUE : Boolean.FALSE, "Boolean");
+		
+		// We retrieve the LineNumber Property from the AST node.
+		// We create a new Property from it for the TLL node.
+		Property fileNumberProperty = ASTnode.getProperty("LineNumber");
+		theCreatedClass.createNewProperty("LineNumber",fileNumberProperty.getValue(),"String");
+		
+		// We retrieve the FileName Property from the AST node. 
+		Property FileNameProperty = ASTnode.getProperty("FileName");
+		String FileName = 
+			(FileNameProperty == null ?
+				"Unknown file location for variable " + userClassName :
+				(String)FileNameProperty.getValue()
+			);
+		// We create a new Property from it for the TLL node.
+		theCreatedClass.createNewProperty ("FileName", FileName, "String");
+
+		
 		Property typeTag = ASTnode.getProperty("type");
 		if (typeTag != null)
 			theCreatedClass.createNewProperty("type", typeTag.getValue(), "String");
