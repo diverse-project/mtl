@@ -1,8 +1,6 @@
-/*
+/* $Id: SetCommandGroup.java,v 1.5 2004-01-22 12:35:58 dvojtise Exp $
  * Created on May 22, 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Set;
 
@@ -11,23 +9,22 @@ import java.util.Hashtable;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
-import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
-import org.irisa.triskell.MT.DataTypes.Java.RealValue;
-import org.irisa.triskell.MT.DataTypes.Java.Type;
+// import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
+// import org.irisa.triskell.MT.DataTypes.Java.RealValue;
+// import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroupImpl;
-import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
-import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionCommandGroup;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
-import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
+// import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyCommandGroup;
 
 /**
  * @author ffondeme
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Defines the available commands for Set objects 
  */
 public class SetCommandGroup extends CommandGroupImpl {
 	// keys are collection types (CollectionType) and values are collection command groups (CollectionCommandGroup) - of this exact type !	private static Hashtable defined
@@ -40,6 +37,7 @@ public class SetCommandGroup extends CommandGroupImpl {
 			ret.addCommand(Set_union.TheInstance);
 			ret.addCommand(Set_intersection.TheInstance);
 			ret.addCommand(Set_including.TheInstance);
+			ret.addCommand(Set_symmetricDifference.TheInstance);
 		}
 		return ret;
 	}

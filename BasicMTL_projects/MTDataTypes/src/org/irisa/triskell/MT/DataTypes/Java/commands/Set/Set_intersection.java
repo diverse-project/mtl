@@ -1,33 +1,29 @@
-/*
+/* $Id: Set_intersection.java,v 1.2 2004-01-22 12:35:58 dvojtise Exp $
  * Created on May 27, 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Set;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
-import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.AbstractCommand;
-import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.OclAny.OclAnyType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.SetValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 
 /**
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * implementation of the symmetricDifference command applicable to a Set
+ * The intersection of self and s (i.e, the set of all elements that are in both self and s).
+ * post: result->forAll(elem | self->includes(elem) and s->includes(elem))
+ * post: self->forAll(elem | s ->includes(elem) = result->includes(elem))
+ * post: s ->forAll(elem | self->includes(elem) = result->includes(elem))
  */
 public class Set_intersection extends AbstractCommand {
 	public static final Set_intersection TheInstance = new Set_intersection();
