@@ -1,0 +1,151 @@
+/******************************************************************************
+ * $Id $
+ * Description : Some behavior tests that have effects on a repository
+ *	We use here a UML1.4 model 
+ ******************************************************************************/
+
+library test2MyTransformationModel;
+ 
+model source_model : RepositoryModel;  // a Repository model
+
+main() : Standard::Void
+{
+	myTestClass : MyTransformationClass;
+	
+	myTestClass := new MyTransformationClass();
+	myTestClass.connectSourceModel();	
+	// myTestClass.testBug173(); // this may be not a bug, see bug173 for explanation
+	// myTestClass.navigateSourceModel();
+	
+}
+class MyTransformationClass
+{
+	connectSourceModel()
+	{
+		// local variables
+		mdrdriver        									: MDRDriver::MDRModelManager;
+		metamodelFilename, inputFilename, outputFilename 	: Standard::String; 
+		// we define some filenames 
+		metamodelFilename := '../../../MetaModels/Uml14MM.xmi';
+		inputFilename     := '../../../Models/Sample_Uml14_Model.xmi';
+		outputFilename    := '../../../Models/Sample_Uml14_Model_modified.xmi';
+
+	    // we initialize the MDR driver			
+		mdrdriver := new MDRDriver::MDRModelManager();
+		if isNull(mdrdriver)
+		{
+			throw 'test2MyTransformationModel::MyTransformationClass::connectSourceModel mdrdriver is null';
+		}
+		mdrdriver.init();
+		 
+		// intanciate the model, save result in another file
+		source_model := mdrdriver.getModelFromXMI (
+			metamodelFilename, 
+			'UML',			// name of the root package in the Uml1.4 metamodel
+			'UML1.4_model', // name of the new model in the repository
+			inputFilename,
+			outputFilename
+		);	
+		// bug cannot test that !!! TODO enter the bug into bugzilla !
+		/*	
+		if isNull(source_model)
+		{
+			throw 'test2MyTransformationModel::MyTransformationClass::connectSourceModel source_model is null';
+		}
+		if source_model.oclIsUndefined()
+		{
+			throw 'test2MyTransformationModel::MyTransformationClass::connectSourceModel source_model is undefined';
+		}*/ 
+	}
+	
+	// we are looking for the entry point of Uml14 model
+	getEntryPointInUml14SourceModel() : source_model::Package
+	{
+		meIterator : Standard::Iterator;
+		meSet		: Standard::Set;
+				
+		'truc'.toErr();
+		
+		/* bug #158 : cannot test that now
+		if isNull(!source_model::Core::Clazz!)
+		{
+			'type is null'.toErr();
+		}
+		else
+		{	
+			'type is not null'.toErr();
+			if !source_model::Core::Clazz!.oclIsUndefined()
+			{
+				'type is undefined'.toErr();
+			}
+			'truc fsdlkgjl'.toErr();
+		}
+		meSet := !source_model::Core::Clazz!.allInstances();
+		'truc3'.toErr();
+		meIterator := !source_model::Package!.allInstances().getNewIterator();
+		if isNull(meIterator.item())
+		{
+			'null'.toErr();
+		}
+		else
+		{
+			'not null'.toErr();
+		}*/
+		meIterator.item().oclAsType(!source_model::Package!).name.toErr();
+		'truc2'.toErr();
+		// return the first element of this Set
+		return meIterator.item().oclAsType(!source_model::Package!);		
+	}
+	
+	/**
+	  * put bug173 in evidence
+	  * undefined string attribute in repository model shouldn't returns null
+	  */
+	testBug173()
+	{
+		methodIt	: Standard::Iterator;
+		aMethod		: source_model::Core::Method;
+		aString 	: Standard::String;
+		
+		'testing bug173...'.toOut();
+		// we know that Method created by poseidon have no name (empty string)
+		methodIt := !source_model::Core::Method!.allInstances().getNewIterator();
+		// the first method is enough
+		aMethod := methodIt.item().oclAsType(!source_model::Core::Method!);
+		aMethod.name.toOut();  // should not send an exception
+		
+		aString := aMethod.name;
+		// aMethod.name := 'toto';
+		if aString.[=]('')
+		{
+			'...'.toOut();
+		}
+		else
+		{
+			throw 'bug173 : undefined/empty string attribute in repository model should be comparable to \'\' string';
+		}
+		
+		if aMethod.name.[=]('')
+		{
+			'...'.toOut();
+		}
+		else
+		{
+			throw 'bug173 : undefined/empty string attribute in repository model should be comparable to \'\' string';
+		}
+		if isNull(aMethod.name)
+		{
+			throw 'bug173 : undefined/empty string attribute in repository model shouldn\'t returns null';
+		}				
+		'bug173 ok'.toOut();
+		
+	}
+	
+	navigateSourceModel()
+	{
+		umlEntryPoint : source_model::Core::Package;
+
+		umlEntryPoint := getEntryPointInUml14SourceModel();
+		umlEntryPoint.name.toOut();
+	}
+}
