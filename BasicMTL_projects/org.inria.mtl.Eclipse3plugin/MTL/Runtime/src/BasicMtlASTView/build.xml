@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2004-11-09 16:17:41 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.5 2005-02-28 15:44:21 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="compile BasicMtlASTView" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2004-09-14 15:10:46 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.4 2005-02-28 15:44:11 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="update for 0.6.0" basedir=".">
 	<description>
         install the MTL support to colorer plugin

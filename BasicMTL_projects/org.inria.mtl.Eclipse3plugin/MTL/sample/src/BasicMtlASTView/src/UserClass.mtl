@@ -1,4 +1,4 @@
-// $Id: UserClass.mtl,v 1.3 2003/12/08 11:23:29 jpthibau Exp $
+// $Id: UserClass.mtl,v 1.4 2004/11/03 09:12:52 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -12,6 +12,7 @@
 	definedAttributes : Standard::Set;
 	name : Standard::String;
 	QualifiedName : Standard::OrderedSet;
+	isAbstract : Standard::Boolean;
 	
 	appendDefinedAttributes(attrib : Attribute) : Standard::Void
 	{	if isNull(definedAttributes)
@@ -82,6 +83,9 @@
 		qnames.next();
 	}
 	}
+	if isAbstract {
+		JavaCode [theClass.setIsAbstract(true)];
+	} 
 	if isNull(definedAttributes).[not]() {
 	attributes := definedAttributes.getNewIterator();
 	attributes.start();

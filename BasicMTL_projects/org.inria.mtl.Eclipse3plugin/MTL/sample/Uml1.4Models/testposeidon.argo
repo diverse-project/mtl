@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+<!DOCTYPE argo SYSTEM "argo.dtd" >
+<argo>
+  <documentation>
+    <authorname>Didier Vojtisek</authorname>
+    <version>1.61</version>
+    <modifiedWith>1.61</modifiedWith>
+    <description></description>
+    <sourcepath></sourcepath>
+    <classpath></classpath>
+  </documentation>
+  <searchpath href="PROJECT_DIR" />
+  <member
+    type="xmi"
+    name="testposeidon.xmi"
+  />
+  <member
+    type="pgml"
+    name="ClassDiagram1.pgml"
+  />
+  <historyfile name="" />
+</argo>

@@ -1,2 +1,2 @@
 # compiler version
-beta3 - build 10-09-2004
+0.0.6 - build 25-02-2005

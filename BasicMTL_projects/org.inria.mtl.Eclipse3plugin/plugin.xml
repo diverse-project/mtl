@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<!-- $Id: plugin.xml,v 1.9 2005-02-24 16:40:28 dvojtise Exp $ -->
 <plugin
    id="org.inria.mtl"
    name="MTL Plugin For Eclipse"
-   version="0.0.5"
+   version="0.0.6"
    provider-name="INRIA "
    class="org.inria.mtl.MTLPlugin">
+
    <runtime>
       <library name="MTLPlugin.jar"/>
       <library name="MTL/bin/ThirdParty/log4j/log4j.jar"/>
       <library name="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
       <library name="MTL/bin/BasicMTLc.jar"/>
       <library name="MTL/bin/BasicMTLruntime.jar"/>
-    </runtime>
-   	<requires>
-   		<import plugin="org.eclipse.core.resources"/>
-    	<import plugin="org.eclipse.ui"/>
-      	<import plugin="org.eclipse.jface.text"/>
-      	<import plugin="org.eclipse.ui.views"/>
-      	<import plugin="org.eclipse.ui.ide"/>
-      	<import plugin="org.eclipse.core.runtime"/>
-      	<import plugin="org.eclipse.swt"/>
-      	<import plugin="org.eclipse.pde.ui"/>
-      	<import plugin="org.eclipse.jdt.ui"/>
-      	<import plugin="org.eclipse.jdt.core"/> 
-      	<import plugin="org.eclipse.text"/>
-      	<import plugin="org.eclipse.debug.core"/>
-   		<import plugin="org.apache.ant" optional="true"/>
-   		<import plugin="org.eclipse.team.core" optional="true"/>
-   		<import plugin="org.eclipse.ui.editors"/>
-   		<import plugin="org.eclipse.ui.workbench.texteditor"/>
-   	</requires>
-	<extension
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.pde.ui"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.text"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.apache.ant" optional="true"/>
+      <import plugin="org.eclipse.team.core" optional="true"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+   </requires>
+
+   <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             name="%MTLPerspective"
@@ -40,54 +42,95 @@
             class="org.inria.mtl.perspectives.MTLPerspective"
             id="org.inria.mtl.MTLPerspective">
       </perspective>
-   	</extension>
-    <extension point="org.eclipse.ui.perspectiveExtensions">
-  		<perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
-  			<perspectiveShortcut id="org.eclipse.ui.resourcePerspective" /> 
-  			<perspectiveShortcut id="org.eclipse.jdt.ui.JavaPerspective" />
- 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
- 			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	 	    <actionSet id="org.inria.mtl.actionSet" />
-            <view
-               visible="true"
-               relationship="stack"
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.inria.mtl.MTLPerspective">
+         <perspectiveShortcut
+               id="org.eclipse.ui.resourcePerspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.jdt.ui.JavaPerspective">
+         </perspectiveShortcut>
+         <showInPart
+               id="org.eclipse.ui.views.ResourceNavigator">
+         </showInPart>
+         <showInPart
+               id="org.eclipse.jdt.ui.PackageExplorer">
+         </showInPart>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLProjectCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFolderCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFileCreationWizard">
+         </newWizardShortcut>
+         <actionSet
+               id="org.inria.mtl.actionSet">
+         </actionSet>
+         <view
                relative="org.eclipse.ui.views.ContentOutline"
-               id="org.inria.mtl.views.projectexplorer.ProjectExplorerView"/> 
-            <view
                visible="true"
-               relationship="stack"
+               id="org.inria.mtl.views.projectexplorer.ProjectExplorerView"
+               relationship="stack">
+         </view>
+         <view
                relative="org.inria.mtl.views.mtlconsoleview"
-               id="org.eclipse.ui.console.ConsoleView"/> 
-                       
-  	 		<actionSet id="org.eclipse.debug.ui.launchActionSet"/> 
-  		</perspectiveExtension>
-  		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
- 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
-  			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  			<!--<actionSet id="org.inria.mtl.actionSet" /> -->
-  		</perspectiveExtension>
- 		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
- 			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
-  			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  			<!--<actionSet id="org.inria.mtl.actionSet" /> -->
-  		</perspectiveExtension>
-  </extension>
-<!-- =========================================================================== -->
-<!-- Nature  and Builder of the project                                                                 -->
-<!-- =========================================================================== -->
-  
-    <extension
+               visible="true"
+               id="org.eclipse.ui.console.ConsoleView"
+               relationship="stack">
+         </view>
+         <actionSet
+               id="org.eclipse.debug.ui.launchActionSet">
+         </actionSet>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <showInPart
+               id="org.eclipse.ui.views.ResourceNavigator">
+         </showInPart>
+         <showInPart
+               id="org.eclipse.jdt.ui.PackageExplorer">
+         </showInPart>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLProjectCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFolderCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFileCreationWizard">
+         </newWizardShortcut>
+         <perspectiveShortcut
+               id="org.inria.mtl.MTLPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <showInPart
+               id="org.eclipse.ui.views.ResourceNavigator">
+         </showInPart>
+         <showInPart
+               id="org.eclipse.jdt.ui.PackageExplorer">
+         </showInPart>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLProjectCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFolderCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.inria.mtl.wizard.MTLFileCreationWizard">
+         </newWizardShortcut>
+         <perspectiveShortcut
+               id="org.inria.mtl.MTLPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
          id="MTLNature"
          name="%MTLNature"
          point="org.eclipse.core.resources.natures">
@@ -100,7 +143,7 @@
             id="org.inria.mtl.MTLPlugin.MTLBuilder">
       </builder>
    </extension>
-     <extension
+   <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="icons/mtl_project_folder.gif"
@@ -118,22 +161,22 @@
          </run>
       </builder>
    </extension>
-   <!-- =========================================================================== -->
-<!-- Editor                                                                 -->
-<!-- =========================================================================== -->
-
-  <extension point="org.eclipse.team.core.fileTypes">
-  	<fileTypes type="text" extension="mtl" /> 
-  </extension>
+   <extension
+         point="org.eclipse.team.core.fileTypes">
+      <fileTypes
+            type="text"
+            extension="mtl">
+      </fileTypes>
+   </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="%MTLEditor"
             default="true"
-            icon="icons/mtl_file.gif"
+            name="%MTLEditor"
             extensions="mtl"
-            contributorClass="org.inria.mtl.editors.MTLActionContributor"
+            icon="icons/mtl_file.gif"
             class="org.inria.mtl.editors.MTLUnitEditor"
+            contributorClass="org.inria.mtl.editors.MTLActionContributor"
             id="org.inria.mtl.editors.MTLEditor">
       </editor>
    </extension>
@@ -146,155 +189,132 @@
          <menu
                label="%MTL.menu"
                id="org.inria.mtl.MTLMenu">
-             <separator
+            <separator
                   name="maj_separator">
             </separator>
             <separator
-                  name="MTLGroup"  >
+                  name="MTLGroup">
             </separator>
-             <separator
+            <separator
                   name="RunGroup">
             </separator>
-             <separator
+            <separator
                   name="about_separator">
             </separator>
-            
          </menu>
-   <!--      <action 
-               label="%build.all.projects" 
-               icon="icons/cAllProjects.gif"
-               tooltip="%tooltip.build.all.projects"
-               class="org.inria.mtl.actions.buildAllAction"
-               menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
-               toolbarPath="Normal"
-               id="org.inria.mtl.actions.buildAllAction">
-               enablesFor="+">
-			   <selection class="org.eclipse.core.resources.IProject">
-			   </selection>
-         </action>-->
-         <action 
+         <action
                label="%build.project"
                icon="icons/compile_folder_blue.gif"
-               tooltip="%tooltip.build.project"
                class="org.inria.mtl.actions.buildprojectAction"
+               tooltip="%tooltip.build.project"
                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.buildprojectAction">
-               enablesFor="1">
-			   <selection class="org.eclipse.core.resources.IProject">
-			   </selection> 
+            <selection
+                  class="org.eclipse.core.resources.IProject">
+            </selection>
+            enablesFor=&quot;1&quot;&gt;
          </action>
-         <action 
+         <action
                label="%build.folder"
                icon="icons/compile_folder_yellow.gif"
-               tooltip="%tooltip.build.folder"
                class="org.inria.mtl.actions.buildfolderAction"
+               tooltip="%tooltip.build.folder"
                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.buildfolderAction">
-               enablesFor="1">
-			   <selection class="org.eclipse.core.resources.IFolder">
-			   </selection>
+            <selection
+                  class="org.eclipse.core.resources.IFolder">
+            </selection>
+            enablesFor=&quot;1&quot;&gt;
          </action>
-    <!--     <action 
-               label="%run.project"
-               icon="icons/start.gif"
-               tooltip="%tooltip.run.project"
-               class="org.inria.mtl.actions.runProjectAction"
-               menubarPath="org.inria.mtl.MTLMenu/RunGroup"
-               toolbarPath="Normal"
-               id="org.inria.mtl.actions.runProjectAction">
-               enablesFor="1">
-			   <selection class="org.eclipse.core.resources.IProject">
-			   </selection>
-         </action>-->
          <action
                label="%menu.about"
-               tooltip="%menu.tooltip.about"
                class="org.inria.mtl.actions.AboutAction"
+               tooltip="%menu.tooltip.about"
                menubarPath="org.inria.mtl.MTLMenu/about_separator"
                id="org.inria.mtl.AboutAction">
          </action>
-          <action
+         <action
                label="%menu.newProject"
                icon="icons/new_mtl_project.gif"
-               tooltip="%menu.tooltip.newProject"
                class="org.inria.mtl.actions.NewProjectWizardAction"
+               tooltip="%menu.tooltip.newProject"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.newprojectAction">
          </action>
-          <action
+         <action
                label="%menu.newFolder"
                icon="icons/new_source_folder.gif"
-               tooltip="%menu.tooltip.newFolder"
                class="org.inria.mtl.actions.NewFolderWizardAction"
+               tooltip="%menu.tooltip.newFolder"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.newfolderAction">
          </action>
-          <action
+         <action
                label="%menu.newFile"
                icon="icons/new_mtl_file.gif"
-               tooltip="%menu.tooltip.newFile"
                class="org.inria.mtl.actions.NewFileWizardAction"
+               tooltip="%menu.tooltip.newFile"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.newfileAction">
          </action>
-          <action
-                toolbarPath="Normal"
-                label="%menu.generateAntFile"
-                class="org.inria.mtl.actions.generateAntfilesAction"
-                tooltip="%menu.tooltip.generateAntFile"
-                icon="icons/antimtl.gif"
-                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
-                id="org.inria.mtl.action.generateAntFile"/>
+         <action
+               label="%menu.generateAntFile"
+               icon="icons/antimtl.gif"
+               tooltip="%menu.tooltip.generateAntFile"
+               class="org.inria.mtl.actions.generateAntfilesAction"
+               menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
+               toolbarPath="Normal"
+               id="org.inria.mtl.action.generateAntFile">
+         </action>
       </actionSet>
-            <actionSet
+      <actionSet
             label="%CodingActionSet.label"
             visible="false"
             id="org.inria.mtl.CodingActionSet">
-<!-- =========================================================================== -->
-<!-- Source Menu                                                                 -->
-<!-- =========================================================================== -->
-<menu
+         <menu
                label="%SourceMenu.label"
                path="edit"
                id="org.inria.mtl.source.menu">
-         	<separator name="editGroup" />
+            <separator
+                  name="editGroup">
+            </separator>
          </menu>
          <action
                definitionId="org.inria.mtl.mtleditor.Format"
                label="%FormatAction.label"
-               retarget="true"
                menubarPath="org.inria.mtl.source.menu/editGroup"
+               retarget="true"
                id="org.inria.mtl.mtleditor.Format">
          </action>
          <action
                label="%ShiftLeftAction.label"
-               retarget="true"
                menubarPath="org.inria.mtl.source.menu/editGroup"
+               retarget="true"
                id="org.inria.mtl.mtleditor.ShiftLeft">
          </action>
          <action
                label="%ShiftRightAction.label"
-               retarget="true"
                menubarPath="org.inria.mtl.source.menu/editGroup"
+               retarget="true"
                id="org.inria.mtl.mtleditor.ShiftRight">
          </action>
          <action
                definitionId="org.inria.mtl.mtleditor.Uncomment"
                label="%UncommentAction.label"
-               retarget="true"
                menubarPath="org.inria.mtl.source.menu/editGroup"
+               retarget="true"
                id="org.inria.mtl.mtleditor.Uncomment">
          </action>
          <action
                definitionId="org.inria.mtl.mtleditor.Comment"
                label="%CommentAction.label"
-               retarget="true"
                menubarPath="org.inria.mtl.source.menu/editGroup"
+               retarget="true"
                id="org.inria.mtl.mtleditor.Comment">
          </action>
       </actionSet>
@@ -303,19 +323,16 @@
          point="org.eclipse.ui.actionSetPartAssociations">
       <actionSetPartAssociation
             targetID="org.inria.mtl.CodingActionSet">
-         <part id="org.inria.mtl.editors.MTLEditor" />
+         <part
+               id="org.inria.mtl.editors.MTLEditor">
+         </part>
       </actionSetPartAssociation>
    </extension>
-   <!-- =========================================================================== -->
-<!-- MTL Editor Action Definition IDs -->
-<!-- =========================================================================== -->
    <extension
          point="org.eclipse.ui.actionDefinitions">
-<!-- edit -->
       <actionDefinition
             id="org.inria.mtl.contentAssist.proposals">
       </actionDefinition>
-<!-- source -->
       <actionDefinition
             id="org.inria.mtl.mtleditor.Comment">
       </actionDefinition>
@@ -335,15 +352,11 @@
             id="org.inria.mtl.editors.show.previous.problem">
       </actionDefinition>
    </extension>
- <!-- =========================================================================== -->
-<!-- MTL Editor Key Bindings -->
-<!-- =========================================================================== -->
    <extension
          point="org.eclipse.ui.acceleratorSets">
       <acceleratorSet
             scopeId="org.eclipse.ui.textEditorScope"
             configurationId="org.eclipse.ui.emacsAcceleratorConfiguration">
-<!-- edit -->
          <accelerator
                key="Ctrl+Shift+P"
                id="org.inria.mtl.editors.matching.bracket">
@@ -352,7 +365,6 @@
                key="Ctrl+1"
                id="org.eclipse.ui.edit.text.contentAssist.proposals">
          </accelerator>
-<!-- source -->
          <accelerator
                key="Ctrl+/"
                id="org.inria.mtl.mtleditor.Comment">
@@ -360,7 +372,7 @@
          <accelerator
                key="Ctrl+\"
                id="org.inria.mtl.mtleditor.Uncomment">
-         </accelerator> 
+         </accelerator>
          <accelerator
                key="Ctrl+Shift+F"
                id="org.inria.mtl.mtleditor.Format">
@@ -377,7 +389,6 @@
       <acceleratorSet
             scopeId="org.eclipse.ui.textEditorScope"
             configurationId="org.eclipse.ui.defaultAcceleratorConfiguration">
-<!-- edit -->
          <accelerator
                key="Ctrl+Shift+P"
                id="org.inria.mtl.editors.matching.bracket">
@@ -385,8 +396,7 @@
          <accelerator
                key="Ctrl+Space"
                id="org.eclipse.ui.edit.text.contentAssist.proposals">
-         </accelerator> 
-<!-- source -->
+         </accelerator>
          <accelerator
                key="Ctrl+/"
                id="org.inria.mtl.mtleditor.Comment">
@@ -411,7 +421,6 @@
       <acceleratorSet
             scopeId="org.eclipse.ui.textEditorScope"
             configurationId="org.eclipse.ui.defaultAcceleratorConfiguration">
-<!-- edit -->
          <accelerator
                platform="carbon"
                key="Command+Shift+P"
@@ -422,7 +431,6 @@
                key="Command+1"
                id="org.eclipse.ui.edit.text.contentAssist.proposals">
          </accelerator>
-<!-- source -->
          <accelerator
                platform="carbon"
                key="Command+/"
@@ -432,14 +440,9 @@
                platform="carbon"
                key="Command+\"
                id="org.inria.mtl.mtleditor.Uncomment">
-         </accelerator> 
+         </accelerator>
       </acceleratorSet>
    </extension>
- 
-<!-- =========================================================================== -->
-<!-- MTL wizards -->
-<!-- =========================================================================== -->
- 
    <extension
          point="org.eclipse.ui.newWizards">
       <category
@@ -452,11 +455,11 @@
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.NewProjectWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
-            project="true"
             finalPerspective="org.inria.mtl.MTLPerspective"
+            project="true"
             id="org.inria.mtl.wizard.MTLProjectCreationWizard">
          <description>
-            %new.pluginProject.description 
+            %new.pluginProject.description
          </description>
          <selection
                class="org.eclipse.core.resources.IProject">
@@ -468,8 +471,8 @@
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.SourceFolder"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
-            project="true"
             finalPerspective="org.inria.mtl.MTLPerspective"
+            project="true"
             id="org.inria.mtl.wizard.MTLFolderCreationWizard">
          <description>
             %new.pluginFolder.description
@@ -481,15 +484,15 @@
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.FileWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
-            project="true"
             finalPerspective="org.inria.mtl.MTLPerspective"
+            project="true"
             id="org.inria.mtl.wizard.MTLFileCreationWizard">
          <description>
             %new.pluginFile.description
          </description>
       </wizard>
    </extension>
-     <extension
+   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             name="%MTLPreferencePage"
@@ -514,12 +517,6 @@
             class="org.inria.mtl.preferences.MTLPreferencePageEditor"
             id="org.inria.mtl.MTLPreferencePageEditor">
       </page>
-  <!--    <page
-            name="%outline"
-            category="org.inria.mtl.MTLPreferencePage"
-            class="org.inria.mtl.preferences.MTLOutlinePage"
-            id="org.inria.mtl.preferences.MTLOutlinePage">
-      </page>-->
       <page
             name="%Log4J"
             category="org.inria.mtl.MTLPreferencePage"
@@ -532,77 +529,75 @@
       <page
             objectClass="org.eclipse.core.resources.IProject"
             name="MTL Properties"
-            nameFilter="*"
             class="org.inria.mtl.properties.MTLProjectPropertyPage"
+            nameFilter="*"
             id="org.inria.mtl.mtlpropertypage">
          <filter
                name="nature"
                value="org.inria.mtl.MTLNature">
          </filter>
       </page>
-      <!-- <page
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
             objectClass="org.eclipse.core.resources.IProject"
-            name="MTL Main Folder Property"
-            nameFilter="*"
-            class="org.inria.mtl.properties.MTLProjectFolderPropertyPage"
-            id="org.inria.mtl.mtlfolderpropertypage">
+            id="org.inria.mtl.popIproject">
          <filter
-               name="nature"
+               name="projectNature"
                value="org.inria.mtl.MTLNature">
          </filter>
-      </page>-->
+         <menu
+               label="%MTLMenu"
+               path="additions"
+               id="org.inria.mtl.menu">
+            <separator
+                  name="org.inria.mtl.menu/additions">
+            </separator>
+         </menu>
+         <action
+               label="%compile.project.action"
+               class="org.inria.mtl.popup.actions.buildprojectAction"
+               tooltip="Run MTL Project."
+               menubarPath="additions"
+               enablesFor="1"
+               id="org.inria.mtl.popIproject.compile">
+         </action>
+         <action
+               label="Force compile MTL project"
+               class="org.inria.mtl.popup.actions.buildfullprojectAction"
+               tooltip="Force compile MTL project"
+               menubarPath="additions"
+               enablesFor="1"
+               id="org.inria.mtl.popIproject.fullcompile">
+         </action>
+      </objectContribution>
    </extension>
-     <extension point = "org.eclipse.ui.popupMenus">
-     <objectContribution
-        id="org.inria.mtl.popIproject"
-        objectClass="org.eclipse.core.resources.IProject">
-        <filter name="projectNature"
-            value="org.inria.mtl.MTLNature">
-        </filter>
-       <menu label="%MTLMenu" path="additions" 
-        	id="org.inria.mtl.menu">
-			<separator name="org.inria.mtl.menu/additions" /> 
-  		</menu>
-	    <action id="org.inria.mtl.popIproject.compile"
-	       label="%compile.project.action"
-	       tooltip="Run MTL Project."
-	       menubarPath="additions"
-           class="org.inria.mtl.popup.actions.buildprojectAction"	
-	       enablesFor="1">
-	    </action>
-	    <action id="org.inria.mtl.popIproject.fullcompile"
-	       label="Force compile MTL project"
-	       tooltip="Force compile MTL project"
-	       menubarPath="additions"
-           class="org.inria.mtl.popup.actions.buildfullprojectAction"	
-	       enablesFor="1">
-	    </action>
-	 </objectContribution>
- 	</extension>
- 	
-    <extension point = "org.eclipse.ui.popupMenus">
-     <objectContribution
-        id="org.inria.mtl.popIFolder"
-        objectClass="org.eclipse.core.resources.IFolder">
-        <filter name="projectNature"
-            value="org.inria.mtl.MTLNature"> 
-      </filter> 
-	    <action id="org.inria.mtl.popIfolder.compile"
-	       label="%compile.folder.action"
-	       menubarPath="additions"
-	       tooltip="Compile the selected source Folder."
-           class="org.inria.mtl.popup.actions.buildfolderAction"	
-	       enablesFor="+">
-	    </action>
-	 </objectContribution>
- 	</extension>
-
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFolder"
+            id="org.inria.mtl.popIFolder">
+         <filter
+               name="projectNature"
+               value="org.inria.mtl.MTLNature">
+         </filter>
+         <action
+               label="%compile.folder.action"
+               class="org.inria.mtl.popup.actions.buildfolderAction"
+               tooltip="Compile the selected source Folder."
+               menubarPath="additions"
+               enablesFor="+"
+               id="org.inria.mtl.popIfolder.compile">
+         </action>
+      </objectContribution>
+   </extension>
    <extension
          point="org.eclipse.ui.views">
-         <category
-            	name="%MTLViewCategory"
-            	id="MTLPlugin">
-		 </category>
+      <category
+            name="%MTLViewCategory"
+            id="MTLPlugin">
+      </category>
       <view
             name="%mtlConsoleView"
             icon="icons/mtl_console.gif"
@@ -645,14 +640,12 @@
             value="true">
       </persistent>
    </extension>
-<!--  ========================================================================  --> 
-<!--  Documentation                                                             --> 
-<!--  ========================================================================  --> 
- <extension point="org.eclipse.help.toc">
-  <toc file="toc.xml" primary="true" />  
-  </extension>
-
-	
-
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+   </extension>
 
 </plugin>
