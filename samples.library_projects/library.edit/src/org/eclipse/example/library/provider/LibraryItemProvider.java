@@ -16,6 +16,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -26,6 +28,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.example.library.Library;
 import org.eclipse.example.library.LibraryFactory;
@@ -80,6 +84,7 @@ public class LibraryItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Library_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Library_name_feature", "_UI_Library_type"),
 				 LibraryPackage.eINSTANCE.getLibrary_Name(),
@@ -88,20 +93,20 @@ public class LibraryItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} 
-	 * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
-	 * support in {@link #createCommand}.
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Collection getChildrenReferences(Object object) {
-		if (childrenReferences == null) {
-			super.getChildrenReferences(object);
-			childrenReferences.add(LibraryPackage.eINSTANCE.getLibrary_Writers());
-			childrenReferences.add(LibraryPackage.eINSTANCE.getLibrary_Books());
+	public Collection getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(LibraryPackage.eINSTANCE.getLibrary_Writers());
+			childrenFeatures.add(LibraryPackage.eINSTANCE.getLibrary_Books());
 		}
-		return childrenReferences;
+		return childrenFeatures;
 	}
 
 	/**
@@ -109,13 +114,12 @@ public class LibraryItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EReference getChildReference(Object object, Object child) {
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
 		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
-		return super.getChildReference(object, child);
+		return super.getChildFeature(object, child);
 	}
-
 
 	/**
 	 * This returns Library.gif.
@@ -141,19 +145,23 @@ public class LibraryItemProvider
 	}
 
 	/**
-	 * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void notifyChanged(Notification notification) {
+		updateChildren(notification);
+
 		switch (notification.getFeatureID(Library.class)) {
 			case LibraryPackage.LIBRARY__NAME:
-			case LibraryPackage.LIBRARY__WRITERS:
-			case LibraryPackage.LIBRARY__BOOKS: {
-				fireNotifyChanged(notification);
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			}
+			case LibraryPackage.LIBRARY__WRITERS:
+			case LibraryPackage.LIBRARY__BOOKS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -188,4 +196,5 @@ public class LibraryItemProvider
 	public ResourceLocator getResourceLocator() {
 		return LibraryEditPlugin.INSTANCE;
 	}
+
 }

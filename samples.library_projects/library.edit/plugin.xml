@@ -20,6 +20,7 @@
   <requires>
     <import plugin="library" export="true"/>
     <import plugin="org.eclipse.emf.edit" export="true"/>
+    <import plugin="org.eclipse.osgi"/>
   </requires>
 
   <runtime>

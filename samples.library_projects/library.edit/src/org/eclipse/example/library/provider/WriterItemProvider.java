@@ -25,6 +25,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.example.library.LibraryPackage;
 import org.eclipse.example.library.Writer;
 
@@ -62,8 +64,8 @@ public class WriterItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addBooksPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -78,6 +80,7 @@ public class WriterItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Writer_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Writer_name_feature", "_UI_Writer_type"),
 				 LibraryPackage.eINSTANCE.getWriter_Name(),
@@ -95,12 +98,12 @@ public class WriterItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Writer_books_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Writer_books_feature", "_UI_Writer_type"),
 				 LibraryPackage.eINSTANCE.getWriter_Books(),
 				 true));
 	}
-
 
 	/**
 	 * This returns Writer.gif.
@@ -126,17 +129,19 @@ public class WriterItemProvider
 	}
 
 	/**
-	 * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void notifyChanged(Notification notification) {
+		updateChildren(notification);
+
 		switch (notification.getFeatureID(Writer.class)) {
-			case LibraryPackage.WRITER__NAME: {
-				fireNotifyChanged(notification);
+			case LibraryPackage.WRITER__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			}
 		}
 		super.notifyChanged(notification);
 	}
@@ -161,4 +166,5 @@ public class WriterItemProvider
 	public ResourceLocator getResourceLocator() {
 		return LibraryEditPlugin.INSTANCE;
 	}
+
 }

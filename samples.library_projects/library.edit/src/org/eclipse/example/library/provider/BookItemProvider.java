@@ -25,6 +25,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.example.library.Book;
 import org.eclipse.example.library.LibraryPackage;
 
@@ -62,10 +64,10 @@ public class BookItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addAuthorPropertyDescriptor(object);
 			addTitlePropertyDescriptor(object);
 			addPagesPropertyDescriptor(object);
 			addCategoryPropertyDescriptor(object);
-			addAuthorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,6 +82,7 @@ public class BookItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Book_title_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Book_title_feature", "_UI_Book_type"),
 				 LibraryPackage.eINSTANCE.getBook_Title(),
@@ -97,6 +100,7 @@ public class BookItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Book_pages_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Book_pages_feature", "_UI_Book_type"),
 				 LibraryPackage.eINSTANCE.getBook_Pages(),
@@ -114,6 +118,7 @@ public class BookItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Book_category_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Book_category_feature", "_UI_Book_type"),
 				 LibraryPackage.eINSTANCE.getBook_Category(),
@@ -131,12 +136,12 @@ public class BookItemProvider
 		itemPropertyDescriptors.add
 			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_Book_author_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Book_author_feature", "_UI_Book_type"),
 				 LibraryPackage.eINSTANCE.getBook_Author(),
 				 true));
 	}
-
 
 	/**
 	 * This returns Book.gif.
@@ -162,19 +167,21 @@ public class BookItemProvider
 	}
 
 	/**
-	 * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void notifyChanged(Notification notification) {
+		updateChildren(notification);
+
 		switch (notification.getFeatureID(Book.class)) {
 			case LibraryPackage.BOOK__TITLE:
 			case LibraryPackage.BOOK__PAGES:
-			case LibraryPackage.BOOK__CATEGORY: {
-				fireNotifyChanged(notification);
+			case LibraryPackage.BOOK__CATEGORY:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			}
 		}
 		super.notifyChanged(notification);
 	}
@@ -199,4 +206,5 @@ public class BookItemProvider
 	public ResourceLocator getResourceLocator() {
 		return LibraryEditPlugin.INSTANCE;
 	}
+
 }
