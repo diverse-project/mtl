@@ -1,5 +1,5 @@
 /************************************************************
- * $Id: PLDerivation.mtl,v 1.4 2003-12-03 04:30:27 ffondeme Exp $ *
+ * $Id: PLDerivation.mtl,v 1.5 2004-02-19 08:17:36 dvojtise Exp $ *
  ************************************************************/
 library PLDerivation;
 
@@ -20,21 +20,21 @@ main() : Standard::Void
    mdrdriver.init();
     
    // intanciate the model, save result in another file
-   fullMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+   fullMercure := mdrdriver.getModelFromXMI ('./MetaModel/xmi_1.2/01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'FullMercure',
-                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
-                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\FullMercure.xmi');
-   customMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+                       'Uml1.4Models/PLDerivation/MercurePL.xmi',
+                       'Uml1.4Models/PLDerivation/DerivedProductModel/FullMercure.xmi');
+   customMercure := mdrdriver.getModelFromXMI ('./MetaModel/xmi_1.2/01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'CustomMercure',
-                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
-                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\CustomMercure.xmi');
-   miniMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
+                       'Uml1.4Models/PLDerivation/MercurePL.xmi',
+                       'Uml1.4Models/PLDerivation/DerivedProductModel/CustomMercure.xmi');
+   miniMercure := mdrdriver.getModelFromXMI ('./MetaModel/xmi_1.2/01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'MiniMercure',
-                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
-                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\MiniMercure.xmi');
+                       'Uml1.4Models/PLDerivation/MercurePL.xmi',
+                       'Uml1.4Models/PLDerivation/DerivedProductModel/MiniMercure.xmi');
 
 
 
