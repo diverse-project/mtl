@@ -1,0 +1,90 @@
+/******************************************************************************
+ * $Id: AspectTimeOutC.mtl,v Bêta 2003/12/09 kmacedo Exp $
+ * Add the contract TimeOutC in a component model
+ ******************************************************************************/
+
+library AspectTimeOutC;
+
+model source_model : RepositoryModel;  // a Repository model
+model uml          : UML_Utils;
+
+main() : Standard::Void
+{
+
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	sourceFilename    : Standard::String;		
+	outputFilename    : Standard::String;
+	thePreconditions  : Precondition;
+	
+	
+	// we define some filenames 
+	metamodelFilename := '../../../SimpleUML/MetaModel/xmi_1.2/SimpleUmlMM_MOF.xml';
+	inputFilename     := '../../Models/modelComp.xmi';
+	outputFilename    := '../../Models/modelComp_modified.xmi';
+	sourceFilename    := '../../Models/TimeOutC.xmi';
+
+	// we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+		 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI (
+	metamodelFilename, 
+	'SimpleUmlMM',			// name of the root package in the Uml1.4 metamodel
+	'SimpleUML_model', // name of the new model in the repository
+	inputFilename,
+	outputFilename
+	);		
+	
+	if source_model.oclIsUndefined() 
+	{
+		throw 'Undefined model found.';
+	}
+	
+	// we initialize the uml utils
+    uml := new UML_Utils ();
+   	uml.init (source_model);
+    
+ 	'model connected'.toOut();
+ 		
+ 	thePreconditions := new Precondition();
+	thePreconditions.run('op1');
+	run('op1');
+	'Preconditions!'.toOut();
+	
+}
+
+/*****************************************************************************/
+/*****************************************************************************/
+
+class Precondition
+{
+	///////////////////////////////////////////////////////////////////////////
+	//verification de la structure du composant
+	///////////////////////////////////////////////////////////////////////////
+		
+	run (nameOp:Standard::String)
+	{
+		operationSet : Standard::Set;
+		myOperation : source_model::Operation;	
+		myIterator : Standard::Iterator;
+		
+		operationSet := !source_model::Operation!.allInstances();
+		myIterator := operationSet.getNewIterator();
+		myIterator.start();
+		'good'.toOut();
+		while myIterator.isOn() 
+		{		
+			myOperation := myIterator.item().oclAsType(!source_model::Operation!);
+			myOperation.toOut();	
+			myIterator.next();
+		}	
+	}
+	
+}
+
+
+ 
