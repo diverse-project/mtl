@@ -77,7 +77,7 @@ public class MDRModelElement
 
     public String toString()
     {
-		return "model element " + this.getTheModelElement() + " instance of " + this.getType().toString();
+		return "model element #" + this.getTheModelElement() + " : " + this.getType().toString();
     }
 
     public Type getType()

@@ -52,7 +52,7 @@ public class XmiModel
     	String [] load = this.getXmiLoadingFiles();
     	for (int i = 0; i < load.length; ++i) {
 			uri = new File(load[i]).toURI().toString();
-			api.getLog().debug("Loading model from XMI file " + uri + '.');
+			api.getLog().info("Loading model from XMI file " + uri + '.');
 			MDRAPI.getReader().read(uri, api.getModel());
     	}
     }
@@ -64,7 +64,7 @@ public class XmiModel
     	String store = this.getXmiStoringFile();
     	if (store != null) {
 			java.io.OutputStream out = new java.io.BufferedOutputStream(new java.io.FileOutputStream(new File(store)));
-			api.getLog().debug("Storing model to XMI file " + store + '.');
+			api.getLog().info("Storing model to XMI file " + store + '.');
 			MDRAPI.getWriter().write(out, api.getModel(), "1.2");
 			out.flush();
 			out.close();
