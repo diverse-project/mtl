@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-08-27 09:34:10 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-29 07:33:28 dvojtise Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="run test1" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project simpleUML2RDBMS V1
@@ -63,7 +63,48 @@
     	
   	</target>
   	
+  	<target name="clean SimpleUML"
+        description="clean up SimpleUML" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/SimpleUML"/>    
+    	<delete file="${build}/src/TLL/SimpleUML_Transformations.tll"/>   
+    	<delete file="${build}/src/UncheckedTLL/SimpleUML_Transformations.tll"/>
+  	</target>
   	
+  	<!-- SimpleUML_Transformations -->  	
+  	<target name="generate_SimpleUML" depends="init,generate_SimpleUML_Transformations">  	
+  		<description>
+  			generate the java code for SimpleUML
+  		</description>
+  	</target>
+  	<target name="generate_SimpleUML_Transformations" >
+  		<antcall target="MTL2Java" inheritAll="true">
+  			<param name="mtlsrcfile" value="${src}\SimpleUML\SimpleUML_Transformations.mtl" />  
+  			<param name="packagename" value="SimpleUML" /> 
+  			<param name="libname" value="SimpleUML_Transformations" /> 
+  		</antcall>
+  	</target>
+  	<target name="compile_SimpleUML_generated_code" depends="generate_SimpleUML">
+  		<description>
+  			compile the generated Java Code
+  		</description>
+  		<javac srcdir="${build}\src\java\SimpleUML" 
+    	    destdir="${bin}">
+   			<classpath refid="MTLcompiler.class.path"/>
+   		</javac>
+  	</target>
+  	<target name="run SimpleUML" depends="compile_SimpleUML_generated_code">
+  		<description>
+  			run the generated Java Code
+  		</description>
+  		<java classname="SimpleUML.BMTLLib_SimpleUML_5fTransformations" fork="yes">
+   			<classpath >
+   				<pathelement path="${bin}"/>
+   				<path refid="MTLcompiler.class.path"/>
+   			</classpath>
+   		</java>
+  	</target>
+    	
   	
   	<!-- test1 -->  	
   	<target name="generate_test1" depends="init,generate_test1a,generate_test1b">  	
