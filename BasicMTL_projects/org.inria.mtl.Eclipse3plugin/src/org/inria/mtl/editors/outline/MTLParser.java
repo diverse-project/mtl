@@ -311,8 +311,8 @@ public class MTLParser
 				{
 					offset = scanner.getTokenOffset();
 					int lengthDot = scanner.getTokenLength();
-					String dot = getExpression(offset, lengthDot);
-					if (dot.equals(":"))
+					String aToken = getExpression(offset, lengthDot);
+					if (aToken.equals(":"))
 					{
 						//Recherche du type de modèle librairiesMethod
 						MTLLibraryMethodElement aVariable = addLibraryMethod(fct, offsete);
@@ -324,8 +324,11 @@ public class MTLParser
 //							String modelNameWithType=getExpression(varOffset,lengthModelName+lengthDot+lengthType+2);
 //							MTLModelElement aVariable = addModel(modelNameWithType, varOffset);
 //						}
-							
-						
+					}
+					// a method has not necessarly return argument
+					else if (aToken.equals("{"))
+					{
+						MTLLibraryMethodElement aVariable = addLibraryMethod(fct, offsete);
 					}
 				}
 			}
