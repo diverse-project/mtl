@@ -56,9 +56,9 @@
   		<!-- <ant antfile="common_build.xml" dir="." target="run common class" inheritAll="true">
   			<property name="user.mainclass.name" value="Associations2Attributes4EMF"/>
   		</ant> -->
-  		<ant antfile="common_build.xml" dir="../.." target="run common library" inheritAll="true">
-  			<property name="arg1" location="workspace/SimpleUML.tranformations/models/XMI1.2_SimpleUML/SimpleUML_FullExample.xml"/>
-  			<property name="arg2" location="workspace/SimpleUML.tranformations/models/XMI1.2_SimpleUML/SimpleUML_FullExample_modified_by_MDR.xml"/>
+  		<ant antfile="workspace/SimpleUML.transformations/common_build.xml" dir="../.." target="run common library" inheritAll="true">
+  			<property name="arg1" location="models/XMI1.2_SimpleUML/SimpleUML_FullExample.xml"/>
+  			<property name="arg2" location="models/XMI1.2_SimpleUML/SimpleUML_FullExample_modified_by_MDR.xml"/>
 			<property name="arg3" value="MDR"/>
   		</ant>
 	</target>
