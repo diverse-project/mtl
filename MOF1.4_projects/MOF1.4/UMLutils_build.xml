@@ -13,6 +13,7 @@
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.build.bin" location="${build.bin}/${library.name}"/>
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->

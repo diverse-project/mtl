@@ -1,4 +1,4 @@
-<!-- $Id: Tools_build.xml,v 1.1 2004-03-17 15:46:38 edrezen Exp $ -->
+<!-- $Id: Tools_build.xml,v 1.2 2004-03-19 10:14:59 edrezen Exp $ -->
 <project name="MOF adapter" default="compile" basedir=".">
 	<description>
 		MOF adapter
@@ -12,6 +12,7 @@
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.build.bin" location="${build.bin}/${library.name}"/>
 
 
 	<!-- ************************************************ -->

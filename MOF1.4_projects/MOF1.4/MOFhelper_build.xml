@@ -1,4 +1,4 @@
-<!-- $Id: MOFhelper_build.xml,v 1.2 2004-03-17 15:46:39 edrezen Exp $ -->
+<!-- $Id: MOFhelper_build.xml,v 1.3 2004-03-19 10:15:00 edrezen Exp $ -->
 <project name="MOF helper" default="compile" basedir=".">
 	<description>
 		MOF helper
@@ -12,6 +12,7 @@
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
 	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.build.bin" location="${build.bin}/${library.name}"/>
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->
