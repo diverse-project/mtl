@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: TheLibraryClassAnalyser.java,v 1.12 2004-07-15 16:00:40 jpthibau Exp $
+ * $Id: TheLibraryClassAnalyser.java,v 1.13 2004-07-16 09:20:50 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -127,6 +127,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".addObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
@@ -135,6 +136,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'G' : "+ASTnode.getMangle()+".removeObserver(\"PreGet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PreSet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
@@ -163,6 +165,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"addPostObserver(...'G') has no meaning for Getter !\");");
 			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".addObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");
@@ -171,6 +174,7 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("\tjava.util.Iterator it = org.irisa.triskell.MT.BasicMTL.DataTypes.impl.ObserversSelector.checkopSelection(opSelection).iterator();");
 			outputForClass.println("\twhile (it.hasNext()) {");
 			outputForClass.println("\t\tswitch (((Character)it.next()).charValue()) {");
+			outputForClass.println("\t\tcase 'G' : System.err.println(\"removePostObserver(...'G') has no meaning for Getter !\");");
 			outputForClass.println("\t\tcase 'S' : "+ASTnode.getMangle()+".removeObserver(\"PostSet\",obs,type.getOclTypeDelegate().getValue());");
 			outputForClass.println("\t\t} }");
 			outputForClass.println("return BMTLVoid.TheInstance; }");

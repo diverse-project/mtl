@@ -1,6 +1,15 @@
 library DefaultObservers;
 
 class Observer {
+
+	//Getter
+	//addPostObserver has no meaning : the attribute value is returned and no code follows this return.
+	notifyPreGet(object : Standard::BMTLObject;attributeName : Standard::String) :Standard::Boolean
+	{
+		'Default "notifyPreGet(object : Standard::BMTLObject;attributeName : Standard::String) :Standard::Boolean" implemenattion. Redefine this method in your own observer. The boolean result,if false,inhibits the get operation, and return null.'.toOut();
+		return true;
+	}
+
 	notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean
 	{
 		'Default "notifyPreSet(object : Standard::BMTLObject;attributeName : Standard::String;value : Standard::OclAny) :Standard::Boolean" implemenattion. Redefine this method in your own observer. The boolean result,if false,inhibits the set operation.'.toOut();

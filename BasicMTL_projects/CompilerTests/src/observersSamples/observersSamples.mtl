@@ -35,10 +35,21 @@ class HelloSetObserver extends DefaultObservers::Observer {
 	}
 }
 
+class HelloGetObserver extends DefaultObservers::Observer {
+
+	notifyPreGet(object : Standard::BMTLObject;attributeName : Standard::String) : Standard::Boolean {
+		'GET will be done'.toOut();
+		object.toOut();
+		attributeName.toOut();
+		return true;
+	}
+}
+
 main() : Standard::Void	{
 	hw : Hello;
 	obs : HelloObserver;
 	setObs : HelloSetObserver;
+	getObs : HelloGetObserver;
 	hw := new Hello();
 	obs := new HelloObserver();
 	hw.addPreObserver(obs,'S');
@@ -59,4 +70,13 @@ main() : Standard::Void	{
 	self.addPostObserver(setObs,!observersSamples::Hello!,'S');
 	hw.init('HELLO !!!');
 	hw.run();
+	hw.removePreObserver(setObs,'S');
+	hw.removePostObserver(setObs,'S');
+	self.removePostObserver(setObs,!observersSamples::Hello!,'S');
+	getObs := new HelloGetObserver();
+	hw.addPreObserver(getObs,'G');
+	self.addPreObserver(getObs,!observersSamples::Hello!,'G');
+	hw.init('Hi Getter !!!');
+	hw.run();
+	hw.msg.toOut();
 }

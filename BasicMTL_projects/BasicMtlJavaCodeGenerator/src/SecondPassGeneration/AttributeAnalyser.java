@@ -1,6 +1,6 @@
 /*
  * Created on 4 Aout. 2003
- * $Id: AttributeAnalyser.java,v 1.9 2004-07-15 16:00:41 jpthibau Exp $
+ * $Id: AttributeAnalyser.java,v 1.10 2004-07-16 09:20:51 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -37,14 +37,41 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 					setter = (AttributeSetterSignature)ops;
 			}
 		}
-		outputForClass.println("public "+getter.getReturnedType().getDeclarationName()+' '+getter.getOpMangle()+"()");
+		outputForClass.println("public "+getter.getReturnedType().getDeclarationName()+' '+getter.getOpMangle()+"() {");
+		if ((theClass.getProperty("ObservableClass")!= null && ((Boolean)theClass.getProperty("ObservableClass").getValue()).booleanValue())) {
+			outputForClass.println("\treturn "+getter.getOpMangle()+" (BMTLBoolean.FALSE); }");
+			outputForClass.println("public " + getter.getReturnedType().getDeclarationName() + ' ' +getter.getOpMangle()+" (BMTLBooleanInterface trueGetter) {");
+			outputForClass.println("\tboolean doGet=true;");
+			outputForClass.println("\tif (! trueGetter.getTheBoolean()) {");
+			outputForClass.println("\tjava.util.Vector preObservers = theLib.getPreObservsers(\"PreGet\",this.getType().getQualifiedNameAsString());");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doGetCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreGet(this,new BMTLString(\""+ASTnode.getName()+"\"));");
+			outputForClass.println("\t\tif (! doGetCond.getTheBoolean()) doGet=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\tpreObservers = this.getPreObservsers(\"PreGet\");");
+			outputForClass.println("\tif (preObservers != null) {");
+			outputForClass.println("\tjava.util.Iterator it = preObservers.iterator();");
+			outputForClass.println("\twhile (it.hasNext())");
+			outputForClass.println("\ttry {");
+			outputForClass.println("\t\tBMTLBooleanInterface doGetCond = ((DefaultObservers.BMTL_ObserverInterface)it.next()).BMTL_notifyPreGet(this,new BMTLString(\""+ASTnode.getName()+"\"));");
+			outputForClass.println("\t\tif (! doGetCond.getTheBoolean()) doGet=false;");
+			outputForClass.println("\t} catch (Throwable e) {}");
+			outputForClass.println("\t}");
+			outputForClass.println("\t}if (trueGetter.getTheBoolean() || doGet)"); }
 		if (ASTnode.getGetter()==null)
-			outputForClass.println("{ return this."+ASTnode.getMangle()+"; }\n");
+			outputForClass.println("\treturn this."+ASTnode.getMangle()+";");
 		else {
-			outputForClass.println("{ try {\n");
+			outputForClass.println("\ttry {\n");
 			outputForClass.println("     return this.theCaller."+ASTnode.getGetter().getMangle()+"(); }\n");
-			outputForClass.println("catch (Throwable e) { return null; } }\n");
+			outputForClass.println("catch (Throwable e) { return null; }");
 			} 
+		if ((theClass.getProperty("ObservableClass")!= null && ((Boolean)theClass.getProperty("ObservableClass").getValue()).booleanValue()))
+			outputForClass.println("\telse return null;");
+		outputForClass.println("}\n");
 		outputForClass.println("public " + setter.getReturnedType().getDeclarationName() + ' ' +setter.getOpMangle()+" ("+setter.getArgsTypes(0).getDeclarationName()+" value) {");
 		if ((theClass.getProperty("ObservableClass")!= null && ((Boolean)theClass.getProperty("ObservableClass").getValue()).booleanValue())) {
 			outputForClass.println("\treturn "+setter.getOpMangle()+" (value,BMTLBoolean.FALSE); }");
