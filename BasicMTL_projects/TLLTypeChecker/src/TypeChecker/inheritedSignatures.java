@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.4 2003-08-22 17:41:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.5 2003-09-17 06:39:50 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -133,7 +133,7 @@ public class inheritedSignatures {
 				    return addSignatures(aClass,parentClass,origin,relayer, theLib); }
 		}
 		if (TLLtypechecking.loadedLibraries.containsKey(parentName)) {
-			TheLibraryClass parentClass=(TheLibraryClass)TLLtypechecking.loadedLibraries.get(parentName);
+			TheLibraryClass parentClass=((BasicMtlLibrary)TLLtypechecking.loadedLibraries.get(parentName)).getLibraryClass();
 			if (! parentClass.getCompletedInheritedSignatures()) return true;
 			else { QualifiedName origin=new QualifiedName();
 					origin.addElement(parentName);
