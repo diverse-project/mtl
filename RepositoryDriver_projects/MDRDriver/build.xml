@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.5 2004-02-16 15:45:04 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.6 2004-10-11 15:34:11 jpthibau Exp $ -->
 <!-- to make this build script work you need to add antlrfull.jar in the windows>preferences>ant>runtime -->
 <project name="MDRDriver" default="dist" basedir=".">
 	<description>
@@ -90,8 +90,10 @@
 	    <copy file="log4j_configuration.xml"
 	    	todir="${dist}/bin/"
 	    	overwrite="true"/>
+		</target>	    	
 	    	
-	    	
+		<target name="autotest" depends="dist"
+			description="MDR tests">
 		<mkdir dir="${dist}/test"/>
 	    <junit fork="on" printsummary="on" haltonfailure="on" haltonerror="on" dir="${dist}/bin" newenvironment="true" showoutput="true">
 	    	<classpath>

@@ -1,0 +1,126 @@
+library libraryVisitors;
+
+//library model
+model LibraryMM : RepositoryModel;
+
+class CV extends DefaultVisitors::CallableVisitor {
+
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV1 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitEClass(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV1 visit an EClass'.toOut();
+	return null;
+}
+
+visit(className :Standard::String; instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	if className.[=]('EClass')
+	{	return visitEClass(instance,context); }
+	throw self.oclAsType(!CV!);
+}
+}
+
+class IV extends DefaultVisitors::InvokableVisitor {
+
+getPArent() : Standard::OclAny
+{	 return null; }
+ 
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV1 visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitEClass(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV1 visit an EClass'.toOut();
+	return null;
+}
+
+}
+
+
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+	/* *******************************
+	There is no transformation, here.
+	But just visitors acceptance from model elements of the repository
+	********************************** */
+	
+	modelManager : EMFDriver::EMFModelManager;
+	aCV : CV;
+	anIV : IV;
+	set : Standard::Set;
+	it : Standard::Iterator;
+	aClass : LibraryMM::EClass;
+	anAssociationEnd : LibraryMM::EReference;
+	 aBookCategory : LibraryMM::EEnumLiteral;
+	
+	modelManager := new EMFDriver::EMFModelManager();
+
+	//create a true replica of the library MM into a new documentation MM
+	//use loadModel ans saveAsXmiModel methods
+
+	LibraryMM := modelManager.loadModelFromXMI(
+									'LibraryMM',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/library.ecore');
+
+	aCV := new CV();
+	anIV := new IV();
+	//iterate on all classes to visit them
+	'Visiting all classes...'.toOut();
+	'*=======================*'.toOut();
+	set := !LibraryMM::EClass!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		aClass := it.item();
+		aClass.accept(aCV,null);
+		aClass.accept(anIV,null);
+		it.next();
+	}
+
+	//iterate on all roles
+	'Visiting all roles...'.toOut();
+	'*=======================*'.toOut();
+	set := !LibraryMM::EReference!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		anAssociationEnd := it.item();
+		anAssociationEnd.accept(aCV,null);
+		anAssociationEnd.accept(anIV,null);
+		it.next();
+	}
+
+	//iterate on all book categories
+	'Visiting all Enum literals...'.toOut();
+	'*===============================*'.toOut();
+	set := !LibraryMM::EEnumLiteral!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		aBookCategory := it.item();
+		aBookCategory.accept(aCV,null);
+		aBookCategory.accept(anIV,null);
+		it.next();
+	}
+	
+	'Done.'.toOut();
+	
+	//clean the modelManager so that it may call other transformations without any model under management;
+	// use the disposeModel method that frees loaded models
+	modelManager.disposeModel('LibraryMM');
+}

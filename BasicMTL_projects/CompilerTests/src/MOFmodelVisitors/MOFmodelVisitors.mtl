@@ -1,0 +1,115 @@
+library MOFmodelVisitors;
+
+model MOF : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver    : MDRDriver;
+
+ 
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main() : Standard::Void
+{	 
+	// local variables
+
+	mdrdriver         : MDRDriver::MDRModelManager;
+    projectPath       : Standard::String;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+	test : Test1;
+
+	// we define some filenames 
+	projectPath       := './';
+	metamodelFilename := projectPath.concat ('metamodels/MOF_metamodel.xmi');
+	inputFilename     := projectPath.concat ('models/UML_model.xmi');
+	outputFilename    := projectPath.concat ('models/UML_model_MODIFIED.xmi');
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	MOF := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'Model',		// name of the root package in the Uml1.4 metamodel
+		'MOF_model', 
+		inputFilename,
+		outputFilename
+	);
+
+	test := new Test1 ();
+	test.run();
+
+	'End of test !'.toOut();
+}
+
+
+class CV extends DefaultVisitors::CallableVisitor {
+
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitAssociationEnd(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'CV visit an AssociationEnd'.toOut();
+	return null;
+}
+
+visit(className :Standard::String; instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	className.toOut();
+	if className.[=]('AssociationEnd')
+	{	return visitAssociationEnd(instance,context); }
+	throw self.oclAsType(!CV!);
+}
+}
+
+class IV extends DefaultVisitors::InvokableVisitor {
+
+getPArent() : Standard::OclAny
+{	 return null; }
+ 
+visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV visitOclAny '.toOut();
+	instance.toOut();
+	return null;
+}
+
+visitTag(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+{	'IV visit a Tag'.toOut();
+	return null;
+}
+
+}
+
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+
+class Test1
+{
+	/** */
+	run ()
+	{
+		iterator : Standard::Iterator;
+		anElt : MOF::Model::ModelElement;
+		aCV : CV;
+		anIV : IV;
+
+		aCV := new CV();
+		anIV := new IV();
+		iterator := !MOF::Model::ModelElement!.allInstances().getNewIterator();
+		while iterator.isOn() {
+			anElt := iterator.item();
+//			anElt.toOut();
+			anElt.accept(aCV,null);
+			anElt.accept(anIV,null);
+			iterator.next();
+		}
+	}
+	
+		
+}
+

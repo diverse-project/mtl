@@ -1,5 +1,5 @@
 /*
- * $Id: JMIFeatured.java,v 1.1 2004-02-16 15:44:37 dvojtise Exp $
+ * $Id: JMIFeatured.java,v 1.2 2004-10-11 15:33:01 jpthibau Exp $
  * Authors : ffondeme dvojtise
  */
 package org.irisa.triskell.MT.repository.genericJMIDriver;
@@ -10,6 +10,9 @@ import java.util.List;
 import javax.jmi.reflect.InvalidCallException;
 import javax.jmi.reflect.InvalidObjectException;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
@@ -21,6 +24,9 @@ import org.irisa.triskell.MT.repository.API.Java.IsQueryException;
 import org.irisa.triskell.MT.repository.API.Java.MetaAttribute;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
+
+import DefaultVisitors.BMTL_CallableVisitorInterface;
+import DefaultVisitors.BMTL_InvokableVisitorInterface;
 
 /**
  * Generic implementation of the repository API (org.irisa.triskell.MT.repository.API.Java.API)
@@ -106,6 +112,46 @@ abstract public class JMIFeatured
 							f = new JMIMetaFeature(this.getSpecificAPI(), name, c, new JMIMetaFeature [] {f, g});
 					}
 					if (operation) {
+						if (name.equals("accept")) {
+							try {
+								BMTL_CallableVisitorInterface callable=(BMTL_CallableVisitorInterface)arguments[0];
+								BMTLOclAnyInterface context=(BMTLOclAnyInterface)arguments[1];
+								try {
+									String modelEltTypeName=((JMIModelElement)this).getType().getName();
+									org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+									return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(callable.BMTL_visit(new BMTLString(modelEltTypeName),modelElt,context));
+								} catch (java.lang.Throwable throwable) {
+									try {
+										DefaultVisitors.BMTL_CallableVisitorInterface BMTL_w=(DefaultVisitors.BMTL_CallableVisitorInterface)throwable;
+									} catch(Exception e) { throw throwable; }
+									org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+									return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(callable.BMTL_visitOclAny(modelElt,context));
+								}
+							} catch (ClassCastException e1) {
+								try {
+									BMTL_InvokableVisitorInterface invokable=(BMTL_InvokableVisitorInterface)arguments[0];
+									BMTLOclAnyInterface context=(BMTLOclAnyInterface)arguments[1];
+									DefaultVisitors.BMTL_CallableVisitorInterface BMTL_vFather=null;
+									try {
+										java.lang.reflect.Method m = invokable.getClass().getMethod("BMTL_visit"+((JMIModelElement)this).getType().getName(),new Class[]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class});
+										org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+										return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)m.invoke(invokable,new Object[]{modelElt,context});
+									} catch (Exception e) {}
+									BMTL_vFather=null;
+									BMTL_vFather=(DefaultVisitors.BMTL_CallableVisitorInterface)CommonFunctions.toBMTLDataType(invokable.BMTL_getParent());
+									if (BMTL_vFather != null) {
+										arguments[0]=BMTL_vFather;
+										return this.invoke(scopeQualifiedName,name,arguments,discriminants);
+									} else {
+										org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+										return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(invokable.BMTL_visitOclAny(modelElt,context));
+									}
+								}
+								catch(ClassCastException e2) {System.err.println("Invoking accept, but argument is neither CallableVisitorInterface nor InvokableVisitorInterface !"); }
+								catch(java.lang.Throwable t) {System.err.println("Throwable exception :"+t); t.printStackTrace(); }
+							}
+							catch(java.lang.Throwable t) {System.err.println("Throwable exception :"+t); t.printStackTrace(); }
+						}
 						g = (JMIMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
 						if (f == null)
 							f = g;

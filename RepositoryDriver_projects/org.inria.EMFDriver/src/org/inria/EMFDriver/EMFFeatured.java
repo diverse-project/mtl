@@ -1,10 +1,13 @@
-/* $Id: EMFFeatured.java,v 1.4 2004-06-23 15:14:36 dvojtise Exp $
+/* $Id: EMFFeatured.java,v 1.5 2004-10-11 15:35:43 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
 package org.inria.EMFDriver;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.CommonFunctions;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.CommandGroup;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
@@ -25,6 +28,9 @@ import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.common.command.*;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+
+import DefaultVisitors.BMTL_CallableVisitorInterface;
+import DefaultVisitors.BMTL_InvokableVisitorInterface;
 
 import java.util.List;
 import java.util.Arrays;
@@ -143,6 +149,46 @@ public abstract class EMFFeatured
 						if (name.equals("delete")) {
 							this.delete();
 							return null; }
+						if (name.equals("accept")) {
+							try {
+								BMTL_CallableVisitorInterface callable=(BMTL_CallableVisitorInterface)arguments[0];
+								BMTLOclAnyInterface context=(BMTLOclAnyInterface)arguments[1];
+								try {
+									String modelEltTypeName=((EMFModelElement)this).getType().getName();
+									org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+									return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(callable.BMTL_visit(new BMTLString(modelEltTypeName),modelElt,context));
+								} catch (java.lang.Throwable throwable) {
+									try {
+										DefaultVisitors.BMTL_CallableVisitorInterface BMTL_w=(DefaultVisitors.BMTL_CallableVisitorInterface)throwable;
+									} catch(Exception e) { throw throwable; }
+									org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+									return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(callable.BMTL_visitOclAny(modelElt,context));
+								}
+							} catch (ClassCastException e1) {
+								try {
+									BMTL_InvokableVisitorInterface invokable=(BMTL_InvokableVisitorInterface)arguments[0];
+									BMTLOclAnyInterface context=(BMTLOclAnyInterface)arguments[1];
+									DefaultVisitors.BMTL_CallableVisitorInterface BMTL_vFather=null;
+									try {
+										java.lang.reflect.Method m = invokable.getClass().getMethod("BMTL_visit"+((EMFModelElement)this).getType().getName(),new Class[]{org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class,org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface.class});
+										org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+										return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)m.invoke(invokable,new Object[]{modelElt,context});
+									} catch (Exception e) {}
+									BMTL_vFather=null;
+									BMTL_vFather=(DefaultVisitors.BMTL_CallableVisitorInterface)CommonFunctions.toBMTLDataType(invokable.BMTL_getParent());
+									if (BMTL_vFather != null) {
+										arguments[0]=BMTL_vFather;
+										return this.invoke(scopeQualifiedName,name,arguments,discriminants);
+									} else {
+										org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface modelElt=(org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(this);
+										return (org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(invokable.BMTL_visitOclAny(modelElt,context));
+									}
+								}
+								catch(ClassCastException e2) {System.err.println("Invoking accept, but argument is neither CallableVisitorInterface nor InvokableVisitorInterface !"); }
+								catch(java.lang.Throwable t) {System.err.println("Throwable exception :"+t); t.printStackTrace(); }
+							}
+							catch(java.lang.Throwable t) {System.err.println("Throwable exception :"+t); t.printStackTrace(); }
+						}
 						if (name.equals("SubClasses")) {
 							EObject elt = ((EMFModelElement)this).getRefObject();
 							if (elt instanceof EClass) {
