@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.12 2004-10-14 14:04:01 jpthibau Exp $
+# $Id: modelware_night_build.sh,v 1.13 2004-10-14 15:13:15 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -22,10 +22,10 @@ mkdir modelware_night_build
 mkdir modelware_night_build/eclipse
 mkdir modelware_night_build/eclipse/workspace
 cd modelware_night_build
-# get needed plugins : Eclipse 2.1.0 and EMF 1.0.1
-unzip /udd/triskell/Soft/eclipse/V2.1/eclipse-SDK-RC1-win32.zip *eclipse.core.runtime* *eclipse.ui.workbench* -d .
+# get needed plugins : Eclipse 3.0.1 and EMF 2.0.1
+unzip /udd/triskell/Soft/eclipse/V3/eclipse-SDK-3.0.1-win32.zip *eclipse.core.runtime* *eclipse.ui.workbench* -d .
 
-unzip /udd/triskell/Soft/eclipse/plugin/EMF/emf_1.0.1_20030225_1207VL.zip -d eclipse
+unzip /udd/triskell/Soft/eclipse/plugin/EMF/emf-sdo-SDK-2.0.1.zip -d eclipse
 
 cd eclipse/workspace
 
@@ -45,7 +45,7 @@ setenv CLASSPATH $BASE/Utils/ThirdParty/JUnit/junit.jar:$BASE/BasicMtlAntlr/Thir
 
 #copy the correct version files (according to eclipse and emf version)
 pwd
-ant -f VersionManagement/EclipseV2/2.1.0_build.xml "selectThisVersion" |& tee $BASE/ant_SelectVersion.log
+ant -f VersionManagement/EclipseV3/3.0.1_build.xml "selectThisVersion" |& tee $BASE/ant_SelectVersion.log
 
 
 #echo $CLASSPATH
