@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.8 2003-10-14 15:15:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.9 2003-12-08 11:15:43 jpthibau Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -36,6 +36,10 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 			mangle=Mangler.mangle("BMTL_",userClassName);
 		int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
 		UserClass theCreatedClass=new UserClass(userClassName,mangle,lineNumber);
+		QualifiedName qn = new QualifiedName();
+		for (int i=0;i<ASTnode.cardQualifiedName();i++)
+			qn.addElement(ASTnode.getQualifiedName(i));
+		theCreatedClass.setQualifiedName(qn);
 		theCreatedClass.createNewProperty("ManualMangling", manualMangling ? Boolean.TRUE : Boolean.FALSE, "Boolean");
 		Property typeTag = ASTnode.getProperty("type");
 		if (typeTag != null)

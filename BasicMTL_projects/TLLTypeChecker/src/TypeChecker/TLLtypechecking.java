@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.9 2003-11-14 17:29:42 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.10 2003-12-08 11:20:09 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -189,6 +189,9 @@ public class TLLtypechecking {
 			qn.add(c.getName());
 			allReferedTypes.checkLocalClass(qn, c.getName(), theLib);
 			c.setQualifiedName(qn);
+			/*************************************
+			 * TODO prepend Lib QualiedName to class QualifiedName
+			 */
 		}
 		if (allReferedTypes.checkAllReferedTypes(theLib) ==0) {
 			if (inheritedSignatures.synthetizeInheritedSignatures(theLib)==0) {

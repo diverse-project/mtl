@@ -1,4 +1,4 @@
-// $Id: BasicMtlLibrary.mtl,v 1.3 2003-12-03 04:30:13 ffondeme Exp $
+// $Id: BasicMtlLibrary.mtl,v 1.4 2003-12-08 11:23:29 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -18,12 +18,22 @@
 
 	toASTJava() : ASTJava::Object
 	{
-	theParameters,classes,operations,properties : Standard::Iterator;
+	qnames,theParameters,classes,operations,properties : Standard::Iterator;
+	aNamePart : Standard::String;
 	aParameter : ModelRef;
 	aClass : UserClass;
 	anOperation : Operation;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary theBasicMtlLibrary=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary(this.get_BMTL_name().getTheString())];
+	if isNull(self.oclAsType(!Library!).QualifiedName).[not]() {
+	qnames := self.oclAsType(!Library!).QualifiedName.getNewIterator();
+	qnames.start();
+	while qnames.isOn() {
+		aNamePart := qnames.item().oclAsType(!Standard::String!);
+		JavaCode [theBasicMtlLibrary.appendQualifiedName(BMTL_aNamePart.getTheString())];
+		qnames.next();
+	}
+	}
 	if isNull(parameters).[not]() {
 	theParameters := parameters.getNewIterator();
 	theParameters.start();

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.13 2003-12-03 04:29:58 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.14 2003-12-08 11:15:46 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -103,13 +103,31 @@ public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector 
 	putTags(node,tags);
 	return node; }
 
-public Object bmtllibraryHeader(String libName,Object inheritance)
-{	BasicMtlLibrary node=new BasicMtlLibrary(libName);
+public Object bmtllibraryHeader(Object libName,Object inheritance)
+{	int i;
+	java.util.Vector libNames=(java.util.Vector)libName;
+	String libSurname=(String)libNames.get(0);
+	BasicMtlLibrary node=new BasicMtlLibrary(libSurname);
+	node.appendQualifiedName(libSurname);
+	for (i=1;i < libNames.size();i++) {
+		libSurname=libSurname.concat("_"+(String)libNames.get(i));
+	node.appendQualifiedName((String)libNames.get(i));
+	}
+	node.setName(libSurname);
 	putProperty(node,"Inheritance",inheritance,"SpecialTag");
 	return node; }
 
-public Object nativeLibHeader(String libName)
-{	NativeLibrary node=new NativeLibrary(libName);
+public Object nativeLibHeader(Object libName)
+{	int i;
+	java.util.Vector libNames=(java.util.Vector)libName;
+	String libSurname=(String)libNames.get(0);
+	NativeLibrary node=new NativeLibrary(libSurname);
+	node.appendQualifiedName(libSurname);
+	for (i=1;i < libNames.size();i++) {
+		libSurname=libSurname.concat("_"+(String)libNames.get(i));
+	node.appendQualifiedName((String)libNames.get(i));
+	}
+	node.setName(libSurname);
 	return node; }
 
 public Object model(String lineNumber,String modelName,String viewName)
@@ -124,9 +142,13 @@ public Object model(String lineNumber,String modelName,String viewName)
 		return node;
 	}
 }
-public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints)
+public Object associationDefinition(String lineNumber,Object associationName,java.util.Vector tags,java.util.Vector endPoints)
 {	int i;
-	Association node=new Association(associationName);
+	java.util.Vector associationNames=(java.util.Vector)associationName;
+	String associationSurname=(String)associationNames.get(0);
+	for (i=1;i < associationNames.size();i++)
+	associationSurname=associationSurname.concat("_"+(String)associationNames.get(i));
+	Association node=new Association(associationSurname);
 	for (i=0;i<endPoints.size();i++) 
 		node.appendEndPoints((EndPoint)endPoints.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
@@ -144,10 +166,18 @@ public Object multiplicity (String lowerBound,String upperBound)
 {	Multiplicity node=new Multiplicity(Integer.parseInt(lowerBound),Integer.parseInt(upperBound));
 	return node;
 }
-	
-public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
+
+public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
 {	int i,j;
-	UserClass node=new UserClass(className);
+	java.util.Vector classNames=(java.util.Vector)className;
+	String classSurname=(String)classNames.get(0);
+	UserClass node=new UserClass(classSurname);
+	node.appendQualifiedName(classSurname);
+	for (i=1;i < classNames.size();i++) {
+		classSurname=classSurname.concat("_"+(String)classNames.get(i));
+		node.appendQualifiedName((String)classNames.get(i));
+	}
+	node.setName(classSurname);
 	for(i=0;i<attributes.size();i++) {
 		java.util.Vector declaredAttributes=(java.util.Vector)attributes.get(i);
 		for (j=0;j<declaredAttributes.size();j++)

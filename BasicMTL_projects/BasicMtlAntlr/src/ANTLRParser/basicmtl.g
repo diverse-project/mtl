@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.17 2003-12-04 09:54:11 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.18 2003-12-08 11:13:17 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -24,6 +24,15 @@ options {
 {
 	BasicmtlLexer lexer=null;
 	ANTLRWalkerActionsInterface walker=null;
+	java.util.Vector packagesStack=new java.util.Vector();
+	
+	public Object addPacksPrefix(Object qn)
+	{	java.util.Vector result=new java.util.Vector();
+		for (int i=0;i<packagesStack.size();i++)
+			result.addAll((java.util.Vector)packagesStack.get(i));
+		result.addAll((java.util.Vector)qn);
+		return result;
+	}
 }
 
 /*===============================================================
@@ -43,12 +52,17 @@ basicMTL[BasicmtlLexer theLexer,ANTLRWalkerActionsInterface theWalker] returns [
 	Object l2=null;
 	Object l3=null;
 	Object l4=null;
+	Object pack=null;
 }
 	: tree=headerdef
 	  (l1=modelUse {theModels.addElement(l1); })*
-	  ( l4=associationDefinition {theAssociations.addElement(l4); }
-	   | l2=classDefinition {theClasses.addElement(l2); }
-	   | l3=methodDefinition {theMethods.addElement(l3); } )+
+	  ( pack=packageDefinition {	for (int results=0;results < ((java.util.Vector)pack).size();results++)
+	  									{	java.util.Vector aResult=(java.util.Vector)((java.util.Vector)pack).get(results);
+	  										if ("ClassDefinition".equals((String)aResult.get(0)))
+	  											theClasses.addElement(aResult.get(1));
+	  										else theAssociations.addElement(aResult.get(1)); }
+	  							}
+	  | l3=methodDefinition {theMethods.addElement(l3); } )+
 	    {tree=walker.library(tree,theModels,theMethods,theClasses); }
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -71,17 +85,17 @@ exception catch [RecognitionException ex] {
 	;
 /*===============================================================
 libheader
-	: ( "library" | "model" ) ident (inheritance)?
-	| "nativelibrary"^ ident
+	: ( "library" | "model" ) type (inheritance)?
+	| "nativelibrary"^ type
 ==================================================================*/
 libheader returns [Object tree=null;]
 {	Object l1=null;
-	Token s;
+	Object s;
 }
-	: ("library" | "model" ) s=ident (l1=inheritance)? 
-		{ tree=walker.bmtllibraryHeader(s.getText(),l1); }
-	| "nativelibrary" s=ident 
-	{ tree=walker.nativeLibHeader(s.getText()); }
+	: ("library" | "model" ) s=type /*{ this.packagesStack.addElement(s); }*/ (l1=inheritance)? 
+		{ tree=walker.bmtllibraryHeader(s,l1); }
+/*	| "nativelibrary" s=type 
+	{ tree=walker.nativeLibHeader(s); } no more implemented,should disappear ?*/
 exception catch [RecognitionException ex] {
 	throw ex; } 
 	;
@@ -100,6 +114,31 @@ exception catch [RecognitionException ex] {
 	throw ex; }
 	;
 /*===============================================================
+packageDefinition
+	: "package" type OPENBRACE (associationDefinition | classDefinition)+ CLOSEBRACE
+	   | 
+==================================================================*/
+packageDefinition returns [Object tree=null;]
+{	java.util.Vector theResult=new java.util.Vector();
+	java.util.Vector theResultsList=new java.util.Vector();
+	Object t=null;
+	Object l1=null;
+	Object l2=null;
+}
+	: ( "package" t=type { this.packagesStack.addElement(t); } OPENBRACE (tree=packageDefinition {theResultsList.addAll((java.util.Vector)tree); tree=theResultsList; })+ CLOSEBRACE { this.packagesStack.removeElementAt(packagesStack.size()-1); } 
+	   | l1=associationDefinition {	theResult.addElement("AssociationDefinition");
+	   								theResult.addElement(l1);
+	   								theResultsList.addElement(theResult);
+	   								tree=theResultsList; }
+	   | l2=classDefinition {	theResult.addElement("ClassDefinition");
+	   							theResult.addElement(l2);
+	   							 theResultsList.addElement(theResult);
+	   							 tree=theResultsList; } )
+exception catch [RecognitionException ex] {
+	throw ex; }
+		;
+
+/*===============================================================
 associationDefinition
 	: associationKeyword (ident)?
 	(tag )*
@@ -109,16 +148,15 @@ associationDefinition returns [Object tree=null;]
 {	java.util.Vector theTags=new java.util.Vector();
 	java.util.Vector theEndPoints=new java.util.Vector();
 	String n;
-	String name=null;
 	Object l1=null;
 	Object l2=null;
-	Token s1 = null;
+	Object s1 = null;
 }
-	: n=associationKeyword (s1=ident {name=s1.getText();} )?
+	: n=associationKeyword (s1=type { s1=this.addPacksPrefix(s1); })?
 	(l1=tag {theTags.addElement(l1); } )*
 	OPENBRACE ( l2=endPointDef {theEndPoints.addElement(l2); } )*
 	CLOSEBRACE 
-	{tree=walker.associationDefinition(n,name,theTags,theEndPoints); } 
+	{tree=walker.associationDefinition(n,s1,theTags,theEndPoints); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
@@ -165,7 +203,7 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 classDefinition
-	: classKeyword ident (inheritance)? (refinement)?
+	: classKeyword type (inheritance)? (refinement)?
 	(tag )*
 	 OPENBRACE ( attributesDef )* ( getSetDef )* ( methodDefinition )* CLOSEBRACE 
 ==================================================================*/
@@ -181,14 +219,14 @@ classDefinition returns [Object tree=null;]
 	Object l4=null;
 	Object l5=null;
 	Object l6=null;
-	Token s1 = null;
+	Object s1 = null;
 }
-	: n=classKeyword s1=ident (l1=inheritance)? (l5=refinement)?
+	: n=classKeyword s1=type { s1=this.addPacksPrefix(s1); } (l1=inheritance)? (l5=refinement)?
 	(l2=tag {theTags.addElement(l2); } )*
 	OPENBRACE ( l3=attributesDef {theAttributes.addElement(l3); } )*
 	( l6=getSetDef {theGettersSetters.addElement(l6); } )*
 	( l4=methodDefinition {theMethods.addElement(l4); } )* CLOSEBRACE 
-	{tree=walker.classDefinition(n,s1.getText(),l1,l5,theTags,theAttributes,theGettersSetters,theMethods); } 
+	{tree=walker.classDefinition(n,s1,l1,l5,theTags,theAttributes,theGettersSetters,theMethods); } 
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;

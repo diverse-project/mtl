@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.3 2003-12-04 10:15:06 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.4 2003-12-08 11:15:40 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -170,10 +170,18 @@ public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector 
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
-public Object bmtllibraryHeader(String libName,Object inheritance)
-{	theCreatedLib = new BMTLLib_BasicMtlASTWithAssociationView();
+public Object bmtllibraryHeader(Object libName,Object inheritance)
+{	int i;
+	theCreatedLib = new BMTLLib_BasicMtlASTWithAssociationView();
+	java.util.Vector libNames=(java.util.Vector)libName;
+	String libSurname=(String)libNames.get(0);
+	BMTLOrderedSetInterface qn=BMTLTypeConverter(libNames);;
+	for (i=1;i < libNames.size();i++) {
+		libSurname=libSurname.concat("_"+(String)libNames.get(i));
+	}
 	BMTL_BasicMtlLibrary node=(BMTL_BasicMtlLibrary)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"BasicMtlLibrary"})).instanciate();
-	node.set_BMTL_name(new BMTLString(libName));
+	node.set_BMTL_name(new BMTLString(libSurname));
+	node.set_BMTL_QualifiedName(qn);
 	if (inheritance != null
 		&& ((java.util.Vector)inheritance).size() > 0) this.hasInheritance =true;
 	try {
@@ -181,7 +189,7 @@ public Object bmtllibraryHeader(String libName,Object inheritance)
 	} catch (Throwable e) {e.printStackTrace();}
 	return node; }
 
-public Object nativeLibHeader(String libName)
+public Object nativeLibHeader(Object libName)
 {	//NativeLibrary node=new NativeLibrary(libName);
 	//return node;
 	try {
@@ -209,10 +217,15 @@ public Object model(String lineNumber,String modelName,String viewName)
 	}
 }
 
-public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints)
+public Object associationDefinition(String lineNumber,Object associationName,java.util.Vector tags,java.util.Vector endPoints)
 {	int i;
+	java.util.Vector associationNames=(java.util.Vector)associationName;
+	String associationSurname=associationNames == null ? null : (String)associationNames.get(0);
+	if (associationNames != null)
+		for (i=1;i < associationNames.size();i++)
+	associationSurname=associationSurname.concat("_"+(String)associationNames.get(i));
 	BMTL_Association node=(BMTL_Association)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Association"})).instanciate();
-	node.set_BMTL_name(new BMTLString(associationName));
+	node.set_BMTL_name(new BMTLString(associationSurname));
 	try {
 	for (i=0;i<endPoints.size();i++) 
 		node.BMTL_appendEndPoints((BMTL_EndPointInterface)endPoints.get(i));
@@ -246,10 +259,17 @@ public Object multiplicity (String lowerBound,String upperBound)
 
 }
 	
-public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
+public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector settersGetters,java.util.Vector methods)
 {	int i;
+	java.util.Vector classNames=(java.util.Vector)className;
+	String classSurname=(String)classNames.get(0);
+	BMTLOrderedSetInterface qn=BMTLTypeConverter(classNames);;
+	for (i=1;i < classNames.size();i++) {
+		classSurname=classSurname.concat("_"+(String)classNames.get(i));
+	}
 	BMTL_UserClass node=(BMTL_UserClass)((InstanciableType)theCreatedLib.getMetaClass(new String [] {"UserClass"})).instanciate();
-	node.set_BMTL_name(new BMTLString(className));
+	node.set_BMTL_name(new BMTLString(classSurname));
+	node.set_BMTL_QualifiedName(qn);
 	try {
 	for(i=0;i<attributes.size();i++) {
 		java.util.Vector declaredAttributes=(java.util.Vector)attributes.get(i);

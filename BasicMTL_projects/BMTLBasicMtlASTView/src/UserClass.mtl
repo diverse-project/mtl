@@ -1,4 +1,4 @@
-// $Id: UserClass.mtl,v 1.2 2003-12-03 04:30:14 ffondeme Exp $
+// $Id: UserClass.mtl,v 1.3 2003-12-08 11:23:29 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -11,6 +11,7 @@
 	definedMethods : Standard::Set;
 	definedAttributes : Standard::Set;
 	name : Standard::String;
+	QualifiedName : Standard::OrderedSet;
 	
 	appendDefinedAttributes(attrib : Attribute) : Standard::Void
 	{	if isNull(definedAttributes)
@@ -64,14 +65,23 @@
 	
 	toASTJava() : ASTJava::Object
 	{
-	attributeName : Standard::String;
+	aNamePart,attributeName : Standard::String;
 	anAttribute : Attribute;
 	aMethod : Operation;
 	aProperty : Property;
-	attributes,methods,properties : Standard::Iterator;
+	qnames,attributes,methods,properties : Standard::Iterator;
 //	inheritance : Standard::BMTLObject;
 //	lineNumber : Standard::String;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass theClass=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass(BMTL_name.getTheString())];
+	if isNull(QualifiedName).[not]() {
+	qnames := QualifiedName.getNewIterator();
+	qnames.start();
+	while qnames.isOn() {
+		aNamePart := qnames.item().oclAsType(!Standard::String!);
+		JavaCode [theClass.appendQualifiedName(BMTL_aNamePart.getTheString())];
+		qnames.next();
+	}
+	}
 	if isNull(definedAttributes).[not]() {
 	attributes := definedAttributes.getNewIterator();
 	attributes.start();

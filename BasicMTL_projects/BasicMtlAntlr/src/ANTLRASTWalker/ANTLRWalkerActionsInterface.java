@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.7 2003-12-02 18:22:27 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.8 2003-12-08 11:13:16 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -7,19 +7,19 @@ public Object library(Object header,java.util.Vector models,java.util.Vector met
 
 public Object libraryHeader(String lineNumber,Object libHeader,java.util.Vector tags);
 
-public Object bmtllibraryHeader(String libName,Object inheritance);
+public Object bmtllibraryHeader(Object libName,Object inheritance);
 
-public Object nativeLibHeader(String libName);
+public Object nativeLibHeader(Object libName);
 
 public Object model(String lineNumber,String modelName,String viewName);
 
-public Object associationDefinition(String lineNumber,String associationName,java.util.Vector tags,java.util.Vector endPoints); //+++Version1.1+++
+public Object associationDefinition(String lineNumber,Object associationName,java.util.Vector tags,java.util.Vector endPoints); //+++Version1.1+++
 
 public Object endPoint(String lineNumber,String roleName,String className,Object multiplicity,boolean isComposition,boolean isAggregation,boolean isOrdered,boolean isNavigable,java.util.Vector theTags); //+++Version1.1+++
 
 public Object multiplicity (String lowerBound,String upperBound); //+++Version1.1+++
 
-public Object classDefinition(String lineNumber,String className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods); //+++Version1.1+++ Object refinement, Vector gettersSetters
+public Object classDefinition(String lineNumber,Object className,Object inheritance,Object refinement,java.util.Vector tags,java.util.Vector attributes,java.util.Vector gettersSetters,java.util.Vector methods); //+++Version1.1+++ Object refinement, Vector gettersSetters
 
 public Object inheritance (Object typesList);
 

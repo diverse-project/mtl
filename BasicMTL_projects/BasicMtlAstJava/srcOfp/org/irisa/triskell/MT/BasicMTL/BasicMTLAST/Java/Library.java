@@ -125,6 +125,30 @@ abstract public class Library
         return this.definedAssociations.size();
     }
 
+    /**
+      * QualifiedName is only used for "RepositoryRef" classes which are behind a repository.
+      * An example of UML2 qualified name is : Core::InfraastructureLibrary:: ...::Class
+      */
+    protected Vector QualifiedName = new Vector();
+    public String getQualifiedName (int i) {
+        return (String)this.QualifiedName.elementAt(i);
+    }
+    public void setQualifiedName (int i, String value) {
+        this.QualifiedName.setElementAt(value, i);
+    }
+    public void appendQualifiedName (String value) {
+        this.QualifiedName.addElement(value);
+    }
+    public void eraseQualifiedName (String value) {
+        this.QualifiedName.removeElement(value);
+    }
+    public void eraseQualifiedName (int i) {
+        this.QualifiedName.removeElementAt(i);
+    }
+    public int cardQualifiedName () {
+        return this.QualifiedName.size();
+    }
+
 
     public Library(
         String name)

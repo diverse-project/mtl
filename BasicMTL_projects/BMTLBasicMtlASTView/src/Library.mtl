@@ -1,4 +1,4 @@
-// $Id: Library.mtl,v 1.1 2003-10-14 15:56:20 jpthibau Exp $
+// $Id: Library.mtl,v 1.2 2003-12-08 11:23:29 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -11,6 +11,7 @@
 	definedClasses : Standard::Set;
 	definedOperations : Standard::Set;
 	name : Standard::String;
+	QualifiedName : Standard::OrderedSet;
 	
 	//for compiler tests on transformation(s) needs
 	hasInheritance : Standard::Boolean;

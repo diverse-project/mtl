@@ -1,0 +1,75 @@
+library PackagedHelloWorld;
+
+class Hello {
+	_msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		_msg := msg;
+	}
+	
+	run() : Standard::Void {
+		_msg.toOut();
+	}
+}
+
+package plip {
+class Hello {
+	_msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		_msg := msg;
+	}
+	
+	run() : Standard::Void {
+		_msg.toOut();
+	}
+}
+
+	package plop {
+	class Hello {
+		_msg : Standard::String;
+	
+		init(msg : Standard::String) {
+			_msg := msg;
+		}
+	
+		run() : Standard::Void {
+			_msg.toOut();
+		}
+	}
+	} //endPackage
+} //endPackage
+
+package plip_ploup { //package plip_plop will lead to compilation problems
+					//because package plip ... package plop is equivalent to package plip_plop definition
+class Hello {
+	_msg : Standard::String;
+	
+	init(msg : Standard::String) {
+		_msg := msg;
+	}
+	
+	run() : Standard::Void {
+		_msg.toOut();
+	}
+}
+} //endPackage
+
+main() : Standard::Void	{
+	hw : PackagedHelloWorld::Hello;
+	hwplip : PackagedHelloWorld::[plip_Hello];
+	hwplop : PackagedHelloWorld::[plip_plop_Hello];
+	hwploup : PackagedHelloWorld::[plip_ploup_Hello];
+	hw := new PackagedHelloWorld::Hello();
+	hwplip := new PackagedHelloWorld::[plip_Hello]();
+	hwplop := new PackagedHelloWorld::[plip_plop_Hello]();
+	hwploup := new PackagedHelloWorld::[plip_ploup_Hello]();
+	hw.init('plop');
+	hw.run();
+	hwplip.init('plip');
+	hwplip.run();
+	hwplop.init('plip plop');
+	hwplop.run();
+	hwploup.init('plip ploup');
+	hwploup.run();
+}

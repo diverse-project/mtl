@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BasicMtlLibraryAnalyser.java,v 1.5 2003-10-14 15:15:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/BasicMtlLibraryAnalyser.java,v 1.6 2003-12-08 11:15:43 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -38,6 +38,10 @@ public class BasicMtlLibraryAnalyser extends ASTTopDownVisitor.BasicMtlLibraryAn
 			//new TLL creation with all of its necessary features initialized
 			int lineNumber=Integer.parseInt((String)Lib.getProperty("LineNumber").getValue());
 			theCreatedLib=new BasicMtlLibrary(libName,mangle,libPackageName,lineNumber);
+			QualifiedName qn = new QualifiedName();
+			for (int i=0;i<Lib.cardQualifiedName();i++)
+				qn.addElement(Lib.getQualifiedName(i));
+			theCreatedLib.setQualifiedName(qn);
 			theCreatedLib.setAllReferedTypes(new AllReferedTypes());
 			TheLibraryClass theLibraryClass=new TheLibraryClass(libName,mangle,lineNumber);
 			Property inheritance=(Property)Lib.getProperty("Inheritance");
