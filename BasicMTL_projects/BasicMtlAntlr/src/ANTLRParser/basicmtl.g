@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.6 2003-08-20 15:54:53 ffondeme Exp $ */
+/* $Id: basicmtl.g,v 1.7 2003-08-21 19:59:40 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -343,7 +343,7 @@ expression returns [Object tree=null;]
 		{tree=walker.trueLiteral(theCalls); }
 	| ("false") => "false" (POINT l2=operationCall {theCalls.addElement(l2); })* 
 		{tree=walker.falseLiteral(theCalls); }
-	| (type POINT IDENTIFIER b:OPENBRACKET) => tree=type (POINT l2=operationCall {theCalls.addElement(l2); })+ /*variable.method() or library.staticmethod() */
+	| (IDENTIFIER POINT (IDENTIFIER||"oclAsType") b:OPENBRACKET) => tree=type (POINT l2=operationCall {theCalls.addElement(l2); })+ /*variable.method() or library.staticmethod() */
 		{tree=walker.libraryOrVariable(tree,theCalls); } 
 	| (IDENTIFIER OPENBRACKET) => (l1=operationCall {theCalls.addElement(l1); })+
 		{tree=walker.directOperationCalls(theCalls); }
@@ -351,6 +351,8 @@ expression returns [Object tree=null;]
 		{tree=walker.attributeGetter(s5.getText(),theAttributes); }
 	| s7:IDENTIFIER /* variable reference */
 		{tree=walker.variableName(s7.getText()); } 
+	| l1=operationCall {theCalls.addElement(l1);} (POINT l2=operationCall {theCalls.addElement(l2); })*
+		{tree=walker.selfLiteral(theCalls); }
 exception catch [RecognitionException ex] {
 	throw ex; }
 	; 
@@ -385,7 +387,7 @@ oclAsTypeCall : "oclAsType" openbracket type CLOSEBRACKET
 ==================================================================*/
 oclAsTypeCall returns [Object tree=null;]
 { String n; }
-	: "oclAsType" n=openbracket tree=type CLOSEBRACKET
+	: "oclAsType" n=openbracket EXCLAM tree=type EXCLAM CLOSEBRACKET
 	{tree=walker.oclAsType(tree,n);}
 exception catch [RecognitionException ex] {
 	throw ex; }
@@ -469,7 +471,7 @@ semicolon : SEMICOLON
 /* memorize the line number for each semicolon encountered */
 /* produce an ANTLR AST node of token type NUM_INT with the actual line value */ 
 semicolon returns [String number=null;]
-	: SEMICOLON {number=lexer.getLineNumber(); } 
+	: s:SEMICOLON {number=Integer.toString(s.getLine()); } 
 	;
 
 /*===============================================================
@@ -477,7 +479,7 @@ classKeyword : "class"
 ==================================================================*/
 /* remember the line number of a new class definition */
 classKeyword returns [String number=null;]
-	: "class" { number=lexer.getLineNumber(); }
+	: c:"class" { number=Integer.toString(c.getLine()); }
 	;
 
 /*===============================================================
@@ -485,7 +487,7 @@ openbracket : OPENBRACKET
 ==================================================================*/
 /* remember the line number of the openbracket for a method definition */
 openbracket returns [String number=null;]
-	: OPENBRACKET { number=lexer.getLineNumber(); }
+	: o:OPENBRACKET { number=Integer.toString(o.getLine()); }
 	;
 
 /*===============================================================
@@ -493,7 +495,7 @@ openbrace : OPENBRACE
 ==================================================================*/
 /* remember the line number of the openbrace for while,if,...instructiona */
 openbrace returns [String number=null;]
-	: OPENBRACE {number=lexer.getLineNumber(); }
+	: o:OPENBRACE {number=Integer.toString(o.getLine()); }
 	  ;
 
 /*==========================================*/
@@ -520,15 +522,9 @@ options {
 	       NUM_FLOAT;
 }*/
 
-{ public int lineNumber=1;
-  public String getLineNumber()
-   { return Integer.toString(this.lineNumber); }
-}
-
 WS	:	(' '
 	|	'\t'
-	|	'\n' {newline();
-	          this.lineNumber++; }
+	|	'\n' {newline();}
 	|	'\r')
 		{ _ttype = Token.SKIP; }
 	;
@@ -557,8 +553,7 @@ ML_COMMENT
 			{ LA(2)!='/' }? '*'
 		|	'\r' '\n'		{newline();}
 		|	'\r'			{newline();}
-		|	'\n'			{newline();
-							this.lineNumber++;}
+		|	'\n'			{newline();}
 		|	~('*'|'\n'|'\r')
 		)*
 		"*/"
