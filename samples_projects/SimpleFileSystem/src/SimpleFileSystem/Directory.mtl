@@ -1,11 +1,11 @@
 /******************************************************************************
- * $Id $
+ * $Id: Directory.mtl,v 1.2 2004-01-14 14:36:13 dvojtise Exp $
  * Part of the ModelLibrary that defines the Directory of the SimpleFileSystem model
  * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
  *
  ******************************************************************************/
 
-library SimpleFileSystem;
+library SimpleFileSystem ;
 
 //-- Lib local models --
 //Repository models
@@ -17,32 +17,261 @@ library SimpleFileSystem;
  ********************************************/
 class Directory 
 {
-	name : Standard::String;
-	directoryExist : Standard::Boolean;
+	/* Attributes */
+	name 		: Standard::String;	
+	parent 		: Directory;
+	children 	: Standard::Set;
+	files 		: Standard::Set;
+	
+	
+	/* private attributes */
+		/* used for lazzy retriving of the model */
+	parentString 	: Standard::String;
+	
+	oldName 		: Standard::String;
+	directoryExist 	: Standard::Boolean;
+	
+	/* getters and setters declaration */
+	getter name is mygetname_function;
+	setter name is mysetname_function;
 	
 	/**
 	 * return the full uri for this file
 	 */
 	getURI() : Standard::String
 	{
-		URI : Standard::String;
+		URI 		: Standard::String;
+		baseName 	: Standard::String;
 		directoryIt : Standard::Iterator;
 		
-		URI := name;
+		
+		
+		if isNull(parent).not()
+	 	{
+			'parent is not null'.toOut();
+	 		baseName := parent.getURI();
+	 	}
+	 	else
+	 	{
+	 		'parent is null'.toOut();
+	 		if isNull(parentString).not()
+	 		{
+	 			baseName := parentString;
+	 		}
+	 		else
+	 		{
+	 			'parentString is null'.toOut();
+	 		}
+	 	}
+	 	baseName := baseName.concat('\\');
+	 	
+	 	URI := baseName.concat(name);
 		
 		return URI;
 	}
+	
+	
+	mygetname_function() : Standard::String
+	{
+		/* local attributes */
+		/* method body */
+		
+		'name getter code'.toOut();
+		return name;
+	}
+	
+	mysetname_function(newName : Standard::String) 
+	{
+		/* local attributes */
+		/* method body */
+		'name setter code'.toOut();
+		
+		if isNull(newName).not()
+		{
+			oldName := name;
+			name := newName;
+			changeOccurs();
+		}
+		/* if this.name.[=](newName).not()
+		{
+			// TODO :should verify that the new name dosn't have separator in it
+			JavaCode [
+				// it would be better if we can store the java.io.File object for further use
+				java.io.File tempDirectory = new java.io.File(BMTL_parentString.getTheString()+BMTL_name.getTheString());
+				java.io.File destDirectory = new java.io.File(BMTL_newName.getTheString());
+				if (tempDirectory.isDirectory())
+				{
+					System.out.println(" remaning ...");
+					tempDirectory.renameTo(new java.io.File(BMTL_newName.getTheString()));
+				}
+			];
+			name := newName;
+			directoryExist := true;
+		} */
+	}
+	
 	/**
-	 * internal method that allows to really create the file as everry needed informations are there
+	 * internal method that allows to really create the file as every needed informations are there
 	 * a voir : le cas d'un déplacement, renommage 
+	 *  Due to the return; bug there is a return value which isn't necessary
 	 */
-	 changeOccurs()
+	 changeOccurs() : Standard::Boolean
 	 {
-	 	/* if information are enough for concrete file */
+	 	baseName    : Standard::String;
+	 	oldFullName : Standard::String;
+	 	newFullName : Standard::String;
+	 	
+	 	'changeOccurs()...'.toOut();
+	 	/* only if information are enough for concrete file */
+	 		/* Do nothing conditions */
+	 	if isConsistent().not()
+ 		{	
+			/* not enough information the directory cannot be made "real" */
+			'changeOccurs isn\'t consistent !'.toOut();
+	 		
+			// return false;
+	 	}
+	 	else
+	 	{
+	 		'changeOccurs is consistent'.toOut();
+	 	}
+	 	
+	 	'changeOccurs next step1'.toOut();
+	 	
+	 	/* OK every info are correct let do the job */
+	 	
+		
+	 	// strange, parent seems to be null but no exception is thrown !!! 
+	 	// baseName := parent.getURI();
+	 	if isNull(parent).not()
+	 	{
+			'parent is not null'.toOut();
+	 		baseName := parent.getURI();
+	 	}
+	 	else
+	 	{
+	 		'parent is null'.toOut();
+	 		baseName := parentString;
+	 	}
+	 	baseName := baseName.concat('\\');
+	 	
+	 	newFullName := getURI();
+	 	
+	 	'changeOccurs next step2'.toOut();
 	 	/* if a file already exist then this is a rename */
 	 	/* else this is a file creation */
+	 	if isNull(oldName)
+	 	{
+	 		'ChangeOccurs isNull(oldName)'.toOut();
+	 		// this is a creation
+	 		// TODO
+	 		if isNull(parent).not()
+	 		{	/* so this is either root or parent*/
+			 	if parent.children.excludes(this)  /* action to be put in parent getter ? */
+			 	{
+			 		// this new directory must be added to its parent
+			 		parent.children := parent.children.including(this);
+			 	}
+		 	}
+		 	else
+		 	{
+		 		// TODO  maybe a root ? (depends of the OS)
+		 		return false;
+			}
+	 	}
+	 	else
+	 	{
+	 		'ChangeOccurs need renaming'.toOut();
+	 		
+	 		// this is a renaming
+	 			// get the old name
+	 		oldFullName := baseName.concat(oldName);
+	 		' 1'.toOut();
+	 		baseName.toOut();
+	 		' 2'.toOut();
+	 		// 'ChangeOccurs need renaming (2)'.toOut();
+	 		JavaCode [
+				// it would be better if we can store the java.io.File object for further use
+				java.io.File tempDirectory = new java.io.File(BMTL_oldFullName.getTheString());
+				java.io.File destDirectory = new java.io.File(BMTL_newFullName.getTheString());
+				if (tempDirectory.isDirectory())
+				{
+					System.out.println(" remaning ...");
+					tempDirectory.renameTo(destDirectory);
+				}
+				else
+				{
+					 System.err.print("trying to rename a directory which doesn\'t exist : ");
+					 System.err.println(BMTL_oldFullName.getTheString());
+					 // throws 'trying to rename a directory which doesn\'t exist';
+				}
+			];
+			'rename occured'.toOut();
+	 	}
+	 	
+	 	/* reset internal values */
+	 	oldName := null;
+	 	'changeOccurs finished'.toOut();
+	 	return true;
 	 }
-	
+	 /**
+	  * verify that there is enough informations in order to have a directory
+	  * note : this is a recursive check
+	  */
+	 isConsistent() : Standard::Boolean
+	 {
+	 	/* verify both the model (attributes and associations) 
+	 	   and the equivalent from the real world  using the 
+	 	   informations for lazzy retreiving */
+	 	'isConsistent()...'.toOut();   
+	 	   
+	 	if isNull(parentString)
+ 		{	/* even lazzy is not set  */
+	 		if isNull(parent)
+	 		{	
+	 			if isRoot().not()
+	 			{
+	 				'isConsistent()... returns false'.toOut();   
+	 				return false;
+	 			}
+	 		}
+	 		else
+	 		{
+	 			if parent.isConsistent().not()
+				{
+					'isConsistent()... returns false'.toOut();   
+		 			return false;
+				}
+	 		}
+	 	}
+	 	else
+	 	{	// ok we have a parentString
+	 		if isNull(parent).not()
+	 		{ 
+	 			throws 'incorect behavior: we shouldn\'t have both parent and parentString';
+			}
+		}
+	 	if isNull(name)
+	 	{
+	 		if isRoot().not()
+ 			{
+ 				'isConsistent()... returns false'.toOut();   
+	 			return false;
+ 			}
+	 	}
+	 	'isConsistent()... returns true'.toOut();   
+	 	return true;
+	 }
+	 
+	 /**
+	  * is this directory a root ?
+	  */
+	 isRoot() : Standard::Boolean
+	 {
+	 	/* TODO */
+	 	return false;
+	 }
+	 
 	/**
 	 * delete the object, if applicable also delete the file
 	 */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id $
+ * $Id$
  * Part of the ModelLibrary that do the associations of the SimpleFileSystem model
  * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
  *
@@ -8,7 +8,7 @@
 library SimpleFileSystemTest;
 
 //-- Lib local models --
-//Repository models
+// Repository models
 // Typed models 
 model theSimpleFileSystem : SimpleFileSystem;
 
@@ -19,12 +19,119 @@ model theSimpleFileSystem : SimpleFileSystem;
 
 main():Standard::Void
 {
+	test1();
+	test2();
+	test3();
+	
+	'tests done'.toOut();
+}
+
+test1()
+{
 	// local variables
 	aFile : SimpleFileSystem::File;
 	
 	theSimpleFileSystem := new SimpleFileSystem();
 	aFile := theSimpleFileSystem.getFileFromURI('truc.txt');
+	// rename the file
 	aFile.name := 'truc2.txt';
 	
+	'test1 OK'.toOut();
 }
+
+test2()
+{
+	// local variables
+	aDirectory : SimpleFileSystem::Directory;
 	
+	theSimpleFileSystem := new SimpleFileSystem();
+	aDirectory := theSimpleFileSystem.getDirectoryFromURI('\\');
+	if isNull(aDirectory)
+	{
+		'\\ isn\'t a directory'.toErr();
+	}
+	else
+	{
+		'\\ is a directory'.toOut();
+	}
+	aDirectory.name.toOut();
+	
+	aDirectory := theSimpleFileSystem.getDirectoryFromURI('c:\\isnothing');
+	if isNull(aDirectory)
+	{
+		'c:\\isnothing isn\'t a directory'.toOut();
+	}
+	else
+	{
+		'c:\\isnothing is a directory'.toErr();
+	}
+	// aDirectory.name.toOut();
+	'test2 OK'.toOut();
+}
+
+/**
+ * test renaming an existing directories
+ */ 	
+test3()
+{
+	// local variables
+	aDirectory : SimpleFileSystem::Directory;
+	
+	theSimpleFileSystem := new SimpleFileSystem();
+	aDirectory := theSimpleFileSystem.getDirectoryFromURI('./testDir');
+	if isNull(aDirectory)
+	{
+		'testDir isn\'t a directory'.toErr();
+	}
+	else
+	{
+		'testDir is a directory'.toOut();
+	}
+	aDirectory.name.toOut();
+	
+	aDirectory.name := aDirectory.name.concat('_renamed');
+	
+	
+	
+	'test3 OK'.toOut();
+}
+
+/**
+ * test creating a directory
+ */ 	
+test4()
+{
+	// local variables
+	baseDirectory : SimpleFileSystem::Directory;
+	newDirectory : SimpleFileSystem::Directory;
+	
+	theSimpleFileSystem := new SimpleFileSystem();
+	baseDirectory := theSimpleFileSystem.getDirectoryFromURI('/tmp');
+	if isNull(baseDirectory)
+	{
+		'/tmp isn\'t a directory'.toErr();
+	}
+	else
+	{
+		'/tmp is a directory'.toOut();
+	}
+	baseDirectory.name.toOut();
+	newDirectory := new SimpleFileSystem::Directory();
+	baseDirectory.children := baseDirectory.children.including(newDirectory);
+	newDirectory.parent := baseDirectory;
+	newDirectory.name := 'new_dir1';
+	
+	/* trying another order */
+	newDirectory := new SimpleFileSystem::Directory();
+	newDirectory.name := 'new_dir2';
+	baseDirectory.children := baseDirectory.children.including(newDirectory);
+	newDirectory.parent := baseDirectory;
+	
+	/* trying another order */
+	newDirectory := new SimpleFileSystem::Directory();
+	newDirectory.name := 'new_dir3';
+	newDirectory.parent := baseDirectory;
+	baseDirectory.children := baseDirectory.children.including(newDirectory);
+	
+	'test4 OK'.toOut();
+}

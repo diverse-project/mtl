@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id $
+ * $Id$
  * Part of the ModelLibrary that do the associations of the SimpleFileSystem model
  * Syntax used : BasicMTL V1.14 syntax cf. basicmtlParser.mtl V1.14
  *
@@ -15,11 +15,15 @@ library SimpleFileSystem;
 /********************************************
  * Associations
  ********************************************/
-association {
+/* association {
 	directory : Directory 1;
 	files : File -1;
-}
+} */
 	
+/********************************************
+ * Connection methods, 
+ * they give entry points in the model
+ ********************************************/
 fileExistFromURI(URI : Standard::String) : Standard::Boolean
 {
 	return true;
@@ -31,4 +35,55 @@ getFileFromURI(URI : Standard::String) : File
 	theFile := new File();
 	// theFile.name := URI;
 	return theFile;
+}
+
+/**
+ * return null if there isn't directory at this location
+ */
+getDirectoryFromURI(URI : Standard::String) : Directory
+{   
+
+	theDirectory : Directory;
+	
+	theDirectory := new Directory();
+	
+	/* fill available informations for this new directory and fill lazzy informations substutes */
+	/* Attributes are directly filled, other objects (Associations) use lazzy substitutes */
+	JavaCode [
+		java.io.File tempDirectory = new java.io.File(BMTL_URI.getTheString());
+		if (tempDirectory.isDirectory())
+		{
+			
+			// ((BMTL_Directory)BMTL_theDirectory).BMTL_name = BMTL_URI;
+			((BMTL_Directory)BMTL_theDirectory).BMTL_name = new BMTLString(tempDirectory.getName());
+			if (tempDirectory.getParent() != null)
+			{
+				((BMTL_Directory)BMTL_theDirectory).BMTL_parentString = new BMTLString(tempDirectory.getParent());
+			}
+			else
+			{
+				// this may be for two reasons : an unknown directory (but the isDirectory test prevents us from that
+				// or this is a dir in the current directory
+				// get the current dir
+				((BMTL_Directory)BMTL_theDirectory).BMTL_parentString = new BMTLString(tempDirectory.getAbsoluteFile().getParent());
+			}
+			// System.out.println("not null");
+		}
+		else return null;
+	];
+	
+	// theFile.name := URI;
+	return theDirectory;
+}
+
+listRootDirectories() : Standard::Set
+{   
+	theDirectory : Directory;
+	rootSet : Standard::Set;
+	
+	theDirectory := new Directory();
+	// theFile.name := URI;
+	// TODO
+	return rootSet;
+	
 }
