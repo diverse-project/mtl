@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-10-31 17:48:21 dpollet Exp $ -->
+<!-- $Id: build.xml,v 1.5 2004-06-22 15:25:41 dvojtise Exp $ -->
 <project name="Utils" default="dist" basedir=".">
 	<description>
         Miscellaneous utility classes.
@@ -22,7 +22,7 @@
     	<!-- Compile the java code from ${src} into ${bin} -->
 	    <javac srcdir="${src}" 
     	    destdir="${bin}"
-   			classpath=".;ThirdParty\junit\junit.jar"
+   			classpath=".;ThirdParty\junit\junit.jar;ThirdParty\log4j\log4j.jar"
    			nowarn="true"
    			debug="true"/>
 	</target>
