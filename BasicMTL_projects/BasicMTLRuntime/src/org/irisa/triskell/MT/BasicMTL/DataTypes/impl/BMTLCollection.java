@@ -6,12 +6,18 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_excludes;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_excludesAll;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_getNewIterator;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_includes;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_includesAll;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_isEmpty;
 
 /**
  * @author ffondeme
@@ -43,7 +49,27 @@ public class BMTLCollection
 	}
 
 	public BMTLIteratorInterface BMTL_getNewIterator() {
-		return (BMTLIteratorInterface)CommonFunctions.toBMTLDataType(Collection_getNewIterator.TheInstance.invoke(this, null));
+		return (BMTLIteratorInterface)CommonFunctions.toBMTLDataType(Collection_getNewIterator.TheInstance.invoke(this.getCollectionDelegate(), null));
+	}
+	
+	public BMTLBooleanInterface BMTL_isEmpty() {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_isEmpty.TheInstance.invoke(this.getCollectionDelegate(), null));
+	}
+	
+	public BMTLBooleanInterface BMTL_includes(Value v) {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_includes.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
+	}
+	
+	public BMTLBooleanInterface BMTL_excludes(Value v) {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_excludes.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
+	}
+	
+	public BMTLBooleanInterface BMTL_includesAll(CollectionValue v) {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_includesAll.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
+	}
+	
+	public BMTLBooleanInterface BMTL_excludesAll(CollectionValue v) {
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Collection_excludesAll.TheInstance.invoke(this.getCollectionDelegate(), new Value [] {CommonFunctions.toMTDataType(v)}));
 	}
 
 }

@@ -3,11 +3,19 @@ package org.irisa.triskell.MT.BasicMTL.TopTypes;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBagInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclAnyInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLVoidInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBag;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLBoolean;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLOrderedSet;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSequence;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.TypeValue;
@@ -144,6 +152,22 @@ public abstract class BMTLObject extends Throwable implements BMTLObjectInterfac
 
 	public BMTLBooleanInterface BMTL_isNull(Value v) {
 		return v == null ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+	}
+
+	public BMTLSetInterface BMTL_newSet() {
+		return new BMTLSet(new Value [0]);
+	}
+
+	public BMTLBagInterface BMTL_newBag() {
+		return new BMTLBag(new Value [0]);
+	}
+
+	public BMTLSequenceInterface BMTL_newSequence() {
+		return new BMTLSequence(new Value [0]);
+	}
+
+	public BMTLOrderedSetInterface BMTL_newOrderedSet() {
+		return new BMTLOrderedSet(new Value [0]);
 	}
 
 }

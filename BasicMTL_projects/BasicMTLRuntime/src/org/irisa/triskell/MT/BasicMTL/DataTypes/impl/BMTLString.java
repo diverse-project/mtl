@@ -47,25 +47,25 @@ public class BMTLString extends BMTLOclAny implements BMTLStringInterface {
 	}
 
 	public BMTLStringInterface BMTL_concat(BMTLStringInterface s) {
-		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_concat.TheInstance.invoke(this, new Value [] {s}));
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_concat.TheInstance.invoke(this.getStringDelegate(), new Value [] {CommonFunctions.toMTDataType(s)}));
 	}
 
 	public BMTLIntegerInterface BMTL_size() {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(String_size.TheInstance.invoke(this, null));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(String_size.TheInstance.invoke(this.getStringDelegate(), null));
 	}
 
 	public BMTLStringInterface BMTL_substring(
 		BMTLIntegerInterface lower,
 		BMTLIntegerInterface upper) {
-		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_substring.TheInstance.invoke(this, new Value [] {lower, upper}));
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(String_substring.TheInstance.invoke(this.getStringDelegate(), new Value [] {CommonFunctions.toMTDataType(lower), CommonFunctions.toMTDataType(upper)}));
 	}
 
 	public BMTLIntegerInterface BMTL_toInteger() {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(String_toInteger.TheInstance.invoke(this, null));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(String_toInteger.TheInstance.invoke(this.getStringDelegate(), null));
 	}
 
 	public BMTLRealInterface BMTL_toReal() {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(String_toReal.TheInstance.invoke(this, null));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(String_toReal.TheInstance.invoke(this.getStringDelegate(), null));
 	}
 
 }

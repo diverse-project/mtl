@@ -48,38 +48,38 @@ public class BMTLInteger extends BMTLReal implements BMTLIntegerInterface {
 
 	//*
 	public BMTLIntegerInterface BMTL__2a(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_mul.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_mul.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	//+
 	public BMTLIntegerInterface BMTL__2b(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_add.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_add.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	//-
 	public BMTLIntegerInterface BMTL__2d(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_sub.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_sub.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	public BMTLIntegerInterface BMTL_div(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_idiv.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_idiv.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	public BMTLIntegerInterface BMTL_max(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_max.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_max.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	public BMTLIntegerInterface BMTL_min(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_min.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_min.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	public BMTLIntegerInterface BMTL_mod(IntegerValue i) {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_mod.TheInstance.invoke(this, new Value [] {i}));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_mod.TheInstance.invoke(this.getIntegerDelegate(), new Value [] {CommonFunctions.toMTDataType(i)}));
 	}
 
 	//-
 	public BMTLRealInterface BMTL__2d() {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_unaryMinus.TheInstance.invoke(this, null));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Integer_unaryMinus.TheInstance.invoke(this.getIntegerDelegate(), null));
 	}
 
 }

@@ -6,6 +6,8 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLBooleanInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLDataTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLInterface;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType;
@@ -53,6 +55,15 @@ public class CommonFunctions {
 			return toBMTLDataType.distilled;
 		}
 	}
+	
+	public static Value toMTDataType (Value v) {
+		if (v == null)
+			return null;
+		else if (v instanceof BMTLDataTypeInterface)
+			return ((BMTLDataTypeInterface)v).getDelegate();
+		else
+			return v;
+	}
 }
 
 class ToBMTLDataTypeVisitor implements ValueVisitor {
@@ -66,7 +77,7 @@ class ToBMTLDataTypeVisitor implements ValueVisitor {
 		CollectionKind kind = value.getKind();
 		if (kind.equals(CollectionKind.getSet_kind()))
 			this.distilled = new BMTLSet(value);
-		else if (kind.equals(CollectionKind.getSet_kind()))
+		else if (kind.equals(CollectionKind.getBag_kind()))
 			this.distilled = new BMTLBag(value);
 		else if (kind.equals(CollectionKind.getSequence_kind()))
 			this.distilled = new BMTLSequence(value);
@@ -125,5 +136,5 @@ class ToBMTLDataTypeVisitor implements ValueVisitor {
 		else
 			this.distilled = new BMTLVoid(value);
 	}
-
 }
+

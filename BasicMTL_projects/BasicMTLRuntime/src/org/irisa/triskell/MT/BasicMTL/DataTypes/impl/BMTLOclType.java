@@ -48,15 +48,15 @@ public class BMTLOclType extends BMTLOclAny implements BMTLOclTypeInterface {
 	}
 
 	public BMTLSetInterface BMTL_allInstances() {
-		return new BMTLSet(OclType_allInstances.TheInstance.invoke(this.getOclTypeDelegate(), null));
+		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(OclType_allInstances.TheInstance.invoke(this.getOclTypeDelegate(), null));
 	}
 
 	public BMTLOrderedSetInterface BMTL_oclQualifiedName() {
-		return new BMTLOrderedSet(OclType_qualifiedName.TheInstance.invoke(this.getOclTypeDelegate(), null));
+		return (BMTLOrderedSetInterface)CommonFunctions.toBMTLDataType(OclType_qualifiedName.TheInstance.invoke(this.getOclTypeDelegate(), null));
 	}
 
 	public BMTLStringInterface BMTL_oclName() {
-		return new BMTLString(OclType_name.TheInstance.invoke(this.getOclTypeDelegate(), null));
+		return (BMTLString)CommonFunctions.toBMTLDataType(OclType_name.TheInstance.invoke(this.getOclTypeDelegate(), null));
 	}
 
 

@@ -16,6 +16,7 @@ import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_isOff;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_isOn;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_item;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_next;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_nextItem;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Iterator.Iterator_start;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
 
@@ -63,7 +64,7 @@ public class BMTLIterator extends BMTLOclAny implements BMTLIteratorInterface {
 	}
 
 	public BMTLOclAnyInterface BMTL_nextItem() {
-		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_next.TheInstance.invoke(this.getDelegate(), null));
+		return (BMTLOclAnyInterface)CommonFunctions.toBMTLDataType(Iterator_nextItem.TheInstance.invoke(this.getDelegate(), null));
 	}
 
 }

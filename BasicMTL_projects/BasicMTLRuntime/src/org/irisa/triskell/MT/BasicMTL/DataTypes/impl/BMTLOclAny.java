@@ -43,33 +43,31 @@ public class BMTLOclAny extends BMTLDataType implements BMTLOclAnyInterface, Val
 	}
 
 	public BMTLBooleanInterface BMTL__3d(Value rhs) {
-		return ((BooleanValue)OclAny_equals.TheInstance.invoke(this.getDelegate(), new Value [] {rhs})).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(OclAny_equals.TheInstance.invoke(this.getOclAnyDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 	public BMTLBooleanInterface BMTL__3c_3e(Value rhs) {
-		return ((BooleanValue)OclAny_notEquals.TheInstance.invoke(this.getDelegate(), new Value [] {rhs})).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(OclAny_notEquals.TheInstance.invoke(this.getOclAnyDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 	public BMTLBooleanInterface BMTL_oclIsUndefined() {
-		return ((BooleanValue)OclAny_isUndefined.TheInstance.invoke(this.getDelegate(), null)).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(OclAny_isUndefined.TheInstance.invoke(this.getOclAnyDelegate(), null));
 	}
 
 	public BMTLBooleanInterface BMTL_oclIsTypeOf(TypeValue type) {
-		return ((BooleanValue)OclAny_oclIsTypeOf.TheInstance.invoke(this.getDelegate(), new Value [] {type})).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(OclAny_oclIsTypeOf.TheInstance.invoke(this.getOclAnyDelegate(), new Value [] {CommonFunctions.toMTDataType(type)}));
 	}
 
 	public BMTLBooleanInterface BMTL_oclIsKindOf(TypeValue type) {
-		return ((BooleanValue)OclAny_oclIsKindOf.TheInstance.invoke(this.getDelegate(), new Value [] {type})).getTheBoolean() ? BMTLBoolean.TRUE : BMTLBoolean.FALSE;
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(OclAny_oclIsKindOf.TheInstance.invoke(this.getOclAnyDelegate(), new Value [] {CommonFunctions.toMTDataType(type)}));
 	}
 
 	public BMTLVoidInterface BMTL_toErr() {
-		OclAny_toErr.TheInstance.invoke(this,null);
-		return BMTLVoid.TheInstance;
+		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(OclAny_toErr.TheInstance.invoke(this.getOclAnyDelegate(),null));
 	}
 
 	public BMTLVoidInterface BMTL_toOut() {
-		OclAny_toOut.TheInstance.invoke(this,null);
-		return BMTLVoid.TheInstance;
+		return (BMTLVoidInterface)CommonFunctions.toBMTLDataType(OclAny_toOut.TheInstance.invoke(this.getOclAnyDelegate(),null));
 	}
 
 	public boolean isUndefined() {

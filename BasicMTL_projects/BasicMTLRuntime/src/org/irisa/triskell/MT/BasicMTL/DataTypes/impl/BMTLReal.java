@@ -59,70 +59,70 @@ public class BMTLReal extends BMTLOclAny implements BMTLRealInterface {
 
 	//*
 	public BMTLRealInterface BMTL__2a(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_mul.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_mul.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//+
 	public BMTLRealInterface BMTL__2b(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_add.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_add.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//-
 	public BMTLRealInterface BMTL__2d(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_sub.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_sub.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	///
 	public BMTLRealInterface BMTL__2f(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_div.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_div.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//<=
 	public BMTLBooleanInterface BMTL__3c_3d(RealValue r) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_le.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_le.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//<
 	public BMTLBooleanInterface BMTL__3c(RealValue r) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_lt.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_lt.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//>=
 	public BMTLBooleanInterface BMTL__3e_3d(RealValue r) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_ge.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_ge.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	//>
 	public BMTLBooleanInterface BMTL__3e(RealValue r) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_gt.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Real_gt.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	public BMTLRealInterface BMTL_abs() {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_abs.TheInstance.invoke(this, null));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_abs.TheInstance.invoke(this.getRealDelegate(), null));
 	}
 
 	public BMTLIntegerInterface BMTL_floor() {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_floor.TheInstance.invoke(this, null));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_floor.TheInstance.invoke(this.getRealDelegate(), null));
 	}
 
 	public BMTLRealInterface BMTL_max(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_max.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_max.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	public BMTLRealInterface BMTL_min(RealValue r) {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_min.TheInstance.invoke(this, new Value [] {r}));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_min.TheInstance.invoke(this.getRealDelegate(), new Value [] {CommonFunctions.toMTDataType(r)}));
 	}
 
 	public BMTLIntegerInterface BMTL_round() {
-		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_round.TheInstance.invoke(this, null));
+		return (BMTLIntegerInterface)CommonFunctions.toBMTLDataType(Real_round.TheInstance.invoke(this.getRealDelegate(), null));
 	}
 
 	public BMTLStringInterface BMTL_toString() {
-		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(Real_toString.TheInstance.invoke(this, null));
+		return (BMTLStringInterface)CommonFunctions.toBMTLDataType(Real_toString.TheInstance.invoke(this.getRealDelegate(), null));
 	}
 
 	public BMTLRealInterface BMTL__2d() {
-		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_unaryMinus.TheInstance.invoke(this, null));
+		return (BMTLRealInterface)CommonFunctions.toBMTLDataType(Real_unaryMinus.TheInstance.invoke(this.getRealDelegate(), null));
 	}
 
 }

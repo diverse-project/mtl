@@ -45,23 +45,23 @@ public class BMTLBoolean
 	}
 
 	public BMTLBooleanInterface BMTL_and(BooleanValue rhs) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_and.TheInstance.invoke(this, new Value [] {rhs}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_and.TheInstance.invoke(this.getBooleanDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 	public BMTLBooleanInterface BMTL_implies(BooleanValue rhs) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_implies.TheInstance.invoke(this, new Value [] {rhs}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_implies.TheInstance.invoke(this.getBooleanDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 	public BMTLBooleanInterface BMTL_not() {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_not.TheInstance.invoke(this, null));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_not.TheInstance.invoke(this.getBooleanDelegate(), null));
 	}
 
 	public BMTLBooleanInterface BMTL_or(BooleanValue rhs) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_or.TheInstance.invoke(this, new Value [] {rhs}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_or.TheInstance.invoke(this.getBooleanDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 	public BMTLBooleanInterface BMTL_xor(BooleanValue rhs) {
-		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_xor.TheInstance.invoke(this, new Value [] {rhs}));
+		return (BMTLBooleanInterface)CommonFunctions.toBMTLDataType(Boolean_xor.TheInstance.invoke(this.getBooleanDelegate(), new Value [] {CommonFunctions.toMTDataType(rhs)}));
 	}
 
 }

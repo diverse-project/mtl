@@ -7,6 +7,7 @@
 package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 /**
  * @author ffondeme
@@ -19,4 +20,9 @@ public interface BMTLCollectionInterface
 	CollectionValue getCollectionDelegate();
 	
 	BMTLIteratorInterface BMTL_getNewIterator();
+	BMTLBooleanInterface BMTL_isEmpty();
+	BMTLBooleanInterface BMTL_includes(Value v);
+	BMTLBooleanInterface BMTL_excludes(Value v);
+	BMTLBooleanInterface BMTL_includesAll(CollectionValue v);
+	BMTLBooleanInterface BMTL_excludesAll(CollectionValue v);
 }
