@@ -1,4 +1,4 @@
-package org.inria.mtl.plugin.dialogs;
+package org.inria.mtl.plugin.preferences;
 
 import org.inria.mtl.plugin.*;
 import org.eclipse.core.runtime.IStatus;

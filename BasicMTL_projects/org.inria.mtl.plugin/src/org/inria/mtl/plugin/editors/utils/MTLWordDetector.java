@@ -1,52 +1,23 @@
 package org.inria.mtl.plugin.editors.utils;
 
 import org.eclipse.jface.text.rules.IWordDetector;
-import org.inria.mtl.plugin.editors.MTLWords;
 
 /**
- * A c sharp aware word detector.
+ * A MTL word detector.
  */
-public class MTLWordDetector
-	implements IWordDetector, MTLWords {
+public class MTLWordDetector implements IWordDetector {
 
-
-	/* (non-Javadoc)
-	 * Method declared on IWordDetector.
+	/**
+	 * @see IWordDetector#isWordStart
 	 */
-	public boolean isWordPart(char character) {
-		for (int i = 0; i < keywords.length; i++) 
-			if (((String) keywords[i]).indexOf(character) != -1)
-				return true;	
-
-		for (int i = 0; i < types.length; i++) 
-			if (((String) types[i]).indexOf(character) != -1) 
-				return true;
-
-		for (int i = 0; i < constants.length; i++) 
-			if (((String) constants[i]).indexOf(character) != -1) 
-				return true;
-		
-		return false;
+	public boolean isWordStart(char c) {
+		return Character.isJavaIdentifierStart(c);
 	}
-
-	/* (non-Javadoc)
-	 * Method declared on IWordDetector.
+	
+	/**
+	 * @see IWordDetector#isWordPart
 	 */
-	public boolean isWordStart(char character) {
-		for (int i = 0; i < keywords.length; i++) 
-			if (((String) keywords[i]).charAt(0) == character)
-				return true;	
-
-		for (int i = 0; i < types.length; i++) 
-			if (((String) types[i]).charAt(0) == character) 
-				return true;
-
-		for (int i = 0; i < constants.length; i++) 
-			if (((String) constants[i]).charAt(0) == character) 
-				return true;	
-		
-		return false;
-
+	public boolean isWordPart(char c) {
+		return Character.isJavaIdentifierPart(c);
 	}
-
 }

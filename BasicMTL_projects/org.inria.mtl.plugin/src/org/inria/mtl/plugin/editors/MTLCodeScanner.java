@@ -22,15 +22,15 @@ import org.inria.mtl.plugin.editors.mtlsyntax.MTLSyntax;
 import org.inria.mtl.plugin.editors.mtlsyntax.MTLTypeObject;
 import org.inria.mtl.plugin.editors.utils.AbstractMTLScanner;
 import org.inria.mtl.plugin.editors.utils.IColorManager;
-import org.inria.mtl.plugin.editors.utils.MTLWhitespaceDetector;
 import org.inria.mtl.plugin.editors.utils.MTLWordDetector;
+import org.inria.mtl.plugin.editors.utils.MTLWhitespaceDetector;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 
 /**
  * A MTL code scanner.
  */
-public final class MTLCodeScanner extends AbstractMTLScanner implements MTLWords{
+public final class MTLCodeScanner extends AbstractMTLScanner /*implements MTLWords*/{
 	
 	private static class VersionedWordRule extends WordRule {
 

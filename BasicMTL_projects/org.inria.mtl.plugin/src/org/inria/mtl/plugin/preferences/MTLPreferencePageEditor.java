@@ -36,7 +36,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.texteditor.WorkbenchChainedTextFontFieldEditor;
 import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.dialogs.StatusInfo;
+
 
 /*
  * The page for setting the editor options.

@@ -1,5 +1,5 @@
 /*
- * $Id: buildAllAction.java,v 1.2 2004-05-17 10:17:08 sdzale Exp $
+ * $Id: buildAllAction.java,v 1.3 2004-05-18 15:05:31 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -14,12 +14,14 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.builders.MTLModel;
 import org.inria.mtl.plugin.builders.MTLNature;
 import org.inria.mtl.plugin.core.MTLCore;
+import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -34,12 +36,18 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	private StructuredSelection currentSelection = null;
 	private IProject currentProject = null;
 	private IFolder srcFolder=null;
+	private IPreferenceStore store=null;
+	private boolean auto_build=false;
 
 	/**
 	 * The constructor.
 	 */
 	public buildAllAction() {
 		super();
+		store=MTLPlugin.getDefault().getPreferenceStore();
+		auto_build=store.getBoolean(PreferenceConstants.AUTO_COMPILE);
+		System.out.println("auto build :"+auto_build);
+
 	}
 
 	/**
@@ -49,10 +57,10 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		MessageDialog.openInformation(
-			window.getShell(),
-			"Plugin Plug-in",
-			"Hello, Eclipse world");
+//		MessageDialog.openInformation(
+//			window.getShell(),
+//			"Plugin Plug-in",
+//			"Hello, Eclipse world");
 	}
 
 	/**
@@ -71,17 +79,17 @@ public class buildAllAction implements IWorkbenchWindowActionDelegate {
 			try{
 			
 			//voir comment contrôler cette exécution
-//				if (projects[i].hasNature(MTLNature.NATURE_ID)){
-//					
-//					currentProject=projects[i].getProject();
-//					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
-//					MTLCore.findFolders();
-//					IPath[] srcPaths=MTLModel.srcFolders;
-//					for (int j =0;j<srcPaths.length;j++){
-//						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
-//						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
-//					}			
-//				}
+				if (projects[i].hasNature(MTLNature.NATURE_ID)){
+					
+					currentProject=projects[i].getProject();
+					MTLPlugin.instance().getModel(currentProject).setProject(currentProject);
+					MTLCore.findFolders();
+					IPath[] srcPaths=MTLModel.srcFolders;
+					for (int j =0;j<srcPaths.length;j++){
+						IFolder srcFolder= currentProject.getFolder(srcPaths[j]);
+						boolean b=MTLPlugin.instance().getModel(currentProject).processResource(srcFolder);
+					}			
+				}
 			}catch (Exception E){
 				System.out.println("Error :Build all");
 			}
