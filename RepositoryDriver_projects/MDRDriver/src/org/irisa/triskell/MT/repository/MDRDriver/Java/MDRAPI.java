@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.7 2004-02-16 15:44:30 dvojtise Exp $
+ * $Id: MDRAPI.java,v 1.8 2004-07-29 14:07:47 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -397,7 +397,7 @@ public class MDRAPI
 				this.getLog().debug("Initializing MDR driver:\tloading default repository.");
 				this.mdrRepository = mdrManager.getDefaultRepository();
 			}
-			if (this.mdrRepository.getExtent(modelName) != null)
+			if ((!(metamodel instanceof ImplementedMetamodel)) && this.mdrRepository.getExtent(modelName) != null)
 				throw new CreationFailedException("Repository " + modelName + " already exists.");
 
 			this.getLog().debug("Initializing MDR driver:\tinitializing metamodel.");
