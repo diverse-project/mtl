@@ -1,6 +1,6 @@
 /*
  * Created on 19 août 2003
- * $Id: BMTLOclType.java,v 1.4 2004-02-17 08:58:24 dvojtise Exp $
+ * $Id: BMTLOclType.java,v 1.5 2004-10-20 15:22:53 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -9,6 +9,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOclTypeInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSequenceInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLStringInterface;
 import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLLibInterface;
@@ -51,8 +52,8 @@ public class BMTLOclType extends BMTLOclAny implements BMTLOclTypeInterface {
 		return (BMTLSetInterface)CommonFunctions.toBMTLDataType(OclType_allInstances.TheInstance.invoke(this.getOclTypeDelegate(), null));
 	}
 
-	public BMTLOrderedSetInterface BMTL_oclQualifiedName() {
-		return (BMTLOrderedSetInterface)CommonFunctions.toBMTLDataType(OclType_qualifiedName.TheInstance.invoke(this.getOclTypeDelegate(), null));
+	public BMTLSequenceInterface BMTL_oclQualifiedName() {
+		return (BMTLSequenceInterface)CommonFunctions.toBMTLDataType(OclType_qualifiedName.TheInstance.invoke(this.getOclTypeDelegate(), null));
 	}
 
 	public BMTLStringInterface BMTL_oclName() {
