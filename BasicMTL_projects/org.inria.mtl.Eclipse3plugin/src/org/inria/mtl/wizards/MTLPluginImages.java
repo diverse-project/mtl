@@ -1,16 +1,13 @@
 package org.inria.mtl.wizards;
-import  org.eclipse.jdt.internal.ui.JavaPluginImages;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.inria.mtl.MTLPlugin;
 
 

@@ -2,9 +2,9 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.inria.mtl"
-   name="MTL For Eclipse"
-   version="0.0.3"
-   provider-name="INRIA"
+   name="MTL Plugin For Eclipse"
+   version="0.0.4"
+   provider-name="INRIA "
    class="org.inria.mtl.MTLPlugin">
    <runtime>
       <library name="MTLPlugin.jar"/>
@@ -40,29 +40,34 @@
    </extension>
     <extension point="org.eclipse.ui.perspectiveExtensions">
   <perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
+  <perspectiveShortcut id="org.eclipse.ui.resourcePerspective" /> 
+  <perspectiveShortcut id="org.eclipse.jdt.ui.JavaPerspective" />
   	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 	 <showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
-  </perspectiveExtension>
+ 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+ </perspectiveExtension>
  <perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
- 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ <showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
   	 <actionSet id="org.inria.mtl.actionSet" /> 
   </perspectiveExtension>
   <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-  	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+  	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   	<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
   <actionSet id="org.inria.mtl.actionSet" /> 
   </perspectiveExtension>
  <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
  	<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
+ 	<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
+  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   	<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   	<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
   	<actionSet id="org.inria.mtl.actionSet" /> 
   </perspectiveExtension>
@@ -81,6 +86,7 @@
          </run>
       </runtime>
       <builder
+      		name="%MTLBuilder"
             id="org.inria.mtl.MTLPlugin.MTLBuilder">
       </builder>
    </extension>
@@ -207,6 +213,24 @@
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.newprojectAction">
+         </action>
+          <action
+               label="%menu.newFolder"
+               icon="icons/new_folder.gif"
+               tooltip="%menu.tooltip.newFolder"
+               class="org.inria.mtl.actions.NewFolderWizardAction"
+               menubarPath="org.inria.mtl.MTLMenu/maj_separator"
+               toolbarPath="Normal"
+               id="org.inria.mtl.actions.newfolderAction">
+         </action>
+          <action
+               label="%menu.newFile"
+               icon="icons/mtl_page.gif"
+               tooltip="%menu.tooltip.newFile"
+               class="org.inria.mtl.actions.NewFileWizardAction"
+               menubarPath="org.inria.mtl.MTLMenu/maj_separator"
+               toolbarPath="Normal"
+               id="org.inria.mtl.actions.newfileAction">
          </action>
       </actionSet>
             <actionSet
@@ -558,6 +582,13 @@
             category="MTLPlugin"
             class="org.inria.mtl.views.MTLConsole"
             id="org.inria.mtl.views.mtlconsoleview">
+      </view>
+      <view
+            name="%mtlModelConsoleView"
+            icon="icons/xz.gif"
+            category="MTLPlugin"
+            class="org.inria.mtl.views.ProjectExploreView"
+            id="org.inria.mtl.views.projectexplore">
       </view>
    </extension>
    <extension

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLProjectPropertyPage.java,v 1.2 2004-08-26 12:41:00 sdzale Exp $
+* $Id: MTLProjectPropertyPage.java,v 1.3 2004-08-31 13:46:09 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.inria.mtl.MTLPlugin;
-import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.core.MTLCore;
 import org.inria.mtl.preferences.MTLMessages;
 import org.inria.mtl.wizards.BuildsMTL;

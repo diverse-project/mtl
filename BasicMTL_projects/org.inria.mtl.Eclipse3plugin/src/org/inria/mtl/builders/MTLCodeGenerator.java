@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.2 2004-08-26 12:40:30 sdzale Exp $
+* $Id: MTLCodeGenerator.java,v 1.3 2004-08-31 13:46:06 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,6 +7,7 @@
 */ 
 package org.inria.mtl.builders;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -221,7 +222,9 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 				}catch(Exception E){
 				}
 		}
-	
+//	JarClassLoader.showRuntimeLibraries();
+//	System.out.println(" ************************************* ");
+//	JarClassLoader.systemProperties();
 	//Traitement des bibliothèques liées
     MTLCore.readClasspathFile();
     ArrayList libList = new ArrayList();
@@ -271,6 +274,32 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		//initialiser le vecteur des messages
 		MSGHandler.reinit();
 	    //Call the MTL Compiler here
+		// Mise à jour du compilateur
+//		File cFile = new File(BasicMTLc_jar);
+//		System.out.println("JAR  :"+cFile.getAbsolutePath());
+//		if (cFile.exists()){
+//			try{
+//				URL urlList[]={cFile.toURL()};
+//				JarClassLoader loader = new JarClassLoader(urlList);
+//				System.out.println("loader :"+loader.getParent().toString());
+//				//System.out.println("loader :"+loader.);
+//				Class c =loader.loadClass("BasicMtlCompiler.Compiler");
+//			}catch(Exception e){
+//				System.out.println(" Loader  Exception :"+e);
+//			}
+//			
+//		}else{
+//			Shell shell = new Shell();
+//			MessageDialog.openInformation(
+//			shell,
+//			"MTL Compiler",
+//			"Compiler path is not valid...");
+//			return;
+//		}
+		
+//		JarClassLoader.showRuntimeLibraries();
+//		JarClassLoader.systemProperties();
+		
 		try{ 
 			BasicMtlCompiler.Compiler Comp=new BasicMtlCompiler.Compiler();
 			String logFile=MTLPlugin.getDefault().getLocation();

@@ -1,5 +1,5 @@
 /*
- * $Id: NewFileWizardAction.java,v 1.1 2004-08-26 12:40:16 sdzale Exp $
+ * $Id: NewFileWizardAction.java,v 1.2 2004-08-31 13:45:59 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -11,7 +11,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.IWorkbenchWizard;
-import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.wizards.FileWizard;
 
 /**

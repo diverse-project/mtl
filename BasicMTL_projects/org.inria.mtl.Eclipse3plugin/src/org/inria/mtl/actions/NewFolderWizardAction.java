@@ -1,5 +1,5 @@
 /*
- * $Id: NewFolderWizardAction.java,v 1.1 2004-08-26 12:40:16 sdzale Exp $
+ * $Id: NewFolderWizardAction.java,v 1.2 2004-08-31 13:46:00 sdzale Exp $
  * 
  * Licence LGPL - Inria 
  */
@@ -12,7 +12,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.inria.mtl.MTLPlugin;
-import org.inria.mtl.wizards.FileWizard;
 import org.inria.mtl.wizards.SourceFolder;
 
 /**

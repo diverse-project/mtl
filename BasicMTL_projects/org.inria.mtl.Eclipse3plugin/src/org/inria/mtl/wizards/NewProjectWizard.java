@@ -1,5 +1,5 @@
 /*
-* $Id: NewProjectWizard.java,v 1.2 2004-08-26 12:40:14 sdzale Exp $
+* $Id: NewProjectWizard.java,v 1.3 2004-08-31 13:46:04 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -8,12 +8,11 @@
 
 package org.inria.mtl.wizards; 
  
-import java.io.InputStream;
 import java.io.File;
-import java.net.URL;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -30,20 +29,20 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.wizards.NewJavaProjectWizardPage;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.builders.MTLBuilder;
 import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.builders.MTLNature;
 import org.inria.mtl.core.MTLCore;
-import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.preferences.PreferencesConstants;
 
 public class NewProjectWizard extends Wizard implements INewWizard, IWorkspaceRunnable {

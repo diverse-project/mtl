@@ -1,5 +1,5 @@
 /*
-* $Id: ProjectExploreView.java,v 1.1 2004-08-26 12:40:46 sdzale Exp $
+* $Id: ProjectExploreView.java,v 1.2 2004-08-31 13:46:07 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -84,7 +84,7 @@ public class ProjectExploreView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		/* Create a grid layout object so the text and treeviewer
 		 * are layed out the way I want. */
-		System.out.println(" NB FILES TLL :"+exploreTllFiles());
+		//System.out.println(" NB FILES TLL :"+exploreTllFiles());
 		
 		display = parent.getDisplay();
 		GridLayout layout = new GridLayout();
@@ -122,9 +122,9 @@ public class ProjectExploreView extends ViewPart {
 		
 		// Create menu, toolbars, filters, sorters.
 		createFiltersAndSorters();
-		createActions();
-		createMenus();
-		createToolbar();
+		//createActions();
+		//createMenus();
+		//createToolbar();
 		hookListeners();
 		
 		treeViewer.setInput(getInitalInput());

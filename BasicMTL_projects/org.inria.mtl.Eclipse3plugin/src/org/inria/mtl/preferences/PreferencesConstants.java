@@ -1,5 +1,5 @@
 /*
-* $Id: PreferencesConstants.java,v 1.2 2004-08-26 12:40:38 sdzale Exp $
+* $Id: PreferencesConstants.java,v 1.3 2004-08-31 13:46:11 sdzale Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,16 +7,14 @@
 */ 
 package org.inria.mtl.preferences;
 
-import org.eclipse.jface.preference.FontFieldEditor;
+import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.WorkbenchChainedTextFontFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.inria.mtl.MTLPlugin;
 
 /**

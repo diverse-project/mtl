@@ -1,4 +1,4 @@
-$Id: readme.txt,v 1.1 2004-07-30 14:08:12 sdzale Exp $
+$Id: readme.txt,v 1.2 2004-08-31 13:46:01 sdzale Exp $
 Description :
 This project is an Eclipse plugin for MTL.
 It will support:
