@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.20 2004-04-06 08:06:56 dvojtise Exp $ 			*/
+/* $Id: basicmtl.g,v 1.21 2004-04-07 07:14:02 dvojtise Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -376,7 +376,7 @@ instruction
 	| expressionWithOp n:semicolon
 	| "return" (OPENBRACKET expressionWithOp CLOSEBRACKET)? semicolon
 	| "while" expressionWithOp bodyinstr
-	| "if" expressionWithOp bodyinstr ( "else" bodyinstr )?
+	| ifInstruction
 	| "throws" expressionWithOp semicolon
 	| "try" bodyinstr
 	  ("catch" ident COLON type bodyinstr )+
@@ -403,9 +403,7 @@ instruction returns [Object tree=null;]
 	  {tree=walker.returnInstr(tree,n);}
 	| "while" tree=expressionWithOp body=bodyinstr
 	  {tree=walker.whileInstr(tree,body);}	
-	| "if" tree=expressionWithOp body=bodyinstr
-		( "else" body2=bodyinstr)?
-	  {tree=walker.ifInstr(tree,body,body2);}
+	| tree=ifInstruction
 	| ("throws"|"throw") tree=expressionWithOp  n=semicolon
 	  {tree=walker.throwsInstr(tree,n);}
 	| "try" body=bodyinstr
@@ -421,9 +419,50 @@ instruction returns [Object tree=null;]
 		( COMMA l4=associateEndPoint {theAssociatePoints.addElement(l4);} )+ CLOSEBRACKET SEMICOLON
 	  {tree=walker.associateInstr(isAssociate,theAssociatePoints,n); }
 exception catch [RecognitionException ex] {
-	throw ex; }
-	;
+	throw ex; };
 
+/*===============================================================
+ifInstruction
+	 : 
+	 "if" expressionWithOp bodyinstr ( elseInstruction )?
+==================================================================*/
+ifInstruction returns [Object tree=null;]
+{	
+	Object body=null;
+	Object body2=null;
+	Object body3=null;
+	Object tree2=null;
+}
+	: 
+	"if" tree=expressionWithOp body=bodyinstr ( body2=elseInstruction)?
+		{tree=walker.ifInstr(tree,body,body2);}
+	
+exception catch [RecognitionException ex] {
+	throw ex; };
+
+/*===============================================================
+elseInstruction
+	 : 
+	 ("else" bodyinstr) | ("elseif" expressionWithOp bodyinstr ( elseInstruction )? )
+==================================================================*/
+elseInstruction returns [Object tree=null;]
+{	java.util.Vector theInstructions=new java.util.Vector();
+	Object body=null;
+	Object body2=null;
+	Object tree2=null;
+	String n;
+}
+	: 
+		"else" tree=bodyinstr
+	| 	n=elseifKeyword tree2=expressionWithOp body=bodyinstr ( body2=elseInstruction )?
+		{	tree2=walker.ifInstr(tree2,body,body2);
+			theInstructions.addElement(tree2);
+			tree=walker.bodyInstr(theInstructions,n);
+		}
+	
+exception catch [RecognitionException ex] {
+	throw ex; };
+	
 /*===============================================================
 bodyinstr
 	 : openbrace (instruction)* CLOSEBRACE
@@ -834,6 +873,13 @@ classKeyword returns [String number=null;]
 	: c:"class" { number=Integer.toString(c.getLine()); }
 	;
 
+/*===============================================================
+elseifKeyword : "elseif"
+==================================================================*/
+/* remember the line number of a elseif */
+elseifKeyword returns [String number=null;]
+	: c:"elseif" { number=Integer.toString(c.getLine()); };
+	
 /*===============================================================
 openbracket : OPENBRACKET
 ==================================================================*/
