@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TeamTask id="MYEWQD">
+	<TeamTaskMeta>
+		<CreationDate format="yyyy-MM-dd :: HH:mm:ss z">2003-07-25 :: 13:21:37 CEST</CreationDate>
+		<LastModificationDate format="yyyy-MM-dd :: HH:mm:ss z">2003-07-25 :: 13:24:08 CEST</LastModificationDate>
+	</TeamTaskMeta>
+	<Summary>catch not recognized correctly</Summary>
+	<User>dvojtise</User>
+	<Module>BasicMtlAntlr</Module>
+	<AssignedTo />
+	<State description="New" index="0" />
+	<Severity description="Enhancement" index="0" />
+	<Description>the catch is not recognized correctly by the parser
+
+I have a
+expecting CLOSEBRACE, found 'catch'
+
+when running on BasicMtl_Transformation_libraries/src/tests/parser_tests/success_tests/test1.mtl</Description>
+	<Notification />
+	<LinkList />
+	<NoteHistory />
+</TeamTask>
+
