@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML14_TaggedValueTest.mtl,v 1.1 2004-12-15 08:05:32 dvojtise Exp $
+ * $Id: UML14_TaggedValueTest.mtl,v 1.2 2004-12-15 13:34:47 dvojtise Exp $
  * Simple transformations that apply to UML1.4 models
  *	includes : 
  *		Attribute_Privatize that privatize 
@@ -25,7 +25,7 @@ class TaggedValueTest
 		
 		showElementWithJavaNoteTaggedValue();
 		'***********************************'.toOut();
-		addJavaNoteTaggedValue('added JavaNote');
+		addJavaNoteTaggedValue('added JavaNote on ');
 		'***********************************'.toOut();
 		showElementWithJavaNoteTaggedValue();
 		
@@ -35,19 +35,19 @@ class TaggedValueTest
 	addJavaNoteTaggedValue(value : Standard::String)
 	{
 		iterator : Standard::Iterator;
-		anElt : source_model::Core::Attribute;						
+		anElt : source_model::Core::Attribute;	
+		currentValue : Standard::String;					
 		
 		iterator := !source_model::Core::Attribute!.allInstances().getNewIterator();
 		while iterator.isOn() {
 			anElt := iterator.item();
 //			anElt.toOut();
 			
-			value := uml.getFirstModelElementTaggedValue(anElt, tg);
-			if  isNull(value)
+			currentValue := uml.getFirstModelElementTaggedValue(anElt, tg);
+			if  isNull(currentValue)
 			{
-				'adding to the following element'.toOut();
-				anElt.toOut();
-				uml.createAndAddTaggedValue(anElt,tg,value);
+				'adding a tag to the element named : '.concat(anElt.name.oclAsType(!Standard::String!)).toOut();
+				uml.createAndAddTaggedValue(anElt,tg,value.concat(anElt.name.oclAsType(!Standard::String!)));
 			}
 			iterator.next();
 		}
@@ -67,8 +67,8 @@ class TaggedValueTest
 			
 			if not ('' = value) and not isNull(value)
 			{
-				anElt.toOut();
-				'   value = '.concat(value).toOut();
+				'the element named : '.concat(anElt.name.oclAsType(!Standard::String!))
+					.concat('; is tagged with the value : '.concat(value)).toOut();
 			}
 			iterator.next();
 		}

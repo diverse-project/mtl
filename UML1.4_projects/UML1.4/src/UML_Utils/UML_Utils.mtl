@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML_Utils.mtl,v 1.4 2004-12-15 08:05:31 dvojtise Exp $
+ * $Id: UML_Utils.mtl,v 1.5 2004-12-15 13:34:46 dvojtise Exp $
  * This library provides tools function to manipulate objects of UML1.4 metamodel
  * It is inspired by some usefull Objecteering J method for some metaclasses.
  * It should avoid to have some repetitive MTL code. 
@@ -250,9 +250,11 @@ addParameterToBehavioralFeature (
 // category : UML::Core::ModelElement
 // name     : createAndAddTaggedValue
 // purpose  : create a new value for the given tagDefinition
-// in       :
+// in       : elt    : the element to tag
+//            tagDef : the tagDeffintion for this tag
+//	          value  : the value for this tag
 // out      : returns the created tagValue
-// remark   : 
+// remark   : the value may be null, in this case it creates the TaggedValue with an empty string 
 ////////////////////////////////////////////////////////////////////////////////////
 createAndAddTaggedValue(
 	elt : UML::Core::ModelElement;
@@ -261,26 +263,17 @@ createAndAddTaggedValue(
 	) : UML::Core::TaggedValue
 {
 	result : UML::Core::TaggedValue;
-	dataValue : Standard::Set;
-	aValue : Standard::String;
-	aValue := value;
 	
-	result := new UML::Core::TaggedValue();
-	//dataValue := new Standard::Set().including(value);
-	//result.dataValue := dataValue;
-	dataValue := dataValue.including('hello2');
-	//dataValue := dataValue.including(value);
-	result.dataValue := dataValue.oclAsType(!Standard::Set!);
-	// TODO we must debug that or at least find a workaround .... (using a JavaCode ?)
-	//result.dataValue := 'hello';
-	//result.dataValue := new Standard::Set().including(aValue); // ne fonctionne pas !!!??
-	//result.dataValue := new Standard::Set().including('hello'); // fonctionne !!
-	//result.dataValue := new Standard::Set();
-	//result.dataValue := new Standard::Set();
-	//result.dataValue := result.dataValue.including(value.oclAsType(!Standard::String!));
-	
-	
-	
+	result := new UML::Core::TaggedValue();	
+	if ( isNull(value) )
+	{
+		// tag with an empty string
+		result.dataValue := new Standard::Set().including('');
+	}
+	else {
+		result.dataValue := new Standard::Set().including(value); 
+	}
+		
 	associate(typedValue := result : UML::Core::TaggedValue, type := tagDef : UML::Core::TagDefinition );
 	associate(taggedValue := result : UML::Core::TaggedValue, modelElement := elt : UML::Core::ModelElement );
 	
