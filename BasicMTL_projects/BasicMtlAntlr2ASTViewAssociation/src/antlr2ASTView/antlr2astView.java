@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.9 2004-04-28 07:26:09 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.10 2004-06-04 16:16:15 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -12,10 +12,6 @@ package antlr2ASTView;
 // import java.util.Collection;
 // import java.util.Vector;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
-
 import ANTLRASTWalker.ANTLRWalkerActionsInterface;
 import ANTLRParser.*;
 //import BasicMtlASTView.BMTL_ASTNodeInterface;
@@ -23,7 +19,6 @@ import BasicMtlASTWithAssociationView.*;
 
 import org.irisa.triskell.MT.DataTypes.Java.commands.*;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;
-import org.irisa.triskell.MT.utils.Java.Directories;
 //import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLOrderedSetInterface;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLSetInterface;
@@ -36,6 +31,7 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLReal;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLSet;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 //import org.irisa.triskell.MT.BasicMTL.TopTypes.*;
 
 /**
@@ -44,11 +40,6 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
  */
 public class antlr2astView implements ANTLRWalkerActionsInterface {
 
-	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
-
-	public static org.apache.log4j.Logger getLog () {
-			return BMTLParser.log;
-	}
 	private static BMTLLib_BasicMtlASTWithAssociationView theCreatedLib;
 	private BMTL_LibraryInterface theBuiltAST=null;
 	private boolean hasInheritance=false;
@@ -63,16 +54,10 @@ public BMTL_LibraryInterface buildLibraryFromText(String fileName)
 }
 
 public static void main(String[] args)
-{	try {
-		String filePath = new java.io.File(Directories.getRootPath(antlr2astView.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
-		LogManager.resetConfiguration();
-		DOMConfigurator.configure(filePath); }
-	catch(java.io.IOException e) {
-		System.err.println("Can't state log4j in BMTLParser"); }
-	if (args.length > 0)
+{	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2astView().buildLibraryFromText(args[i]);
-	else log.error("USAGE : java BMTL <sourcefiles>");
+	else MSGHandler.error("USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -117,7 +102,7 @@ private void putProperty (BMTL_ASTNodeInterface node,BMTLStringInterface name,Ob
 			node.BMTL_createNewBMTLTypeProperty(name,theType,new BMTLString(tagType));
 			return;
 		}
-		log.error("PutProperty on an unknown tagType"+tagType);
+		MSGHandler.error("PutProperty on an unknown tagType"+tagType);
 	}
 }
 
@@ -411,7 +396,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 		createdNode.set_BMTL_value((BMTL_ExpressionInterface)sourceTree);
 		node=(BMTL_ASTNodeInterface)createdNode;
 	} else {
-		getLog().error(lineNumber + ": Can just affect variable or attributes."+sourceTree);
+		MSGHandler.error(lineNumber + ": Can just affect variable or attributes."+sourceTree);
 		return null;
 	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");

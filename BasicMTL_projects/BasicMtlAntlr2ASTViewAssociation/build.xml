@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-10-17 16:21:00 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-06-04 16:16:16 jpthibau Exp $ -->
 <project name="BasicMtlAntlr2ASTView" default="compile_java" basedir=".">
 	<description>
         Known directories for the Antlr2BasicMtlAST
@@ -90,9 +90,6 @@
 			<fileset dir="${BasicTransfoLibs}\dist\bin"/>
 		</copy>
 		
-	    <copy file="log4j_configuration.xml"
-	    	todir="${dist}/bin"
-	    	overwrite="true"/>
 	</target>
 
   	<target name="clean"
