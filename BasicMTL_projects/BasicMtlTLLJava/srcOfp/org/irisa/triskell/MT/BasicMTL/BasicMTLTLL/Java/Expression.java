@@ -48,4 +48,12 @@ abstract public class Expression
         this.toBeCastedWithParameterVar = value; 
     }
 
+    public boolean isTrownExpression = false;
+    public boolean getIsTrownExpression () {
+        return this.isTrownExpression;
+    }
+    public void setIsTrownExpression (boolean value) {
+        this.isTrownExpression = value; 
+    }
+
 }

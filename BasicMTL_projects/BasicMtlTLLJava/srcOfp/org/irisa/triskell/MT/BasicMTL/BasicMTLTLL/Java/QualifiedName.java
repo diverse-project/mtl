@@ -97,4 +97,12 @@ public class QualifiedName
         this.notAlreadySolvedBy = value; 
     }
 
+    public String pureDeclarationName = null;
+    public String getPureDeclarationName () {
+        return this.pureDeclarationName;
+    }
+    public void setPureDeclarationName (String value) {
+        this.pureDeclarationName = value; 
+    }
+
 }

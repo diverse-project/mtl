@@ -53,6 +53,14 @@ public class VarDeclaration
         return this.lineNumber;
     }
 
+    public boolean isCatchParameter = false;
+    public boolean getIsCatchParameter () {
+        return this.isCatchParameter;
+    }
+    public void setIsCatchParameter (boolean value) {
+        this.isCatchParameter = value; 
+    }
+
 
     public VarDeclaration(
         String theVar,
