@@ -3,8 +3,8 @@
 <plugin
    id="org.inria.BasicMTL.compiler"
    name="Compiler Plug-in"
-   version="1.0.0"
-   provider-name=""
+   version="0.0.1"
+   provider-name="INRIA"
    class="org.inria.BasicMTL.compiler.CompilerPlugin">
 
    <runtime>
