@@ -1,4 +1,4 @@
-// $Id: OclAsType.mtl,v 1.1 2003-09-17 07:31:05 jpthibau Exp $
+// $Id: OclAsType.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -10,6 +10,10 @@
  
 	expression : Expression;
 	type : Standard::OrderedSet;
+	typeVar : Standard::String;
+	methodVar : Standard::String;
+	parameterVar : Standard::String;
+	isAConstant : Standard::Boolean;
  
 	appendType(name : Standard::String) : Standard::Void
 	{	if isNull(type)
@@ -23,20 +27,28 @@
 	anArgument : Standard::String;
 	aProperty : Property;
 	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType theOclAsType=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.OclAsType()];
-	theArguments := type.getNewIterator();
-	theArguments.start();
-	while theArguments.isOn() {
-		anArgument := theArguments.item().oclAsType(!Standard::String!);
-		JavaCode [theOclAsType.appendType(BMTL_anArgument.getTheString())];
-		theArguments.next();
+	if isNull(type).not() { 
+		theArguments := type.getNewIterator();
+		theArguments.start();
+		while theArguments.isOn() {
+			anArgument := theArguments.item().oclAsType(!Standard::String!);
+			JavaCode [theOclAsType.appendType(BMTL_anArgument.getTheString())];
+			theArguments.next();
+		}
 	}
 	JavaCode [theOclAsType.setExpression((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_expression.BMTL_toASTJava())];
-	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
-	properties.start();
-	while properties.isOn() {
-		aProperty := properties.item().oclAsType(!Property!);
-		JavaCode [theOclAsType.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
-		properties.next();
+	JavaCode [if (BMTL_typeVar !=null) theOclAsType.setTypeVar(BMTL_typeVar.getTheString())];
+	JavaCode [if (BMTL_methodVar !=null) theOclAsType.setMethodVar(BMTL_methodVar.getTheString())];
+	JavaCode [if (BMTL_parameterVar !=null) theOclAsType.setParameterVar(BMTL_parameterVar.getTheString())];
+	JavaCode [theOclAsType.setIsAConstant(BMTL_isAConstant.getTheBoolean())];
+	if isNull(self.oclAsType(!ASTNode!).decoration).not() { 
+		properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+		properties.start();
+		while properties.isOn() {
+			aProperty := properties.item().oclAsType(!Property!);
+			JavaCode [theOclAsType.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+			properties.next();
+		}
 	}
 	JavaCode [return theOclAsType];
 	}

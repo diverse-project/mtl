@@ -1,4 +1,4 @@
-// $Id: EndPoint.mtl,v 1.1 2003-09-17 07:33:07 jpthibau Exp $
+// $Id: EndPoint.mtl,v 1.2 2003-10-17 17:03:53 jpthibau Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -6,10 +6,13 @@
  
  library BasicMtlASTWithAssociationView extends BasicMtlASTView;
  
- class EndPoint {
+ class EndPoint extends ASTNode {
  
-	linkedClass : BasicMtlASTView::UserClass;
+	className : Standard::String;
 	roleName : Standard::String;
 	multiplicity : Multiplicity;
+	isComposition : Standard::Boolean;
+	isAggregation : Standard::Boolean;
 	isOrdered : Standard::Boolean;
+	isNavigable : Standard::Boolean;
  }

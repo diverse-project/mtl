@@ -1,4 +1,4 @@
-// $Id: Operation.mtl,v 1.1 2003-09-17 07:31:04 jpthibau Exp $
+// $Id: Operation.mtl,v 1.2 2003-10-17 17:03:18 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -9,11 +9,13 @@
  class Operation extends ASTNode {
  
 	instructions : Standard::OrderedSet;
-	returnedType : UserClass;
+//	returnedType : UserClass;
 	Parameters : Standard::OrderedSet;
 	declaredVariables : Standard::OrderedSet;
 	name : Standard::String;
 	throwsExceptionValue : Standard::Boolean;
+	isGetterFor : Attribute;
+	isSetterFor : Attribute;
 
 	appendParameters(param : VarDeclaration) : Standard::Void
 	{	if isNull(Parameters)

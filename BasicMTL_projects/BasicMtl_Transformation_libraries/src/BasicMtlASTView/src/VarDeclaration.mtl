@@ -1,4 +1,4 @@
-// $Id: VarDeclaration.mtl,v 1.1 2003-09-17 07:31:05 jpthibau Exp $
+// $Id: VarDeclaration.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -8,7 +8,7 @@
  
  class VarDeclaration extends ASTNode {
  
-	type : UserClass;
+//	type : UserClass;
 	name : Standard::String;
 	isFormalParameter : Standard::Boolean;
 

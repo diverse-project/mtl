@@ -1,4 +1,4 @@
-// $Id: ASTJava.mtl,v 1.1 2003-09-17 07:31:04 jpthibau Exp $
+// $Id: ASTJava.mtl,v 1.1 2003-10-17 17:06:49 jpthibau Exp $
 // Describe all classes of the ASTJava
 // used by all "toASTJava()" functions that map ASTView to ASTJava 
 /* version written for basicmtl.g,v 1.2

@@ -1,4 +1,4 @@
-// $Id: Association.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
+// $Id: Association.mtl,v 1.3 2003-10-17 17:03:53 jpthibau Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -6,52 +6,577 @@
  
  library BasicMtlASTWithAssociationView extends BasicMtlASTView;
  
- class Association extends BasicMtlASTView::ASTNode {
+ class Association extends ASTNode { //ASTNode {
  
 	endPoints : Standard::Set;
 	name : Standard::String;
-
-	appendEndPoint(point : EndPoint) : Standard::Void
+	
+	appendEndPoints(point : EndPoint) : Standard::Void
 	{	if isNull(endPoints)
-			{ endPoints := new Standard::Set(); }
-		endPoints := endPoints.including(point);
+			{ JavaCode [BMTL_endPoints=new BMTLSet()]; }
+		endPoints := endPoints.including(point).oclAsType(!Standard::Set!);
 	}
 
-	toBasicMTL() : Standard::Void
-	//transform this association class into attributes references
+//**************************************************************
+//
+// copy functions : used to copy templates parts in order to
+// modify these parts without modifying the original template
+//
+//**************************************************************
+
+copyOperation (theOp : Operation) : Operation
+{	copy : Operation;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new Operation();
+	copy.name := theOp.name;
+	if isNull(theOp.Parameters).not()
+	{	elements := theOp.Parameters.getNewIterator();
+		copy.Parameters := new Standard::OrderedSet();
+		elements.start();
+		while elements.isOn()
+		{	copy.Parameters := copy.Parameters.including(elements.item().oclAsType(!VarDeclaration!));
+			elements.next();
+		}
+	}
+	if isNull(theOp.declaredVariables).not()
+	{	elements := theOp.declaredVariables.getNewIterator();
+		copy.declaredVariables := new Standard::OrderedSet();
+		elements.start();
+		while elements.isOn()
+		{	copy.declaredVariables := copy.declaredVariables.including(elements.item().oclAsType(!VarDeclaration!));
+			elements.next();
+		}
+	}
+	if isNull(theOp.instructions).not()
+	{	elements := theOp.instructions.getNewIterator();
+		copy.instructions := new Standard::OrderedSet();
+		elements.start();
+		while elements.isOn()
+		{	copy.instructions := copy.instructions.including(elements.item().oclAsType(!Instruction!));
+			elements.next();
+		}
+	}
+	copy.throwsExceptionValue := theOp.throwsExceptionValue;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theOp.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyOperationCall (theOpCall : OperationCall) : OperationCall
+{	copy : OperationCall;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new OperationCall();
+	copy.name := theOpCall.name;
+	copy.caller := theOpCall.caller;
+	if isNull(theOpCall.arguments).not()
+	{	elements := theOpCall.arguments.getNewIterator();
+		copy.arguments := new Standard::OrderedSet();
+		elements.start();
+		while elements.isOn()
+		{	copy.arguments := copy.arguments.including(elements.item().oclAsType(!Expression!));
+			elements.next();
+		}
+	}
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theOpCall.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyOclAsType(theOclAsType : OclAsType) : OclAsType
+{	copy : OclAsType;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new OclAsType();
+	copy.expression := theOclAsType.expression;
+	copy.type := theOclAsType.type;
+	copy.typeVar := theOclAsType.typeVar;
+	copy.methodVar := theOclAsType.methodVar;
+	copy.parameterVar := theOclAsType.parameterVar;
+	copy.isAConstant := theOclAsType.isAConstant;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theOclAsType.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+
+}
+
+copyIf (theIf : If) : If
+{	copy : If;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new If();
+	copy.condition := theIf.condition;
+	copy.thenBody := theIf.thenBody;
+	copy.elseBody := theIf.elseBody;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theIf.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyWhile (theWhile : While) : While
+{	copy : While;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new While();
+	copy.condition := theWhile.condition;
+	copy.body := theWhile.body;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theWhile.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyReturn (theReturn : Return) : Return
+{	copy : Return;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new Return();
+	copy.returnedExpression := theReturn.returnedExpression;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theReturn.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyVarDeclaration (theVarDeclaration : VarDeclaration) : VarDeclaration
+{	copy : VarDeclaration;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new VarDeclaration();
+	copy.name := theVarDeclaration.name;
+	copy.isFormalParameter := theVarDeclaration.isFormalParameter;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theVarDeclaration.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+copyVarSetting (theVarSetting : VarSetting) : VarSetting
+{	copy : VarSetting;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new VarSetting();
+	copy.varName := theVarSetting.varName;
+	copy.value := theVarSetting.value;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theVarSetting.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+
+copyNewObject (theNewObject : NewObject) : NewObject
+{	copy : NewObject;
+	node : ASTNode;
+	elements : Standard::Iterator;
+	copy := new NewObject();
+	copy.arguments := theNewObject.arguments;
+	node := copy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	elements := theNewObject.oclAsType(!ASTNode!).decoration.getNewIterator();
+	elements.start();
+	while elements.isOn() {
+		node.decoration := node.decoration.including(elements.item().oclAsType(!Property!));
+		elements.next();
+	}
+	return copy;
+}
+
+//*************************************************************
+//
+// templates functions that modify a template pattern (function or instruction)
+//
+//*************************************************************
+
+templateGetter(roleGetter  : Operation; associationName : Standard::String; roleName : Standard::String; isOrdered : Standard::Boolean) : Standard::Void
+{	returnCopy : Return;
+	operationCallCopy1,operationCallCopy2 : OperationCall;
+	stringLiteralCopy : StringLiteral;
+	secondArg : Expression;
+	returnCopy := copyReturn(roleGetter.instructions.at(1).oclAsType(!Return!));
+	roleGetter.instructions := new Standard::OrderedSet();
+	roleGetter.instructions := roleGetter.instructions.including(returnCopy);
+	operationCallCopy1 := copyOperationCall(returnCopy.returnedExpression.oclAsType(!OperationCall!));
+	secondArg := operationCallCopy1.arguments.at(2);
+	returnCopy.returnedExpression := operationCallCopy1;
+	operationCallCopy2 := copyOperationCall(operationCallCopy1.caller.oclAsType(!OperationCall!));
+	operationCallCopy1.caller := operationCallCopy2;
+	stringLiteralCopy := new StringLiteral();//copy for: operationCallCopy1.arguments.at(1)
+	operationCallCopy1.arguments := new Standard::OrderedSet();
+	operationCallCopy1.arguments := operationCallCopy1.arguments.including(stringLiteralCopy);
+	operationCallCopy1.arguments := operationCallCopy1.arguments.including(secondArg);
+	operationCallCopy2.name := associationName;
+	stringLiteralCopy.value := roleName;
+	if isOrdered
+	{	roleGetter.name := 'getOrdered'.concat(associationName).concat(roleName);	}
+	else
+	{	roleGetter.name := 'get'.concat(associationName).concat(roleName);	}
+}
+
+templateSetter(roleSetter  : Operation; associationName : Standard::String; roleName : Standard::String; isOrdered : Standard::Boolean) : Standard::Void
+{	if isOrdered
+	{	roleSetter.name := 'setOrdered'.concat(associationName).concat(roleName);	}
+	else
+	{	roleSetter.name := 'set'.concat(associationName).concat(roleName);	}
+}
+
+templateSetLink(setLink  : Operation; associationName : Standard::String) : Standard::Void
+{	operationCallCopy1 : OperationCall;
+	associationType : Standard::OrderedSet;
+	paramCopy : VarDeclaration;
+	node : ASTNode;
+	setLink.name := associationName.concat('setLink');
+	paramCopy := copyVarDeclaration(setLink.Parameters.at(1).oclAsType(!VarDeclaration!));
+	setLink.Parameters := new Standard::OrderedSet();
+	setLink.Parameters := setLink.Parameters.including(paramCopy);
+	node := paramCopy.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	associationType := new Standard::OrderedSet();
+	associationType := associationType.append(associationName);
+	node.createNewBMTLTypeProperty('Type',associationType,'TypeTag');
+	node.createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	operationCallCopy1 := copyOperationCall(setLink.instructions.at(1).oclAsType(!OperationCall!));
+	setLink.instructions := new Standard::OrderedSet();
+	setLink.instructions := setLink.instructions.including(operationCallCopy1);
+	operationCallCopy1.name := associationName;
+} 
+
+templateMultiplicityInstr(instr : If; roleName : Standard::String; multiplicityBound : Standard::Integer) : If
+{	copy : If;
+	newArguments : Standard::OrderedSet;
+	newStringLiteral : StringLiteral;
+	newIntLiteral : IntLiteral;
+	equalTest : OperationCall;
+	returnInstr : Return;
+
+	equalTest := instr.condition.oclAsType(!OperationCall!);
+	copy := copyIf(instr);
+	copy.condition := copyOperationCall(equalTest);
+	newStringLiteral := new StringLiteral();//copy of :equalTest.arguments.at(1)
+	newStringLiteral.value := roleName;
+	newArguments := new Standard::OrderedSet();
+	newArguments := newArguments.including(newStringLiteral);
+	copy.condition.oclAsType(!OperationCall!).arguments := newArguments;
+
+	returnInstr := instr.thenBody.at(1).oclAsType(!Return!);
+	copy.thenBody := new Standard::OrderedSet();
+	copy.thenBody := copy.thenBody.including(copyReturn(returnInstr));
+	newIntLiteral := new IntLiteral();// copy of :returnInstr.returnedExpression
+	newIntLiteral.value := multiplicityBound;
+	copy.thenBody.at(1).oclAsType(!Return!).returnedExpression := newIntLiteral;
+	return copy;
+}
+
+templateIsOrderedInstr(instr : If; roleName : Standard::String) : If
+{	copy : If;
+	newArguments : Standard::OrderedSet;
+	newStringLiteral : StringLiteral;
+	equalTest : OperationCall;
+
+	equalTest := instr.condition.oclAsType(!OperationCall!);
+	copy := copyIf(instr);
+	copy.condition := copyOperationCall(equalTest);
+	newStringLiteral := new StringLiteral();//copy of : equalTest.arguments.at(1)
+	newStringLiteral.value := roleName;
+	newArguments := new Standard::OrderedSet();
+	newArguments := newArguments.including(newStringLiteral);
+	copy.condition.oclAsType(!OperationCall!).arguments := newArguments;
+	return copy;
+}
+
+templateGetInstr(instr : If; roleName : Standard::String) : If
+{	copy : If;
+	newArguments : Standard::OrderedSet;
+	newStringLiteral : StringLiteral;
+	opCallCopy : OperationCall;
+	equalTest : OperationCall;
+	returnInstr : Return;
+	returnCopy : Return;
+
+	equalTest := instr.condition.oclAsType(!OperationCall!);
+	copy := copyIf(instr);
+	copy.condition := copyOperationCall(equalTest);
+	newStringLiteral := new StringLiteral();//copy of :equalTest.arguments.at(1)
+	newStringLiteral.value := roleName;
+	newArguments := new Standard::OrderedSet();
+	newArguments := newArguments.including(newStringLiteral);
+	copy.condition.oclAsType(!OperationCall!).arguments := newArguments;
+
+	returnInstr := instr.thenBody.at(1).oclAsType(!Return!);
+	opCallCopy := copyOperationCall(returnInstr.returnedExpression.oclAsType(!OperationCall!));
+	opCallCopy.name := roleName;
+	returnCopy := copyReturn(returnInstr);
+	returnCopy.returnedExpression := opCallCopy;
+	copy.thenBody := new Standard::OrderedSet();
+	copy.thenBody := copy.thenBody.including(returnCopy);
+	return copy;
+}
+
+templateSetInstr(instr : If; roleName : Standard::String) : If
+{	copy : If;
+	newArguments : Standard::OrderedSet;
+	newStringLiteral : StringLiteral;
+	opCallCopy : OperationCall;
+	equalTest : OperationCall;
+
+	equalTest := instr.condition.oclAsType(!OperationCall!);
+	copy := copyIf(instr);
+	copy.condition := copyOperationCall(equalTest);
+	newStringLiteral := new StringLiteral();//copy of :equalTest.arguments.at(1)
+	newStringLiteral.value := roleName;
+	newArguments := new Standard::OrderedSet();
+	newArguments := newArguments.including(newStringLiteral);
+	copy.condition.oclAsType(!OperationCall!).arguments := newArguments;
+
+	opCallCopy := copyOperationCall(instr.thenBody.at(1).oclAsType(!OperationCall!));
+	opCallCopy.name := roleName;
+	copy.thenBody := new Standard::OrderedSet();
+	copy.thenBody := copy.thenBody.including(opCallCopy);
+	return copy;
+}
+
+templateGetRole(op : Operation; associationName : Standard::String) : Operation
+{	firstVS,secondVS : VarSetting;
+	firstIf,secondIf : If;
+	returnCopy : Return;
+	opCallCopy : OperationCall;
+	oclAsTypeCopy : OclAsType;
+
+	firstVS := op.instructions.at(1);
+	secondVS := op.instructions.at(2);
+	firstIf := op.instructions.at(3);
+	secondIf := op.instructions.at(4);
+	returnCopy := copyReturn(op.instructions.at(5).oclAsType(!Return!));
+	opCallCopy := copyOperationCall(returnCopy.returnedExpression.oclAsType(!OperationCall!));
+	oclAsTypeCopy := copyOclAsType(opCallCopy.caller.oclAsType(!OclAsType!));
+	oclAsTypeCopy.type := new Standard::OrderedSet();
+	oclAsTypeCopy.type := oclAsTypeCopy.type.including(associationName);
+	opCallCopy.caller := oclAsTypeCopy;
+	returnCopy.returnedExpression := opCallCopy;
+	op.instructions := new Standard::OrderedSet();
+	op.instructions := op.instructions.including(firstVS);
+	op.instructions := op.instructions.including(secondVS);
+	op.instructions := op.instructions.including(firstIf);
+	op.instructions := op.instructions.including(secondIf);
+	op.instructions := op.instructions.including(returnCopy);
+	return op;
+}
+
+templateBuildLink(op : Operation; associationName : Standard::String) : Operation
+{	varDecl1,varDecl2,varDecl3,varDecl4,varDecl5,varDecl6 : VarDeclaration;
+	varSettingCopy : VarSetting;
+	newAssociation : NewObject;
+	instr1,instr2,instr3,instr4,instr5,instr6,instr7,instr8,instr9,instr10 : Instruction;
+	associationType : Standard::OrderedSet;
+	node : ASTNode;
+
+	varDecl1 := copyVarDeclaration(op.declaredVariables.at(1).oclAsType(!VarDeclaration!));
+	node := varDecl1.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	associationType := new Standard::OrderedSet();
+	associationType := associationType.append(associationName);
+	node.createNewBMTLTypeProperty('Type',associationType,'TypeTag');
+	node.createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	varDecl2 := op.declaredVariables.at(2).oclAsType(!VarDeclaration!);
+	varDecl3 := op.declaredVariables.at(3).oclAsType(!VarDeclaration!);
+	varDecl4 := op.declaredVariables.at(4).oclAsType(!VarDeclaration!);
+	varDecl5 := op.declaredVariables.at(5).oclAsType(!VarDeclaration!);
+	varDecl6 := op.declaredVariables.at(6).oclAsType(!VarDeclaration!);
+	op.declaredVariables := new Standard::OrderedSet();
+	op.declaredVariables := op.declaredVariables.including(varDecl1); 
+	op.declaredVariables := op.declaredVariables.including(varDecl2); 
+	op.declaredVariables := op.declaredVariables.including(varDecl3); 
+	op.declaredVariables := op.declaredVariables.including(varDecl4); 
+	op.declaredVariables := op.declaredVariables.including(varDecl5); 
+	op.declaredVariables := op.declaredVariables.including(varDecl6);
+	varSettingCopy := copyVarSetting(op.instructions.at(1).oclAsType(!VarSetting!));
+	newAssociation := copyNewObject(varSettingCopy.value.oclAsType(!NewObject!));
+	instr1 := op.instructions.at(2); 
+	instr2 := op.instructions.at(3); 
+	instr3 := op.instructions.at(4); 
+	instr4 := op.instructions.at(5); 
+	instr5 := op.instructions.at(6); 
+	instr6 := op.instructions.at(7); 
+	instr7 := op.instructions.at(8); 
+	instr8 := op.instructions.at(9); 
+	instr9 := op.instructions.at(10); 
+	instr10 := op.instructions.at(11);
+	node := newAssociation.oclAsType(!ASTNode!);
+	node.decoration := new Standard::Set();
+	node.createNewBMTLTypeProperty('TypeToCreate',associationType,'TypeTag');
+	node.createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	varSettingCopy.value := newAssociation;
+	op.instructions := new Standard::OrderedSet();
+	op.instructions := op.instructions.including(varSettingCopy);
+	op.instructions := op.instructions.including(instr1);
+	op.instructions := op.instructions.including(instr2);
+	op.instructions := op.instructions.including(instr3);
+	op.instructions := op.instructions.including(instr4);
+	op.instructions := op.instructions.including(instr5);
+	op.instructions := op.instructions.including(instr6);
+	op.instructions := op.instructions.including(instr7);
+	op.instructions := op.instructions.including(instr8);
+	op.instructions := op.instructions.including(instr9);
+	op.instructions := op.instructions.including(instr10);
+	return op;
+}
+
+templateAssociateOperation(op : Operation; associationName : Standard::String) : Operation
+{	firstIf,secondIf : If;
+	firstWhile : While;
+	firstIfInstr1,firstIfInstr2,whileInstr1,whileInstr2,whileInstr3,whileInstr4,whileInstr5,whileInstr7 : Instruction;
+	opCallCopy : OperationCall;
+	oclAsTypeCopy : OclAsType;
+
+	firstIf := copyIf(op.instructions.at(1).oclAsType(!If!));
+	firstIfInstr1 := firstIf.elseBody.at(1);
+	firstIfInstr2 := firstIf.elseBody.at(2);
+	firstWhile := copyWhile(firstIf.elseBody.at(3).oclAsType(!While!));
+	whileInstr1 := firstWhile.body.at(1);
+	whileInstr2 := firstWhile.body.at(2);
+	whileInstr3 := firstWhile.body.at(3);
+	whileInstr4 := firstWhile.body.at(4);
+	whileInstr5 := firstWhile.body.at(5);
+	secondIf := copyIf(firstWhile.body.at(6).oclAsType(!If!));
+	whileInstr7 := firstWhile.body.at(7);
+	opCallCopy := copyOperationCall(secondIf.elseBody.at(1).oclAsType(!OperationCall!));
+	oclAsTypeCopy := copyOclAsType(opCallCopy.caller.oclAsType(!OclAsType!));
+	oclAsTypeCopy.type := new Standard::OrderedSet();
+	oclAsTypeCopy.type := oclAsTypeCopy.type.including(associationName);
+	opCallCopy.caller := oclAsTypeCopy;
+	secondIf.elseBody := new Standard::OrderedSet();
+	secondIf.elseBody := secondIf.elseBody.including(opCallCopy);
+	firstWhile.body := new Standard::OrderedSet();
+	firstWhile.body := firstWhile.body.including(whileInstr1);
+	firstWhile.body := firstWhile.body.including(whileInstr2);
+	firstWhile.body := firstWhile.body.including(whileInstr3);
+	firstWhile.body := firstWhile.body.including(whileInstr4);
+	firstWhile.body := firstWhile.body.including(whileInstr5);
+	firstWhile.body := firstWhile.body.including(secondIf);
+	firstWhile.body := firstWhile.body.including(whileInstr7);
+	firstIf.elseBody := new Standard::OrderedSet();
+	firstIf.elseBody := firstIf.elseBody.including(firstIfInstr1);
+	firstIf.elseBody := firstIf.elseBody.including(firstIfInstr2);
+	firstIf.elseBody := firstIf.elseBody.including(firstWhile);
+	op.instructions := new Standard::OrderedSet();
+	op.instructions := op.instructions.including(firstIf);
+	return op;
+}
+
+templateDissociateOperation(op : Operation; associationName : Standard::String) : Operation
+{	firstIf,secondIf : If;
+	firstWhile : While;
+	firstIfInstr1,firstIfInstr2,whileInstr1,whileInstr2,whileInstr3,whileInstr4,whileInstr5,whileInstr7 : Instruction;
+	opCallCopy : OperationCall;
+	oclAsTypeCopy : OclAsType;
+
+	firstIf := copyIf(op.instructions.at(1).oclAsType(!If!));
+	firstIfInstr1 := firstIf.thenBody.at(1);
+	firstIfInstr2 := firstIf.thenBody.at(2);
+	firstWhile := copyWhile(firstIf.thenBody.at(3).oclAsType(!While!));
+	whileInstr1 := firstWhile.body.at(1);
+	whileInstr2 := firstWhile.body.at(2);
+	whileInstr3 := firstWhile.body.at(3);
+	whileInstr4 := firstWhile.body.at(4);
+	whileInstr5 := firstWhile.body.at(5);
+	secondIf := copyIf(firstWhile.body.at(6).oclAsType(!If!));
+	whileInstr7 := firstWhile.body.at(7);
+	opCallCopy := copyOperationCall(secondIf.thenBody.at(1).oclAsType(!OperationCall!));
+	oclAsTypeCopy := copyOclAsType(opCallCopy.caller.oclAsType(!OclAsType!));
+	oclAsTypeCopy.type := new Standard::OrderedSet();
+	oclAsTypeCopy.type := oclAsTypeCopy.type.including(associationName);
+	opCallCopy.caller := oclAsTypeCopy;
+	secondIf.thenBody := new Standard::OrderedSet();
+	secondIf.thenBody := secondIf.thenBody.including(opCallCopy);
+	firstWhile.body := new Standard::OrderedSet();
+	firstWhile.body := firstWhile.body.including(whileInstr1);
+	firstWhile.body := firstWhile.body.including(whileInstr2);
+	firstWhile.body := firstWhile.body.including(whileInstr3);
+	firstWhile.body := firstWhile.body.including(whileInstr4);
+	firstWhile.body := firstWhile.body.including(whileInstr5);
+	firstWhile.body := firstWhile.body.including(secondIf);
+	firstWhile.body := firstWhile.body.including(whileInstr7);
+	firstIf.thenBody := new Standard::OrderedSet();
+	firstIf.thenBody := firstIf.thenBody.including(firstIfInstr1);
+	firstIf.thenBody := firstIf.thenBody.including(firstIfInstr2);
+	firstIf.thenBody := firstIf.thenBody.including(firstWhile);
+	op.instructions := new Standard::OrderedSet();
+	op.instructions := op.instructions.including(firstIf);
+	return op;
+}
+
+getNamedOperation(opName : Standard::String; operationTemplates : Standard::Set) : Operation
+{
+	theOperations : Standard::Iterator;
+	anOperation : Operation;
+
+	theOperations := operationTemplates.getNewIterator();
+	theOperations.start();
+	while theOperations.isOn() {
+		anOperation := theOperations.item().oclAsType(!Operation!);
+		if anOperation.name.[=](opName)
+		{ return copyOperation(anOperation); }
+		theOperations.next();
+	}
+	return null;
+}
+
+makeTheAssociationName() : Standard::String
 	{
-	node : BasicMtlASTView::ASTNode;
-	properties : Standard::Iterator;
-	aProperty : BasicMtlASTView::Property;
-	//build the UserClass mapping the Association class
+	//build name of the UserClass mapping the Association class
 	//give it the name "Association"+name+roleNames
 	//For instance association A with roles R1 and R2 will have
 	//a corresponding UserClass with name "AssociationAR1R2"
 	associationName : Standard::String;
-	theAssociationClass : BasicMtlASTView::UserClass;
-	anAssociationAttribute : BasicMtlASTView::Attribute;
-	theAssociationRefAttribute : BasicMtlASTView::Attribute;
-	integerType : Standard::OrderedSet;
-	userClassType : Standard::OrderedSet;
-	orderedSetType : Standard::OrderedSet;
-	setType : Standard::OrderedSet;
-	anEndPoint : EndPoint;
 	theEndPoints : Standard::Iterator;
-	//build the necessary attributes types Set and OrderedSet
-	userClassType := new Standard::OrderedSet();
-	userClassType := userClassType.append('BasicMtlASTView');
-	userClassType := userClassType.append('UserClass');
-	integerType := new Standard::OrderedSet();
-	integerType := integerType.append('Standard');
-	integerType := integerType.append('Integer');
-	setType := new Standard::OrderedSet();
-	setType := setType.append('Standard');
-	setType := setType.append('Set');
-	orderedSetType := new Standard::OrderedSet();
-	orderedSetType := orderedSetType.append('Standard');
-	orderedSetType := orderedSetType.append('OrderedSet');
-	//build the association class with its composed name
-	associationName := 'Association';
+	anEndPoint : EndPoint;
+
+	associationName := 'association';
 	if isNull(name).not() {
 	associationName := associationName.concat(name);
 	}
@@ -59,58 +584,269 @@
 	theEndPoints.start();
 	while theEndPoints.isOn() {
 		anEndPoint := theEndPoints.item().oclAsType(!EndPoint!);
-		associationName := associationName.concat(anEndPoint.roleName);
+		if isNull(anEndPoint.roleName)
+		{ 'Each EndPoint of an association should have a role name'.toErr();
+		   associationName.toErr(); }
+		else {
+			associationName := associationName.concat(anEndPoint.roleName);
+		}
 		theEndPoints.next();
 	}
-	theAssociationClass := new BasicMtlASTView::UserClass();
-	theAssociationClass.name := associationName;
+	return associationName;
+	}
+
+
+makeRoleGetterSetter(aClass : UserClass; associationName : Standard::String; anEndPoint : EndPoint; operationTemplates : Standard::Set) : Standard::Void
+{
+	aRoleAttribute : Attribute;
+	roleGetter,roleSetter : Operation;
+	orderedSetType : Standard::OrderedSet;
+	setType : Standard::OrderedSet;
+	theRoleName : Standard::String;
+
+	theRoleName := anEndPoint.roleName;
+	aRoleAttribute := new Attribute();
+	aRoleAttribute.name := theRoleName;
+	if anEndPoint.isOrdered {
+		orderedSetType := new Standard::OrderedSet();
+		orderedSetType := orderedSetType.append('Standard');
+		orderedSetType := orderedSetType.append('OrderedSet');
+		aRoleAttribute.oclAsType(!ASTNode!).createNewBMTLTypeProperty('Type',orderedSetType,'TypeTag');
+		aRoleAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+		roleGetter := getNamedOperation('getOrderedASSOCIATIONNAMEROLENAME',operationTemplates);
+		templateGetter(roleGetter,associationName,theRoleName,true);
+		roleSetter := getNamedOperation('setOrderedASSOCIATIONNAMEROLENAME',operationTemplates);
+		templateSetter(roleSetter,associationName,theRoleName,true);
+	}
+	else {
+		setType := new Standard::OrderedSet();
+		setType := setType.append('Standard');
+		setType := setType.append('Set');
+		aRoleAttribute.oclAsType(!ASTNode!).createNewBMTLTypeProperty('Type',setType,'TypeTag');
+		aRoleAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+		roleGetter := getNamedOperation('getASSOCIATIONNAMEROLENAME',operationTemplates);
+		templateGetter(roleGetter,associationName,theRoleName,false);
+		roleSetter := getNamedOperation('setASSOCIATIONNAMEROLENAME',operationTemplates);
+		templateSetter(roleSetter,associationName,theRoleName,false);
+	}
+	aRoleAttribute.possibleGetter := roleGetter;
+	roleGetter.isGetterFor := aRoleAttribute;
+	aRoleAttribute.possibleSetter := roleSetter;
+	roleSetter.isSetterFor := aRoleAttribute;
+	aClass.appendDefinedAttributes(aRoleAttribute);
+	aClass.appendDefinedMethods(roleGetter);
+	aClass.appendDefinedMethods(roleSetter);
+}
+
+makeRoleAttribute(anEndPoint : EndPoint) : Attribute
+{
+	anAssociationAttribute : Attribute;
+	orderedSetType : Standard::OrderedSet;
+	setType : Standard::OrderedSet;
+
+	anAssociationAttribute := new Attribute();
+	anAssociationAttribute.name :=anEndPoint.roleName;
+	if anEndPoint.isOrdered {
+		orderedSetType := new Standard::OrderedSet();
+		orderedSetType := orderedSetType.append('Standard');
+		orderedSetType := orderedSetType.append('OrderedSet');
+		anAssociationAttribute.oclAsType(!ASTNode!).createNewBMTLTypeProperty('Type',orderedSetType,'TypeTag');
+		anAssociationAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	}
+	else {
+		setType := new Standard::OrderedSet();
+		setType := setType.append('Standard');
+		setType := setType.append('Set');
+		anAssociationAttribute.oclAsType(!ASTNode!).createNewBMTLTypeProperty('Type',setType,'TypeTag');
+		anAssociationAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	}
+	return anAssociationAttribute;
+	}
+
+
+linkTheUserClass(anEndPoint : EndPoint;associationName : Standard::String; userClasses : Standard::Set;otherEndPoints : Standard::Set; operationTemplates : Standard::Set) : Standard::Void
+	{
+	associationNameType : Standard::OrderedSet;
+	theAssociationRefAttribute : Attribute;
+	theknownClasses,theOtherEnds : Standard::Iterator;
+	aClass : UserClass;
+	setLink : Operation;
+	//build the necessary attributes types Set and OrderedSet
+	associationNameType := new Standard::OrderedSet();
+	associationNameType := associationNameType.append(associationName);
+
 	//prepare the attribute to refer the association class
-	theAssociationRefAttribute :=  new BasicMtlASTView::Attribute();
+	theAssociationRefAttribute :=  new Attribute();
 	theAssociationRefAttribute.name := associationName;
-	theAssociationRefAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',userClassType,'TagType');
-	//Put each endPoint as an attribute of name = roleName
-	// and of type Set or OrderedSet depending of the "isOrdered" value
-	//put also multiplicity bounds as integer attributes with name roleName+'MultiplicityLower(Upper)Bound' 
+	theAssociationRefAttribute.oclAsType(!ASTNode!).createNewBMTLTypeProperty('Type',associationNameType,'TypeTag');
+	theAssociationRefAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	theknownClasses := userClasses.getNewIterator();
+	theknownClasses.start();
+	while theknownClasses.isOn() {
+		aClass := theknownClasses.item().oclAsType(!UserClass!);
+		if (aClass.name.[=](anEndPoint.className) {
+			aClass.appendDefinedAttributes(theAssociationRefAttribute);
+			theOtherEnds := otherEndPoints.getNewIterator();
+			theOtherEnds.start();
+			while theOtherEnds.isOn() {
+				makeRoleGetterSetter(aClass,associationName,theOtherEnds.item().oclAsType(!EndPoint!),operationTemplates);
+				theOtherEnds.next();
+			}			
+		setLink := getNamedOperation('ASSOCIATIONNAMEsetLink',operationTemplates);
+		templateSetLink(setLink,associationName);
+		aClass.appendDefinedMethods(setLink);
+		}
+		theknownClasses.next();
+	}
+	}
+
+
+walkEndPoints(theAssociationClass : UserClass;associationName : Standard::String; userClasses : Standard::Set; operationTemplates : Standard::Set) : Standard::Void
+	{
+	anAssociationAttribute : Attribute;
+	lowerMInstructions,upperMInstructions,isOrderedInstructions,getterInstructions,orderedGetterInstructions,setterInstructions,orderedSetterInstructions : Standard::OrderedSet;
+	lowerMultiplicityOp,upperMultiplicityOp,isOrderedOp,getterOp,orderedGetterOp,setterOp,orderedSetterOp : Operation;
+	lowerMInstr,upperMInstr,isOrderedTrueInstr,isOrderedFalseInstr,getterInstr,setterInstr: If;
+	isOrderedOpinstr3,isOrderedOpinstr4 : Instruction;
+	returnNullInstr : Return;
+	anEndPoint,anotherEndPoint : EndPoint;
+	theEndPoints,theOtherEndPoints : Standard::Iterator;
+	otherEndPoints : Standard::Set;
+
+	lowerMInstructions := new Standard::OrderedSet();
+	upperMInstructions := new Standard::OrderedSet();
+	isOrderedInstructions := new Standard::OrderedSet();
+	getterInstructions := new Standard::OrderedSet();
+	orderedGetterInstructions := new Standard::OrderedSet();
+	setterInstructions := new Standard::OrderedSet();
+	orderedSetterInstructions := new Standard::OrderedSet();
+	lowerMultiplicityOp := getNamedOperation('lowerMultiplicity',operationTemplates);
+	upperMultiplicityOp := getNamedOperation('upperMultiplicity',operationTemplates);
+	isOrderedOp := getNamedOperation('isOrdered',operationTemplates);
+	isOrderedOpinstr3 := isOrderedOp.instructions.at(3);
+	isOrderedOpinstr4 := isOrderedOp.instructions.at(4);
+	getterOp := getNamedOperation('get',operationTemplates);
+	orderedGetterOp := getNamedOperation('orderedGet',operationTemplates);
+	setterOp := getNamedOperation('set',operationTemplates);
+	orderedSetterOp := getNamedOperation('orderedSet',operationTemplates);
+	lowerMInstr := lowerMultiplicityOp.instructions.at(1).oclAsType(!If!);
+	upperMInstr := upperMultiplicityOp.instructions.at(1).oclAsType(!If!);
+	isOrderedTrueInstr := isOrderedOp.instructions.at(1).oclAsType(!If!);
+	isOrderedFalseInstr := isOrderedOp.instructions.at(2).oclAsType(!If!);
+	getterInstr := getterOp.instructions.at(1).oclAsType(!If!);
+	returnNullInstr := getterOp.instructions.at(2).oclAsType(!Return!);
+	setterInstr := setterOp.instructions.at(1).oclAsType(!If!);
+	theEndPoints := endPoints.getNewIterator();
 	theEndPoints.start();
 	while theEndPoints.isOn() {
 		anEndPoint := theEndPoints.item().oclAsType(!EndPoint!);
-		anAssociationAttribute := new BasicMtlASTView::Attribute();
-		anAssociationAttribute.name :=anEndPoint.roleName;
-		if anEndPoint.isOrdered {
-			anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',orderedSetType,'TagType');
+		//Create necessary attribute for role 
+		anAssociationAttribute := makeRoleAttribute(anEndPoint);
+		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
+		//create an access instruction for each endPoint feature
+		lowerMInstructions := lowerMInstructions.including(templateMultiplicityInstr(lowerMInstr,anEndPoint.roleName,anEndPoint.multiplicity.lowerBound));
+		upperMInstructions := upperMInstructions.including(templateMultiplicityInstr(upperMInstr,anEndPoint.roleName,anEndPoint.multiplicity.upperBound));
+		if anEndPoint.isOrdered
+			{	isOrderedInstructions := isOrderedInstructions.including(templateIsOrderedInstr(isOrderedTrueInstr,anEndPoint.roleName));
+				orderedGetterInstructions := orderedGetterInstructions.including(templateGetInstr(getterInstr,anEndPoint.roleName));
+				orderedSetterInstructions := orderedSetterInstructions.including(templateSetInstr(setterInstr,anEndPoint.roleName));
+			}
+		else		
+			{	isOrderedInstructions := isOrderedInstructions.including(templateIsOrderedInstr(isOrderedFalseInstr,anEndPoint.roleName));
+				getterInstructions := getterInstructions.including(templateGetInstr(getterInstr,anEndPoint.roleName));
+				setterInstructions := setterInstructions.including(templateSetInstr(setterInstr,anEndPoint.roleName));
+			}
+		//Now for this endPoint add an attribute to the linked class to refer this AssociationClass
+		otherEndPoints := new Standard::Set();
+		theOtherEndPoints := endPoints.getNewIterator();
+		theOtherEndPoints.start();
+		while theOtherEndPoints.isOn() {
+			anotherEndPoint := theOtherEndPoints.item().oclAsType(!EndPoint!);
+			if anotherEndPoint.roleName.[=](anEndPoint.roleName).not()
+			{	otherEndPoints := otherEndPoints.including(anotherEndPoint);	}
+			theOtherEndPoints.next();
 		}
-		else {
-			anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',setType,'TagType');
-		}
-		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
-		anAssociationAttribute := new BasicMtlASTView::Attribute();
-		anAssociationAttribute.name :=anEndPoint.roleName;
-		anAssociationAttribute.name := anAssociationAttribute.name.concat('MultiplicityLowerBound');
-		anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',integerType,'TagType');
-		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
-		anAssociationAttribute := new BasicMtlASTView::Attribute();
-		anAssociationAttribute.name :=anEndPoint.roleName;
-		anAssociationAttribute.name := anAssociationAttribute.name.concat('MultiplicityUpperBound');
-		anAssociationAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',integerType,'TagType');
-		theAssociationClass.appendDefinedAttributes(anAssociationAttribute);
-		//Now for this endPoint add an attribute to the linked class to refer theAssociationClass
-		anEndPoint.linkedClass.appendDefinedAttributes(theAssociationRefAttribute);
+		
+		linkTheUserClass(anEndPoint,associationName,userClasses,otherEndPoints,operationTemplates);
 		theEndPoints.next();
 	}
-	node := theAssociationClass.oclAsType(!BasicMtlASTView::ASTNode!);
-	properties := self.oclAsType(!BasicMtlASTView::ASTNode!).decoration.getNewIterator();
+	lowerMultiplicityOp.instructions := lowerMInstructions;
+	theAssociationClass.appendDefinedMethods(lowerMultiplicityOp);
+	upperMultiplicityOp.instructions := upperMInstructions;
+	theAssociationClass.appendDefinedMethods(upperMultiplicityOp);
+	isOrderedInstructions := isOrderedInstructions.including(isOrderedOpinstr3);
+	isOrderedInstructions := isOrderedInstructions.including(isOrderedOpinstr4);
+	isOrderedOp.instructions := isOrderedInstructions;
+	theAssociationClass.appendDefinedMethods(isOrderedOp);
+	getterOp.instructions := getterInstructions;
+	getterOp.instructions := getterOp.instructions.including(returnNullInstr);
+	theAssociationClass.appendDefinedMethods(getterOp);
+	orderedGetterOp.instructions := orderedGetterInstructions;
+	orderedGetterOp.instructions := orderedGetterOp.instructions.including(returnNullInstr);
+	theAssociationClass.appendDefinedMethods(orderedGetterOp);
+	setterOp.instructions := setterInstructions;
+	theAssociationClass.appendDefinedMethods(setterOp);
+	orderedSetterOp.instructions := orderedSetterInstructions;
+	theAssociationClass.appendDefinedMethods(orderedSetterOp);
+	}
+		
+
+transformAssociation(templatesLib : Library; userClasses : Standard::Set) : UserClass
+	//transform this association class into attributes references
+	{
+	aSetType,aBooleanType : Standard::OrderedSet;
+	operationTemplates : Standard::Set;
+	node : ASTNode;
+	properties : Standard::Iterator;
+	aProperty : Property;
+	associationName : Standard::String;
+	theAssociationClass : UserClass;
+	allLinksAttribute,validityAttribute : Attribute;
+	//collect the operation templates
+	operationTemplates := templatesLib.definedOperations;
+	//build the association class with its composed name
+	associationName := makeTheAssociationName();
+	theAssociationClass := new UserClass();
+	theAssociationClass.name := associationName;
+	theAssociationClass.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	//build the necessary attributes types Set
+	aSetType := new Standard::OrderedSet();
+	aSetType := aSetType.append('Standard');
+	aSetType := aSetType.append('Set');
+	//prepare the attribute to refer all known associations links
+	allLinksAttribute :=  new Attribute();
+	allLinksAttribute.name := 'allKnownLinks';
+	allLinksAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',aSetType,'TypeTag');
+	allLinksAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	theAssociationClass.appendDefinedAttributes(allLinksAttribute);
+	aBooleanType := new Standard::OrderedSet();
+	aBooleanType := aBooleanType.append('Standard');
+	aBooleanType := aBooleanType.append('Boolean');
+	//prepare the attribute to refer all known associations links
+	validityAttribute :=  new Attribute();
+	validityAttribute.name := 'validity';
+	validityAttribute.oclAsType(!BasicMtlASTView::ASTNode!).createNewBMTLTypeProperty('Type',aBooleanType,'TypeTag');
+	validityAttribute.oclAsType(!ASTNode!).createNewStringProperty('LineNumber','-200000','StringTag'); //should have LineNumber for ASTJava 2 code generation : -200 000 may mean generated by Association transformation
+	theAssociationClass.appendDefinedAttributes(validityAttribute);
+	//Put each endPoint information inside the association class
+	theAssociationClass.appendDefinedMethods(templateGetRole(getNamedOperation('getRole',operationTemplates),associationName));
+	theAssociationClass.appendDefinedMethods(templateGetRole(getNamedOperation('getOrderedRole',operationTemplates),associationName));
+	theAssociationClass.appendDefinedMethods(templateBuildLink(getNamedOperation('buildLink',operationTemplates),associationName));
+	theAssociationClass.appendDefinedMethods(getNamedOperation('updateLink',operationTemplates));
+	theAssociationClass.appendDefinedMethods(getNamedOperation('removeLink',operationTemplates));
+	theAssociationClass.appendDefinedMethods(templateAssociateOperation(getNamedOperation('associateOperation',operationTemplates),associationName));
+	theAssociationClass.appendDefinedMethods(templateDissociateOperation(getNamedOperation('dissociateOperation',operationTemplates),associationName));
+	walkEndPoints(theAssociationClass,associationName,userClasses,operationTemplates);
+	node := theAssociationClass.oclAsType(!ASTNode!);
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
 	properties.start();
 	while properties.isOn() {
-		aProperty := properties.item().oclAsType(!BasicMtlASTView::Property!);
-		node.decoration := node.decoration.including(aProperty);
+		aProperty := properties.item().oclAsType(!Property!);
+		if isNull(node.decoration)
+		{	node.decoration := new Standard::Set(); }
+		node.decoration := node.decoration.including(aProperty).oclAsType(!Standard::Set!);
 		properties.next();
 	}
+	return theAssociationClass;
  }
 }
-
-/* associateModelElements(endPoints : Standard::Set) : Standard::Void
-{} 
-
-dissociateModelElements(endPoints : Standard::Set) : Standard::Void
-{} */
-

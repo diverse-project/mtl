@@ -1,4 +1,4 @@
-// $Id: VarSetting.mtl,v 1.1 2003-09-17 07:31:03 jpthibau Exp $
+// $Id: VarSetting.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -9,9 +9,9 @@
  class VarSetting extends Instruction {
  
 	value : Expression;
-	modifiedVar : VarDeclaration;
+//	modifiedVar : VarDeclaration;
 	varName : Standard::String;
-	modifiedAttribute : Attribute;
+//	modifiedAttribute : Attribute;
 
 	toASTJava() : ASTJava::Object
 	{

@@ -1,4 +1,4 @@
-// $Id: Expression.mtl,v 1.1 2003-09-17 07:31:03 jpthibau Exp $
+// $Id: Expression.mtl,v 1.2 2003-10-17 17:03:19 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -8,9 +8,9 @@
  
  class Expression extends Instruction {
 
-	toASTJava() : ASTJava::Object
+/*	toASTJava() : ASTJava::Object
 	{
 		'toASTJava SHOULD BE DONE ONLY ON SUBCLASSES OF Expression'.toErr();
 		return null;
-	}
+	}*/
  }

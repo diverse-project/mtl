@@ -1,4 +1,4 @@
-// $Id: UserClass.mtl,v 1.2 2003-09-23 17:11:13 ffondeme Exp $
+// $Id: UserClass.mtl,v 1.3 2003-10-17 17:03:19 jpthibau Exp $
 // part of the BasicMtlASTView Library ( view on ASTJava )
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -10,23 +10,61 @@
  
 	definedMethods : Standard::Set;
 	definedAttributes : Standard::Set;
-//	parentClasses : Standard::Set;
 	name : Standard::String;
-//	QualifiedName : Standard::OrderedSet;
 	
 	appendDefinedAttributes(attrib : Attribute) : Standard::Void
 	{	if isNull(definedAttributes)
 			{ JavaCode [BMTL_definedAttributes=new BMTLSet()]; }
-		definedAttributes := definedAttributes.including(attrib);
+		definedAttributes := definedAttributes.including(attrib).oclAsType(!Standard::Set!);
 	}
 	appendDefinedMethods(op : Operation) : Standard::Void
 	{	if isNull(definedMethods)
 			{ JavaCode [BMTL_definedMethods=new BMTLSet()]; }
-		definedMethods := definedMethods.including(op);
+		definedMethods := definedMethods.including(op).oclAsType(!Standard::Set!);
 	}
 
+	joinAttributeOperation(isGetter : Standard::Boolean;attributeName : Standard::String;operationName : Standard::String)
+	//join attribute and the Getter/Setter operation
+	{
+	theAttribute : Attribute;
+	theOperation : Operation;
+	features : Standard::Iterator;
+	theAttribute := null;
+	theOperation := null;
+	features :=  definedAttributes.getNewIterator();
+	features.start();
+	while features.isOn() {
+		if features.item().oclAsType(!Attribute!).name.[=](attributeName)
+		   { theAttribute := features.item().oclAsType(!Attribute!); }
+		features.next();
+	}
+	features :=  definedMethods.getNewIterator();
+	features.start();
+	while features.isOn() {
+		if features.item().oclAsType(!Operation!).name.[=](operationName)
+		   { theOperation := features.item().oclAsType(!Operation!); }
+		features.next();
+	}
+	if isNull(theAttribute).or(isNull(theOperation))
+	   { 'Getter/Setter attribute or operation not found !'.toErr();
+	      isGetter.toErr();
+	      attributeName.toErr();
+	      operationName.toErr(); }
+	else {
+		if isGetter {
+			theAttribute.possibleGetter := theOperation;
+			theOperation.isGetterFor := theAttribute;
+		}
+		else {
+			theAttribute.possibleSetter := theOperation;
+			theOperation.isSetterFor := theAttribute;
+		}
+	}
+	}
+	
 	toASTJava() : ASTJava::Object
 	{
+	attributeName : Standard::String;
 	anAttribute : Attribute;
 	aMethod : Operation;
 	aProperty : Property;
@@ -48,7 +86,21 @@
 	methods.start();
 	while methods.isOn() {
 		aMethod := methods.item().oclAsType(!Operation!);
-		JavaCode [theClass.appendDefinedMethods((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)BMTL_aMethod.BMTL_toASTJava())];
+		JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation theASTMethod=(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)BMTL_aMethod.BMTL_toASTJava()];
+		JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Attribute theASTAttribute=null];
+		JavaCode [theClass.appendDefinedMethods(theASTMethod)];
+		if isNull(aMethod.isGetterFor).not() {
+			attributeName := aMethod.isGetterFor.name;
+			JavaCode [theASTAttribute = theClass.findAttribute(BMTL_attributeName.getTheString())];
+			JavaCode [theASTAttribute.setGetter(theASTMethod)];
+			JavaCode [theASTMethod.setIsGetterFor(theASTAttribute)];
+		}
+		if isNull(aMethod.isSetterFor).not() {
+			attributeName := aMethod.isSetterFor.name;
+			JavaCode [theASTAttribute = theClass.findAttribute(BMTL_attributeName.getTheString())];
+			JavaCode [theASTAttribute.setSetter(theASTMethod)];
+			JavaCode [theASTMethod.setIsSetterFor(theASTAttribute)];
+			}
 		methods.next();
 	}
 	}

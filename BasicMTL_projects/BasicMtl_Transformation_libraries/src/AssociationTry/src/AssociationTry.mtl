@@ -1,0 +1,141 @@
+// $Id: AssociationTry.mtl,v 1.1 2003-10-17 17:06:10 jpthibau Exp $
+// first try of associations
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library AssociationTry;
+ 
+	class A {
+	name : Standard::String;
+
+	Ainfo (x : Standard::OclAny) : Standard::String
+	{	return self.name; }
+	}
+
+	class B {
+	name : Standard::String;
+	
+	Binfo (x : Standard::OclAny) : Standard::String
+	{	return self.name; }
+	}
+
+	class C {
+	name : Standard::String;
+
+	Cinfo (x : Standard::OclAny) : Standard::String
+	{	return self.name; }
+	}
+
+	// Try the association
+	// A 0..1<-theA-----myBs->* {Ordered}B
+	association {
+	theA : A (0 1);
+	myBs : B -1 ordered;
+	}
+
+	// Try the association
+	// A *<-As---------Bs->* B
+	//             |
+	//             Cs
+	//             |*
+	//             C
+	association {
+	As : A -1;
+	Bs : B -1;
+	Cs : C -1;
+	}
+
+orderedSetValues(theType : Standard::OclType; theMethod : Standard::String; theParameter:Standard::OclAny; theOrderedSet : Standard::OrderedSet) : Standard::String
+{	elements : Standard::Iterator;
+    returnedValue,elementValue : Standard::String;
+    elements := theOrderedSet.getNewIterator();
+    returnedValue := '< ';
+    elements.start();
+    while elements.isOn() {
+    	elementValue := elements.item().oclAsType(theType,theMethod,theParameter,!Standard::String!);
+		returnedValue := returnedValue.concat(elementValue);
+    	elements.next();
+    	if elements.isOn() {
+    		returnedValue := returnedValue.concat(',');
+    	}
+    }
+    returnedValue := returnedValue.concat(' >');
+    return returnedValue;
+}
+
+setValues(theType : Standard::OclType; theMethod : Standard::String; theParameter:Standard::OclAny; theSet : Standard::Set) : Standard::String
+{	elements : Standard::Iterator;
+    returnedValue,elementValue : Standard::String;
+    elements := theSet.getNewIterator();
+    returnedValue := '< ';
+    elements.start();
+    while elements.isOn() {
+    	elementValue := elements.item().oclAsType(theType,theMethod,theParameter,!Standard::String!);
+		returnedValue := returnedValue.concat(elementValue);
+    	elements.next();
+    	if elements.isOn() {
+    		returnedValue := returnedValue.concat(',');
+    	}
+    }
+    returnedValue := returnedValue.concat(' >');
+    return returnedValue;
+}
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{	aA : A;
+	b1,b2,b3 : B;
+	c1,c2 : C;
+//    Btype : Standard::OclType;
+//    Btype := !B!;
+	aA := new A();
+	b1 := new B();
+	b2 := new B();
+	b3 := new B();
+	c1 := new C();
+	c2 := new C();
+	aA.name := 'aA';
+	b1.name := 'b1';
+	b2.name := 'b2';
+	b3.name := 'b3';
+	c1.name := 'c1';
+	c2.name := 'c2';
+	'aA,b1,b2,b3,c1 and c2 created!'.toOut();
+	associate  (theA := aA : A, myBs := b1 : B);
+	associate  (theA := aA : A, myBs := b2 : B);
+	'aA has been associated with b1 and b2'.toOut();
+	'============================='.toOut();
+	'aA.myBs has the value :'.toOut();
+	orderedSetValues(!B!,'Binfo',null,aA.myBs).toOut();
+	'============================='.toOut();
+	'b2.theA has the value :'.toOut();
+	setValues(!A!,'Ainfo',null,b2.theA).toOut();
+	dissociate  (theA := aA : A, myBs := b1 : B);
+	'aA has been dissociated from b1'.toOut();
+	'============================='.toOut();
+	'aA.myBs has the value :'.toOut();
+	orderedSetValues(!B!,'Binfo',null,aA.myBs).toOut();
+	'============================='.toOut();
+	'b2.theA has the value :'.toOut();
+	setValues(!A!,'Ainfo',null,b2.theA).toOut();
+	associate  (As := aA : A, Bs := b1 : B, Cs := c1 : C);
+	associate  (As := aA : A, Bs := b2 : B, Cs := c2 : C);
+	'aA has been associated with b1,c1 and b2,c2'.toOut();
+	'============================='.toOut();
+	'aA.Bs'.toOut();
+	setValues(!B!,'Binfo',null,aA.Bs).toOut();
+	'============================='.toOut();
+	'aA.Cs'.toOut();
+	setValues(!C!,'Cinfo',null,aA.Cs).toOut();
+	'============================='.toOut();
+	'b2.As'.toOut();
+	setValues(!A!,'Ainfo',null,b2.As).toOut();
+	'============================='.toOut();
+	'b2.Cs'.toOut();
+	setValues(!C!,'Cinfo',null,b2.Cs).toOut();
+	'Test over.'.toOut();
+}			

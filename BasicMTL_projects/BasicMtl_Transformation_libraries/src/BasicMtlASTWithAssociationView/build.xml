@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-09-17 07:33:07 jpthibau Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-10-17 17:03:54 jpthibau Exp $ -->
 <project name="BasicMtlASTWithAssociationView" default="ASTWithAssociationView_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -30,7 +30,7 @@
            >
           <arg value="${src}\Association.mtl"/> 
          <arg value="${src}\EndPoint.mtl"/> 
-          <arg value="${src}\LibraryWithAssociation.mtl"/> 
+          <arg value="${src}\Library.mtl"/> 
           <arg value="${src}\Multiplicity.mtl"/> 
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
