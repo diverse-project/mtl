@@ -1,6 +1,6 @@
 /*
-* $Id: MtlClasspathEntry.java,v 1.2 2004-08-26 12:40:29 sdzale Exp $
-* Authors : ${user}
+* $Id: MtlClasspathEntry.java,v 1.3 2005-02-24 16:43:49 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -124,6 +124,11 @@ public class MtlClasspathEntry implements IClasspathEntry {
 	*/
 		public static final int K_COMP = 11;
 
+
+	/**
+	 * A constant indicating an output location for TLL files.
+	 */
+	public static final int K_OUTPUT_TLL = 12;
 	/**
 	 * The export flag
 	 */
@@ -336,13 +341,24 @@ public class MtlClasspathEntry implements IClasspathEntry {
 			if (!path.isAbsolute()) return null;
 			return new MtlClasspathEntry(
 					MtlClasspathEntry.K_OUTPUT,
-					IClasspathEntry.CPE_LIBRARY,
+					MtlClasspathEntry.K_OUTPUT,
 					path,
 					MtlClasspathEntry.NO_EXCLUSION_PATTERNS, 
 					null, // source attachment
 					null, // source attachment root
 					null, // custom output location
 					false);
+			case MtlClasspathEntry.K_OUTPUT_TLL :
+				if (!path.isAbsolute()) return null;
+				return new MtlClasspathEntry(
+						MtlClasspathEntry.K_OUTPUT_TLL,
+						MtlClasspathEntry.K_OUTPUT_TLL,
+						path,
+						MtlClasspathEntry.NO_EXCLUSION_PATTERNS, 
+						null, // source attachment
+						null, // source attachment root
+						null, // custom output location
+						false);
 		case MtlClasspathEntry.K_COMP :
 			if (!path.isAbsolute()) return null;
 			return new MtlClasspathEntry(
@@ -662,6 +678,8 @@ public class MtlClasspathEntry implements IClasspathEntry {
 			return IClasspathEntry.CPE_LIBRARY;
 		if (kindStr.equalsIgnoreCase("output")) //$NON-NLS-1$
 			return MtlClasspathEntry.K_OUTPUT;
+		if (kindStr.equalsIgnoreCase("output_tll")) //$NON-NLS-1$
+			return MtlClasspathEntry.K_OUTPUT_TLL;
 		if (kindStr.equalsIgnoreCase("comp")) //$NON-NLS-1$
 				return MtlClasspathEntry.K_COMP;
 		return -1;
@@ -685,6 +703,8 @@ public class MtlClasspathEntry implements IClasspathEntry {
 				return "con"; //$NON-NLS-1$
 			case MtlClasspathEntry.K_OUTPUT :
 				return "output"; //$NON-NLS-1$
+			case MtlClasspathEntry.K_OUTPUT_TLL :
+				return "output_tll"; //$NON-NLS-1$
 			case MtlClasspathEntry.K_COMP :
 				return "comp"; //$NON-NLS-1$
 			default :

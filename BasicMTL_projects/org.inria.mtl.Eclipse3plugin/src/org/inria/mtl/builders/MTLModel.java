@@ -1,6 +1,6 @@
 /*
-* $Id: MTLModel.java,v 1.4 2004-10-29 11:33:48 edrezen Exp $
-* Authors : ${user}
+* $Id: MTLModel.java,v 1.5 2005-02-24 16:43:52 dvojtise Exp $
+* Authors : sdzale, edrezen, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -88,13 +88,16 @@ public class MTLModel {
 	
 	 /**
 	 *  Constructor for MTLProjectModel
+     *  initially load values from the preferences.
+	 *  when loading a classpath in org.inria.mtl.core.MTLCore, it overwrite these values 
+	 *  with the ones saved in the classpath (function loadMtlClasspath())
 	 *@param  proj  Description of the Parameter
 	 **/
 	public MTLModel(IProject proj) {
 		super();
 		MTLModel.proj = proj;
 		IPreferenceStore store=PreferencesConstants.getPreferenceStore();
-		//Permanent output folder
+		//Permanent output folder		
 		IPath outputFolder=new Path(store.getString( PreferencesConstants.OUTPUT_BUILDNAME));
 		output =proj.getFolder(outputFolder);
 		//permanent mtl source folder

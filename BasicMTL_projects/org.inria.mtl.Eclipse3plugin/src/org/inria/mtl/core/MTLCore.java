@@ -1,6 +1,6 @@
 /*
-* $Id: MTLCore.java,v 1.3 2004-09-08 07:27:23 dvojtise Exp $
-* Authors : ${user}
+* $Id: MTLCore.java,v 1.4 2005-02-24 16:43:50 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -53,6 +53,13 @@ import org.xml.sax.SAXException;
 
 
 
+/**
+ *
+ * MTLCore provides a placeholder for various data of a MTL project. It deals with .mtlclasspath file 
+ * for storage
+ * Note: it strangely use static variables, so you must call the constructor and loadMtlClasspath when 
+ * the project to compile changes, so it update the static values.   
+ */
 public  class MTLCore  {
 
 	/**
@@ -384,6 +391,7 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 
 	ArrayList paths = new ArrayList();
 	IClasspathEntry defaultOutput = null;
+	IClasspathEntry defaultOutputTLL = null;
 	try {
 		if (xmlClasspath == null) return null;
 		StringReader reader = new StringReader(xmlClasspath);
@@ -415,6 +423,8 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 				if (entry != null){
 					if (entry.getContentKind() == MtlClasspathEntry.K_OUTPUT) { 
 						defaultOutput = entry; // separate output
+					} else if (entry.getContentKind() == MtlClasspathEntry.K_OUTPUT_TLL) { 
+						defaultOutputTLL = entry; // separate output
 					} else {
 						paths.add(entry);
 			}
@@ -429,10 +439,12 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 		return INVALID_CLASSPATH;
 	}
 	int pathSize = paths.size();
-	if (pathSize > 0 || defaultOutput != null) {
-		IClasspathEntry[] entries = new IClasspathEntry[pathSize + (defaultOutput == null ? 0 : 1)];
+	if (pathSize > 0 || defaultOutput != null || defaultOutputTLL != null) {
+		IClasspathEntry[] entries = new IClasspathEntry[pathSize + (defaultOutput == null ? 0 : 1) + (defaultOutputTLL == null ? 0 : 1)];
 		paths.toArray(entries);
 		if (defaultOutput != null) entries[pathSize] = defaultOutput; // ensure output is last item
+		if (defaultOutputTLL != null) entries[pathSize+(defaultOutput == null ? 0 : 1)] = defaultOutputTLL; // ensure outputTLL is last item
+		
 		return entries;
 	} else {
 		return null;
@@ -451,10 +463,7 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 		/**
 		 * Returns the XML String encoding of the class path.
 		 */
-		/**
-		 * Returns the XML String encoding of the class path.
-		 */
-		protected static String encodeClasspath(IClasspathEntry[] classpath, IPath outputLocation, boolean indent) throws JavaModelException {
+		protected static String encodeClasspath(IClasspathEntry[] classpath, IPath outputLocation, IPath outputTllLocation, boolean indent) throws JavaModelException {
 			try {
 				ByteArrayOutputStream s = new ByteArrayOutputStream();
 				OutputStreamWriter writer = new OutputStreamWriter(s, "UTF8"); //$NON-NLS-1$
@@ -474,6 +483,14 @@ public static IClasspathEntry[] decodeClasspath(String xmlClasspath) {
 					HashMap parameters = new HashMap();
 					parameters.put("kind", MtlClasspathEntry.kindToString(ClasspathEntry.K_OUTPUT));//$NON-NLS-1$
 					parameters.put("path", String.valueOf(outputLocation));//$NON-NLS-1$
+					xmlWriter.printTag("classpathentry", parameters, indent, true, true);//$NON-NLS-1$
+				}
+				if (outputTllLocation != null) {
+					outputTllLocation = outputTllLocation.removeFirstSegments(1);
+					outputTllLocation = outputTllLocation.makeRelative();
+					HashMap parameters = new HashMap();
+					parameters.put("kind", MtlClasspathEntry.kindToString(MtlClasspathEntry.K_OUTPUT_TLL));//$NON-NLS-1$
+					parameters.put("path", String.valueOf(outputTllLocation));//$NON-NLS-1$
 					xmlWriter.printTag("classpathentry", parameters, indent, true, true);//$NON-NLS-1$
 				}
 		
@@ -566,7 +583,7 @@ public static boolean isClasspathEqualsTo(IClasspathEntry[] newClasspath, IPath 
 		 * 
 		 * @return Return whether the .classpath file was modified.
 		 */
-public static boolean saveClasspath(IClasspathEntry[] newClasspath, IPath newOutputLocation) throws JavaModelException {
+public static boolean saveClasspath(IClasspathEntry[] newClasspath, IPath newOutputLocation, IPath newOutputTllLocation) throws JavaModelException {
 			
 			if (!getProject().exists())return false;
 				IClasspathEntry[] fileEntries = readClasspathFile();
@@ -578,7 +595,7 @@ public static boolean saveClasspath(IClasspathEntry[] newClasspath, IPath newOut
 
 			// actual file saving
 			try {
-				setSharedProperty(MTLCLASSPATH_FILENAME, encodeClasspath(newClasspath, newOutputLocation, true));
+				setSharedProperty(MTLCLASSPATH_FILENAME, encodeClasspath(newClasspath, newOutputLocation, newOutputTllLocation, true));
 				return true;
 			} catch (CoreException e) {
 				throw new JavaModelException(e);
@@ -635,6 +652,7 @@ public static void loadMtlClasspath() {
 				 
 				MTLCore.setProject(MTLModel.getProject());
 				IPath projPath =MTLCore.fCurrProject.getFullPath();
+				
 				//System.out.println("Projet :"+projPath); 
 				IClasspathEntry[] classpathEntries = MTLCore.readClasspathFile();
 				for (int i= 0; i < classpathEntries.length; i++) {
@@ -659,8 +677,18 @@ public static void loadMtlClasspath() {
 					if( curr.getEntryKind()==IClasspathEntry.CPE_LIBRARY){
 										lLib.add(curr.getPath());
 					}
+					if( curr.getEntryKind()==MtlClasspathEntry.K_OUTPUT){
+						// must remove 1st segment as the path already contains the project name
+						MTLModel.srcJavaFolder = MTLCore.fCurrProject.getFolder( curr.getPath().removeFirstSegments(1));
+					}
+
+					if( curr.getEntryKind()==MtlClasspathEntry.K_OUTPUT_TLL){
+						// must remove 1st segment as the path already contains the project name
+						MTLModel.tllFolder = MTLCore.fCurrProject.getFolder( curr.getPath().removeFirstSegments(1));
+					}
 				}
 				
+				// overwrite static values with the values fromt his last mtlclasspath
 				MTLPlugin.srcFolders=new IPath[lSources.size()];
 				MTLModel.srcFolders=new IPath[lSources.size()];
 				MTLPlugin.projFolders=new IPath[lProj.size()];

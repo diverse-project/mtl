@@ -1,6 +1,6 @@
 /*
-* $Id: MTLPerspective.java,v 1.2 2004-08-26 12:40:10 sdzale Exp $
-* Authors : ${user}
+* $Id: MTLPerspective.java,v 1.3 2005-02-24 16:43:52 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -69,6 +69,8 @@ public class MTLPerspective implements IPerspectiveFactory
 	* Controls the physical default layout of the perspective
 	* 
 	* @param IPageLayout
+	* Note: we can do the same adding view to the plugin.xml definition 
+	* ( in <extension point="org.eclipse.ui.perspectiveExtensions"> <perspectiveExtension targetID="org.inria.mtl.MTLPerspective">)
 	*/                      
 	private void defineLayout(IPageLayout layout)
 	{
@@ -84,8 +86,8 @@ public class MTLPerspective implements IPerspectiveFactory
 		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, (float)0.50,//$NON-NLS-1$
 			"topLeft");//$NON-NLS-1$
 		bottomLeft.addView(IPageLayout.ID_OUTLINE);
-		bottomLeft.addPlaceholder("org.inria.mtl.views.ProjectExploreView");
-
+		bottomLeft.addPlaceholder("org.inria.mtl.views.projectexplorer.ProjectExplorerView");
+									
 		// Bottom right.
 		//layout.addView(IPageLayout.ID_TASK_LIST, IPageLayout.BOTTOM, (float)0.66, editorArea);
 

@@ -1,14 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2000, 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+/*
+ * $Id: WizardNewFolderPage.java,v 1.3 2005-02-24 16:43:54 dvojtise Exp $ Authors :
+ * Authors: sdzale, dvojtise
  * 
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Leon J. Breedt: Added multiple folder creation support
- *******************************************************************************/
+ * Created on ${date} 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.inria.mtl.wizards;
 
 import java.lang.reflect.InvocationTargetException;
@@ -270,7 +266,7 @@ public IFolder createNewFolder() {
 		IClasspathEntry[] newEntries =new IClasspathEntry[entries.length+1];
 		for (i=0;i<entries.length;i++)newEntries[i]=entries[i];
 		newEntries[i]=newcpe[0];
-		boolean bol=MTLCore.saveClasspath(newEntries,null);
+		boolean bol=MTLCore.saveClasspath(newEntries,null, null);
 	}catch (Exception E){
 		System.out.println("Ajout source folder incorrect"+E);
 	}

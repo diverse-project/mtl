@@ -1,6 +1,6 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.5 2004-10-29 11:33:48 edrezen Exp $
-* Authors : ${user}
+* $Id: MTLCodeGenerator.java,v 1.6 2005-02-24 16:43:53 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -501,8 +501,19 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 				 currFile=MTLCore.getProject().getFile(subPath);
 			}else{//Propriété file non nulle
 				if (cMessage.getFileName()!=null){
-					String subPath=cMessage.getFileName().substring(MTLCore.getProject().getLocation().toString().length()+1,cMessage.getFileName().length());
-					 currFile=MTLCore.getProject().getFile(subPath);
+					String projectLocation = MTLCore.getProject().getLocation().toString();
+					String messageName = cMessage.getFileName();
+					if(cMessage.getFileName().startsWith(MTLCore.getProject().getLocation().toString()))
+					{
+						String subPath=cMessage.getFileName().substring(MTLCore.getProject().getLocation().toString().length()+1,cMessage.getFileName().length());
+						currFile=MTLCore.getProject().getFile(subPath);
+					}
+					else
+					{
+						// try to get the file
+						MTLCore.getProject().getFile(cMessage.getFileName());
+					}
+					
 				}
 				//autres cas
 			}

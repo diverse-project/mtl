@@ -1,6 +1,6 @@
 /**
-* $Id: BuildsMTL.java,v 1.3 2004-08-31 13:46:04 sdzale Exp $
-* Authors : ${user}
+* $Id: BuildsMTL.java,v 1.4 2005-02-24 16:43:55 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -104,6 +104,7 @@ public class BuildsMTL {
 	private IMtlJavaProject fCurrMtlProject;
 		
 	private IPath fOutputLocationPath;
+	private IPath fOutputTllLocationPath;
 	
 	private IStatusChangeListener fContext;
 	private Control fSWTWidget;	
@@ -523,6 +524,8 @@ public class BuildsMTL {
 		IClasspathEntry[] classpath= new IClasspathEntry[nEntries];
 		IClasspathEntry[] newcpe1 = new IClasspathEntry[1] ;
 
+		IPath outputLocation=null;
+		IPath outputTllLocation=null;
 		
 		// create and set the class path
 		for (int i= 0; i < nEntries; i++) {
@@ -534,14 +537,22 @@ public class BuildsMTL {
 			}
 			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					classpath[i]=MTLCore.newSourceEntry(entry.getPath());
-			}else{
-						
+			}
+			else if(entry.getEntryKind() == MtlClasspathEntry.K_OUTPUT){
+				outputLocation = entry.getPath();
+				fOutputLocationPath = outputLocation;
+			}
+			else if(entry.getEntryKind() == MtlClasspathEntry.K_OUTPUT_TLL){
+				outputTllLocation = entry.getPath();
+				fOutputTllLocationPath = outputTllLocation;
+			}
+			else {			
 			classpath[i]= findClasspathEntry(entry);
 			}
 						
 			
 		}
-		boolean bol=MTLCore.saveClasspath(classpath,null);
+		boolean bol=MTLCore.saveClasspath(classpath,outputLocation, outputTllLocation);
 		
  
 		monitor.worked(1);

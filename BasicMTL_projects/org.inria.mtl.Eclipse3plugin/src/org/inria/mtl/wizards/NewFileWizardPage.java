@@ -1,6 +1,6 @@
 /*
-* $Id: NewFileWizardPage.java,v 1.2 2004-08-26 12:40:11 sdzale Exp $
-* Authors : ${user}
+* $Id: NewFileWizardPage.java,v 1.3 2005-02-24 16:43:54 dvojtise Exp $
+* Authors : sdzale, dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license

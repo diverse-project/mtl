@@ -1,6 +1,6 @@
 /*
-* $Id: SourcesPage.java,v 1.3 2005-02-08 15:44:30 dvojtise Exp $
-* Authors : ${user}
+* $Id: SourcesPage.java,v 1.4 2005-02-24 16:43:55 dvojtise Exp $
+* Authors : dzale; dvojtise
 *
 * Created on ${date}
 * Copyright 2004 - INRIA - LGPL license
@@ -38,11 +38,12 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.NewSourceFolderDialog;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.OutputLocationDialog;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.IStringButtonAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ITreeListAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
-import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.TreeListDialogField;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
@@ -56,11 +57,18 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.eclipse.ui.views.navigator.ResourceSorter;
 import org.inria.mtl.MTLPlugin;
 import org.inria.mtl.wizards.BuildPathBasePage;
+import org.inria.mtl.core.MtlClasspathEntry;
 
+/**
+ *
+ * This class is the page corresponding to the source tab in the MTL properties
+ */
 public class SourcesPage extends BuildPathBasePage {
 
 	private ListDialogField fClassPathList;
@@ -73,7 +81,8 @@ public class SourcesPage extends BuildPathBasePage {
 	
 	private TreeListDialogField fFoldersList;
 	
-	private StringDialogField fOutputLocationField;
+	private StringButtonDialogField fOutputLocationField;
+	private StringButtonDialogField fOutputTllLocationField;
 	
 	private SelectionButtonDialogField fUseFolderOutputs;
 	
@@ -81,7 +90,7 @@ public class SourcesPage extends BuildPathBasePage {
 	private final int IDX_EDIT= 2;
 	private final int IDX_REMOVE= 3;
 	
-	public SourcesPage(IWorkspaceRoot root, ListDialogField classPathList) {
+	public SourcesPage(IWorkspaceRoot root, ListDialogField classPathList ) {
 		fWorkspaceRoot= root;
 		fClassPathList= classPathList;
 	
@@ -106,11 +115,20 @@ public class SourcesPage extends BuildPathBasePage {
 		fFoldersList.setViewerSorter(new CPListElementSorter());
 		fFoldersList.enableButton(IDX_EDIT, false);
 		
-		//DVK
-		fOutputLocationField = new StringDialogField();
-		fOutputLocationField.setDialogFieldListener(adapter);
-		fOutputLocationField.setLabelText(NewWizardMessages.getString("BuildPathsBlock.buildpath.label")); //$NON-NLS-1$
 		
+		OutputContainerAdapter outputAdapter = new OutputContainerAdapter();
+		fOutputLocationField = new StringButtonDialogField(outputAdapter);
+		fOutputLocationField.setDialogFieldListener(outputAdapter);
+		fOutputLocationField.setLabelText(TabMessages.getString("BuildPathsBlock.buildpath.label")); //$NON-NLS-1$
+		fOutputLocationField.setButtonLabel(TabMessages.getString("BuildPathsBlock.buildpath.button"));
+		fOutputLocationField.enableButton(true);
+		
+		OutputContainerAdapter outputTLLAdapter = new OutputContainerAdapter();
+		fOutputTllLocationField = new StringButtonDialogField(outputTLLAdapter);
+		fOutputTllLocationField.setDialogFieldListener(outputTLLAdapter);
+		fOutputTllLocationField.setLabelText(TabMessages.getString("BuildPathsBlock.buildtllpath.label")); //$NON-NLS-1$
+		fOutputTllLocationField.setButtonLabel(TabMessages.getString("BuildPathsBlock.buildtllpath.button"));
+		fOutputTllLocationField.enableButton(true);
 		
 	
 	}
@@ -156,7 +174,7 @@ public class SourcesPage extends BuildPathBasePage {
 		
 		try
 		{
-			LayoutUtil.doDefaultLayout(composite, new DialogField[] { fFoldersList, fOutputLocationField}, true);
+			LayoutUtil.doDefaultLayout(composite, new DialogField[] { fFoldersList, fOutputLocationField, fOutputTllLocationField}, true);
 			LayoutUtil.setHorizontalGrabbing(fFoldersList.getTreeControl(null));
 		}
 		catch (Exception E){
@@ -188,10 +206,18 @@ public class SourcesPage extends BuildPathBasePage {
 		return MTLPlugin.getActiveWorkbenchShell();
 	}
 	
-	private class OutputContainerAdapter implements IDialogFieldListener {
+	private class OutputContainerAdapter implements IDialogFieldListener, IStringButtonAdapter {
 //		 ---------- IDialogFieldListener --------
 		public void dialogFieldChanged(DialogField field) {
 			sourcePageDialogFieldChanged(field);
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.jdt.internal.ui.wizards.dialogfields.IStringButtonAdapter#changeControlPressed(org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField)
+		 */
+		public void changeControlPressed(DialogField field) {
+			sourcePageOutputDialogFieldChanged(field);
+			
 		}
 	}
 	private class SourceContainerAdapter implements ITreeListAdapter, IDialogFieldListener {
@@ -451,12 +477,88 @@ public class SourcesPage extends BuildPathBasePage {
 		} else if (field == fOutputLocationField)
 		{
 			updateOutputpath();
+		} else if (field == fOutputTllLocationField)
+		{
+			updateOutputTLLpath();
 		}
 	}	
+	
+	/**
+	 * search for one class path element of the given kind
+	 * usual kinds are: MtlClasspathEntry.K_OUTPUT, MtlClasspathEntry.K_OUTPUT_TLL
+	 * @param entryKind
+	 * @return
+	 */
+	private CPListElement getOutputCPElement(int entryKind)
+	{
+		CPListElement theCPE=null;
+		CPListElement aCPE=null;
+		// find output in the classpath list
+		List cpelements= fClassPathList.getElements();
+		
+		for (int i= cpelements.size() - 1; i >= 0 ; i--)
+		{
+			aCPE= (CPListElement)cpelements.get(i);
+			if(aCPE.getEntryKind() == entryKind)
+			{
+				theCPE = aCPE;
+				return theCPE;
+			}
+		}
+		return theCPE;
+	}
+
+	private void sourcePageOutputDialogFieldChanged(DialogField field) {
+		if (field == fOutputLocationField)
+		{
+			IContainer outlocationContainer = chooseOutputLocation(MtlClasspathEntry.K_OUTPUT);
+			if (outlocationContainer != null)
+			{
+				fOutputLocationField.setTextWithoutUpdate(outlocationContainer.getFullPath().toString());
+				updateOutputpath();
+			}
+		} else if (field == fOutputTllLocationField)
+		{
+			IContainer outlocationContainer = chooseOutputLocation(MtlClasspathEntry.K_OUTPUT_TLL);
+			if (outlocationContainer != null)
+			{
+				fOutputTllLocationField.setTextWithoutUpdate(outlocationContainer.getFullPath().toString());
+				updateOutputTLLpath();
+			}
+		}
+	}
+	
+	/**
+	 * update the classpath with the output value field
+	 */
 	private void updateOutputpath() {
 		System.out.println("new output value" + fOutputLocationField.getText() );
+		CPListElement aCPE = getOutputCPElement(MtlClasspathEntry.K_OUTPUT);
+		if (aCPE != null)
+		{   // replace previous one if necessary
+			fClassPathList.removeElement(aCPE);
+		}
+		IResource folder= fWorkspaceRoot.findMember(fOutputLocationField.getText());
+		fClassPathList.addElement(newCPElement(folder, MtlClasspathEntry.K_OUTPUT));
 	}
-		
+
+	/**
+	 * update the classpath with the output TLL value field
+	 */
+	private void updateOutputTLLpath() {
+		System.out.println("new output tll value" + fOutputTllLocationField.getText() );
+		CPListElement aCPE = getOutputCPElement(MtlClasspathEntry.K_OUTPUT_TLL);
+		if (aCPE != null)
+		{   // replace previous one if necessary
+			fClassPathList.removeElement(aCPE);
+		}
+		IResource folder= fWorkspaceRoot.findMember(fOutputTllLocationField.getText());
+		fClassPathList.addElement(newCPElement(folder, MtlClasspathEntry.K_OUTPUT_TLL));
+	}
+	
+	/**
+	 * update the classpath with the source value fields
+	 */
 	private void updateClasspathList() {
 		List cpelements= fClassPathList.getElements();
 		List srcelements= fFoldersList.getElements();
@@ -475,6 +577,14 @@ public class SourcesPage extends BuildPathBasePage {
 				} else if (lastSourceFolder == null) {
 					lastSourceFolder= cpe;
 				}
+			}
+			else if(cpe.getEntryKind() == MtlClasspathEntry.K_OUTPUT)
+			{
+				fOutputLocationField.setTextWithoutUpdate(cpe.getPath().toString());
+			}
+			else if(cpe.getEntryKind() == MtlClasspathEntry.K_OUTPUT_TLL)
+			{
+				fOutputTllLocationField.setTextWithoutUpdate(cpe.getPath().toString());
 			}
 		}
 
@@ -498,11 +608,11 @@ public class SourcesPage extends BuildPathBasePage {
 		dialog.setMessage(NewWizardMessages.getFormattedString("SourceContainerWorkbookPage.NewSourceFolderDialog.description", fProjPath.toString())); //$NON-NLS-1$
 		if (dialog.open() == NewContainerDialog.OK) {
 			IResource folder= dialog.getSourceFolder();
-			return newCPSourceElement(folder);
+			return newCPElement(folder, IClasspathEntry.CPE_SOURCE);
 		}
 		return null;
 	}
-	
+
 	
 	private void askForAddingExclusionPatternsDialog(List newEntries, Set modifiedEntries) {
 		for (int i= 0; i < newEntries.size(); i++) {
@@ -575,13 +685,25 @@ public class SourcesPage extends BuildPathBasePage {
 			CPListElement[] res= new CPListElement[elements.length];
 			for (int i= 0; i < res.length; i++) {
 				IResource elem= (IResource)elements[i];
-				res[i]= newCPSourceElement(elem);
+				res[i]= newCPElement(elem, IClasspathEntry.CPE_SOURCE);
 			}
 			return res;
 		}
 		return null;
 	}
 	
+	private CPListElement openOutputContainerDialog(CPListElement existing) {
+		String title= (existing == null) ? NewWizardMessages.getString("SourceContainerWorkbookPage.NewSourceFolderDialog.new.title") : NewWizardMessages.getString("SourceContainerWorkbookPage.NewSourceFolderDialog.edit.title"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		IProject proj= fCurrJProject.getProject();
+		OutputLocationDialog dialog= new OutputLocationDialog(getShell(),  existing);
+		//dialog.setMessage(NewWizardMessages.getFormattedString("SourceContainerWorkbookPage.NewSourceFolderDialog.description", fProjPath.toString())); //$NON-NLS-1$
+		if (dialog.open() == OutputLocationDialog.OK) {		
+			IResource folder= fWorkspaceRoot.findMember(dialog.getOutputLocation());
+			return newCPElement(folder, MtlClasspathEntry.K_OUTPUT);
+		}
+		return null;
+	}
 	private List getExistingContainers(CPListElement existing) {
 		List res= new ArrayList();
 		List cplist= fFoldersList.getElements();
@@ -597,11 +719,60 @@ public class SourcesPage extends BuildPathBasePage {
 		return res;
 	}
 	
-	private CPListElement newCPSourceElement(IResource res) {
-		Assert.isNotNull(res);
-		return new CPListElement(fCurrJProject, IClasspathEntry.CPE_SOURCE, res.getFullPath(), res);
+	
+	/**
+	 * manage the selection of a folder for output. The given output kind is used for initialisation
+	 * usual kinds are: MtlClasspathEntry.K_OUTPUT, MtlClasspathEntry.K_OUTPUT_TLL
+	 * @param entryKind
+	 * @return 
+	 */
+	private IContainer chooseOutputLocation(int entryKind) {
+		IWorkspaceRoot root= fWorkspaceRoot;
+		Class[] acceptedClasses= new Class[] { IProject.class, IFolder.class };
+		ISelectionStatusValidator validator= new TypedElementSelectionValidator(acceptedClasses, false);
+		IProject[] allProjects= root.getProjects();
+		ArrayList rejectedElements= new ArrayList(allProjects.length);
+		for (int i= 0; i < allProjects.length; i++) {
+			if (!allProjects[i].getFullPath().equals(this.fProjPath)) {
+				rejectedElements.add(allProjects[i]);
+			}
+		}
+		ViewerFilter filter= new TypedViewerFilter(acceptedClasses, rejectedElements.toArray());
+
+		ILabelProvider lp= new WorkbenchLabelProvider();
+		ITreeContentProvider cp= new WorkbenchContentProvider();
+
+		IResource initSelection= null;
+		if (getOutputCPElement(entryKind) != null) {
+			initSelection= root.findMember(getOutputCPElement(entryKind).getPath());
+		}
+
+		FolderSelectionDialog dialog= new FolderSelectionDialog(getShell(), lp, cp);
+		dialog.setTitle(NewWizardMessages.getString("OutputLocationDialog.ChooseOutputFolder.title")); //$NON-NLS-1$
+		dialog.setValidator(validator);
+		dialog.setMessage(NewWizardMessages.getString("OutputLocationDialog.ChooseOutputFolder.description")); //$NON-NLS-1$
+		dialog.addFilter(filter);
+		dialog.setInput(root);
+		dialog.setInitialSelection(initSelection);
+		dialog.setSorter(new ResourceSorter(ResourceSorter.NAME));
+
+		if (dialog.open() == Window.OK) {
+			return (IContainer)dialog.getFirstResult();
+		}
+		return null;
 	}
 	
+	/**
+	 * create a new Class path element for this ressource and this entry kind
+	 * usual entry kind are: IClasspathEntry.CPE_SOURCE, MtlClasspathEntry.K_OUTPUT, MtlClasspathEntry.K_OUTPUT_TLL
+	 * @param res
+	 * @param entryKind
+	 * @return
+	 */
+	private CPListElement newCPElement(IResource res, int entryKind) {
+		Assert.isNotNull(res);
+		return new CPListElement(fCurrJProject, entryKind, res.getFullPath(), res);
+	}
 	
 	/*
 	 * @see BuildPathBasePage#getSelection
