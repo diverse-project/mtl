@@ -10,8 +10,8 @@
 	<property name="build.tll" location="build/tll"/>
 	
 	
-	<!--<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation"/>-->
-	<property name="MTLcompiler.path" location="${eclipse.home}/plugins/org.inria.mtl_1.0.0/MTL"/>
+	<property name="MTLcompiler.path" location="../BasicMtl2Java/LibAssociation/dist"/>
+	<!--<property name="MTLcompiler.path" location="${eclipse.home}/plugins/org.inria.mtl_1.0.0/MTL"/>-->
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
