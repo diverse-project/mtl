@@ -1,6 +1,7 @@
 /************************************************
 ***   File : MyTransformationModel.mtl
-***   Library : src
+***   $Id: MyTransformationModel.mtl,v 1.1 2005-03-29 13:28:13 dvojtise Exp $
+***   Library : MyLib
 ***   Version : 1.0 
 ***   Author : odefour
 ***   Date : November 30, 2004 9:42:33 AM CET
@@ -23,7 +24,7 @@ main() : Standard::Void {
 	genFile := genFile.concat( myClass.qosConnectors() );
 	genFile.toOut();
 	myClass.store(genFile);
-	myClass.testExe();
+	// myClass.testExe(); // testing a direct call to Eclipse CPL for better integration in the demo
 }
 
 class MyTransformationClass {
@@ -31,14 +32,14 @@ class MyTransformationClass {
 	testExe(){
 		JavaCode[
 			Process p = Runtime.getRuntime().exec("C:\\ECLiPSe 5.7\\lib\\i386_nt\\eclipse");
-			DataInputStream in = new DataInputStream(p.getInputStream());
+			java.io.DataInputStream in = new java.io.DataInputStream(p.getInputStream());
 			try {   
 				String str = in.readLine();
 				while(str!=null){
 					System.out.println(str);
 					str = in.readLine();
 				}
-			} catch(IOException e) {System.exit(0);}
+			} catch(java.io.IOException e) {System.exit(0);}
 		];
 	}
 
@@ -51,12 +52,13 @@ class MyTransformationClass {
 		elt1, elt2 : source_model::Element;
 
 		// we define some filenames
-		metamodelFilename := 'Z:/clp/component/QoSComp_MOF.xml';  //'Z:/tmp/ObjGen/QoSComp_MOF.xml';
-		inputFilename := 'Z:/clp/component/SmartExample.xml';
-		outputFilename := 'Z:/clp/component/out.xml';
+		metamodelFilename := 'build/MOF1.4/QoSComp_MOF.xml';  //'Z:/tmp/ObjGen/QoSComp_MOF.xml';
+		inputFilename := 'build/QoSComp/SmartExample.xml';
+		outputFilename := 'build/QoSComp/SmartExample_modified.xml';
 
 	    // we initialize the MDR driver			
 		mdrdriver := new MDRDriver::MDRModelManager();
+		'hop2'.toOut();
 		mdrdriver.init();
 		 
 		// intanciate the model, save result in another file
@@ -92,7 +94,7 @@ class MyTransformationClass {
 		file : io::FileOutput;
 		
 		file := new io::FileOutput (); 
-		file.setName('Z:/clp/component/testGen');
+		file.setName('build/prolog/testGen');
 		file.writeln(' % :-[\'//Z/clp/component/testGen\'].\n');
 		file.writeln(' :- lib(ic).');
 		file.writeln(str);
