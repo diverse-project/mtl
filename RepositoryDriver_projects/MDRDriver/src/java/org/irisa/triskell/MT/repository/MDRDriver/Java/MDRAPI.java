@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.2 2004-10-29 07:02:11 jpthibau Exp $
+ * $Id: MDRAPI.java,v 1.3 2004-10-29 07:30:59 jpthibau Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -11,6 +11,11 @@ import javax.jmi.xmi.XmiReader;
 import javax.jmi.xmi.XmiWriter;
 
 import org.apache.log4j.Logger;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
+import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
