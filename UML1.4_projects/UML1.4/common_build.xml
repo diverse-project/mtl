@@ -1,5 +1,5 @@
-<!-- $Id: common_build.xml,v 1.4 2004-02-18 10:07:38 dvojtise Exp $ -->
-<project name="common_build" default="compile" basedir=".">
+<!-- $Id: common_build.xml,v 1.5 2004-09-09 12:20:35 dvojtise Exp $ -->
+<project name="common_build" default="compile common" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
         build a library from a directory.
