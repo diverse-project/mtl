@@ -1,14 +1,12 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.6 2004-04-01 12:54:55 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.7 2004-04-06 07:52:36 dvojtise Exp $
  * Created on 16 juil. 2003
  *
+ * Copyright 2004 - INRIA - LGPL license
  */
 package antlr2ASTView;
 
-/**
- * @author jpthibau
- *
- */
+
 // import java.io.*;
 // import java.util.Arrays;
 // import java.util.Collection;
@@ -40,6 +38,10 @@ import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 //import org.irisa.triskell.MT.BasicMTL.TopTypes.*;
 
+/**
+ * Implements an ANTLR walker action in order to create a BasicMTL AST from a text file with mtl syntax
+ * @author jpthibau
+ */
 public class antlr2astView implements ANTLRWalkerActionsInterface {
 
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
@@ -141,7 +143,9 @@ private BMTL_ExpressionInterface putPropertyCalls(BMTL_ExpressionInterface expr,
 }
 return expr; }
 
+/*---------------------------------------------------*/
 /* ANTLRWalkerActionsInterface implemented functions */
+/*---------------------------------------------------*/
 public Object library(Object header,java.util.Vector models,java.util.Vector methods,java.util.Vector classes)
 {	int i;
 //	BMTL_LibraryInterface node=(BMTL_LibraryInterface)header;
@@ -624,6 +628,7 @@ public Object negateExpr(Object expr,String lineNumber)
 	try {
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");
 	} catch (Throwable e) {e.printStackTrace();}
+	node.set_BMTL_caller((BMTL_ExpressionInterface)expr);
 	return (BMTL_ExpressionInterface)node; }
 
 public Object exprOpExpr(Object expr1,String operator,Object expr2,String lineNumber)
