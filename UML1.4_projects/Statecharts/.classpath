@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="build/src"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="lib"
+        path="/BasicMtl2Java/LibAssociation/dist/bin/BasicMTLruntime.jar" sourcepath="/BasicMtl2Java/BasicMtl2Java/LibAssociation/src"/>
+    <classpathentry kind="lib" path="Semantic/SCSemantic.jar"/>
+    <classpathentry kind="lib" path="Implantation/SCImplantation.jar"/>
+    <classpathentry kind="output" path="bin"/>
+</classpath>

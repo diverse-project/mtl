@@ -1,0 +1,66 @@
+/*
+ * Library 	: SCSView 
+ *		Define a set of view for manipulatin
+ *
+ * File 	: $RCSfile: TimeManagement.mtl,v $
+ * Purpose 	: Define a view of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel 
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+
+library SCSView;
+
+
+class TimeManagement 
+{	
+	
+	/*
+	 * Purpose	:	Constructor
+	 * No Params
+	 * Remark	:	Should not be used. This class is an interface and can't be instanciated
+	 */
+	init(){
+		'ERR : SCSView::StatechartsSemantics is an abstract class ! '.toErr();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose 	:	Entry point for visitors (pattern Visitor)
+	 * Param :
+	 *	+ visitor : the visitor
+	 */
+	accept(visitor : AbstractVisitor)
+	{
+		visitor.visitTimeManagement(this);
+	}	
+
+
+	/*
+	 * Purpose	:	Return the TimeProgression object
+	 * No params.
+	 */
+	getTimeProgression() : TimeProgression
+	{
+		'ERR : SCSView::TimeManagement is an abstract class ! '.toErr();
+		return null;
+	}
+
+
+	/*
+	 * Purpose	:	Set the TimeProgression object
+	 * Params.
+	 *		+ tp : the new timeProgression Object
+	 */	
+	//setTimeProgression(tp : TimeProgression)
+	//{
+	//	'ERR : SCSView::StatechartsSemantic is an abstract class ! '.toErr();
+	//}
+
+}

@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Tue Jun 29 11:06:37 CEST 2004'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <MM_semantic.StatechartsSemantic xmi.id = 'a1'>
+      <MM_semantic.StatechartsSemantic.transitionManagement>
+        <MM_semantic.TransitionManagement xmi.id = 'a2'>
+          <MM_semantic.TransitionManagement.conflictResolution>
+            <MM_semantic.ConflictResolution xmi.id = 'a3' name = 'Choice' body = 'The MTL Body'/>
+          </MM_semantic.TransitionManagement.conflictResolution>
+          <MM_semantic.TransitionManagement.transitionSelection>
+            <MM_semantic.transitionSelection xmi.id = 'a4' name = 'interruption' body = 'The MTL Body'/>
+            <MM_semantic.transitionSelection xmi.id = 'a5' name = 'internal' body = 'The MTL Body'/>
+          </MM_semantic.TransitionManagement.transitionSelection>
+        </MM_semantic.TransitionManagement>
+      </MM_semantic.StatechartsSemantic.transitionManagement>
+      <MM_semantic.StatechartsSemantic.eventManagement>
+        <MM_semantic.EventManagement xmi.id = 'a6'>
+          <MM_semantic.EventManagement.conflictResolution>
+            <MM_semantic.ConflictResolution xmi.id = 'a7' name = 'Random' body = 'The MTL Body'/>
+          </MM_semantic.EventManagement.conflictResolution>
+          <MM_semantic.EventManagement.eventSelection>
+            <MM_semantic.EventSelection xmi.id = 'a8' name = 'FIFO' body = 'the MTL Body'/>
+            <MM_semantic.EventSelection xmi.id = 'a9' name = 'LIFO' body = 'the MTL Body'/>
+          </MM_semantic.EventManagement.eventSelection>
+        </MM_semantic.EventManagement>
+      </MM_semantic.StatechartsSemantic.eventManagement>
+      <MM_semantic.StatechartsSemantic.timeManagement>
+        <MM_semantic.TimeManagement xmi.id = 'a10'>
+          <MM_semantic.TimeManagement.timeProgression>
+            <MM_semantic.Asynchronous xmi.id = 'a11'/>
+          </MM_semantic.TimeManagement.timeProgression>
+        </MM_semantic.TimeManagement>
+      </MM_semantic.StatechartsSemantic.timeManagement>
+    </MM_semantic.StatechartsSemantic>
+  </XMI.content>
+</XMI>

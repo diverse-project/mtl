@@ -1,0 +1,23 @@
+/* 
+ * Library	: STL
+ * 		This library provides a composable transformations framework. Standard
+ *		interfaces for simple transformations,  composite transformations, mapping
+ *		transformation, etc.
+ *
+ * File 	: $RCSfile: AbstractVisitor.mtl,v $
+ * Purpose 	: Define the abstract behavior of all transformations
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */ 
+
+ 
+library STL;
+
+
+class AbstractVisitor 
+{
+
+}

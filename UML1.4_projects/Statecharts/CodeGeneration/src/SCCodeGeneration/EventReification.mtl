@@ -1,0 +1,129 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: EventReification.mtl,v $
+ * Purpose 	: Define the Event Manager
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class EventReification extends EventManager
+{
+
+	
+	/*
+	 * See STL::Transformation
+	 */
+	run()
+	{
+		this.theDirector.accept(this);
+	}
+
+	
+	/*
+	 * See SCCodeGenenration::CodeGenerationVisitor
+	 */ 
+	visitCodeGeneration(target : CodeGeneration)
+	{
+		target.getStateManager().accept(this);
+	}
+
+
+	/*
+	 * See CodeGenerationVisitor
+	 */ 
+	visitStateEnumeration(target : StateEnumeration)
+	{
+		owner				:	UML::Core::ModelElement;
+		abstractEvent		:	UML::Core::Class;
+		aClassEvent			:	UML::Core::Class;
+		executeOperation 	: 	UML::Core::Operation;
+		executeBody			:	Standard::String;
+		processOperation	:	UML::Core::Operation;
+		processBody			:	Standard::String;
+	
+		// Get the owner a new modelElement
+		owner := uml.getNamespaceOfElement(this.theDirector.getTargetClass().oclAsType(!UML::ModelElement!));
+		
+		// We create an abstract Class event
+		abstractEvent := uml.createAndAddClass('AbstractEvent', owner); 			
+		executeOperation := uml.createAndAddOperation('execute', abstractEvent);
+		uml.createAndAddTypedParameter('target', this.theDirector.getTargetClass(), executeOperation);
+		executeOperation.isAbstract := true;
+
+		// We Create an processEvent Method
+		processOperation := uml.createAndAddOperation('processEvent', this.theDirector.getTargetClass());
+		uml.createAndAddTypedParameter('event', abstractEvent, processOperation);
+		processBody := 'event.execute(this);';
+		uml.createAndLinkMethod('MTL', processBody, processOperation);
+		
+		// We get all event used by the target class and we create a new sub class for each one
+		foreach (anEvent : UML::State_Machines::Event) in (uml.getAllSignalsOf(this.theDirector.getTargetClass()))
+ 		{
+			aClassEvent := uml.createAndAddClass(anEvent.name.oclAsType(!Standard::String!), owner); 
+			executeOperation := uml.createAndAddOperation('execute', aClassEvent);
+			uml.createAndAddTypedParameter('target', this.theDirector.getTargetClass(), executeOperation);						
+			uml.createAndAddInheritanceBetween(owner.oclAsType(!UML::Core::Namespace!), aClassEvent, abstractEvent);
+			
+			uml.createAndLinkMethod('MTL', executeBody, executeOperation);
+		}	
+	}
+
+
+	/*
+	 * See SCCodeGenenration::CodeGenerationVisitor
+	 */ 
+	visitStateReification(target : StateReification)
+	{
+		owner				:	UML::Core::ModelElement;
+		abstractEvent		:	UML::Core::Class;
+		aClassEvent			:	UML::Core::Class;
+		executeOperation 	: 	UML::Core::Operation;
+		executeBody			:	Standard::String;
+		processOperation	:	UML::Core::Operation;
+		processBody			:	Standard::String;
+	
+		// Get the owner a new modelElement
+		owner := uml.getNamespaceOfElement(this.theDirector.getTargetClass().oclAsType(!UML::ModelElement!));
+		
+		// We create an abstract Class event
+		abstractEvent := uml.createAndAddClass('AbstractEvent', owner); 			
+		executeOperation := uml.createAndAddOperation('execute', abstractEvent);
+		uml.createAndAddTypedParameter('target', this.theDirector.getTargetClass(), executeOperation);
+		executeOperation.isAbstract := true;
+
+		// We Create an processEvent Method
+		processOperation := uml.createAndAddOperation('processEvent', this.theDirector.getTargetClass());
+		uml.createAndAddTypedParameter('event', abstractEvent, processOperation);
+		processBody := 'event.execute(this);';
+		uml.createAndLinkMethod('MTL', processBody, processOperation);
+
+		// We get all event used by the target class and we create a new sub class for each one
+		foreach (anEvent : UML::State_Machines::Event) in (uml.getAllSignalsOf(this.theDirector.getTargetClass()))
+ 		{
+			aClassEvent := uml.createAndAddClass(anEvent.name.oclAsType(!Standard::String!), owner); 
+			executeOperation := uml.createAndAddOperation('execute', aClassEvent);
+			uml.createAndAddTypedParameter('target', this.theDirector.getTargetClass(), executeOperation);				
+			uml.createAndAddInheritanceBetween(owner.oclAsType(!UML::Core::Namespace!), aClassEvent, abstractEvent);
+			
+			// We Generate the MTL body of MTL
+			// executeBody := 'target.currentState.'concat('process').concat(anEvent.name).concat('Event();');
+			// uml.createAndLinkMethod('MTL', executeBody, executeOperation);
+		}	
+		
+	}
+	
+
+
+}

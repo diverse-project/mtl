@@ -1,0 +1,110 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: CodeGeneration.mtl,v $
+ * Purpose 	: Define the front class of the whole transformation
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class CodeGeneration extends STL::Transformation
+{
+
+	// Some attributes
+	targetClass		:	UML::Core::Class;	
+	
+	eventManager	:	EventManager;
+	stateManager	:	StateManager;
+
+	
+	/*
+	 * Purpose 		:	Initialize the transformation with the statecharts model
+	 * Parameters 	:
+	 *		+ theModel : the model describing the statecharts
+	 * Remark 		:	Should be call in first 
+	 */
+	init()
+	{
+		eventManager := new EventEnumeration();
+		eventManager.init(this);
+		
+		stateManager := new StateEnumeration();
+		stateManager.init(this);
+	}
+	
+	
+	getTargetClass() : UML::Core::Class
+	{
+		
+		'coucou From getTargetClass by Night'.toOut();
+		return targetClass;
+	}
+	
+	
+	setTargetClass(aClass : UML::Core::Class)
+	{
+		targetClass := aClass;
+	}
+	
+	
+	/*
+	 * See STL::Transformation::run()
+	 */
+	run()
+	{
+		stateManager.run();	
+		eventManager.run();
+	}
+
+	
+	/*
+	 * Purpose 	:	Retruns the current eventManager
+	 */
+	getEventManager() : EventManager
+	{
+		return eventManager;
+	}
+
+
+	setEventManager( emgr : EventManager ) 
+	{
+		eventManager := emgr;
+	}
+
+	
+	/*
+	 * Purpose	:	Returns the current stateManager
+	 */
+	getStateManager() : StateManager
+	{
+		return stateManager;
+	}	
+
+
+	setStateManager(smgr : StateManager)
+	{
+		stateManager := smgr;
+	}
+
+
+	/*
+	 * See : STL::Transformation::accept()
+	 */
+	accept(visitor : CodeGenerationVisitor)
+	{
+		visitor.visitCodeGeneration(this);
+	}
+	
+
+}

@@ -1,0 +1,96 @@
+/*
+ * Library 	: SCSAdapter
+ *		Define an default implementation of the SCSView library
+ *
+ * File 	: $RCSfile: TransitionManagementAdapter.mtl,v $
+ * Purpose 	: Define an adapter of the StatechartsSemantics Object
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 04-03-2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCSAdapter extends SCSView;
+
+
+class TransitionManagementAdapter extends TransitionManagement refines TransitionManagement
+{
+
+	// Some attributes
+	theRef 		: 	SCS::TransitionManagement;
+	theFactory	:	AdapterFactory;
+	
+	
+	/*
+	 * Purpose 	: Build a new StatechartsSemantic Adapter
+	 * Params 	:
+	 * 		+ ref : the object that we want to adapt
+	 *		+ factory : the adapter factory.
+	 * Remark 	: should be call only by an AdapterFactory object
+	 */
+	init(
+		ref		:	SCS::TransitionManagement ;
+		factory : 	AdapterFactory	
+	){
+		theRef := ref;
+		theFactory := factory;
+	}
+
+
+	/*
+	 * See : SCSView::TransitionManagement::getTransitionSelection()
+	 */
+	getAllTransitonSelection() : Standard::Set
+	{
+		result	:	Standard::Set;
+		
+		result := new Standard::Set();
+		foreach ( tSel : SCS::TransitionSelection) in (theRef.transitionSelection) 
+		{
+			result := result.including(theFactory.getViewOfTransitionSelection(tSel));
+		}
+		
+		return result;	
+	}
+	
+	
+	/*
+	 * See : SCSView::TransitionManagement::getConflictResolution()
+	 */
+	getAllTransitionChoice() : Standard::Set
+	{
+		result : Standard::Set;
+		
+		result := new Standard::Set();
+		foreach ( cr : SCS::TransitionChoice ) in ( theRef.transitionChoice )
+		{
+			result := result.including(theFactory.getViewOfTransitionChoice(cr));
+		}
+		
+		return result;
+	}
+	
+	
+	/*
+	 * See : SCSView::TransitionManagement::setTransitionSelection()
+	 */
+	//setTransitionSelection(ts : SCSView::TransitionSelection)
+	//{
+	//	'ERR : SCSView::TransitionManagement::setTransitionManagement() not yet implemented ! '.toErr();
+	//}
+	
+	
+	/*
+	 * See : SCSView::TransitionManagement::setConflictResolution()
+	 */
+	//setConflictResolution(cr : SCSView::ConflictResolution)
+	//{
+	//	'ERR : SCSView::TransitionManagement::setConflictResolution() not yet implemented ! '.toErr();
+	//}
+	
+	
+}

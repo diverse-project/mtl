@@ -1,0 +1,88 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: StateEnumeration.mtl,v $
+ * Purpose 	: Define a state manager for state enumeration.
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class StateEnumeration extends StateManager
+{
+
+	enumeration	:	UML::Core::Class;
+	
+	/*
+	 * See STL::Transformation
+	 */
+	run()
+	{
+		owner	:	UML::Core::ModelElement;
+		asm		:	UML::State_Machines::StateMachine;
+		
+		'coucou 0'.toOut();
+		
+		// Get the owner a new modelElement
+		if ( isNull(uml) ){ ' !!!!!!!! Ca Chie dans les pétu.... !!!!!!!!!!!!!!!!!!!!!!!';}
+'pipo 0'.toOut();
+		if ( isNull(this.theDirector) ){ ' !!!!!!!! Ca Chie dans des bu.... !!!!!!!!!!!!!!!!!!!!!!!';}
+'pipo  1'.toOut();
+		if ( isNull(this.theDirector.getTargetClass()) ){ ' !!!!!!!! Ariba Ariba.... !!!!!!!!!!!!!!!!!!!!!!!';}
+		
+		'coucou 007'.toOut();
+
+		owner := uml.getNamespaceOfElement(this.theDirector.getTargetClass().oclAsType(!UML::ModelElement!));
+		'coucou 1'.toOut();
+		
+		// Create a new Class for the Enumeration
+		enumeration := uml.createAndAddClass('StateEnumeration', owner );
+		'coucou 2'.toOut();
+		
+		// Create a value (attribute?) for each Event ...
+		asm := uml.getFirstElement(uml.getAllBehaviorsOfElement(this.theDirector.getTargetClass())).oclAsType(!UML::State_Machines::StateMachine!);
+		generateState(asm.top.oclAsType(!UML::State_Machines::State!));		
+		'coucou 3'.toOut();
+		
+		// Create a new Attribute representing the current state
+		uml.createAndAddAttribute ('currentState', enumeration, this.theDirector.getTargetClass());	
+		'coucou 4'.toOut();
+		
+	}
+
+
+
+	/* 
+	 * Purpose 	: 	Build the right structure for represente a state.
+	 * Remark 	:	Should not be call directly 	
+	 */ 
+	generateState(theState 	: 	UML::State_Machines::State)
+	{
+		valueName 	:	Standard::String;
+	
+		'<< Code Generation >> Processing state '.concat(theState.name.oclAsType(!Standard::String!)).toOut();
+		
+		if ( theState.oclIsTypeOf(!UML::State_Machines::CompositeState!) ){
+			// Recursive call on each sub state
+			foreach (subState : UML::State_Machines::State) in (theState.oclAsType(!UML::State_Machines::CompositeState!).subvertex)
+			{
+				generateState(subState.oclAsType(!UML::State_Machines::State!));
+			}
+			
+		} else {
+			valueName := theState.name.concat('Value');
+			uml.createAndAddAttribute(valueName, enumeration, enumeration);
+		}
+	}
+
+}

@@ -1,0 +1,133 @@
+/*
+ * Library 	: SCSVisitor
+ *		Define visitors for Statecharts semantics metamodel
+ *
+ * File 	: $RCSfile: AbstractVisitor.mtl,v $
+ * Purpose 	: Define an interface for abstract Visitor
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCSVisitor;
+
+
+class AbstractVisitor
+{
+
+	init()
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You should not instanciate it !'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::StatechartsSemantic object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitStatechartsSemantic(toVisit : SCSView::StatechartsSemantic)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitStatechartsSemantic() !'.toErr();
+	}
+
+
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::EventManagement object
+	 * Params  :
+	 * 		+ toVisit : the object to visit
+	 * Remark  : 	Should not be directly call
+	 */
+	visitEventManagement(toVisit : SCSView::EventManagement)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitEventManagement() !'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::TransitionManagement object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitTransitionManagement(toVisit : SCSView::TransitionManagement)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitTransitionManagement() !'.toErr();	
+	}	
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::TimeManagement object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitTimeManagement(toVisit : SCSView::TimeManagement)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitTimeManagement() !'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::EventSelection object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitEventSelection(toVisit : SCSView::EventSelection)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitEventSelection() !'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::TransitionSelection object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitTransitionSelection(toVisit : SCSView::TransitionSelection)
+	{	
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitTransitionSelection() !'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose : 	Define the operation to do on an SCSView::ConflictResolution object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitEventChoice(toVisit : SCSView::EventChoice)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitConflictResolution() !'.toErr();	
+	}
+	
+	
+		/*
+	 * Purpose : 	Define the operation to do on an SCSView::ConflictResolution object
+	 * Params :
+	 * 		+ toVisit : the object to visit
+	 * Remark : 	Should not be directly call
+	 */
+	visitTransitionChoice(toVisit : SCSView::TransitionChoice)
+	{
+		'ERR : SCSVisitor::AbstractVisitor is an interface !'.toErr();
+		'ERR : You cannot call AbstractVisitor::visitConflictResolution() !'.toErr();	
+	}
+	
+}

@@ -1,0 +1,206 @@
+/*
+ * Library 	: SCSAdapter
+ *		Define an default implementation of the SCSView library
+ *
+ * File 	: $RCSfile: AdapterFactory.mtl,v $
+ * Purpose 	: Define an adapter of the conflict Resolution Object
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCSAdapter extends SCSView;
+
+
+model SCS	:	RepositoryModel;
+
+
+class AdapterFactory extends ViewFactory refines ViewFactory
+{
+	table	:	Tools::HashTable;
+	
+				
+	init(theModel : RepositoryModel){
+		SCS := theModel;
+
+		table := new Tools::HashTable();
+		table.init();
+	}
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfSemantics
+	 */
+	getViewOfSemantic() : SCSView::StatechartsSemantic
+	{
+		ite		:	Standard::Iterator;
+		out		:	SCSView::StatechartsSemantic;
+	
+		ite := !SCS::StatechartsSemantic!.allInstances().getNewIterator();
+		ite.start();
+		if ( ite.isOn() ){
+			out := getViewOfStatechartsSemantic(ite.item().oclAsType(!SCS::StatechartsSemantic!));
+		} 
+		
+		return out.oclAsType(!StatechartsSemanticAdapter!);
+	}
+	
+		
+	/*
+	 * See : SCSView::ViewFactory::getViewOfStatechartsSemantic()
+	 */
+	getViewOfStatechartsSemantic( scs	: SCS::StatechartsSementic	) : SCSView::StatechartsSemantic
+	{
+		out : StatechartsSemanticAdapter;
+
+		out := table.exists(scs); 	
+		if ( isNull(out) ){
+			out := new StatechartsSemanticAdapter();
+			out.init(scs, self);
+			table.add(scs, out);
+		} 
+		
+		return out.oclAsType(!StatechartsSemanticAdapter!);
+	}
+
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfEventSelection()
+	 */
+	getViewOfEventManagement(emgt : SCS::EventManagement) : SCSView::EventManagement
+	{
+		out : EventManagementAdapter;
+
+		out := table.exists(emgt); 	
+		
+		if ( isNull(out) ){
+			out := new EventManagementAdapter();
+			out.init(emgt, this);
+			table.add(emgt, out);
+		} 
+		
+		return out.oclAsType(!EventManagementAdapter!);
+	}
+
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfTransitionManagement()
+	 */
+	getViewOfTransitionManagement(tmgt : SCS::TransitionManagement) : SCSView::TransitionManagement
+	{
+		out : TransitionManagementAdapter;
+
+		out := table.exists(tmgt); 	
+		
+		if ( isNull(out) ){
+			out := new TransitionManagementAdapter();
+			out.init(tmgt, this);
+			table.add(tmgt, out);
+		} 
+		
+		return out.oclAsType(!TransitionManagementAdapter!);
+	}
+
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfTimeManagement()
+	 */
+	getViewOfTimeManagement(tmgt : SCS::TimeManagement) : SCSView::TimeManagement
+	{
+		out : TimeManagementAdapter;
+
+		out := table.exists(tmgt);
+		
+		if ( isNull(out) ){
+			out := new TimeManagementAdapter();
+			out.init(tmgt, this);
+			table.add(tmgt, out);
+		} 
+		
+		return out.oclAsType(!TimeManagementAdapter!);
+	
+	}
+
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfEventSelection()
+	 */
+	getViewOfEventSelection(es : SCS::EventSelection) : SCSView::EventSelection
+	{	
+		out : EventSelectionAdapter;
+
+		out := table.exists(es);
+		
+		
+		if ( isNull(out) ){
+			//' -DB-> adding a view for event selection : '.toOut();
+			out := new EventSelectionAdapter();
+			out.init(es, this);
+			table.add(es, out);
+		} 
+		
+		return out.oclAsType(!EventSelectionAdapter!);
+	}
+
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfTransitionSelection()
+	 */
+	getViewOfTransitionSelection(ts : SCS::TransitionSelection) : SCSView::TransitionSelection
+	{
+		out : TransitionSelectionAdapter;
+
+		out := table.exists(ts); 	
+		
+		if ( isNull(out) ){
+			out := new TransitionSelectionAdapter();
+			out.init(ts, this);
+			table.add(ts, out);
+		} 
+		
+		return out.oclAsType(!TransitionSelectionAdapter!);
+	}	
+	
+	
+	/*
+	 * See : SCSView::ViewFactory::getViewOfConflictResolution()
+	 */
+	getViewOfEventChoice(cr : SCS::ConflictResolution) : SCSView::EventChoice
+	{
+		out : EventChoiceAdapter;
+
+		out := table.exists(cr);
+		
+		if ( isNull(out) ){
+			out := new EventChoiceAdapter();
+			out.init(cr, this);
+			table.add(cr, out);
+		} 
+		
+		return out.oclAsType(!EventChoiceAdapter!);
+	}
+	
+	
+		/*
+	 * See : SCSView::ViewFactory::getViewOfConflictResolution()
+	 */
+	getViewOfTransitionChoice(cr : SCS::ConflictResolution) : SCSView::TransitionChoice
+	{
+		out : TransitionChoiceAdapter;
+
+		out := table.exists(cr);
+		
+		if ( isNull(out) ){
+			out := new TransitionChoiceAdapter();
+			out.init(cr, this);
+			table.add(cr, out);
+		} 
+		
+		return out.oclAsType(!TransitionChoiceAdapter!);
+	}
+
+}

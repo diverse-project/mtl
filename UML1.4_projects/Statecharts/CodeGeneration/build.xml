@@ -1,0 +1,31 @@
+<!-- $Id: build.xml,v 1.1 2004-09-03 12:03:17 dvojtise Exp $ -->
+<project name="Statecharts" default="run" basedir=".">
+	<description>
+	</description>
+	
+  	<target name="compile" > 
+  		<description>Compile the transformation</description>  
+ 		<delete dir="build"></delete>   		
+  		<ant antfile="UML_utils_build.xml" dir="." target="compile"/>  		
+		<ant antfile="STL_build.xml" dir="." target="compile"/>
+  		<ant antfile="SCCodeGeneration_build.xml" dir="." target="compile"/>
+  		<ant antfile="Main_build.xml" dir="." target="compile"/>  				
+ 	</target> 
+ 	
+ 	<target name="run">
+ 		<ant antfile="Main_build.xml" dir="." target="run"/>
+  	</target>
+
+  	<target name="clean">
+  		<delete dir="build"></delete>   		
+ 	</target>
+ 	
+ 	<target name="create_jar" 
+		description="create the jar file">
+		<jar destfile="./SCSemantic.jar">
+			<fileset dir="./build" excludes="./build/src/**"/>
+		</jar>
+	</target>	
+ 	
+ 	
+</project>

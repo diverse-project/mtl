@@ -1,0 +1,90 @@
+/*
+ * Library 	: SCSView 
+ *		Define a set of view for manipulatin
+ *
+ * File 	: $RCSfile: TransitionChoice.mtl,v $
+ * Purpose 	: Define a view of the eventSelection Object
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCSView;
+
+ 
+class TransitionChoice 
+{
+
+	/*
+	 * Purpose	:	Constructor
+	 * No Params
+	 * Remark	:	Should not be used. This class is an interface and can't be instanciated
+	 */
+	init(){
+		'ERR : SCSView::TransitionChoice is an abstract class ! '.toErr();
+		'INFO : You should use the appropriate factory object to build such an object'.toErr();
+	}
+
+
+	/*
+	 * Purpose 	:	Entry point for visitors (pattern Visitor)
+	 * Param :
+	 *	+ visitor : the visitor
+	 */
+	accept(visitor : AbstractVisitor)
+	{
+		visitor.visitTransitionChoice(this);
+	}	
+
+
+	/*
+	 * Purpose 	: Return the name of the event selection policy
+	 * No params
+	 */	
+	getName() : Standard::String 
+	{
+		'ERR : SCSView::TransitionChoice is an abstract class ! '.toErr();
+		return null;
+	}
+
+
+	/*
+	 * Purpose 	: Return the body of the conflict resolution policy
+	 * No params
+	 */	
+	getBody() : Standard::String
+	{
+		'ERR : SCSView::TransitionChoice is an abstract class ! '.toErr();
+		return null;
+	}
+
+
+	/*
+	 * Purpose : Change the name of the conflict resolution policy
+	 * params  : 
+	 *		+ name : a new name for the policy
+	 * return  :  nothing
+	 */
+	setName(name : Standard::String)
+	{
+		'ERR : SCSView::TransitionChoice is an abstract class ! '.toErr();
+	}
+
+
+	/*
+	 * Purpose : Change the body of the conflict resolution policy
+	 * params  : 
+	 *		+ name : a new name for the policy
+	 * return  :  nothing
+	 */	
+	setBody(body : Standard::String)
+	{
+		'ERR : SCSView::TransitionChoice is an abstract class ! '.toErr();
+	}
+		
+}

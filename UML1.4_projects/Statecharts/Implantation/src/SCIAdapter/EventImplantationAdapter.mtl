@@ -1,0 +1,34 @@
+/*
+ * Library 	: SCIAdapter 
+ *		Define a concrete adapter for manipulate the implantation models
+ *
+ * File 	: $RCSfile: EventImplantationAdapter.mtl,v $
+ * Purpose 	: Define the an adapter for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+
+library SCIAdapter extends SCIView;
+
+
+class EventImplantationAdapter extends EventImplantation refines EventImplantation
+{
+
+	theFactory 	:	AdapterFactory;
+	theRef		:	SCI::EventImplantation;
+	
+	init(
+		ref			:	SCI::EventImplantation;
+		factory 	:	AdapterFactory
+	){
+		theFactory := factory;
+		theRef := ref;	
+	}	
+		
+}

@@ -1,0 +1,364 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Jun 23 11:23:55 CEST 2004'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <UML:Model xmi.id = 'a1' name = 'FCH_CD_Player' visibility = 'public' isSpecification = 'false'
+      isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+      <UML:Namespace.ownedElement>
+        <UML:Class xmi.id = 'a2' name = 'CDPlayer' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:Namespace.ownedElement>
+            <UML:SignalEvent xmi.id = 'a3' isSpecification = 'false'>
+              <UML:SignalEvent.signal>
+                <UML:Signal xmi.idref = 'a4'/>
+              </UML:SignalEvent.signal>
+            </UML:SignalEvent>
+            <UML:SignalEvent xmi.id = 'a5' isSpecification = 'false'>
+              <UML:SignalEvent.signal>
+                <UML:Signal xmi.idref = 'a6'/>
+              </UML:SignalEvent.signal>
+            </UML:SignalEvent>
+            <UML:SignalEvent xmi.id = 'a7' isSpecification = 'false'>
+              <UML:SignalEvent.signal>
+                <UML:Signal xmi.idref = 'a8'/>
+              </UML:SignalEvent.signal>
+            </UML:SignalEvent>
+            <UML:TimeEvent xmi.id = 'a9' name = 'after(10min)' isSpecification = 'false'>
+              <UML:TimeEvent.when>
+                <UML:TimeExpression xmi.id = 'a10' body = 'after(10min)'/>
+              </UML:TimeEvent.when>
+            </UML:TimeEvent>
+            <UML:SignalEvent xmi.id = 'a11' isSpecification = 'false'>
+              <UML:SignalEvent.signal>
+                <UML:Signal xmi.idref = 'a12'/>
+              </UML:SignalEvent.signal>
+            </UML:SignalEvent>
+            <UML:Signal xmi.id = 'a12' name = 'open' visibility = 'public' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Signal xmi.id = 'a4' name = 'stop' visibility = 'public' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Signal xmi.id = 'a6' name = 'play' visibility = 'public' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Signal xmi.id = 'a8' name = 'endOfTrack' visibility = 'public' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+          </UML:Namespace.ownedElement>
+          <UML:Classifier.feature>
+            <UML:Operation xmi.id = 'a13' name = 'hasCDInside' visibility = 'public'
+              isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a14' name = 'nextTrack' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent' isRoot = 'false'
+              isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a15' name = 'play' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent' isRoot = 'false'
+              isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a16' name = 'pause' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent' isRoot = 'false'
+              isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a17' name = 'openDrive' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent' isRoot = 'false'
+              isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a18' name = 'closeDrive' visibility = 'public'
+              isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a19' name = 'stop' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent' isRoot = 'false'
+              isLeaf = 'false' isAbstract = 'false'/>
+            <UML:Operation xmi.id = 'a20' name = 'hasMoreTrack' visibility = 'public'
+              isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'concurrent'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <UML:StateMachine xmi.id = 'a21' name = 'StateMachine' isSpecification = 'false'>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = 'a22' isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>FIFO\Objing;</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = 'a23'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = 'a24' isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>enumeration\Objing;</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = 'a25'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = 'a26' isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>reification\Objing;</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = 'a27'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+          <UML:StateMachine.context>
+            <UML:Class xmi.idref = 'a2'/>
+          </UML:StateMachine.context>
+          <UML:StateMachine.top>
+            <UML:CompositeState xmi.id = 'a28' name = 'StateMachine' isSpecification = 'false'
+              isConcurrent = 'false'>
+              <UML:CompositeState.subvertex>
+                <UML:SimpleState xmi.id = 'a29' name = 'Open' isSpecification = 'false'>
+                  <UML:StateVertex.outgoing>
+                    <UML:Transition xmi.idref = 'a30'/>
+                  </UML:StateVertex.outgoing>
+                  <UML:StateVertex.incoming>
+                    <UML:Transition xmi.idref = 'a31'/>
+                  </UML:StateVertex.incoming>
+                  <UML:State.entry>
+                    <UML:CallAction xmi.id = 'a32' isSpecification = 'false' isAsynchronous = 'false'>
+                      <UML:CallAction.operation>
+                        <UML:Operation xmi.idref = 'a17'/>
+                      </UML:CallAction.operation>
+                    </UML:CallAction>
+                  </UML:State.entry>
+                  <UML:State.exit>
+                    <UML:CallAction xmi.id = 'a33' isSpecification = 'false' isAsynchronous = 'false'>
+                      <UML:CallAction.operation>
+                        <UML:Operation xmi.idref = 'a18'/>
+                      </UML:CallAction.operation>
+                    </UML:CallAction>
+                  </UML:State.exit>
+                </UML:SimpleState>
+                <UML:CompositeState xmi.id = 'a34' name = 'Playing' isSpecification = 'false'
+                  isConcurrent = 'false'>
+                  <UML:StateVertex.incoming>
+                    <UML:Transition xmi.idref = 'a35'/>
+                  </UML:StateVertex.incoming>
+                  <UML:CompositeState.subvertex>
+                    <UML:SimpleState xmi.id = 'a36' name = 'Play' isSpecification = 'false'>
+                      <UML:StateVertex.outgoing>
+                        <UML:Transition xmi.idref = 'a37'/>
+                        <UML:Transition xmi.idref = 'a38'/>
+                      </UML:StateVertex.outgoing>
+                      <UML:StateVertex.incoming>
+                        <UML:Transition xmi.idref = 'a39'/>
+                        <UML:Transition xmi.idref = 'a40'/>
+                        <UML:Transition xmi.idref = 'a41'/>
+                      </UML:StateVertex.incoming>
+                    </UML:SimpleState>
+                    <UML:SimpleState xmi.id = 'a42' name = 'Pause' isSpecification = 'false'>
+                      <UML:StateVertex.outgoing>
+                        <UML:Transition xmi.idref = 'a39'/>
+                        <UML:Transition xmi.idref = 'a43'/>
+                      </UML:StateVertex.outgoing>
+                      <UML:StateVertex.incoming>
+                        <UML:Transition xmi.idref = 'a38'/>
+                      </UML:StateVertex.incoming>
+                    </UML:SimpleState>
+                    <UML:Pseudostate xmi.id = 'a44' name = 'Initial' isSpecification = 'false'
+                      kind = 'initial'>
+                      <UML:StateVertex.outgoing>
+                        <UML:Transition xmi.idref = 'a40'/>
+                      </UML:StateVertex.outgoing>
+                    </UML:Pseudostate>
+                  </UML:CompositeState.subvertex>
+                </UML:CompositeState>
+                <UML:SimpleState xmi.id = 'a45' name = 'Stop' isSpecification = 'false'>
+                  <UML:StateVertex.outgoing>
+                    <UML:Transition xmi.idref = 'a31'/>
+                    <UML:Transition xmi.idref = 'a41'/>
+                  </UML:StateVertex.outgoing>
+                  <UML:StateVertex.incoming>
+                    <UML:Transition xmi.idref = 'a30'/>
+                    <UML:Transition xmi.idref = 'a43'/>
+                    <UML:Transition xmi.idref = 'a46'/>
+                    <UML:Transition xmi.idref = 'a47'/>
+                  </UML:StateVertex.incoming>
+                  <UML:State.entry>
+                    <UML:CallAction xmi.id = 'a48' isSpecification = 'false' isAsynchronous = 'false'>
+                      <UML:CallAction.operation>
+                        <UML:Operation xmi.idref = 'a19'/>
+                      </UML:CallAction.operation>
+                    </UML:CallAction>
+                  </UML:State.entry>
+                </UML:SimpleState>
+                <UML:Pseudostate xmi.id = 'a49' name = 'Initial' isSpecification = 'false'
+                  kind = 'initial'>
+                  <UML:StateVertex.outgoing>
+                    <UML:Transition xmi.idref = 'a46'/>
+                  </UML:StateVertex.outgoing>
+                </UML:Pseudostate>
+                <UML:Pseudostate xmi.id = 'a50' name = 'Branch' isSpecification = 'false'
+                  kind = 'choice'>
+                  <UML:StateVertex.outgoing>
+                    <UML:Transition xmi.idref = 'a47'/>
+                    <UML:Transition xmi.idref = 'a35'/>
+                  </UML:StateVertex.outgoing>
+                  <UML:StateVertex.incoming>
+                    <UML:Transition xmi.idref = 'a37'/>
+                  </UML:StateVertex.incoming>
+                </UML:Pseudostate>
+              </UML:CompositeState.subvertex>
+            </UML:CompositeState>
+          </UML:StateMachine.top>
+          <UML:StateMachine.transitions>
+            <UML:Transition xmi.id = 'a30' name = '' isSpecification = 'false'>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a11'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a29'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a37' name = '' isSpecification = 'false'>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a7'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a36'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:Pseudostate xmi.idref = 'a50'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a38' name = '' isSpecification = 'false'>
+              <UML:Transition.effect>
+                <UML:CallAction xmi.id = 'a51' isSpecification = 'false' isAsynchronous = 'false'>
+                  <UML:CallAction.operation>
+                    <UML:Operation xmi.idref = 'a16'/>
+                  </UML:CallAction.operation>
+                </UML:CallAction>
+              </UML:Transition.effect>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a5'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a36'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a42'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a39' name = '' isSpecification = 'false'>
+              <UML:Transition.effect>
+                <UML:CallAction xmi.id = 'a52' isSpecification = 'false' isAsynchronous = 'false'>
+                  <UML:CallAction.operation>
+                    <UML:Operation xmi.idref = 'a15'/>
+                  </UML:CallAction.operation>
+                </UML:CallAction>
+              </UML:Transition.effect>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a5'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a42'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a36'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a43' name = '' isSpecification = 'false'>
+              <UML:Transition.trigger>
+                <UML:TimeEvent xmi.idref = 'a9'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a42'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a40' name = '' isSpecification = 'false'>
+              <UML:Transition.source>
+                <UML:Pseudostate xmi.idref = 'a44'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a36'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a31' name = '' isSpecification = 'false'>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a11'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a29'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a41' name = '' isSpecification = 'false'>
+              <UML:Transition.guard>
+                <UML:Guard xmi.id = 'a53' isSpecification = 'false'>
+                  <UML:Guard.expression>
+                    <UML:BooleanExpression xmi.id = 'a54' body = 'hasCDInside()'/>
+                  </UML:Guard.expression>
+                </UML:Guard>
+              </UML:Transition.guard>
+              <UML:Transition.trigger>
+                <UML:SignalEvent xmi.idref = 'a5'/>
+              </UML:Transition.trigger>
+              <UML:Transition.source>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a36'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a46' name = '' isSpecification = 'false'>
+              <UML:Transition.source>
+                <UML:Pseudostate xmi.idref = 'a49'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a47' name = '' isSpecification = 'false'>
+              <UML:Transition.source>
+                <UML:Pseudostate xmi.idref = 'a50'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:SimpleState xmi.idref = 'a45'/>
+              </UML:Transition.target>
+            </UML:Transition>
+            <UML:Transition xmi.id = 'a35' name = '' isSpecification = 'false'>
+              <UML:Transition.guard>
+                <UML:Guard xmi.id = 'a55' isSpecification = 'false'>
+                  <UML:Guard.expression>
+                    <UML:BooleanExpression xmi.id = 'a56' body = 'hasMoreTrack()'/>
+                  </UML:Guard.expression>
+                </UML:Guard>
+              </UML:Transition.guard>
+              <UML:Transition.effect>
+                <UML:CallAction xmi.id = 'a57' isSpecification = 'false' isAsynchronous = 'false'>
+                  <UML:CallAction.operation>
+                    <UML:Operation xmi.idref = 'a14'/>
+                  </UML:CallAction.operation>
+                </UML:CallAction>
+              </UML:Transition.effect>
+              <UML:Transition.source>
+                <UML:Pseudostate xmi.idref = 'a50'/>
+              </UML:Transition.source>
+              <UML:Transition.target>
+                <UML:CompositeState xmi.idref = 'a34'/>
+              </UML:Transition.target>
+            </UML:Transition>
+          </UML:StateMachine.transitions>
+        </UML:StateMachine>
+        <UML:DataType xmi.id = 'a58' name = 'String' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:DataType xmi.id = 'a59' name = 'Char' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:DataType xmi.id = 'a60' name = 'Integer' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:DataType xmi.id = 'a61' name = 'Real' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:DataType xmi.id = 'a62' name = 'Boolean' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:DataType xmi.id = 'a63' name = 'Undefined' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+      </UML:Namespace.ownedElement>
+    </UML:Model>
+    <UML:TagDefinition xmi.id = 'a23' isSpecification = 'false' tagType = 'eventSelection'/>
+    <UML:TagDefinition xmi.id = 'a25' isSpecification = 'false' tagType = 'eventImplantation'/>
+    <UML:TagDefinition xmi.id = 'a27' isSpecification = 'false' tagType = 'stateImplantation'/>
+  </XMI.content>
+</XMI>

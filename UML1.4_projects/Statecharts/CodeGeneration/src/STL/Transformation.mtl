@@ -1,0 +1,120 @@
+/* 
+ * Library	: STL
+ * 		This library provides a composable transformations framework. Standard
+ *		interfaces for simple transformations,  composite transformations, mapping
+ *		transformation, etc.
+ *
+ * File 	: $RCSfile: Transformation.mtl,v $
+ * Purpose 	: Define the abstract behavior of all transformations
+ * Created	: 12/03/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */ 
+
+
+
+library STL;
+
+
+
+class Transformation 
+{
+
+	/*
+	 * Purpose 	:	Allow to add a new transformation on a composite transformation
+	 * Param :
+	 *		+ toAdd : the transformation to add on the composite transformation
+	 * Remark : should be call on a non composite object
+	 */
+	addTransformation(toAdd : Transformation)
+	{
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::addTransformation()'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose 	:	Allow to link transformations 
+	 * No Params
+	 * Remark 	:	More useful on composite transformations 
+	 */	
+	build(){
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::build()'.toErr();
+	}
+	
+	
+	/*
+	 * Purpose	:	Allow to define some action before executing the transition
+	 * No Params
+	 * Remark	: 	Should no be called directly. Use the execute() method instead.
+	 */
+	pre(){
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::pre()'.toErr();
+	}
+	
+	
+	/* 
+	 * Purpose	:	Allow to define some action after the execution of the transformation
+	 * No Params
+	 * Remark	: 	Should no be called directly. Use the execute() method instead.
+	 */ 
+	post(){
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::post()'.toErr();
+	}
+		
+
+	/*
+	 * Purpose	:	Execute the body of the transformation
+	 * Params :
+	 *		+ context : any object usefull to complete the transformation
+	 * Remark	: 	Should no be called directly. Use the execute() method instead.
+	 */
+	run(context : Standard::OclAny) : Standard::OclAny
+	{
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::run()'.toErr();
+		return null;
+	}		
+	
+
+	/*
+	 * Purpose	:	Execute all the transformation : pre, run, post
+	 * Params 	:
+	 *		+ context : any object usefull to complete the transformation
+	 * Remark 	:	Should not be override 
+	 */
+	execute(context : Standard::OclAny)	 :	Standard::OclAny
+	{
+		result	:	Standard::OclAny;
+	
+		build();
+		pre();
+		result := run(context);
+		post();
+		
+		return result;
+	}
+
+
+	/*
+	 * Purpose 	:	Entry point to visit the transformation	
+	 * Params :
+	 *		+ v : the visitor
+	 *
+	accept( v : AbstractVisitor)
+	{
+		'ERR: STL::Transformation is an interface'.toErr();
+		'ERR: You cannot call STL::Transformation::accept()'.toErr();
+	}*/	
+	
+}
+
+
+
+
+

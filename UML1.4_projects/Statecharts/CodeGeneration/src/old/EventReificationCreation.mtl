@@ -1,0 +1,122 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: EventReificationCreation.mtl,v $
+ * Purpose 	: Define an EventCreation object for the Reification process.
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class EventReificationCreation extends EventCreation, CodeGenerationVisitor
+{
+
+	/*
+	 * Purpose 		:	Constructor, initialize a new Object 
+	 * Parameters 	:
+	 *		+ director : the EventManager Object associated
+	 */
+	init(director : EventManager)
+	{
+		theDirector := director;
+	}
+	
+	
+	/*
+	 * See STL::Transformation
+	 */
+	run()
+	{
+		theDirector.director.accept(this);
+	}
+
+	
+	/*
+	 * See SCCodeGenenration::CodeGenerationVisitor
+	 */ 
+	visitCodeGeneration(target : CodeGeneration)
+	{
+		target.getStateManager().accept(this);
+	}
+
+	
+	/*
+	 * See CodeGenerationVisitor
+	 */ 
+	visitStateEnumeration(target : StateReification)
+	{
+		abstractEvent		:	UML::Core::Class;
+		aClassEvent			:	UML::Core::Class;
+		executeOperation 	: 	UML::Core::Operation;
+		executeBody			:	Standard::String;
+		
+		
+		// We create an abstract Class event
+		abstractEvent := uml.createAndAddClass('AbstractEvent', theDirector.getTargetClass().owner); 			
+		executeOperation := uml.createAndAddOperation('execute', abstractEvent);
+		uml.createAndAddTypedParameter('target', theDirector.getTargetClass(), executeOperation);
+		executeOperation.isAbstract := true;
+		
+		// We get all event used by the target class and we create a new sub class for each one
+		foreach (aSignal : UML::State_Machines::Event) 
+			in (uml.getAllSignalsOf(theDirector.getTargetClass()))
+ 		{
+			aClassEvent := uml.createAndAddClass(aSignal.name, theDirector.getTargetClass().owner); 
+			executeOperation := uml.createAndAddOperation('execute', aClassEvent);
+			uml.createAndAddTypedParameter('target', theDirector.getTargetClass(), executeOperation);						
+			uml.addInheritanceBetween(theDirector.getTargetClass().owner, aClassEvent, abstractEvent);
+			
+			// We generate MTL the body for execute methode
+			foreach ( aTransition : UML::State_Machine::Transition ) where (  ) { 	
+			{
+				executeBody := 'if ( target.currentState.[=]('.concat(event.name).') ) { \n';
+				executeBody.concat();
+			
+			}
+			uml.createAndLinkOperation('MTL', executeBody, executeOperation);
+			
+		}	
+	}
+
+
+	/*
+	 * See SCCodeGenenration::CodeGenerationVisitor
+	 */ 
+	visitStateRefication(target : StateEnumeration)
+	{
+		abstractEvent		:	UML::Core::Class;
+		aClassEvent			:	UML::Core::Class;
+		executeOperation 	: 	UML::Core::Operation;
+		executeBody			:	Standard::String;
+		
+		// We create an abstract Class event
+		abstractEvent := uml.createAndAddClass('AbstractEvent', theDirector.getTargetClass().owner); 			
+		executeOperation := uml.createAndAddOperation('execute', abstractEvent);
+		uml.createAndAddTypedParameter('target', theDirector.getTargetClass(), executeOperation);
+		executeOperation.isAbstract := true;
+
+		// We get all event used by the target class and we create a new sub class for each one
+		foreach (anEvent : UML::State_Machines::Event) in (uml.getAllSignalsOf(theDirector.getTargetClass()))
+ 		{
+			aClassEvent := uml.createAndAddClass(anEvent.name, theDirector.getTargetClass().owner); 
+			executeOperation := uml.createAndAddOperation('execute', aClassEvent);
+			uml.createAndAddTypedParameter('target', theDirector.getTargetClass(), executeOperation);				
+			uml.addInheritanceBetween(theDirector.gettargetClass().owner, aClassEvent, abstractEvent);
+			
+			// We Generate the MTL body of MTL
+			executeBody := 'target.currentState.'concat('process').concat(anEvent.name).concat('Event();');
+			uml.createAndLinkOperation('MTL', executeBody, executeOperation);
+		}	
+	}
+	
+}

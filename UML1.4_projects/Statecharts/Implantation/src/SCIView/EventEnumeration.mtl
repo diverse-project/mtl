@@ -1,0 +1,36 @@
+/*
+ * Library 	: SCIView 
+ *		Define an abstract view for manipulate the implantation models
+ *
+ * File 	: $RCSfile: EventEnumeration.mtl,v $
+ * Purpose 	: Define the a view for Implantation concept (see the Metamodel)
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 12/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+
+library SCIView;
+
+
+class EventEnumeration extends EventImplantation
+{
+
+	init()
+	{
+		'ERR : SCIView::StateImplantation is an interface'.toOut();
+		'ERR : You should use the appropriate factory object to build such an object'.toErr();
+	}
+
+
+	
+	accept(visitor : SCIVisitor::AbstractVisitor)
+	{	
+		visitor.visitEventEnumeration(this);
+	}
+	
+}

@@ -1,0 +1,88 @@
+/*
+ * Library 	: SCCodeGeneration 
+ *		Code generation from UML StateCharts with semantic variation points 
+ *		and different implantation choice
+ *
+ * File 	: $RCSfile: CodeGenerationVisitor.mtl,v $
+ * Purpose 	: Define the interface for the visitor of the CodeGenenration transformation
+ *
+ * Authors	: Franck Chauvel
+ * Created	: 10/05/2004
+ * Version	: $Revision: 1.1 $
+ * 
+ * $Log: not supported by cvs2svn $
+ *
+ */
+ 
+ 
+library SCCodeGeneration;
+
+
+class CodeGenerationVisitor extends STL::AbstractVisitor 
+{
+
+	/*
+	 * Purpose 	:	Allow to visit an CodeGeneration Transformation	 
+	 * Params 	:
+	 * 		+ target : the object to visit
+	 * Remark 	:	Abstract method 
+	 */ 
+	visitCodeGeneration(target : CodeGeneration)
+	{
+		'ERR : CodeGenerationVisitor is an inteface.'.toErr();	
+		'ERR : You cannot call visitCodeGeneration() on such an object'.toErr();	
+	}
+
+
+	/*
+	 * Purpose 	:	Allow to visit an EventReification Transformation	 
+	 * Params 	:
+	 * 		+ target : the object to visit
+	 * Remark 	:	Abstract method 
+	 */ 	
+	visitEventReification(target : EventReification)	
+	{
+		'ERR : CodeGenerationVisitor is an interface.'.toErr();	
+		'ERR : You cannot call visitEventReification() on such an object'.toErr();		
+	}
+	
+	
+	/*
+	 * Purpose 	:	Allow to visit an EventEnumeration Transformation	 
+	 * Params 	:
+	 * 		+ target : the object to visit
+	 * Remark 	:	Abstract method 
+	 */ 	
+	visitEventEnumeration(target : EventEnumeration)
+	{	
+		'ERR : CodeGenerationVisitor is an interface.'.toErr();	
+		'ERR : You cannot call visitStateEnumeration() on such an object'.toErr();			
+	}
+	
+	
+	/*
+	 * Purpose 	:	Allow to visit an StateReification Transformation	 
+	 * Params 	:
+	 * 		+ target : the object to visit
+	 * Remark 	:	Abstract method 
+	 */ 	
+	visitStateReification(target : StateReification)
+	{
+		'ERR : CodeGenerationVisitor is an interface.'.toErr();	
+		'ERR : You cannot call visitStateReification() on such an object'.toErr();		
+	}
+
+	
+	/*
+	 * Purpose 	:	Allow to visit an StateEnumeration Transformation	 
+	 * Params 	:
+	 * 		+ target : the object to visit
+	 * Remark 	:	Abstract method 
+	 */ 	
+	visitStateEnumeration(target : StateEnumeration)
+	{
+		'ERR : CodeGenerationVisitor is an interface.'.toErr();	
+		'ERR : You cannot call visitStateEnumeration() on such an object'.toErr();			
+	}
+	
+}

@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Wed May 19 09:17:18 CEST 2004'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <MM_implantation.Implantation xmi.id = 'a1'>
+      <MM_implantation.Implantation.stateImplantation>
+        <MM_implantation.StateReification xmi.id = 'a2'/>
+      </MM_implantation.Implantation.stateImplantation>
+      <MM_implantation.Implantation.eventImplantation>
+        <MM_implantation.EventReification xmi.id = 'a3'/>
+      </MM_implantation.Implantation.eventImplantation>
+    </MM_implantation.Implantation>
+  </XMI.content>
+</XMI>
