@@ -1,4 +1,4 @@
-<!-- $Id: 2.1.2_dist_install_build.xml,v 1.1 2004-03-31 09:34:52 dvojtise Exp $ -->
+<!-- $Id: 2.1.2_dist_install_build.xml,v 1.2 2004-04-06 14:52:33 dvojtise Exp $ -->
 <project name="BasicMtl2Java" default="install all" basedir=".">
 	<description>
         Helps to install the recommended versions of the different tools needed to run BasicMTL
@@ -14,13 +14,19 @@
 	<property name="xsd.url.path"  value="http://download.eclipse.org/tools/downloads/xsd/"/>
 	<property name="xsd.url.filename"  value="xsd_1.1.1.1_20031120_1149WL.zip"/>
 	
+	<property name="colorer.url.path"  value="http://cesnet.dl.sourceforge.net/sourceforge/colorer/"/>
+	<property name="colorer.url.filename"  value="EclipseColorer-take5_0.5.0.zip"/>
+	
+	<property name="errorlink.url.path"  value="http://cesnet.dl.sourceforge.net/sourceforge/sunshade/"/>
+	<property name="errorlink.url.filename"  value="errorlink_1.2.0.zip"/>
+	
 		
-	<target name="0. set dest dir">    	
+	<target name="0. set dest dir" unless="base.path">    	
     	<input
     		message="Please enter the location for your install(a eclipse and a MTLc directories will be created under it):"
     		addproperty="base.path"
   		/>
-  		<property name="plugin.location" location="${base.path}/eclipse/plugins/"/>
+  		<property name="plugins.location" location="${base.path}/eclipse/plugins/"/>
   		<echo >${base.path}</echo>
   	</target>
   	
@@ -64,16 +70,32 @@
 		  
   	</target>
   	
-  	
+  	<target name="4. install colorer" depends="init">    	
+    	<get  src="${colorer.url.path}${colorer.url.filename}" 
+		  	    dest="${base.path}/temp/download/${colorer.url.filename}"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		<unzip src="${base.path}/temp/download/${colorer.url.filename}" dest="${base.path}/eclipse/plugins"/>   	
+		<ant antfile="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer/build.xml" target="install mtl for 0.5.0" dir="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer">
+			<property name="plugins.location" location="${base.path}/eclipse/plugins/"/>
+		</ant>
+  	</target>
   	
   	<target name="5. install errorlink" depends="init">    	
-    	
+    	<get  src="${errorlink.url.path}${errorlink.url.filename}" 
+		  	    dest="${base.path}/temp/download/${errorlink.url.filename}"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		  <unzip src="${base.path}/temp/download/${errorlink.url.filename}" dest="${base.path}/eclipse/plugins"/>   	
+		  
   	</target>
 	
 	<target name="install all" depends="0. set dest dir,
 										 1. install eclipse, 
 										 2. install EMF, 
-										 3. install BasicMTL compiler">    	
+										 3. install BasicMTL compiler,
+										 4. install colorer,
+										 5. install errorlink">    	
   	</target>
   	
   	<target name="clean downloaded files">    	

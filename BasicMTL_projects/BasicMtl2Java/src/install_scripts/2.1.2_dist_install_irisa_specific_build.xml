@@ -1,4 +1,4 @@
-<!-- $Id: 2.1.2_dist_install_irisa_specific_build.xml,v 1.1 2004-03-31 09:34:52 dvojtise Exp $ -->
+<!-- $Id: 2.1.2_dist_install_irisa_specific_build.xml,v 1.2 2004-04-06 14:52:33 dvojtise Exp $ -->
 <project name="BasicMtl2Java" default="install all" basedir=".">
 	<description>
         Helps to install the recommended versions of the different tools needed to run BasicMTL
@@ -17,7 +17,7 @@
     		message="Please enter the location for your install(a eclipse and a MTLc directories will be created under it):"
     		addproperty="base.path"
   		/>
-  		<property name="plugin.location" location="${base.path}/eclipse/plugins/"/>  		
+  		<property name="plugins.location" location="${base.path}/eclipse/plugins/"/>  		
   		<echo >${base.path}</echo>
   	</target>
   	
@@ -27,11 +27,13 @@
   	</target>
   	
   	
-  	<target name="install colorer" depends="init">    	    	 
+  	<!-- <target name="install colorer" depends="init">    	    	 
 		<unzip src="${colorer.file}" dest="${base.path}/eclipse/plugins"/> 
 		
-		<ant antfile="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer/build.xml" target="install mtl for 0.5.0" dir="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer"/>
-  	</target>
+		<ant antfile="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer/build.xml" target="install mtl for 0.5.0" dir="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer">
+			<property name="plugins.location" location="${base.path}/eclipse/plugins/"/>
+		</ant>
+  	</target> -->
   	
 	<target name="install omondo" depends="init" >  
 		<echo>Version ${omondo.version}</echo>
@@ -39,13 +41,12 @@
   	</target>
   	
   	<target name="install all non specific" depends="init" > 
-		<ant antfile="2.1.2_dist_install_build.xml" target="install all" inheritAll="true"/>    	
+		<ant antfile="2.1.2_dist_install_build.xml" target="install all" inheritAll="true"/>
   	</target>
   	
 	
 	<target name="install all" depends="0. set dest dir,
 										 install all non specific, 
-										 install colorer,
 										 install omondo">    	
   	</target>
   	
