@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.11 2004-06-04 13:24:08 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.12 2004-06-09 09:42:07 jpthibau Exp $
  * Created on 7 août 2003
  *
  */
@@ -70,7 +70,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 		QualifiedName type=ASTnode.getFeatureType();
 		if (type.getIsLocalType())
 			if (type.getLocalMangledName().equals(ASTnode.getMangle()))
-				MSGHandler.error("Constructors not allowed in BMTL : "+ASTnode.getName());
+				MSGHandler.error(OperationAnalyser.class,73,"Constructors not allowed in BMTL : "+ASTnode.getName());
 			else {
 				outputForClass.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'('); 
 				outputForInterface.print("public "+type.getDeclarationName()+' '+ASTnode.getMangle()+'(');

@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.18 2004-06-04 13:39:11 jpthibau Exp $
+ * $Id: antlr2ast.java,v 1.19 2004-06-09 09:41:08 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -34,7 +34,7 @@ public static void main(String[] args)
 {	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2ast().buildLibraryFromText(args[i]);
-	else MSGHandler.error("USAGE : java BMTL <sourcefiles>");
+	else MSGHandler.error(antlr2ast.class,37,"USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -182,7 +182,7 @@ public Object classDefinition(String lineNumber,Object className,Object inherita
 			if (node.getDefinedMethods(j).getName().equals((String)theSetterGetter.get(2)))
 				theOperation = node.getDefinedMethods(j);
 		if (theAttribute == null | theOperation==null)
-			MSGHandler.error("Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
+			MSGHandler.error(antlr2ast.class,185,"Getter/Setter definition, attribute or operation does not exist :"+theSetterGetter.get(0)+" "+theSetterGetter.get(1)+" "+theSetterGetter.get(2));
 		else {
 			if (((Boolean)theSetterGetter.get(0)).booleanValue())
 				{	theAttribute.setGetter(theOperation);
@@ -283,7 +283,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 	} else if (destTree instanceof VarCall) {
 		node= new VarSetting(((VarCall)destTree).getVarName(),(Expression)sourceTree);
 	} else {
-		MSGHandler.error(lineNumber + ": Can just affect variable or attributes.");
+		MSGHandler.error(antlr2ast.class,286,lineNumber + ": Can just affect variable or attributes.");
 		return null;
 	}
 	putProperty(node,"LineNumber",lineNumber,"StringTag");

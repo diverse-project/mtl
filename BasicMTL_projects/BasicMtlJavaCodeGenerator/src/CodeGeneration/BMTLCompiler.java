@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.6 2004-06-04 13:24:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/CodeGeneration/BMTLCompiler.java,v 1.7 2004-06-09 09:41:14 jpthibau Exp $
  * Created on 22 juil. 2003
  *
  */
@@ -29,7 +29,7 @@ public class BMTLCompiler {
 		DefaultAnalysingVisitor visitor2 = new DefaultAnalysingVisitor("SecondPassGeneration");
 		visitor.visit(theLib,context);
 		visitor2.visit(theLib,context);
-		MSGHandler.info("Code generation is over.");
+		MSGHandler.info(BMTLCompiler.class,32,"Code generation is over.");
 	}
 	
 	public static void main(String[] args)
@@ -52,7 +52,7 @@ public class BMTLCompiler {
 			BasicMtlLibrary theLib=(BasicMtlLibrary)Library.load(defaultTLLPath+args[0]+tllSuffix);
 			compile(theLib,defaultTLLPath,defaultBinPath);
 		}
-		else MSGHandler.error("USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
+		else MSGHandler.error(BMTLCompiler.class,55,"USAGE : java BMTLCompiler <Tllname> [-BinPath <genDir>] [-TLLPath <TLLDir>]");
 	}
 
 

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.10 2004-06-04 16:16:15 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.11 2004-06-09 09:41:05 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -57,7 +57,7 @@ public static void main(String[] args)
 {	if (args.length > 0)
 		for (int i=0;i<args.length;i++)
 			new antlr2astView().buildLibraryFromText(args[i]);
-	else MSGHandler.error("USAGE : java BMTL <sourcefiles>");
+	else MSGHandler.error(antlr2astView.class,60,"USAGE : java BMTL <sourcefiles>");
 }
 
 /* usefull functions */
@@ -102,7 +102,7 @@ private void putProperty (BMTL_ASTNodeInterface node,BMTLStringInterface name,Ob
 			node.BMTL_createNewBMTLTypeProperty(name,theType,new BMTLString(tagType));
 			return;
 		}
-		MSGHandler.error("PutProperty on an unknown tagType"+tagType);
+		MSGHandler.error(antlr2astView.class,105,"PutProperty on an unknown tagType"+tagType);
 	}
 }
 
@@ -396,7 +396,7 @@ public Object affectation(Object sourceTree,Object destTree,String lineNumber) {
 		createdNode.set_BMTL_value((BMTL_ExpressionInterface)sourceTree);
 		node=(BMTL_ASTNodeInterface)createdNode;
 	} else {
-		MSGHandler.error(lineNumber + ": Can just affect variable or attributes."+sourceTree);
+		MSGHandler.error(antlr2astView.class,399,lineNumber + ": Can just affect variable or attributes."+sourceTree);
 		return null;
 	}
 	putProperty((BMTL_ASTNodeInterface)node,new BMTLString("LineNumber"),new BMTLString(lineNumber),"StringTag");

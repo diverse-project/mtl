@@ -1,6 +1,6 @@
 /*
  * Created on 24 juil. 2003
- * $Id: VarSettingAnalyser.java,v 1.9 2004-06-04 13:33:56 jpthibau Exp $
+ * $Id: VarSettingAnalyser.java,v 1.10 2004-06-09 09:41:18 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -79,9 +79,9 @@ public class VarSettingAnalyser extends ASTTopDownVisitor.VarSettingAnalyser {
 			ret = (OperationCall)c;
 			((OperationCall)ret).setKind(OperationKind.getAttributeSet());
 		} else
-			{	MSGHandler.error("line " + lineNumber + ": Can just affect attributes or variables.");
-				if (c instanceof VarCall) MSGHandler.error("Probably undeclared variable... "+((VarCall)c).getVarName());
-				else MSGHandler.error("Probably undeclared variable... "+((OperationCall)c).getName());
+			{	MSGHandler.error(VarSettingAnalyser.class,82,"line " + lineNumber + ": Can just affect attributes or variables.");
+				if (c instanceof VarCall) MSGHandler.error(VarSettingAnalyser.class,83,"Probably undeclared variable... "+((VarCall)c).getVarName());
+				else MSGHandler.error(VarSettingAnalyser.class,84,"Probably undeclared variable... "+((OperationCall)c).getName());
 			} 
 		return ret;
 	}

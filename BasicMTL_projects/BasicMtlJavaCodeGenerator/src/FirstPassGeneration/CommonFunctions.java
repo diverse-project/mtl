@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.7 2004-06-04 13:24:07 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/CommonFunctions.java,v 1.8 2004-06-09 09:41:11 jpthibau Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -24,9 +24,9 @@ public class CommonFunctions {
 	{	FileOutputStream outputFile=null;
 		try {
 			outputFile=new FileOutputStream(name+".java",append);
-			MSGHandler.debug(name+".java succesfully created.");
+			MSGHandler.debug(CommonFunctions.class,27,name+".java succesfully created.");
 		}
-		catch (FileNotFoundException e) {MSGHandler.error("Code generation : Can't open file "+name+".java");}
+		catch (FileNotFoundException e) {MSGHandler.error(CommonFunctions.class,29,"Code generation : Can't open file "+name+".java");}
 		PrintWriter output = new PrintWriter(outputFile);
 		return output;
 	}

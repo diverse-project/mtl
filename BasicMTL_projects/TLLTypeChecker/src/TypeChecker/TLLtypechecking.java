@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.12 2004-06-04 13:02:35 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.13 2004-06-09 09:36:59 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -192,13 +192,13 @@ public class TLLtypechecking {
 				context.put("Error", Boolean.FALSE);
 				visitor.visit(theLib,context);
 				errorOccured = errorOccured || ((Boolean)context.get("Error")).booleanValue();
-				MSGHandler.info("Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
+				MSGHandler.info(TLLtypechecking.class,195,"Writing checked TLL "+defaultTLLPath+theLib.getName()+tllSuffix);
 				Library.store(theLib.getName()+tllSuffix,theLib,defaultTLLPath);
 			}
 		}
 			else errorOccured = true;
 	if (errorOccured) {
-			MSGHandler.info("There are warnings or errors, TLL not synthetized !");
+			MSGHandler.info(TLLtypechecking.class,201,"There are warnings or errors, TLL not synthetized !");
 			return null; 
 	}
 	return theLib;
@@ -239,12 +239,12 @@ public class TLLtypechecking {
 				filenamesArguments.addElement(args[i]);
 				}
 				else{				
-					MSGHandler.warn("File not readable : "+args[i]+" => file ignored !!!");
+					MSGHandler.warn(TLLtypechecking.class,242,"File not readable : "+args[i]+" => file ignored !!!");
 				}
 			}
 			if (filenamesArguments.size() == 0)
 			{
-				MSGHandler.error("No file to process");
+				MSGHandler.error(TLLtypechecking.class,247,"No file to process");
 			}
 			else
 			  checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,null,null);
@@ -253,6 +253,6 @@ public class TLLtypechecking {
 	}
 	static void showUsage()
 	{
-		MSGHandler.error("USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
+		MSGHandler.error(TLLtypechecking.class,256,"USAGE TLLtypechecking <sourcefile>+ [-TLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: antlr2astViewParser.java,v 1.4 2004-03-17 13:59:08 dvojtise Exp $
+ * $Id: antlr2astViewParser.java,v 1.5 2004-06-09 09:41:06 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -13,6 +13,7 @@ package antlr2ASTView;
  */
 
 import org.apache.log4j.Logger;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 //import org.apache.log4j.LogManager;
 //import org.apache.log4j.xml.DOMConfigurator;
 
@@ -22,7 +23,7 @@ import ANTLRParser.*;
 import BasicMtlASTWithAssociationView.*;
 
 public class antlr2astViewParser implements antlrParserInterface {
-
+	
 	public static final org.apache.log4j.Logger log = Logger.getLogger("BMTLParser");
 
 	public static org.apache.log4j.Logger getLog () {
@@ -41,8 +42,11 @@ public class antlr2astViewParser implements antlrParserInterface {
 		BMTL_LibraryInterface parsedAssociationTemplatesLib=null;
 		
 		log.info("Parsing "+filenames.size()+" file(s) for this library" );
-		for (int i=0;i<filenames.size();i++)
-			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i));
+		for (int i=0;i<filenames.size();i++) {
+			MSGHandler.processedMtlFile=(String)filenames.get(i);
+			parsedBMTLLib=ASTViewproducer.buildLibraryFromText(MSGHandler.processedMtlFile);
+		}
+		MSGHandler.processedMtlFile = null;
 		if (parsedBMTLLib.get_BMTL_hasAssociation().getTheBoolean()) {
 			parsedAssociationTemplatesLib=new antlr2astView().buildLibraryFromText(System.getProperty("TEMPLATEPATH",".\\Template\\")+"AssociationTemplates.mtl");
 			try {

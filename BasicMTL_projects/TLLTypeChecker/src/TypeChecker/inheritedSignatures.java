@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.12 2004-06-04 13:02:36 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.13 2004-06-09 09:36:59 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -153,7 +153,7 @@ public class inheritedSignatures {
 					allReferedTypes.checkTLLClass(origin, parentName, theLib);
 					return addSignatures(aClass,parentClass,origin,relayer, theLib);}
 		}
-	MSGHandler.error("the inherited parent"+parentName+" can't be resolved !");
+	MSGHandler.error(inheritedSignatures.class,156,"the inherited parent"+parentName+" can't be resolved !");
 	return true; 
 	}
 
@@ -170,7 +170,7 @@ public class inheritedSignatures {
 				    	return addSignatures(aClass,parentClass,origin,relayer, theLib); }
 			}
 		}
-		MSGHandler.error("the inherited parent class "+parentName+"::"+className+" can't be resolved !");
+		MSGHandler.error(inheritedSignatures.class,173,"the inherited parent class "+parentName+"::"+className+" can't be resolved !");
 		return true; 
 	}
 	
@@ -235,9 +235,9 @@ public class inheritedSignatures {
 			remainingUnsolved=remaining;
 		}
 		if (remainingUnsolved.size()!=0)
-			{	MSGHandler.error("There are errors or there is an inheritance loop between following classes");
+			{	MSGHandler.error(inheritedSignatures.class,238,"There are errors or there is an inheritance loop between following classes");
 				for (int i=0;i<remainingUnsolved.size();i++)
-					MSGHandler.error(((UserDefinedClass)remainingUnsolved.get(i)).getName());
+					MSGHandler.error(inheritedSignatures.class,240,((UserDefinedClass)remainingUnsolved.get(i)).getName());
 			} 
 		return remainingUnsolved.size();
 	}

@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.19 2004-06-04 13:02:36 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.20 2004-06-09 09:36:59 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -303,7 +303,7 @@ public class allReferedTypes {
 			if (checkType((QualifiedName)allReferedTypes.get(i), theLib))
 				correctlyChecked++;
 			}
-		MSGHandler.debug(correctlyChecked+" types correctly checked.");
+		MSGHandler.debug(allReferedTypes.class,306,correctlyChecked+" types correctly checked.");
 		return errors+warnings;
 	}
 	
@@ -321,18 +321,18 @@ public class allReferedTypes {
 				else if (checkExternLibName(aType,firstName,theLib)) return true;
 					else 
 					{
-						MSGHandler.error("Unknown Local Type: "+firstName);
-						MSGHandler.debug("   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
+						MSGHandler.error(allReferedTypes.class,324,"Unknown Local Type: "+firstName);
+						MSGHandler.debug(allReferedTypes.class,325,"   card " + aType.cardTypeForVarDeclarations() +" " + aType.cardTypeForFeatures());
 						// retreive the location where this QualifiedName was used
 						for(int i =0; i < aType.cardTypeForVarDeclarations(); i++)
 						{
-							MSGHandler.error("   " +
+							MSGHandler.error(allReferedTypes.class,329,"   " +
 								aType.getTypeForVarDeclarations(i).getProperty("FileName").getValue() + ", line " +
 								aType.getTypeForVarDeclarations(i).getProperty("LineNumber").getValue());
 						}
 						for(int i =0; i < aType.cardTypeForFeatures(); i++)
 						{
-							MSGHandler.error("   " +
+							MSGHandler.error(allReferedTypes.class,335,"   " +
 								aType.getTypeForFeatures(i).getProperty("FileName").getValue() + ", line " +
 								aType.getTypeForFeatures(i).getProperty("LineNumber").getValue());
 						}
@@ -343,19 +343,19 @@ public class allReferedTypes {
 				if (aType.size()==2) {
 					/*if (checkStandardLib(aType,firstName)) return true;
 					else*/ if (checkTLLClass(aType,firstName,theLib)) return true;
-						else { MSGHandler.error("Extern class type not found:"+firstName + "::" +aType.get(1));
+						else { MSGHandler.error(allReferedTypes.class,346,"Extern class type not found:"+firstName + "::" +aType.get(1));
 								errors++;} 
 				}
 				else //type which is not a model element and has more than 2 components
 					//Certainly a mistake !
 				{ 
 					String  typeComponentMsg;
-					MSGHandler.error("Undeclared model or extern class type having more than 2 components !");;
-					MSGHandler.error(firstName+" may be the undeclared model");
+					MSGHandler.error(allReferedTypes.class,353,"Undeclared model or extern class type having more than 2 components !");;
+					MSGHandler.error(allReferedTypes.class,354,firstName+" may be the undeclared model");
 					typeComponentMsg  = "The type components : ";
 					for(int j=0;j<aType.size();j++)
 						typeComponentMsg+="<"+aType.get(j)+"> ";
-					MSGHandler.error(typeComponentMsg);
+					MSGHandler.error(allReferedTypes.class,358,typeComponentMsg);
 					errors++;
 				}
 		return false;

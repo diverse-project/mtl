@@ -1,6 +1,6 @@
 /*
  * Created on 22 juil. 2003
- * $Id: antlr2tll.java,v 1.9 2004-06-04 13:33:55 jpthibau Exp $
+ * $Id: antlr2tll.java,v 1.10 2004-06-09 09:41:17 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -100,7 +100,7 @@ public class antlr2tll {
 			BasicMtlLibrary theCreatedLib=TLLProducer(filenamesArguments,defaultPackagePrefix,null);
 			Library.store(theCreatedLib.getName()+tllSuffix,theCreatedLib,tllPrefix);
 						}
-		else MSGHandler.error("USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
+		else MSGHandler.error(antlr2tll.class,103,"USAGE : java antlr2tll <sourcefiles>+ [-UnCheckedTLLPath <path>] [-PackageName <TllPackageName>]");
 	}
 
 /*	public static void main(String[] args)

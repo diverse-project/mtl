@@ -29,7 +29,7 @@ public class CommonFunctions {
 			if (operation.getParameters(i).getName().equals(name))
 				declaration = operation.getParameters(i);
 		if (declaration == null)
-			MSGHandler.error("line " + line + ": Unknown variable " + name);
+			MSGHandler.error(CommonFunctions.class,32,"line " + line + ": Unknown variable " + name);
 		return declaration;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Created on 21 juil. 2003
- * $Id: CommonFunctions.java,v 1.9 2004-06-04 13:24:08 jpthibau Exp $
+ * $Id: CommonFunctions.java,v 1.10 2004-06-09 09:41:12 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -36,9 +36,9 @@ public class CommonFunctions {
 	{	FileOutputStream outputFile=null;
 		try {
 			outputFile=new FileOutputStream(name+".java",append);
-			MSGHandler.debug(name+".java succesfully created.");
+			MSGHandler.debug(CommonFunctions.class,39,name+".java succesfully created.");
 		}
-		catch (FileNotFoundException e) {MSGHandler.error("Code generation : Can't open file "+name+".java");}
+		catch (FileNotFoundException e) {MSGHandler.error(CommonFunctions.class,41,"Code generation : Can't open file "+name+".java");}
 		PrintWriter output = new PrintWriter(outputFile);
 		return output;
 	}
