@@ -1,0 +1,81 @@
+library FileAccessTest;
+
+//Ecore models
+model EcoreLibraryMM : RepositoryModel;
+model MyOwnLibraryMM : RepositoryModel;
+
+//library models
+model LibraryM : RepositoryModel;
+model MyOwnLibraryM : RepositoryModel;
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+	modelManager : EMFDriver::EMFModelManager;
+	unsavedModels : Standard::Set;
+	
+	modelManager := new EMFDriver::EMFModelManager();
+
+	//First try load,create and save on '.ecore' models
+	//=================================================
+
+	//Single copy of a model file to another one;
+	// use loadModelFromXmi and saveModelAsXMI methods.
+
+	EcoreLibraryMM := modelManager.loadModelFromXMI(
+									'LibraryModel',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/library.ecore');
+	modelManager.saveModelAsXMI(
+								'LibraryModel',
+								'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/library.ecore');
+
+	//Model file creation;
+	//use createModel and saveModelToXMI methods
+
+	MyOwnLibraryMM := modelManager.createModel(
+									'MyOwnLibrary',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwn.ecore');
+	modelManager.saveModelToXMI(
+								'MyOwnLibrary');
+	
+	//Then try load,create and save on '.library' models
+	//==================================================
+
+	LibraryM := modelManager.loadModelFromXMI(
+									'LibraryInstance',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+	modelManager.saveModelAsXMI(
+								'LibraryInstance',
+								'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/My.library');
+
+	//Model file creation;
+	//use createModel and saveModelToXMI methods
+
+	MyOwnLibraryM := modelManager.createModel(
+									'MyOwnLibraryInstance',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwn.library');
+	modelManager.saveModelToXMI(
+								'MyOwnLibraryInstance');
+	
+
+	//clean the modelManager so that it may call other transformations;
+	// use the dispose method which returns the collection of modified
+	//models that have not been saved.
+	unsavedModels := modelManager.dispose();
+	if unsavedModels.isEmpty().not() {
+		'The following models have been modified, but not saved :'.toOut();
+		unsavedModels.toOut();
+		throws 'Some modified models have notbeen saved.'; 
+	}
+}

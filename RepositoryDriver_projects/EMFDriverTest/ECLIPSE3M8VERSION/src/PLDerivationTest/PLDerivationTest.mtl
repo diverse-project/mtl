@@ -1,0 +1,252 @@
+/************************************************************
+ * $Id: PLDerivation.mtl,v 1.5 2004/02/19 08:17:36 jpthibau Exp $ *
+ ************************************************************/
+library PLDerivationTest;
+
+
+model fullMercure	: RepositoryModel;			// should be an ecore MetaModel
+model customMercure	: RepositoryModel;			// should be an ecore MetaModel
+model miniMercure	: RepositoryModel;			// should be an ecore MetaModel
+
+model source_model	: RepositoryModel;			// should be an ecore MetaModel - used as a temporary variable
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+   // local variables
+   emfdriver       : EMFDriver::EMFModelManager;
+  
+   emfdriver := new EMFDriver::EMFModelManager();
+    
+   'Deriving FullMercure...'.toOut();
+   // load the product line model and its derived products factories
+   //in each specific product to derive
+   fullMercure := emfdriver.loadModelFromXMI(
+									'fullMercure',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+	
+//	emfdriver.displayModelInformation('fullMercure');								
+	//set the derived products output files
+	emfdriver.saveModelAsXMI('fullMercure',
+							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/fullMercure.ecore');
+	
+   source_model := fullMercure;
+   derivePL(findClass('FullMercure'));
+   emfdriver.saveModelToXMI('fullMercure');
+   emfdriver.disposeModel('fullMercure');
+   'FullMercure has been derived.'.toOut();
+   
+	//Same process for other products to derive
+
+   'Deriving CustomMercure'.toOut();
+   customMercure := emfdriver.loadModelFromXMI(
+									'customMercure',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+									
+	emfdriver.saveModelAsXMI('customMercure',
+							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/customMercure.ecore');
+
+   source_model := customMercure;
+   derivePL(findClass('CustomMercure'));
+   emfdriver.saveModelToXMI('customMercure');
+   emfdriver.disposeModel('customMercure');
+   'CustomMercure has been derived.'.toOut();
+
+   'Deriving MiniMercure'.toOut();
+   miniMercure := emfdriver.loadModelFromXMI(
+									'miniMercure',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/mercurePL.ecore');
+									
+	emfdriver.saveModelAsXMI('miniMercure',
+							'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/miniMercure.ecore');
+
+   source_model := miniMercure;
+   derivePL(findClass('MiniMercure'));
+   emfdriver.saveModelToXMI('miniMercure');
+   emfdriver.disposeModel('miniMercure');
+   'MiniMercure has been derived.'.toOut();
+  
+   'Derivation done.'.toOut();
+}
+
+derivePL (concreteFactory : source_model::[org.eclipse.emf.ecore.EPackage]::EClass) {
+	selectedVariants	: Standard::Set;
+	operationIterator	: Standard::Iterator;
+	operation			: source_model::[org.eclipse.emf.ecore.EClass]::EOperation;
+	returnType			: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	namesIterator : Standard::Iterator;
+	subClassesNames		: Standard::Set;
+	stereotypesIterator : Standard::Iterator;
+	stereotypesNames	: Standard::Set;
+	definedVariants		: Standard::Set;
+	classesIterator		: Standard::Iterator;
+	aClass				: source_model::Core::Class;
+	name				: Standard::String;
+	classesToDelete		: Standard::Set;
+	
+	//Variant selection
+	selectedVariants := newSet();
+	operationIterator := concreteFactory.eOperations.getNewIterator();
+	while operationIterator.isOn() {
+		operation := operationIterator.item();
+		returnType := operation.eType;
+		if isNull(returnType).not() {
+		
+			//finding all subtypes names of the return type
+			subClassesNames := collectModelElementsNames(allSubClasses(returnType));
+
+			namesIterator := subClassesNames.getNewIterator();
+			while namesIterator.isOn() {
+				namesIterator.item().toOut();
+				namesIterator.next(); }
+						
+			//finding all stereotypes names
+			stereotypesNames := collectSteretypesNames(operation);
+			
+			//retrieving variants to be selected
+			definedVariants := subClassesNames.intersection(stereotypesNames);
+			
+			//adding this result to the to-keep variant list
+			if definedVariants.isEmpty() {
+				//no variant retrieved means all variants are selected
+				selectedVariants := selectedVariants.union(subClassesNames);
+			} else {
+				selectedVariants := selectedVariants.union(definedVariants);
+		}
+		}
+		operationIterator.next();
+	}
+	
+	classesToDelete := newSet();
+	classesIterator := !source_model::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances().getNewIterator();
+	while classesIterator.isOn() {
+		aClass := classesIterator.item();
+		name := aClass.name;
+		if isStereotyped(aClass, 'optional').and(selectedVariants.excludes(name)) {
+			subClassesNames := collectModelElementsNames(allSubClasses(aClass));
+			if selectedVariants.excludesAll(subClassesNames) {
+				classesToDelete := classesToDelete.including(aClass);
+			}
+		}
+		classesIterator.next();
+	}
+	'Deleting the following classes :'.toOut();
+	classesIterator := classesToDelete.getNewIterator();
+	while classesIterator.isOn() {
+		aClass := classesIterator.item();
+		aClass.name.toOut();
+		aClass.delete();
+		classesIterator.next();
+	}
+
+	
+	removeFactory();
+}
+
+removeFactory () {
+	allPackagesIt : Standard::Iterator;
+	aPackage : source_model::[org.eclipse.emf.ecore.EPackage]::EPackage;
+	deletionDone : Standard::Boolean;
+	
+	deletionDone := false;
+	allPackagesIt := !source_model::[org.eclipse.emf.ecore.EPackage]::EPackage!.allInstances().getNewIterator();
+	while allPackagesIt.isOn() {
+		aPackage := allPackagesIt.item();
+		if aPackage.name.[=]('Factory') {
+			aPackage.delete();
+			deletionDone := true;
+		}
+		allPackagesIt.next();
+	}
+	if deletionDone.not() {
+		throw 'Cannot find package named Factory';
+	}
+}
+
+findClass (name: Standard::String) : source_model::[org.eclipse.emf.ecore.EPackage]::EClass {
+	allClassesIt : Standard::Iterator;
+	aClass : source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	
+	allClassesIt := !source_model::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances().getNewIterator();
+	while allClassesIt.isOn() {
+		aClass := allClassesIt.item();
+		if aClass.name.[=](name) {
+			return aClass;
+		}
+		allClassesIt.next();
+	}
+	throw 'Cannot find class named '.concat(name);
+}
+
+allSubClasses (clazz : source_model::[org.eclipse.emf.ecore.EPackage]::EClass) : Standard::Set {
+	ret 					: Standard::Set;
+	subClassesIterator	: Standard::Iterator;
+	aSubClass			: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	
+	ret := newSet();
+	subClassesIterator := clazz.SubClasses().getNewIterator();
+	while subClassesIterator.isOn() {
+		aSubClass := subClassesIterator.item();
+		ret := ret.including(aSubClass);
+		ret := ret.union(allSubClasses(aSubClass));
+		subClassesIterator.next();
+	}
+	
+	return ret;
+}
+
+collectModelElementsNames (set : Standard::Set) : Standard::Set {
+	ret			: Standard::Set;
+	iterator 	: Standard::Iterator;
+	element		: source_model::[org.eclipse.emf.ecore.EPackage]::EClass;
+	
+	ret := newSet();
+	iterator := set.getNewIterator();
+	while iterator.isOn() {
+		element := iterator.item();
+		ret := ret.including(element.name);
+		iterator.next();
+	}
+	return ret;
+}
+
+collectSteretypesNames (operation : source_model::[org.eclipse.emf.ecore.EClass]::EOperation) : Standard::Set {
+	ret			: Standard::Set;
+	iterator 	: Standard::Iterator;
+	element		: source_model::[org.eclipse.emf.ecore.EModelElement]::EAnnotation;
+	
+	ret := newSet();
+	iterator := operation.TagValues().getNewIterator();
+	while iterator.isOn() {
+		element := iterator.item();
+		ret := ret.including(element.source);
+		iterator.next();
+	}
+	return ret;
+}
+
+isStereotyped (clazz : source_model::[org.eclipse.emf.ecore.EPackage]::EClass; stereotypeName : Standard::String) : Standard::Boolean {
+	stereotypeIterator	: Standard::Iterator;
+	stereotype			: source_model::[org.eclipse.emf.ecore.EModelElement]::EAnnotation;
+	
+	stereotypeIterator := clazz.TagValues().getNewIterator();
+	while stereotypeIterator.isOn() {
+		stereotype := stereotypeIterator.item();
+		if stereotype.source.[=](stereotypeName) {
+			return true;
+		}
+		stereotypeIterator.next();
+	}
+	return false;
+}
+
