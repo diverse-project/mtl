@@ -1,0 +1,55 @@
+/******************************************************************************
+ * $Id: PrimitiveType.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getPrimitiveTypes (aPackage : MOFview::Package) : Standard::Set 
+{
+	result : Standard::Set;
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	
+	result := new Standard::Set ();
+	
+	aModelElementIterator := aPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+	while aModelElementIterator.isOn() 
+	{		
+		aModelElement := aModelElementIterator.item(); //.oclAsType (!MOFadapter::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::PrimitiveType!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+	
+	return result;
+}
+
+	
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayPrimitiveType (
+	aPrimitiveType : MOFview::PrimitiveType; 
+	indent : Standard::String
+)
+{
+	indent.concat('PrimitiveType : ').concat (aPrimitiveType.getName()).toOut();			
+}
+	

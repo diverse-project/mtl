@@ -1,0 +1,107 @@
+/******************************************************************************
+ * $Id: GeneralizableElement.mtl,v 1.1 2004-02-18 10:55:25 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class GeneralizableElement 
+	extends Namespace, MOFview::GeneralizableElement
+{
+	visibility : MOFview::VisibilityKind;
+	supertypes : Standard::Set;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsRoot () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::GeneralizableElement!).isRoot;
+	}
+
+	/** */
+	getIsLeaf () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::GeneralizableElement!).isLeaf;
+	}
+
+	/** */
+	getIsAbstract() : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::GeneralizableElement!).isAbstract;
+	}
+
+	/** */
+	getVisibility () : MOFview::VisibilityKind   
+	{
+		elt : Standard::ModelElement;
+			
+		if (isNull(visibility))
+		{
+			elt := getRef().oclAsType(!MOF::Model::GeneralizableElement!).visibility;
+			visibility := new MOFadapter::VisibilityKind();
+			visibility.oclAsType(!MOFadapter::VisibilityKind!).setRef (elt);		
+		}
+		return visibility;	
+	}
+
+	/** */
+	getSupertypes () : Standard::Set   
+	{
+		it     : Standard::Iterator;
+		elt    : Standard::OclAny;
+
+		// we want to build the set only at the first access
+		if (isNull(supertypes))
+		{
+			supertypes := new Standard::Set ();
+			
+			it := getRef().oclAsType(!MOF::Model::GeneralizableElement!).supertypes.getNewIterator();
+			it.start();
+			while (it.isOn())
+			{
+				// we retrieve the MTL object from the Repository object
+				elt := MOFadapter.getMtlElementFromRepositoryElement (it.item().oclAsType(!Standard::ModelElement!));
+				supertypes := supertypes.including (elt);
+				it.next();
+			}
+		}
+		return supertypes;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsRoot (isRoot : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::GeneralizableElement!).isRoot := isRoot;	
+	}
+
+	/** */
+	setIsLeaf (isLeaf : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::GeneralizableElement!).isLeaf := isLeaf;
+	}
+
+	/** */
+	setIsAbstract (isAbstract : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::GeneralizableElement!).isAbstract := isAbstract;	
+	}
+
+	/** */
+	setVisibility (visibility : MOFview::VisibilityKind)   
+	{
+		'MOFadapter.GeneralizableElement::setVisibility not implemented...'.toOut();			
+	}
+
+	/** */
+	addSupertype (superType : MOFview::GeneralizableElement)  
+	{
+		'MOFadapter.GeneralizableElement::addSupertype not implemented...'.toOut();				
+	}
+}

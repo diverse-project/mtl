@@ -1,0 +1,11 @@
+/******************************************************************************
+ * $Id: Classifier.mtl,v 1.1 2004-02-18 10:55:26 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Classifier 
+	extends GeneralizableElement, MOFview::Classifier
+{
+
+}

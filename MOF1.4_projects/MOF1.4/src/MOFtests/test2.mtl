@@ -1,0 +1,36 @@
+/******************************************************************************
+ * $Id: test2.mtl,v 1.1 2004-02-18 10:50:06 edrezen Exp $
+ ******************************************************************************/
+
+library MOFtests;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Test2
+{
+
+	/** */
+	init ()
+	{
+	}
+
+	/** */
+	execute ()
+	{
+		topLevelPackagesIterator : Standard::Iterator;
+		aPackage                 : MOFview::Package;
+		primitiveTypesIterator   : Standard::Iterator;
+
+		// we get the top level packages
+		topLevelPackagesIterator := helper.getTopLevelPackages().getNewIterator();
+		topLevelPackagesIterator.start ();
+//		while (topLevelPackagesIterator.isOn())
+//		{
+			aPackage := topLevelPackagesIterator.item().oclAsType(!MOFview::Package!);
+			helper.DisplayPackage (aPackage, ' ');
+//			topLevelPackagesIterator.next ();
+//		}
+	}
+}

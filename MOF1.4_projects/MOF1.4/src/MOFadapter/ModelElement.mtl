@@ -1,0 +1,129 @@
+/******************************************************************************
+ * $Id: ModelElement.mtl,v 1.1 2004-02-18 10:55:25 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class ModelElement 
+	extends MOFview::ModelElement
+{
+	container : MOFadapter::Namespace;
+	ref       : MOF::Model::ModelElement;
+
+	/** */
+	toString () : Standard::String
+	{
+		return 'MOFadapter.ModelElement::ToString not implemented...';
+	}
+
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/**  */
+	getName () : Standard::String   
+	{
+		return getRef().oclAsType(!MOF::Model::ModelElement!).name;
+	}
+
+	/**  */
+	getQualifiedName () : Standard::String   
+	{
+		return getRef().oclAsType(!MOF::Model::ModelElement!).qualifiedName;
+	}
+
+	/**  */
+	getAnnotation () : Standard::String   
+	{
+		return getRef().oclAsType(!MOF::Model::ModelElement!).annotation;
+	}
+
+	/** */
+	getContainer () : MOFview::Namespace   
+	{
+		repositoryObject : Standard::ModelElement;
+		
+		if (isNull(container))
+		{
+			repositoryObject := getRef().oclAsType(!MOF::Model::ModelElement!).container;
+			if (isNull(repositoryObject).[not]())
+			{
+				container := MOFadapter.getMtlElementFromRepositoryElement(repositoryObject).oclAsType(!MOFadapter::Namespace!);
+			}
+		}
+		return container;
+	}
+	
+	/** */
+	getRequiredElements () : Standard::Set   
+	{
+		'MOFadapter.ModelElement::getRequiredElements not implemented...'.toOut();	
+		return null;
+	}
+
+	/** */
+	getConstraints () : Standard::Set   
+	{
+		'MOFadapter.ModelElement::getConstraints not implemented...'.toOut();		
+		return null;	
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/**  */
+	setName (name : Standard::String)  
+	{
+		getRef().oclAsType(!MOF::Model::ModelElement!).name := name;
+	}
+
+	/**  */
+	setQualifiedName (qualifiedName : Standard::String)   
+	{
+		getRef().oclAsType(!MOF::Model::ModelElement!).qualifiedName := qualifiedName;
+	}
+
+	/**  */
+	setAnnotation (annotation : Standard::String)   
+	{
+		getRef().oclAsType(!MOF::Model::ModelElement!).annotation := annotation;
+	}
+
+	/** */
+	setContainer (container : MOFview::Namespace)   
+	{
+		'MOFadapter.ModelElement::setContainer not implemented...'.toOut();		
+	}
+	
+	/** */
+	addRequiredElement (requiredElements : MOFview::ModelElement)  
+	{
+		'MOFadapter.ModelElement::addRequiredElement not implemented...'.toOut();	
+	}
+
+	/** */
+	addConstraint (constraint : MOFview::Constraint)  
+	{
+		'MOFadapter.ModelElement::addConstraint not implemented...'.toOut();	
+	}
+	
+	
+	/*********************************/
+	/**       PROXY MANAGEMENT      **/
+	/*********************************/
+	/** */
+	getRef () : MOF::Model::ModelElement
+	{
+		return ref;
+	}
+	
+	/** */
+	setRef (elt : MOF::Model::ModelElement)
+	{
+		ref := elt;
+	}
+	
+}

@@ -1,0 +1,31 @@
+/******************************************************************************
+ * $Id: CollectionType.mtl,v 1.1 2004-02-18 10:55:27 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class CollectionType 
+	extends DataType, MOFview::CollectionType
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   
+	{
+		'MOFadapter.CollectionType::getMultiplicity not implemented...'.toOut();	
+		return null;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   
+	{
+		'MOFadapter.CollectionType::setMultiplicity not implemented...'.toOut();		
+	}
+}

@@ -1,0 +1,163 @@
+/******************************************************************************
+ * $Id: AdapterFactory.mtl,v 1.1 2004-02-18 10:55:26 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+model MOF    : RepositoryModel;
+
+
+/*****************************************************************************/
+
+class AdapterFactory
+{
+	driver : MDRDriver::MDRModelManager;
+	
+	/******************************************************************************
+	 * name       : 
+	 * purpose    : 
+	 * visibility : 
+	 * in         : 
+	 * out        : 
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	init (sourceModelFilename : Standard::String) 
+	{
+		iterator : Standard::Iterator;
+		item     : Standard::ModelElement;
+		itRef    : Standard::Iterator;		
+	
+		// we initialize the metamodel 
+		MOF := getDriver().getModelFromXMI (
+			'./MetaModels/MOF/MOF_metamodel.xmi', 
+			'Model',
+			'mof', 
+			sourceModelFilename,
+			sourceModelFilename.concat('.MODIFIED')
+		);
+		sourceModelFilename.concat (' model opened...').toOut();
+		
+		
+		// we loop over all items in the model
+		// the purpose is to create a MTL proxy for each item in the opened metamodel.
+		// so, it is then possible to use the 'allInstances' method on MTL objects.
+		iterator := !MOF::Model::ModelElement!.allInstances().getNewIterator();
+		iterator.start ();
+		while (iterator.isOn())
+		{
+			item := iterator.item().oclAsType(!Standard::ModelElement!);
+			MOFadapter.createMtlElementFromRepositoryElement (item); 
+			iterator.next();
+		}
+	}
+	
+
+	/******************************************************************************
+	 * name       : 
+	 * purpose    : 
+	 * visibility : 
+	 * in         : 
+	 * out        : 
+	 * remark     : 
+	 * example    : 
+	 ******************************************************************************/
+	getDriver () : MDRDriver::MDRModelManager
+	{
+		if (isNull(driver))
+		{
+			driver := new MDRDriver::MDRModelManager();
+			driver.init();
+		}
+		return driver;
+	}
+	
+}
+
+ 
+
+/******************************************************************************
+ * name       : 
+ * purpose    : 
+ * visibility : 
+ * in         : 
+ * out        : 
+ * remark     : 
+ * example    : 
+ ******************************************************************************/
+createMtlElementFromRepositoryElement (elt : Standard::ModelElement) : Standard::OclAny
+{
+	result : Standard::OclAny;
+
+	// one should have only non abstract classes
+	if (elt.oclIsTypeOf (!MOF::Model::Package!))          { result := new Package ();        }
+	if (elt.oclIsTypeOf (!MOF::Model::Tag!))              { result := new Tag();             }
+	if (elt.oclIsTypeOf (!MOF::Model::PrimitiveType!))    { result := new PrimitiveType ();  }
+	if (elt.oclIsTypeOf (!MOF::Model::Class!))            { result := new Class ();          }
+	if (elt.oclIsTypeOf (!MOF::Model::Import!))           { result := new Import ();         }
+	if (elt.oclIsTypeOf (!MOF::Model::EnumerationType!))  { result := new EnumerationType(); }
+	if (elt.oclIsTypeOf (!MOF::Model::Constant!))         { result := new Constant();        }
+	if (elt.oclIsTypeOf (!MOF::Model::StructureType!))    { result := new StructureType ();  }
+	if (elt.oclIsTypeOf (!MOF::Model::Constraint!))       { result := new Constraint ();     }
+	if (elt.oclIsTypeOf (!MOF::Model::Association!))      { result := new Association ();    }
+	if (elt.oclIsTypeOf (!MOF::Model::Operation!))        { result := new Operation ();      }
+	if (elt.oclIsTypeOf (!MOF::Model::Exception!))        { result := new Exception ();      }	
+	if (elt.oclIsTypeOf (!MOF::Model::StructureField!))   { result := new StructureField (); }	
+	if (elt.oclIsTypeOf (!MOF::Model::Attribute!))        { result := new Attribute ();      }	
+	if (elt.oclIsTypeOf (!MOF::Model::Reference!))        { result := new Reference ();      }	
+	if (elt.oclIsTypeOf (!MOF::Model::AssociationEnd!))   { result := new AssociationEnd (); }	
+	if (elt.oclIsTypeOf (!MOF::Model::Parameter!))        { result := new Parameter ();      }
+	if (elt.oclIsTypeOf (!MOF::Model::AliasType!))        { result := new AliasType ();      }
+	
+	if (isNull(result))
+	{
+		// SHOULD NOT BE HERE...
+		'<WARNING, WARNING, WARNING> : createMltElementFromRepositoryElement returns a null item...'.toErr();
+		elt.toOut();
+		'</WARNING, WARNING, WARNING>'.toErr();		
+	}
+	else
+	{
+		// we keep the Repository reference in the Mtl proxy
+		result.oclAsType(!MOFadapter::ModelElement!).setRef (elt);
+	}
+
+	return result;
+}
+	
+
+
+
+/******************************************************************************
+ * name       : 
+ * purpose    : 
+ * visibility : 
+ * in         : 
+ * out        : 
+ * remark     : 
+ * example    : 
+ ******************************************************************************/
+getMtlElementFromRepositoryElement (elt : Standard::ModelElement) : MOFadapter::ModelElement
+{
+	result   : MOFadapter::ModelElement;
+	iterator : Standard::Iterator;
+	item     : MOFadapter::ModelElement;
+	
+	// we loop over all items in the model
+	iterator := !MOFadapter::ModelElement!.allInstances().getNewIterator();
+	iterator.start ();
+	while (isNull(result).[and](iterator.isOn()))
+	{
+		item := iterator.item().oclAsType(!MOFadapter::ModelElement!);
+		if (item.getRef().oclUid().[=](elt.oclUid()))
+		{
+			result := item;
+		}
+		iterator.next();
+	}
+	
+	return result;
+}
+ 
+ 
+ 

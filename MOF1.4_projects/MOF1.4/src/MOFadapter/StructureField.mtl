@@ -1,0 +1,11 @@
+/******************************************************************************
+ * $Id: StructureField.mtl,v 1.1 2004-02-18 10:55:23 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class StructureField 
+	extends TypedElement, MOFview::StructureField
+{
+
+}

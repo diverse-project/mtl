@@ -1,0 +1,68 @@
+/******************************************************************************
+ * $Id: AssociationEnd.mtl,v 1.1 2004-02-18 10:55:26 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class AssociationEnd 
+	extends TypedElement, MOFview::AssociationEnd
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsNavigable () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::AssociationEnd!).isNavigable;
+	}
+
+	/** */
+	getIsChangeable () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::AssociationEnd!).isChangeable;
+	}
+
+	/** */
+	getAggregation () : MOFview::AggregationKind   
+	{
+		'MOFadapter.AssociationEnd::getAggregation not implemented...'.toOut();		
+		return null;
+	} 
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   
+	{
+		'MOFadapter.AssociationEnd::getMultiplicity not implemented...'.toOut();			
+		return null;
+	}
+	
+	
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsNavigable (isNavigable : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::AssociationEnd!).isNavigable := isNavigable;
+	}
+
+	/** */
+	setIsChangeable (isChangeable : Standard::Boolean) 
+	{
+		getRef().oclAsType(!MOF::Model::AssociationEnd!).isChangeable := isChangeable;
+	}
+
+	/** */
+	setAggregation (_aggregation : MOFview::AggregationKind)   
+	{
+		'MOFadapter.AssociationEnd::setAggregation not implemented...'.toOut();			
+	} 
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   
+	{
+		'MOFadapter.AssociationEnd::setMultiplicity not implemented...'.toOut();			
+	}
+}

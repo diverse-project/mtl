@@ -1,0 +1,66 @@
+/******************************************************************************
+ * $Id: Reference.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getReferences (aClass : MOFview::Class) : Standard::Set
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	result : Standard::Set;
+	
+	result := new Standard::Set ();
+		
+	aModelElementIterator := aClass.getContents().getNewIterator();
+	aModelElementIterator.start();
+	
+	while aModelElementIterator.isOn ()
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::Reference!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+		
+	return result;	
+}
+
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayReference (aReference : MOFview::Reference; indent : Standard::String)
+{
+	str : Standard::String;
+		
+	str := indent;
+	str := str.concat ('Reference : ');
+	str := str.concat (aReference.getName());
+	str := str.concat (' of type ');
+	str := str.concat (aReference.getType().getName());
+	str := str.concat (' with multiplicity ');
+	str := str.concat (aReference.getMultiplicity().toString());
+
+	str.toOut();
+}
+
+ 
+ 

@@ -1,0 +1,52 @@
+/******************************************************************************
+ * $Id: StructureType.mtl,v 1.1 2004-02-18 10:50:53 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getStructureTypes (aPackage : MOFview::Package) : Standard::Set 
+{
+	result : Standard::Set;
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	
+	result := new Standard::Set ();
+	
+	aModelElementIterator := aPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+	
+	while aModelElementIterator.isOn() 
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::StructureType!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+		
+	return result;
+}
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayStructureType (aStructureType : MOFview::StructureType; indent : Standard::String)
+{
+	indent.concat('StructureType : ').concat (aStructureType.getName()).toOut();			
+}

@@ -1,0 +1,45 @@
+/******************************************************************************
+ * $Id: GeneralizableElement.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getQualifiedName (aGeneralizableElement : MOFview::GeneralizableElement) : Standard::String
+{
+	result : Standard::String;
+	it   : Standard::Iterator;
+	item : MOFview::GeneralizableElement;
+		
+	result := '';
+
+	it := aGeneralizableElement.getSupertypes().getNewIterator();
+	it.start ();
+	while (it.isOn())
+	{	
+		item := it.item().oclAsType (!MOFview::GeneralizableElement!);
+		result := result.concat (getQualifiedName(item));
+		it.next();
+		if (it.isOn())
+		{
+			// there is another supertype
+			result := result.concat (',');
+		}
+	}
+
+	if (result.[=]('').[not]())
+	{
+		result := result.concat ('::');
+	}
+	result := result.concat (aGeneralizableElement.getName());
+	
+	return result;
+}

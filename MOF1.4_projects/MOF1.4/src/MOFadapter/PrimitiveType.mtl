@@ -1,0 +1,11 @@
+/******************************************************************************
+ * $Id: PrimitiveType.mtl,v 1.1 2004-02-18 10:55:21 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class PrimitiveType 
+	extends DataType, MOFview::PrimitiveType
+{
+
+}

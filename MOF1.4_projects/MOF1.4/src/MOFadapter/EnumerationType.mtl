@@ -1,0 +1,49 @@
+/******************************************************************************
+ * $Id: EnumerationType.mtl,v 1.1 2004-02-18 10:55:24 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class EnumerationType 
+	extends DataType, MOFview::EnumerationType
+{
+	labels : Standard::Set;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getLabels () : Standard::Set   
+	{
+		it  : Standard::Iterator;
+		elt : Standard::OclAny;
+
+		// we want to build the set only at the first access; if items have to be added, it will be done in the setter
+		if (isNull(labels))
+		{
+			labels := new Standard::Set ();
+			it := getRef().oclAsType(!MOF::Model::EnumerationType!).labels.getNewIterator();
+			it.start();
+			while (it.isOn())
+			{
+				// we retrieve the MTL object from the Repository object
+				elt := it.item().oclAsType(!Standard::String!);
+				labels := labels.including (elt);
+				it.next();
+			}
+		}
+		return labels;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	addLabel (label : Standard::String)   
+	{
+		'MOFadapter.EnumerationType::addLabel not implemented...'.toOut();	
+	}
+}

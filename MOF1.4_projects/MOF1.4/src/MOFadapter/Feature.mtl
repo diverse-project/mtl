@@ -1,0 +1,64 @@
+/******************************************************************************
+ * $Id: Feature.mtl,v 1.1 2004-02-18 10:55:23 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Feature 
+	extends ModelElement, MOFview::Feature
+{
+	scope      : MOFview::ScopeKind;
+	visibility : MOFview::VisibilityKind;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getScope () : MOFview::ScopeKind   
+	{
+		elt : Standard::ModelElement;
+
+		if (isNull(scope))
+		{
+			// we retrieve the multiplicity from the repository
+			elt := getRef().oclAsType (!MOF::Model::Feature!).scope;
+
+			// we build the corresponding MTL object
+			scope := new MOFadapter::ScopeKind ();
+			scope.oclAsType(!MOFadapter::ScopeKind!).setRef (elt);		
+		}
+		return scope;		
+	}
+	
+	/** */
+	getVisibility () : MOFview::VisibilityKind   
+	{
+		elt : Standard::ModelElement;
+			
+		if (isNull(visibility))
+		{
+			elt := getRef().oclAsType(!MOF::Model::Feature!).visibility;
+			visibility := new MOFadapter::VisibilityKind();
+			visibility.oclAsType(!MOFadapter::VisibilityKind!).setRef (elt);		
+		}
+		return visibility;	
+	}
+	
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setScope (scope : MOFview::ScopeKind)   
+	{
+		'MOFadapter.Feature::setScope not implemented...'.toOut();	
+	}
+	
+	/** */
+	setVisibility (visibility : MOFview::VisibilityKind)   
+	{
+		'MOFadapter.Feature::setVisibility not implemented...'.toOut();		
+	}
+}

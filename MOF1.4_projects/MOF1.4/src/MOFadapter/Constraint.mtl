@@ -1,0 +1,68 @@
+/******************************************************************************
+ * $Id: Constraint.mtl,v 1.1 2004-02-18 10:55:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Constraint 
+	extends ModelElement, MOFview::Constraint
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getExpression () : Standard::String   
+	{
+		return getRef().oclAsType(!MOF::Model::Constraint!).expression;	
+	}
+
+	/** */
+	getLanguage() : Standard::String   
+	{
+		return getRef().oclAsType(!MOF::Model::Constraint!).language;		
+	}
+	
+	/** */
+	getEvaluationPolicy () : MOFview::EvaluationKind   
+	{
+		'MOFadapter.Constraint::getEvaluationPolicy not implemented...'.toOut();		
+		return null;
+	}
+	
+	/** */
+	getconstrainedElements () : Standard::Set   
+	{
+		'MOFadapter.Constraint::getconstrainedElements not implemented...'.toOut();		
+		return null;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setExpression (expression : Standard::String)   
+	{
+		getRef().oclAsType(!MOF::Model::Constraint!).expression := expression;
+	}
+
+	/** */
+	setLanguage (language : Standard::String)   
+	{
+		getRef().oclAsType(!MOF::Model::Constraint!).language := language;	
+	}
+	
+	/** */
+	setEvaluationPolicy (evaluationPolicy : MOFview::EvaluationKind)   
+	{
+		'MOFadapter.Constraint::setEvaluationPolicy not implemented...'.toOut();			
+	}
+	
+	/** */
+	addConstrainedElement (constrainedElement : MOFview::ModelElement) 
+	{
+		'MOFadapter.Constraint::addConstrainedElement not implemented...'.toOut();		
+	}
+}

@@ -1,0 +1,56 @@
+/******************************************************************************
+ * $Id: StructuralFeature.mtl,v 1.1 2004-02-18 10:55:25 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class StructuralFeature 
+	extends Feature, TypedElement, MOFview::StructuralFeature
+{
+	multiplicity : MOFview::MultiplicityType;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   
+	{
+		elt : Standard::ModelElement;
+	
+		if (isNull(multiplicity))
+		{
+			// we retrieve the multiplicity from the repository
+			elt := getRef().oclAsType(!MOF::Model::StructuralFeature!).multiplicity;
+
+			// we build the corresponding MTL object
+			multiplicity := new MOFadapter::MultiplicityType ();
+			multiplicity.oclAsType(!MOFadapter::MultiplicityType!).setRef (elt);		
+		}
+		return multiplicity;		
+	}
+	
+	
+	/** */
+	getIsChangeable () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::StructuralFeature!).isChangeable;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   
+	{
+		'MOFadapter.StructuralFeature::setMultiplicity not implemented...'.toOut();				
+	}
+	
+	/** */
+	setIsChangeable (isChangeable : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::StructuralFeature!).isChangeable := isChangeable;
+	}
+}

@@ -1,0 +1,26 @@
+/******************************************************************************
+ * $Id: SampleVisitor.mtl,v 1.1 2004-02-18 10:49:45 edrezen Exp $
+ ******************************************************************************/
+
+library MOFvisitors;
+
+
+
+class SampleVisitor extends DefaultVisitors::InvokableVisitor 
+{
+
+
+	getPArent() : Standard::OclAny
+	{	 return null; }
+ 
+	visitOclAny (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{	
+		return null;
+	}
+
+	visitPackage (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+'TOP MOUMOUTE...'.toOut();
+		return null;
+	}
+}

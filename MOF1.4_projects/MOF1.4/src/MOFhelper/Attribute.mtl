@@ -1,0 +1,70 @@
+ /******************************************************************************
+ * $Id: Attribute.mtl,v 1.1 2004-02-18 10:50:53 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getAttributes (aClass : MOFview::Class) : Standard::Set
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	result : Standard::Set;
+	
+	result := new Standard::Set ();
+		
+	aModelElementIterator := aClass.getContents().getNewIterator();
+	aModelElementIterator.start();
+	
+	while aModelElementIterator.isOn ()
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::Attribute!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+		
+	return result;	
+}
+ 
+ 
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayAttribute (aAttribute: MOFview::Attribute; indent : Standard::String)
+{
+	str : Standard::String;
+		
+	str := indent;
+	str := str.concat ('Attribute : ');
+	str := str.concat (aAttribute.getName());
+
+	str := str.concat (' of type ');
+	str := str.concat (aAttribute.getType().getName());
+	
+	str := str.concat (' with multiplicity ');
+	str := str.concat (aAttribute.getMultiplicity().toString());
+
+	str := str.concat (' with scope ');
+	str := str.concat (aAttribute.getScope().toString());
+	str := str.concat (' with visibility ');
+	str := str.concat (aAttribute.getVisibility().toString());
+
+	str.toOut();
+}
+ 

@@ -1,0 +1,66 @@
+/******************************************************************************
+ * $Id: EnumerationType.mtl,v 1.1 2004-02-18 10:50:53 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getEnumerationTypes (aPackage : MOFview::Package) : Standard::Set 
+{
+	result : Standard::Set;
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	
+	result := new Standard::Set ();
+	
+	aModelElementIterator := aPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+	
+	while aModelElementIterator.isOn() 
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::EnumerationType!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+	
+	return result;
+}
+
+	
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayEnumerationType (aEnumerationType: MOFview::EnumerationType; indent : Standard::String)
+{
+	iterator : Standard::Iterator;
+	label : Standard::String;
+		
+	indent.concat('EnumerationType : ').concat (aEnumerationType.getName()).toOut();			
+	indent := indent.concat ('    ');
+		
+	iterator := aEnumerationType.getLabels().getNewIterator();
+	iterator.start();
+	while (iterator.isOn())
+	{
+		label := iterator.item().oclAsType(!Standard::String!);
+		indent.concat (label).toOut();
+		iterator.next();
+	}
+}
+ 

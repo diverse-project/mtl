@@ -1,0 +1,11 @@
+/******************************************************************************
+ * $Id: Exception.mtl,v 1.1 2004-02-18 10:55:24 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Exception 
+	extends BehavioralFeature, MOFview::Exception
+{
+
+}

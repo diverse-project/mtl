@@ -1,0 +1,44 @@
+/******************************************************************************
+ * $Id: Parameter.mtl,v 1.1 2004-02-18 10:55:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Parameter 
+	extends TypedElement, MOFview::Parameter
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getDirection () : MOFview::DirectionKind   
+	{
+		'MOFadapter.Parameter::getDirection not implemented...'.toOut();			
+		return null;
+	}
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   
+	{
+		'MOFadapter.Parameter::getMultiplicity not implemented...'.toOut();				
+		return null;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setDirection (direction : MOFview::DirectionKind)   
+	{
+		'MOFadapter.Parameter::setDirection not implemented...'.toOut();				
+	}
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   
+	{
+		'MOFadapter.Parameter::setMultiplicity not implemented...'.toOut();				
+	}
+}

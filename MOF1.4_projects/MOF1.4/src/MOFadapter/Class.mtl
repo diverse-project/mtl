@@ -1,0 +1,30 @@
+/******************************************************************************
+ * $Id: Class.mtl,v 1.1 2004-02-18 10:55:26 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Class 
+	extends Classifier, MOFview::Class
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsSingleton () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::Class!).isSingleton;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsSingleton (isSingleton : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::Class!).isSingleton := isSingleton;
+	}
+}

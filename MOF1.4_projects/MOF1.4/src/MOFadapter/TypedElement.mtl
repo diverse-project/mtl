@@ -1,0 +1,40 @@
+/******************************************************************************
+ * $Id: TypedElement.mtl,v 1.1 2004-02-18 10:55:24 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class TypedElement 
+	extends ModelElement, MOFview::TypedElement
+{
+	type : MOFview::Classifier;
+	
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getType () : MOFview::Classifier  
+	{
+		repositoryResult : Standard::ModelElement;
+
+		if (isNull(this.type))
+		{	
+			repositoryResult := getRef().oclAsType(!MOF::Model::TypedElement!).type;
+			this.type := MOFadapter.getMtlElementFromRepositoryElement(repositoryResult).oclAsType(!MOFview::Classifier!);
+		}
+
+		return this.type;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setType (type : MOFview::Classifier)   
+	{
+		'MOFadapter.TypedElement::setType not implemented...'.toOut();			
+	}
+}

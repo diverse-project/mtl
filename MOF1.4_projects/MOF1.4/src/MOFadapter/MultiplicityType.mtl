@@ -1,0 +1,85 @@
+/******************************************************************************
+ * $Id: MultiplicityType.mtl,v 1.1 2004-02-18 10:55:25 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class MultiplicityType 
+	extends StructureType, MOFview::MultiplicityType
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getLower () : Standard::Integer   
+	{
+		return getRef().oclAsType(!MOF::Model::MultiplicityType!).lower;	
+	}
+
+	/** */
+	getUpper () : Standard::Integer   
+	{
+		return getRef().oclAsType(!MOF::Model::MultiplicityType!).upper;	
+	}
+	
+	/** */
+	getIsOrdered () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::MultiplicityType!).isOrdered;		
+	}
+	
+	/** */
+	getIsUnique () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::MultiplicityType!).isUnique;	
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setLower (lower : Standard::Integer)   
+	{
+		getRef().oclAsType(!MOF::Model::MultiplicityType!).lower := lower;
+	}
+
+	/** */
+	setUpper (upper : Standard::Integer)   
+	{
+		getRef().oclAsType(!MOF::Model::MultiplicityType!).upper := upper;		
+	}
+	
+	/** */
+	setIsOrdered (isOrdered : Standard::Boolean)  
+	{
+		getRef().oclAsType(!MOF::Model::MultiplicityType!).isOrdered := isOrdered;
+	}
+	
+	/** */
+	setIsUnique (isUnique : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::MultiplicityType!).isUnique := isUnique;		
+	}
+
+	
+	/*********************************/
+	/**           MISC              **/
+	/*********************************/
+	toString () : Standard::String
+	{
+		result : Standard::String;
+		
+		result := '';
+		result := result.concat ('(');
+		result := result.concat (getLower().toString());		
+		result := result.concat (',');
+		result := result.concat (getUpper().toString());				
+		result := result.concat (')');
+		
+		return result;
+	}
+	
+}

@@ -1,0 +1,79 @@
+/******************************************************************************
+ * $Id: main.mtl,v 1.1 2004-02-18 10:50:07 edrezen Exp $
+ ******************************************************************************/
+
+library MOFtests;
+
+model helper : MOFhelper;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+main (args : Standard::Sequence) : Standard::Void
+{
+	argsParser : ArgumentsParser;
+	mgr        : MOFadapter::AdapterFactory;
+	test1      : MOFtests::Test1;
+	test2      : MOFtests::Test2;
+	test3      : MOFtests::Test3;
+	
+	// we initialize the arguments parser
+	argsParser := new ArgumentsParser ();
+	argsParser.init (args);
+
+	// we initialize the MOF adapter
+	mgr := new MOFadapter::AdapterFactory ();
+	mgr.init (argsParser.getArg());
+	
+	// we initialize the mof helper
+	helper := new MOFhelper ();
+	
+	
+	// we execute some tests
+	
+	//test1 := new MOFtests::Test1 ();
+	//test1.init ();
+	//test1.execute ();
+
+	test2 := new MOFtests::Test2 ();
+	test2.init ();
+	test2.execute ();
+
+	//test3 := new MOFtests::Test3 ();
+	//test3.init ();
+	//test3.execute ();
+
+	
+	'FINISHED...'.toOut();
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class ArgumentsParser
+{
+	argsIterator : Standard::Iterator;
+
+	// initialization
+	init (someArgs : Standard::Sequence)
+	{
+		argsIterator := someArgs.getNewIterator();
+		argsIterator.start();
+	}
+	
+	// get the current arg and move the cursor in the iterator
+	getArg () : Standard::String
+	{
+		result     : Standard::String;
+		result := argsIterator.item ().oclAsType (!Standard::String!);
+		argsIterator.next ();
+		return result;
+	}
+}
+
+ 

@@ -1,0 +1,87 @@
+ /******************************************************************************
+ * $Id: Class.mtl,v 1.1 2004-02-18 10:50:53 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getClasses (aPackage : MOFview::Package) : Standard::Set
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	result : Standard::Set;
+	
+	result := new Standard::Set ();
+
+	aModelElementIterator := aPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+	while (aModelElementIterator.isOn ())
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::ModelElement!);
+		if (aModelElement.oclIsKindOf (!MOFview::Class!))		
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+
+	return result;	
+}
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayClass (aClass : MOFview::Class ; indent : Standard::String)
+{
+	attributeIterator : Standard::Iterator;
+	aAttribute        : MOFview::Attribute;
+
+	referenceIterator : Standard::Iterator;
+	aReference        : MOFview::Reference;
+
+	str : Standard::String;
+
+	str := indent;
+	str := str.concat ('Class : ');
+	str := str.concat (aClass.getName());
+	str := str.concat (' with visibility ');
+	str := str.concat (aClass.getVisibility().toString());		
+
+	str.toOut();
+		
+	indent := indent.concat ('    ');
+		
+	attributeIterator := getAttributes (aClass).getNewIterator();
+	attributeIterator.start();
+	while (attributeIterator.isOn())
+	{
+		aAttribute := attributeIterator.item();
+		DisplayAttribute (aAttribute,indent);
+		attributeIterator.next();
+	}
+
+	referenceIterator := this.getReferences (aClass).getNewIterator();
+	referenceIterator.start();
+	while (referenceIterator.isOn())
+	{
+		aReference := referenceIterator.item();
+		DisplayReference (aReference,indent);
+		referenceIterator.next();
+	}
+
+	''.toOut();
+}

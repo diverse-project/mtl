@@ -1,0 +1,204 @@
+/******************************************************************************
+ * $Id: Package.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayPackage (
+	parentPackage : MOFview::Package ; 
+	indent : Standard::String
+)
+{
+	importsIterator : Standard::Iterator;
+	aImport : MOFview::Import;
+
+	subPackagesIterator : Standard::Iterator;
+	aPackage : MOFview::Package;
+
+	classesIterator : Standard::Iterator;
+	aClass          : MOFview::Class;
+
+	primitiveTypesIterator : Standard::Iterator;		
+	aPrimitiveType : MOFview::PrimitiveType;
+
+	structureTypesIterator : Standard::Iterator;		
+	aStructureType : MOFview::StructureType;
+
+	enumerationTypesIterator : Standard::Iterator;		
+	aEnumerationType : MOFview::EnumerationType;
+
+	indent.concat('Package : ').concat (parentPackage.getName()).toOut();			
+	indent.concat('------------------------------------------------------').toOut();
+	indent := indent.concat ('    ');
+
+	importsIterator := getImports (parentPackage).getNewIterator();
+	importsIterator.start();
+	while (importsIterator.isOn())
+	{
+		aImport:= importsIterator.item(); 
+		DisplayImport (aImport, indent);
+		importsIterator.next();
+		if (importsIterator.isOn().[not]())  { ''.toOut(); }
+	}
+/*	
+	classesIterator := getClasses (parentPackage).getNewIterator();
+	classesIterator.start();
+	while (classesIterator.isOn())
+	{
+		aClass := classesIterator.item(); 
+		DisplayClass (aClass, indent);
+		classesIterator.next();
+		if (classesIterator.isOn().[not]())  { ''.toOut(); }
+	}
+
+	primitiveTypesIterator := getPrimitiveTypes (parentPackage).getNewIterator();
+	primitiveTypesIterator.start();
+	while (primitiveTypesIterator.isOn())
+	{
+		aPrimitiveType := primitiveTypesIterator.item(); 
+		DisplayPrimitiveType (aPrimitiveType, indent);
+		primitiveTypesIterator.next();
+		if (primitiveTypesIterator.isOn().[not]())  { ''.toOut(); }
+	}
+
+	structureTypesIterator := getStructureTypes (parentPackage).getNewIterator();
+	structureTypesIterator.start();
+	while (structureTypesIterator.isOn())
+	{
+		aStructureType := structureTypesIterator.item(); 
+		DisplayStructureType (aStructureType, indent);
+		structureTypesIterator.next();
+		if (structureTypesIterator.isOn().[not]())  { ''.toOut();	}
+	}
+
+	enumerationTypesIterator := getEnumerationTypes (parentPackage).getNewIterator();
+	enumerationTypesIterator.start();
+	while (enumerationTypesIterator.isOn())
+	{
+		aEnumerationType := enumerationTypesIterator.item(); 
+		DisplayEnumerationType (aEnumerationType, indent);
+		enumerationTypesIterator.next();
+		if (enumerationTypesIterator.isOn().[not]())  { ''.toOut();	}
+	}
+
+	subPackagesIterator := getSubPackages (parentPackage).getNewIterator();
+	subPackagesIterator.start();
+	while (subPackagesIterator.isOn())
+	{
+		aPackage := subPackagesIterator.item();
+		DisplayPackage (aPackage, indent);
+		subPackagesIterator.next();
+		if (subPackagesIterator.isOn().[not]())  { ''.toOut(); }
+	}
+*/		
+	' '.toOut();
+}
+
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+
+getRootPackage (extentName : Standard::String) : MOFview::Package
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::Package;	
+	result                : MOFview::Package;
+	
+	aModelElementIterator := !MOFview::Package!.allInstances().getNewIterator();
+	aModelElementIterator.start();
+	while isNull(result).[and] (aModelElementIterator.isOn())
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::Package!);
+		if (aModelElement.getName().[=] (extentName) )
+		{
+			result:= aModelElement;
+		}
+		aModelElementIterator.next();
+	}
+	
+	return result;	
+}
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+
+getTopLevelPackages () : Standard::Set
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::Package;	
+	parentNamespace       : MOFview::Namespace;
+	result                : Standard::Set;
+				
+	result := new Standard::Set();
+
+	aModelElementIterator := !MOFview::Package!.allInstances().getNewIterator();
+	aModelElementIterator.start();
+	while aModelElementIterator.isOn()
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::Package!);
+		parentNamespace := aModelElement.getContainer();
+
+		// if there is no parent, then this is a top level package
+		if (isNull(parentNamespace))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+	
+	return result;	
+}
+
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getSubPackages (parentPackage : MOFview::Package) : Standard::Set
+{
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::Package;	
+	result : Standard::Set;
+	
+	result := new Standard::Set ();
+		
+	aModelElementIterator := parentPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+
+	while isNull(result).[and] (aModelElementIterator.isOn())
+	{		
+		aModelElement := aModelElementIterator.item().oclAsType (!MOFview::Package!);
+		aModelElement.getName().toOut();
+		aModelElementIterator.next();
+	}
+
+	return result;	
+}

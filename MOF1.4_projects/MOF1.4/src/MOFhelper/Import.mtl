@@ -1,0 +1,76 @@
+/******************************************************************************
+ * $Id: Import.mtl,v 1.1 2004-02-18 10:50:54 edrezen Exp $
+ ******************************************************************************/
+
+library MOFhelper;
+
+
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+getImports (aPackage : MOFview::Package) : Standard::Set 
+{
+	result : Standard::Set;
+	aModelElementIterator : Standard::Iterator;
+	aModelElement         : MOFview::ModelElement;	
+	
+	result := new Standard::Set ();
+	
+	aModelElementIterator := aPackage.getContents().getNewIterator();
+	aModelElementIterator.start();
+	while aModelElementIterator.isOn() 
+	{		
+		aModelElement := aModelElementIterator.item();
+
+aModelElement.toOut();
+
+		if (aModelElement.oclIsKindOf (!MOFadapter::Import!))
+		{
+			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 1...'.toOut();
+		}
+		if (aModelElement.oclIsKindOf (!MOFview::Import!))
+		{
+			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 2...'.toOut();
+		}
+		if (aModelElement.oclIsTypeOf (!MOFadapter::Import!))
+		{
+			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 3...'.toOut();
+		}
+		if (aModelElement.oclIsTypeOf (!MOFview::Import!))
+		{
+			'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FOUND 4...'.toOut();
+		}
+
+		
+		if (aModelElement.oclIsKindOf (!MOFview::Import!))
+		{
+			result := result.including (aModelElement);
+		}
+		aModelElementIterator.next();
+	}
+	
+	return result;
+}
+
+	
+/******************************************************************************
+ * category : 
+ * name     : 
+ * purpose  : 
+ * in       : 
+ * out      : 
+ * remark   : 
+ ******************************************************************************/
+DisplayImport (
+	aImport : MOFview::Import; 
+	indent  : Standard::String
+)
+{
+	indent.concat('Import : ').concat (aImport.getName()).toOut();			
+}
+	

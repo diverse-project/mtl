@@ -1,0 +1,11 @@
+/******************************************************************************
+ * $Id: BehavioralFeature.mtl,v 1.1 2004-02-18 10:55:27 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class BehavioralFeature	
+	extends Feature, MOFview::BehavioralFeature
+{
+
+}

@@ -1,0 +1,73 @@
+/******************************************************************************
+ * $Id: test3.mtl,v 1.1 2004-02-18 10:50:06 edrezen Exp $
+ ******************************************************************************/
+
+library MOFtests;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class A { name : Standard::String; }
+
+class IV1 extends DefaultVisitors::InvokableVisitor {
+
+	getPArent() : Standard::OclAny
+	{	 return null; }
+ 
+	visitOclAny(instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{	'IV1 visitOclAny '.toOut();
+		instance.toOut();
+		return null;
+	}
+
+}
+
+
+class Test3
+{
+
+	/** */
+	init ()
+	{
+	}
+
+
+
+	/** */
+	OLDexecute ()
+	{
+		aA   : A;
+		aIV1 : IV1;
+
+		aA := new A();
+		aIV1 := new IV1();
+
+		aA.accept (aIV1, null);
+	}
+
+
+
+
+
+	/** */
+	execute ()
+	{
+		topLevelPackagesIterator : Standard::Iterator;
+		aPackage                 : MOFview::Package;
+		visitor                  : MOFvisitors::SampleVisitor;
+
+		visitor := new MOFvisitors::SampleVisitor ();
+
+		// we get the top level packages
+		topLevelPackagesIterator := helper.getTopLevelPackages().getNewIterator();
+		topLevelPackagesIterator.start ();
+		while (topLevelPackagesIterator.isOn())
+		{
+			aPackage := topLevelPackagesIterator.item().oclAsType(!MOFview::Package!);
+			aPackage.toOut();
+			aPackage.accept (visitor, null);			
+			topLevelPackagesIterator.next ();
+		}
+	}
+}

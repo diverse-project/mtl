@@ -1,0 +1,38 @@
+/******************************************************************************
+ * $Id: VisibilityKind.mtl,v 1.1 2004-02-18 10:55:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class VisibilityKind 
+	extends EnumerationType, MOFview::VisibilityKind
+{
+	/** */
+	toString () : Standard::String
+	{
+		result : Standard::String;
+		localRef : MOF::Model::VisibilityKind;
+		
+		result := 'SOMETHING WRONG HAPPENED...';
+		
+		localRef := getRef().oclAsType (!MOF::Model::VisibilityKind!);
+		
+		if (localRef.[=](!MOF::Model::VisibilityKind!.public_vis))
+		{
+			result := 'public_vis';
+		}
+
+		if (localRef.[=](!MOF::Model::VisibilityKind!.protected_vis))
+		{
+			result := 'protected_vis';
+		}
+
+		if (localRef.[=](!MOF::Model::VisibilityKind!.private_vis))
+		{
+			result := 'private_vis';
+		}
+
+		return result;		
+	}
+
+}

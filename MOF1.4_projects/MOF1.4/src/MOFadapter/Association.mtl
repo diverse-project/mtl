@@ -1,0 +1,31 @@
+/******************************************************************************
+ * $Id: Association.mtl,v 1.1 2004-02-18 10:55:28 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Association 
+	extends Classifier, MOFview::Association
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+		
+	/** */
+	getIsDerived () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::Association!).isDerived;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsDerived (isDerived : Standard::Boolean)  
+	{
+		getRef().oclAsType(!MOF::Model::Association!).isDerived := isDerived;
+	}
+
+}

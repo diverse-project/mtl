@@ -1,0 +1,56 @@
+/******************************************************************************
+ * $Id: Import.mtl,v 1.1 2004-02-18 10:55:26 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Import 
+	extends ModelElement, MOFview::Import
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getVisibility () : MOFview::VisibilityKind   
+	{
+		'MOFadapter.Import::getVisibility not implemented...'.toOut();		
+		return null;
+	}
+
+	/** */
+	getIsClustered () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::Import!).isClustered;	
+	}
+
+	/** */
+	getImportedNamespace () : MOFview::Namespace   
+	{
+		'MOFadapter.Import::getImportedNamespace not implemented...'.toOut();		
+		return null;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setVisibility (visibility : MOFview::VisibilityKind)   
+	{
+		'MOFadapter.Import::setVisibility not implemented...'.toOut();		
+	}
+
+	/** */
+	setIsClustered (isClustered : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::Import!).isClustered := isClustered;		
+	}
+
+	/** */
+	setImportedNamespace (importedNamespace : MOFview::Namespace)   
+	{
+		'MOFadapter.Import::setImportedNamespace not implemented...'.toOut();		
+	}
+}

@@ -1,0 +1,33 @@
+/******************************************************************************
+ * $Id: ScopeKind.mtl,v 1.1 2004-02-18 10:55:27 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class ScopeKind 
+	extends EnumerationType, MOFview::ScopeKind
+{
+	/** */
+	toString () : Standard::String
+	{
+		result : Standard::String;
+		localRef : MOF::Model::ScopeKind;
+		
+		result := 'SOMETHING WRONG HAPPENED...';
+		
+		localRef := getRef().oclAsType (!MOF::Model::ScopeKind!);
+		
+		if (localRef.[=](!MOF::Model::ScopeKind!.instance_level))
+		{
+			result := 'instance_level';
+		}
+
+		if (localRef.[=](!MOF::Model::ScopeKind!.classifier_level))
+		{
+			result := 'classifier_level';
+		}
+
+		return result;		
+	}
+
+}

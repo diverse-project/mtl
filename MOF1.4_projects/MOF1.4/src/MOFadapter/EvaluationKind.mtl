@@ -1,0 +1,13 @@
+/******************************************************************************
+ * $Id: EvaluationKind.mtl,v 1.1 2004-02-18 10:55:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class EvaluationKind 
+	extends EnumerationType, MOFview::EvaluationKind
+{
+
+}
+
+

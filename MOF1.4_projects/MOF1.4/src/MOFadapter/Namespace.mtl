@@ -1,0 +1,51 @@
+/******************************************************************************
+ * $Id: Namespace.mtl,v 1.1 2004-02-18 10:55:22 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Namespace 
+	extends ModelElement, MOFview::Namespace
+{
+	contents : Standard::Set;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/**	*/	
+	getContents () : Standard::Set   
+	{
+		it     : Standard::Iterator;
+		elt    : Standard::OclAny;
+
+		// we want to build the set only at the first access
+		if (isNull(contents))
+		{
+			contents:= new Standard::Set ();
+			
+			it := getRef().oclAsType(!MOF::Model::Namespace!).contents.getNewIterator();
+			it.start();
+			while (it.isOn())
+			{
+				// we retrieve the MTL object from the Repository object
+				elt := MOFadapter.getMtlElementFromRepositoryElement (it.item().oclAsType(!Standard::ModelElement!));
+				contents := contents.including (elt);
+				it.next();
+			}
+		}
+		
+		return contents;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/**	*/	
+	addContent (content : MOFview::ModelElement)  
+	{
+		'MOFadapter.Namespace::addContent not implemented...'.toOut();				
+	}
+}

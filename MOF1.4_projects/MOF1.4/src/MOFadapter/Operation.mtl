@@ -1,0 +1,43 @@
+/******************************************************************************
+ * $Id: Operation.mtl,v 1.1 2004-02-18 10:55:23 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Operation 
+	extends Feature, MOFview::Operation
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsQuery () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::Operation!).isQuery;
+	}
+
+	/** */
+	getExceptions () : Standard::Set   
+	{
+		'MOFadapter.Operation::getExceptions not implemented...'.toOut();				
+		return null;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsQuery (isQuery : Standard::Boolean)   
+	{
+		getRef().oclAsType(!MOF::Model::Operation!).isQuery := isQuery;	
+	}
+
+	/** */
+	addException (exception : MOFview::Exception)  
+	{
+		'MOFadapter.Operation::addException not implemented...'.toOut();					
+	}
+}

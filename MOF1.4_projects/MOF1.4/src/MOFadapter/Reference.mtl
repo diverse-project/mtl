@@ -1,0 +1,59 @@
+/******************************************************************************
+ * $Id: Reference.mtl,v 1.1 2004-02-18 10:55:25 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Reference 
+	extends StructuralFeature, MOFview::Reference
+{
+	exposedEnd    : MOFview::AssociationEnd;
+	referencedEnd : MOFview::AssociationEnd;
+
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getExposedEnd () : MOFview::AssociationEnd   
+	{
+		elt : Standard::ModelElement;
+		
+		if (isNull(exposedEnd))
+		{
+			elt := getRef().oclAsType(!MOF::Model::Reference!).exposedEnd;
+			exposedEnd := MOFadapter.getMtlElementFromRepositoryElement(elt).oclAsType (!MOFadapter::AssociationEnd!);
+		}
+		return exposedEnd;
+	}
+
+	/** */
+	getReferencedEnd () : MOFview::AssociationEnd   
+	{
+		elt : Standard::ModelElement;
+
+		if (isNull(referencedEnd))
+		{
+			elt := getRef().oclAsType(!MOF::Model::Reference!).referencedEnd;
+			referencedEnd := MOFadapter.getMtlElementFromRepositoryElement(elt).oclAsType (!MOFadapter::AssociationEnd!);
+		}
+		return referencedEnd;
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setExposedEnd (exposedEnd : MOFview::AssociationEnd)   
+	{
+		'MOFadapter.Reference::setExposedEnd not implemented...'.toOut();				
+	}
+
+	/** */
+	setReferencedEnd (referencedEnd : MOFview::AssociationEnd)   
+	{
+		'MOFadapter.Reference::setReferencedEnd not implemented...'.toOut();					
+	}
+}

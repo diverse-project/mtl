@@ -1,0 +1,30 @@
+/******************************************************************************
+ * $Id: Attribute.mtl,v 1.1 2004-02-18 10:55:27 edrezen Exp $
+ ******************************************************************************/
+
+library MOFadapter;
+
+class Attribute 
+	extends StructuralFeature, MOFview::Attribute
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsDerived  () : Standard::Boolean   
+	{
+		return getRef().oclAsType(!MOF::Model::Attribute!).isDerived;	
+	}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsDerived  (isDerived : Standard::Boolean) 
+	{
+		getRef().oclAsType(!MOF::Model::Attribute!).isDerived := isDerived;		
+	}
+}
