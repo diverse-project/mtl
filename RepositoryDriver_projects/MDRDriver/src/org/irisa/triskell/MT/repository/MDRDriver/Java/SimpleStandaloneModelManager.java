@@ -1,7 +1,7 @@
 /*
  * Created on 1 août 2003
  *
- * $Id: SimpleStandaloneModelManager.java,v 1.7 2004-02-16 15:44:18 dvojtise Exp $
+ * $Id: SimpleStandaloneModelManager.java,v 1.8 2004-06-25 12:08:51 jpthibau Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license 
@@ -28,7 +28,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -61,6 +61,7 @@ public class SimpleStandaloneModelManager {
 	 */
 	public SimpleStandaloneModelManager init() throws Exception{
 		
+		String filePath="";
 		
 		try {			
 			// initialization needed by MDR, 
@@ -106,15 +107,17 @@ public class SimpleStandaloneModelManager {
 			
 						
 			// look for the log4j configuration file in the current directory
-			String filePath = new java.io.File(Directories.getRootPath(SimpleStandaloneModelManager.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
+			filePath = new java.io.File(Directories.getRootPath(SimpleStandaloneModelManager.class.getName()) + "/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath);
+			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath);
 			SimpleStandaloneModelManager.getLog().info("MDR driver initialized...");
 			isInitialized = true;	
 			return this;
 		} 
 		catch (Exception e) {
 			SimpleStandaloneModelManager.getLog().error("MDR driver bugged !!!", e);
+			System.err.println("looking for log4jconfiguration file here: "+filePath); 
 			throw e;
 		}
 	}

@@ -1,4 +1,4 @@
-/* $Id: EMFDriver.java,v 1.5 2004-06-23 15:14:36 dvojtise Exp $
+/* $Id: EMFDriver.java,v 1.6 2004-06-25 12:09:18 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -58,12 +58,15 @@ public class EMFDriver {
  */	
 	//Constructor : just register a specific logger for this driver
 	public EMFDriver() {
+		String filePath="";
 		try {
-			String filePath = new java.io.File("workspace/org.inria.EMFDriver/log4j_configuration.xml").getCanonicalPath();
+			filePath = new java.io.File("workspace/org.inria.EMFDriver/log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
-			DOMConfigurator.configure(filePath); }
+			DOMConfigurator.configure(filePath);
+			LogManager.getRootLogger().debug("looking for log4jconfiguration file here: "+filePath); }
 		catch(java.io.IOException e) {
-							System.err.println("Can't state log4j in EMFDriver"); }
+							System.err.println("Can't state log4j in EMFDriver"); 
+							System.err.println("looking for log4jconfiguration file here: "+filePath); } 
 	}
 	
 	public static void addEditingDomainProvider(String fileExtension,EditingDomainProvider provider){
