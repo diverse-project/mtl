@@ -1,5 +1,5 @@
 /*
-* $Id: MTLCodeGenerator.java,v 1.4 2004-09-08 08:37:14 dvojtise Exp $
+* $Id: MTLCodeGenerator.java,v 1.5 2004-10-29 11:33:48 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -7,10 +7,10 @@
 */ 
 package org.inria.mtl.builders;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -57,6 +57,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 	private MTLModel model;
 	private static String tllFolderPath ;
 	private static String runtimePathFolder ;
+	private Logger log = MSGHandler.init();
 	
 	
 	/** The error level of the  Parse Exceptions. */
@@ -274,8 +275,7 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		  }
 		System.out.println("Generating tll and java objects for " + mtlsrc.getName() + "...");
 		//initialiser le vecteur des messages
-		MSGHandler.reinit();
-		MSGHandler.debug(this.getClass(),276,"MTLPlugin: Generating tll and java objects for " + mtlsrc.getName() + "...");
+		log.debug ("MTLPlugin: Generating tll and java objects for " + mtlsrc.getName() + "...");
 	    //Call the MTL Compiler here
 		// Mise à jour du compilateur
 //		File cFile = new File(BasicMTLc_jar);
@@ -308,11 +308,11 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 			String logFile=MTLPlugin.getDefault().getLocation();
 			logFile=logFile.concat("\\MTL\\bin\\log4j_configuration.xml");
 			DOMConfigurator.configure (logFile);
-			MSGHandler.debug(this.getClass(),309,"MTLPlugin: sourceDir=" + sourceDir);
-			MSGHandler.debug(this.getClass(),309,"MTLPlugin: defaultPackagePrefix=" + defaultPackagePrefix);
-			MSGHandler.debug(this.getClass(),309,"MTLPlugin: tllDestDir=" + tllDestDir);
-			MSGHandler.debug(this.getClass(),309,"MTLPlugin: Runtime_TLL_path=" + Runtime_TLL_path);
-			MSGHandler.debug(this.getClass(),309,"MTLPlugin: javaDestDir=" + javaDestDir);
+			log.debug ("MTLPlugin: sourceDir=" + sourceDir);
+			log.debug ("MTLPlugin: defaultPackagePrefix=" + defaultPackagePrefix);
+			log.debug ("MTLPlugin: tllDestDir=" + tllDestDir);
+			log.debug ("MTLPlugin: Runtime_TLL_path=" + Runtime_TLL_path);
+			log.debug ("MTLPlugin: javaDestDir=" + javaDestDir);
 			Comp.compileFromDirectory(sourceDir,defaultPackagePrefix,tllDestDir,Runtime_TLL_path,javaDestDir);
 	      	System.out.println("Compilation "+sourceDir+"  OK");
 		  }catch (Exception E){
@@ -409,7 +409,6 @@ public class MTLCodeGenerator implements IWorkspaceRunnable {
 		 		System.out.println("Ligne :"+ReX.getLineNumber());
 		 		System.out.println("Message :"+ReX.getMessage());
 		 		System.out.println("Type de message :"+ReX.getMessageType());
-		 		System.out.println("Ligne origine :"+ReX.getOriginLineNumber());
 //			On supprime les markers au premier passage seulement
 				createMarkersTask(ReX, MTLMarkers.cleanMarkers);
 		 		System.out.println("*************************************");

@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.3 2004-10-20 09:34:15 edrezen Exp $
+* $Id: MTLModel.java,v 1.4 2004-10-29 11:33:48 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -62,7 +62,7 @@ public class MTLModel {
 	*/
    public static boolean PROCESS_REFERENCE = false;
 
-	private  static IProject proj;
+	public  static IProject proj;
 	// tll folder root
 	static public IFolder tllFolder;
 	// mtl folder root
