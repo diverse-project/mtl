@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_build.xml,v 1.18 2005-02-25 12:37:27 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_build.xml,v 1.19 2005-03-01 12:29:24 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler with support for association
@@ -90,7 +90,7 @@
 		<ant antfile="${runtime.plugin.project.dir}/main_build.xml" dir="${runtime.plugin.project.dir}" target="compile" inheritAll="false"/>
 		<ant antfile="${MDRDriver.project.dir}/main_build.xml" dir="${MDRDriver.project.dir}" target="compile" inheritAll="false"/>
 		<ant antfile="${ModFactDriver.project.dir}/main_build.xml" dir="${ModFactDriver.project.dir}" target="compile" inheritAll="false"/>
-		<ant antfile="${PoseidonDriver.project.dir}/main_build.xml" dir="${PoseidonDriver.project.dir}" target="compile" inheritAll="false"/>
+		<ant antfile="${PoseidonDriver.project.dir}/build.xml" dir="${PoseidonDriver.project.dir}" target="create_jar" inheritAll="false"/>
 		<ant antfile="${EMFDriver.project.dir}/main_build.xml" dir="${EMFDriver.project.dir}" target="compile" inheritAll="false"/>
 	</target>
 	<target name="get_dependent_external_jars" depends="compile_dependent_external_jars"
