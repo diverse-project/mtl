@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.1 2003-08-08 15:41:12 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/ReturnAnalyser.java,v 1.2 2003-08-14 21:31:41 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -22,13 +22,13 @@ public class ReturnAnalyser extends TLLTopDownVisitor.ReturnAnalyser {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		outputForClass.println("return ");
 		if (returnedType.getIsLocalType())
-			outputForClass.print("("+returnedType.getLocalMangledName()+")");
-		else outputForClass.print("("+returnedType.getExternCompleteName()+")");		
+			outputForClass.print("("+returnedType.getLocalMangledName()+')');
+		else outputForClass.print("("+returnedType.getExternCompleteName()+')');		
 		return null; }
 
 	public void ReturnAfter(Object theReturn,Return ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.println(":");
+		outputForClass.println(';');
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/WhileAnalyser.java,v 1.1 2003-08-08 15:41:12 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/WhileAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -25,14 +25,16 @@ public class WhileAnalyser extends TLLTopDownVisitor.WhileAnalyser {
 	public void WhileCondition(Object theWhile,Object expr,java.util.Map context)
 	{	String genSymbol=(String)theWhile;
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.println(";\n");
+		outputForClass.println(';');
+		outputForClass.println();
 		outputForClass.println("if ("+genSymbol+".getTheBoolean()) {");
 	}
 
 	public void WhileAfter(Object theWhile,While ASTnode,java.util.Map context)
 	{	String genSymbol=(String)theWhile;
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.println("}\n");
+		outputForClass.println('}');
+		outputForClass.println();
 		outputForClass.println("} while ("+genSymbol+".getTheBoolean());");
 	}
 

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.2 2003-08-09 16:02:07 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/AttributeAnalyser.java,v 1.3 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 4 août 2003
  *
  */
@@ -50,7 +50,7 @@ public class AttributeAnalyser extends TLLTopDownVisitor.AttributeAnalyser {
 								outputForInterface.println("public VoidValueImpl set_"+ASTnode.getMangle()+" (API value);");
 							} 
 					}
-				else CodeGeneration.BMTLCompiler.getLog().error("Attribute has a wrong type qualifier !"+ASTnode.getName()+":"+type);;
+				else CodeGeneration.BMTLCompiler.getLog().error("Attribute has a wrong type qualifier !"+ASTnode.getName()+':'+type);
 	}
 
 }

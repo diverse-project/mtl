@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.1 2003-08-08 15:41:12 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/CommonFunctions.java,v 1.2 2003-08-14 21:31:41 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -36,7 +36,7 @@ public class CommonFunctions {
 		return output;
 	}
 	
-	public static void generatePckgeImports(PrintWriter output,String packageName)
+	public static void generatePackgeImports(PrintWriter output,String packageName)
 	{	output.println("package "+packageName+";\n\n");
 		output.println("import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.*;");
 		output.println("import org.irisa.triskell.MT.BasicMTL.TopTypes.*;");

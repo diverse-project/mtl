@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OclTypeLiteralAnalyser.java,v 1.1 2003-08-08 15:41:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OclTypeLiteralAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -29,8 +29,8 @@ public class OclTypeLiteralAnalyser extends TLLTopDownVisitor.OclTypeLiteralAnal
 		if (type.getIsExternType()) outputForClass.print("\"isExternType\",");
 		outputForClass.print("new java.util.Vector()={");
 		for (int i=0;i<type.size();i++) {
-			outputForClass.print("\""+type.get(i)+"\"");
-			if (i<type.size()-1) outputForClass.print(",");
+			outputForClass.print("\""+type.get(i)+'"');
+			if (i<type.size()-1) outputForClass.print(',');
 		}
 		outputForClass.print("})");
 	}

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.2 2003-08-09 16:02:07 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationAnalyser.java,v 1.3 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 7 août 2003
  *
  */
@@ -23,6 +23,7 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
 		String currentClassMangle=(String)context.get("CurrentClassMangledName");
 		if (ASTnode.getName().equalsIgnoreCase("main")) {
+			//@TODO for a library, it would be better to ask the singleton
 			outputForClass.println("public static void main(String args[]) {"); 
 			outputForClass.println("new "+currentClassMangle+"().BMTL_main(); }");
 		}
@@ -31,12 +32,12 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 			if (type.getLocalMangledName().equals(ASTnode.getMangle()))
 				BMTLCompiler.getLog().error("Constructors not allowed in BMTL : "+ASTnode.getName());
 			else {
-				outputForClass.print("public "+type.getLocalMangledName()+" "+ASTnode.getMangle()+"("); 
-				outputForInterface.print("public "+type.getLocalMangledName()+" "+ASTnode.getMangle()+"(");
+				outputForClass.print("public "+type.getLocalMangledName()+' '+ASTnode.getMangle()+'('); 
+				outputForInterface.print("public "+type.getLocalMangledName()+' '+ASTnode.getMangle()+'(');
 			}
 		else { //Extern library type
-			outputForClass.print("public "+type.getExternCompleteName()+" "+ASTnode.getMangle()+"("); 
-			outputForInterface.print("public "+type.getExternCompleteName()+" "+ASTnode.getMangle()+"(");
+			outputForClass.print("public "+type.getExternCompleteName()+' '+ASTnode.getMangle()+'('); 
+			outputForInterface.print("public "+type.getExternCompleteName()+' '+ASTnode.getMangle()+'(');
 		}
 		return null;
 	}
@@ -44,19 +45,20 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 	public void OperationParamSeparator(java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
-		outputForClass.print(",");
-		outputForInterface.println(",");
+		outputForClass.print(',');
+		outputForInterface.print(',');
 	}
 	
 	public void OperationEndParameters(java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
-		outputForClass.println(")");
-		outputForInterface.println(")");
+		outputForClass.println(") {");
+		outputForInterface.print(')');
 	}
 
 	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
+		PrintWriter outputForInterface = (PrintWriter)context.get("OutputForInterface");
 		QualifiedName type=ASTnode.getFeatureType();
 		if (((type.size()==1)
 				&& ((String)type.get(0)).equals("Void"))
@@ -65,5 +67,6 @@ public class OperationAnalyser extends TLLTopDownVisitor.OperationAnalyser {
 				&& ((String)type.get(1)).equals("Void")))
 				outputForClass.println("return VoidValueImpl.getTheInstance(); }\n\n");
 		else outputForClass.println("}\n\n");
+		outputForInterface.println(';');
 	}
 }

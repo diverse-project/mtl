@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/StringLiteralAnalyser.java,v 1.1 2003-08-08 15:41:11 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/StringLiteralAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -18,6 +18,6 @@ public class StringLiteralAnalyser extends TLLTopDownVisitor.StringLiteralAnalys
 
 	public void StringLiteralAction(StringLiteral ASTnode,java.util.Map context)
 	{	PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		outputForClass.print("new StringValueImpl(false,null,"+ASTnode.getValue()+")");
+		outputForClass.print("new StringValueImpl(false,null,"+ASTnode.getValue()+')');
 	}
 }

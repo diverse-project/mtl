@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.1 2003-08-08 15:41:12 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.2 2003-08-14 21:31:40 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -26,7 +26,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		if (theOpCall.getIsToInvoke()) 
 			outputForClass.print(".invoke(null,\""+mangledOpCall+"\",new Value[]{");
-		else outputForClass.print("."+mangledOpCall+"(");
+		else outputForClass.print("."+mangledOpCall+'(');
 	}
 
 	public void OperationCallArgSeparator(java.util.Map context)
@@ -39,7 +39,7 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		if (theOpCall.getIsToInvoke()) 
 			outputForClass.print("},new String[]{ ModelElement.OperationDiscriminant})");
-		else outputForClass.print(")");
+		else outputForClass.print(')');
 	}
 
 }
