@@ -1,4 +1,4 @@
-// $Id: Association.mtl,v 1.4 2004-11-05 10:48:26 jpthibau Exp $
+// $Id: Association.mtl,v 1.5 2004-11-05 10:59:37 jpthibau Exp $
 // part of the BasicMtlASTWithAssociationView Library
 /* version written for basicmtl.g,v 1.2
  *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
@@ -30,6 +30,7 @@ copyOperation (theOp : Operation) : Operation
 	elements : Standard::Iterator;
 	copy := new Operation();
 	copy.name := theOp.name;
+	copy.isAbstract := false;
 	if isNull(theOp.Parameters).[not]()
 	{	elements := theOp.Parameters.getNewIterator();
 		copy.Parameters := new Standard::OrderedSet();
