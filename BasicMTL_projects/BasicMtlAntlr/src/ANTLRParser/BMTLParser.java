@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.4 2003-08-06 16:24:22 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.5 2003-08-07 07:15:30 dvojtise Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -40,6 +40,12 @@ public class BMTLParser {
 			BasicmtlParser parser = new BasicmtlParser(lexer);
 			builtTree=parser.basicMTL(lexer,aWalker);
 			}
+		catch (antlr.ANTLRException e) {
+			noPb=false;
+			log.warn("ANTLRException on "+name+" "+e);
+			log.warn("=> "+e.getMessage());
+			e.printStackTrace();
+		}
 		catch(Exception e) {
 			noPb=false;
 			log.warn("exception: "+e+"=>"+e.getMessage());
