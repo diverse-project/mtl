@@ -1,4 +1,4 @@
-/* $Id: Associations2AttributesActions.java,v 1.2 2004-09-13 12:17:47 dvojtise Exp $
+/* $Id: Associations2AttributesActions.java,v 1.3 2004-09-15 12:50:50 dvojtise Exp $
  * Created on 16 août 2004
  * Authors: dvojtise
  * Copyright 2003 - INRIA - LGPL license
@@ -44,7 +44,7 @@ public class Associations2AttributesActions {
 			
 				BMTLString [] params = new BMTLString [3];
 				params[0] = new BMTLString(sourceFileName);
-				params[1] = new BMTLString(sourceFileName);
+				params[1] = new BMTLString(destFileName);
 				params[2] = new BMTLString("EMF");
 				Thread cur = Thread.currentThread();
 				ClassLoader save = cur.getContextClassLoader();			
