@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!-- $Id: plugin.xml,v 1.9 2005-02-24 16:40:28 dvojtise Exp $ -->
 <plugin
    id="org.inria.mtl"
    name="MTL Plugin For Eclipse"
@@ -44,16 +45,24 @@
   		<perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
   			<perspectiveShortcut id="org.eclipse.ui.resourcePerspective" /> 
   			<perspectiveShortcut id="org.eclipse.jdt.ui.JavaPerspective" />
-  			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
- 			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
- 		</perspectiveExtension>
- 		<perspectiveExtension targetID="org.inria.mtl.MTLPerspective">
  			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
  			<showInPart id="org.eclipse.jdt.ui.PackageExplorer" /> 
  			<newWizardShortcut id="org.inria.mtl.wizard.MTLProjectCreationWizard" /> 
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
-  	 		<actionSet id="org.inria.mtl.actionSet" /> 
+  	 	    <actionSet id="org.inria.mtl.actionSet" />
+            <view
+               visible="true"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ContentOutline"
+               id="org.inria.mtl.views.projectexplorer.ProjectExplorerView"/> 
+            <view
+               visible="true"
+               relationship="stack"
+               relative="org.inria.mtl.views.mtlconsoleview"
+               id="org.eclipse.ui.console.ConsoleView"/> 
+                       
+  	 		<actionSet id="org.eclipse.debug.ui.launchActionSet"/> 
   		</perspectiveExtension>
   		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
  			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
@@ -62,7 +71,7 @@
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
   			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  			<actionSet id="org.inria.mtl.actionSet" /> 
+  			<!--<actionSet id="org.inria.mtl.actionSet" /> -->
   		</perspectiveExtension>
  		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
  			<showInPart id="org.eclipse.ui.views.ResourceNavigator" /> 
@@ -71,10 +80,10 @@
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFolderCreationWizard" /> 
   			<newWizardShortcut id="org.inria.mtl.wizard.MTLFileCreationWizard" /> 
   			<perspectiveShortcut id="org.inria.mtl.MTLPerspective" /> 
-  			<actionSet id="org.inria.mtl.actionSet" /> 
+  			<!--<actionSet id="org.inria.mtl.actionSet" /> -->
   		</perspectiveExtension>
   </extension>
-  <!-- =========================================================================== -->
+<!-- =========================================================================== -->
 <!-- Nature  and Builder of the project                                                                 -->
 <!-- =========================================================================== -->
   
@@ -88,7 +97,6 @@
          </run>
       </runtime>
       <builder
-      		name="%MTLBuilder"
             id="org.inria.mtl.MTLPlugin.MTLBuilder">
       </builder>
    </extension>
@@ -122,7 +130,7 @@
       <editor
             name="%MTLEditor"
             default="true"
-            icon="icons/file_mtl.gif"
+            icon="icons/mtl_file.gif"
             extensions="mtl"
             contributorClass="org.inria.mtl.editors.MTLActionContributor"
             class="org.inria.mtl.editors.MTLUnitEditor"
@@ -218,7 +226,7 @@
          </action>
           <action
                label="%menu.newFolder"
-               icon="icons/new_folder.gif"
+               icon="icons/new_source_folder.gif"
                tooltip="%menu.tooltip.newFolder"
                class="org.inria.mtl.actions.NewFolderWizardAction"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
@@ -227,13 +235,21 @@
          </action>
           <action
                label="%menu.newFile"
-               icon="icons/mtl_page.gif"
+               icon="icons/new_mtl_file.gif"
                tooltip="%menu.tooltip.newFile"
                class="org.inria.mtl.actions.NewFileWizardAction"
                menubarPath="org.inria.mtl.MTLMenu/maj_separator"
                toolbarPath="Normal"
                id="org.inria.mtl.actions.newfileAction">
          </action>
+          <action
+                toolbarPath="Normal"
+                label="%menu.generateAntFile"
+                class="org.inria.mtl.actions.generateAntfilesAction"
+                tooltip="%menu.tooltip.generateAntFile"
+                icon="icons/antimtl.gif"
+                menubarPath="org.inria.mtl.MTLMenu/MTLGroup"
+                id="org.inria.mtl.action.generateAntFile"/>
       </actionSet>
             <actionSet
             label="%CodingActionSet.label"
@@ -432,7 +448,7 @@
       </category>
       <wizard
             name="%new.pluginProject.name"
-            icon="icons/mtl2.gif"
+            icon="icons/new_mtl_project.gif"
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.NewProjectWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
@@ -448,7 +464,7 @@
       </wizard>
       <wizard
             name="%new.pluginFolder.name"
-            icon="icons/mtl.gif"
+            icon="icons/new_source_folder.gif"
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.SourceFolder"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
@@ -461,7 +477,7 @@
       </wizard>
       <wizard
             name="%new.pluginFile.name"
-            icon="icons/file_mtl.gif"
+            icon="icons/new_mtl_file.gif"
             category="org.inria.mtl.wizcat"
             class="org.inria.mtl.wizards.FileWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
