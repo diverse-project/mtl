@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.13 2004-01-30 14:27:30 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.14 2004-02-11 16:39:53 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -460,6 +460,10 @@
                          match="(\$Build\$)"
                          replace="${TODAY_UK}"
                          byline="true"/>
+  		
+  		<!-- add the legal notice -->
+  		<copy file="src/legal_notice.txt" todir="${dist}"/>
+  		<copy file="src/LGPL_license.txt" todir="${dist}"/>
   		
   		<!-- compress all in a zip file -->		
   		<zip destfile="${dist}/BasicMTLCompiler_${TODAY_UK}.zip">	
