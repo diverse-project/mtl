@@ -12,7 +12,8 @@ import org.inria.mtl.commands.edition.EditionCommandFactory;
 import org.inria.mtl.commands.markers.MarkersCommandFactory;
 import org.inria.mtl.commands.resources.ResourcesCommandFactory;
 import org.inria.mtl.commands.tag.TagCommandFactory;
-import org.irisa.triskell.MT.utils.MessagesHandler.CompilerMessage;
+
+import CompilerEvents.CompilerMessage;
 
 /**
  * @author edrezen
@@ -89,10 +90,10 @@ public class MTLCommandExecutor
 
 	/**
 	 * @throws Exception */
-	static public Object getFileFromCompilerMessage (CompilerMessage message) throws Exception
-	{
-		return build.createGetFileFromCompilerMessageCommand (message).execute();
-	}
+//	static public Object getFileFromCompilerMessage (CompilerMessage message) throws Exception
+//	{
+//		return build.createGetFileFromCompilerMessageCommand (message).execute();
+//	}
 
 	/**
 	 * @throws Exception */
@@ -119,9 +120,9 @@ public class MTLCommandExecutor
 	////////////////////////////////////////////////////////////////////////////////
 	// MARKERS COMMANDS
 	////////////////////////////////////////////////////////////////////////////////
-	static public Object createMarkers (java.util.Vector vector) throws Exception
+	static public Object createMarkers (CompilerMessage message) throws Exception
 	{
-		return markers.createCreateMarkersCommand (vector).execute();
+		return markers.createCreateMarkersCommand (message).execute();
 	}
 
 	

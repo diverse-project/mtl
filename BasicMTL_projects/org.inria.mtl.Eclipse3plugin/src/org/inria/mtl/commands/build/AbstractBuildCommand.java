@@ -83,6 +83,8 @@ abstract public class AbstractBuildCommand extends MTLCommand
 			loopFolder.deleteMarkers (IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 			loopFolder.deleteMarkers (IMarker.TASK,    true, IResource.DEPTH_INFINITE);
 		}
+		MTLModel.getProject().deleteMarkers (IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+		MTLModel.getProject().deleteMarkers (IMarker.TASK,    true, IResource.DEPTH_INFINITE);
 		
 		return super.preExecute();
 	}
@@ -141,9 +143,6 @@ abstract public class AbstractBuildCommand extends MTLCommand
 		// we may have to do nothing
 		if (getDependencies().size()==0)  {return Boolean.TRUE; }
 
-		// some post processings...
-		MTLCommandExecutor.createMarkers (MSGHandler.allMessages);
-		
 		return super.postExecute();
 	}
 

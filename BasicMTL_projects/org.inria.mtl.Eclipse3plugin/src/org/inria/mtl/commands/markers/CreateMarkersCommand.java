@@ -12,11 +12,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.texteditor.MarkerUtilities;
+import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.builders.MTLModel;
 import org.inria.mtl.commands.MTLCommand;
-import org.inria.mtl.commands.MTLCommandExecutor;
-import org.inria.mtl.core.MTLCore;
-import org.irisa.triskell.MT.utils.MessagesHandler.CompilerMessage;
+
+import CompilerEvents.CompilerMessage;
+import CompilerEvents.FileCompilerMessageLocator;
 
 /**
  * @author edrezen
@@ -27,28 +30,17 @@ public class CreateMarkersCommand extends MTLCommand
 	////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////
-	private java.util.Vector vector;
-	
-
-	////////////////////////////////////////////////////////////////////////////////
-	// GETTERS AND SETTERS
-	////////////////////////////////////////////////////////////////////////////////
-	
-	public java.util.Vector getVector() {
-		return vector;
-	}
-	public void setVector(java.util.Vector vector) {
-		this.vector = vector;
-	}
-
+	private CompilerMessage message;
+	private CompilerMessage getMessage() { return message; }
+	private void setMessage(CompilerMessage message) { this.message = message; }
 	
 	////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////
-	public CreateMarkersCommand (java.util.Vector vector)
+	public CreateMarkersCommand (CompilerMessage message)
 	{
-		setVector (vector);
-	}
+		setMessage (message);
+	} 
 	
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -59,79 +51,58 @@ public class CreateMarkersCommand extends MTLCommand
 	 */
 	public Object mainExecute() throws Exception 
 	{
-    	MTLCommand.log().debug ("There are " + getVector().size() + " markers to be created...");
+		Hashtable attributes = new Hashtable();
 
-    	for (int i=0; i<getVector().size(); i++)
-    	{
-			if (getVector().elementAt(i) instanceof CompilerMessage)
-			{ 
-				createMarkersTask ((CompilerMessage)getVector().elementAt(i));
-			}
-		}
+		// we set the message of the marker
+		MarkerUtilities.setMessage (attributes, getMessage().getDescription());
 
-		return null;
-	}
-
-	
-	/** */
-    public void createMarkersTask (CompilerMessage cMessage) throws Exception 
-	{
-    	// we retrieve the file corresponding to the CompilerMessage
-		//IFile currentFile = (IFile) MTLCommandExecutor.getFileFromCompilerMessage (cMessage);
-		
-    	IFile currentFile = MTLCore.getProject().getFile(cMessage.getFileName());
-    	
-		if (currentFile!=null && currentFile.exists())
+		// we set the severity of the marker
+		switch (getMessage().getSeverity())
 		{
-	    	String message = cMessage.getMessage();
-	    	String type    = cMessage.getMessageType();
-
-			if ( (message.indexOf("ANTLRException")==0) && (type.compareTo("warn")==0) )
-			{
-				// we set a mark according to the type of message
-				Hashtable attributes = new Hashtable();
-
-				// we extract information from this kind of compiler message
-				String messageAll   = message.substring(message.indexOf(" on ") + 4, message.length() );
-				String messageFile  = messageAll.substring(0, messageAll.indexOf(","));
-				String messageDelta = messageAll.substring(messageAll.indexOf(", ") + 2, messageAll.length());
-				String messageLine  = messageDelta.substring(messageDelta.indexOf("line ")+5 ,messageDelta.indexOf(":"));
-				String messageDesc  = messageDelta.substring(messageDelta.indexOf(":",messageDelta.indexOf(":")+1)+1, messageDelta.length());
-
-				attributes.put (IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-
-				MarkerUtilities.setMessage    (attributes, messageDesc);
-				MarkerUtilities.setLineNumber (attributes, Integer.parseInt(messageLine));
+			case CompilerMessage.ERROR:
+				attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+				break;
 			
-				updateMarkers (currentFile, attributes);
-
-			}
-			else if (type=="error" || type=="warn") 
-			{
-				// we set a mark according to the type of message
-				Hashtable attributes = new Hashtable();
-
-				MarkerUtilities.setMessage (attributes, message);
-				
-				if      (type=="error")  attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-				else if (type=="warn")   attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+			case CompilerMessage.INFO:
+				attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO));
+				break;
 			
-				updateMarkers (currentFile, attributes);
-			}
+			case CompilerMessage.WARNING:
+				attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+				break;
+			
+			default:
+				throw new Exception ("Impossible case in a switch statement...");
 		}
+
+		// we look for a message with a File locator
+		if (getMessage().getLocator()!=null && getMessage().getLocator() instanceof FileCompilerMessageLocator)
+		{
+			// we retrieve the IFile from the file locator
+			FileCompilerMessageLocator fileLocator = (FileCompilerMessageLocator)getMessage().getLocator();
+			IFile file = MTLPlugin.getWorkspace().getRoot().getFileForLocation (new Path (fileLocator.getFileName()));
+
+			MarkerUtilities.setLineNumber(attributes, fileLocator.getLineNumber());
+
+			createMarkers (file, attributes);
+		}
+		else
+		{
+			// if there is no resource associated to the compiler message, we set the marker on the project
+			createMarkers (MTLModel.getProject(), attributes);
+		}
+		
+		return Boolean.TRUE;
 	}
 
     
     /** */
-	private void updateMarkers (IResource resource, Hashtable attributes) throws CoreException 
+	private void createMarkers (IResource resource, Hashtable attributes) throws CoreException 
 	{
     	MTLCommand.log().debug ("We set a mark on the resource '" + resource + "' with attributes '" + attributes + "'");
 
     	// we set the marker and a task
 		MarkerUtilities.createMarker (resource, attributes, IMarker.PROBLEM);
 		MarkerUtilities.createMarker (resource, attributes, IMarker.TASK);
-
-		// we refresh the resource since a marker has been set on it
-		resource.getParent().refreshLocal(IResource.DEPTH_ONE, null);
 	}
 }
