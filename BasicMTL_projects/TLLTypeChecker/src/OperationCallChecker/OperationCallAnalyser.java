@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.3 2003-08-21 20:20:43 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/OperationCallAnalyser.java,v 1.4 2003-08-26 13:09:59 ffondeme Exp $
  * Created on 1 août 2003
  *
  */
@@ -34,6 +34,12 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 					ASTnode.setIsToInvoke(true);
 			}
 		if ((theCaller instanceof OperationCall) && ((OperationCall)theCaller).getIsToInvoke()) {
+			ASTnode.setIsToInvoke(true);
+		}
+		if (ASTnode.getOclAsType() != null && ASTnode.getOclAsType().getIsRepositoryModel()) {
+			ASTnode.setIsToInvoke(true);
+		}
+		if (theCaller != null && theCaller.getToBeCasted() != null && theCaller.getToBeCasted().getIsRepositoryModel()) {
 			ASTnode.setIsToInvoke(true);
 		}
 	}

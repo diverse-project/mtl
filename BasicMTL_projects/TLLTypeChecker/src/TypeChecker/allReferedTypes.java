@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.8 2003-08-22 17:41:40 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.9 2003-08-26 13:09:59 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
+import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
@@ -193,8 +194,9 @@ public class allReferedTypes {
 			{	String className=(String)aType.get(1);
 				KnownClasses knownClasses=theLoadedTll.getKnownTypes();
 				if (knownClasses.containsKey(className)) {
-					UserClass theClass = (UserClass)knownClasses.get(className);
-					boolean isManuallyMangled = ((Boolean)theClass.getProperty("ManualMangling").getValue()).booleanValue();
+					UserDefinedClass theClass = (UserDefinedClass)knownClasses.get(className);
+					Property manualMangle = theClass.getProperty("ManualMangling");
+					boolean isManuallyMangled = manualMangle != null && ((Boolean)manualMangle.getValue()).booleanValue();
 					aType.setIsExternType(true);
 					aType.setExternMangledName(theClass.getMangle());
 					if (isManuallyMangled) {
