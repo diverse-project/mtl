@@ -1,5 +1,5 @@
 /*
-* $Id: MTLEditor.java,v 1.2 2004-08-26 12:40:40 sdzale Exp $
+* $Id: MTLEditor.java,v 1.3 2004-10-22 07:43:52 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -11,6 +11,7 @@ package org.inria.mtl.editors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jdt.internal.ui.text.JavaPairMatcher;
@@ -43,6 +44,8 @@ import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.editors.text.DefaultEncodingSupport;
@@ -54,6 +57,7 @@ import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.inria.mtl.MTLPlugin;
+import org.inria.mtl.commands.MTLCommandExecutor;
 import org.inria.mtl.editors.actions.GenerateActionGroup;
 import org.inria.mtl.editors.actions.GotoMatchingBracketAction;
 import org.inria.mtl.editors.actions.MTLEditorActionDefinitionIds;
@@ -116,6 +120,18 @@ public class MTLEditor extends TextEditor implements ISelectionChangedListener{
 	{
 		super.doSave(monitor);
 
+		IEditorInput editorInput= this.getEditorInput();
+		if (editorInput instanceof IFileEditorInput)
+		{
+			IFile theFile = ((IFileEditorInput) editorInput).getFile();
+			try {
+				MTLCommandExecutor.setTagResource (theFile, false);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if (outlinePage != null)
 		{
 			outlinePage.update();
