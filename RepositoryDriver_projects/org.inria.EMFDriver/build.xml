@@ -157,7 +157,7 @@
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
-		<eclipse.convertPath fileSystemPath="C:/eclipse3.0/eclipse/workspace/org.inria.EMFDriver" property="resourcePath"/>
+		<eclipse.convertPath fileSystemPath="C:/ECLIPSE3/eclipse/workspace/org.inria.EMFDriver" property="resourcePath"/>
 		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
 	</target>
 
