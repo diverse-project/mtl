@@ -1,6 +1,6 @@
 /*
  * Created on 23 juil. 2003
- * $Id: UserClassAnalyser.java,v 1.11 2004-03-19 17:44:02 edrezen Exp $
+ * $Id: UserClassAnalyser.java,v 1.12 2004-06-30 09:36:55 jpthibau Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -30,6 +30,8 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 	{	context.put("InClass", Boolean.TRUE);
 		String userClassName=ASTnode.getName();
 		String mangle=null;
+		Property observableClass=(Property)ASTnode.getProperty("observable");
+		boolean observable = observableClass != null;
 		Property mangling=(Property)ASTnode.getProperty("mangle");
 		boolean manualMangling = mangling != null;
 		if (manualMangling)
@@ -42,6 +44,7 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		for (int i=0;i<ASTnode.cardQualifiedName();i++)
 			qn.addElement(ASTnode.getQualifiedName(i));
 		theCreatedClass.setQualifiedName(qn);
+		theCreatedClass.createNewProperty("ObservableClass", observable ? Boolean.TRUE : Boolean.FALSE, "Boolean");
 		theCreatedClass.createNewProperty("ManualMangling", manualMangling ? Boolean.TRUE : Boolean.FALSE, "Boolean");
 		Property typeTag = ASTnode.getProperty("type");
 		if (typeTag != null)
