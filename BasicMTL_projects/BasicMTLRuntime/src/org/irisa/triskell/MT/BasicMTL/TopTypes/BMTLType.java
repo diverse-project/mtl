@@ -1,5 +1,5 @@
 /*
- * $Id: BMTLType.java,v 1.7 2004-01-22 11:04:06 uid104 Exp $
+ * $Id: BMTLType.java,v 1.8 2004-03-19 17:56:21 edrezen Exp $
  * Created on 18 juin 2003
  *
  */
@@ -94,12 +94,17 @@ public class BMTLType extends CommandGroupImpl implements InstanciableType {
 		return this == obj || ((obj instanceof BMTLType) && ((BMTLType)obj).itf.equals(this.itf)) && ((BMTLType)obj).clazz.equals(this.clazz) && ((BMTLType)obj).getLibrary() == this.getLibrary();
 	}
 
-	public boolean isKindOf(Value v) {
-		return this.itf.isInstance(v) && ((BMTLType)v.getType()).getLibrary() == this.getLibrary();
+	public boolean isKindOf(Value v) 
+	{
+		// We should rely only on java objects test and not on the libraries names test. The previous test was : 
+		// return this.itf.isInstance(v) && ((BMTLType)v.getType()).getLibrary() == this.getLibrary();		
+		return this.itf.isInstance(v); 
 	}
 
-	public boolean isTypeOf(Value v) {
-		return this.clazz.isInstance(v) && ((BMTLType)v.getType()).getLibrary() == this.getLibrary();
+	public boolean isTypeOf(Value v) 
+	{
+		// We could rely only on java objects test and not on the libraries names test. 
+		return  this.clazz.isInstance(v) && ((BMTLType)v.getType()).getLibrary() == this.getLibrary();
 	}
 
 	public CollectionValue allInstances() throws Exception {
