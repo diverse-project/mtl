@@ -1,0 +1,60 @@
+library SimpleUMLAdapterUsage;
+
+model SIMPLEUML : RepositoryModel;
+model adapter    : MOFSimpleUMLAdapter;
+
+main() : Standard::Void
+{	 
+	// local variables
+
+	adapter         : MOFSimpleUMLAdapter::AdapterModelManager;
+    projectPath       : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+	test : Test1;
+
+	// we define some filenames 
+	projectPath       := './';
+	inputFilename     := projectPath.concat ('models/UML_model.xmi');
+	outputFilename    := projectPath.concat ('models/UML_model_MODIFIED.xmi');
+
+    // we initialize the MDR driver			
+	adapter := new MOFSimpleUMLAdapter::AdapterModelManager();
+	 
+	// intanciate the model, save result in another file
+	SIMPLEUML := adapter.getModel (
+		'SimpleUML_model', 
+		inputFilename,
+		outputFilename
+	);
+
+	test := new Test1 ();
+	test.run(SIMPLEUML);
+
+	'End of test !'.toOut();
+}
+
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+
+class Test1
+{
+	/** */
+	run (SIMPLEUML : RepositoryModel)
+	{
+		iterator : Standard::Iterator;
+		aClass : MOFSimpleUMLAdapter::SimpleUMLClass;
+		instances : Standard::Set;
+
+		'allInstances'.toOut();
+		instances := !SIMPLEUML::SimpleUMLClass!.allInstances();
+		'allInstances passed'.toOut();
+		iterator := instances.getNewIterator();
+		while iterator.isOn() {
+			aClass := iterator.item();
+			aClass.name.toOut();
+			iterator.next();
+		}
+	}
+}
