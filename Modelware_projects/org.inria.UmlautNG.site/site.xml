@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+   <description url="http://modelware.inria.fr/umlautng_update">
+      Umlaut NG Update site.
+It proposes:
+- BasicMTL compiler (with its Eclipse editors, builder, perspective, etc)
+   </description>
+   <feature url="features/org.inria.UmlautNG_0.0.3.jar" id="org.inria.UmlautNG" version="0.0.3">
+      <category name="BasicMTL"/>
+   </feature>
+   <category-def name="BasicMTL" label="BasicMTL features">
+      <description>
+         Features relatives to BasicMTL
+      </description>
+   </category-def>
+</site>

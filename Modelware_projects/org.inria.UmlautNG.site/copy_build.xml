@@ -1,0 +1,16 @@
+<!-- $Id: copy_build.xml,v 1.1 2004-08-11 10:02:45 dvojtise Exp $ -->
+<project name="Copy_site_2_modelware" default="copy_2_modelware_site" basedir=".">
+	<description>
+       
+	</description>
+	<property name="dest" location="\\\\W3\\w3e\\modelware\\htdocs\\umlautng_update"/>
+
+  	<target name="copy_2_modelware_site" description="copy web site files to http://modelware.inria.fr">
+  		<copy  todir="${dest}">
+  			<fileset dir=".">
+  				<exclude name="copy_build.xml"/>
+  				<exclude name=".project"/>
+  			</fileset>  			
+  		</copy>
+  	</target> 
+</project>
