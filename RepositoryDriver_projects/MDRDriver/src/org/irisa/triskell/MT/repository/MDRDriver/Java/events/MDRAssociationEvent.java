@@ -10,6 +10,8 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.AssociationEventKind;
+import org.irisa.triskell.MT.repository.API.Java.Event;
+import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.AssociationEvent;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
@@ -23,10 +25,16 @@ public class MDRAssociationEvent extends MDREvent implements org.irisa.triskell.
 	private AssociationEventKind kind;
 	
 	/** */
-	public MDRAssociationEvent (MDRAPI api, MDRChangeEvent event) 
+	public MDRAssociationEvent (MDRAPI api) 
 	{
-		super (api, event);
-
+		super (api);
+	}
+	
+	/** */
+	public Event init (MDRChangeEvent event)
+	{
+		this.ref = event;
+		
 		if (event.getType() == AssociationEvent.EVENT_ASSOCIATION_ADD)
 		{
 			setKind (AssociationEventKind.associationAdd);
@@ -43,6 +51,7 @@ public class MDRAssociationEvent extends MDREvent implements org.irisa.triskell.
 		{
 			api.getLog().error ("UNKNOWN TYPE OF EVENT...");
 		}
+		return this;
 	}
 
 	/** */

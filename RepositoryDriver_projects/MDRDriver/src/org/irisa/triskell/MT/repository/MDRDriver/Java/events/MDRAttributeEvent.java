@@ -12,6 +12,8 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.StringValueImpl;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
 import org.irisa.triskell.MT.repository.API.Java.API;
 import org.irisa.triskell.MT.repository.API.Java.AttributeEventKind;
+import org.irisa.triskell.MT.repository.API.Java.Event;
+import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 
@@ -24,10 +26,18 @@ public class MDRAttributeEvent extends MDREvent implements org.irisa.triskell.MT
 {
 	private AttributeEventKind kind;
 	
-	/** */
-	public MDRAttributeEvent (MDRAPI api, MDRChangeEvent event) 
+	/**
+	 * @param phase */
+	public MDRAttributeEvent (MDRAPI api) 
 	{
-		super (api, event);
+		super (api);
+		
+	}
+
+	/** */
+	public Event init (MDRChangeEvent event)
+	{
+		this.ref = event;
 		
 		if (event.getType() == org.netbeans.api.mdr.events.AttributeEvent.EVENT_ATTRIBUTE_ADD)
 		{
@@ -45,8 +55,10 @@ public class MDRAttributeEvent extends MDREvent implements org.irisa.triskell.MT
 		{
 			api.getLog().error ("UNKNOWN TYPE OF EVENT...");
 		}
+		return this;
 	}
 
+	
 	/** */
 	public AttributeEventKind getKind() 
 	{

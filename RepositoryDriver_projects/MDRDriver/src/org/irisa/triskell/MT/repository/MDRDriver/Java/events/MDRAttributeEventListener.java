@@ -6,12 +6,14 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
-import org.irisa.triskell.MT.repository.API.Java.API;
+import org.irisa.triskell.MT.repository.API.Java.Event;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerCommand;
+import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.AttributeEvent;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 import org.netbeans.api.mdr.events.MDRChangeListener;
+import org.netbeans.api.mdr.events.MDRPreChangeListener;
 
 
 /** This class is a special event listener that listens for attribute related events.
@@ -25,23 +27,28 @@ import org.netbeans.api.mdr.events.MDRChangeListener;
  * Note also that this class creates MDRAttributeEvent objects that are proxies for the 
  * true MDR events (i.e. MDRChangeEvent)
  */
-public class MDRAttributeEventListener extends MDREventListener implements MDRChangeListener
+public class MDRAttributeEventListener extends MDREventListener
 {
 	/** */
-	public MDRAttributeEventListener (MDRAPI api, EventListenerCommand cmd) 
+	public MDRAttributeEventListener (		
+		MDRAPI api, 
+		EventListenerCommand preCommand,
+		EventListenerCommand postCommand
+	) 
 	{
-		super (api, cmd);
+		super (api, preCommand, postCommand);
 	}
 
 	/** */
-	public void change (MDRChangeEvent event) 
+	public Event createEvent () 
 	{
-		if (event.getType() == AttributeEvent.EVENT_ATTRIBUTE_ADD ||
-			event.getType() == AttributeEvent.EVENT_ATTRIBUTE_REMOVE ||
-			event.getType() == AttributeEvent.EVENT_ATTRIBUTE_SET
-		)
-		{
-			update (new MDRAttributeEvent (getAPI(), event));
-		}
+		return new MDRAttributeEvent (getAPI());
+	}
+
+
+	/** */
+	public int isOfType() 
+	{
+		return org.netbeans.api.mdr.events.AttributeEvent.EVENTMASK_ATTRIBUTE;
 	}
 }

@@ -8,8 +8,10 @@ package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
 import javax.jmi.reflect.RefObject;
 
+import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.Event;
+import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 
@@ -24,15 +26,17 @@ import org.netbeans.api.mdr.events.MDRChangeEvent;
  */
 abstract public class MDREvent implements Event 
 {
-	private MDRAPI api;
-	private org.netbeans.api.mdr.events.MDRChangeEvent ref;
+	protected MDRAPI api;
+	protected org.netbeans.api.mdr.events.MDRChangeEvent ref;
 	
 	/** */
-	public MDREvent (MDRAPI api, MDRChangeEvent mdrEvent) 
+	public MDREvent (MDRAPI api) 
 	{
 		this.api = api;
-		this.ref = mdrEvent;
 	}
+	
+	/** */
+	abstract public Event init (MDRChangeEvent mdrEvent);
 	
 	/** */
 	protected MDRChangeEvent getRef ()
@@ -41,7 +45,7 @@ abstract public class MDREvent implements Event
 	}
 
 	/** */
-	public Element getSource() 
+	public Value getSource() 
 	{
 		return api.getModelElement ((RefObject) getRef().getSource());
 	}

@@ -20,7 +20,7 @@ import sun.security.action.GetLongAction;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class MDREventListenerFactory extends EventListenerFactory
+public class MDREventListenerFactory implements EventListenerFactory
 {
 	private MDRAPI api;
 	/** */
@@ -30,20 +30,29 @@ public class MDREventListenerFactory extends EventListenerFactory
 	}
 	
 	/** */
-	public EventListener createAttributeEventListener (EventListenerCommand cmd)
+	public EventListener createAttributeEventListener (
+		EventListenerCommand preCommand,
+		EventListenerCommand postCommand
+	)
 	{
-		return new MDRAttributeEventListener (api,cmd);
+		return new MDRAttributeEventListener (api, preCommand, postCommand);
 	}
 
 	/** */
-	public EventListener createAssociationEventListener(EventListenerCommand cmd) 
+	public EventListener createAssociationEventListener (
+		EventListenerCommand preCommand,
+		EventListenerCommand postCommand
+	)
 	{
-		return new MDRAssociationEventListener (api,cmd);
+		return new MDRAssociationEventListener (api, preCommand, postCommand);
 	}
 
 	/** */
-	public EventListener createInstanceEventListener(EventListenerCommand cmd) 
+	public EventListener createInstanceEventListener (
+		EventListenerCommand preCommand,
+		EventListenerCommand postCommand
+	)
 	{
-		return new MDRInstanceEventListener (api,cmd);
+		return new MDRInstanceEventListener (api, preCommand, postCommand);
 	}
 }

@@ -6,8 +6,13 @@
  */
 package org.irisa.triskell.MT.repository.MDRDriver.Java.events;
 
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.UndefinedValueImpl;
+import org.irisa.triskell.MT.repository.API.Java.Event;
+import org.irisa.triskell.MT.repository.API.Java.EventPhase;
 import org.irisa.triskell.MT.repository.API.Java.InstanceEventKind;
 import org.irisa.triskell.MT.repository.MDRDriver.Java.MDRAPI;
+import org.irisa.triskell.MT.repository.genericJMIDriver.JMIModelElement;
 import org.netbeans.api.mdr.events.MDRChangeEvent;
 
 /** This class is specific event related to instances. 
@@ -19,9 +24,15 @@ public class MDRInstanceEvent extends MDREvent implements org.irisa.triskell.MT.
 	private InstanceEventKind kind;
 	
 	/** */
-	public MDRInstanceEvent (MDRAPI api, MDRChangeEvent event) 
+	public MDRInstanceEvent (MDRAPI api) 
 	{
-		super (api, event);
+		super (api);
+	}
+
+	/** */
+	public Event init (MDRChangeEvent event)
+	{
+		this.ref = event;
 
 		if (event.getType() == org.netbeans.api.mdr.events.InstanceEvent.EVENT_INSTANCE_CREATE) 
 		{
@@ -35,6 +46,8 @@ public class MDRInstanceEvent extends MDREvent implements org.irisa.triskell.MT.
 		{
 			api.getLog().error ("UNKNOWN TYPE OF EVENT...");
 		}
+		
+		return this;
 	}
 
 	/** */
@@ -48,4 +61,12 @@ public class MDRInstanceEvent extends MDREvent implements org.irisa.triskell.MT.
 	{
 		this.kind = kind;
 	}
+	
+	/** */
+	public Value getInstance () 
+	{
+		Object value = ((org.netbeans.api.mdr.events.InstanceEvent)getRef()).getInstance();
+		return (value==null ? new UndefinedValueImpl (null) : getAPI().java2value (value,false,false,false) );
+	}
+	
 }
