@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.10 2003-12-16 08:11:42 jpthibau Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.11 2003-12-18 14:42:25 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -431,16 +431,24 @@
   		</copy>
   		<copy file="${base}/UML1.4/build.xml" todir="${dist}/sample"/>
   		
-  		<!-- compress all in a zip file -->
   		<tstamp>
     		<!--<format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en"/>-->
     		<format property="TODAY_UK" pattern="d-MM-yyyy" locale="en"/>
   		</tstamp>
+  		<!-- add the version file and update build version -->
+  		<copy file="src/Version.txt" todir="${dist}"/>
+  		<replaceregexp file="${dist}/Version.txt"
+                         match="(\$Build\$)"
+                         replace="${TODAY_UK}"
+                         byline="true"/>
+  		
+  		<!-- compress all in a zip file -->		
   		<zip destfile="${dist}/BasicMTLCompiler_${TODAY_UK}.zip">	
   		    <zipfileset dir="${dist}/Runtime" prefix="Runtime"/>
   		    <zipfileset dir="${dist}/bin" prefix="bin"/>
   		    <zipfileset dir="${dist}/ThirdParty" prefix="ThirdParty"/>
   		    <zipfileset dir="${dist}/sample" prefix="sample"/>
+  		    <zipfileset file="${dist}/Version.txt" prefix=""/>
   		</zip>
   	</target>
 </project>
