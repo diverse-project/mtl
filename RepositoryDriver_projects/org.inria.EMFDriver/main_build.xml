@@ -1,4 +1,4 @@
-<!-- $Id: main_build.xml,v 1.1 2004-10-25 14:00:45 dvojtise Exp $ -->
+<!-- $Id: main_build.xml,v 1.2 2004-10-26 14:00:28 dvojtise Exp $ -->
 <project name="EMFDriver" default="compile" basedir=".">
 	<description>
         main Build file for the EMFDriver
@@ -12,6 +12,7 @@
   		<ant dir="src/MTL/EMFDriver" antfile="build.xml" target="compile_mtl" />  		
   		<ant antfile="build.xml">
   			<property name="javacVerbose" value="false"/>
+  			<property name="javacFailOnError" value="true"/>
   		</ant>
   	</target>
 	

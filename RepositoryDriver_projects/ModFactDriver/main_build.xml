@@ -1,4 +1,4 @@
-<!-- $Id: main_build.xml,v 1.1 2004-10-25 14:01:00 dvojtise Exp $ -->
+<!-- $Id: main_build.xml,v 1.2 2004-10-26 14:00:25 dvojtise Exp $ -->
 <project name="ModFactDriver" default="compile" basedir=".">
 	<description>
         main Build file for the ModFactDriver
@@ -16,6 +16,7 @@
   		<ant dir="src/MTL/ModFactDriver" antfile="build.xml" target="compile_mtl" />  		
   		<ant antfile="build.xml">
   			<property name="javacVerbose" value="false"/>
+  			<property name="javacFailOnError" value="true"/>
   		</ant>
   	</target>
 	
