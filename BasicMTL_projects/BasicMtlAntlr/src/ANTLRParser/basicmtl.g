@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.11 2003-08-28 16:38:16 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.12 2003-09-08 08:51:13 ffondeme Exp $ */
 header {
 package ANTLRParser;
 
@@ -590,8 +590,15 @@ IDENTIFIER options {testLiterals=true;}
 	;
 	
 CHARORSTRING :	'\''!
-		(	ESC
-		|	~('\\'|'\'')
+		(
+			options {
+				generateAmbigWarnings=false;
+			}
+		:	ESC
+		|	'\r' '\n'		{newline();}
+		|	'\r'			{newline();}
+		|	'\n'			{newline();}
+		|	~('\\'|'\''|'\r'|'\n')
 		)*
 		'\''!
 	;
