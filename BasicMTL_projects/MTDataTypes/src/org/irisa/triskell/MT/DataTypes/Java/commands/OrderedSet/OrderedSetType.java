@@ -1,8 +1,6 @@
-/*
+/* $Id: OrderedSetType.java,v 1.4 2004-01-22 12:39:21 dvojtise Exp $
  * Created on May 28, 2003
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.OrderedSet;
 
@@ -55,4 +53,14 @@ public class OrderedSetType extends CollectionType implements InstanciableType {
 		return new OrderedSetValueImpl(false, null, new Value [0], false);
 	}
 
+	public Value instanciateFromJavaObject (Object javaObject)
+	{
+		// no java object are currently possible to create a set 
+		// DVK : currently we have no use for that 
+		return null;
+	}	
+	public boolean isInstanciableFromJavaObject (Object javaObject)
+	{
+		return false;
+	}
 }

@@ -1,28 +1,24 @@
 /*
+ * $Id: BagType.java,v 1.4 2004-01-22 12:39:23 dvojtise Exp $
  * Created on May 28, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package org.irisa.triskell.MT.DataTypes.Java.commands.Bag;
 
-import java.util.Arrays;
-import java.util.Collection;
+// import java.util.Arrays;
+// import java.util.Collection;
 import java.util.Hashtable;
 
-import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
+// import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Type;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 import org.irisa.triskell.MT.DataTypes.Java.commands.InstanciableType;
 import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.CollectionType;
 import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.BagValueImpl;
-import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
+// import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.CollectionValueImpl;
 
 /**
+ * implementation of the Type for Bag objects
  * @author ffondeme
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class BagType extends CollectionType implements InstanciableType {
 	public static final String BagName = "Bag";
@@ -55,4 +51,14 @@ public class BagType extends CollectionType implements InstanciableType {
 		return new BagValueImpl(false, null, new Value [0]);
 	}
 
+	public Value instanciateFromJavaObject (Object javaObject)
+	{
+		// no java object are currently possible to create a set 
+		// DVK : currently we have no use for that 
+		return null;
+	}	
+	public boolean isInstanciableFromJavaObject (Object javaObject)
+	{
+		return false;
+	}
 }
