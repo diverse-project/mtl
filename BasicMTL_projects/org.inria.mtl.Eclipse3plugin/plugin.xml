@@ -3,8 +3,8 @@
 <plugin
    id="org.inria.mtl"
    name="MTL For Eclipse"
-   version="1.0.0"
-   provider-name="Serge DZALE--IRISA/INRIA Rennes"
+   version="0.0.3"
+   provider-name="INRIA"
    class="org.inria.mtl.MTLPlugin">
    <runtime>
       <library name="MTLPlugin.jar"/>
