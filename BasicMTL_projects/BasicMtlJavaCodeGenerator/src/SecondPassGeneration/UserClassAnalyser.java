@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.4 2003-08-20 16:07:35 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/UserClassAnalyser.java,v 1.5 2003-08-22 18:24:43 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -49,24 +49,29 @@ public class UserClassAnalyser extends TLLTopDownVisitor.UserClassAnalyser {
 						argtsGenSymbols=new java.util.Vector();
 						for(int j=0;j<aSignature.getArgsCount();j++) {
 							String genSymbol=CommonFunctions.generateNewSymbol();
-							outputForClass.print(aSignature.getArgsTypes(j).getExternMangledName()+' '+genSymbol);
+							outputForClass.print(aSignature.getArgsTypes(j).getDeclarationName()+' '+genSymbol);
 							argtsGenSymbols.addElement(genSymbol);
 							if (j<arguments-1) outputForClass.print(',');
 						}
 				}
+				outputForClass.print(')');
+				if (aSignature.getThrowsException())
+					outputForClass.print(" throws Throwable");
+				outputForClass.println();
 				String relayName = AWK.mergeCollection(aSignature.getParentThatRelayOp(), "::");
 				GetReferenceSignature relay = (GetReferenceSignature)refOps.get(relayName);
 				if (relay == null) {
 					relay = new GetReferenceSignature(aSignature.getParentThatRelayOp());
 					refOps.put(relayName, relay);
 				}
-				outputForClass.print(")\n{ return ("+relay.getOpMangle()+"()."+aSignature.getOpMangle()+" (");
+				outputForClass.print("{ return ("+relay.getOpMangle()+"()."+aSignature.getOpMangle()+" (");
 				if (arguments>0)
 						for (int j=0;j<arguments;j++) {
 							outputForClass.print((String)argtsGenSymbols.get(j));
 							if (j<arguments-1) outputForClass.print(',');
 						}
-				outputForClass.print(")); }\n\n");	
+				outputForClass.println(")); }");
+				outputForClass.println();
 			}
 		context.put("CurrentClassMangledName",ASTnode.getMangle());
 		context.put("OutputForClass",outputForClass);

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.5 2003-08-21 20:10:17 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/OperationCallAnalyser.java,v 1.6 2003-08-22 18:24:43 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -31,6 +31,8 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 		QualifiedName qn = theOpCall.getOclAsType();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
 		CommonFunctions.generateCastBefore(outputForClass, theOpCall);
+		if (expr != null)
+			outputForClass.print('.');
 		if (theOpCall.getIsToInvoke())  {
 			String oclAsType;
 			if (qn == null)
@@ -45,17 +47,28 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 		} else {
 			if (qn != null) {
 				GetReferenceSignature grs = new GetReferenceSignature(qn);
-				outputForClass.print('.');
 				outputForClass.print(grs.getOpMangle());
-				outputForClass.print("()");
+				outputForClass.print("().");
 			}
 			if (theOpCall.getKind().equals(OperationKind.getAttributeCall()))
-				outputForClass.print("."+AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+				outputForClass.print(AttributeGetterSignature.GetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
 			else if (theOpCall.getKind().equals(OperationKind.getAttributeSet()))
-				outputForClass.print("."+AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
-			else {
+				outputForClass.print(AttributeSetterSignature.SetPrefix+Mangler.mangle("BMTL_", theOpCall.getName())+'(');
+			else if (theOpCall.getKind().equals(OperationKind.getCurrentLibraryCall()))
+				outputForClass.print("theLib");
+			else if (theOpCall.getKind().equals(OperationKind.getLibraryCall())) {
+				TheLibraryClass tlc = (TheLibraryClass)context.get("CurrentClass");
+				BasicMtlLibrary lib = tlc.getTheLibrary();
+				QualifiedName ref = null;
+				for (int i = 0; ref == null && i < lib.cardUsedLibs(); ++i) {
+					ref = lib.getUsedLibs(i);
+					if (! (ref.size() == 1 && ref.get(0).equals(theOpCall.getName())))
+						ref = null;
+				}
+				outputForClass.print("BMTLRef_"+ref.getExternMangledName());
+			} else {
 				String mangledOpCall=Mangler.mangle("BMTL_",theOpCall.getName());
-				outputForClass.print("."+mangledOpCall+'(');
+				outputForClass.print(mangledOpCall+'(');
 			} 
 		}
 	}
@@ -79,7 +92,9 @@ public class OperationCallAnalyser extends TLLTopDownVisitor.OperationCallAnalys
 			else
 				disc = "";
 			outputForClass.print("},new String[]{" + disc + "})");
-		} else outputForClass.print(')');
+		} else if (! theOpCall.getKind().equals(OperationKind.getCurrentLibraryCall())
+					&&! theOpCall.getKind().equals(OperationKind.getLibraryCall()))
+			outputForClass.print(')');
 		CommonFunctions.generateCastAfter(outputForClass, theOpCall);
 	}
 

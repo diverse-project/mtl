@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.4 2003-08-21 20:10:18 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/SecondPassGeneration/NewObjectAnalyser.java,v 1.5 2003-08-22 18:24:43 ffondeme Exp $
  * Created on 8 août 2003
  *
  */
@@ -21,20 +21,19 @@ public class NewObjectAnalyser extends TLLTopDownVisitor.NewObjectAnalyser {
 	public Object NewObjectBefore(NewObject ASTnode,java.util.Map context)
 	{	QualifiedName type=ASTnode.getTypeToCreate();
 		PrintWriter outputForClass = (PrintWriter)context.get("OutputForClass");
-		CommonFunctions.generateCastBefore(outputForClass, ASTnode);
 		if (type.getIsModelType() && type.getIsRepositoryModel()) {
-			outputForClass.print(type.getLocalMangledName()+".getMetaClass(new String[]{");
+			outputForClass.print("((" + type.getDeclarationName() + ")CommonFunctions.toBMTLDataType(((org.irisa.triskell.MT.repository.API.Java.MetaClass)this.getLibrary().getMetaClass(new String[]{");
 			for (int i=0;i<type.size();i++) {
 				outputForClass.print("\""+type.get(i)+'"');
 				if (i<type.size()-1) outputForClass.print(',');
 			}
-			outputForClass.print("}).instanciate(null,null)");
+			outputForClass.print("})).instanciate(null,null)))");
 		}
 		else /*see next comment
 				if (type.getIsExternType()
 			|| (type.getIsModelType() && (! type.getIsRepositoryModel())))*/
 		 {
-				outputForClass.print("((BMTLType)this.getLibrary().getMetaClass(new String [] {");
+				outputForClass.print("(" + type.getDeclarationName() + ")((BMTLType)this.getLibrary().getMetaClass(new String [] {");
 				for (int i=0;i<type.size();i++) {
 					outputForClass.print('"');
 					outputForClass.print(type.get(i));

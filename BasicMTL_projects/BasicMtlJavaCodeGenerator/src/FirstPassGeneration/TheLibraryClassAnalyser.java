@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.4 2003-08-21 20:10:18 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlJavaCodeGenerator/src/FirstPassGeneration/TheLibraryClassAnalyser.java,v 1.5 2003-08-22 18:24:44 ffondeme Exp $
  * Created on 21 juil. 2003
  *
  */
@@ -142,6 +142,10 @@ public class TheLibraryClassAnalyser extends TLLTopDownVisitor.TheLibraryClassAn
 			outputForClass.println("    return null;");
 			outputForClass.println("  }");
 		}
+		outputForClass.println('}');
+		outputForClass.println();
+		outputForClass.println("public BMTLLibrary getLibrary() {");
+		outputForClass.println("  return (BMTLLibrary)this.theCaller;");
 		outputForClass.println('}');
 		outputForClass.println();
 		outputForClass.println("/*===========================*/");
