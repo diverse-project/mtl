@@ -1,3 +1,9 @@
+/*
+ * $Id: QualifiedName.java,v 1.8 2004-04-29 13:55:37 edrezen Exp $
+ * Authors : modelware
+ * 
+ * Copyright 2004 - INRIA - LGPL license
+ */
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
