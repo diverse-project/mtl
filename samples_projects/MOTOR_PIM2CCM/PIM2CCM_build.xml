@@ -1,4 +1,4 @@
-<!-- $Id: PIM2CCM_build.xml,v 1.1 2003-12-05 10:43:16 edrezen Exp $ -->
+<!-- $Id: PIM2CCM_build.xml,v 1.2 2004-01-29 17:31:39 edrezen Exp $ -->
 <project name="PIM 2 CCM Transformation" default="compile" basedir=".">
 	<description>
         Build file for compiling and running PIM 2 CCM Transformation
@@ -52,7 +52,20 @@
   		<!-- cannot run the default target due to the mangling of the _
   			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
   		<java classname="${user.package.name}.BMTLLib_PIM2CCM_5fTransformation" fork="true">
-		<arg value="-h"/>
+
+			<!-- projectPath               -->	<arg value="./" />  
+
+			<!-- Source metamodel pathname -->	<arg value="MetaModels/PIM/DesignMetamodel_MOF.xml" />
+			<!-- Source metamodel package  -->	<arg value="DesignMetaModel" />
+
+			<!-- Source model in  pathname -->	<arg value="Models/PIM/Sample1.xml" />
+			<!-- Source model out pathname -->	<arg value="Models/PIM/SampleOut.xml" />
+
+			<!-- Target metamodel pathname -->	<arg value="MetaModels/CCM/CIDLMetaModel_MOF.xml" />
+			<!-- Target metamodel package  -->	<arg value="CIDLMetaModel" />
+
+			<!-- Target model out pathname -->	<arg value="Models/CCM/SampleOut.xml" />
+
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
