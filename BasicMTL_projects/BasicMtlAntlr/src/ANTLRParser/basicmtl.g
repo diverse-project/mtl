@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.10 2003-08-27 13:35:10 jpthibau Exp $ */
+/* $Id: basicmtl.g,v 1.11 2003-08-28 16:38:16 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -301,7 +301,8 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 expression :
-	 "new" type (POINT IDENTIFIER)? openbracket (arguments)? CLOSEBRACKET (propertyCall)*
+	 "JavaCode" TAGVALUE
+	| "new" type (POINT IDENTIFIER)? openbracket (arguments)? CLOSEBRACKET (propertyCall)*
 	| CHARORSTRING (propertyCall)*
 	| NUM_INT (propertyCall)*
 	| NUM_FLOAT (propertyCall)*
@@ -324,7 +325,9 @@ expression returns [Object tree=null;]
 	Object l2=null;
 }
 :
-	  "new" tree=type (POINT s1:IDENTIFIER {methodName=s1.getText(); })? n=openbracket /*(l1=arguments)?*/ CLOSEBRACKET  (POINT l2=propertyCall {theCalls.addElement(l2); })*
+	 "JavaCode" s5:IDENTIFIER
+		{tree=walker.javaCodeLiteral(s5.getText()); }
+	| "new" tree=type (POINT s1:IDENTIFIER {methodName=s1.getText(); })? n=openbracket /*(l1=arguments)?*/ CLOSEBRACKET  (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.newExpr(tree,methodName,l1,n,theCalls); }
 	| s2:CHARORSTRING (POINT l2=propertyCall {theCalls.addElement(l2); })*
 		{tree=walker.stringLiteral(s2.getText(),theCalls); }

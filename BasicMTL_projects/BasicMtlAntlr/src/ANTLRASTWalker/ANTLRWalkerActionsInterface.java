@@ -1,4 +1,4 @@
-// $Id: ANTLRWalkerActionsInterface.java,v 1.4 2003-08-27 13:35:10 jpthibau Exp $
+// $Id: ANTLRWalkerActionsInterface.java,v 1.5 2003-08-28 16:37:20 jpthibau Exp $
 package ANTLRASTWalker;
 
 public interface ANTLRWalkerActionsInterface {
@@ -50,6 +50,8 @@ public Object intLiteral(String value,java.util.Vector propertyCalls);
 public Object realLiteral(String value,java.util.Vector propertyCalls);
 
 public Object stringLiteral(String value,java.util.Vector propertyCalls);
+
+public Object javaCodeLiteral(String value);
 
 public Object oclTypeLiteral(Object type,java.util.Vector propertyCalls);
 

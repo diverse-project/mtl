@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.9 2003-08-27 13:35:26 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.10 2003-08-28 16:39:18 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -306,6 +306,9 @@ public Object stringLiteral(String value,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new StringLiteral(value);
 	return (Expression)putPropertyCalls(expr,propertyCalls); }
 
+public Object javaCodeLiteral(String value)
+{	return (Expression)new JavaCodeLiteral(value);}
+		
 public Object oclTypeLiteral(Object type,java.util.Vector propertyCalls)
 {	Expression expr=(Expression)new OclTypeLiteral((java.util.Vector)type);
 	return (Expression)putPropertyCalls(expr,propertyCalls); }
