@@ -39,10 +39,10 @@ main() : Standard::Void
 	outputFilename
 	);		
 	
-	if source_model.oclIsUndefined() 
-	{
-		throw 'Undefined model found.';
-	}
+//	if isNull(source_model) 
+//	{
+//		throw 'Undefined model found.';
+//	}
 	
 	// we initialize the uml utils
     uml := new UML_Utils ();
@@ -52,7 +52,6 @@ main() : Standard::Void
  		
  	thePreconditions := new Precondition();
 	thePreconditions.run('op1');
-	run('op1');
 	'Preconditions!'.toOut();
 	
 }
@@ -66,7 +65,7 @@ class Precondition
 	//verification de la structure du composant
 	///////////////////////////////////////////////////////////////////////////
 		
-	run (nameOp:Standard::String)
+	run (nameOp : Standard::String)
 	{
 		operationSet : Standard::Set;
 		myOperation : source_model::Operation;	

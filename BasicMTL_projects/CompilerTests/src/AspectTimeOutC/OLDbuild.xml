@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.2 2003-12-10 15:12:23 jpthibau Exp $ -->
+<!-- $Id: OLDbuild.xml,v 1.1 2003-12-10 15:12:23 jpthibau Exp $ -->
 <project name="AspectTimeOutC" default="compile" basedir=".">
 	<description>
         Build file for the AssociaionTry sample
@@ -72,6 +72,7 @@
 	         <arg value="${Sample built src}"/> 
        	</java> 
   		<!-- final java compile -->
+  		<echo> ${uml14.class.path}</echo>
   		<javac srcdir="${Sample built src}" 
     	    destdir="${builtbin}"
    			debug="true">
@@ -83,13 +84,13 @@
    		</javac>
   	</target>
 
-  	<target name="run AspectTimeOutC" description="run the AspectTimeOutC program">
+  	<target name="run sample" description="run the sample program">
 		<java classname="${Sample Package}.BMTLLib_${Sample Package}" fork="true" failonerror="yes">
 		<arg value="-h"/>
 		<classpath>
 			<pathelement path="${builtbin}/"/>
 			<pathelement path="${uml14.class.path}"/>
-			<pathelement path="${MTLcompiler.Runtime}"/>
+   			<pathelement path="${MTLcompiler.Runtime}"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
