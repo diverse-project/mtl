@@ -1,31 +1,21 @@
-<!-- $Id: build.xml,v 1.1 2004-10-06 09:34:23 fchauvel Exp $ -->
-<project name="Statecharts" default="run" basedir=".">
-	<description></description>
-	
+<!-- $Id: build.xml,v 1.2 2005-03-02 13:35:08 fchauvel Exp $ -->
+<project name="Statecharts" default="run" basedir="..">
+	<description>Compile, Run, and pack the view for accessing Implantation Models</description>
+		
   	<target name="compile" > 
-  		<description>Compile the transformation</description>  
- 		<delete dir="build"></delete>   		
-  		<ant antfile="Tools_build.xml" dir="." target="compile"/>  		
-  		<ant antfile="SCIView_build.xml" dir="." target="compile"/>
-  		<ant antfile="SCIAdapter_build.xml" dir="." target="compile"/>
-  		<!-- <ant antfile="SCITest_build.xml" dir="." target="compile"/> -->	
- 		<!-- <ant antfile="SCITest_build.xml" dir="." target="run"/> -->
+  		<description>Compile the library</description>  
+  		<ant antfile="ant/SCIView_build.xml" dir="." target="compile"/>
+  		<ant antfile="ant/SCIAdapter_build.xml" dir="." target="compile"/>
  	</target> 
  	
  	<target name="run">
- 		<ant antfile="SCSTest_build.xml" dir="." target="run"/>
+		<description>Run a small test of library</description>  
+ 		<ant antfile="ant/SCSTest_build.xml" dir="." target="run"/>
   	</target>
 
   	<target name="clean">
+  		<description>Clean all generated files product by the compilation step</description>
   		<delete dir="build"></delete>   		
  	</target>
- 	
- 	<target name="create_jar" 
-		description="create the jar file">
-		<jar destfile="./SCImplantation.jar" >
-			<fileset dir="./build/bin" />
-			<fileset dir="./build/src/TLL" />
-		</jar>
-	</target>	
  	
 </project>

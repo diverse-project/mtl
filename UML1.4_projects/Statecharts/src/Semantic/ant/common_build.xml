@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2004-10-06 09:33:07 fchauvel Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2005-03-02 13:35:04 fchauvel Exp $ -->
 <project name="common_build" default="compile" basedir="..">
 	
 	<description>
@@ -59,9 +59,8 @@
   	</target>
 
   	<target name="compile common" description="compile all the sources in .class files" depends="init common">
-    		
     	<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
- 
+ 		
   		<java jar="${BasicMTLc.jar}" 
 					fork="true"
            			failonerror="true">

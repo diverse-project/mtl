@@ -7,9 +7,12 @@
  *
  * Authors	: Franck Chauvel
  * Created	: 12/03/2004
- * Version	: $Revision: 1.1 $
+ * Version	: $Revision: 1.2 $
  * 
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/10/06 09:33:00  fchauvel
+ * New version of the project updated to use the MTL plugin.
+ *
  * Revision 1.1  2004/09/03 12:03:57  dvojtise
  * initial revision
  * directly from Franck Chauvel work at the end of his DEA
@@ -61,7 +64,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 		out : StatechartsSemanticAdapter;
 		
 
-		if ( table.contains(scs) ) 
+		if ( table.containsKey(scs) ) 
 		{
 			out := table.get(scs);
 				
@@ -82,7 +85,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : EventManagementAdapter;
 
-		if ( table.contains(out) )
+		if ( table.containsKey(emgt) )
 		{
 			out := table.get(emgt);
 						
@@ -102,7 +105,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : TransitionManagementAdapter;
 		
-		if ( table.contains(tmgt) )
+		if ( table.containsKey(tmgt) )
 		{
 			out := table.get(tmgt);		
 			
@@ -124,7 +127,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : TimeManagementAdapter;
 		
-		if ( table.contains(tmgt) )
+		if ( table.containsKey(tmgt) )
 		{
 			out := table.get(tmgt);
 					
@@ -147,7 +150,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{	
 		out : EventSelectionAdapter;
 		
-		if ( table.contains(es) )
+		if ( table.containsKey(es) )
 		{
 			out := table.get(es);
 		
@@ -169,7 +172,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : TransitionSelectionAdapter;
 
-		if ( table.contains(ts) )
+		if ( table.containsKey(ts) )
 		{
 			out := table.get(ts);		
 			
@@ -191,7 +194,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : EventChoiceAdapter;
 
-		if ( table.contains(cr) )
+		if ( table.containsKey(cr) )
 		{
 			out := table.get(cr);
 	
@@ -213,7 +216,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : TransitionChoiceAdapter;
 
-		if ( table.contains(cr) )
+		if ( table.containsKey(cr) )
 		{
 			out := table.get(cr);
 			

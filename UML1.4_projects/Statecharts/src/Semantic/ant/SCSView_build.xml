@@ -3,7 +3,7 @@
         Build file for compiling the Semantic model view
 	</description>
 
-	<property name="library.name" value="SCIView"/>
+	<property name="library.name" value="SCSView"/>
 
 	<property name="src" location="."/>
 	<property name="build.bin" location="../../bin"/>

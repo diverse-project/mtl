@@ -7,9 +7,12 @@
  *
  * Authors	: Franck Chauvel
  * Created	: 12/05/2004
- * Version	: $Revision: 1.1 $
+ * Version	: $Revision: 1.2 $
  * 
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2004/10/06 09:34:13  fchauvel
+ * New version of the project updated to use the MTL plugin.
+ *
  * Revision 1.1  2004/09/03 12:02:36  dvojtise
  * initial revision
  * directly from Franck Chauvel work at the end of his DEA
@@ -47,7 +50,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : EventImplantationAdapter;
 
-		if ( table.contains(ei) ){
+		if ( table.containsKey(ei) ){
 			out := table.get(ei);
 					
 		} else {
@@ -64,7 +67,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : StateImplantationAdapter;
 
-		if ( table.contains(si) ){
+		if ( table.containsKey(si) ){
 			out := table.get(si);
 		
 		} else {
@@ -81,7 +84,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : StateReificationAdapter;
 
-		if ( table.contains(sr) ){
+		if ( table.containsKey(sr) ){
 			out := table.get(sr);
 
 		} else {
@@ -98,7 +101,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : StateEnumerationAdapter;
 
-		if ( table.contains(se) ){
+		if ( table.containsKey(se) ){
 			out := table.get(se);
 
 		} else {
@@ -115,7 +118,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : EventReificationAdapter;
 
-		if ( table.contains(er) ){
+		if ( table.containsKey(er) ){
 			out := table.get(er);
 		
 		} else {
@@ -132,7 +135,7 @@ class AdapterFactory extends ViewFactory refines ViewFactory
 	{
 		out : EventEnumerationAdapter;
 
-		if ( table.contains(ee) ){
+		if ( table.containsKey(ee) ){
 			out := table.get(ee);
 
 		} else {

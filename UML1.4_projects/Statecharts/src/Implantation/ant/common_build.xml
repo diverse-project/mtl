@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2004-10-06 09:34:23 fchauvel Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2005-03-02 13:35:09 fchauvel Exp $ -->
 <project name="common_build" default="compile" basedir="..">
 	
 	<description>

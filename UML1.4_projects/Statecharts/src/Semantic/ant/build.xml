@@ -1,31 +1,22 @@
-<!-- $Id: build.xml,v 1.1 2004-10-06 09:33:07 fchauvel Exp $ -->
-<project name="Statecharts" default="compile" basedir=".">
-	<description>
-	</description>
+<!-- $Id: build.xml,v 1.2 2005-03-02 13:35:05 fchauvel Exp $ -->
+<project name="Statecharts" default="compile" basedir="..">
+	<description>Compile, Run, and pack the view for accessing semantic Models</description>
 	
   	<target name="compile" > 
-  		<description>Compile the transformation</description>  
- 		<delete dir="build"></delete>   		
-  		<ant antfile="Tools_build.xml" dir="." target="compile"/>  		
-  		<ant antfile="SCSView_build.xml" dir="." target="compile"/>
-  		<ant antfile="SCSAdapter_build.xml" dir="." target="compile"/>
-  		<ant antfile="SCSTest_build.xml" dir="." target="compile"/>	
- 		<ant antfile="SCSTest_build.xml" dir="." target="run"/>	
+  		<description>Compile all source file</description>  
+ 		<ant antfile="ant/SCSView_build.xml" dir="." target="compile"/>
+  		<ant antfile="ant/SCSAdapter_build.xml" dir="." target="compile"/>
+  		<ant antfile="ant/SCSTest_build.xml" dir="." target="compile"/>	
  	</target> 
  	
  	<target name="run">
- 		<ant antfile="SCSTest_build.xml" dir="." target="run"/>
+ 		<description>Run a small test of library</description>  
+ 		<ant antfile="ant/SCSTest_build.xml" dir="." target="run"/>
   	</target>
 
   	<target name="clean">
+  		<description>Clean all generated files product by the compilation step</description>
   		<delete dir="build"></delete>   		
  	</target>
- 	
- 	<target name="create_jar" 
-		description="create the jar file">
-		<jar destfile="./SCSemantic.jar">
-			<fileset dir="./build" excludes="./build/src/**"/>
-		</jar>
-	</target>	
- 	
+ 	 	
 </project>
