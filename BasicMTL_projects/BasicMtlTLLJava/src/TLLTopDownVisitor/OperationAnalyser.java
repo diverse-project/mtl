@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationAnalyser.java,v 1.1 2003-08-06 16:13:27 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationAnalyser.java,v 1.2 2003-08-08 15:46:47 jpthibau Exp $
  * Created on 17 juil. 2003
  *
  */
@@ -29,6 +29,8 @@ public class OperationAnalyser extends Analyser {
 		for (i=0;i<limit;i++) {
 			((VarDeclaration)ASTnode.getParameters(i)).accept(visitor,context);
 			this.OperationParameter(theOperation,context.get("VarDeclaration"),context);
+			if (i<limit-1) this.OperationParamSeparator(context);
+			else this.OperationEndParameters(context);
 		}
 		limit=ASTnode.cardDeclaredVariables();
 		for (i=0;i<limit;i++) {
@@ -48,6 +50,10 @@ public class OperationAnalyser extends Analyser {
 
 	public void OperationParameter(Object theOperation,Object varDecl,java.util.Map context) {}
 
+	public void OperationParamSeparator(java.util.Map context) {}
+	
+	public void OperationEndParameters(java.util.Map context) {}
+				
 	public void OperationVarDeclaration(Object theOperation,Object varDecl,java.util.Map context) {}
 
 	public void OperationInstruction(Object theOperation,Object instr,java.util.Map context) {}

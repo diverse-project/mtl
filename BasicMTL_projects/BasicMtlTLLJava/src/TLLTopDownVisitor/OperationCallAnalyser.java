@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.1 2003-08-06 16:13:27 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/OperationCallAnalyser.java,v 1.2 2003-08-08 15:46:47 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -25,17 +25,17 @@ public class OperationCallAnalyser extends Analyser {
 	{	int i,limit;
 		OperationCall ASTnode=(OperationCall) node;
 		Object theOperationCall=this.OperationCallBefore(ASTnode,context);
-		limit=ASTnode.cardArguments();
-		for (i=0;i<limit;i++) {
-			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
-			this.OperationCallArgument(theOperationCall,context.get("Instruction"),context);
-		}
 		if (ASTnode.getCaller() != null) {
 			ASTnode.getCaller().accept(visitor,context);
 			this.OperationCallCaller(theOperationCall,context.get("Instruction"),context);
 		}
 		else this.OperationCallCaller(theOperationCall,null,context);
-		
+		limit=ASTnode.cardArguments();
+		for (i=0;i<limit;i++) {
+			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
+			this.OperationCallArgument(theOperationCall,context.get("Instruction"),context);
+			this.OperationCallArgSeparator(context);
+		}		
 		this.OperationCallAfter(theOperationCall,(OperationCall) node,context);
 	}
 
@@ -43,6 +43,8 @@ public class OperationCallAnalyser extends Analyser {
 	{ return null; }
 
 	public void OperationCallArgument(Object theOperationCall,Object arg,java.util.Map context) {}
+
+	public void OperationCallArgSeparator(java.util.Map context) {}
 
 	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context) {}
 

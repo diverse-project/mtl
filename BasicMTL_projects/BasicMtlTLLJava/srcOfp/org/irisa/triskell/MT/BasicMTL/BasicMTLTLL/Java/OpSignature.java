@@ -10,15 +10,6 @@ import java.util.Map;
 public class OpSignature 
     implements java.io.Serializable
 {
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
-        return this.theOperation;
-    }
-    public int cardTheOperation () {
-        if ( this.theOperation == null ) return 0;
-        else return 1;
-    }
-
     public String opName;
     public String getOpName () {
         return this.opName;
@@ -30,6 +21,15 @@ public class OpSignature
     }
     public void setArgsCount (int value) {
         this.argsCount = value; 
+    }
+
+    org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation theOperation;
+    org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getTheOperation () {
+        return this.theOperation;
+    }
+    int cardTheOperation () {
+        if ( this.theOperation == null ) return 0;
+        else return 1;
     }
 
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName returnedType;

@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * The usual concept of class; this is the stakeholder for attributes and operations. Its name is deterministic within the library. It may extends other classes.

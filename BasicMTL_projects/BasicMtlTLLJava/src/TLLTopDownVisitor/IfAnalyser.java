@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/IfAnalyser.java,v 1.1 2003-08-06 16:13:25 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlTLLJava/src/TLLTopDownVisitor/IfAnalyser.java,v 1.2 2003-08-08 15:46:47 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -33,6 +33,7 @@ public class IfAnalyser extends Analyser {
 			this.IfThenInstruction(theIf,context.get("Instruction"),context);
 		}
 		limit=ASTnode.cardElseBody();
+		if (limit > 0) this.IfElsePart(context);
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getElseBody(i)).accept(visitor,context);
 			this.IfElseInstruction(theIf,context.get("Instruction"),context);
@@ -44,6 +45,8 @@ public class IfAnalyser extends Analyser {
 	{	return null;}
 
 	public void IfCondition(Object theIf,Object expr,java.util.Map context) {}
+
+	public void IfElsePart(java.util.Map context) {}
 
 	public void IfThenInstruction(Object theIf,Object instr,java.util.Map context) {}
 

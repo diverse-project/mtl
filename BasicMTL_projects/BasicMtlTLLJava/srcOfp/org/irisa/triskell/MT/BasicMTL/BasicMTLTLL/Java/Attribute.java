@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * The usual concept of attribute. It is defined within a class and has a type. Its name is deterministic within the class.

@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * The usual concept of operation. It is defined within a class. An operation have some typed parameters (FormalParameter). The signature of an operation is the composition of its name and the number of its parameters. This signature is deterministic within the owning class. If this signature is already in the class type hierarchy, this operation is the redefinition of the one(s) of the superclass. Redefining operations must have the same types for its formal parameters than the redefined operations(s).

@@ -4,8 +4,6 @@ import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * Any node involved in the Basic MTL abstract syntax. 

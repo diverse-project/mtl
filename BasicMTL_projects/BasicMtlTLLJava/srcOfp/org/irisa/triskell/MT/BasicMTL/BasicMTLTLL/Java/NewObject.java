@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * Creates a new value of the defined class. This is a side effect operation.

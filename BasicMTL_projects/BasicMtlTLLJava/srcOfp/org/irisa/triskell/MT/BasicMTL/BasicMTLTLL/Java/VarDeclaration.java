@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * Accessible variable for the implementation of the owning operation / catch. A variable is defined by its name (unique within the operation and the catch if owner) and its type. During the execution, a variable contains a value whose type is compatible (that is is of a class or subclass of the type of the variable). This name cannot be null or self.

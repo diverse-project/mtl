@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.1 2003-08-06 15:55:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.2 2003-08-08 15:49:26 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -30,6 +30,15 @@ public class allReferedTypes {
 		}
 		return true;
 	}
+
+	public static boolean checkIsnotAnInheritedLib(String TLLName,BasicMtlLibrary theLib)
+	{	InheritedTypesList parents=theLib.getLibraryClass().getInheritance();
+		for (int i=0;i<parents.size();i++) {
+			QualifiedName parentType=(QualifiedName)parents.get(i);
+			if (TLLName.equals((String)parentType.get(0))) return false;
+		}
+		return true;
+	}
 	
 	public static Library loadTLL(String libName,BasicMtlLibrary theLib)
 	{	Library loadedTLL=null;
@@ -38,7 +47,8 @@ public class allReferedTypes {
 		else {
 			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
 			TLLtypechecking.loadedLibraries.put(libName,loadedTLL);
-			if (checkIsnotAView(loadedTLL.getName(),theLib)) {
+			if ((checkIsnotAView(loadedTLL.getName(),theLib))
+				&& (checkIsnotAnInheritedLib(loadedTLL.getName(),theLib))) {
 				QualifiedName usedLib=new QualifiedName();
 				usedLib.setIsExternType(true);
 				usedLib.setExternMangledName(loadedTLL.getMangle());
@@ -127,21 +137,22 @@ public class allReferedTypes {
 	public static int checkAllReferedTypes(BasicMtlLibrary theLib)
 	{	errors=0;
 		warnings=0;
+		int correctlyChecked=0;
 		AllReferedTypes allReferedTypes=theLib.getAllReferedTypes();
 		for(int i=0;i<allReferedTypes.size();i++) {
 			QualifiedName aType=(QualifiedName)allReferedTypes.get(i);
 			String firstName=(String)aType.get(0);
-			if (checkModel(aType,firstName,theLib)) break;
+			if (checkModel(aType,firstName,theLib)) correctlyChecked++;
 			else if (aType.size()==1) { //a single name
-					if (checkLocalClass(aType,firstName,theLib)) break;
-					else	if (checkExternLibName(aType,firstName,theLib)) break;
+					if (checkLocalClass(aType,firstName,theLib)) correctlyChecked++;
+					else	if (checkExternLibName(aType,firstName,theLib)) correctlyChecked++;
 							else {TLLtypechecking.getLog().error("Unknown Local Type"+firstName);
 									errors++;} 
 					}
 				else //extern library class::...
 					if (aType.size()==2) {
-						if (checkStandardLib(aType,firstName)) break;
-						else if (checkTLLClass(aType,firstName,theLib)) break;
+						if (checkStandardLib(aType,firstName)) correctlyChecked++;
+						else if (checkTLLClass(aType,firstName,theLib)) correctlyChecked++;
 							else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName+aType.get(1));
 									errors++;} 
 					}
@@ -155,6 +166,7 @@ public class allReferedTypes {
 								errors++;
 								}
 			}
+		TLLtypechecking.getLog().info(correctlyChecked+" types correctly checked.");
 		return errors+warnings;
 	}
 

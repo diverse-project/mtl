@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * An operation call. If the operation retuens a value, this expression is this value, else it remains in an undefined value. If the operation raises an exception, this operation call raises this exceptioni within the context of this instruction. This is a side effect instruction if calling a side effect operation.
@@ -71,6 +70,14 @@ public class OperationCall
         this.name = value; 
     }
 
+    public boolean isToInvoke;
+    public boolean getIsToInvoke () {
+        return this.isToInvoke;
+    }
+    public void setIsToInvoke (boolean value) {
+        this.isToInvoke = value; 
+    }
+
 
     public OperationCall(
         String name,
@@ -78,5 +85,6 @@ public class OperationCall
     {
 this.name=name;
 this.lineNumber=lineNumber;
+this.isToInvoke=false;
     }
 }

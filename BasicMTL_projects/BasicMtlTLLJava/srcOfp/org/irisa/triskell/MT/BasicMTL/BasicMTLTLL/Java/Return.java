@@ -5,7 +5,6 @@ import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import java.util.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property;
-import java.util.Map;
 
 /**
   * Stops the execution of the owning operation. It may return a value according to the operation return type.

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.1 2003-08-06 15:55:30 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.2 2003-08-08 15:49:26 jpthibau Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -74,14 +74,14 @@ public class inheritedSignatures {
 						aClass.appendInheritedSignatures(parentSignature);
 				}
 				else if (! parentSignature.getOpName().startsWith("getRef_"))
-					{	TLLtypechecking.getLog().error("parent signtaure is incompatible with already inherited signatures");} 
+					{	TLLtypechecking.getLog().error("parent signtaure is incompatible with already inherited signatures");
 						TLLtypechecking.getLog().info(parentSignature.getOpName());
 						TLLtypechecking.getLog().info(Integer.toString(parentSignature.getArgsCount()));
 						TLLtypechecking.getLog().info("origin 1:"+parentSignature.getTypeWhichDefineOp());
-						TLLtypechecking.getLog().info("origin 2:"+compatible_present.get(2));
+						TLLtypechecking.getLog().info("origin 2:"+compatible_present.get(2)); }
 				}  
 		}
-		return false;//no error
+		return true;//no error
 	}
 	
 	public static boolean addSignatures(UserDefinedClass aClass,UserDefinedClass parentClass,QualifiedName originType,QualifiedName relayer)
@@ -99,7 +99,7 @@ public class inheritedSignatures {
 			if (! addAnInheritedSignature(aClass,parentSignature))
 				errors++;
 		}
-		for (int i=0;i<parentClass.cardLocalSignatures();i++) {
+		for (int i=0;i<parentClass.cardInheritedSignatures();i++) {
 			InheritedOpSignature parentSignature=(InheritedOpSignature)parentClass.getInheritedSignatures(i);
 			if (! addAnInheritedSignature(aClass,parentSignature))
 				errors++;
@@ -179,7 +179,8 @@ public class inheritedSignatures {
 					return true;
 		   	}
 		}
-		return true;
+		aClass.setCompletedInheritedSignatures(true);
+		return false;
 	}
 
 	public static int synthetizeInheritedSignatures(BasicMtlLibrary theLib)
