@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.4 2003-08-14 20:47:46 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/UserClassAnalyser.java,v 1.5 2003-08-19 13:32:51 ffondeme Exp $
  * Created on 23 juil. 2003
  *
  */
@@ -12,6 +12,9 @@ import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeGetterSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.AttributeSetterSignature;
+import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.signatures.GetReferenceSignature;
 
 /**
  * @author jpthibau
@@ -44,13 +47,14 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		for (int i=0;i<parents.size();i++) {
 			QualifiedName type=CommonFunctions.findOrAddType((java.util.Vector)parents.get(i),theCreatedLib);
 			parentsTypesList.addElement(type);
-			String name = type.size()>1 ? (String) type.get(1) : (String) type.get(0);
+/*			String name = type.size()>1 ? (String) type.get(1) : (String) type.get(0);
 			String getRefOpName="getRef_"+name;
 			//@TODO cette opération devrait être faite au controle des types...
 			String getRefOpMangle ="getRef_"+Mangler.mangle("BMTL_", name);
 			OpSignature getRefSignature=new OpSignature(getRefOpName,getRefOpMangle);
 			getRefSignature.setReturnedType(type);
-			getRefSignature.setArgsCount(0);
+			getRefSignature.setArgsCount(0);*/
+			OpSignature getRefSignature = new GetReferenceSignature(type);
 			theCreatedClass.appendLocalSignatures(getRefSignature);
 		}
 		}
@@ -73,9 +77,9 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		context.put("KnownAttributes",knownAttributes);
 		String getterName="get_"+attrib.getName();
 		String setterName="set_"+attrib.getName();
-		String getterMangle="get_"+attrib.getMangle();
-		String setterMangle="set_"+attrib.getMangle();
-		OpSignature getterSignature=new OpSignature(getterName,getterMangle);
+		String getterMangle=Mangler.mangle("BMTL_", getterName);
+		String setterMangle=Mangler.mangle("BMTL_", setterName);
+/*		OpSignature getterSignature=new OpSignature(getterName,getterMangle);
 		OpSignature setterSignature=new OpSignature(setterName,setterMangle);
 		getterSignature.setReturnedType(attrib.getFeatureType());
 		getterSignature.setArgsCount(0);
@@ -86,7 +90,11 @@ public class UserClassAnalyser extends ASTTopDownVisitor.UserClassAnalyser {
 		QualifiedName returnTypeSetter=CommonFunctions.findOrAddType(new Vector (Arrays.asList(new String [] {"Standard", "Void"})), theCreatedLib);
 		setterSignature.setReturnedType(returnTypeSetter);
 		setterSignature.setArgsCount(1);
-		setterSignature.appendArgsTypes(attrib.getFeatureType());
+		setterSignature.appendArgsTypes(attrib.getFeatureType());*/
+		BasicMtlLibrary theCreatedLib=(BasicMtlLibrary)context.get("TheCreatedLibrary");
+		QualifiedName voidType=CommonFunctions.findOrAddType(new Vector (Arrays.asList(new String [] {"Standard", "Void"})), theCreatedLib);
+		OpSignature getterSignature=new AttributeGetterSignature(attrib);
+		OpSignature setterSignature=new AttributeSetterSignature(attrib, voidType);
 		theCreatedClass.appendLocalSignatures(getterSignature);
 		theCreatedClass.appendLocalSignatures(setterSignature);
 	}

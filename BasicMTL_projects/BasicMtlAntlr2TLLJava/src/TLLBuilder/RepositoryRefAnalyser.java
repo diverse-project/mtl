@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/RepositoryRefAnalyser.java,v 1.1 2003-08-06 16:18:46 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/RepositoryRefAnalyser.java,v 1.2 2003-08-19 13:32:51 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -27,6 +27,7 @@ public class RepositoryRefAnalyser extends ASTTopDownVisitor.RepositoryRefAnalys
 		type.setIsModelType(true);
 		type.setIsRepositoryModel(true);
 		type.setExternMangledName("org.irisa.triskell.MT.repository.API.Java.API");
+		type.setDeclarationName(type.getExternMangledName());
 		repositoryAttribute.setFeatureType(type);
 		java.util.Vector modelAndAttribute=new java.util.Vector();
 		modelAndAttribute.addElement(theCreatedRepositoryRef);

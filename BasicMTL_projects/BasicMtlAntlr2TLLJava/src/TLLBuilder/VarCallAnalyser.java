@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarCallAnalyser.java,v 1.2 2003-08-14 20:47:47 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/VarCallAnalyser.java,v 1.3 2003-08-19 13:32:51 ffondeme Exp $
  * Created on 25 juil. 2003
  *
  */
@@ -27,7 +27,9 @@ public class VarCallAnalyser extends ASTTopDownVisitor.VarCallAnalyser {
 				 i++; } 
 		}
 		if (found) {
-			OperationCall theCreatedOpCall=new OperationCall("get_"+varName,-1000);
+			int lineNumber=Integer.parseInt((String)ASTnode.getProperty("LineNumber").getValue());
+			OperationCall theCreatedOpCall=new OperationCall(varName,lineNumber);
+			theCreatedOpCall.setKind(OperationKind.getAttributeCall());
 			theCreatedOpCall.setContainerOp((Operation)context.get("CurrentOperation"));
 			context.put("Instruction",theCreatedOpCall);
 		}
