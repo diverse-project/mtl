@@ -1,5 +1,5 @@
 /*
- * $Id: ModFactAPI.java,v 1.1 2004-10-25 13:57:13 dvojtise Exp $
+ * $Id: ModFactAPI.java,v 1.2 2004-10-29 08:25:12 jpthibau Exp $
  * Authors : ffondeme xblanc dvojtise
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -56,6 +56,11 @@ import org.apache.log4j.Logger;
 //import org.irisa.triskell.MT.repository.API.Java.utils.ModelElementIteratorToJavaIteratorConverter;
 //import org.irisa.triskell.MT.utils.Java.AWK;
 //import org.irisa.triskell.MT.utils.Java.IteratingFinalList;
+import org.irisa.triskell.MT.DataTypes.Java.Type;
+import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.ValueVisitor;
+import org.irisa.triskell.MT.DataTypes.Java.commands.MultipleCommandException;
+import org.irisa.triskell.MT.DataTypes.Java.commands.UnknownCommandException;
 import org.irisa.triskell.MT.repository.API.Java.Element;
 import org.irisa.triskell.MT.repository.API.Java.EventListener;
 import org.irisa.triskell.MT.repository.API.Java.EventListenerFactory;
@@ -517,4 +522,61 @@ static {
 	
 
 }
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#equals(org.irisa.triskell.MT.DataTypes.Java.Value)
+ */
+public boolean equals(Value rhs) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#getErrorMessage()
+ */
+public String getErrorMessage() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#getType()
+ */
+public Type getType() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#isUndefined()
+ */
+public boolean isUndefined() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#invoke(java.lang.String[], java.lang.String, org.irisa.triskell.MT.DataTypes.Java.Value[], java.lang.String[])
+ */
+public Value invoke(String[] scopeQualifiedName, String name,
+		Value[] arguments, String[] discriminants)
+		throws UnknownCommandException, MultipleCommandException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.Value#accept(org.irisa.triskell.MT.DataTypes.Java.ValueVisitor)
+ */
+public void accept(ValueVisitor visitor) {
+	visitor.visitRepositoryAPIValue(this);
+
+}
+/* (non-Javadoc)
+ * @see org.irisa.triskell.MT.DataTypes.Java.RepositoryAPIValue#getTheRepositoryAPI()
+ */
+public String getTheRepositoryAPI() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 }
