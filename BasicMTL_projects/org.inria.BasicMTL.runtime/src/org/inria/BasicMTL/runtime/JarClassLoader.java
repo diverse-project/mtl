@@ -1,5 +1,5 @@
 /*
- * $Id: JarClassLoader.java,v 1.1 2004-08-18 07:44:07 dvojtise Exp $
+ * $Id: JarClassLoader.java,v 1.2 2004-08-19 11:42:23 dvojtise Exp $
  * Created on 16 août 2004
  * Copyright (c) 2002 Object Factory Inc. All rights reserved.
  * Permission to copy granted under the MIT license
@@ -32,8 +32,10 @@ public class JarClassLoader extends URLClassLoader {
 		// All non-MDR classes handled normally
 		System.out.println("  org.inria.BasicMTL.runtime.JarClassLoader trying to load: "+name);
 		if (!name.startsWith("org.netbeans.mdr")
+				//&& !name.startsWith("org.apache.crimson.jaxp")
+				&& !name.startsWith("org.apache.log4j")
 			/*	&& !name.startsWith("org.xml.sax.")
-				&& !name.startsWith("javax.xml.")*/) {
+				&& !name.startsWith("javax.xml.")*/) {//org.apache.crimson.jaxp
 			System.out.println("  org.inria.BasicMTL.runtime.JarClassLoader    looking in super()");
 			return super.loadClass(name, resolve);
 		}

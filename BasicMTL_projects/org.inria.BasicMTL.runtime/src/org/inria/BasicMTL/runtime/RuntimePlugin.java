@@ -24,6 +24,7 @@ public class RuntimePlugin extends Plugin {
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
+		System.out.println("RuntimePlugin created");
 	}
 
 	/**
@@ -31,6 +32,9 @@ public class RuntimePlugin extends Plugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		System.out.println("RuntimePlugin activated");
+		showRuntimeLibraries();
+		context.toString();
 	}
 
 	/**
@@ -65,5 +69,21 @@ public class RuntimePlugin extends Plugin {
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
+	}
+	private void  showRuntimeLibraries()
+	{
+		String ret;
+		org.eclipse.core.runtime.IPluginDescriptor pd = getDefault().getDescriptor();
+		java.net.URL url = pd.getInstallURL();
+		String urlString = url.toString();
+		org.eclipse.core.runtime.ILibrary[] libraries = pd.getRuntimeLibraries();
+		for (int i = 0; i < libraries.length; i++) {
+			org.eclipse.core.runtime.ILibrary iLibrary = libraries[i];
+			org.eclipse.core.runtime.IPath libPath = iLibrary.getPath();
+			String libPathStr = libPath.toString();
+			String libUrlStr = urlString + libPathStr;
+			System.out.println(" " + libUrlStr );
+		}
+		
 	}
 }
