@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.6 2003-08-19 13:30:37 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.7 2003-08-21 20:00:43 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -69,9 +69,16 @@ private void putTags (ASTNode node,java.util.Vector tags)
 
 private Expression putOperationCalls(Expression expr,java.util.Vector operationCalls)
 {	for (int i=0;i<operationCalls.size();i++) {
-	 OperationCall op=(OperationCall)operationCalls.get(i);
-	 op.setCaller(expr);
-	 expr=(Expression)op;
+	 Object o = operationCalls.get(i);
+	 if (o instanceof OperationCall) {
+		 OperationCall op=(OperationCall)operationCalls.get(i);
+		 op.setCaller(expr);
+		 expr=(Expression)op;
+	 } else {//if (o instanceof OclAsType)
+	 	OclAsType oat = (OclAsType)o;
+	 	oat.setExpression(expr);
+	 	expr=oat;
+	 }
 }
 return expr; }
 
@@ -348,9 +355,9 @@ public Object operationCall(String operationName,Object arguments,String lineNum
 
 public Object oclAsType(Object type,String lineNumber)
 {	java.util.Vector qualifiers=(java.util.Vector)type;
-	OperationCall node=new OperationCall("oclAsType");
+	OclAsType node=new OclAsType();
 	for(int i=0;i<qualifiers.size();i++)
-		node.appendArguments((Expression)new StringLiteral((String)qualifiers.get(i)));
+		node.appendType((String)qualifiers.get(i));
 	putProperty(node,"LineNumber",lineNumber,"StringTag");
 	return (Expression)node; }
 
