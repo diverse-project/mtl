@@ -1,0 +1,54 @@
+BasicMTL Compiler and model transformation libraries.
+Copyright (C) 2003  INRIA
+
+This software is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+-----------------------------------
+Thirdparty content :
+The software uses different component which have their own license.
+MDR
+ The following files shall be defined as "MDR":
+  	* bin/ThirdParty/MDR/**
+ MDR is made available at http://mdr.netbeans.org/
+ MDR is part of NetBeans. The NetBeans source code is available under the Sun Public License (SPL),
+ 
+antlr
+ The following files shall be defined as "ANTLR":
+
+    * bin/ThirdParty/ANTLR/antlrfull.jar
+ ANTLR is fully in the public domain. ANTLR is made available at http://www.antlr.org
+
+log4j
+ The following files shall be defined as "log4j":
+
+ 	* bin/ThirdParty/log4j/log4j.jar
+ LOG4J is made available at http://logging.apache.org/log4j/docs/
+ Use of log4j is governed by the terms and conditions of the Apache Software License
+
+ModFact
+ The following files shall be defined as "ModFact":
+
+    * bin/ThirdParty/ModFact/**
+
+ ModFact is made available by LIP6 (http://modfact.lip6.fr/ModFactWeb/index.jsp). 
+ Use of ModFact is governed by the terms and conditions of the General Public 
+ License Version 2.0 ("GPL"). 
+
+JUnit
+ The following files shall be defined as "JUnit":
+
+    * bin/ThirdParty/JUnit/junit.jar
+ JUnit is made available at http://www.junit.org
+ JUnit is Open Source Software, released under IBM's Common Public License Version 0.5 
