@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.5 2003-08-19 07:45:03 ffondeme Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.6 2003-08-19 13:30:37 ffondeme Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -323,7 +323,8 @@ public Object attributeGetter(String classVarName,java.util.Vector gotAttributes
 {	VarCall var = new VarCall(classVarName);
 	Expression expr=(Expression)var;
 	for (int i=0;i<gotAttributes.size();i++) {
-	     OperationCall op=new OperationCall("get_"+gotAttributes.get(i));
+	     OperationCall op=new OperationCall((String)gotAttributes.get(i));
+		 putProperty(op,"ClassOfGetAttribute",(Object)classVarName,"StringTag");
 	     op.setCaller(expr);
 	     expr=(Expression)op;
 	}
