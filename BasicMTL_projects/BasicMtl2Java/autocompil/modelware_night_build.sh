@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.11 2004-09-13 12:54:25 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.12 2004-10-14 14:04:01 jpthibau Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -59,6 +59,46 @@ if ( "$ERRORS_IN_BUILD" != "" ) then
    	echo "---" >> msg.txt
    	cat $BASE/ant_BasicMtl2Java.log >> msg.txt   	
 	cat msg.txt | Mail -s "[Modelware] Night build failed" modelware-cvs@irisa.fr
+    exit
+endif
+
+cd ../org.inria.BasicMTL.runtime
+ant -f copy_build.xml "get all" |& tee $BASE/ant_BasicMTLRuntime.log
+ant "build.jars" |& tee $BASE/ant_BasicMTLRuntime.log
+# check for errors and send mail to admin
+setenv ERRORS_IN_BUILD `grep FAILED $BASE/ant_BasicMTLRuntime.log`
+if ( "$ERRORS_IN_BUILD" != "" ) then
+   	echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_BasicMTLRuntime.log " > msg.txt
+   	echo "however the compiler was succefully compiled" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/ant_BasicMTLRuntime.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
+    exit
+endif
+
+cd ../MDRDriver
+ant -f outOfEclipsebuild.xml "dist" |& tee $BASE/ant_MdrDriver.log
+# check for errors and send mail to admin
+setenv ERRORS_IN_BUILD `grep FAILED $BASE/ant_MdrDriver.log`
+if ( "$ERRORS_IN_BUILD" != "" ) then
+   	echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_MdrDriver.log " > msg.txt
+   	echo "however the compiler was succefully compiled" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/ant_MdrDriver.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
+    exit
+endif
+
+cd ../ModFactDriver
+ant -f outOfEclipsebuild.xml "dist" |& tee $BASE/ant_ModFactDriver.log
+# check for errors and send mail to admin
+setenv ERRORS_IN_BUILD `grep FAILED $BASE/ant_ModFactDriver.log`
+if ( "$ERRORS_IN_BUILD" != "" ) then
+   	echo "The Compiler tests failed, please have a look in the log file: $BASE/ant_ModFactDriver.log " > msg.txt
+   	echo "however the compiler was succefully compiled" >> msg.txt
+   	echo "---" >> msg.txt
+   	cat $BASE/ant_ModFactDriver.log >> msg.txt
+   	cat msg.txt | Mail -s "[Modelware] Night build compiler tests failed" modelware-cvs@irisa.fr
     exit
 endif
 
