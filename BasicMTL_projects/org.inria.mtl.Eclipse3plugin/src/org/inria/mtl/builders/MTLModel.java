@@ -1,5 +1,5 @@
 /*
-* $Id: MTLModel.java,v 1.2 2004-08-26 12:40:30 sdzale Exp $
+* $Id: MTLModel.java,v 1.3 2004-10-20 09:34:15 edrezen Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -34,6 +34,7 @@ import org.inria.mtl.views.MTLConsole;
  *@created    20 April 2004
  */
 public class MTLModel {
+	
 	/**
 	 *  property name attached to MTL tll files used to indicate the 
 	 * association with mtl files. 
@@ -63,11 +64,11 @@ public class MTLModel {
 
 	private  static IProject proj;
 	// tll folder root
-	private  IFolder tllFolder;
+	static public IFolder tllFolder;
 	// mtl folder root
 	private IFolder srcMtlFolder;
 	//java source folder root
-	private IFolder srcJavaFolder;
+	public static IFolder srcJavaFolder;
 	//	java bin folder root
 	private IFolder binJavaFolder;
 	//MTL classpath
