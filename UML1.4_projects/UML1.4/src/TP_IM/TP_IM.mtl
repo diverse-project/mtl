@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: TP_IM.mtl,v 1.3 2003-11-28 16:22:01 dvojtise Exp $
+ * $Id: TP_IM.mtl,v 1.4 2003-12-01 17:00:43 dvojtise Exp $
  * 
  *
  ******************************************************************************/
@@ -7,7 +7,7 @@ library TP_IM;
 
 model source_model : RepositoryModel;		// must be a UML1.4 MetaModel
 model mdrdriver    : MDRDriver;
-model uml_utils        : Utils;
+model uml_utils    : Utils;
 
  
 /********************************************/
@@ -50,7 +50,6 @@ main() : Standard::Void
 
     // we initialize the uml utils
     uml_utils := new Utils ();
-    uml_utils.init (source_model);
     
  	'model connected'.toOut();
 
@@ -65,174 +64,26 @@ test_Utils()
 	classIterator 	: Standard::Iterator;
 	aClass        	: source_model::Core::Class;	
 	aMsg			: Standard::String;
+	className		: Standard::String;
+	docUtils		: Utils::UMLDoc;
+	
+	docUtils := new uml_utils::UMLDoc().init(source_model);
+	
 	
 	'ShowDirectParent of all classes'.toOut();
 	classIterator := !source_model::Core::Class!.allInstances().getNewIterator();
 	while classIterator.isOn() 
 	{
 		aClass := classIterator.item().oclAsType(!source_model::Core::Class!);
-		// aMsg := 'Direct parents of ';
-		// aMsg := aMsg.concat(aClass.name);
-		// aMsg.toOut();
-		uml_utils.setValuesName(uml_utils.directSuperClasses(aClass)).toOut();
-		uml_utils.flat(aClass, '').toOut();
-		uml_utils.short(aClass, '').toOut();
+		className := aClass.name;
+		aMsg := '********Processing class : ';
+		aMsg := aMsg.concat(className);
+		//aMsg := aMsg.concat(aClass.name);
+		aMsg.toOut();
+		//docUtils.setValuesName(uml_utils.directSuperClasses(aClass)).toOut();
+		// docUtils.flat(aClass, '').toOut();
+		// docUtils.short(aClass, '').toOut();
+		docUtils.flatShort(aClass, '').toOut();		
 		classIterator.next();
 	}
 }
-/*****************************************************************************/
-/*****************************************************************************/
-/*
-class PrivatizeAttributeTransformation
-{
-	///////////////////////////////////////////////////////////////////////////
-	run ()
-	{
-		attributeIterator : Standard::Iterator;
-		anAttribute       : source_model::Core::Attribute;	
-	
-		attributeIterator := !source_model::Core::Attribute!.allInstances().getNewIterator();
-		attributeIterator.start();
-		while attributeIterator.isOn() 
-		{		
-			anAttribute := attributeIterator.item().oclAsType (!source_model::Core::Attribute!);
-			Attribute_Process (anAttribute);
-			attributeIterator.next();
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	Attribute_Process (theAttribute : source_model::Core::Attribute)
-	{
-		theClass : source_model::Core::Class;
-
-		'ProcessAttribute BEGIN'.toOut();
-
-        // we have to deal only with public attributes
-		if theAttribute.visibility.[=](!source_model::Data_Types::VisibilityKind!.vk_public)
-		{
-			// we retrieve the class of the attribute
-			theClass := theAttribute.owner;
-		
-			// we make the attribute private
-			Attribute_Privatize (theClass, theAttribute);
-
-			// we add a getter
-			Attribute_AddGetter (theClass, theAttribute);
-			
-			// we add a setter
-			Attribute_AddSetter (theClass, theAttribute);
-		}
-		
-		'ProcessAttribute END'.toOut();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////
-	Attribute_Privatize (theClass     : source_model::Core::Class ;
-					     theAttribute : source_model::Core::Attribute)
-	{
-		theAttribute.visibility := !source_model::Data_Types::VisibilityKind!.vk_private;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////////
-	Attribute_AddGetter (ownerClass   : source_model::Core::Class ;
-					     theAttribute : source_model::Core::Attribute)
-	{
-		getOperation    : source_model::Core::Operation;
-		attributeType   : source_model::Core::Classifier;
-		operationName   : Standard::String;
-		javaCode        : Standard::String;
-		
-		////////////////////////////////////////
-		// we remember some information (avoid some oclAsType)
-		////////////////////////////////////////
-		attributeType := theAttribute.type;
-
-		////////////////////////////////////////
-        // we build the name of the operation
-		////////////////////////////////////////        
-		operationName := 'get_'.concat (theAttribute.name.oclAsType(!Standard::String!));
-
-		////////////////////////////////////////
-        // we build the java code
-		////////////////////////////////////////        
-		javaCode := '';
-		javaCode := javaCode.concat ('return ');
-		javaCode := javaCode.concat (theAttribute.name.oclAsType(!Standard::String!));
-		javaCode := javaCode.concat (';');
-
-		////////////////////////////////////////
-        // we create the get operation
-		////////////////////////////////////////        
-		getOperation := utils.createAndAddOperation (operationName, ownerClass);
-		
-		////////////////////////////////////////		
-		// we create the return parameter and add it to the operation
-		////////////////////////////////////////
-		utils.createAndAddTypedReturnParameter (attributeType, getOperation);
-
-		////////////////////////////////////////
-		// we add a new Method to the Operation
-		////////////////////////////////////////		
-		utils.createAndLinkMethod ('java', javaCode, getOperation);
-	}
-
-	
-	////////////////////////////////////////////////////////////////////////////////////
-	//
-	////////////////////////////////////////////////////////////////////////////////////
-	Attribute_AddSetter (ownerClass   : source_model::Core::Class ;
-					     theAttribute : source_model::Core::Attribute)
-	{
-		getOperation    : source_model::Core::Operation;
-		attributeType   : source_model::Core::Classifier;
-		operationName   : Standard::String;
-		parameterName   : Standard::String;		
-		javaCode        : Standard::String;
-		
-		////////////////////////////////////////
-		// we remember some information (avoid some oclAsType)
-		////////////////////////////////////////
-		attributeType := theAttribute.type;
-
-		////////////////////////////////////////
-        // we build the name of the operation
-		////////////////////////////////////////        
-		operationName := 'set_'.concat (theAttribute.name.oclAsType(!Standard::String!));
-
-		////////////////////////////////////////
-        // we build the parameter name
-		////////////////////////////////////////        
-		parameterName := '_'.concat (theAttribute.name.oclAsType(!Standard::String!));
-
-		////////////////////////////////////////
-        // we build the java code
-		////////////////////////////////////////        
-		javaCode := '';
-		javaCode := javaCode.concat (theAttribute.name.oclAsType(!Standard::String!));
-		javaCode := javaCode.concat (' = ');
-		javaCode := javaCode.concat (parameterName);
-		javaCode := javaCode.concat (';');
-
-		////////////////////////////////////////
-        // we create the get operation
-		////////////////////////////////////////        
-		getOperation := utils.createAndAddOperation (operationName, ownerClass);
-		
-		////////////////////////////////////////		
-		// we create the return parameter and add it to the operation
-		////////////////////////////////////////
-		utils.createAndAddTypedParameter (parameterName, attributeType, getOperation);
-
-		////////////////////////////////////////
-		// we add a new Method to the Operation
-		////////////////////////////////////////		
-		utils.createAndLinkMethod ('java', javaCode, getOperation);
-	}
-		
-}*/
-

@@ -12,186 +12,262 @@ library Utils;
 model UML : RepositoryModel;		// must be a UML1.4 MetaModel
 
 
-/******************************************************************************
- * category : 
- * name     : init
- * purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
- * in       : aModel : a UML1.4 metamodel
- * out      : the library itself
- * remark   : 
- ******************************************************************************/
-
-init (aModel : RepositoryModel) : Utils
+/********************************************
+ * classe UMLDoc
+ * Description : provides some simple documentation function for UML models
+ ********************************************/
+class UMLDoc 
 {
-	// we must have a reference to the UML metamodel and keep it
-	UML := aModel;
+	/******************************************************************************
+	 * category : 
+	 * name     : init
+	 * purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
+	 * in       : aModel : a UML1.4 metamodel
+	 * out      : the library itself
+	 * remark   : 
+	 ******************************************************************************/
 	
-	return self;
-}
-/******************************************************************************
- * category : 
- * name     : setValues
- * purpose  : present the values of a set in a string
- * in       : 
- * out      : string
- * remark   : 
- ******************************************************************************/
-/* setValues(theType : Standard::OclType; theMethod : Standard::String; theParameter:Standard::OclAny; theSet : Standard::Set) : Standard::String
-{	elements : Standard::Iterator;
-    returnedValue,elementValue : Standard::String;
-    elements := theSet.getNewIterator();
-    returnedValue := '< ';
-    while elements.isOn() {
-    	elementValue := elements.item().oclAsType(theType,theMethod,theParameter,!Standard::String!);
-		returnedValue := returnedValue.concat(elementValue);
-    	elements.next();
-    	if elements.isOn() {
-    		returnedValue := returnedValue.concat(',');
-    	}
-    }
-    returnedValue := returnedValue.concat(' >');
-    return returnedValue;
-}*/
-// creates a presentation of the set using the name attribute
-setValuesName(theSet : Standard::Set) : Standard::String
-{	elements : Standard::Iterator;
-    returnedValue,elementValue : Standard::String;
-    elements := theSet.getNewIterator();
-    elements.start();
-    returnedValue := '< ';
-    while elements.isOn() {
-    	// elementValue := elements.item().oclAsType(theType).name.oclAsType(!Standard::String!);
-		elementValue := elements.item().oclAsType(!UML::Core::ModelElement!).name.oclAsType(!Standard::String!);
-		returnedValue := returnedValue.concat(elementValue);
-    	elements.next();
-    	if elements.isOn() {
-    		returnedValue := returnedValue.concat(',');
-    	}
-    }
-    returnedValue := returnedValue.concat(' (');
-    returnedValue := returnedValue.concat(theSet.size().toString());
-    
-    returnedValue := returnedValue.concat(')>');
-    return returnedValue;
-}
-
-/******************************************************************************
- * category : UML::Core::Class
- * name     : directSuperClasses 
- * purpose  : return the superclasses of this class
- * in       : aClass : the Class we want to find its directSuperClass
- * out      : a set containing its direct superclasses
- * remark   : 
- ******************************************************************************/
-directSuperClasses  (
-	aClass  : UML::Core::Class
-) : Standard::Set
-{	
-	aParentClass  	: UML::Core::Class;
-	aGeneralization : UML::Core::Generalization;
-	it 				: Standard::Iterator;
-	returnedSet  	: Standard::Set;
-	
-//	'directSuperClasses'.toOut();
-	returnedSet := new Standard::Set();
-	it := aClass.generalization.getNewIterator();
-	while it.isOn()
+	init (aModel : RepositoryModel) : UMLDoc
 	{
-		aGeneralization := it.item().oclAsType (!UML::Core::Generalization!);
-		aParentClass := aGeneralization.parent;
-	    returnedSet := returnedSet.including(aParentClass);
-		it.next();
-	}
-	// we return the result
-	return returnedSet;
-}
-
-/******************************************************************************
- * category : UML::Core::Class
- * name     : flat 
- * purpose  : return a string corresponding to the flattening of inheritance graph
- * in       : aClass  : the Class we want to flatten
- *			: tabsString : a tab string to add at the begining of each new line
- * out      : the string 
- * remark   : 
- ******************************************************************************/
-flat  (
-	aClass  	: UML::Core::Class;
-	tabsString 	: Standard::String
-) : Standard::String
-{	
-	aParentClass  	: UML::Core::Class;
-	it 				: Standard::Iterator;
-	returnedString  : Standard::String;
-	nameString  : Standard::String;
-	
-//	'flat'.toOut();
-	returnedString := tabsString;
-	nameString := aClass.name;
-	// returnedString := returnedString.concat(aClass.name); // bug doesn't work use an intermediate var
-	returnedString := returnedString.concat(nameString);
-	returnedString := returnedString.concat(' :\n');
-	it := directSuperClasses(aClass).getNewIterator();
-	while it.isOn()
-	{
-		returnedString := returnedString.concat(flat(it.item().oclAsType (!UML::Core::Class!),tabsString.concat('   ')));
-		returnedString := returnedString.concat('\n');
-		it.next();
-	}
-	// we return the result
-	return returnedString;
-}
-
-/******************************************************************************
- * category : UML::Core::Class
- * name     : short 
- * purpose  : return a string giving feature name and visibility of the class
- * in       : aClass  : the Class we want to flatten
- *			: tabsString : a tab string to add at the begining of each new line
- * out      : the string 
- * remark   : 
- ******************************************************************************/
-short  (
-	aClass  	: UML::Core::Class;
-	tabsString 	: Standard::String
-) : Standard::String
-{	
-	aParentClass  	: UML::Core::Class;
-	it 				: Standard::Iterator;
-	returnedString  : Standard::String;
-	nameString  : Standard::String;
-	
-	//'short'.toOut();
-	returnedString := tabsString;
-	nameString := aClass.name;
-	// returnedString := returnedString.concat(aClass.name); // bug doesn't work use an intermediate var
-	returnedString := returnedString.concat(nameString);
-	returnedString := returnedString.concat(' :\n');
-	// visit the class features
-	it := aClass.feature.getNewIterator();
-	while it.isOn()
-	{
-		//'output of a feature'.toOut();
-		returnedString := returnedString.concat('  ');
-		nameString := it.item().oclAsType (!UML::Core::Feature!).name;
-		if isNull(nameString).not()
-		{
-			returnedString := returnedString.concat(nameString);	
-		}
-		else
-		{
-			returnedString := returnedString.concat('unknown feature (no name)');
-			// TODO analyse this case : (association ?)
-			// bug if null the concat fail should simply concat nothing ...
-		}
-		// TODO find visibility, type of feature,  etc
-		returnedString := returnedString.concat('\n');	
-		it.next();
-	}
-	// we return the result
-	return returnedString;
-}
+		// we must have a reference to the UML metamodel and keep it
+		UML := aModel;
 		
+		return self;
+	}
+	/******************************************************************************
+	 * category : 
+	 * name     : setValuesNmae
+	 * purpose  : display the values of a set of UML model elements in a string
+	 * in       : 
+	 * out      : string
+	 * remark   : 
+	 ******************************************************************************/
+	// creates a presentation of the set using the name attribute
+	setValuesName(theSet : Standard::Set) : Standard::String
+	{	elements : Standard::Iterator;
+	    returnedValue,elementValue : Standard::String;
+	    elements := theSet.getNewIterator();
+	    elements.start();
+	    returnedValue := '< ';
+	    while elements.isOn() {
+	    	// elementValue := elements.item().oclAsType(theType).name.oclAsType(!Standard::String!);
+			elementValue := elements.item().oclAsType(!UML::Core::ModelElement!).name.oclAsType(!Standard::String!);
+			returnedValue := returnedValue.concat(elementValue);
+	    	elements.next();
+	    	if elements.isOn() {
+	    		returnedValue := returnedValue.concat(',');
+	    	}
+	    }
+	    returnedValue := returnedValue.concat(' (');
+	    returnedValue := returnedValue.concat(theSet.size().toString());
+	    
+	    returnedValue := returnedValue.concat(')>');
+	    return returnedValue;
+	}
+	
+	/******************************************************************************
+	 * category : UML::Core::Class
+	 * name     : directSuperClasses 
+	 * purpose  : return the superclasses of this class
+	 * in       : aClass : the Class we want to find its directSuperClass
+	 * out      : a set containing its direct superclasses
+	 * remark   : 
+	 ******************************************************************************/
+	directSuperClasses  (
+		aClass  : UML::Core::Class
+	) : Standard::Set
+	{	
+		aParentClass  	: UML::Core::Class;
+		aGeneralization : UML::Core::Generalization;
+		it 				: Standard::Iterator;
+		returnedSet  	: Standard::Set;
+		
+	//	'directSuperClasses'.toOut();
+		returnedSet := new Standard::Set();
+		it := aClass.generalization.getNewIterator();
+		while it.isOn()
+		{
+			aGeneralization := it.item().oclAsType (!UML::Core::Generalization!);
+			aParentClass := aGeneralization.parent;
+		    returnedSet := returnedSet.including(aParentClass);
+			it.next();
+		}
+		// we return the result
+		return returnedSet;
+	}
+	
+	/******************************************************************************
+	 * category : UML::Core::Class
+	 * name     : flat 
+	 * purpose  : return a string corresponding to the flattening of inheritance graph
+	 * in       : aClass  : the Class we want to flatten
+	 *			: tabsString : a tab string to add at the begining of each new line
+	 * out      : the string 
+	 * remark   : 
+	 ******************************************************************************/
+	flat  (
+		aClass  	: UML::Core::Class;
+		tabsString 	: Standard::String
+	) : Standard::String
+	{	
+		aParentClass  	: UML::Core::Class;
+		it 				: Standard::Iterator;
+		returnedString  : Standard::String;
+		nameString  : Standard::String;
+		
+	//	'flat'.toOut();
+		returnedString := tabsString;
+		nameString := aClass.name;
+		// returnedString := returnedString.concat(aClass.name); // bug doesn't work use an intermediate var
+		returnedString := returnedString.concat(nameString);
+		returnedString := returnedString.concat(' :\n');
+		it := directSuperClasses(aClass).getNewIterator();
+		while it.isOn()
+		{
+			returnedString := returnedString.concat(flat(it.item().oclAsType (!UML::Core::Class!),tabsString.concat('   ')));
+			returnedString := returnedString.concat('\n');
+			it.next();
+		}
+		// we return the result
+		return returnedString;
+	}
+	
+	
+	
+	/******************************************************************************
+	 * category : UML::Core::Class
+	 * name     : short 
+	 * purpose  : return a string giving feature name and visibility of the class
+	 * in       : aClass  : the Class we want to flatten
+	 *			: tabsString : a tab string to add at the begining of each new line
+	 * out      : the string 
+	 * remark   : 
+	 ******************************************************************************/
+	short  (
+		aClass  	: UML::Core::Class;
+		tabsString 	: Standard::String
+	) : Standard::String
+	{	
+		aParentClass  	: UML::Core::Class;
+		it 				: Standard::Iterator;
+		theFeature		: UML::Core::Feature;
+		theAttribute  	: UML::Core::Attribute;
+		returnedString  : Standard::String;
+		featureName  	: Standard::String;
+		visString		: Standard::String;
+		className		: Standard::String;
+		typeName		: Standard::String;
+		anything		: Standard::OclAny;
+		
+	//	'short'.toOut();
+		returnedString := tabsString;
+		className := aClass.name;
+		// returnedString := returnedString.concat(aClass.name); // bug doesn't work use an intermediate var
+		returnedString := returnedString.concat(className);
+		returnedString := returnedString.concat(' :\n');
+		// visit the class features
+		it := aClass.feature.getNewIterator();
+		while it.isOn()
+		{
+			//'output of a feature'.toOut();
+			theFeature := it.item().oclAsType (!UML::Core::Feature!);
+	
+			// get the visibility			
+			if	isNull(theFeature.visibility).not()
+			{	// it may be null !!!
+				if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_public)
+				{
+					visString := '+';		
+				}
+				else
+				{
+					if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_private)
+					{
+						visString := '-';
+					}
+					else 
+					{
+						if theFeature.visibility.[=](!UML::Data_Types::VisibilityKind!.vk_protected)
+						{
+							visString := '#';
+						}
+					}
+				}
+			}		
+			
+			featureName := theFeature.name;
+			if isNull(featureName)
+			{
+				featureName := 'unknown feature (no name)';
+			}
+			
+			if theFeature.oclIsTypeOf(!UML::Core::Method!).not()
+			{
+				// nothing to do with methods
+				returnedString := returnedString.concat(tabsString);
+				returnedString := returnedString.concat(' ');
+				returnedString := returnedString.concat(visString);
+				returnedString := returnedString.concat(featureName);
+				
+				if theFeature.oclIsTypeOf(!UML::Core::Attribute!)
+				{
+					//'this is an attribute'.toOut();
+					returnedString := returnedString.concat(' : ');
+					typeName := theFeature.oclAsType(!UML::Core::Attribute!).type.name;
+					returnedString := returnedString.concat(typeName);			
+					// TODO find multiplicity
+				}
+				else
+				{
+					if theFeature.oclIsTypeOf(!UML::Core::Operation!)
+					{
+						returnedString := returnedString.concat('()');									
+						// TODO find parameters, returned type
+					}
+				}				
+				returnedString := returnedString.concat('\n');			
+			}
+			// TODO find visibility, type of feature,  etc
+			it.next();
+		}
+		// we return the result
+		return returnedString;
+	}
+	
+	/******************************************************************************
+	 * category : UML::Core::Class
+	 * name     : flatShort
+	 * purpose  : return a string corresponding to the flattening of inheritance graph and shows
+	 *			  the features of each classes
+	 * in       : aClass  : the Class we want to flatten
+	 *			: tabsString : a tab string to add at the begining of each new line
+	 * out      : the string 
+	 * remark   : 
+	 ******************************************************************************/
+	flatShort  (
+		aClass  	: UML::Core::Class;
+		tabsString 	: Standard::String
+	) : Standard::String
+	{	
+		aParentClass  	: UML::Core::Class;
+		it 				: Standard::Iterator;
+		returnedString  : Standard::String;
+		nameString  : Standard::String;
+		
+		// 'flatShort'.toOut();
+		returnedString := short(aClass,tabsString);		
+		it := directSuperClasses(aClass).getNewIterator();
+		while it.isOn()
+		{
+			returnedString := returnedString.concat(flatShort(it.item().oclAsType (!UML::Core::Class!),tabsString.concat('   ')));
+			it.next();
+		}
+		// we return the result
+		return returnedString;
+	}
+}
+	
+	/*	
 ////////////////////////////////////////////////////////////////////////////////////
 // category : UML::Core::Method
 // name     : createMethod
@@ -386,3 +462,4 @@ addParameterToBehavioralFeature (
 // out      :
 // remark   : 
 ////////////////////////////////////////////////////////////////////////////////////
+*/
