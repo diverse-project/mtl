@@ -2,6 +2,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
 
+
 /**
   * The usual concept of operation. It is defined within a class. An operation have some typed parameters (FormalParameter). The signature of an operation is the composition of its name and the number of its parameters. This signature is deterministic within the owning class. If this signature is already in the class type hierarchy, this operation is the redefinition of the one(s) of the superclass. Redefining operations must have the same types for its formal parameters than the redefined operations(s).
   * If the implementation of the operation or any one of its redefining operation has side effect, this operation is a side effect.
@@ -9,48 +10,6 @@ import java.util.*;
 public class Operation 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature
 {
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature theSignature;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature getTheSignature () {
-        return this.theSignature;
-    }
-    public void setTheSignature (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature value) {
-        this.theSignature = value; 
-    }
-    public int cardTheSignature () {
-        if ( this.theSignature == null ) return 0;
-        else return 1;
-    }
-
-    /**
-      * This Operation is a getter for this Attribute
-      */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isGetterFor;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsGetterFor () {
-        return this.isGetterFor;
-    }
-    public void setIsGetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
-        this.isGetterFor = value; 
-    }
-    public int cardIsGetterFor () {
-        if ( this.isGetterFor == null ) return 0;
-        else return 1;
-    }
-
-    /**
-      * Thi operation is a setter Operation for this Attribute
-      */
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isSetterFor;
-    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsSetterFor () {
-        return this.isSetterFor;
-    }
-    public void setIsSetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
-        this.isSetterFor = value; 
-    }
-    public int cardIsSetterFor () {
-        if ( this.isSetterFor == null ) return 0;
-        else return 1;
-    }
-
     /**
       * The implementation of the operation. These instructions are executed in sequence up to a return, a throw or the end of the sequence. These instructions are not saved by the "Library.store" method.
       */
@@ -78,6 +37,18 @@ public class Operation
     }
     public int cardInstructions () {
         return this.instructions.size();
+    }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature theSignature;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature getTheSignature () {
+        return this.theSignature;
+    }
+    public void setTheSignature (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.OpSignature value) {
+        this.theSignature = value; 
+    }
+    public int cardTheSignature () {
+        if ( this.theSignature == null ) return 0;
+        else return 1;
     }
 
     /**
@@ -140,6 +111,30 @@ public class Operation
     public boolean isConstructor;
     public boolean getIsConstructor () {
         return this.isConstructor;
+    }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isGetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsGetterFor () {
+        return this.isGetterFor;
+    }
+    public void setIsGetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
+        this.isGetterFor = value; 
+    }
+    public int cardIsGetterFor () {
+        if ( this.isGetterFor == null ) return 0;
+        else return 1;
+    }
+
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute isSetterFor;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute getIsSetterFor () {
+        return this.isSetterFor;
+    }
+    public void setIsSetterFor (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Attribute value) {
+        this.isSetterFor = value; 
+    }
+    public int cardIsSetterFor () {
+        if ( this.isSetterFor == null ) return 0;
+        else return 1;
     }
 
 

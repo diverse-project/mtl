@@ -2,6 +2,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
 
+
 abstract public class UserDefinedClass 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.ASTNode
 {

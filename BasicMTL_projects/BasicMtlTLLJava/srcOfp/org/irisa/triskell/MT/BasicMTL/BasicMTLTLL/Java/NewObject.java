@@ -2,6 +2,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
 
+
 /**
   * Creates a new value of the defined class. This is a side effect operation.
   */

@@ -9,9 +9,6 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 public class Attribute 
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Feature
 {
-    /**
-      * This is the Operation declared to be a getter method for this Attribute
-      */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getter;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getGetter () {
         return this.getter;
@@ -24,9 +21,6 @@ public class Attribute
         else return 1;
     }
 
-    /**
-      * This is the operation that is declared to be the setter method for this attribute.
-      */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation setter;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Operation getSetter () {
         return this.setter;

@@ -2,6 +2,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
 
+
 public class QualifiedName 
     extends java.util.Vector
 {

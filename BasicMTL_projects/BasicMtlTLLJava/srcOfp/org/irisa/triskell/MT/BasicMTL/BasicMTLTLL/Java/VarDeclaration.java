@@ -9,7 +9,7 @@ public class VarDeclaration
     extends org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.ASTNode
 {
     /**
-      * The type of the variable as a QualifiedName.
+      * The type of the variable.
       */
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName type;
     public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.QualifiedName getType () {

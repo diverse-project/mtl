@@ -2,6 +2,7 @@ package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*;
 
+
 /**
   * This class represents an exception treatment. A catch is specialized in the tratment of an particular kind (= type) of exception. Note any class can be considered as an exception: the difference is made by return (normal operation termination) and throw, which initiate the catch mechanism. The selected catch is the first which can treat the thrown value (according to its type). This thrown value is placed in a variable declaration during the treatment.
   */

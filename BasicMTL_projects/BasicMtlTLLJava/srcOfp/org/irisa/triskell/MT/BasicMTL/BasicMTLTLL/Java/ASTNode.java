@@ -1,9 +1,8 @@
 package org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java;
 
 import java.util.*; 
-// import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
-// import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
+
 
 /**
   * Any node involved in the Basic MTL abstract syntax. 
@@ -19,9 +18,6 @@ abstract public class ASTNode
       *                                         throws IOException
       *                                     private void readObject(java.io.ObjectInputStream in)
       *                                         throws IOException, ClassNotFoundException;
-      */
-    /**
-      * The properties that decorates this node.
       */
     public Vector decoration = new Vector();
     public org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property getDecoration (int i) {
@@ -48,7 +44,7 @@ abstract public class ASTNode
         String key,
         java.lang.Object value)
     {
-		this.findProperty(key).setValue(value);
+		this.findProperty(key).setValue(value); 
     }
 
     public org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property getProperty(
