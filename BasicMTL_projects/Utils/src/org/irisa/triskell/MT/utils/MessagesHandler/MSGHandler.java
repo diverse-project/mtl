@@ -1,4 +1,4 @@
-/* $Id: MSGHandler.java,v 1.10 2004-10-21 14:05:19 dvojtise Exp $
+/* $Id: MSGHandler.java,v 1.11 2004-10-25 12:23:47 dvojtise Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -49,6 +49,10 @@ public class MSGHandler {
 				logger.addAppender(new MSGHandlerAppender());		
 		}
 		else logger=Logger.getLogger("MSGHandler");
+		if (logger == null)
+		{
+			System.err.println("warning unable to retreive MSGHandler logger");
+		}
 		return logger;
 	}
 	
