@@ -1,4 +1,4 @@
-// $Id $
+// $Id: test1b.mtl,v 1.2 2004-01-16 10:51:00 dvojtise Exp $
 // This file is intend to verify various constructs that should work with the parser
 // this is a simple test approach, a better way should be to create various files and use them separately with junit
 

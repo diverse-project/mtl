@@ -1,3 +1,4 @@
+//$Id:$
 library UsedLib;
 
 class SomeDummyClass {
