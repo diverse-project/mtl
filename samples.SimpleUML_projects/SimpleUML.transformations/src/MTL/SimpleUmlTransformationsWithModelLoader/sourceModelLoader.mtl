@@ -1,5 +1,5 @@
 /*
- * $Id: sourceModelLoader.mtl,v 1.1 2004-08-19 10:16:54 dvojtise Exp $
+ * $Id: sourceModelLoader.mtl,v 1.2 2004-09-13 12:04:17 dvojtise Exp $
  *
  * Sample of use of associations2attribute with a MDR repository
  */
@@ -88,7 +88,7 @@ class sourceModelLoader
 
 		source_model := modelManager.loadModelFromXMI(
 									'SimpleUmlMM',
-									'ecore',
+									'SimpleUML',	// Name of the editing domain provider, case sensitive
 									src_inputFilename);
 
 		modelManager.saveModelAsXMI('SimpleUmlMM',
