@@ -1,4 +1,4 @@
-// $Id: IntegerTests.mtl,v 1.1 2004-01-16 14:16:55 dvojtise Exp $
+// $Id: IntegerTests.mtl,v 1.2 2004-01-22 12:24:18 dvojtise Exp $
 // This class tests various points on the Integer implementation with MTL
 
 library test1Library1;
@@ -16,7 +16,7 @@ class IntegerTests
 		testSerie1();
 		testSerie2();
 		
-		if nbErrors.[<](0)
+		if nbErrors.[>](0)
 		{
 			throws 'Integer Tests detected some errors !!! please checks the log';
 		}		
@@ -123,4 +123,6 @@ class IntegerTests
 		}
 	
 	}
+	
+	
 }
