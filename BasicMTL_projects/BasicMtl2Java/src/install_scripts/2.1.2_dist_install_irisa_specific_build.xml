@@ -1,0 +1,58 @@
+<!-- $Id: 2.1.2_dist_install_irisa_specific_build.xml,v 1.1 2004-03-31 09:34:52 dvojtise Exp $ -->
+<project name="BasicMtl2Java" default="install all" basedir=".">
+	<description>
+        Helps to install the recommended versions of the different tools needed to run BasicMTL
+        This version is to be used in order to install eclipse 2.1.2 and other necessary plugins
+	</description>
+
+	<!-- on unix system : change \\sea\triskell by /udd/triskell -->
+	<property name="omondo.file"  location="\\sea\triskell\Soft\eclipse\plugin\eclipseUML\eclipseuml_1.2.1.20031103.zip"/>
+	<property name="omondo.version"  value="Omondo EclipseUML 1.2.1"/>
+	<property name="colorer.file"  location="\\sea\triskell\Soft\eclipse\plugin\colorer\EclipseColorer-take5_0.5.0.zip"/>
+	<property name="colorer.version"  value="Colorer 0.5.0"/>
+	
+		
+	<target name="0. set dest dir">    	
+    	<input
+    		message="Please enter the location for your install(a eclipse and a MTLc directories will be created under it):"
+    		addproperty="base.path"
+  		/>
+  		<property name="plugin.location" location="${base.path}/eclipse/plugins/"/>  		
+  		<echo >${base.path}</echo>
+  	</target>
+  	
+  	<target name="init" >
+  		<fail unless="base.path" message="You must set the destination path (use the {0. set dest dir} target)"/>
+  		<mkdir dir="${base.path}/temp/download"/>
+  	</target>
+  	
+  	
+  	<target name="install colorer" depends="init">    	    	 
+		<unzip src="${colorer.file}" dest="${base.path}/eclipse/plugins"/> 
+		
+		<ant antfile="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer/build.xml" target="install mtl for 0.5.0" dir="${base.path}/MTL/ThirdParty/EclipsePlugIn/net.sf.colorer"/>
+  	</target>
+  	
+	<target name="install omondo" depends="init" >  
+		<echo>Version ${omondo.version}</echo>
+		<unzip src="${omondo.file}" dest="${base.path}/eclipse"/>
+  	</target>
+  	
+  	<target name="install all non specific" depends="init" > 
+		<ant antfile="2.1.2_dist_install_build.xml" target="install all" inheritAll="true"/>    	
+  	</target>
+  	
+	
+	<target name="install all" depends="0. set dest dir,
+										 install all non specific, 
+										 install colorer,
+										 install omondo">    	
+  	</target>
+  	
+	
+	<target name="clean all">    	
+    	<fail unless="{base.path" message="You must set the destination path (use the {0. set dest dir} target)"/>
+  		<ant antfile="2.1.2_dist_install_build.xml" target="clean all"/> 
+  	</target>
+  	
+</project>

@@ -1,0 +1,89 @@
+<!-- $Id: 2.1.2_dist_install_build.xml,v 1.1 2004-03-31 09:34:52 dvojtise Exp $ -->
+<project name="BasicMtl2Java" default="install all" basedir=".">
+	<description>
+        Helps to install the recommended versions of the different tools needed to run BasicMTL
+        This version is to be used in order to install eclipse 2.1.2 and other necessary plugins
+	</description>
+
+	<property name="eclipse.url.path"  value="http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/R-2.1.2-200311030802/"/>
+	<property name="eclipse.url.filename"  value="eclipse-SDK-2.1.2-win32.zip"/>
+	<property name="eclipse.version" value="Eclipse 2.1.2"/>
+	<property name="emf.url.path"  value="http://download.eclipse.org/tools/downloads/emf/"/>
+	<property name="emf.url.filename"  value="emf_1.1.1_20031120_1149WL.zip"/>
+	<property name="emf.version" value="EMF 1.1.1"/>
+	<property name="xsd.url.path"  value="http://download.eclipse.org/tools/downloads/xsd/"/>
+	<property name="xsd.url.filename"  value="xsd_1.1.1.1_20031120_1149WL.zip"/>
+	
+		
+	<target name="0. set dest dir">    	
+    	<input
+    		message="Please enter the location for your install(a eclipse and a MTLc directories will be created under it):"
+    		addproperty="base.path"
+  		/>
+  		<property name="plugin.location" location="${base.path}/eclipse/plugins/"/>
+  		<echo >${base.path}</echo>
+  	</target>
+  	
+  	<target name="init" >
+  		<fail unless="base.path" message="You must set the destination path (use the {0. set dest dir} target)"/>
+  		<mkdir dir="${base.path}/temp/download"/>
+  	</target>
+  	
+  	
+  	
+	<target name="1. install eclipse" depends="init" >  
+		  <echo>Version ${eclipse.version}</echo>	
+		  <get  src="${eclipse.url.path}${eclipse.url.filename}" 
+		  	    dest="${base.path}/temp/download/${eclipse.url.filename}"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		  <unzip src="${base.path}/temp/download/${eclipse.url.filename}" dest="${base.path}"/>	
+  	</target>
+  	
+  	<target name="2. install EMF" depends="init" > 
+		  <echo>Version ${emf.version}</echo>
+		  <get  src="${emf.url.path}${emf.url.filename}" 
+		  	    dest="${base.path}/temp/download/${emf.url.filename}"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		  <unzip src="${base.path}/temp/download/${emf.url.filename}" dest="${base.path}/eclipse"/>   	
+		  <get  src="${xsd.url.path}${xsd.url.filename}" 
+		  	    dest="${base.path}/temp/download/${xsd.url.filename}"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		  <unzip src="${base.path}/temp/download/${xsd.url.filename}" dest="${base.path}/eclipse"/>     	
+  	</target>
+  	
+  	<target name="3. install BasicMTL compiler" depends="init">    	
+    	<echo>Latest version to date</echo>
+		<get  src="http://modelware.inria.fr/MTengine_latest_build/BasicMTLc_latest.zip" 
+		  	    dest="${base.path}/temp/download/BasicMTLc_latest.zip"
+		  	    verbose="true"
+		  	    usetimestamp="true"/> 
+		<unzip src="${base.path}/temp/download/BasicMTLc_latest.zip" dest="${base.path}/MTL"/>   	
+		  
+  	</target>
+  	
+  	
+  	
+  	<target name="5. install errorlink" depends="init">    	
+    	
+  	</target>
+	
+	<target name="install all" depends="0. set dest dir,
+										 1. install eclipse, 
+										 2. install EMF, 
+										 3. install BasicMTL compiler">    	
+  	</target>
+  	
+  	<target name="clean downloaded files">    	
+    	<fail unless="{base.path" message="You must set the destination path (use the {0. set dest dir} target)"/>
+  		<delete dir="${base.path}/temp/download"/>
+  	</target>
+	
+	<target name="clean all" depends="clean downloaded files">    	
+    	<fail unless="{base.path" message="You must set the destination path (use the {0. set dest dir} target)"/>
+  		
+  	</target>
+  	
+</project>
