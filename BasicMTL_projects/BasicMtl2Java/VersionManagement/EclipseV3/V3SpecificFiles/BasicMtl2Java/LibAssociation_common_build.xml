@@ -1,4 +1,4 @@
-<!-- $Id: LibAssociation_common_build.xml,v 1.7 2004-10-25 12:25:29 dvojtise Exp $ -->
+<!-- $Id: LibAssociation_common_build.xml,v 1.8 2004-10-26 12:30:44 dvojtise Exp $ -->
 <project name="BasicMtl2Java_LibAssociation" default="dist common" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler common target rules for the libAssociation version of the compiler (both bootstrapped and not bootstrapped)
@@ -375,7 +375,8 @@
   		<!-- final java compile -->
   		<javac srcdir="${src}" 
     	    destdir="${bin}"
-   			debug="true">
+   			debug="true"
+  			failonerror="true">
    			<classpath >
    				<pathelement path="${bin}"/>
    				<pathelement path="${org.eclipse.core.runtime.jar}"/>
