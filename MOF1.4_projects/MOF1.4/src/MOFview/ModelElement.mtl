@@ -1,10 +1,10 @@
 /******************************************************************************
- * $Id: ModelElement.mtl,v 1.3 2004-02-18 10:48:35 edrezen Exp $
+ * $Id: ModelElement.mtl,v 1.4 2004-03-17 15:39:26 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
-class ModelElement
+class ModelElement extends Tools::BuilderVisitor
 {
 	/** */
 	toString () : Standard::String  {return 'ABSTRACT CLASS, SHOULD BE IMPLEMENTED...';}
