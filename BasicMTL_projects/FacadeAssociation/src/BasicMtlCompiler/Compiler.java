@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.17 2004-10-18 16:01:35 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.18 2004-10-19 08:29:56 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -29,6 +29,7 @@ public class Compiler {
 
 	static final String tllSuffix=".tll";
 	static final Logger log=MSGHandler.init();
+	public boolean hasErrorOccured = false;
 
 	public static String checkPathEnd(String path)
 	{	if (path.charAt(path.length()-1)=='/'
@@ -81,6 +82,11 @@ public class Compiler {
 				System.err.println("Compilation error found");
 				System.exit(-1);		
 			}
+			if (thisCompilerFacade.hasErrorOccured)
+			{
+				System.err.println("error occured");
+				System.exit(-1);
+			}
 		}
 		else showUsage();
 	}
@@ -115,7 +121,10 @@ public class Compiler {
 		if (theLib!=null)
 			// compile, ie. generate the java files
 			BMTLCompiler.compile(theLib,defaultTLLPath,defaultBinPath);	
-		else log.fatal("no generated library");
+		else {
+			log.fatal("no generated library");
+			hasErrorOccured = true;
+		}
 	}
 	
 	/**
@@ -171,6 +180,7 @@ public class Compiler {
 		if (filenamesArguments.size() == 0)
 		{
 			log.fatal("No file to process");
+			hasErrorOccured = true;
 		}
 		else 
 		{
