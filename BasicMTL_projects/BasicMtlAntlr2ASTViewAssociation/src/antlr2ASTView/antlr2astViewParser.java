@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astViewParser.java,v 1.1 2003-10-17 16:20:59 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astViewParser.java,v 1.2 2003-10-31 15:40:15 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -42,7 +42,7 @@ public class antlr2astViewParser implements antlrParserInterface {
 		for (int i=0;i<filenames.size();i++)
 			parsedBMTLLib=ASTViewproducer.buildLibraryFromText((String)filenames.get(i));
 		if (parsedBMTLLib.get_BMTL_hasAssociation().getTheBoolean()) {
-			parsedAssociationTemplatesLib=new antlr2astView().buildLibraryFromText("C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2ASTViewAssociation\\build\\src\\Template\\AssociationTemplates.mtl");
+			parsedAssociationTemplatesLib=new antlr2astView().buildLibraryFromText(System.getProperty("TEMPLATEPATH","C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtlAntlr2ASTViewAssociation\\Template\\")+"AssociationTemplates.mtl");
 			try {
 				//transform all associations
 				parsedBMTLLib.BMTL_transformAllAssociations(parsedAssociationTemplatesLib);
