@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.26 2004-11-03 08:53:33 jpthibau Exp $ 			*/
+/* $Id: basicmtl.g,v 1.27 2004-11-05 16:00:50 jpthibau Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -226,7 +226,7 @@ classDefinition returns [Object tree=null;]
 	Object l6=null;
 	Object s1 = null;
 }
-	: ("abstract" {isAbstract=true;})? n=classKeyword s1=type { s1=this.addPacksPrefix(s1); } (l1=inheritance)? (l5=refinement)?
+	: (abstractKeyword {isAbstract=true;})? n=classKeyword s1=type { s1=this.addPacksPrefix(s1); } (l1=inheritance)? (l5=refinement)?
 	(l2=tag {theTags.addElement(l2); } )*
 	OPENBRACE ( l3=attributesDef {theAttributes.addElement(l3); } )*
 	( l6=getSetDef {theGettersSetters.addElement(l6); } )*
@@ -333,7 +333,7 @@ methodDefinition returns [Object tree=null;]
 	Token s1 = null;
 	String methodName=null;
 }
-	:	("abstract" {isAbstract=true;} )? ("creation" {creation=new String("creation"); } )?
+	:	(abstractKeyword {isAbstract=true;} )? ("creation" {creation=new String("creation"); } )?
 			(s1=ident {methodName=s1.getText();} | n=notKeyword {methodName="not";}| n=andKeyword {methodName="and";}) n=openbracket
 		    ( l1=parameterdef )? CLOSEBRACKET (COLON l2=type)?
 			( "throwsException" {throwsException=new String("throwsException"); } )?
@@ -926,6 +926,13 @@ associationKeyword : "association"
 /* remember the line number of a new association definition */
 associationKeyword returns [String number=null;]
 	: c:"association" { number=Integer.toString(c.getLine()); }
+	;
+
+/*===============================================================
+abstractKeyword : "abstract"
+==================================================================*/
+abstractKeyword 
+	: c:"abstract"
 	;
 
 /*===============================================================
