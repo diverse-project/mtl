@@ -1,7 +1,7 @@
-<!-- $Id: MOF_Adapter_build.xml,v 1.1 2003-12-15 10:07:07 edrezen Exp $ -->
-<project name="MOF adaptor" default="compile" basedir=".">
+<!-- $Id: MOFadapter_build.xml,v 1.1 2004-02-18 10:56:59 edrezen Exp $ -->
+<project name="MOF adapter" default="compile" basedir=".">
 	<description>
-		MOF adaptor
+		MOF adapter
 	</description>
 
 	<!-- set global properties for this build -->
@@ -24,7 +24,7 @@
 	<!--           ( and the project name )               -->
 	<!-- ************************************************ -->
 	<!-- set user properties for this build -->
-	<property name="library.name" value="MOFAdapter"/>
+	<property name="library.name" value="MOFadapter"/>
 	<property name="src" location="src"/>
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
@@ -51,7 +51,7 @@
   	<target name="run" description="run the transformation">
   		<!-- cannot run the default target due to the mangling of the _
   			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
-  		<java classname="${user.package.name}.BMTLLib_MOFAdapter" fork="true">
+  		<java classname="${user.package.name}.BMTLLib_MOFadapter" fork="true">
 		<arg value="-h"/>
 		<classpath>
 			<pathelement path="${build.bin}/"/>

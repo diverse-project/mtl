@@ -1,13 +1,14 @@
-<!-- $Id: build.xml,v 1.2 2004-02-06 11:03:08 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.3 2004-02-18 10:57:00 edrezen Exp $ -->
 
 <project name="MOF" default="run MOF test" basedir=".">
 
 	<target name="run MOF test" > 
 
-  		<ant antfile="MOFview_build.xml"    dir="." target="compile"/>
-  		<ant antfile="MOFadapter_build.xml" dir="." target="compile"/>
-  		<ant antfile="MOFhelper_build.xml"  dir="." target="compile"/>
-  		<ant antfile="MOFtests_build.xml"   dir="." target="compile"/>
+  		<!--ant antfile="MOFview_build.xml"     dir="." target="compile"/-->
+  		<!--ant antfile="MOFvisitors_build.xml" dir="." target="compile"/-->
+  		<!--ant antfile="MOFadapter_build.xml"  dir="." target="compile"/-->
+  		<ant antfile="MOFhelper_build.xml"   dir="." target="compile"/>
+  		<ant antfile="MOFtests_build.xml"    dir="." target="compile"/>
 
   		<ant antfile="MOFtests_build.xml" dir="." target="run"> 
 	  		<property name="model" value="Models/UML/UML_model.xmi"/> 	

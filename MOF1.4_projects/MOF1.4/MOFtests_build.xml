@@ -1,7 +1,7 @@
-<!-- $Id: MOF_View_build.xml,v 1.1 2003-12-15 10:07:06 edrezen Exp $ -->
-<project name="MOF view" default="compile" basedir=".">
+<!-- $Id: MOFtests_build.xml,v 1.1 2004-02-18 10:56:59 edrezen Exp $ -->
+<project name="MOF tests" default="compile" basedir=".">
 	<description>
-		MOF view
+        Build file for compiling and running MOF tests
 	</description>
 
 	<!-- set global properties for this build -->
@@ -16,7 +16,6 @@
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	
-	
 	  	
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->
@@ -24,7 +23,7 @@
 	<!--           ( and the project name )               -->
 	<!-- ************************************************ -->
 	<!-- set user properties for this build -->
-	<property name="library.name" value="MOFView"/>
+	<property name="library.name" value="MOFtests"/>
 	<property name="src" location="src"/>
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
@@ -51,8 +50,8 @@
   	<target name="run" description="run the transformation">
   		<!-- cannot run the default target due to the mangling of the _
   			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
-  		<java classname="${user.package.name}.BMTLLib_MOFView" fork="true">
-		<arg value="-h"/>
+  		<java classname="${user.package.name}.BMTLLib_MOFtests" fork="true">
+			<arg value="${model}" />
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
