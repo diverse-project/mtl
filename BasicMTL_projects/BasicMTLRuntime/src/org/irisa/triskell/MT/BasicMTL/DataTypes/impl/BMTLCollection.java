@@ -7,9 +7,11 @@
 package org.irisa.triskell.MT.BasicMTL.DataTypes.impl;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface;
+import org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLIteratorInterface;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionKind;
 import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
+import org.irisa.triskell.MT.DataTypes.Java.commands.Collection.Collection_getNewIterator;
 
 /**
  * @author ffondeme
@@ -26,31 +28,22 @@ public class BMTLCollection
 	 */
 	public BMTLCollection(Value delegate) {
 		super(delegate);
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.BasicMTL.DataTypes.BMTLCollectionInterface#getCollectionDelegate()
-	 */
 	public CollectionValue getCollectionDelegate() {
-		// TODO Auto-generated method stub
-		return null;
+		return (CollectionValue)this.getDelegate();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.DataTypes.Java.CollectionValue#getTheCollection()
-	 */
 	public Value[] getTheCollection() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCollectionDelegate().getTheCollection();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.irisa.triskell.MT.DataTypes.Java.CollectionValue#getKind()
-	 */
 	public CollectionKind getKind() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCollectionDelegate().getKind();
+	}
+
+	public BMTLIteratorInterface BMTL_getNewIterator() {
+		return (BMTLIteratorInterface)CommonFunctions.toBMTLDataType(Collection_getNewIterator.TheInstance.invoke(this, null));
 	}
 
 }

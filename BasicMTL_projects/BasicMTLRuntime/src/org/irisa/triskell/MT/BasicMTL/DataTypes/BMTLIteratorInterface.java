@@ -16,4 +16,18 @@ import org.irisa.triskell.MT.DataTypes.Java.defaultImpl.IteratorValueImpl;
  */
 public interface BMTLIteratorInterface extends BMTLOclAnyInterface {
 	IteratorValueImpl getIteratorDelegate();
+	
+	BMTLVoidInterface BMTL_start();
+	
+	BMTLBooleanInterface BMTL_isOff();
+	
+	BMTLBooleanInterface BMTL_isOn();
+	
+	BMTLBooleanInterface BMTL_hasNext();
+	
+	BMTLOclAnyInterface BMTL_item();
+	
+	BMTLVoidInterface BMTL_next();
+	
+	BMTLOclAnyInterface BMTL_nextItem();
 }

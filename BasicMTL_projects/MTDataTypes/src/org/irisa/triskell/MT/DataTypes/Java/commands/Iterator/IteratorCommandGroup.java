@@ -27,6 +27,13 @@ public class IteratorCommandGroup extends CommandGroupImpl {
 	
 	static {
 		TheInstance = new IteratorCommandGroup();
+		TheInstance.addCommand(Iterator_start.TheInstance);
+		TheInstance.addCommand(Iterator_isOff.TheInstance);
+		TheInstance.addCommand(Iterator_isOn.TheInstance);
+		TheInstance.addCommand(Iterator_hasNext.TheInstance);
+		TheInstance.addCommand(Iterator_item.TheInstance);
+		TheInstance.addCommand(Iterator_next.TheInstance);
+		TheInstance.addCommand(Iterator_nextItem.TheInstance);
 	}
 	
 	private IteratorCommandGroup() {

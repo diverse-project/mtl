@@ -30,6 +30,7 @@ public class CollectionCommandGroup extends CommandGroupImpl {
 		CollectionCommandGroup ret = (CollectionCommandGroup)collectionCommandGroups.get(collectionType);
 		if (ret == null) {
 			ret = new CollectionCommandGroup(collectionType);
+			ret.addCommand(Collection_getNewIterator.TheInstance);
 			collectionCommandGroups.put(collectionType, ret);
 		}
 		return ret;

@@ -16,6 +16,7 @@ import org.irisa.triskell.MT.DataTypes.Java.CollectionValue;
  */
 public interface BMTLCollectionInterface
 	extends CollectionValue, BMTLOclAnyInterface {
-	
 	CollectionValue getCollectionDelegate();
+	
+	BMTLIteratorInterface BMTL_getNewIterator();
 }
