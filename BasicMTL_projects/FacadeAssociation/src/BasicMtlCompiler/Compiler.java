@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.14 2004-08-18 14:11:54 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.15 2004-09-10 13:22:00 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -108,6 +108,7 @@ public class Compiler {
 		
 		// parse and typecheck  (ie. generate the tll file)	
 		antlrParserInterface parser=new antlr2astViewParser().newParser();
+		TLLtypechecking.reinitLoadedLibraries();	// it is better to reinit the LoadedLibraries static variable to be sure that this is the latest version of these tll 
 		BasicMtlLibrary theLib=(BasicMtlLibrary)TLLtypechecking.checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,TLLLoadingPaths,parser);
 		if (theLib!=null)
 			// compile, ie. generate the java files

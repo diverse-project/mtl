@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.13 2004-06-09 09:36:59 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/TLLtypechecking.java,v 1.14 2004-09-10 13:23:45 dvojtise Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -250,6 +250,9 @@ public class TLLtypechecking {
 			  checkedTLLProducer(filenamesArguments,defaultPackagePrefix,defaultTLLPath,null,null);
 }
 		else showUsage();
+	}
+	public static void reinitLoadedLibraries(){
+		loadedLibraries=new java.util.Hashtable();
 	}
 	static void showUsage()
 	{
