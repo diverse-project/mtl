@@ -207,8 +207,8 @@ public class AWK
 				firstIter = false;
 				ret.append(separator);
 			}
+			ret.append((String)it.next());
 		}
-		ret.append((String)it.next());
 		return ret.toString();
 	}
 }
