@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: AssociationEnd.mtl,v 1.1 2004-02-02 17:20:40 edrezen Exp $
+ * $Id: AssociationEnd.mtl,v 1.2 2004-02-06 11:05:36 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
@@ -34,7 +34,7 @@ class AssociationEnd extends TypedElement
 	setIsChangeable (isChangeable : Standard::Boolean) {}
 
 	/** */
-	setAggregation (aggregation : MOFview::AggregationKind)   {} 
+	setAggregation (_aggregation : MOFview::AggregationKind)   {} 
 
 	/** */
 	setMultiplicity (multiplicity : MOFview::MultiplicityType)   {}

@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.1 2003-12-15 10:07:06 edrezen Exp $ -->
+<!-- $Id: common_build.xml,v 1.2 2004-02-06 11:03:34 edrezen Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -66,6 +66,8 @@
   		<echo>-PackageName ${user.package.name} </echo>
   		<echo>-BinPath ${user.build.src}/ </echo>-->
   		<property name="templatepath" location="${MTLcompiler.jar.path}/"></property>
+
+<!-- -->
   		<java jar="${BasicMTLc.jar}" 
 					fork="true"
            			failonerror="true">
@@ -80,7 +82,7 @@
 	         <arg value="-BinPath"/> 
 	         <arg value="${user.build.src}/"/> 
        	</java> 
-       	
+<!-- -->
  	
   		<!-- final java compile -->
   		<javac srcdir="${build.src}" 

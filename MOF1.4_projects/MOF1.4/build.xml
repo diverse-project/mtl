@@ -1,31 +1,18 @@
-<!-- $Id: build.xml,v 1.1 2003-12-15 10:07:07 edrezen Exp $ -->
+<!-- $Id: build.xml,v 1.2 2004-02-06 11:03:08 edrezen Exp $ -->
 
-<project name="MOF_Toolbox" default="run MOF view" basedir=".">
-	<description>
-        MOF toolbox 
-	</description>
-	
+<project name="MOF" default="run MOF test" basedir=".">
 
-	<target name="run MOF toolbox" > 
-  		<description>
-  		</description>  
-  		<ant antfile="MOF_Toolbox_build.xml" dir="." target="compile"/>
-  		<ant antfile="MOF_Toolbox_build.xml" dir="." target="run"/>
-  	</target>
+	<target name="run MOF test" > 
 
+  		<ant antfile="MOFview_build.xml"    dir="." target="compile"/>
+  		<ant antfile="MOFadapter_build.xml" dir="." target="compile"/>
+  		<ant antfile="MOFhelper_build.xml"  dir="." target="compile"/>
+  		<ant antfile="MOFtests_build.xml"   dir="." target="compile"/>
 
-	<target name="run MOF view" > 
-  		<description>
-  		</description>  
-  		<ant antfile="MOF_View_build.xml" dir="." target="compile"/>
-  		<ant antfile="MOF_View_build.xml" dir="." target="run"/>
-  	</target>
-
-	<target name="run MOF adaptor" > 
-  		<description>
-  		</description>  
-  		<ant antfile="MOF_Adapter_build.xml" dir="." target="compile"/>
-  		<ant antfile="MOF_Adapter_build.xml" dir="." target="run"/>
+  		<ant antfile="MOFtests_build.xml" dir="." target="run"> 
+	  		<property name="model" value="Models/UML/UML_model.xmi"/> 	
+	  	</ant>
+	  			
   	</target>
 
 

@@ -1,11 +1,15 @@
 /******************************************************************************
- * $Id: ModelElement.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ * $Id: ModelElement.mtl,v 1.2 2004-02-06 11:05:36 edrezen Exp $
  ******************************************************************************/
 
 library MOFview;
 
 class ModelElement
 {
+	/** */
+	toString () : Standard::String  {return 'ABSTRACT CLASS, SHOULD BE IMPLEMENTED...';}
+
+
 	/*********************************/
 	/**           GETTERS           **/
 	/*********************************/

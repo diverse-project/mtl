@@ -7,29 +7,51 @@
     </XMI.documentation>
   </XMI.header>
   <XMI.content>
+
+
+    <!-- ***************************************************************************************************** -->
+    <!-- ***************************************************************************************************** -->
+    <!-- ***************************************************************************************************** -->
+
     <Model:Package xmi.id = 'a1' name = 'PrimitiveTypes' annotation = '' isRoot = 'false'
       isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'>
+
       <Model:Namespace.contents>
+
         <Model:Tag xmi.id = 'a2' name = '*tag' annotation = '' tagId = 'javax.jmi.packagePrefix'>
           <Model:Tag.values>javax.jmi</Model:Tag.values>
           <Model:Tag.elements>
             <Model:Package xmi.idref = 'a1'/>
           </Model:Tag.elements>
         </Model:Tag>
+
         <Model:PrimitiveType xmi.id = 'a3' name = 'Boolean' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
         <Model:PrimitiveType xmi.id = 'a4' name = 'Integer' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
         <Model:PrimitiveType xmi.id = 'a5' name = 'Long' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
         <Model:PrimitiveType xmi.id = 'a6' name = 'Float' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
         <Model:PrimitiveType xmi.id = 'a7' name = 'Double' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
         <Model:PrimitiveType xmi.id = 'a8' name = 'String' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'/>
+
       </Model:Namespace.contents>
+
     </Model:Package>
+
+
+    <!-- ***************************************************************************************************** -->
+    <!-- ***************************************************************************************************** -->
+    <!-- ***************************************************************************************************** -->
+
     <Model:Package xmi.id = 'a9' name = 'Model' annotation = '' isRoot = 'false'
       isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis'>
       <Model:ModelElement.constraints>
@@ -217,56 +239,66 @@
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a36' name = 'ConstraintDep' annotation = '' value = 'constraint'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a37' name = 'ConstrainedElementsDep' annotation = ''
               value = 'constrained elements'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a38' name = 'SpecializationDep' annotation = ''
               value = 'specialization'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a39' name = 'ImportDep' annotation = '' value = 'import'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a40' name = 'TypeDefinitionDep' annotation = ''
               value = 'type definition'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a41' name = 'ReferencedEndsDep' annotation = ''
               value = 'referenced ends'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a42' name = 'TaggedElementsDep' annotation = ''
               value = 'tagged elements'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a43' name = 'IndirectDep' annotation = '' value = 'indirect'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Constant xmi.id = 'a44' name = 'AllDep' annotation = '' value = 'all'>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a8'/>
               </Model:TypedElement.type>
             </Model:Constant>
+
             <Model:Operation xmi.id = 'a45' name = 'findRequiredElements' annotation = ''
               scope = 'instance_level' visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -311,6 +343,7 @@
                 </Model:Tag>
               </Model:Namespace.contents>
             </Model:Operation>
+
             <Model:Operation xmi.id = 'a50' name = 'isRequiredBecause' annotation = ''
               scope = 'instance_level' visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -355,6 +388,7 @@
                 </Model:Tag>
               </Model:Namespace.contents>
             </Model:Operation>
+
             <Model:Reference xmi.id = 'a55' name = 'container' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true'>
               <Model:StructuralFeature.multiplicity>
@@ -370,6 +404,7 @@
                 <Model:AssociationEnd xmi.idref = 'a57'/>
               </Model:Reference.referencedEnd>
             </Model:Reference>
+
             <Model:Reference xmi.id = 'a58' name = 'constraints' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true'>
               <Model:StructuralFeature.multiplicity>
@@ -385,6 +420,7 @@
                 <Model:AssociationEnd xmi.idref = 'a60'/>
               </Model:Reference.referencedEnd>
             </Model:Reference>
+
             <Model:Operation xmi.id = 'a61' name = 'isFrozen' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -401,6 +437,7 @@
                 </Model:Parameter>
               </Model:Namespace.contents>
             </Model:Operation>
+
             <Model:Operation xmi.id = 'a63' name = 'isVisible' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -428,8 +465,14 @@
                 </Model:Parameter>
               </Model:Namespace.contents>
             </Model:Operation>
+
           </Model:Namespace.contents>
+
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:EnumerationType xmi.id = 'a66' name = 'VisibilityKind' annotation = ''
           isRoot = 'true' isLeaf = 'true' isAbstract = 'false' visibility = 'public_vis'>
           <Model:EnumerationType.labels>public_vis</Model:EnumerationType.labels>
@@ -750,6 +793,7 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:Constraint.constrainedElements>
             </Model:Constraint>
+
             <Model:Constraint xmi.id = 'a100' name = 'NoSupertypesAllowedForRoot' annotation = ''
               expression = 'context GeneralizableElement&#10;inv: self.isRoot implies self.supertypes -&gt; isEmpty'
               language = 'OCL' evaluationPolicy = 'deferred'>
@@ -757,6 +801,7 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:Constraint.constrainedElements>
             </Model:Constraint>
+
             <Model:Constraint xmi.id = 'a101' name = 'SupertypesMustBeVisible' annotation = ''
               expression = 'context GeneralizableElement&#10;inv: self.supertypes -&gt; forAll(s | self.isVisible(s))'
               language = 'OCL' evaluationPolicy = 'deferred'>
@@ -764,6 +809,7 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:Constraint.constrainedElements>
             </Model:Constraint>
+
             <Model:Constraint xmi.id = 'a102' name = 'NoSubtypesAllowedForLeaf' annotation = ''
               expression = 'context GeneralizableElement&#10;inv: self.supertypes -&gt; forAll(s | not s.isLeaf)'
               language = 'OCL' evaluationPolicy = 'deferred'>
@@ -771,6 +817,7 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:Constraint.constrainedElements>
             </Model:Constraint>
+
             <Model:Attribute xmi.id = 'a104' name = 'isRoot' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -783,6 +830,7 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Attribute xmi.id = 'a105' name = 'isLeaf' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -795,6 +843,7 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Attribute xmi.id = 'a106' name = 'isAbstract' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -807,6 +856,7 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Attribute xmi.id = 'a107' name = 'visibility' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -819,6 +869,7 @@
                 <Model:EnumerationType xmi.idref = 'a66'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Reference xmi.id = 'a108' name = 'supertypes' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true'>
               <Model:StructuralFeature.multiplicity>
@@ -834,6 +885,7 @@
                 <Model:AssociationEnd xmi.idref = 'a109'/>
               </Model:Reference.referencedEnd>
             </Model:Reference>
+
             <Model:Operation xmi.id = 'a110' name = 'allSupertypes' annotation = ''
               scope = 'instance_level' visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -850,6 +902,7 @@
                 </Model:Parameter>
               </Model:Namespace.contents>
             </Model:Operation>
+
             <Model:Operation xmi.id = 'a112' name = 'lookupElementExtended' annotation = ''
               scope = 'instance_level' visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -880,6 +933,7 @@
                 <Model:Exception xmi.idref = 'a69'/>
               </Model:Operation.exceptions>
             </Model:Operation>
+
             <Model:Operation xmi.id = 'a115' name = 'findElementsByTypeExtended' annotation = ''
               scope = 'instance_level' visibility = 'public_vis' isQuery = 'false'>
               <Model:Namespace.contents>
@@ -919,10 +973,13 @@
                 </Model:Parameter>
               </Model:Namespace.contents>
             </Model:Operation>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a56'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
 
 
@@ -1000,6 +1057,8 @@
             <Model:Class xmi.idref = 'a95'/>
           </Model:GeneralizableElement.supertypes>
         </Model:Class>
+
+
         <Model:Class xmi.id = 'a89' name = 'Class' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:ModelElement.constraints>
@@ -1055,31 +1114,46 @@
             <Model:PrimitiveType xmi.idref = 'a4'/>
           </Model:TypedElement.type>
         </Model:Constant>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:StructureType xmi.id = 'a133' name = 'MultiplicityType' annotation = ''
           isRoot = 'true' isLeaf = 'true' isAbstract = 'false' visibility = 'public_vis'>
+
           <Model:Namespace.contents>
+
             <Model:StructureField xmi.id = 'a134' name = 'lower' annotation = ''>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a4'/>
               </Model:TypedElement.type>
             </Model:StructureField>
+
             <Model:StructureField xmi.id = 'a135' name = 'upper' annotation = ''>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a4'/>
               </Model:TypedElement.type>
             </Model:StructureField>
+
             <Model:StructureField xmi.id = 'a136' name = 'isOrdered' annotation = ''>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:StructureField>
+
             <Model:StructureField xmi.id = 'a137' name = 'isUnique' annotation = ''>
               <Model:TypedElement.type>
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:StructureField>
+
           </Model:Namespace.contents>
+
         </Model:StructureType>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Constraint xmi.id = 'a10' name = 'LowerCannotBeNegativeOrUnbounded'
           annotation = '' expression = 'context MultiplicityType&#10;inv: self.lower &gt;= 0 and self.lower &lt;&gt; Unbounded'
           language = 'OCL' evaluationPolicy = 'deferred'>
@@ -1087,6 +1161,7 @@
             <Model:Package xmi.idref = 'a9'/>
           </Model:Constraint.constrainedElements>
         </Model:Constraint>
+
         <Model:Constraint xmi.id = 'a11' name = 'LowerCannotExceedUpper' annotation = ''
           expression = 'context MultiplicityType&#10;inv: self.lower &lt;= self.upper or self.upper = Unbounded'
           language = 'OCL' evaluationPolicy = 'deferred'>
@@ -1094,6 +1169,7 @@
             <Model:Package xmi.idref = 'a9'/>
           </Model:Constraint.constrainedElements>
         </Model:Constraint>
+
         <Model:Constraint xmi.id = 'a12' name = 'UpperMustBePositive' annotation = ''
           expression = 'context MultiplicityType&#10;inv: self.upper &gt;= 1 or self.upper = Unbounded'
           language = 'OCL' evaluationPolicy = 'deferred'>
@@ -1101,6 +1177,7 @@
             <Model:Package xmi.idref = 'a9'/>
           </Model:Constraint.constrainedElements>
         </Model:Constraint>
+
         <Model:Constraint xmi.id = 'a13' name = 'MustBeUnorderedNonunique' annotation = ''
           expression = 'context MultiplicityType&#10;inv: &#10;self.upper = 1 implies (not self.isOrdered and not self.isUnique)'
           language = 'OCL' evaluationPolicy = 'deferred'>
@@ -1108,6 +1185,10 @@
             <Model:Package xmi.idref = 'a9'/>
           </Model:Constraint.constrainedElements>
         </Model:Constraint>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a138' name = 'DataType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'true' visibility = 'public_vis' isSingleton = 'false'>
           <Model:ModelElement.constraints>
@@ -1148,20 +1229,33 @@
             <Model:Class xmi.idref = 'a124'/>
           </Model:GeneralizableElement.supertypes>
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a143' name = 'PrimitiveType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a144' name = '*tag_23' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a143'/>
               </Model:Tag.elements>
             </Model:Tag>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a138'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a145' name = 'EnumerationType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
@@ -1188,6 +1282,10 @@
             <Model:Class xmi.idref = 'a138'/>
           </Model:GeneralizableElement.supertypes>
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a148' name = 'CollectionType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
@@ -1214,19 +1312,28 @@
             <Model:Class xmi.idref = 'a138'/>
             <Model:Class xmi.idref = 'a119'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a151' name = 'StructureType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
+
           <Model:ModelElement.constraints>
             <Model:Constraint xmi.idref = 'a152'/>
           </Model:ModelElement.constraints>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a153' name = '*tag_26' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a151'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:Constraint xmi.id = 'a152' name = 'MustHaveFields' annotation = ''
               expression = 'context StructureType&#10;inv: self.contents -&gt; exists(c | c.oclIsOfType(StructureField))'
               language = 'OCL' evaluationPolicy = 'deferred'>
@@ -1234,11 +1341,18 @@
                 <Model:Class xmi.idref = 'a151'/>
               </Model:Constraint.constrainedElements>
             </Model:Constraint>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a138'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a154' name = 'StructureField' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:ModelElement.constraints>
@@ -1263,6 +1377,10 @@
             <Model:Class xmi.idref = 'a119'/>
           </Model:GeneralizableElement.supertypes>
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a157' name = 'AliasType' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
@@ -1278,20 +1396,31 @@
             <Model:Class xmi.idref = 'a119'/>
           </Model:GeneralizableElement.supertypes>
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:EnumerationType xmi.id = 'a159' name = 'ScopeKind' annotation = ''
           isRoot = 'true' isLeaf = 'true' isAbstract = 'false' visibility = 'public_vis'>
           <Model:EnumerationType.labels>instance_level</Model:EnumerationType.labels>
           <Model:EnumerationType.labels>classifier_level</Model:EnumerationType.labels>
         </Model:EnumerationType>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a160' name = 'Feature' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'true' visibility = 'public_vis' isSingleton = 'false'>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a161' name = '*tag_29' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a160'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:Attribute xmi.id = 'a162' name = 'scope' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -1304,6 +1433,7 @@
                 <Model:EnumerationType xmi.idref = 'a159'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Attribute xmi.id = 'a163' name = 'visibility' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -1316,21 +1446,31 @@
                 <Model:EnumerationType xmi.idref = 'a66'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a19'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
+
+
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a164' name = 'StructuralFeature' annotation = ''
           isRoot = 'false' isLeaf = 'false' isAbstract = 'true' visibility = 'public_vis'
           isSingleton = 'false'>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a165' name = '*tag_30' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a164'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:Attribute xmi.id = 'a166' name = 'multiplicity' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -1343,6 +1483,7 @@
                 <Model:StructureType xmi.idref = 'a133'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
             <Model:Attribute xmi.id = 'a167' name = 'isChangeable' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -1355,29 +1496,38 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a160'/>
             <Model:Class xmi.idref = 'a119'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
 
 
+        <!-- ***************************************************************************************************** -->
+
         <Model:Class xmi.id = 'a168' name = 'Attribute' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a169' name = '*tag_31' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a168'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:Tag xmi.id = 'a170' name = '*tag_32' annotation = '' tagId = 'org.omg.mof.idl_substitute_name'>
               <Model:Tag.values>MofAttribute</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Class xmi.idref = 'a168'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:Attribute xmi.id = 'a171' name = 'isDerived' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
@@ -1390,12 +1540,17 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
+
           </Model:Namespace.contents>
+
           <Model:GeneralizableElement.supertypes>
             <Model:Class xmi.idref = 'a164'/>
           </Model:GeneralizableElement.supertypes>
+
         </Model:Class>
 
+
+        <!-- ***************************************************************************************************** -->
 
         <Model:Class xmi.id = 'a172' name = 'Reference' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
@@ -1763,7 +1918,7 @@
                 <Model:PrimitiveType xmi.idref = 'a3'/>
               </Model:TypedElement.type>
             </Model:Attribute>
-            <Model:Attribute xmi.id = 'a218' name = 'aggregation' annotation = '' scope = 'instance_level'
+            <Model:Attribute xmi.id = 'a218' name = '_aggregation' annotation = '' scope = 'instance_level'
               visibility = 'public_vis' isChangeable = 'true' isDerived = 'false'>
               <Model:StructuralFeature.multiplicity>
                 <XMI.field>1</XMI.field>
@@ -1976,6 +2131,8 @@
           <Model:EnumerationType.labels>inout_dir</Model:EnumerationType.labels>
           <Model:EnumerationType.labels>return_dir</Model:EnumerationType.labels>
         </Model:EnumerationType>
+
+
         <Model:Class xmi.id = 'a240' name = 'Parameter' annotation = '' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false' visibility = 'public_vis' isSingleton = 'false'>
           <Model:Namespace.contents>
@@ -2334,16 +2491,21 @@
             </Model:AssociationEnd>
           </Model:Namespace.contents>
         </Model:Association>
+
+
         <Model:Association xmi.id = 'a277' name = 'Generalizes' annotation = ''
           isRoot = 'true' isLeaf = 'true' isAbstract = 'false' visibility = 'public_vis'
           isDerived = 'false'>
+
           <Model:Namespace.contents>
+
             <Model:Tag xmi.id = 'a278' name = '*tag_56' annotation = '' tagId = 'org.omg.mof.idl_version'>
               <Model:Tag.values>1.4</Model:Tag.values>
               <Model:Tag.elements>
                 <Model:Association xmi.idref = 'a277'/>
               </Model:Tag.elements>
             </Model:Tag>
+
             <Model:AssociationEnd xmi.id = 'a109' name = 'supertype' annotation = ''
               isNavigable = 'true' aggregation = 'none' isChangeable = 'true'>
               <Model:AssociationEnd.multiplicity>
@@ -2356,6 +2518,7 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:TypedElement.type>
             </Model:AssociationEnd>
+
             <Model:AssociationEnd xmi.id = 'a279' name = 'subtype' annotation = '' isNavigable = 'true'
               aggregation = 'none' isChangeable = 'true'>
               <Model:AssociationEnd.multiplicity>
@@ -2368,8 +2531,12 @@
                 <Model:Class xmi.idref = 'a95'/>
               </Model:TypedElement.type>
             </Model:AssociationEnd>
+
           </Model:Namespace.contents>
+
         </Model:Association>
+
+
         <Model:Association xmi.id = 'a280' name = 'Aliases' annotation = '' isRoot = 'true'
           isLeaf = 'true' isAbstract = 'false' visibility = 'public_vis' isDerived = 'false'>
           <Model:Namespace.contents>
