@@ -1,0 +1,22 @@
+library Test6;
+
+model UL : UsedLib;
+
+main() : Standard::Void {
+	// different declarations between good and bad
+	good : UsedLib::SomeDummyClass;
+	bad : UL::SomeDummyClass;
+	
+	UL := new UsedLib();
+	
+	// same instanciation
+	good := new UL::SomeDummyClass();
+	bad := new UL::SomeDummyClass();
+	
+	'calling good.someDummyMethod() which works:'.toOut();
+	good.someDummyMethod();
+	'... ok, good :)'.toOut();
+	
+	'calling bad.someDummyMethod() which fails:'.toOut();
+	bad.someDummyMethod();
+}

@@ -1,0 +1,19 @@
+<!-- $Id: build.xml,v 1.1 2003-12-18 15:48:53 dpollet Exp $ -->
+<project name="test6" default="run test6" basedir=".">
+	<description>
+        Sample Build file for using the BasicMTL compiler
+	</description>
+	
+	<target name="run test6" > 
+  		<description>
+  		</description>
+  		<ant antfile="UsedLib_build.xml" dir="." target="compile"/>
+  		<ant antfile="Test6_build.xml" dir="." target="compile"/>
+  		<ant antfile="Test6_build.xml" dir="." target="run"/>
+  	</target>
+
+  	<target name="clean">
+  		<delete dir="build"></delete>   		
+  	</target>
+  	
+</project>

@@ -1,0 +1,5 @@
+library UsedLib;
+
+class SomeDummyClass {
+	someDummyMethod() { 'SomeDummyClass.someDummyMethod() was called'.toOut(); }
+}
