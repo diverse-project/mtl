@@ -6,7 +6,7 @@
 		<project>org.inria.mtl.Eclipse3plugin</project>
 	</projects>
 	<buildSpec>
-		<buildCommand>
+	<!--	<buildCommand>
 			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
 			<arguments>
 			</arguments>
@@ -15,7 +15,7 @@
 			<name>org.inria.mtl.MTLBuilder</name>
 			<arguments>
 			</arguments>
-		</buildCommand>
+		</buildCommand> -->
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
@@ -33,9 +33,9 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.inria.mtl.MTLNature</nature>
+	<!--	<nature>org.inria.mtl.MTLNature</nature> -->
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
+	<!--	<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature> -->
 		<nature>org.eclipse.pde.PluginNature</nature>
 	</natures>
 </projectDescription>

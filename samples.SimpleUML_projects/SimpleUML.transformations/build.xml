@@ -69,8 +69,6 @@
 				<pathelement path="../../plugins/org.eclipse.emf.edit_2.0.0/runtime/edit.jar"/>
 				<pathelement path="../org.inria.EMFDriver/bin"/>
 				<pathelement path="../org.inria.EMFDriver/EMFDriver.jar"/>
-				<pathelement path="../org.inria.EMFDriver/BasicMTLruntime.jar"/>
-				<pathelement path="../org.inria.EMFDriver/log4j.jar"/>
 				<pathelement path="../../plugins/org.eclipse.ui_3.0.0/ui.jar"/>
 				<pathelement path="../../plugins/org.eclipse.help_3.0.0/help.jar"/>
 				<pathelement path="../../plugins/org.eclipse.swt_3.0.0/ws/${basews}/swt.jar"/>
@@ -96,17 +94,34 @@
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/JMIRepository.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
-				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
+				<pathelement path="../ModFactDriver/bin"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/antlr.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../ModFactDriver/lib/ModFactDriver.jar"/>
+				<pathelement path="../MDRDriver/bin"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/jmi.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/jmiutils.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/mdrapi.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/mof.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/nbmdr.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/openide-lookup.jar"/>
+				<pathelement path="../MDRDriver/lib/MDRDriver.jar"/>
 			</classpath>
-			<src path="build/src/"			/>
 			<src path="src/Java/"			/>
+			<src path="build/src/java/"			/>
 			</javac>
 		<!-- Copy necessary resources -->
 		<copy todir="${temp.folder}/SimpleUML_transformations.jar.bin" failonerror="true">
-			<fileset dir="build/src/" excludes="**/*.java, **/package.htm*"			/>
 			<fileset dir="src/Java/" excludes="**/*.java, **/package.htm*"			/>
+			<fileset dir="build/src/java/" excludes="**/*.java, **/package.htm*"			/>
 		</copy>
 		<mkdir dir="${build.result.folder}"/>
 		<jar jarfile="${build.result.folder}/SimpleUML_transformations.jar" basedir="${temp.folder}/SimpleUML_transformations.jar.bin"/>
@@ -116,8 +131,8 @@
 	<target name="SimpleUML_transformationssrc.zip" depends="init" unless="SimpleUML_transformationssrc.zip">
 		<mkdir dir="${build.result.folder}"/>
 		<zip zipfile="${build.result.folder}/SimpleUML_transformationssrc.zip" filesonly="false" whenempty="skip" update="false">
-			<fileset dir="build/src/" includes="**/*.java"			/>
 			<fileset dir="src/Java/" includes="**/*.java"			/>
+			<fileset dir="build/src/java/" includes="**/*.java"			/>
 		</zip>
 	</target>
 

@@ -9,9 +9,11 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.edit,
+ org.inria.BasicMTL.runtime,
  org.inria.EMFDriver,
  SimpleUML.edit,
  org.eclipse.core.resources,
- org.inria.BasicMTL.runtime,
- org.inria.SimpleUML.transformations
+ org.inria.BasicMTL.MDRDriver,
+ org.inria.SimpleUML.transformations,
+ ModFactDriver
 Eclipse-AutoStart: true

@@ -15,7 +15,10 @@
 	<property name="MTLcompiler.jar.path" location="${MTLcompiler.path}/bin"/>
 	<!-- The compilation tool -->
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
-	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL"/>
+	<property name="MDRDriver.path" location="../MDRDriver"/>
+	<property name="ModFactDriver.path" location="../ModFactDriver"/>
+	<property name="EMFDriver.path" location="../org.inria.EMFDriver"/>
+	<property name="Runtime.TLL.path" location="${MTLcompiler.path}/Runtime/src/TLL/;${MDRDriver.path}/build/TLL/;${ModFactDriver.path}/build/TLL/;${EMFDriver.path}/build/TLL/"/>
 	<!-- The runtime environment -->
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
 	
@@ -31,7 +34,7 @@
 	<property name="src" location="src/MTL"/>
 	<property name="user.src.path" location="${src}/${library.name}"/>
 	<property name="user.package.name" value="${library.name}"/>
-	<property name="user.build.src" location="${build.src}/${library.name}"/>
+	<property name="user.build.src" location="${build.src}/java/${library.name}"/>
 	<property name="user.needed.TLL.path" location="${Runtime.TLL.path}"/> <!-- other TLL needed in order to comile this one -->
 
 	<!-- ************************************************ -->
@@ -40,6 +43,7 @@
 	
 	<target name="init"
 		description="specific initialization steps">
+		<mkdir dir="${user.build.src}"/>
 	</target>
 				  
 	<target name="clean"

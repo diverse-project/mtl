@@ -1,0 +1,35 @@
+<!-- $Id: main_build.xml,v 1.1 2004-10-26 10:02:15 dvojtise Exp $ -->
+<!-- we use this build as the main one as build.xml is generated from plugin.xml in the PDE -->
+<project name="SimpleUML.transformations" default="compile" basedir=".">
+	<description>
+        main Build file for the project
+	</description>
+	<!-- set global properties for this build -->
+	
+
+	<property name="MDRDriver.path" location="../MDRDriver"/>
+	<property name="ModFactDriver.path" location="../ModFactDriver"/>
+	
+  	
+  	<target name="compile" description="compile all this plugin">  		
+  		<ant antfile="SimpleUMLTransformations_build.xml" target="compile" />
+  		<ant antfile="SimpleUMLTransformations4MDR_build.xml" target="compile" />
+  		<ant antfile="SimpleUMLTransformations4ModFact_build.xml" target="compile" />
+  		<ant antfile="SimpleUMLTransformationsWithModelLoader_build.xml" target="compile" />
+  		<ant antfile="build.xml">
+  			<property name="javacVerbose" value="false"/>
+  		</ant>
+  	</target>
+	
+	<target name="clean" description="compile all this plugin">  		
+  		<ant antfile="SimpleUMLTransformations_build.xml" target="clean" />
+  		<ant antfile="SimpleUMLTransformations4MDR_build.xml" target="clean" />
+  		<ant antfile="SimpleUMLTransformations4ModFact_build.xml" target="clean" />
+  		<ant antfile="SimpleUMLTransformationsWithModelLoader_build.xml" target="clean" /> 		
+	  		<ant antfile="build.xml" target="clean"/>	  		
+	</target>
+  	
+	<target name="package" description="create a zip for this plugin" depends="compile">  		 		
+	  		<ant antfile="build.xml" target="zip.plugin"/> 		
+	</target>
+</project>

@@ -6,15 +6,16 @@
  * <copyright>
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2004-08-19 10:16:56 dvojtise Exp $
+ * $Id: plugin.xml,v 1.4 2004-10-26 10:02:16 dvojtise Exp $
  */
 -->
 
 <plugin
-    name = "%pluginName"
-    id = "org.inria.SimpleUML.transformations"
-    version = "0.0.1"
-    provider-name = "%providerName">
+   id="org.inria.SimpleUML.transformations"
+   name="%pluginName"
+   version="0.0.1"
+   provider-name="%providerName"
+   class="SimpleUML.transformations.TransformationsPlugin">
 
   <requires>
      <import plugin="SimpleUML"/>
@@ -22,6 +23,8 @@
      <import plugin="org.inria.EMFDriver"/>
      <import plugin="org.eclipse.core.runtime"/>
      <import plugin="org.inria.BasicMTL.runtime" export="false"/>
+     <import plugin="org.inria.BasicMTL.MDRDriver" export="true"/>
+     <import plugin="ModFactDriver" export="true"/>
   </requires>
 
   <runtime>

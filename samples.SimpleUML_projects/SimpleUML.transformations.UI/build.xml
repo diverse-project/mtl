@@ -37,7 +37,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip zipfile="${plugin.destination}/org.inria.SimpleUML.transformations.UI_1.0.0.jar" basedir="${temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0" filesonly="false" whenempty="skip" update="false"/>
+		<zip zipfile="${plugin.destination}/org.inria.SimpleUML.transformations.UI_0.0.1.jar" basedir="${temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -74,15 +74,6 @@
 				<pathelement path="../../plugins/org.eclipse.core.resources.win32_3.0.0/resources-win32.jar"/>
 				<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
 				<pathelement path="../../plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
-				<pathelement path="../org.inria.EMFDriver/bin"/>
-				<pathelement path="../org.inria.EMFDriver/EMFDriver.jar"/>
-				<pathelement path="../org.inria.EMFDriver/BasicMTLruntime.jar"/>
-				<pathelement path="../org.inria.EMFDriver/log4j.jar"/>
-				<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.0.0/runtime/ecore.xmi.jar"/>
-				<pathelement path="../SimpleUML.edit/runtime"/>
-				<pathelement path="../SimpleUML.edit/runtime/SimpleUML.edit.jar"/>
-				<pathelement path="../SimpleUML/runtime"/>
-				<pathelement path="../SimpleUML/runtime/SimpleUML.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/bin"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/log4j/log4j.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/jmi.jar"/>
@@ -97,10 +88,34 @@
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/JUnit/junit.jar"/>
-				<pathelement path="../org.inria.BasicMTL.runtime/BasicMTLruntime.jar"/>
+				<pathelement path="../org.inria.BasicMTL.runtime/runtime.jar"/>
 				<pathelement path="../org.inria.BasicMTL.runtime/ThirdParty/MDR/nbmdr.jar"/>
+				<pathelement path="../org.inria.EMFDriver/bin"/>
+				<pathelement path="../org.inria.EMFDriver/EMFDriver.jar"/>
+				<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.0.0/runtime/ecore.xmi.jar"/>
+				<pathelement path="../SimpleUML.edit/runtime"/>
+				<pathelement path="../SimpleUML.edit/runtime/SimpleUML.edit.jar"/>
+				<pathelement path="../SimpleUML/runtime"/>
+				<pathelement path="../SimpleUML/runtime/SimpleUML.jar"/>
+				<pathelement path="../MDRDriver/bin"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/jmi.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/jmiutils.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/mdrapi.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/mof.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/nbmdr.jar"/>
+				<pathelement path="../MDRDriver/ThirdParty/MDR/official/openide-lookup.jar"/>
+				<pathelement path="../MDRDriver/lib/MDRDriver.jar"/>
 				<pathelement path="../SimpleUML.transformations/build/bin"/>
 				<pathelement path="../SimpleUML.transformations/SimpleUML_transformations.jar"/>
+				<pathelement path="../ModFactDriver/bin"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/antlr.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ANTLR4SimpleTRL.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/JMI1_0.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/log4j-1.2.6.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ModFactJmi.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ow_monolog.jar"/>
+				<pathelement path="../ModFactDriver/ThirdParty/ModFact/v1_0_0/ow_utils_commandline.jar"/>
+				<pathelement path="../ModFactDriver/lib/ModFactDriver.jar"/>
 			</classpath>
 			<src path="src/"			/>
 			</javac>
@@ -131,11 +146,11 @@
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0"/>
-		<copy todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0" failonerror="true">
+		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1"/>
+		<copy todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1" failonerror="true">
 			<fileset dir="${build.result.folder}" includes="SimpleUML_transformations_UI.jar"			/>
 		</copy>
-		<copy todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0" failonerror="true">
+		<copy todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1" failonerror="true">
 			<fileset dir="${basedir}" includes="plugin.xml,SimpleUML_transformations_UI.jar,src/,SimpleUML.transformations.jar,bin/"			/>
 		</copy>
 	</target>
@@ -144,20 +159,20 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0"/>
-		<copy file="${build.result.folder}/SimpleUML_transformations_UIsrc.zip" todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1"/>
+		<copy file="${build.result.folder}/SimpleUML_transformations_UIsrc.zip" todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1" failonerror="false"/>
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0"/>
-		<copy file="${temp.folder}/SimpleUML_transformations_UI.jar.bin.log" todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_1.0.0" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1"/>
+		<copy file="${temp.folder}/SimpleUML_transformations_UI.jar.bin.log" todir="${destination.temp.folder}/org.inria.SimpleUML.transformations.UI_0.0.1" failonerror="false"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: org.inria.SimpleUML.transformations.UI of all the zips, jars and logs created.">
 		<delete file="${build.result.folder}/SimpleUML_transformations_UI.jar"/>
 		<delete file="${build.result.folder}/SimpleUML_transformations_UIsrc.zip"/>
-		<delete file="${plugin.destination}/org.inria.SimpleUML.transformations.UI_1.0.0.jar"/>
-		<delete file="${plugin.destination}/org.inria.SimpleUML.transformations.UI_1.0.0.zip"/>
+		<delete file="${plugin.destination}/org.inria.SimpleUML.transformations.UI_0.0.1.jar"/>
+		<delete file="${plugin.destination}/org.inria.SimpleUML.transformations.UI_0.0.1.zip"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -180,7 +195,7 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
 		</delete>
-		<zip zipfile="${plugin.destination}/org.inria.SimpleUML.transformations.UI_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip zipfile="${plugin.destination}/org.inria.SimpleUML.transformations.UI_0.0.1.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
