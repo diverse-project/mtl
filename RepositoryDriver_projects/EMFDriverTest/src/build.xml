@@ -1,0 +1,29 @@
+<!-- $Id: build.xml,v 1.1 2004-03-08 08:04:02 jpthibau Exp $ -->
+<project name="Build,run all EMFDriver tests" default="run all" basedir=".">
+	<description>
+        Build and run all tests of the EMFdriverTest project
+	</description>
+
+	<target name="build all">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+
+	    <!-- call successively each builder -->
+	    <echo>Building "FileAccessTest" test.</echo>
+	    <ant antfile="${basedir}/FileAccessTest/build.xml" dir="${basedir}/FileAccessTest" target="compile" inheritAll="false"/>
+	    
+	</target>
+  
+	<target name="clean"
+        description="clean up built files" >
+    	<!-- Delete the ${build}, {$bin}  directory trees -->
+    	<delete dir="${basedir}/bin"/>    
+    	<delete dir="${basedir}/build"/>    
+  	</target>
+
+  	<target name="run all" > <!-- depends="build all"> -->
+	    <!-- call successively each runner -->
+	    <echo>Running "FileAccessTest" test.</echo>
+	    <ant antfile="${basedir}/FileAccessTest/build.xml" dir="${basedir}/FileAccessTest" target="run" inheritAll="false"/>
+  	</target>
+</project>

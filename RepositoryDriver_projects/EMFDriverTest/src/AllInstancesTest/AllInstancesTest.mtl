@@ -1,0 +1,86 @@
+library AllInstancesTest;
+
+//Ecore models
+model EcoreLibraryMM : RepositoryModel;
+
+//library models
+model LibraryM : RepositoryModel;
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+	modelManager : EMFDriver::EMFModelManager;
+	set : Standard::Set;
+	it : Standard::Iterator;
+	aBook : LibraryM::[org.eclipse.example.library.Library]::Book;
+	aWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	
+	modelManager := new EMFDriver::EMFModelManager();
+	// use loadModelFromXmi method to get the models.
+
+	EcoreLibraryMM := modelManager.loadModelFromXMI(
+									'LibraryModel',
+									'ecore',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/library.ecore');
+
+	LibraryM := modelManager.loadModelFromXMI(
+									'LibraryInstance',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+
+	//First try to get some information about each model
+	//=================================================
+
+	modelManager.displayModelInformation('LibraryModel');
+
+	modelManager.displayModelInformation('LibraryInstance');
+	
+	//Then use allInstancesIterator to get :
+	// - all EClasses and thier attributes for the first ecore model
+	// - all books and thier attributes, all writers and their attributes for the library model
+	//==========================================================================================
+
+	'EClasses found in LibraryModel'.toOut();
+	'*============================*'.toOut();
+	set := !EcoreLibraryMM::[org.eclipse.emf.ecore.EPackage]::EClass!.allInstances();
+	set.toOut();
+
+	'Books found in LibraryInstance'.toOut();
+	'*============================*'.toOut();
+	set := !LibraryM::[org.eclipse.example.library.Library]::Book!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		it.item().toOut();
+		aBook := it.item();
+		aBook.title.toOut();
+		aBook.pages.toOut();
+		it.next();
+	}
+
+
+	'Writers found in LibraryInstance'.toOut();
+	'*==============================*'.toOut();
+	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	set.toOut();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		it.item().toOut();
+		aWriter := it.item();
+		aWriter.name.toOut();
+		it.next();
+	}
+
+	//clean the modelManager so that it may call other transformations;
+	// use the disposeModel method that frees loaded models
+	modelManager.disposeModel('LibraryModel');
+	modelManager.disposeModel('LibraryInstance');
+}
