@@ -1,11 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/UserClassAnalyser.java,v 1.1 2003-08-06 15:55:29 jpthibau Exp $
  * Created on 1 août 2003
- *
+ * $Id: UserClassAnalyser.java,v 1.2 2004-02-16 17:18:13 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package OperationCallChecker;
-
-import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
 /**
  * @author jpthibau

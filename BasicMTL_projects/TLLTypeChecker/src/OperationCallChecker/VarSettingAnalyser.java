@@ -1,7 +1,9 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/VarSettingAnalyser.java,v 1.2 2003-08-14 21:00:19 ffondeme Exp $
  * Created on 1 août 2003
- *
+ * $Id: VarSettingAnalyser.java,v 1.3 2004-02-16 17:18:11 dvojtise Exp $
+ * Authors : jpthibau
+ * 
+ * Copyright 2004 - INRIA - LGPL license
  */
 package OperationCallChecker;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 
-import TypeChecker.TLLtypechecking;
+//import TypeChecker.TLLtypechecking;
 
 /**
  * @author jpthibau
