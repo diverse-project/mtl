@@ -6,6 +6,7 @@
  */
 package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
+import org.irisa.triskell.MT.DataTypes.Java.IntegerValue;
 import org.irisa.triskell.MT.DataTypes.Java.Value;
 
 /**
@@ -16,5 +17,7 @@ import org.irisa.triskell.MT.DataTypes.Java.Value;
  */
 public interface BMTLOrderedSetInterface extends BMTLCollectionInterface {
 	BMTLOrderedSetInterface BMTL_append (Value s);
+	BMTLOrderedSetInterface BMTL_prepend (Value s);
+	BMTLOrderedSetInterface BMTL_insertAt (IntegerValue index, Value s);
 	BMTLOrderedSetInterface BMTL_including (Value s);
 }

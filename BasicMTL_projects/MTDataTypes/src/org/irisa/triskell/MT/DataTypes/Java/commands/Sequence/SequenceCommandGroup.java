@@ -1,5 +1,5 @@
 /*
- * $Id: SequenceCommandGroup.java,v 1.6 2004-02-16 17:02:23 dvojtise Exp $
+ * $Id: SequenceCommandGroup.java,v 1.7 2004-04-14 03:56:12 ffondeme Exp $
  * @author : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -30,6 +30,8 @@ public class SequenceCommandGroup extends CommandGroupImpl {
 			ret = new SequenceCommandGroup(sequenceType, CollectionCommandGroup.getCollectionCommandGroup(sequenceType));
 			sequenceCommandGroups.put(sequenceType, ret);
 			ret.addCommand(Sequence_append.TheInstance);
+			ret.addCommand(Sequence_prepend.TheInstance);
+			ret.addCommand(Sequence_insertAt.TheInstance);
 			ret.addCommand(Sequence_including.TheInstance);
 		}
 		return ret;
