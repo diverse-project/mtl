@@ -1,0 +1,146 @@
+<!-- $Id: build.xml,v 1.1 2003-08-06 15:47:33 jpthibau Exp $ -->
+<project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="./src"/>
+	<property name="bin" location="./bin"/>
+	<property name="build" location="./build"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/UncheckedTLL"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="vehicule_antlr2tll" depends="init"
+  	 	description="Parse vehicule.mtl to an UncheckedTLL">
+	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\vehicule.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+       <!--  <classpath>
+           <pathelement location="../../../../BasicMtlAntlr2TLLJava/dist/bin/BasicMtlASTJava.jar"/>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+  
+	<target name="aquatique_antlr2tll" depends="init"
+  	 	description="Parse aquatique.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\aquatique.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+	
+	<target name="terrestre_antlr2tll" depends="init"
+  	 	description="Parse terrestre.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\terrestre.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+	
+	<target name="amphibie_antlr2tll" depends="init"
+  	 	description="Parse amphibie.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\amphibie.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+	
+	<target name="amphibieherite_antlr2tll" depends="init"
+  	 	description="Parse amphibieherite.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\amphibieherite.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+	
+	<target name="caracteristiques_antlr2tll" depends="init"
+  	 	description="Parse caracteristiques.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\caracteristiques.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+	
+	<target name="testvehicules_antlr2tll" depends="init"
+  	 	description="Parse testvehicules.mtl to an UncheckedTLL">
+	 	<java jar="../../../../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\testvehicules.mtl"/> 
+       <!--  <classpath>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
+
+	<target name="clean"
+        description="clean up SimpleSamples" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${bin}"/>    
+    	<delete >
+    		<fileset dir="${build}/src">
+  				<include name="**/*"/>
+			</fileset>    		
+    	</delete>
+  	</target>
+</project>

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2003-07-24 13:38:51 dvojtise Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003-08-06 15:47:33 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="verif_SimpleUML2RDBMS_V1_syntax" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -19,7 +19,24 @@
 	    <mkdir dir="${dist}"/>
 	    <mkdir dir="${dist}/bin"/>
 	</target>
-
+	
+	<target name="SimpleSample_antlr2tll" depends="init"
+  	 	description="Compile Simple sample with vehicules to a TLL">
+	 	<java jar="../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <arg value="${src}\SimpleUML2RDBMS\SimpleUML2SimpleRDBMS_V1\SimpleUML2SimpleRDBMS.mtl"/> 
+         <arg value="${src}\SimpleUML2RDBMS\SimpleUML2SimpleRDBMS_V1\SimpleUML2RDBMS_mdr.mtl"/> 
+       <!--  <classpath>
+           <pathelement location="dist/test.jar"/>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+        -->
+       </java>
+ 
+	</target>
 	<target name="verif_SimpleUML2RDBMS_V1_syntax" depends="init"
   	 	description="check the syntax of SimpleUML2RDBMS_V1 sample ">
 	 	<java jar="../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 

@@ -1,0 +1,11 @@
+library amphibie;
+
+/********************************************/
+// classe vehiculeAmphibie
+/********************************************/
+class vehiculeAmphibie {
+surTerre:Standard::boolean;
+va:aquatiqueLib::vehiculeAquatique;
+vt:terrestreLib::vehiculeTerrestre;
+
+}
