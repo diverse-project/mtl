@@ -1,4 +1,4 @@
-<!-- $Id: MOFtests_build.xml,v 1.4 2004-10-14 13:00:29 jpthibau Exp $ -->
+<!-- $Id: MOFtests_build.xml,v 1.5 2004-10-26 10:00:28 dvojtise Exp $ -->
 <project name="MOF tests" default="compile" basedir=".">
 	<description>
         Build file for compiling and running MOF tests
@@ -38,12 +38,18 @@
   	<target name="run" description="run the transformation">
   		<!-- cannot run the default target due to the mangling of the _
   			<ant antfile="common_build.xml" dir="." target="run common" inheritAll="true"/>-->
-  		<java classname="${user.package.name}.BMTLLib_MOFtests" fork="true">
+  		<java classname="${user.package.name}.BMTLLib_MOFtests" fork="true" failonerror="true">
 			<arg value="${model}" />
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
-			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mof.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/nbmdr.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/mdrapi.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/openide-lookup.jar"/>
+			<pathelement path="${MDRDriver.path}/ThirdParty/MDR/official/jmiutils.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java>

@@ -1,5 +1,5 @@
-<!-- $Id: common_build.xml,v 1.7 2004-10-19 10:04:45 jpthibau Exp $ -->
-<project name="common_build" default="compile" basedir=".">
+<!-- $Id: common_build.xml,v 1.8 2004-10-26 10:00:28 dvojtise Exp $ -->
+<project name="common_build" default="compile common" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
         build a library from a directory.
@@ -21,7 +21,7 @@
 	
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
-		<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+		<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
 	</path>
 	  	
 	<!-- ************************************************ -->
@@ -107,7 +107,7 @@
 		<classpath>
 			<pathelement path="${build.bin}/"/>
 			<pathelement path="${BasicMTLRuntime.jar}"/>
-			<pathelement path="${MDRDriver.path}/dist/bin/MDRDriver.jar"/>
+			<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
    			<pathelement path="${MTLcompiler.jar.path}/Thirdparty/log4j/log4j.jar"/>
 		</classpath>
        	</java> 
