@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.1 2003-07-11 08:27:57 dvojtise Exp $
+// $Id: Standard.mtl,v 1.2 2003-07-11 14:52:39 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -99,6 +99,12 @@ class OclAny {
 	}
 	
 	oclIsKindOf(typename : OclType) : Boolean
+	{
+		// Evaluates to true if the self conforms to the type identified by typename. Typename may be in the format
+		// Package::subPackage::classifier.
+		// post: -- TBD
+	}
+	oclIsKindOf(typename : String) : Boolean
 	{
 		// Evaluates to true if the self conforms to the type identified by typename. Typename may be in the format
 		// Package::subPackage::classifier.
