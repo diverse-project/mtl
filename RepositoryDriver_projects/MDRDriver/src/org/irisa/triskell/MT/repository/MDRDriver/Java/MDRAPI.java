@@ -1,5 +1,5 @@
 /*
- * $Id: MDRAPI.java,v 1.9 2004-09-20 14:47:44 dvojtise Exp $
+ * $Id: MDRAPI.java,v 1.10 2004-09-22 15:13:29 edrezen Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -11,7 +11,12 @@ import javax.jmi.xmi.XmiReader;
 import javax.jmi.xmi.XmiWriter;
 
 import org.apache.log4j.Logger;
+import org.irisa.triskell.MT.repository.API.Java.Element;
+import org.irisa.triskell.MT.repository.API.Java.EventListener;
+import org.irisa.triskell.MT.repository.genericJMIDriver.JMIElement;
 import org.netbeans.api.mdr.CreationFailedException;
+import org.netbeans.api.mdr.MDRObject;
+import org.netbeans.api.mdr.events.MDRChangeListener;
 
 /**
  * 
@@ -436,7 +441,34 @@ public class MDRAPI
 		}
     }
 
-    
+
+	/** */
+	public void addListenerToElement (Element element, EventListener listener)
+	{
+		MDRObject obj = (MDRObject)((JMIElement)element).getRef();
+		if (obj!=null)
+        {
+			obj.addListener ((MDRChangeListener)listener);
+        }
+		else
+		{
+			getLog().warn ("Null MDR reference when adding a listener...");
+		}
+	}
+	
+	public void removeListenerToElement (Element element, EventListener listener)
+	{
+		MDRObject obj = (MDRObject)((JMIElement)element).getRef();
+		if (obj!=null)
+        {
+			obj.removeListener ((MDRChangeListener)listener);
+        }
+		else
+		{
+			getLog().warn ("Null MDR reference when removing a listener...");
+		}
+	}
+
     
 
 
