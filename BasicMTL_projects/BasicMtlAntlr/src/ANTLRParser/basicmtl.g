@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.21 2004-04-07 07:14:02 dvojtise Exp $ 			*/
+/* $Id: basicmtl.g,v 1.22 2004-04-21 18:15:28 edrezen Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -418,6 +418,7 @@ instruction returns [Object tree=null;]
 	| ("dissociate" | "associate" {isAssociate=true; } ) n=openbracket l3=associateEndPoint {theAssociatePoints.addElement(l3);} 
 		( COMMA l4=associateEndPoint {theAssociatePoints.addElement(l4);} )+ CLOSEBRACKET SEMICOLON
 	  {tree=walker.associateInstr(isAssociate,theAssociatePoints,n); }
+	| tree=foreachInstruction	  
 exception catch [RecognitionException ex] {
 	throw ex; };
 
@@ -772,6 +773,25 @@ oclAsTypeCall returns [Object tree=null;]
 exception catch [RecognitionException ex] {
 	throw ex; }
 	;
+
+/*===============================================================
+foreachInstruction : 
+"foreach" '(' varDecl ')' "in" '(' expression ')'  bodyinstr
+==================================================================*/
+foreachInstruction returns [Object tree=null;]
+{ 
+	Object s1 = null; 
+	Object s2 = null; 
+	Object s3 = null; 
+}
+ :	
+ 	"foreach" OPENBRACKET  s1=varDecl  CLOSEBRACKET  "in"  OPENBRACKET s2=expression CLOSEBRACKET  s3=bodyinstr
+	{ 
+		tree = walker.foreachInstr (s1,s2,s3);
+	}
+	exception catch [RecognitionException ex] {	throw ex; }
+;
+
 
 /*===============================================================
 arguments : expression ( COMMA expression  )*

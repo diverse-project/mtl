@@ -1,5 +1,5 @@
 /*
- * $Id: ANTLRWalkerActionsInterface.java,v 1.9 2004-04-06 07:50:25 dvojtise Exp $
+ * $Id: ANTLRWalkerActionsInterface.java,v 1.10 2004-04-21 18:15:27 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -129,4 +129,5 @@ public Object stringTagValue(String value);
 
 public Object specialTagValue(String value);
 
+public Object foreachInstr (Object element, Object collection, Object body);
 }
