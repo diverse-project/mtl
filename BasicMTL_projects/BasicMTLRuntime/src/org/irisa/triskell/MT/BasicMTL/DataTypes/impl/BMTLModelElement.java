@@ -124,13 +124,13 @@ public class BMTLModelElement
 	/** */
 	public void addListener (EventListener listener) 
 	{
-		this.getModelElementDelegate().addListener (listener);
+		getAPI().addListenerToElement (this.getModelElementDelegate(),listener);
 	}
 
 	/** */
 	public void removeListener (EventListener listener) 
 	{
-		this.getModelElementDelegate().removeListener (listener);
+		getAPI().removeListenerToElement (this.getModelElementDelegate(),listener);
 	}
 	
 }
