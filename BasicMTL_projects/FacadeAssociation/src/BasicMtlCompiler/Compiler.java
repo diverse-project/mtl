@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.4 2003-11-24 15:02:11 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/FacadeAssociation/src/BasicMtlCompiler/Compiler.java,v 1.5 2004-01-23 15:02:40 dvojtise Exp $
  * Created on 25 sept. 2003
  *
  */
@@ -10,9 +10,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.irisa.triskell.MT.utils.Java.Directories;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
+// import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.*;
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-import ANTLR2TLLJava.*;
+// import ANTLR2TLLJava.*;
 import ANTLRASTWalker.antlrParserInterface;
 import TypeChecker.TLLtypechecking;
 import CodeGeneration.BMTLCompiler;
@@ -21,8 +21,8 @@ import antlr2ASTView.antlr2astViewParser;
 /**
  * @author jpthibau
  *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Entry point on the compiler. It defines the main and get the different parameters from the command line. 
+ * This version of the basicMtlFacade is for use with BMTLBasicMtlASTView AST
  */
 public class Compiler {
 
