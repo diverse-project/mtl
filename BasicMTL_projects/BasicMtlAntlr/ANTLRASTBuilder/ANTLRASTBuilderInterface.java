@@ -1,3 +1,8 @@
+/*
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/ANTLRASTBuilder/ANTLRASTBuilderInterface.java,v 1.2 2003-07-10 09:17:03 dvojtise Exp $
+ * 
+ * @TODO file and package must be renamed in BasicmtlTreeWalkerActions as this interface defines the actions called by the visitor BasicmtlTreeWalker
+ */
 package ANTLRASTBuilder;
 
 public interface ANTLRASTBuilderInterface {
