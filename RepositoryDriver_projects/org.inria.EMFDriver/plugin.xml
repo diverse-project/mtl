@@ -21,6 +21,7 @@
       <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.inria.BasicMTL.runtime"/>
    </requires>
 
 
