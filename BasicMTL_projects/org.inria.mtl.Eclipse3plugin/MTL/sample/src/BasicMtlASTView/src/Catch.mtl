@@ -1,0 +1,44 @@
+// $Id: Catch.mtl,v 1.1 2003/10/14 15:56:19 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Catch extends ASTNode {
+ 
+	catchBody : Standard::OrderedSet;
+	catchedException : VarDeclaration;
+ 
+	appendCatchBody(instr : Instruction) : Standard::Void
+	{	if isNull(catchBody)
+			{ JavaCode [BMTL_catchBody=new BMTLOrderedSet()]; }
+		catchBody := catchBody.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	anInstruction : Instruction;
+	instructions : Standard::Iterator;
+	properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch theCatch=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch()];
+	JavaCode [theCatch.setCatchedException((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)BMTL_catchedException.BMTL_toASTJava())];
+	instructions := catchBody.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+		JavaCode [theCatch.appendCatchBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theCatch.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theCatch];
+	}
+ }

@@ -1,0 +1,95 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Fri Sep 19 19:10:38 CEST 2003'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <SimpleUmlMM.Class xmi.id = 'a1' name = 'compositeur' kind = 'persistent'>
+      <SimpleUmlMM.Class.forward>
+        <SimpleUmlMM.Association xmi.idref = 'a2'/>
+      </SimpleUmlMM.Class.forward>
+      <SimpleUmlMM.Class.attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a3' name = 'date_naissance' kind = 'composed'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.Class xmi.idref = 'a4'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+      </SimpleUmlMM.Class.attribute>
+    </SimpleUmlMM.Class>
+    <SimpleUmlMM.Class xmi.id = 'a5' name = 'interprete' kind = 'persistent'>
+      <SimpleUmlMM.Class.forward>
+        <SimpleUmlMM.Association xmi.idref = 'a6'/>
+      </SimpleUmlMM.Class.forward>
+      <SimpleUmlMM.Class.attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a7' name = 'années_études' kind = 'primary'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.PrimitiveDataType xmi.idref = 'a8'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+      </SimpleUmlMM.Class.attribute>
+    </SimpleUmlMM.Class>
+    <SimpleUmlMM.Class xmi.id = 'a9' name = 'oeuvre' kind = 'persistent'>
+      <SimpleUmlMM.Class.attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a10' name = 'date_création' kind = 'composed'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.Class xmi.idref = 'a4'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+      </SimpleUmlMM.Class.attribute>
+      <SimpleUmlMM.Class.reverse>
+        <SimpleUmlMM.Association xmi.idref = 'a2'/>
+        <SimpleUmlMM.Association xmi.idref = 'a6'/>
+      </SimpleUmlMM.Class.reverse>
+    </SimpleUmlMM.Class>
+    <SimpleUmlMM.Class xmi.id = 'a4' name = 'date' kind = 'persistent'>
+      <SimpleUmlMM.Classifier.typed>
+        <SimpleUmlMM.Attribute xmi.idref = 'a10'/>
+        <SimpleUmlMM.Attribute xmi.idref = 'a3'/>
+      </SimpleUmlMM.Classifier.typed>
+      <SimpleUmlMM.Class.attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a11' name = 'mois' kind = 'primary'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.PrimitiveDataType xmi.idref = 'a8'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a12' name = 'année' kind = 'primary'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.PrimitiveDataType xmi.idref = 'a8'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+        <SimpleUmlMM.Attribute xmi.id = 'a13' name = 'jour' kind = 'primary'>
+          <SimpleUmlMM.Attribute.type>
+            <SimpleUmlMM.PrimitiveDataType xmi.idref = 'a8'/>
+          </SimpleUmlMM.Attribute.type>
+        </SimpleUmlMM.Attribute>
+      </SimpleUmlMM.Class.attribute>
+    </SimpleUmlMM.Class>
+    <SimpleUmlMM.PrimitiveDataType xmi.id = 'a8' name = 'integer' kind = ''>
+      <SimpleUmlMM.Classifier.typed>
+        <SimpleUmlMM.Attribute xmi.idref = 'a7'/>
+        <SimpleUmlMM.Attribute xmi.idref = 'a13'/>
+        <SimpleUmlMM.Attribute xmi.idref = 'a11'/>
+        <SimpleUmlMM.Attribute xmi.idref = 'a12'/>
+      </SimpleUmlMM.Classifier.typed>
+    </SimpleUmlMM.PrimitiveDataType>
+    <SimpleUmlMM.Association xmi.id = 'a2' name = 'composition' kind = ''>
+      <SimpleUmlMM.Association.destination>
+        <SimpleUmlMM.Class xmi.idref = 'a9'/>
+      </SimpleUmlMM.Association.destination>
+      <SimpleUmlMM.Association.source>
+        <SimpleUmlMM.Class xmi.idref = 'a1'/>
+      </SimpleUmlMM.Association.source>
+    </SimpleUmlMM.Association>
+    <SimpleUmlMM.Association xmi.id = 'a6' name = 'interpretation' kind = ''>
+      <SimpleUmlMM.Association.destination>
+        <SimpleUmlMM.Class xmi.idref = 'a9'/>
+      </SimpleUmlMM.Association.destination>
+      <SimpleUmlMM.Association.source>
+        <SimpleUmlMM.Class xmi.idref = 'a5'/>
+      </SimpleUmlMM.Association.source>
+    </SimpleUmlMM.Association>
+  </XMI.content>
+</XMI>

@@ -1,0 +1,2682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpstandardsyntax>
+===================================================        
+*Below this are the various PHP-specific functions *
+===================================================     
+        <phpsyntax function="COM_invoke" usage="mixed COM_invoke(int module, string handler_name [, mixed arg [, mixed ...]])">Invokes a COM module</phpsyntax>
+        <phpsyntax function="COM_load" usage="int com_load(string module_name [, string remote_host [, int codepage [, string typelib]]])">Loads a COM module</phpsyntax>
+        <phpsyntax function="abs" usage="int abs(int number)">Return the absolute value of the number</phpsyntax>
+<phpsyntax function="accept_connect"></phpsyntax>
+        <phpsyntax function="acos" usage="float acos(float arg)">Return the arc cosine of the arg in radians</phpsyntax>
+        <phpsyntax function="acosh" usage="float acosh(float arg)">Returns the inverse hyperbolic cosine of arg</phpsyntax>
+        <phpsyntax function="add"></phpsyntax>
+        <phpsyntax function="add_iovec"></phpsyntax>
+        <phpsyntax function="addaction"></phpsyntax>
+        <phpsyntax function="addcolor"></phpsyntax>
+        <phpsyntax function="addcslashes" usage="string addcslashes (string str, string charlist)">
+Returns a string with backslashes before characters that are listed in charlist parameter. 
+It escapes \n, \r etc. in C-like style, characters with ASCII code lower than 32 and 
+higher than 126 are converted to octal representation.</phpsyntax>
+        <phpsyntax function="addentry"></phpsyntax>
+        <phpsyntax function="addfill"></phpsyntax>
+        <phpsyntax function="addshape"></phpsyntax> 
+        <phpsyntax function="addslashes" usage="string addslashes (string str)">
+Returns a string with backslashes before characters that need to be quoted in database queries etc. 
+These characters are single quote ('), double quote (&quot;), backslash (\) and NUL (the NULL byte).</phpsyntax>
+        <phpsyntax function="addstring"></phpsyntax>
+        <phpsyntax function="aggregate" usage="void aggregate ( object object, string class_name)">
+Aggregates methods and properties defined in a class to an existing object. 
+Methods and properties with names starting with an underscore character (_) are considered private 
+to the aggregated class and are not used, constructors are also excluded from the aggregation procedure.</phpsyntax>
+        <phpsyntax function="align"></phpsyntax>
+        <phpsyntax function="apache_child_terminate" usage="bool apache_child_terminate ( void)">
+apache_child_terminate() will register the Apache process executing the current PHP request for termination 
+once execution of PHP code it is completed. It may be used to terminate a process after a script with 
+high memory consumption has been run as memory will usually only be freed internally but not given 
+back to the operating system.
+        </phpsyntax>
+        <phpsyntax function="apache_lookup_uri" usage="object apache_lookup_uri ( string filename)">
+This performs a partial request for a URI. It goes just far enough to obtain all the important information 
+about the given resource and returns this information in a class.
+        </phpsyntax>
+        <phpsyntax function="apache_note" usage="string apache_note ( string note_name [, string note_value])">apache_note() is an Apache-specific function which gets and sets values in a request's notes table. If called with one argument, it returns the current value of note note_name. If called with two arguments, it sets the value of note note_name to note_value and returns the previous value of note note_name.</phpsyntax>
+        <phpsyntax function="apache_sub_req"></phpsyntax>
+        <phpsyntax function="array" usage="array array ( [mixed ...])">
+Create an array.
+Returns an array of the parameters. The parameters can be given an index with the =&gt; operator. 
+Note: array() is a language construct used to represent literal arrays, and not a regular function. 
+Syntax &quot;index =&gt; values&quot;, separated by commas, define index and values. index may be of type string or numeric. 
+When index is omitted, a integer index is automatically generated, starting at 0. 
+If index is an integer, next generated index will be the biggest integer index + 1. 
+Note that when two identical index are defined, the last overwrite the first. 
+</phpsyntax>
+        <phpsyntax function="array_change_key_case" usage="array array_change_key_case ( array input [, int case])">Returns an array with all string keys lowercased or uppercased</phpsyntax>
+        <phpsyntax function="array_chunk" usage="array array_chunk ( array input, int size [, bool preserve_keys])">Split an array into chunks</phpsyntax>
+        <phpsyntax function="array_count_values" usage="array array_count_values ( array input)">Counts all the values of an array</phpsyntax>
+        <phpsyntax function="array_diff" usage="array array_diff ( array array1, array array2 [, array ...])">Computes the difference of arrays</phpsyntax>
+        <phpsyntax function="array_diff_assoc" usage="array array_diff_assoc ( array array1, array array2 [, array ...])">Computes the difference of arrays with additional index check</phpsyntax>
+        <phpsyntax function="array_fill" usage="array array_fill ( int start_index, int num, mixed value)">Fill an array with values</phpsyntax>
+        <phpsyntax function="array_filter" usage="array array_filter ( array input [, callback function])">Filters elements of an array using a callback function </phpsyntax>
+        <phpsyntax function="array_flip" usage="array array_flip ( array trans)">Exchanges all keys with their associated values in an array</phpsyntax>
+        <phpsyntax function="array_intersect" usage="array array_intersect ( array array1, array array2 [, array ...])">Computes the intersection of arrays</phpsyntax>
+        <phpsyntax function="array_intersect_assoc" usage="array array_intersect_assoc ( array array1, array array2 [, array ...])">Computes the intersection of arrays with additional index check</phpsyntax>
+        <phpsyntax function="array_key_exists" usage="bool array_key_exists ( mixed key, array search)">Checks if the given key or index exists in the array</phpsyntax>
+        <phpsyntax function="array_keys" usage="array array_keys ( array input [, mixed search_value])">Return all the keys of an array</phpsyntax>
+        <phpsyntax function="array_map" usage="array array_map ( callback function, array arr1 [, array arr2...])">Applies the callback to the elements of the given arrays </phpsyntax>
+        <phpsyntax function="array_merge" usage="array array_merge ( array array1, array array2 [, array ...])">Merge two or more arrays</phpsyntax>
+        <phpsyntax function="array_merge_recursive" usage="array array_merge_recursive ( array array1, array array2 [, array ...])">Merge two or more arrays recursively</phpsyntax>
+        <phpsyntax function="array_multisort" usage="bool array_multisort ( array ar1 [, mixed arg [, mixed ... [, array ...]]])">Sort multiple or multi-dimensional arrays</phpsyntax>
+        <phpsyntax function="array_pad" usage="array array_pad ( array input, int pad_size, mixed pad_value)">Pad array to the specified length with a value</phpsyntax>
+        <phpsyntax function="array_pop" usage="mixed array_pop ( array array)">Pop the element off the end of array</phpsyntax>
+        <phpsyntax function="array_push" usage="int array_push ( array array, mixed var [, mixed ...])">Push one or more elements onto the end of array </phpsyntax>
+        <phpsyntax function="array_rand" usage="mixed array_rand ( array input [, int num_req])">Pick one or more random entries out of an array</phpsyntax>
+        <phpsyntax function="array_reduce" usage="mixed array_reduce ( array input, callback function [, int initial])">Iteratively reduce the array to a single value using a callback function </phpsyntax>
+        <phpsyntax function="array_reverse" usage="array array_reverse ( array array [, bool preserve_keys])">Return an array with elements in reverse order </phpsyntax>
+        <phpsyntax function="array_search" usage="mixed array_search ( mixed needle, array haystack [, bool strict])">Searches haystack for needle and returns the key if it is found in the array, FALSE otherwise.</phpsyntax>
+        <phpsyntax function="array_shift" usage="mixed array_shift ( array array)">Shift an element off the beginning of array</phpsyntax>
+        <phpsyntax function="array_slice" usage="array array_slice ( array array, int offset [, int length])">Extract a slice of the array</phpsyntax>
+        <phpsyntax function="array_splice" usage="array array_splice ( array input, int offset [, int length [, array replacement]])">Remove a portion of the array and replace it with something else </phpsyntax>
+        <phpsyntax function="array_sum" usage="mixed array_sum ( array array)">Calculate the sum of values in an array</phpsyntax>
+        <phpsyntax function="array_unique" usage="array array_unique ( array array)">Removes duplicate values from an array</phpsyntax>
+        <phpsyntax function="array_unshift" usage="int array_unshift ( array array, mixed var [, mixed ...])">Prepend one or more elements to the beginning of array </phpsyntax>
+        <phpsyntax function="array_values" usage="array array_values ( array input)">Return all the values of an array</phpsyntax>
+        <phpsyntax function="array_walk" usage="int array_walk ( array array, callback function [, mixed userdata])">Apply a user function to every member of an array </phpsyntax>
+        <phpsyntax function="arsort" usage="void arsort ( array array [, int sort_flags])">This function sorts an array such that array indices maintain their correlation with the array elements they are associated with. This is used mainly when sorting associative arrays where the actual element order is significant.</phpsyntax>
+        <phpsyntax function="asin" usage="float asin ( float arg)">Returns the arc sine of arg in radians. asin() is the complementary function of sin(), which means that a==sin(asin(a)) for every value of a that is within asin() 's range.</phpsyntax>
+        <phpsyntax function="asort" usage="void asort ( array array [, int sort_flags])">This function sorts an array such that array indices maintain their correlation with the array elements they are associated with. This is used mainly when sorting associative arrays where the actual element order is significant.</phpsyntax>
+        <phpsyntax function="aspell_check" usage="bool aspell_check ( int dictionary_link, string word)">aspell_check() checks the spelling of a word and returns TRUE if the spelling is correct, FALSE if not.</phpsyntax>
+        <phpsyntax function="aspell_check_raw" usage="bool aspell_check_raw ( int dictionary_link, string word)">aspell_check_raw() checks the spelling of a word, without changing its case or trying to trim it in any way and returns TRUE if the spelling is correct, FALSE if not.</phpsyntax>
+        <phpsyntax function="aspell_new" usage="int aspell_new ( string master [, string personal])">aspell_new() opens up a new dictionary and returns the dictionary link identifier for use in other aspell functions. Returns FALSE on error.</phpsyntax>
+        <phpsyntax function="aspell_suggest" usage="array aspell_suggest ( int dictionary_link, string word)">aspell_suggest() returns an array of possible spellings for the given word.</phpsyntax>
+        <phpsyntax function="assert" usage="int assert ( mixed assertion)">
+assert() will check the given assertion and take appropriate action if its result is FALSE .
+
+If the assertion is given as a string it will be evaluated as PHP code by assert(). The advantages of a string assertion are less overhead when assertion checking is off and messages containing the assertion expression when an assertion fails. This means that if you pass a boolean condition as assertion this condition will not show up as parameter to the assertion function which you may have defined with the assert_options() function, the condition is converted to a string before calling that handler function, and the boolean FALSE is converted as the empty string.</phpsyntax>
+        <phpsyntax function="assert_options" usage="mixed assert_options ( int what [, mixed value])">Using assert_options() you may set the various assert() control options or just query their current settings.</phpsyntax>
+        <phpsyntax function="atan" usage="loat atan ( float arg)">Returns the arc tangent of arg in radians. atan() is the complementary function of tan(), which means that a==tan(atan(a)) for every value of a that is within atan()'s range.</phpsyntax>
+        <phpsyntax function="atan2" usage="float atan2 ( float y, float x)">
+This function calculates the arc tangent of the two variables xand y. It is similar to calculating the arc tangent of y/x, except that the signs of both arguments are used to determine the quadrant of the result. 
+
+The function returns the result in radians, which is between -PI and PI (inclusive)</phpsyntax>
+        <phpsyntax function="base64_decode" usage="string base64_decode ( string encoded_data)">base64_decode() decodes encoded_data and returns the original data. The returned data may be binary.</phpsyntax>
+        <phpsyntax function="base64_encode" usage="string base64_encode ( string data)">base64_encode returns data encoded with base64. This encoding is designed to make binary data survive transport through transport layers that are not 8-bit clean, such as mail bodies.</phpsyntax>
+        <phpsyntax function="base_convert" usage="string base_convert ( string number, int frombase, int tobase)">Returns a string containing number represented in base tobase. The base in which number is given is specified in frombase. Both frombase and tobase have to be between 2 and 36, inclusive. Digits in numbers with a base higher than 10 will be represented with the letters a-z, with a meaning 10, b meaning 11 and z meaning 35.</phpsyntax>
+        <phpsyntax function="basename" usage="string basename ( string path [, string suffix])">Given a string containing a path to a file, this function will return the base name of the file. If the filename ends in suffix this will also be cut off.</phpsyntax>
+        <phpsyntax function="bcadd" usage="string bcadd ( string left_operand, string right_operand [, int scale])">Adds the left_operand to the right_operand and returns the sum in a string. The optional scale parameter is used to set the number of digits after the decimal place in the result.</phpsyntax>
+        <phpsyntax function="bccomp" usage="int bccomp ( string left_operand, string right_operand [, int scale])">Compares the left_operand to the right_operand and returns the result as an integer. The optional scale parameter is used to set the number of digits after the decimal place which will be used in the comparison. The return value is 0 if the two operands are equal. If the left_operand is larger than the right_operand the return value is +1 and if the left_operand is less than the right_operand the return value is -1.</phpsyntax>
+        <phpsyntax function="bcdiv" usage="string bcdiv ( string left_operand, string right_operand [, int scale])">Divides the left_operand by the right_operand and returns the result. The optional scale sets the number of digits after the decimal place in the result. </phpsyntax>
+        <phpsyntax function="bcmod" usage="string bcmod ( string left_operand, string modulus)">Get the modulus of the left_operand using modulus.</phpsyntax>
+        <phpsyntax function="bcmul" usage="string bcmul ( string left_operand, string right_operand [, int scale])">Multiply the left_operand by the right_operand and returns the result. The optional scale sets the number of digits after the decimal place in the result.</phpsyntax>
+        <phpsyntax function="bcpow" usage="string bcpow ( string x, int y [, int scale])">Raise x to the power y. The optional scale can be used to set the number of digits after the decimal place in the result.</phpsyntax>
+        <phpsyntax function="bcscale" usage="string bcscale ( int scale)">This function sets the default scale parameter for all subsequent bc math functions that do not explicitly specify a scale parameter.</phpsyntax>
+        <phpsyntax function="bcsqrt" usage="string bcsqrt ( string operand [, int scale])">Return the square root of the operand. The optional scale parameter sets the number of digits after the decimal place in the result.</phpsyntax>
+        <phpsyntax function="bcsub" usage="string bcsub ( string left_operand, string right_operand [, int scale])">Subtracts the right_operand from the left_operand and returns the result in a string. The optional scale parameter is used to set the number of digits after the decimal place in the result.</phpsyntax>
+        <phpsyntax function="bin2hex" usage="string bin2hex ( string str)">Returns an ASCII string containing the hexadecimal representation of str. The conversion is done byte-wise with the high-nibble first.</phpsyntax>
+		<phpsyntax function="bind"></phpsyntax>
+        <phpsyntax function="bindec"></phpsyntax>
+        <phpsyntax function="bindec" usage="int bindec ( string binary_string)">
+Returns the decimal equivalent of the binary number represented by the binary_string argument. 
+
+bindec() converts a binary number to an integer. The largest number that can be converted is 31 bits of 1's or 2147483647 in decimal.</phpsyntax>
+        <phpsyntax function="bindtextdomain" usage="string bindtextdomain ( string domain, string directory)">The bindtextdomain() function sets the path for a domain.</phpsyntax>
+        <phpsyntax function="bzclose" usage="int bzclose ( resource bz)">Closes the bzip2 file referenced by the pointer bz.</phpsyntax>
+        <phpsyntax function="bzcompress" usage="string bzcompress ( string source [, int blocksize [, int workfactor]])">
+bzcompress() compresses the source string and returns it as bzip2 encoded data. 
+
+The optional parameter blocksize specifies the blocksize used during compression and should be a number from 1 to 9 with 9 giving the best compression, but using more resources to do so. blocksize defaults to 4. 
+
+The optional parameter workfactor controls how the compression phase behaves when presented with worst case, highly repetitive, input data. The value can be between 0 and 250 with 0 being a special case and 30 being the default value. Regardless of the workfactor, the generated output is the same.</phpsyntax>
+        <phpsyntax function="bzdecompress" usage="string bzdecompress ( string source [, int small])">bzdecompress() decompresses the source string containing bzip2 encoded data and returns it. If the optional parameter small is TRUE , an alternative decompression algorithm will be used which uses less memory (the maximum memory requirement drops to around 2300K) but works at roughly half the speed.</phpsyntax>
+        <phpsyntax function="bzerrno" usage="int bzerrno ( resource bz)">Returns the error number of any bzip2 error returned by the file pointer bz.</phpsyntax>
+        <phpsyntax function="bzerror" usage="array bzerror ( resource bz)">Returns the error number and error string, in an associative array, of any bzip2 error returned by the file pointer bz.</phpsyntax>
+        <phpsyntax function="bzerrstr" usage="string bzerrstr ( resource bz)">Returns the error string of any bzip2 error returned by the file pointer bz.</phpsyntax>
+        <phpsyntax function="bzflush" usage="int bzflush ( resource bz)">
+Forces a write of all buffered bzip2 data for the file pointer bz.
+
+Returns TRUE on success or FALSE on failure.</phpsyntax>
+        <phpsyntax function="bzopen" usage="resource bzopen ( string filename, string mode)">
+Opens a bzip2 (.bz2) file for reading or writing. filename is the name of the file to open. mode is similar to the fopen() function (`r' for read, `w' for write, etc.). 
+
+If the open fails, the function returns FALSE, otherwise it returns a pointer to the newly opened file.</phpsyntax>
+        <phpsyntax function="bzread" usage="string bzread ( resource bz [, int length])">bzread() reads up to length bytes from the bzip2 file pointer referenced by bz. Reading stops when length (uncompressed) bytes have been read or EOF is reached, whichever comes first. If the optional parameter length is not specified, bzread() will read 1024 (uncompressed) bytes at a time.</phpsyntax>
+        <phpsyntax function="bzwrite" usage="int bzwrite ( resource bz, string data [, int length])">bzwrite() writes the contents of the string data to the bzip2 file stream pointed to by bz. If the optional length argument is given, writing will stop after length (uncompressed) bytes have been written or the end of string is reached, whichever comes first.</phpsyntax>
+        <phpsyntax function="call_user_func"></phpsyntax>
+        <phpsyntax function="call_user_func_array"></phpsyntax>
+        <phpsyntax function="call_user_method"></phpsyntax>
+        <phpsyntax function="call_user_method_array"></phpsyntax>
+        <phpsyntax function="ccvs_add"></phpsyntax>
+        <phpsyntax function="ccvs_auth"></phpsyntax>
+        <phpsyntax function="ccvs_command"></phpsyntax>
+        <phpsyntax function="ccvs_count"></phpsyntax>
+        <phpsyntax function="ccvs_delete"></phpsyntax>
+        <phpsyntax function="ccvs_done"></phpsyntax>
+        <phpsyntax function="ccvs_init"></phpsyntax>
+        <phpsyntax function="ccvs_lookup"></phpsyntax>
+        <phpsyntax function="ccvs_new"></phpsyntax>
+        <phpsyntax function="ccvs_report"></phpsyntax>
+        <phpsyntax function="ccvs_return"></phpsyntax>
+        <phpsyntax function="ccvs_reverse"></phpsyntax>
+        <phpsyntax function="ccvs_sale"></phpsyntax>
+        <phpsyntax function="ccvs_status"></phpsyntax>
+        <phpsyntax function="ccvs_textvalue"></phpsyntax>
+        <phpsyntax function="ccvs_void"></phpsyntax>
+        <phpsyntax function="ceil"></phpsyntax>
+        <phpsyntax function="chdir"></phpsyntax>
+        <phpsyntax function="checkdate"></phpsyntax>
+        <phpsyntax function="checkdnsrr"></phpsyntax>
+        <phpsyntax function="checkdnsrr"></phpsyntax>
+        <phpsyntax function="chgrp"></phpsyntax>
+        <phpsyntax function="chmod"></phpsyntax>
+        <phpsyntax function="chop" usage="string chop( string str [, string charlist])">Strip whitespace from the end of a string. This function is an alias of rtrim().</phpsyntax>
+        <phpsyntax function="chown"></phpsyntax>
+        <phpsyntax function="chr" usage="string chr ( int ascii)">Return a specific character. Returns a one-character string containing the character specified by ascii.</phpsyntax>
+        <phpsyntax function="chroot"></phpsyntax>
+        <phpsyntax function="chroot"></phpsyntax>
+        <phpsyntax function="chunk_split" usage="string chunk_split ( string body [, int chunklen [, string end]])">Split a string into smaller chunks</phpsyntax>
+        <phpsyntax function="class_exists" usage="Checks if the class exists">bool class_exists(string classname)</phpsyntax>
+        <phpsyntax function="clearstatcache"></phpsyntax>
+        <phpsyntax function="close"></phpsyntax>
+        <phpsyntax function="closedir" usage="Close directory connection identified by the dir_handle">void closedir([resource dir_handle])</phpsyntax>
+        <phpsyntax function="closelog"></phpsyntax>
+        <phpsyntax function="com_get"></phpsyntax>
+        <phpsyntax function="com_propget"></phpsyntax>
+        <phpsyntax function="com_propput"></phpsyntax>
+        <phpsyntax function="com_propset"></phpsyntax>
+        <phpsyntax function="com_set"></phpsyntax>
+        <phpsyntax function="compact" usage="array compact ( mixed varname [, mixed ...])">Create array containing variables and their values </phpsyntax>
+        <phpsyntax function="confirm_cybermut_compiled"></phpsyntax>
+        <phpsyntax function="confirm_extname_compiled"></phpsyntax>
+        <phpsyntax function="connect"></phpsyntax>
+        <phpsyntax function="connection_aborted"></phpsyntax>
+        <phpsyntax function="connection_status"></phpsyntax>
+        <phpsyntax function="constant"></phpsyntax>
+        <phpsyntax function="convert_cyr_string" usage="string convert_cyr_string ( string str, string from, string to)">Convert from one Cyrillic character set to another </phpsyntax>
+        <phpsyntax function="copy"></phpsyntax>
+        <phpsyntax function="cos"></phpsyntax>
+        <phpsyntax function="count" usage="int count ( mixed var)">Count elements in a variable</phpsyntax>
+        <phpsyntax function="count_chars" usage="mixed count_chars ( string string [, int mode])">Return information about characters used in a string </phpsyntax>
+        <phpsyntax function="cpdf_add_annotation"></phpsyntax>
+        <phpsyntax function="cpdf_add_outline"></phpsyntax>
+        <phpsyntax function="cpdf_arc"></phpsyntax>
+        <phpsyntax function="cpdf_begin_text"></phpsyntax>
+        <phpsyntax function="cpdf_circle"></phpsyntax>
+        <phpsyntax function="cpdf_clip"></phpsyntax>
+        <phpsyntax function="cpdf_close"></phpsyntax>
+        <phpsyntax function="cpdf_closepath"></phpsyntax>
+        <phpsyntax function="cpdf_closepath_fill_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_closepath_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_continue_text"></phpsyntax>
+        <phpsyntax function="cpdf_curveto"></phpsyntax>
+        <phpsyntax function="cpdf_end_text"></phpsyntax>
+        <phpsyntax function="cpdf_fill"></phpsyntax>
+        <phpsyntax function="cpdf_fill_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_finalize"></phpsyntax>
+        <phpsyntax function="cpdf_finalize_page"></phpsyntax>
+        <phpsyntax function="cpdf_global_set_document_limits"></phpsyntax>
+        <phpsyntax function="cpdf_import_jpeg"></phpsyntax>
+        <phpsyntax function="cpdf_lineto"></phpsyntax>
+        <phpsyntax function="cpdf_moveto"></phpsyntax>
+        <phpsyntax function="cpdf_newpath"></phpsyntax>
+        <phpsyntax function="cpdf_open"></phpsyntax>
+        <phpsyntax function="cpdf_output_buffer"></phpsyntax>
+        <phpsyntax function="cpdf_page_init"></phpsyntax>
+        <phpsyntax function="cpdf_place_inline_image"></phpsyntax>
+        <phpsyntax function="cpdf_rect"></phpsyntax>
+        <phpsyntax function="cpdf_restore"></phpsyntax>
+        <phpsyntax function="cpdf_rlineto"></phpsyntax>
+        <phpsyntax function="cpdf_rmoveto"></phpsyntax>
+        <phpsyntax function="cpdf_rotate"></phpsyntax>
+        <phpsyntax function="cpdf_rotate_text"></phpsyntax>
+        <phpsyntax function="cpdf_save"></phpsyntax>
+        <phpsyntax function="cpdf_save_to_file"></phpsyntax>
+        <phpsyntax function="cpdf_scale"></phpsyntax>
+        <phpsyntax function="cpdf_set_action_url"></phpsyntax>
+        <phpsyntax function="cpdf_set_char_spacing"></phpsyntax>
+        <phpsyntax function="cpdf_set_creator"></phpsyntax>
+        <phpsyntax function="cpdf_set_current_page"></phpsyntax>
+        <phpsyntax function="cpdf_set_font"></phpsyntax>
+        <phpsyntax function="cpdf_set_font_directories"></phpsyntax>
+        <phpsyntax function="cpdf_set_font_map_file"></phpsyntax>
+        <phpsyntax function="cpdf_set_horiz_scaling"></phpsyntax>
+        <phpsyntax function="cpdf_set_keywords"></phpsyntax>
+        <phpsyntax function="cpdf_set_leading"></phpsyntax>
+        <phpsyntax function="cpdf_set_page_animation"></phpsyntax>
+        <phpsyntax function="cpdf_set_subject"></phpsyntax>
+        <phpsyntax function="cpdf_set_text_matrix"></phpsyntax>
+        <phpsyntax function="cpdf_set_text_pos"></phpsyntax>
+        <phpsyntax function="cpdf_set_text_rendering"></phpsyntax>
+        <phpsyntax function="cpdf_set_text_rise"></phpsyntax>
+        <phpsyntax function="cpdf_set_title"></phpsyntax>
+        <phpsyntax function="cpdf_set_viewer_preferences"></phpsyntax>
+        <phpsyntax function="cpdf_set_word_spacing"></phpsyntax>
+        <phpsyntax function="cpdf_setdash"></phpsyntax>
+        <phpsyntax function="cpdf_setflat"></phpsyntax>
+        <phpsyntax function="cpdf_setgray"></phpsyntax>
+        <phpsyntax function="cpdf_setgray_fill"></phpsyntax>
+        <phpsyntax function="cpdf_setgray_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_setlinecap"></phpsyntax>
+        <phpsyntax function="cpdf_setlinejoin"></phpsyntax>
+        <phpsyntax function="cpdf_setlinewidth"></phpsyntax>
+        <phpsyntax function="cpdf_setmiterlimit"></phpsyntax>
+        <phpsyntax function="cpdf_setrgbcolor"></phpsyntax>
+        <phpsyntax function="cpdf_setrgbcolor_fill"></phpsyntax>
+        <phpsyntax function="cpdf_setrgbcolor_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_show"></phpsyntax>
+        <phpsyntax function="cpdf_show_xy"></phpsyntax>
+        <phpsyntax function="cpdf_stringwidth"></phpsyntax>
+        <phpsyntax function="cpdf_stroke"></phpsyntax>
+        <phpsyntax function="cpdf_text"></phpsyntax>
+        <phpsyntax function="cpdf_translate"></phpsyntax>
+        <phpsyntax function="crack_check"></phpsyntax>
+        <phpsyntax function="crack_closedict"></phpsyntax>
+        <phpsyntax function="crack_getlastmessage"></phpsyntax>
+        <phpsyntax function="crack_opendict"></phpsyntax>
+        <phpsyntax function="crash"></phpsyntax>
+        <phpsyntax function="crc32" usage="int crc32 ( string str)">Calculates the crc32 polynomial of a string</phpsyntax>
+        <phpsyntax function="create_function" usage="string create_function(string args, string code)">Creates an anonymous function, and returns its name (funny, eh?)</phpsyntax>
+        <phpsyntax function="crypt" usage="string crypt ( string str [, string salt])">One-way string encryption (hashing)</phpsyntax>
+        <phpsyntax function="ctype_alnum"></phpsyntax>
+        <phpsyntax function="ctype_alpha"></phpsyntax>
+        <phpsyntax function="ctype_cntrl"></phpsyntax>
+        <phpsyntax function="ctype_digit"></phpsyntax>
+        <phpsyntax function="ctype_graph"></phpsyntax>
+        <phpsyntax function="ctype_lower"></phpsyntax>
+        <phpsyntax function="ctype_print"></phpsyntax>
+        <phpsyntax function="ctype_punct"></phpsyntax>
+        <phpsyntax function="ctype_space"></phpsyntax>
+        <phpsyntax function="ctype_upper"></phpsyntax>
+        <phpsyntax function="ctype_xdigit"></phpsyntax>
+        <phpsyntax function="curl_close"></phpsyntax>
+        <phpsyntax function="curl_errno"></phpsyntax>
+        <phpsyntax function="curl_error"></phpsyntax>
+        <phpsyntax function="curl_exec"></phpsyntax>
+        <phpsyntax function="curl_getinfo"></phpsyntax>
+        <phpsyntax function="curl_getinfo"></phpsyntax>
+        <phpsyntax function="curl_init"></phpsyntax>
+        <phpsyntax function="curl_setopt"></phpsyntax>
+        <phpsyntax function="curl_version"></phpsyntax>
+        <phpsyntax function="current" usage="mixed current ( array array)">Return the current element in an array</phpsyntax>
+        <phpsyntax function="cv_add"></phpsyntax>
+        <phpsyntax function="cv_auth"></phpsyntax>
+        <phpsyntax function="cv_command"></phpsyntax>
+        <phpsyntax function="cv_count"></phpsyntax>
+        <phpsyntax function="cv_delete"></phpsyntax>
+        <phpsyntax function="cv_done"></phpsyntax>
+        <phpsyntax function="cv_init"></phpsyntax>
+        <phpsyntax function="cv_lookup"></phpsyntax>
+        <phpsyntax function="cv_new"></phpsyntax>
+        <phpsyntax function="cv_report"></phpsyntax>
+        <phpsyntax function="cv_return"></phpsyntax>
+        <phpsyntax function="cv_reverse"></phpsyntax>
+        <phpsyntax function="cv_sale"></phpsyntax>
+        <phpsyntax function="cv_status"></phpsyntax>
+        <phpsyntax function="cv_textvalue"></phpsyntax>
+        <phpsyntax function="cv_void"></phpsyntax>
+        <phpsyntax function="cybercash_base64_decode"></phpsyntax>
+        <phpsyntax function="cybercash_base64_encode"></phpsyntax>
+        <phpsyntax function="cybercash_decr"></phpsyntax>
+        <phpsyntax function="cybercash_encr"></phpsyntax>
+        <phpsyntax function="cybermut_creerformulairecm"></phpsyntax>
+        <phpsyntax function="cybermut_creerreponsecm"></phpsyntax>
+        <phpsyntax function="cybermut_testmac"></phpsyntax>
+        <phpsyntax function="date"></phpsyntax>
+        <phpsyntax function="dba_close"></phpsyntax>
+        <phpsyntax function="dba_delete"></phpsyntax>
+        <phpsyntax function="dba_exists"></phpsyntax>
+        <phpsyntax function="dba_fetch"></phpsyntax>
+        <phpsyntax function="dba_firstkey"></phpsyntax>
+        <phpsyntax function="dba_insert"></phpsyntax>
+        <phpsyntax function="dba_nextkey"></phpsyntax>
+        <phpsyntax function="dba_open"></phpsyntax>
+        <phpsyntax function="dba_optimize"></phpsyntax>
+        <phpsyntax function="dba_popen"></phpsyntax>
+        <phpsyntax function="dba_replace"></phpsyntax>
+        <phpsyntax function="dba_sync"></phpsyntax>
+        <phpsyntax function="dbase_add_record"></phpsyntax>
+        <phpsyntax function="dbase_close"></phpsyntax>
+        <phpsyntax function="dbase_create"></phpsyntax>
+        <phpsyntax function="dbase_delete_record"></phpsyntax>
+        <phpsyntax function="dbase_get_record"></phpsyntax>
+        <phpsyntax function="dbase_get_record_with_names"></phpsyntax>
+        <phpsyntax function="dbase_numfields"></phpsyntax>
+        <phpsyntax function="dbase_numrecords"></phpsyntax>
+        <phpsyntax function="dbase_open"></phpsyntax>
+        <phpsyntax function="dbase_pack"></phpsyntax>
+        <phpsyntax function="dbase_replace_record"></phpsyntax>
+        <phpsyntax function="dblist"></phpsyntax>
+        <phpsyntax function="dbmclose"></phpsyntax>
+        <phpsyntax function="dbmdelete"></phpsyntax>
+        <phpsyntax function="dbmexists"></phpsyntax>
+        <phpsyntax function="dbmfetch"></phpsyntax>
+        <phpsyntax function="dbmfirstkey"></phpsyntax>
+        <phpsyntax function="dbminsert"></phpsyntax>
+        <phpsyntax function="dbmnextkey"></phpsyntax>
+        <phpsyntax function="dbmopen"></phpsyntax>
+        <phpsyntax function="dbmreplace"></phpsyntax>
+        <phpsyntax function="dbx_close"></phpsyntax>
+        <phpsyntax function="dbx_cmp_asc"></phpsyntax>
+        <phpsyntax function="dbx_cmp_desc"></phpsyntax>
+        <phpsyntax function="dbx_connect"></phpsyntax>
+        <phpsyntax function="dbx_error"></phpsyntax>
+        <phpsyntax function="dbx_query"></phpsyntax>
+        <phpsyntax function="dbx_sort"></phpsyntax>
+        <phpsyntax function="dcgettext"></phpsyntax>
+        <phpsyntax function="decbin"></phpsyntax>
+        <phpsyntax function="dechex"></phpsyntax>
+        <phpsyntax function="decoct"></phpsyntax>
+        <phpsyntax function="define" usage="bool define(string constant_name, mixed value, case_sensitive=true)">Define a new constant</phpsyntax>
+        <phpsyntax function="define_syslog_variables"></phpsyntax>
+        <phpsyntax function="defined" usage="bool defined(string constant_name)">Check whether a constant exists</phpsyntax>
+        <phpsyntax function="deg2rad"></phpsyntax>
+        <phpsyntax function="delete_iovec"></phpsyntax>
+        <phpsyntax function="dgettext"></phpsyntax>
+        <phpsyntax function="dir" usage="class dir(string directory)">
+Directory class with properties, handle and class and methods read, rewind and close.
+        </phpsyntax>
+        <phpsyntax function="dirname"></phpsyntax>
+        <phpsyntax function="diskfreespace"></phpsyntax>
+        <phpsyntax function="display_disabled_function"></phpsyntax>
+        <phpsyntax function="dl"></phpsyntax>
+        <phpsyntax function="domxml_add_root"></phpsyntax>
+        <phpsyntax function="domxml_attributes"></phpsyntax>
+        <phpsyntax function="domxml_children"></phpsyntax>
+        <phpsyntax function="domxml_dumpmem"></phpsyntax>
+        <phpsyntax function="domxml_elem_get_attribute"></phpsyntax>
+        <phpsyntax function="domxml_elem_set_attribute"></phpsyntax>
+        <phpsyntax function="domxml_get_attribute"></phpsyntax>
+        <phpsyntax function="domxml_getattr"></phpsyntax>
+        <phpsyntax function="domxml_new_child"></phpsyntax>
+        <phpsyntax function="domxml_new_xmldoc"></phpsyntax>
+        <phpsyntax function="domxml_node"></phpsyntax>
+        <phpsyntax function="domxml_node_attributes"></phpsyntax>
+        <phpsyntax function="domxml_node_children"></phpsyntax>
+        <phpsyntax function="domxml_node_new_child"></phpsyntax>
+        <phpsyntax function="domxml_node_set_content"></phpsyntax>
+        <phpsyntax function="domxml_node_unlink_node"></phpsyntax>
+        <phpsyntax function="domxml_root"></phpsyntax>
+        <phpsyntax function="domxml_set_attribute"></phpsyntax>
+        <phpsyntax function="domxml_setattr"></phpsyntax>
+        <phpsyntax function="domxml_unlink_node"></phpsyntax>
+        <phpsyntax function="domxml_version"></phpsyntax>
+        <phpsyntax function="doubleval"></phpsyntax>
+        <phpsyntax function="drawarc"></phpsyntax>
+        <phpsyntax function="drawcircle"></phpsyntax>
+        <phpsyntax function="drawcubic"></phpsyntax>
+        <phpsyntax function="drawcubicto"></phpsyntax>
+        <phpsyntax function="drawcurve"></phpsyntax>
+        <phpsyntax function="drawcurveto"></phpsyntax>
+        <phpsyntax function="drawglyph"></phpsyntax>
+        <phpsyntax function="drawline"></phpsyntax>
+        <phpsyntax function="drawlineto"></phpsyntax>
+        <phpsyntax function="each" usage="array each ( array array)">Return the current key and value pair from an array and advance the array cursor</phpsyntax>
+        <phpsyntax function="echo" usage="echo ( string arg1 [, string argn...])">
+Output one or more strings.
+echo() is not actually a function (it is a language construct) so you are not required to use parentheses with it. 
+In fact, if you want to pass more than one parameter to echo, you must not enclose the parameters within parentheses.
+It is not possible to use echo() in a variable function context. 
+</phpsyntax>
+        <phpsyntax function="easter_date"></phpsyntax>
+        <phpsyntax function="easter_days"></phpsyntax>
+        <phpsyntax function="end" usage="mixed end ( array array)">Set the internal pointer of an array to its last element </phpsyntax>
+        <phpsyntax function="ereg" usage="int ereg ( string pattern, string string [, array regs])">Note: preg_match(), which uses a Perl-compatible regular expression syntax, is often a faster alternative to ereg(). 
+Searches a string for matches to the regular expression given in pattern. 
+If matches are found for parenthesized substrings of pattern and the function is called with the third argument regs, 
+the matches will be stored in the elements of the array regs. 
+$regs[1] will contain the substring which starts at the first left parenthesis; 
+$regs[2] will contain the substring starting at the second, and so on. 
+$regs[0] will contain a copy of the complete string matched. 
+Note: Up to (and including) PHP 4.1.0 $regs will be filled with exactly ten elements, 
+even though more or fewer than ten parenthesized substrings may actually have matched. 
+This has no effect on ereg()'s ability to match more substrings. 
+If no matches are found, $regs will not be altered by ereg(). 
+Searching is case sensitive. 
+Returns TRUE if a match for pattern was found in string, or FALSE if no matches were found or an error occurred. 
+        </phpsyntax>
+        <phpsyntax function="ereg_replace"></phpsyntax>
+        <phpsyntax function="eregi" usage="int eregi ( string pattern, string string [, array regs])">This function is identical to ereg() except that this ignores case distinction when matching alphabetic characters.
+        </phpsyntax>
+        <phpsyntax function="eregi_replace" usage="string eregi_replace ( string pattern, string replacement, string string)"></phpsyntax>replace regular expression case insensitive
+This function is identical to ereg_replace() except that this ignores case distinction when matching alphabetic characters. 
+        <phpsyntax function="error_log"></phpsyntax>
+        <phpsyntax function="error_reporting"></phpsyntax>
+        <phpsyntax function="escapeshellarg"></phpsyntax>
+        <phpsyntax function="escapeshellcmd"></phpsyntax>
+        <phpsyntax function="exec"></phpsyntax>
+        <phpsyntax function="exit"></phpsyntax>
+        <phpsyntax function="exp"></phpsyntax>
+        <phpsyntax function="explode" usage="array explode ( string separator, string string [, int limit])">Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries formed by the string separator.
+If limit is set, the returned array will contain a maximum of limit elements with the last element containing the rest of string.
+If separator is an empty string (&quot;&quot;), explode() will return FALSE. If separator contains a value that is not contained in string, 
+then explode() will return an array containing string. 
+Note: The limit parameter was added in PHP 4.0.1 
+        </phpsyntax>
+        <phpsyntax function="extension_loaded"></phpsyntax>
+        <phpsyntax function="extract" usage="int extract ( array var_array [, int extract_type [, string prefix]])">Import variables into the current symbol table from an array </phpsyntax>
+        <phpsyntax function="ezmlm_hash"></phpsyntax>
+        <phpsyntax function="ezmlm_hash"></phpsyntax>
+        <phpsyntax function="fbsql"></phpsyntax>
+        <phpsyntax function="fbsql_affected_rows"></phpsyntax>
+        <phpsyntax function="fbsql_autocommit"></phpsyntax>
+        <phpsyntax function="fbsql_close"></phpsyntax>
+        <phpsyntax function="fbsql_commit"></phpsyntax>
+        <phpsyntax function="fbsql_connect"></phpsyntax>
+        <phpsyntax function="fbsql_create_db"></phpsyntax>
+        <phpsyntax function="fbsql_data_seek"></phpsyntax>
+        <phpsyntax function="fbsql_database"></phpsyntax>
+        <phpsyntax function="fbsql_database_password"></phpsyntax>
+        <phpsyntax function="fbsql_db_query"></phpsyntax>
+        <phpsyntax function="fbsql_drop_db"></phpsyntax>
+        <phpsyntax function="fbsql_errno"></phpsyntax>
+        <phpsyntax function="fbsql_error"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_array"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_assoc"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_field"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_lengths"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_object"></phpsyntax>
+        <phpsyntax function="fbsql_fetch_row"></phpsyntax>
+        <phpsyntax function="fbsql_field_flags"></phpsyntax>
+        <phpsyntax function="fbsql_field_len"></phpsyntax>
+        <phpsyntax function="fbsql_field_name"></phpsyntax>
+        <phpsyntax function="fbsql_field_seek"></phpsyntax>
+        <phpsyntax function="fbsql_field_table"></phpsyntax>
+        <phpsyntax function="fbsql_field_type"></phpsyntax>
+        <phpsyntax function="fbsql_free_result"></phpsyntax>
+        <phpsyntax function="fbsql_hostname"></phpsyntax>
+        <phpsyntax function="fbsql_insert_id"></phpsyntax>
+        <phpsyntax function="fbsql_list_dbs"></phpsyntax>
+        <phpsyntax function="fbsql_list_fields"></phpsyntax>
+        <phpsyntax function="fbsql_list_tables"></phpsyntax>
+        <phpsyntax function="fbsql_next_result"></phpsyntax>
+        <phpsyntax function="fbsql_num_fields"></phpsyntax>
+        <phpsyntax function="fbsql_num_rows"></phpsyntax>
+        <phpsyntax function="fbsql_password"></phpsyntax>
+        <phpsyntax function="fbsql_pconnect"></phpsyntax>
+        <phpsyntax function="fbsql_query"></phpsyntax>
+        <phpsyntax function="fbsql_result"></phpsyntax>
+        <phpsyntax function="fbsql_rollback"></phpsyntax>
+        <phpsyntax function="fbsql_select_db"></phpsyntax>
+        <phpsyntax function="fbsql_start_db"></phpsyntax>
+        <phpsyntax function="fbsql_stop_db"></phpsyntax>
+        <phpsyntax function="fbsql_username"></phpsyntax>
+        <phpsyntax function="fbsql_warnings"></phpsyntax>
+        <phpsyntax function="fclose"></phpsyntax>
+        <phpsyntax function="fd_alloc"></phpsyntax>
+        <phpsyntax function="fd_clear"></phpsyntax>
+        <phpsyntax function="fd_dealloc"></phpsyntax>
+        <phpsyntax function="fd_isset"></phpsyntax>
+        <phpsyntax function="fd_set"></phpsyntax>
+        <phpsyntax function="fd_zero"></phpsyntax>
+        <phpsyntax function="fdf_add_template"></phpsyntax>
+        <phpsyntax function="fdf_close"></phpsyntax>
+        <phpsyntax function="fdf_create"></phpsyntax>
+        <phpsyntax function="fdf_get_file"></phpsyntax>
+        <phpsyntax function="fdf_get_status"></phpsyntax>
+        <phpsyntax function="fdf_get_value"></phpsyntax>
+        <phpsyntax function="fdf_next_field_name"></phpsyntax>
+        <phpsyntax function="fdf_open"></phpsyntax>
+        <phpsyntax function="fdf_save"></phpsyntax>
+        <phpsyntax function="fdf_set_ap"></phpsyntax>
+        <phpsyntax function="fdf_set_file"></phpsyntax>
+        <phpsyntax function="fdf_set_flags"></phpsyntax>
+        <phpsyntax function="fdf_set_javascript_action"></phpsyntax>
+        <phpsyntax function="fdf_set_opt"></phpsyntax>
+        <phpsyntax function="fdf_set_status"></phpsyntax>
+        <phpsyntax function="fdf_set_submit_form_action"></phpsyntax>
+        <phpsyntax function="fdf_set_value"></phpsyntax>
+        <phpsyntax function="feof"></phpsyntax>
+        <phpsyntax function="fetch_iovec"></phpsyntax>
+        <phpsyntax function="fflush"></phpsyntax>
+        <phpsyntax function="fgetc"></phpsyntax>
+        <phpsyntax function="fgetcsv"></phpsyntax>
+        <phpsyntax function="fgets"></phpsyntax>
+        <phpsyntax function="fgetss"></phpsyntax>
+        <phpsyntax function="file"></phpsyntax>
+        <phpsyntax function="file_exists" usage="bool file_exists ( string filename)">Checks whether a file exists
+Returns TRUE if the file specified by filename exists; FALSE otherwise. 
+This function will not work on remote files; the file to be examined must be accessible via the server's filesystem. 
+The results of this function are cached. See clearstatcache() for more details. 
+Using Windows shares: On windows, use //computername/share/filename or \\\\computername\share\filename to check files on network shares. 
+        </phpsyntax>
+        <phpsyntax function="fileatime"></phpsyntax>
+        <phpsyntax function="filectime"></phpsyntax>
+        <phpsyntax function="filegroup"></phpsyntax>
+        <phpsyntax function="fileinode"></phpsyntax>
+        <phpsyntax function="filemtime"></phpsyntax>
+        <phpsyntax function="fileowner"></phpsyntax>
+        <phpsyntax function="fileperms"></phpsyntax>
+        <phpsyntax function="filepro"></phpsyntax>
+        <phpsyntax function="filepro_fieldcount"></phpsyntax>
+        <phpsyntax function="filepro_fieldname"></phpsyntax>
+        <phpsyntax function="filepro_fieldtype"></phpsyntax>
+        <phpsyntax function="filepro_fieldwidth"></phpsyntax>
+        <phpsyntax function="filepro_retrieve"></phpsyntax>
+        <phpsyntax function="filepro_rowcount"></phpsyntax>
+        <phpsyntax function="filesize"></phpsyntax>
+        <phpsyntax function="filetype"></phpsyntax>
+        <phpsyntax function="flock"></phpsyntax>
+        <phpsyntax function="floor"></phpsyntax>
+        <phpsyntax function="flush"></phpsyntax>
+        <phpsyntax function="fopen"></phpsyntax>
+        <phpsyntax function="fopenstream"></phpsyntax>
+        <phpsyntax function="fopenstream"></phpsyntax>
+        <phpsyntax function="fpassthru"></phpsyntax>
+        <phpsyntax function="fputs"></phpsyntax>
+        <phpsyntax function="fprintf" usage="int fprintf ( resource handle, string format [, mixed args])">Write a formatted string to a stream</phpsyntax>
+        <phpsyntax function="fread"></phpsyntax>
+        <phpsyntax function="free_iovec"></phpsyntax>
+        <phpsyntax function="frenchtojd"></phpsyntax>
+        <phpsyntax function="fribidi_log2vis"></phpsyntax>
+        <phpsyntax function="fscanf"></phpsyntax>
+        <phpsyntax function="fseek"></phpsyntax>
+        <phpsyntax function="fsockopen"></phpsyntax>
+        <phpsyntax function="fstat"></phpsyntax>
+        <phpsyntax function="ftell"></phpsyntax>
+        <phpsyntax function="ftp_cdup"></phpsyntax>
+        <phpsyntax function="ftp_chdir"></phpsyntax>
+        <phpsyntax function="ftp_connect"></phpsyntax>
+        <phpsyntax function="ftp_delete"></phpsyntax>
+        <phpsyntax function="ftp_exec"></phpsyntax>
+        <phpsyntax function="ftp_fget"></phpsyntax>
+        <phpsyntax function="ftp_fput"></phpsyntax>
+        <phpsyntax function="ftp_get"></phpsyntax>
+        <phpsyntax function="ftp_login"></phpsyntax>
+        <phpsyntax function="ftp_mdtm"></phpsyntax>
+        <phpsyntax function="ftp_mkdir"></phpsyntax>
+        <phpsyntax function="ftp_nlist"></phpsyntax>
+        <phpsyntax function="ftp_pasv"></phpsyntax>
+        <phpsyntax function="ftp_put"></phpsyntax>
+        <phpsyntax function="ftp_pwd"></phpsyntax>
+        <phpsyntax function="ftp_quit"></phpsyntax>
+        <phpsyntax function="ftp_rawlist"></phpsyntax>
+        <phpsyntax function="ftp_rename"></phpsyntax>
+        <phpsyntax function="ftp_rmdir"></phpsyntax>
+        <phpsyntax function="ftp_site"></phpsyntax>
+        <phpsyntax function="ftp_size"></phpsyntax>
+        <phpsyntax function="ftp_systype"></phpsyntax>
+        <phpsyntax function="ftruncate"></phpsyntax>
+        <phpsyntax function="func_get_arg"></phpsyntax>
+        <phpsyntax function="func_get_args"></phpsyntax>
+        <phpsyntax function="func_num_args"></phpsyntax>
+        <phpsyntax function="function_exists"></phpsyntax>
+        <phpsyntax function="fwrite"></phpsyntax>
+        <phpsyntax function="get_all_headers"></phpsyntax>
+        <phpsyntax function="get_browser"></phpsyntax>
+        <phpsyntax function="get_cfg_var"></phpsyntax>
+        <phpsyntax function="get_class"></phpsyntax>
+        <phpsyntax function="get_class_methods"></phpsyntax>
+        <phpsyntax function="get_class_vars"></phpsyntax>
+        <phpsyntax function="get_current_user"></phpsyntax>
+        <phpsyntax function="get_declared_classes"></phpsyntax>
+        <phpsyntax function="get_defined_functions"></phpsyntax>
+        <phpsyntax function="get_defined_vars"></phpsyntax>
+        <phpsyntax function="get_extension_funcs"></phpsyntax>
+        <phpsyntax function="get_html_translation_table" usage="string get_html_translation_table ( int table [, int quote_style])">Returns the translation table used by htmlspecialchars() and htmlentities() </phpsyntax>
+        <phpsyntax function="get_included_files"></phpsyntax>
+        <phpsyntax function="get_loaded_extensions"></phpsyntax>
+        <phpsyntax function="get_magic_quotes_gpc"></phpsyntax>
+        <phpsyntax function="get_magic_quotes_runtime"></phpsyntax>
+        <phpsyntax function="get_meta_tags"></phpsyntax>
+        <phpsyntax function="get_object_vars"></phpsyntax>
+        <phpsyntax function="get_parent_class"></phpsyntax>
+        <phpsyntax function="get_required_files"></phpsyntax>
+        <phpsyntax function="get_resource_type"></phpsyntax>
+        <phpsyntax function="getallheaders"></phpsyntax>
+        <phpsyntax function="getallheaders"></phpsyntax>
+        <phpsyntax function="getascent"></phpsyntax>
+        <phpsyntax function="getascent"></phpsyntax>
+        <phpsyntax function="getcwd"></phpsyntax>
+        <phpsyntax function="getdate"></phpsyntax>
+        <phpsyntax function="getdescent"></phpsyntax>
+        <phpsyntax function="getdescent"></phpsyntax>
+        <phpsyntax function="getenv"></phpsyntax>
+        <phpsyntax function="getheight"></phpsyntax>
+        <phpsyntax function="gethostbyaddr"></phpsyntax>
+        <phpsyntax function="gethostbyaddr"></phpsyntax>
+        <phpsyntax function="gethostbyname"></phpsyntax>
+        <phpsyntax function="gethostbyname"></phpsyntax>
+        <phpsyntax function="gethostbynamel"></phpsyntax>
+        <phpsyntax function="getimagesize"></phpsyntax>
+        <phpsyntax function="getlastmod"></phpsyntax>
+        <phpsyntax function="getleading"></phpsyntax>
+        <phpsyntax function="getleading"></phpsyntax>
+        <phpsyntax function="getmxrr"></phpsyntax>
+        <phpsyntax function="getmxrr"></phpsyntax>
+        <phpsyntax function="getmyinode"></phpsyntax>
+        <phpsyntax function="getmypid"></phpsyntax>
+        <phpsyntax function="getmyuid"></phpsyntax>
+        <phpsyntax function="getpeername"></phpsyntax>
+        <phpsyntax function="getprotobyname"></phpsyntax>
+        <phpsyntax function="getprotobynumber"></phpsyntax>
+        <phpsyntax function="getrandmax"></phpsyntax>
+        <phpsyntax function="getrusage"></phpsyntax>
+        <phpsyntax function="getrusage"></phpsyntax>
+        <phpsyntax function="getservbyname"></phpsyntax>
+        <phpsyntax function="getservbyport"></phpsyntax>
+        <phpsyntax function="getshape1"></phpsyntax>
+        <phpsyntax function="getshape2"></phpsyntax>
+        <phpsyntax function="getsockname"></phpsyntax>
+        <phpsyntax function="getsockopt"></phpsyntax>
+        <phpsyntax function="gettext"></phpsyntax>
+        <phpsyntax function="gettimeofday"></phpsyntax>
+        <phpsyntax function="gettype"></phpsyntax>
+        <phpsyntax function="getwidth"></phpsyntax>
+        <phpsyntax function="getwidth"></phpsyntax>
+        <phpsyntax function="getwidth"></phpsyntax>
+        <phpsyntax function="gmdate"></phpsyntax>
+        <phpsyntax function="gmmktime"></phpsyntax>
+        <phpsyntax function="gmp_abs"></phpsyntax>
+        <phpsyntax function="gmp_add"></phpsyntax>
+        <phpsyntax function="gmp_and"></phpsyntax>
+        <phpsyntax function="gmp_clrbit"></phpsyntax>
+        <phpsyntax function="gmp_cmp"></phpsyntax>
+        <phpsyntax function="gmp_com"></phpsyntax>
+        <phpsyntax function="gmp_div"></phpsyntax>
+        <phpsyntax function="gmp_div_q"></phpsyntax>
+        <phpsyntax function="gmp_div_qr"></phpsyntax>
+        <phpsyntax function="gmp_div_r"></phpsyntax>
+        <phpsyntax function="gmp_divexact"></phpsyntax>
+        <phpsyntax function="gmp_fact"></phpsyntax>
+        <phpsyntax function="gmp_gcd"></phpsyntax>
+        <phpsyntax function="gmp_gcdext"></phpsyntax>
+        <phpsyntax function="gmp_hamdist"></phpsyntax>
+        <phpsyntax function="gmp_init"></phpsyntax>
+        <phpsyntax function="gmp_intval"></phpsyntax>
+        <phpsyntax function="gmp_invert"></phpsyntax>
+        <phpsyntax function="gmp_jacobi"></phpsyntax>
+        <phpsyntax function="gmp_legendre"></phpsyntax>
+        <phpsyntax function="gmp_mod"></phpsyntax>
+        <phpsyntax function="gmp_mul"></phpsyntax>
+        <phpsyntax function="gmp_neg"></phpsyntax>
+        <phpsyntax function="gmp_or"></phpsyntax>
+        <phpsyntax function="gmp_perfect_square"></phpsyntax>
+        <phpsyntax function="gmp_popcount"></phpsyntax>
+        <phpsyntax function="gmp_pow"></phpsyntax>
+        <phpsyntax function="gmp_powm"></phpsyntax>
+        <phpsyntax function="gmp_prob_prime"></phpsyntax>
+        <phpsyntax function="gmp_random"></phpsyntax>
+        <phpsyntax function="gmp_scan0"></phpsyntax>
+        <phpsyntax function="gmp_scan1"></phpsyntax>
+        <phpsyntax function="gmp_setbit"></phpsyntax>
+        <phpsyntax function="gmp_sign"></phpsyntax>
+        <phpsyntax function="gmp_sqrt"></phpsyntax>
+        <phpsyntax function="gmp_sqrtrem"></phpsyntax>
+        <phpsyntax function="gmp_strval"></phpsyntax>
+        <phpsyntax function="gmp_sub"></phpsyntax>
+        <phpsyntax function="gmp_xor"></phpsyntax>
+        <phpsyntax function="gmstrftime"></phpsyntax>
+        <phpsyntax function="gmstrftime"></phpsyntax>
+        <phpsyntax function="gregoriantojd"></phpsyntax>
+        <phpsyntax function="gzclose"></phpsyntax>
+        <phpsyntax function="gzcompress"></phpsyntax>
+        <phpsyntax function="gzdeflate"></phpsyntax>
+        <phpsyntax function="gzencode"></phpsyntax>
+        <phpsyntax function="gzeof"></phpsyntax>
+        <phpsyntax function="gzfile"></phpsyntax>
+        <phpsyntax function="gzgetc"></phpsyntax>
+        <phpsyntax function="gzgets"></phpsyntax>
+        <phpsyntax function="gzgetss"></phpsyntax>
+        <phpsyntax function="gzinflate"></phpsyntax>
+        <phpsyntax function="gzopen"></phpsyntax>
+        <phpsyntax function="gzpassthru"></phpsyntax>
+        <phpsyntax function="gzputs"></phpsyntax>
+        <phpsyntax function="gzread"></phpsyntax>
+        <phpsyntax function="gzrewind"></phpsyntax>
+        <phpsyntax function="gzseek"></phpsyntax>
+        <phpsyntax function="gztell"></phpsyntax>
+        <phpsyntax function="gzuncompress"></phpsyntax>
+        <phpsyntax function="gzwrite"></phpsyntax>
+        <phpsyntax function="header" usage="int header ( string string [, bool replace [, int http_reponse_code]])">Send a raw HTTP header
+header() is used to send raw HTTP headers. See the HTTP/1.1 specification for more information on HTTP headers. 
+The optional replace parameter indicates whether the header should replace a previous similar header, 
+or add a second header of the same type. 
+By default it will replace, but if you pass in FALSE as the second argument you can force multiple headers of the same type. 
+
+The second optional http_response_code force the HTTP response code to the specified value. 
+(This parameter is available in PHP 4.3.0 and higher.) 
+There are two special-case header calls. The first is a header that starts with the string &quot;HTTP/&quot; (case is not significant), 
+which will be used to figure out the HTTP status code to send. For example, 
+if you have configured Apache to use a PHP script to handle requests for missing files 
+(using the ErrorDocument directive), you may want to make sure that your script generates the proper status code. 
+        </phpsyntax>
+        <phpsyntax function="headers_sent"></phpsyntax>
+        <phpsyntax function="hebrev" usage="string hebrev ( string hebrew_text [, int max_chars_per_line])">Convert logical Hebrew text to visual text</phpsyntax>
+        <phpsyntax function="hebrevc" usage="string hebrevc ( string hebrew_text [, int max_chars_per_line])">Convert logical Hebrew text to visual text with newline conversion </phpsyntax>
+        <phpsyntax function="hexdec"></phpsyntax>
+        <phpsyntax function="highlight_file"></phpsyntax>
+        <phpsyntax function="highlight_string"></phpsyntax>
+        <phpsyntax function="html_entity_decode" usage="string html_entity_decode ( string string [, int quote_style [, string charset]])">Convert all HTML entities to their applicable characters</phpsyntax>
+        <phpsyntax function="htmlentities" usage="string htmlentities ( string string [, int quote_style [, string charset]])">Convert all applicable characters to HTML entities </phpsyntax>
+        <phpsyntax function="htmlspecialchars" usage="string htmlspecialchars ( string string [, int quote_style [, string charset]])">
+Convert special characters to HTML entities.
+Certain characters have special significance in HTML, 
+and should be represented by HTML entities if they are to preserve their meanings. 
+This function returns a string with some of these conversions made; 
+the translations made are those most useful for everyday web programming. 
+If you require all HTML character entities to be translated, use htmlentities() instead. 
+This function is useful in preventing user-supplied text from containing HTML markup, 
+such as in a message board or guest book application. 
+The optional second argument, quote_style, tells the function what to do with single and double quote characters. 
+The default mode, ENT_COMPAT, is the backwards compatible mode which only translates 
+the double-quote character and leaves the single-quote untranslated. 
+If ENT_QUOTES is set, both single and double quotes are translated and 
+if ENT_NOQUOTES is set neither single nor double quotes are translated. 
+</phpsyntax>
+        <phpsyntax function="hw_array2objrec"></phpsyntax>
+        <phpsyntax function="hw_changeobject"></phpsyntax>
+        <phpsyntax function="hw_children"></phpsyntax>
+        <phpsyntax function="hw_childrenobj"></phpsyntax>
+        <phpsyntax function="hw_close"></phpsyntax>
+        <phpsyntax function="hw_connect"></phpsyntax>
+        <phpsyntax function="hw_connection_info"></phpsyntax>
+        <phpsyntax function="hw_cp"></phpsyntax>
+        <phpsyntax function="hw_deleteobject"></phpsyntax>
+        <phpsyntax function="hw_docbyanchor"></phpsyntax>
+        <phpsyntax function="hw_docbyanchorobj"></phpsyntax>
+        <phpsyntax function="hw_document_attributes"></phpsyntax>
+        <phpsyntax function="hw_document_bodytag"></phpsyntax>
+        <phpsyntax function="hw_document_content"></phpsyntax>
+        <phpsyntax function="hw_document_setcontent"></phpsyntax>
+        <phpsyntax function="hw_document_size"></phpsyntax>
+        <phpsyntax function="hw_dummy"></phpsyntax>
+        <phpsyntax function="hw_edittext"></phpsyntax>
+        <phpsyntax function="hw_error"></phpsyntax>
+        <phpsyntax function="hw_errormsg"></phpsyntax>
+        <phpsyntax function="hw_free_document"></phpsyntax>
+        <phpsyntax function="hw_getanchors"></phpsyntax>
+        <phpsyntax function="hw_getanchorsobj"></phpsyntax>
+        <phpsyntax function="hw_getandlock"></phpsyntax>
+        <phpsyntax function="hw_getcgi"></phpsyntax>
+        <phpsyntax function="hw_getchildcoll"></phpsyntax>
+        <phpsyntax function="hw_getchildcollobj"></phpsyntax>
+        <phpsyntax function="hw_getchilddoccoll"></phpsyntax>
+        <phpsyntax function="hw_getchilddoccollobj"></phpsyntax>
+        <phpsyntax function="hw_getobject"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyftquery"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyftquerycoll"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyftquerycollobj"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyftqueryobj"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyquery"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyquerycoll"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyquerycollobj"></phpsyntax>
+        <phpsyntax function="hw_getobjectbyqueryobj"></phpsyntax>
+        <phpsyntax function="hw_getparents"></phpsyntax>
+        <phpsyntax function="hw_getparentsobj"></phpsyntax>
+        <phpsyntax function="hw_getrellink"></phpsyntax>
+        <phpsyntax function="hw_getremote"></phpsyntax>
+        <phpsyntax function="hw_getremotechildren"></phpsyntax>
+        <phpsyntax function="hw_getsrcbydestobj"></phpsyntax>
+        <phpsyntax function="hw_gettext"></phpsyntax>
+        <phpsyntax function="hw_getusername"></phpsyntax>
+        <phpsyntax function="hw_identify"></phpsyntax>
+        <phpsyntax function="hw_incollections"></phpsyntax>
+        <phpsyntax function="hw_info"></phpsyntax>
+        <phpsyntax function="hw_inscoll"></phpsyntax>
+        <phpsyntax function="hw_insdoc"></phpsyntax>
+        <phpsyntax function="hw_insertanchors"></phpsyntax>
+        <phpsyntax function="hw_insertdocument"></phpsyntax>
+        <phpsyntax function="hw_insertobject"></phpsyntax>
+        <phpsyntax function="hw_mapid"></phpsyntax>
+        <phpsyntax function="hw_modifyobject"></phpsyntax>
+        <phpsyntax function="hw_mv"></phpsyntax>
+        <phpsyntax function="hw_new_document"></phpsyntax>
+        <phpsyntax function="hw_new_document_from_file"></phpsyntax>
+        <phpsyntax function="hw_objrec2array"></phpsyntax>
+        <phpsyntax function="hw_output_document"></phpsyntax>
+        <phpsyntax function="hw_pconnect"></phpsyntax>
+        <phpsyntax function="hw_pipecgi"></phpsyntax>
+        <phpsyntax function="hw_pipedocument"></phpsyntax>
+        <phpsyntax function="hw_root"></phpsyntax>
+        <phpsyntax function="hw_setlinkroot"></phpsyntax>
+        <phpsyntax function="hw_stat"></phpsyntax>
+        <phpsyntax function="hw_unlock"></phpsyntax>
+        <phpsyntax function="hw_who"></phpsyntax>
+        <phpsyntax function="ibase_blob_add"></phpsyntax>
+        <phpsyntax function="ibase_blob_cancel"></phpsyntax>
+        <phpsyntax function="ibase_blob_close"></phpsyntax>
+        <phpsyntax function="ibase_blob_create"></phpsyntax>
+        <phpsyntax function="ibase_blob_echo"></phpsyntax>
+        <phpsyntax function="ibase_blob_get"></phpsyntax>
+        <phpsyntax function="ibase_blob_import"></phpsyntax>
+        <phpsyntax function="ibase_blob_info"></phpsyntax>
+        <phpsyntax function="ibase_blob_open"></phpsyntax>
+        <phpsyntax function="ibase_close"></phpsyntax>
+        <phpsyntax function="ibase_commit"></phpsyntax>
+        <phpsyntax function="ibase_connect"></phpsyntax>
+        <phpsyntax function="ibase_errmsg"></phpsyntax>
+        <phpsyntax function="ibase_execute"></phpsyntax>
+        <phpsyntax function="ibase_fetch_object"></phpsyntax>
+        <phpsyntax function="ibase_fetch_row"></phpsyntax>
+        <phpsyntax function="ibase_field_info"></phpsyntax>
+        <phpsyntax function="ibase_free_query"></phpsyntax>
+        <phpsyntax function="ibase_free_result"></phpsyntax>
+        <phpsyntax function="ibase_num_fields"></phpsyntax>
+        <phpsyntax function="ibase_pconnect"></phpsyntax>
+        <phpsyntax function="ibase_prepare"></phpsyntax>
+        <phpsyntax function="ibase_query"></phpsyntax>
+        <phpsyntax function="ibase_rollback"></phpsyntax>
+        <phpsyntax function="ibase_timefmt"></phpsyntax>
+        <phpsyntax function="ibase_trans"></phpsyntax>
+        <phpsyntax function="icap_create_calendar"></phpsyntax>
+        <phpsyntax function="icap_delete_calendar"></phpsyntax>
+        <phpsyntax function="icap_delete_event"></phpsyntax>
+        <phpsyntax function="icap_fetch_event"></phpsyntax>
+        <phpsyntax function="icap_list_alarms"></phpsyntax>
+        <phpsyntax function="icap_list_events"></phpsyntax>
+        <phpsyntax function="icap_open"></phpsyntax>
+        <phpsyntax function="icap_popen"></phpsyntax>
+        <phpsyntax function="icap_rename_calendar"></phpsyntax>
+        <phpsyntax function="icap_reopen"></phpsyntax>
+        <phpsyntax function="icap_snooze"></phpsyntax>
+        <phpsyntax function="icap_store_event"></phpsyntax>
+        <phpsyntax function="iconv"></phpsyntax>
+        <phpsyntax function="iconv_get_encoding"></phpsyntax>
+        <phpsyntax function="iconv_set_encoding"></phpsyntax>
+        <phpsyntax function="ifx_affected_rows"></phpsyntax>
+        <phpsyntax function="ifx_blobinfile_mode"></phpsyntax>
+        <phpsyntax function="ifx_byteasvarchar"></phpsyntax>
+        <phpsyntax function="ifx_close"></phpsyntax>
+        <phpsyntax function="ifx_connect"></phpsyntax>
+        <phpsyntax function="ifx_copy_blob"></phpsyntax>
+        <phpsyntax function="ifx_create_blob"></phpsyntax>
+        <phpsyntax function="ifx_create_char"></phpsyntax>
+        <phpsyntax function="ifx_do"></phpsyntax>
+        <phpsyntax function="ifx_error"></phpsyntax>
+        <phpsyntax function="ifx_errormsg"></phpsyntax>
+        <phpsyntax function="ifx_fetch_row"></phpsyntax>
+        <phpsyntax function="ifx_fieldproperties"></phpsyntax>
+        <phpsyntax function="ifx_fieldtypes"></phpsyntax>
+        <phpsyntax function="ifx_free_blob"></phpsyntax>
+        <phpsyntax function="ifx_free_char"></phpsyntax>
+        <phpsyntax function="ifx_free_result"></phpsyntax>
+        <phpsyntax function="ifx_get_blob"></phpsyntax>
+        <phpsyntax function="ifx_get_char"></phpsyntax>
+        <phpsyntax function="ifx_getsqlca"></phpsyntax>
+        <phpsyntax function="ifx_htmltbl_result"></phpsyntax>
+        <phpsyntax function="ifx_nullformat"></phpsyntax>
+        <phpsyntax function="ifx_num_fields"></phpsyntax>
+        <phpsyntax function="ifx_num_rows"></phpsyntax>
+        <phpsyntax function="ifx_pconnect"></phpsyntax>
+        <phpsyntax function="ifx_prepare"></phpsyntax>
+        <phpsyntax function="ifx_query"></phpsyntax>
+        <phpsyntax function="ifx_textasvarchar"></phpsyntax>
+        <phpsyntax function="ifx_update_blob"></phpsyntax>
+        <phpsyntax function="ifx_update_char"></phpsyntax>
+        <phpsyntax function="ifxus_close_slob"></phpsyntax>
+        <phpsyntax function="ifxus_create_slob"></phpsyntax>
+        <phpsyntax function="ifxus_free_slob"></phpsyntax>
+        <phpsyntax function="ifxus_open_slob"></phpsyntax>
+        <phpsyntax function="ifxus_read_slob"></phpsyntax>
+        <phpsyntax function="ifxus_seek_slob"></phpsyntax>
+        <phpsyntax function="ifxus_tell_slob"></phpsyntax>
+        <phpsyntax function="ifxus_write_slob"></phpsyntax>
+        <phpsyntax function="ignore_user_abort"></phpsyntax>
+        <phpsyntax function="iis_addserver"></phpsyntax>
+        <phpsyntax function="iis_getdirsecurity"></phpsyntax>
+        <phpsyntax function="iis_getscriptmap"></phpsyntax>
+        <phpsyntax function="iis_getserverbycomment"></phpsyntax>
+        <phpsyntax function="iis_getserverbypath"></phpsyntax>
+        <phpsyntax function="iis_getserverright"></phpsyntax>
+        <phpsyntax function="iis_getservicestate"></phpsyntax>
+        <phpsyntax function="iis_removeserver"></phpsyntax>
+        <phpsyntax function="iis_setappsettings"></phpsyntax>
+        <phpsyntax function="iis_setdirsecurity"></phpsyntax>
+        <phpsyntax function="iis_setscriptmap"></phpsyntax>
+        <phpsyntax function="iis_setserverright"></phpsyntax>
+        <phpsyntax function="iis_startserver"></phpsyntax>
+        <phpsyntax function="iis_startservice"></phpsyntax>
+        <phpsyntax function="iis_stopserver"></phpsyntax>
+        <phpsyntax function="iis_stopservice"></phpsyntax>
+        <phpsyntax function="image2wbmp"></phpsyntax>
+        <phpsyntax function="imagealphablending"></phpsyntax>
+        <phpsyntax function="imagearc"></phpsyntax>
+        <phpsyntax function="imagechar"></phpsyntax>
+        <phpsyntax function="imagecharup"></phpsyntax>
+        <phpsyntax function="imagecolorallocate"></phpsyntax>
+        <phpsyntax function="imagecolorat"></phpsyntax>
+        <phpsyntax function="imagecolorclosest"></phpsyntax>
+        <phpsyntax function="imagecolorclosestalpha"></phpsyntax>
+        <phpsyntax function="imagecolorclosesthwb"></phpsyntax>
+        <phpsyntax function="imagecolordeallocate"></phpsyntax>
+        <phpsyntax function="imagecolorexact"></phpsyntax>
+        <phpsyntax function="imagecolorexactalpha"></phpsyntax>
+        <phpsyntax function="imagecolorresolve"></phpsyntax>
+        <phpsyntax function="imagecolorresolvealpha"></phpsyntax>
+        <phpsyntax function="imagecolorset"></phpsyntax>
+        <phpsyntax function="imagecolorsforindex"></phpsyntax>
+        <phpsyntax function="imagecolorstotal"></phpsyntax>
+        <phpsyntax function="imagecolortransparent"></phpsyntax>
+        <phpsyntax function="imagecopy"></phpsyntax>
+        <phpsyntax function="imagecopymerge"></phpsyntax>
+        <phpsyntax function="imagecopymergegray"></phpsyntax>
+        <phpsyntax function="imagecopyresampled"></phpsyntax>
+        <phpsyntax function="imagecopyresized"></phpsyntax>
+        <phpsyntax function="imagecreate"></phpsyntax>
+        <phpsyntax function="imagecreatefromgif"></phpsyntax>
+        <phpsyntax function="imagecreatefromjpeg"></phpsyntax>
+        <phpsyntax function="imagecreatefrompng"></phpsyntax>
+        <phpsyntax function="imagecreatefromstring"></phpsyntax>
+        <phpsyntax function="imagecreatefromwbmp"></phpsyntax>
+        <phpsyntax function="imagecreatefromxbm"></phpsyntax>
+        <phpsyntax function="imagecreatefromxpm"></phpsyntax>
+        <phpsyntax function="imagecreatetruecolor"></phpsyntax>
+        <phpsyntax function="imagedashedline"></phpsyntax>
+        <phpsyntax function="imagedestroy"></phpsyntax>
+        <phpsyntax function="imageellipse"></phpsyntax>
+        <phpsyntax function="imagefill"></phpsyntax>
+        <phpsyntax function="imagefilledarc"></phpsyntax>
+        <phpsyntax function="imagefilledellipse"></phpsyntax>
+        <phpsyntax function="imagefilledpolygon"></phpsyntax>
+        <phpsyntax function="imagefilledrectangle"></phpsyntax>
+        <phpsyntax function="imagefilltoborder"></phpsyntax>
+        <phpsyntax function="imagefontheight"></phpsyntax>
+        <phpsyntax function="imagefontwidth"></phpsyntax>
+        <phpsyntax function="imagegammacorrect"></phpsyntax>
+        <phpsyntax function="imagegif"></phpsyntax>
+        <phpsyntax function="imageinterlace"></phpsyntax>
+        <phpsyntax function="imagejpeg"></phpsyntax>
+        <phpsyntax function="imageline"></phpsyntax>
+        <phpsyntax function="imageloadfont"></phpsyntax>
+        <phpsyntax function="imagepalettecopy"></phpsyntax>
+        <phpsyntax function="imagepng"></phpsyntax>
+        <phpsyntax function="imagepolygon"></phpsyntax>
+        <phpsyntax function="imagepsbbox"></phpsyntax>
+        <phpsyntax function="imagepscopyfont"></phpsyntax>
+        <phpsyntax function="imagepsencodefont"></phpsyntax>
+        <phpsyntax function="imagepsextendfont"></phpsyntax>
+        <phpsyntax function="imagepsfreefont"></phpsyntax>
+        <phpsyntax function="imagepsloadfont"></phpsyntax>
+        <phpsyntax function="imagepsslantfont"></phpsyntax>
+        <phpsyntax function="imagepstext"></phpsyntax>
+        <phpsyntax function="imagerectangle"></phpsyntax>
+        <phpsyntax function="imagesetbrush"></phpsyntax>
+        <phpsyntax function="imagesetpixel"></phpsyntax>
+        <phpsyntax function="imagesetstyle"></phpsyntax>
+        <phpsyntax function="imagesetthickness"></phpsyntax>
+        <phpsyntax function="imagesettile"></phpsyntax>
+        <phpsyntax function="imagestring"></phpsyntax>
+        <phpsyntax function="imagestringup"></phpsyntax>
+        <phpsyntax function="imagesx"></phpsyntax>
+        <phpsyntax function="imagesy"></phpsyntax>
+        <phpsyntax function="imagetruecolortopalette"></phpsyntax>
+        <phpsyntax function="imagettfbbox"></phpsyntax>
+        <phpsyntax function="imagettftext"></phpsyntax>
+        <phpsyntax function="imagetypes"></phpsyntax>
+        <phpsyntax function="imagewbmp"></phpsyntax>
+        <phpsyntax function="imap_8bit"></phpsyntax>
+        <phpsyntax function="imap_alerts"></phpsyntax>
+        <phpsyntax function="imap_append"></phpsyntax>
+        <phpsyntax function="imap_base64"></phpsyntax>
+        <phpsyntax function="imap_binary"></phpsyntax>
+        <phpsyntax function="imap_body"></phpsyntax>
+        <phpsyntax function="imap_bodystruct"></phpsyntax>
+        <phpsyntax function="imap_check"></phpsyntax>
+        <phpsyntax function="imap_clearflag_full"></phpsyntax>
+        <phpsyntax function="imap_close"></phpsyntax>
+        <phpsyntax function="imap_create"></phpsyntax>
+        <phpsyntax function="imap_createmailbox"></phpsyntax>
+        <phpsyntax function="imap_delete"></phpsyntax>
+        <phpsyntax function="imap_deletemailbox"></phpsyntax>
+        <phpsyntax function="imap_errors"></phpsyntax>
+        <phpsyntax function="imap_expunge"></phpsyntax>
+        <phpsyntax function="imap_fetch_overview"></phpsyntax>
+        <phpsyntax function="imap_fetchbody"></phpsyntax>
+        <phpsyntax function="imap_fetchheader"></phpsyntax>
+        <phpsyntax function="imap_fetchstructure"></phpsyntax>
+        <phpsyntax function="imap_fetchtext"></phpsyntax>
+        <phpsyntax function="imap_get_quota"></phpsyntax>
+        <phpsyntax function="imap_getmailboxes"></phpsyntax>
+        <phpsyntax function="imap_getsubscribed"></phpsyntax>
+        <phpsyntax function="imap_header"></phpsyntax>
+        <phpsyntax function="imap_headerinfo"></phpsyntax>
+        <phpsyntax function="imap_headers"></phpsyntax>
+        <phpsyntax function="imap_last_error"></phpsyntax>
+        <phpsyntax function="imap_list"></phpsyntax>
+        <phpsyntax function="imap_listmailbox"></phpsyntax>
+        <phpsyntax function="imap_listsubscribed"></phpsyntax>
+        <phpsyntax function="imap_lsub"></phpsyntax>
+        <phpsyntax function="imap_mail"></phpsyntax>
+        <phpsyntax function="imap_mail"></phpsyntax>
+        <phpsyntax function="imap_mail_compose"></phpsyntax>
+        <phpsyntax function="imap_mail_copy"></phpsyntax>
+        <phpsyntax function="imap_mail_move"></phpsyntax>
+        <phpsyntax function="imap_mailboxmsginfo"></phpsyntax>
+        <phpsyntax function="imap_mime_header_decode"></phpsyntax>
+        <phpsyntax function="imap_msgno"></phpsyntax>
+        <phpsyntax function="imap_num_msg"></phpsyntax>
+        <phpsyntax function="imap_num_recent"></phpsyntax>
+        <phpsyntax function="imap_open"></phpsyntax>
+        <phpsyntax function="imap_ping"></phpsyntax>
+        <phpsyntax function="imap_popen"></phpsyntax>
+        <phpsyntax function="imap_qprint"></phpsyntax>
+        <phpsyntax function="imap_rename"></phpsyntax>
+        <phpsyntax function="imap_renamemailbox"></phpsyntax>
+        <phpsyntax function="imap_reopen"></phpsyntax>
+        <phpsyntax function="imap_rfc822_parse_adrlist"></phpsyntax>
+        <phpsyntax function="imap_rfc822_parse_headers"></phpsyntax>
+        <phpsyntax function="imap_rfc822_write_address"></phpsyntax>
+        <phpsyntax function="imap_scan"></phpsyntax>
+        <phpsyntax function="imap_scanmailbox"></phpsyntax>
+        <phpsyntax function="imap_search"></phpsyntax>
+        <phpsyntax function="imap_set_quota"></phpsyntax>
+        <phpsyntax function="imap_setflag_full"></phpsyntax>
+        <phpsyntax function="imap_sort"></phpsyntax>
+        <phpsyntax function="imap_status"></phpsyntax>
+        <phpsyntax function="imap_subscribe"></phpsyntax>
+        <phpsyntax function="imap_uid"></phpsyntax>
+        <phpsyntax function="imap_undelete"></phpsyntax>
+        <phpsyntax function="imap_unsubscribe"></phpsyntax>
+        <phpsyntax function="imap_utf7_decode"></phpsyntax>
+        <phpsyntax function="imap_utf7_encode"></phpsyntax>
+        <phpsyntax function="imap_utf8"></phpsyntax>
+        <phpsyntax function="implode" usage="string implode ( string glue, array pieces)">Join array elements with a string</phpsyntax>
+        <phpsyntax function="in_array" usage="bool in_array ( mixed needle, array haystack [, bool strict])">Return TRUE if a value exists in an array</phpsyntax>
+        <phpsyntax function="ingres_autocommit"></phpsyntax>
+        <phpsyntax function="ingres_close"></phpsyntax>
+        <phpsyntax function="ingres_commit"></phpsyntax>
+        <phpsyntax function="ingres_connect"></phpsyntax>
+        <phpsyntax function="ingres_fetch_array"></phpsyntax>
+        <phpsyntax function="ingres_fetch_object"></phpsyntax>
+        <phpsyntax function="ingres_fetch_row"></phpsyntax>
+        <phpsyntax function="ingres_field_length"></phpsyntax>
+        <phpsyntax function="ingres_field_name"></phpsyntax>
+        <phpsyntax function="ingres_field_nullable"></phpsyntax>
+        <phpsyntax function="ingres_field_precision"></phpsyntax>
+        <phpsyntax function="ingres_field_scale"></phpsyntax>
+        <phpsyntax function="ingres_field_type"></phpsyntax>
+        <phpsyntax function="ingres_num_fields"></phpsyntax>
+        <phpsyntax function="ingres_num_rows"></phpsyntax>
+        <phpsyntax function="ingres_pconnect"></phpsyntax>
+        <phpsyntax function="ingres_query"></phpsyntax>
+        <phpsyntax function="ingres_rollback"></phpsyntax>
+        <phpsyntax function="ini_alter"></phpsyntax>
+        <phpsyntax function="ini_get"></phpsyntax>
+        <phpsyntax function="ini_restore"></phpsyntax>
+        <phpsyntax function="ini_set"></phpsyntax>
+        <phpsyntax function="intval"></phpsyntax>
+        <phpsyntax function="ip2long"></phpsyntax>
+        <phpsyntax function="iptcembed"></phpsyntax>
+        <phpsyntax function="iptcparse"></phpsyntax>
+        <phpsyntax function="ircg_channel_mode"></phpsyntax>
+        <phpsyntax function="ircg_disconnect"></phpsyntax>
+        <phpsyntax function="ircg_html_encode"></phpsyntax>
+        <phpsyntax function="ircg_ignore_add"></phpsyntax>
+        <phpsyntax function="ircg_ignore_del"></phpsyntax>
+        <phpsyntax function="ircg_is_conn_alive"></phpsyntax>
+        <phpsyntax function="ircg_join"></phpsyntax>
+        <phpsyntax function="ircg_kick"></phpsyntax>
+        <phpsyntax function="ircg_lookup_format_messages"></phpsyntax>
+        <phpsyntax function="ircg_msg"></phpsyntax>
+        <phpsyntax function="ircg_nick"></phpsyntax>
+        <phpsyntax function="ircg_nickname_escape"></phpsyntax>
+        <phpsyntax function="ircg_nickname_unescape"></phpsyntax>
+        <phpsyntax function="ircg_notice"></phpsyntax>
+        <phpsyntax function="ircg_part"></phpsyntax>
+        <phpsyntax function="ircg_pconnect"></phpsyntax>
+        <phpsyntax function="ircg_register_format_messages"></phpsyntax>
+        <phpsyntax function="ircg_set_current"></phpsyntax>
+        <phpsyntax function="ircg_topic"></phpsyntax>
+        <phpsyntax function="ircg_whois"></phpsyntax>
+        <phpsyntax function="is_array"></phpsyntax>
+        <phpsyntax function="is_bool"></phpsyntax>
+        <phpsyntax function="is_dir"></phpsyntax>
+        <phpsyntax function="is_double"></phpsyntax>
+        <phpsyntax function="is_executable"></phpsyntax>
+        <phpsyntax function="is_file"></phpsyntax>
+        <phpsyntax function="is_float"></phpsyntax>
+        <phpsyntax function="is_int"></phpsyntax>
+        <phpsyntax function="is_integer"></phpsyntax>
+        <phpsyntax function="is_link"></phpsyntax>
+        <phpsyntax function="is_long"></phpsyntax>
+        <phpsyntax function="is_null"></phpsyntax>
+        <phpsyntax function="is_numeric"></phpsyntax>
+        <phpsyntax function="is_object"></phpsyntax>
+        <phpsyntax function="is_readable"></phpsyntax>
+        <phpsyntax function="is_real"></phpsyntax>
+        <phpsyntax function="is_resource"></phpsyntax>
+        <phpsyntax function="is_scalar"></phpsyntax>
+        <phpsyntax function="is_string"></phpsyntax>
+        <phpsyntax function="is_subclass_of"></phpsyntax>
+        <phpsyntax function="is_uploaded_file"></phpsyntax>
+        <phpsyntax function="is_writable"></phpsyntax>
+        <phpsyntax function="is_writeable"></phpsyntax>
+        <phpsyntax function="java_last_exception_clear"></phpsyntax>
+        <phpsyntax function="java_last_exception_get"></phpsyntax>
+        <phpsyntax function="jddayofweek"></phpsyntax>
+        <phpsyntax function="jdmonthname"></phpsyntax>
+        <phpsyntax function="jdtofrench"></phpsyntax>
+        <phpsyntax function="jdtogregorian"></phpsyntax>
+        <phpsyntax function="jdtojewish"></phpsyntax>
+        <phpsyntax function="jdtojulian"></phpsyntax>
+        <phpsyntax function="jdtounix"></phpsyntax>
+        <phpsyntax function="jewishtojd"></phpsyntax>
+        <phpsyntax function="join" usage="string join ( string glue, array pieces)">Join array elements with a string</phpsyntax>
+        <phpsyntax function="jpeg2wbmp"></phpsyntax>
+        <phpsyntax function="juliantojd"></phpsyntax>
+        <phpsyntax function="key" usage="mixed key ( array array)">Fetch a key from an associative array</phpsyntax>
+        <phpsyntax function="krsort" usage="int krsort ( array array [, int sort_flags])">Sort an array by key in reverse order</phpsyntax>
+        <phpsyntax function="ksort" usage="int ksort ( array array [, int sort_flags])">Sort an array by key</phpsyntax>
+        <phpsyntax function="labelframe"></phpsyntax>
+        <phpsyntax function="labelframe"></phpsyntax>
+        <phpsyntax function="lcg_value"></phpsyntax>
+        <phpsyntax function="ldap_8859_to_t61"></phpsyntax>
+        <phpsyntax function="ldap_add"></phpsyntax>
+        <phpsyntax function="ldap_bind"></phpsyntax>
+        <phpsyntax function="ldap_close"></phpsyntax>
+        <phpsyntax function="ldap_compare"></phpsyntax>
+        <phpsyntax function="ldap_connect"></phpsyntax>
+        <phpsyntax function="ldap_count_entries"></phpsyntax>
+        <phpsyntax function="ldap_delete"></phpsyntax>
+        <phpsyntax function="ldap_dn2ufn"></phpsyntax>
+        <phpsyntax function="ldap_err2str"></phpsyntax>
+        <phpsyntax function="ldap_errno"></phpsyntax>
+        <phpsyntax function="ldap_error"></phpsyntax>
+        <phpsyntax function="ldap_explode_dn"></phpsyntax>
+        <phpsyntax function="ldap_first_attribute"></phpsyntax>
+        <phpsyntax function="ldap_first_entry"></phpsyntax>
+        <phpsyntax function="ldap_first_reference"></phpsyntax>
+        <phpsyntax function="ldap_free_result"></phpsyntax>
+        <phpsyntax function="ldap_get_attributes"></phpsyntax>
+        <phpsyntax function="ldap_get_dn"></phpsyntax>
+        <phpsyntax function="ldap_get_entries"></phpsyntax>
+        <phpsyntax function="ldap_get_option"></phpsyntax>
+        <phpsyntax function="ldap_get_values"></phpsyntax>
+        <phpsyntax function="ldap_get_values_len"></phpsyntax>
+        <phpsyntax function="ldap_list"></phpsyntax>
+        <phpsyntax function="ldap_mod_add"></phpsyntax>
+        <phpsyntax function="ldap_mod_del"></phpsyntax>
+        <phpsyntax function="ldap_mod_replace"></phpsyntax>
+        <phpsyntax function="ldap_modify"></phpsyntax>
+        <phpsyntax function="ldap_next_attribute"></phpsyntax>
+        <phpsyntax function="ldap_next_entry"></phpsyntax>
+        <phpsyntax function="ldap_next_reference"></phpsyntax>
+        <phpsyntax function="ldap_parse_reference"></phpsyntax>
+        <phpsyntax function="ldap_parse_result"></phpsyntax>
+        <phpsyntax function="ldap_read"></phpsyntax>
+        <phpsyntax function="ldap_rename"></phpsyntax>
+        <phpsyntax function="ldap_search"></phpsyntax>
+        <phpsyntax function="ldap_set_option"></phpsyntax>
+        <phpsyntax function="ldap_t61_to_8859"></phpsyntax>
+        <phpsyntax function="ldap_unbind"></phpsyntax>
+        <phpsyntax function="leak"></phpsyntax>
+        <phpsyntax function="levenshtein" usage="int levenshtein ( string str1, string str2) - int levenshtein ( string str1, string str2, int cost_ins, int cost_rep, int cost_del) - int levenshtein ( string str1, string str2, function cost)">Calculate Levenshtein distance between two strings </phpsyntax>
+        <phpsyntax function="link"></phpsyntax>
+        <phpsyntax function="link"></phpsyntax>
+        <phpsyntax function="linkinfo"></phpsyntax>
+        <phpsyntax function="linkinfo"></phpsyntax>
+        <phpsyntax function="list" usage="void list ( mixed ...)">
+Assign variables as if they were an array.
+Like array(), this is not really a function, but a language construct. 
+list() is used to assign a list of variables in one operation. 
+Note: list() only works on numerical arrays and assumes the numerical indices start at 0. 
+</phpsyntax>
+        <phpsyntax function="listen"></phpsyntax>
+        <phpsyntax function="localeconv" usage="array localeconv ( void)">Get numeric formatting information</phpsyntax>
+        <phpsyntax function="localtime"></phpsyntax>
+        <phpsyntax function="log"></phpsyntax>
+        <phpsyntax function="log10"></phpsyntax>
+        <phpsyntax function="long2ip"></phpsyntax>
+        <phpsyntax function="lstat"></phpsyntax>
+        <phpsyntax function="ltrim" usage="string ltrim ( string str [, string charlist])">Strip whitespace from the beginning of a string </phpsyntax>
+        <phpsyntax function="magic_quotes_runtime"></phpsyntax>
+        <phpsyntax function="mail"></phpsyntax>
+        <phpsyntax function="mail"></phpsyntax>
+        <phpsyntax function="max"></phpsyntax>
+        <phpsyntax function="mcal_append_event"></phpsyntax>
+        <phpsyntax function="mcal_close"></phpsyntax>
+        <phpsyntax function="mcal_create_calendar"></phpsyntax>
+        <phpsyntax function="mcal_date_compare"></phpsyntax>
+        <phpsyntax function="mcal_date_valid"></phpsyntax>
+        <phpsyntax function="mcal_day_of_week"></phpsyntax>
+        <phpsyntax function="mcal_day_of_year"></phpsyntax>
+        <phpsyntax function="mcal_days_in_month"></phpsyntax>
+        <phpsyntax function="mcal_delete_calendar"></phpsyntax>
+        <phpsyntax function="mcal_delete_event"></phpsyntax>
+        <phpsyntax function="mcal_event_add_attribute"></phpsyntax>
+        <phpsyntax function="mcal_event_init"></phpsyntax>
+        <phpsyntax function="mcal_event_set_alarm"></phpsyntax>
+        <phpsyntax function="mcal_event_set_category"></phpsyntax>
+        <phpsyntax function="mcal_event_set_class"></phpsyntax>
+        <phpsyntax function="mcal_event_set_usage"></phpsyntax>
+        <phpsyntax function="mcal_event_set_end"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_daily"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_monthly_mday"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_monthly_wday"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_none"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_weekly"></phpsyntax>
+        <phpsyntax function="mcal_event_set_recur_yearly"></phpsyntax>
+        <phpsyntax function="mcal_event_set_start"></phpsyntax>
+        <phpsyntax function="mcal_event_set_title"></phpsyntax>
+        <phpsyntax function="mcal_fetch_current_stream_event"></phpsyntax>
+        <phpsyntax function="mcal_fetch_event"></phpsyntax>
+        <phpsyntax function="mcal_is_leap_year"></phpsyntax>
+        <phpsyntax function="mcal_list_alarms"></phpsyntax>
+        <phpsyntax function="mcal_list_events"></phpsyntax>
+        <phpsyntax function="mcal_next_recurrence"></phpsyntax>
+        <phpsyntax function="mcal_open"></phpsyntax>
+        <phpsyntax function="mcal_popen"></phpsyntax>
+        <phpsyntax function="mcal_rename_calendar"></phpsyntax>
+        <phpsyntax function="mcal_reopen"></phpsyntax>
+        <phpsyntax function="mcal_snooze"></phpsyntax>
+        <phpsyntax function="mcal_store_event"></phpsyntax>
+        <phpsyntax function="mcal_time_valid"></phpsyntax>
+        <phpsyntax function="mcal_week_of_year"></phpsyntax>
+        <phpsyntax function="mcrypt_cbc"></phpsyntax>
+        <phpsyntax function="mcrypt_cfb"></phpsyntax>
+        <phpsyntax function="mcrypt_create_iv"></phpsyntax>
+        <phpsyntax function="mcrypt_decrypt"></phpsyntax>
+        <phpsyntax function="mcrypt_ecb"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_algorithms_name"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_block_size"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_iv_size"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_key_size"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_modes_name"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_get_supported_key_sizes"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_is_block_algorithm"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_is_block_algorithm_mode"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_is_block_mode"></phpsyntax>
+        <phpsyntax function="mcrypt_enc_self_test"></phpsyntax>
+        <phpsyntax function="mcrypt_encrypt"></phpsyntax>
+        <phpsyntax function="mcrypt_generic"></phpsyntax>
+        <phpsyntax function="mcrypt_generic_end"></phpsyntax>
+        <phpsyntax function="mcrypt_generic_init"></phpsyntax>
+        <phpsyntax function="mcrypt_get_block_size"></phpsyntax>
+        <phpsyntax function="mcrypt_get_cipher_name"></phpsyntax>
+        <phpsyntax function="mcrypt_get_iv_size"></phpsyntax>
+        <phpsyntax function="mcrypt_get_key_size"></phpsyntax>
+        <phpsyntax function="mcrypt_list_algorithms"></phpsyntax>
+        <phpsyntax function="mcrypt_list_modes"></phpsyntax>
+        <phpsyntax function="mcrypt_module_close"></phpsyntax>
+        <phpsyntax function="mcrypt_module_get_algo_block_size"></phpsyntax>
+        <phpsyntax function="mcrypt_module_get_algo_key_size"></phpsyntax>
+        <phpsyntax function="mcrypt_module_get_supported_key_sizes"></phpsyntax>
+        <phpsyntax function="mcrypt_module_is_block_algorithm"></phpsyntax>
+        <phpsyntax function="mcrypt_module_is_block_algorithm_mode"></phpsyntax>
+        <phpsyntax function="mcrypt_module_is_block_mode"></phpsyntax>
+        <phpsyntax function="mcrypt_module_open"></phpsyntax>
+        <phpsyntax function="mcrypt_module_self_test"></phpsyntax>
+        <phpsyntax function="mcrypt_ofb"></phpsyntax>
+        <phpsyntax function="md5" usage="string md5 ( string str)">Calculate the md5 hash of a string</phpsyntax>
+        <phpsyntax function="md5_file" usage="string md5_file ( string filename)">Calculates the md5 hash of a given filename</phpsyntax>
+        <phpsyntax function="mdecrypt_generic"></phpsyntax>
+        <phpsyntax function="metaphone" usage="string metaphone ( string str)">Calculate the metaphone key of a string</phpsyntax>
+        <phpsyntax function="method_exists"></phpsyntax>
+        <phpsyntax function="mhash"></phpsyntax>
+        <phpsyntax function="mhash_count"></phpsyntax>
+        <phpsyntax function="mhash_get_block_size"></phpsyntax>
+        <phpsyntax function="mhash_get_hash_name"></phpsyntax>
+        <phpsyntax function="mhash_keygen_s2k"></phpsyntax>
+        <phpsyntax function="microtime" usage="string microtime (void)">Return current UNIX timestamp with microseconds
+Returns the string &quot;msec sec&quot; where sec is the current time measured in the number of seconds
+since the Unix Epoch (0:00:00 January 1, 1970 GMT), and msec is the microseconds part. 
+This function is only available on operating systems that support the gettimeofday() system call. 
+Both portions of the string are returned in units of seconds. 
+        </phpsyntax>
+        <phpsyntax function="min"></phpsyntax>
+        <phpsyntax function="ming_setcubicthreshold"></phpsyntax>
+        <phpsyntax function="ming_setscale"></phpsyntax>
+        <phpsyntax function="mkdir"></phpsyntax>
+        <phpsyntax function="mktime"></phpsyntax>
+        <phpsyntax function="money_format" usage="string money_format ( string format, float number)">Formats a number as a currency string</phpsyntax>
+        <phpsyntax function="move"></phpsyntax>
+        <phpsyntax function="move_uploaded_file"></phpsyntax>
+        <phpsyntax function="movepen"></phpsyntax>
+        <phpsyntax function="movepento"></phpsyntax>
+        <phpsyntax function="moveto"></phpsyntax>
+        <phpsyntax function="moveto"></phpsyntax>
+        <phpsyntax function="moveto"></phpsyntax>
+        <phpsyntax function="msql"></phpsyntax>
+        <phpsyntax function="msql_affected_rows"></phpsyntax>
+        <phpsyntax function="msql_close"></phpsyntax>
+        <phpsyntax function="msql_connect"></phpsyntax>
+        <phpsyntax function="msql_create_db"></phpsyntax>
+        <phpsyntax function="msql_createdb"></phpsyntax>
+        <phpsyntax function="msql_data_seek"></phpsyntax>
+        <phpsyntax function="msql_db_query"></phpsyntax>
+        <phpsyntax function="msql_dbname"></phpsyntax>
+        <phpsyntax function="msql_drop_db"></phpsyntax>
+        <phpsyntax function="msql_dropdb"></phpsyntax>
+        <phpsyntax function="msql_error"></phpsyntax>
+        <phpsyntax function="msql_fetch_array"></phpsyntax>
+        <phpsyntax function="msql_fetch_field"></phpsyntax>
+        <phpsyntax function="msql_fetch_object"></phpsyntax>
+        <phpsyntax function="msql_fetch_row"></phpsyntax>
+        <phpsyntax function="msql_field_flags"></phpsyntax>
+        <phpsyntax function="msql_field_len"></phpsyntax>
+        <phpsyntax function="msql_field_name"></phpsyntax>
+        <phpsyntax function="msql_field_seek"></phpsyntax>
+        <phpsyntax function="msql_field_table"></phpsyntax>
+        <phpsyntax function="msql_field_type"></phpsyntax>
+        <phpsyntax function="msql_fieldflags"></phpsyntax>
+        <phpsyntax function="msql_fieldlen"></phpsyntax>
+        <phpsyntax function="msql_fieldname"></phpsyntax>
+        <phpsyntax function="msql_fieldtable"></phpsyntax>
+        <phpsyntax function="msql_fieldtype"></phpsyntax>
+        <phpsyntax function="msql_free_result"></phpsyntax>
+        <phpsyntax function="msql_freeresult"></phpsyntax>
+        <phpsyntax function="msql_list_dbs"></phpsyntax>
+        <phpsyntax function="msql_list_fields"></phpsyntax>
+        <phpsyntax function="msql_list_tables"></phpsyntax>
+        <phpsyntax function="msql_listdbs"></phpsyntax>
+        <phpsyntax function="msql_listfields"></phpsyntax>
+        <phpsyntax function="msql_listtables"></phpsyntax>
+        <phpsyntax function="msql_num_fields"></phpsyntax>
+        <phpsyntax function="msql_num_rows"></phpsyntax>
+        <phpsyntax function="msql_numfields"></phpsyntax>
+        <phpsyntax function="msql_numrows"></phpsyntax>
+        <phpsyntax function="msql_pconnect"></phpsyntax>
+        <phpsyntax function="msql_query"></phpsyntax>
+        <phpsyntax function="msql_regcase"></phpsyntax>
+        <phpsyntax function="msql_result"></phpsyntax>
+        <phpsyntax function="msql_select_db"></phpsyntax>
+        <phpsyntax function="msql_selectdb"></phpsyntax>
+        <phpsyntax function="msql_tablename"></phpsyntax>
+        <phpsyntax function="mssql_affected_rows"></phpsyntax>
+        <phpsyntax function="mssql_affected_rows"></phpsyntax>
+        <phpsyntax function="mssql_close"></phpsyntax>
+        <phpsyntax function="mssql_close"></phpsyntax>
+        <phpsyntax function="mssql_close"></phpsyntax>
+        <phpsyntax function="mssql_connect"></phpsyntax>
+        <phpsyntax function="mssql_connect"></phpsyntax>
+        <phpsyntax function="mssql_connect"></phpsyntax>
+        <phpsyntax function="mssql_data_seek"></phpsyntax>
+        <phpsyntax function="mssql_data_seek"></phpsyntax>
+        <phpsyntax function="mssql_data_seek"></phpsyntax>
+        <phpsyntax function="mssql_fetch_array"></phpsyntax>
+        <phpsyntax function="mssql_fetch_array"></phpsyntax>
+        <phpsyntax function="mssql_fetch_array"></phpsyntax>
+        <phpsyntax function="mssql_fetch_batch"></phpsyntax>
+        <phpsyntax function="mssql_fetch_field"></phpsyntax>
+        <phpsyntax function="mssql_fetch_field"></phpsyntax>
+        <phpsyntax function="mssql_fetch_field"></phpsyntax>
+        <phpsyntax function="mssql_fetch_object"></phpsyntax>
+        <phpsyntax function="mssql_fetch_object"></phpsyntax>
+        <phpsyntax function="mssql_fetch_object"></phpsyntax>
+        <phpsyntax function="mssql_fetch_row"></phpsyntax>
+        <phpsyntax function="mssql_fetch_row"></phpsyntax>
+        <phpsyntax function="mssql_fetch_row"></phpsyntax>
+        <phpsyntax function="mssql_field_length"></phpsyntax>
+        <phpsyntax function="mssql_field_name"></phpsyntax>
+        <phpsyntax function="mssql_field_seek"></phpsyntax>
+        <phpsyntax function="mssql_field_seek"></phpsyntax>
+        <phpsyntax function="mssql_field_seek"></phpsyntax>
+        <phpsyntax function="mssql_field_type"></phpsyntax>
+        <phpsyntax function="mssql_free_result"></phpsyntax>
+        <phpsyntax function="mssql_free_result"></phpsyntax>
+        <phpsyntax function="mssql_free_result"></phpsyntax>
+        <phpsyntax function="mssql_get_last_message"></phpsyntax>
+        <phpsyntax function="mssql_get_last_message"></phpsyntax>
+        <phpsyntax function="mssql_get_last_message"></phpsyntax>
+        <phpsyntax function="mssql_min_client_severity"></phpsyntax>
+        <phpsyntax function="mssql_min_error_severity"></phpsyntax>
+        <phpsyntax function="mssql_min_error_severity"></phpsyntax>
+        <phpsyntax function="mssql_min_message_severity"></phpsyntax>
+        <phpsyntax function="mssql_min_message_severity"></phpsyntax>
+        <phpsyntax function="mssql_min_server_severity"></phpsyntax>
+        <phpsyntax function="mssql_next_result"></phpsyntax>
+        <phpsyntax function="mssql_num_fields"></phpsyntax>
+        <phpsyntax function="mssql_num_fields"></phpsyntax>
+        <phpsyntax function="mssql_num_fields"></phpsyntax>
+        <phpsyntax function="mssql_num_rows"></phpsyntax>
+        <phpsyntax function="mssql_num_rows"></phpsyntax>
+        <phpsyntax function="mssql_num_rows"></phpsyntax>
+        <phpsyntax function="mssql_pconnect"></phpsyntax>
+        <phpsyntax function="mssql_pconnect"></phpsyntax>
+        <phpsyntax function="mssql_pconnect"></phpsyntax>
+        <phpsyntax function="mssql_query"></phpsyntax>
+        <phpsyntax function="mssql_query"></phpsyntax>
+        <phpsyntax function="mssql_query"></phpsyntax>
+        <phpsyntax function="mssql_result"></phpsyntax>
+        <phpsyntax function="mssql_result"></phpsyntax>
+        <phpsyntax function="mssql_result"></phpsyntax>
+        <phpsyntax function="mssql_rows_affected"></phpsyntax>
+        <phpsyntax function="mssql_select_db"></phpsyntax>
+        <phpsyntax function="mssql_select_db"></phpsyntax>
+        <phpsyntax function="mssql_select_db"></phpsyntax>
+        <phpsyntax function="mt_getrandmax"></phpsyntax>
+        <phpsyntax function="mt_rand"></phpsyntax>
+        <phpsyntax function="mt_srand"></phpsyntax>
+        <phpsyntax function="multcolor"></phpsyntax>
+        <phpsyntax function="muscat_close"></phpsyntax>
+        <phpsyntax function="muscat_get"></phpsyntax>
+        <phpsyntax function="muscat_give"></phpsyntax>
+        <phpsyntax function="muscat_setup"></phpsyntax>
+        <phpsyntax function="muscat_setup_net"></phpsyntax>
+        <phpsyntax function="mysql_affected_rows" usage="int mysql_affected_rows ( [resource link_identifier])">
+mysql_affected_rows() returns the number of rows affected by the last INSERT, 
+UPDATE or DELETE query associated with link_identifier. 
+If the link identifier isn't specified, the last link opened by mysql_connect() is assumed. 
+
+Note: If you are using transactions, you need to call mysql_affected_rows() 
+after your INSERT, UPDATE, or DELETE query, not after the commit. 
+
+If the last query was a DELETE query with no WHERE clause, 
+all of the records will have been deleted from the table but this function will return zero. 
+
+Note: When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
+This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
+only the number of rows that were literally affected by the query. 
+
+mysql_affected_rows() does not work with SELECT statements; only on statements which modify records. 
+To retrieve the number of rows returned by a SELECT, use mysql_num_rows(). 
+
+If the last query failed, this function will return -1. 
+        </phpsyntax>
+        <phpsyntax function="mysql_close" usage="bool mysql_close ( [resource link_identifier])">Close MySQL connection</phpsyntax>
+        <phpsyntax function="mysql_connect" usage="resource mysql_connect ( [string server [, string username [, string password [, bool new_link [, int client_flags]]]]])">Open a connection to a MySQL Server</phpsyntax>
+        <phpsyntax function="mysql_create_db" usage="bool mysql_create_db ( string database name [, resource link_identifier])">Create a MySQL database</phpsyntax>
+        <phpsyntax function="mysql_data_seek" usage="bool mysql_data_seek ( resource result_identifier, int row_number)">Move internal result pointer</phpsyntax>
+        <phpsyntax function="mysql_db_name" usage="string mysql_db_name ( resource result, int row [, mixed field])">Get result data</phpsyntax>
+        <phpsyntax function="mysql_db_query" usage="resource mysql_db_query ( string database, string query [, resource link_identifier])">Send a MySQL query</phpsyntax>
+        <phpsyntax function="mysql_drop_db" usage="bool mysql_drop_db ( string database_name [, resource link_identifier])">
+Returns TRUE on success or FALSE on failure. 
+
+mysql_drop_db() attempts to drop (remove) an entire database from the server 
+associated with the specified link identifier. 
+
+For downward compatibility mysql_dropdb() can also be used. This is deprecated, however. 
+
+Note: The function mysql_drop_db() is deprecated. 
+It is preferable to use mysql_query() to issue a SQL DROP DATABASE statement instead. 
+        </phpsyntax>
+        <phpsyntax function="mysql_errno" usage="int mysql_errno ( [resource link_identifier])">
+Returns the error number from the last MySQL function, or 0 (zero) if no error occurred. 
+
+Errors coming back from the MySQL database backend no longer issue warnings. 
+Instead, use mysql_errno() to retrieve the error code. 
+Note that this function only returns the error code from the most recently executed 
+MySQL function (not including mysql_error() and mysql_errno()), so if you want to use it, 
+make sure you check the value before calling another MySQL function. 
+        </phpsyntax>
+        <phpsyntax function="mysql_error" usage="string mysql_error ( [resource link_identifier])">
+Returns the error text from the last MySQL function, or '' (the empty string) if no error occurred. 
+
+Errors coming back from the MySQL database backend no longer issue warnings. 
+Instead, use mysql_error() to retrieve the error text. 
+Note that this function only returns the error text from the most recently 
+executed MySQL function (not including mysql_error() and mysql_errno()), 
+so if you want to use it, make sure you check the value before calling another MySQL function.         
+        </phpsyntax>
+        <phpsyntax function="mysql_escape_string" usage="string mysql_escape_string ( string unescaped_string)"></phpsyntax>
+        <phpsyntax function="mysql_fetch_array" usage="array mysql_fetch_array ( resource result [, int result_type])">
+Returns an array that corresponds to the fetched row, or FALSE if there are no more rows.
+
+mysql_fetch_array() is an extended version of mysql_fetch_row(). 
+In addition to storing the data in the numeric indices of the result array, 
+it also stores the data in associative indices, using the field names as keys. 
+
+If two or more columns of the result have the same field names, 
+the last column will take precedence. To access the other column(s) of the same name, 
+you must use the numeric index of the column or make an alias for the column. 
+For aliased columns, you cannot access the contents with the original column name.         
+        </phpsyntax>
+        <phpsyntax function="mysql_fetch_assoc" usage="array mysql_fetch_assoc ( resource result)">
+Returns an associative array that corresponds to the fetched row, or FALSE if there are no more rows.
+
+mysql_fetch_assoc() is equivalent to calling mysql_fetch_array() with MYSQL_ASSOC 
+for the optional second parameter. It only returns an associative array. 
+This is the way mysql_fetch_array() originally worked. 
+If you need the numeric indices as well as the associative, use mysql_fetch_array(). 
+
+If two or more columns of the result have the same field names, the last column will take precedence. 
+To access the other column(s) of the same name, you either need to access the result 
+with numeric indices by using mysql_fetch_row() or add alias names. 
+
+An important thing to note is that using mysql_fetch_assoc() is not significantly slower 
+than using mysql_fetch_row(), while it provides a significant added value. 
+        </phpsyntax>
+        <phpsyntax function="mysql_fetch_field" usage="object mysql_fetch_field ( resource result [, int field_offset])">
+Returns an object containing field information. 
+
+mysql_fetch_field() can be used in order to obtain information about fields in a certain query result. 
+If the field offset isn't specified, the next field that wasn't yet retrieved by mysql_fetch_field() 
+is retrieved. 
+
+The properties of the object are: 
+name - column name 
+table - name of the table the column belongs to 
+max_length - maximum length of the column 
+not_null - 1 if the column cannot be NULL 
+primary_key - 1 if the column is a primary key 
+unique_key - 1 if the column is a unique key 
+multiple_key - 1 if the column is a non-unique key 
+numeric - 1 if the column is numeric 
+blob - 1 if the column is a BLOB 
+type - the type of the column 
+unsigned - 1 if the column is unsigned 
+zerofill - 1 if the column is zero-filled
+        </phpsyntax>
+        <phpsyntax function="mysql_fetch_lengths" usage="array mysql_fetch_lengths ( resource result)">Get the length of each output in a result </phpsyntax>
+        <phpsyntax function="mysql_fetch_object" usage="object mysql_fetch_object ( resource result)">Fetch a result row as an object</phpsyntax>
+        <phpsyntax function="mysql_fetch_row" usage="array mysql_fetch_row ( resource result)">Get a result row as an enumerated array</phpsyntax>
+        <phpsyntax function="mysql_field_flags" usage="string mysql_field_flags ( resource result, int field_offset)">Get the flags associated with the specified field in a result</phpsyntax>
+        <phpsyntax function="mysql_field_len" usage="int mysql_field_len ( resource result, int field_offset)">Returns the length of the specified field </phpsyntax>
+        <phpsyntax function="mysql_field_name" usage="string mysql_field_name ( resource result, int field_index)">Get the name of the specified field in a result </phpsyntax>
+        <phpsyntax function="mysql_field_seek" usage="int mysql_field_seek ( resource result, int field_offset)">Set result pointer to a specified field offset </phpsyntax>
+        <phpsyntax function="mysql_field_table" usage="string mysql_field_table ( resource result, int field_offset)">Get name of the table the specified field is in </phpsyntax>
+        <phpsyntax function="mysql_field_type" usage="string mysql_field_type ( resource result, int field_offset)">Get the type of the specified field in a result </phpsyntax>
+        <phpsyntax function="mysql_free_result" usage="bool mysql_free_result ( resource result)">Free result memory</phpsyntax>
+        <phpsyntax function="mysql_get_client_info" usage="string mysql_get_client_info ( void)">Get MySQL client info</phpsyntax>
+        <phpsyntax function="mysql_get_host_info" usage="string mysql_get_host_info ( [resource link_identifier])">Get MySQL host info</phpsyntax>
+        <phpsyntax function="mysql_get_proto_info" usage="int mysql_get_proto_info ( [resource link_identifier])">Get MySQL protocol info</phpsyntax>
+        <phpsyntax function="mysql_get_server_info" usage="string mysql_get_server_info ( [resource link_identifier])">Get MySQL server info</phpsyntax>
+        <phpsyntax function="mysql_info" usage="string mysql_info ( [resource link_identifier])">Get information about the most recent query</phpsyntax>
+        <phpsyntax function="mysql_insert_id" usage="int mysql_insert_id ( [resource link_identifier])">Get the ID generated from the previous INSERT operation </phpsyntax>
+        <phpsyntax function="mysql_list_dbs" usage="resource mysql_list_dbs ( [resource link_identifier])">List databases available on a MySQL server</phpsyntax>
+        <phpsyntax function="mysql_list_fields" usage="resource mysql_list_fields ( string database_name, string table_name [, resource link_identifier])">List MySQL result fields</phpsyntax>
+        <phpsyntax function="mysql_list_processes" usage="resource mysql_list_processes ( [resource link_identifier])">List MySQL processes</phpsyntax>
+        <phpsyntax function="mysql_list_tables" usage="resource mysql_list_tables ( string database [, resource link_identifier])">List tables in a MySQL database</phpsyntax>
+        <phpsyntax function="mysql_num_fields" usage="int mysql_num_fields ( resource result)">Get number of fields in result</phpsyntax>
+        <phpsyntax function="mysql_num_rows" usage="int mysql_num_rows ( resource result)">Get number of rows in result</phpsyntax>
+        <phpsyntax function="mysql_pconnect" usage="resource mysql_pconnect ( [string server [, string username [, string password [, int client_flags]]]])">Open a persistent connection to a MySQL server </phpsyntax>
+        <phpsyntax function="mysql_ping" usage="bool mysql_ping ( [resource link_identifier])">Ping a server connection or reconnect if there is no connection</phpsyntax>
+        <phpsyntax function="mysql_query" usage="resource mysql_query ( string query [, resource link_identifier [, int result_mode]])">
+mysql_query() sends a query to the currently active database on the server 
+that's associated with the specified link identifier. 
+If link_identifier isn't specified, the last opened link is assumed. 
+If no link is open, the function tries to establish a link as if mysql_connect() 
+was called with no arguments, and use it. 
+
+The optional result_mode parameter can be MYSQL_USE_RESULT and MYSQL_STORE_RESULT. 
+It defaults to MYSQL_STORE_RESULT, so the result is buffered. 
+See also mysql_unbuffered_query() for the counterpart of this behaviour. 
+        </phpsyntax>
+        <phpsyntax function="mysql_real_escape_string" usage="string mysql_real_escape_string ( string unescaped_string [, resource link_identifier])">Escapes special characters in a string for use in a SQL statement, taking into account the current charset of the connection.</phpsyntax>
+        <phpsyntax function="mysql_result" usage="mixed mysql_result ( resource result, int row [, mixed field])">Get result data</phpsyntax>
+        <phpsyntax function="mysql_select_db" usage="bool mysql_select_db ( string database_name [, resource link_identifier])">Select a MySQL database</phpsyntax>
+        <phpsyntax function="mysql_stat" usage="string mysql_stat ( [resource link_identifier])">Get current system status</phpsyntax>
+        <phpsyntax function="mysql_tablename" usage="string mysql_tablename ( resource result, int i)">Get table name of field</phpsyntax>
+        <phpsyntax function="mysql_threadid" usage="int mysql_thread_id ( [resource link_identifier])">Return the current thread ID</phpsyntax>
+        <phpsyntax function="mysql_unbuffered_query" usage="resource mysql_unbuffered_query ( string query [, resource link_identifier [, int result_mode]])">
+mysql_unbuffered_query() sends a SQL query query to MySQL, without fetching and buffering the 
+result rows automatically, as mysql_query() does. 
+On the one hand, this saves a considerable amount of memory with SQL queries 
+that produce large result sets. On the other hand, you can start working on 
+the result set immediately after the first row has been retrieved: you don't 
+have to wait until the complete SQL query has been performed. When using multiple DB-connects, 
+you have to specify the optional parameter link_identifier. 
+
+The optional result_mode parameter can be MYSQL_USE_RESULT and MYSQL_STORE_RESULT. 
+It defaults to MYSQL_USE_RESULT, so the result is not buffered. 
+See also mysql_query() for the counterpart of this behaviour. 
+        </phpsyntax>
+        <phpsyntax function="natcasesort" usage="void natcasesort ( array array)">Sort an array using a case insensitive &quot;natural order&quot; algorithm </phpsyntax>
+        <phpsyntax function="natsort" usage="void natsort ( array array)">Sort an array using a "natural order" algorithm </phpsyntax>
+        <phpsyntax function="new_xmldoc"></phpsyntax>
+        <phpsyntax function="next" usage="mixed next ( array array)">Advance the internal array pointer of an array </phpsyntax>
+        <phpsyntax function="nextframe"></phpsyntax>
+        <phpsyntax function="nextframe"></phpsyntax>
+        <phpsyntax function="nl2br" usage="string nl2br ( string string)">Inserts HTML line breaks before all newlines in a string </phpsyntax>
+        <phpsyntax function="nl_langinfo" usage="string nl_langinfo ( int item)">Query language and locale information </phpsyntax>
+        <phpsyntax function="notes_body"></phpsyntax>
+        <phpsyntax function="notes_copy_db"></phpsyntax>
+        <phpsyntax function="notes_create_db"></phpsyntax>
+        <phpsyntax function="notes_create_note"></phpsyntax>
+        <phpsyntax function="notes_drop_db"></phpsyntax>
+        <phpsyntax function="notes_find_note"></phpsyntax>
+        <phpsyntax function="notes_header_info"></phpsyntax>
+        <phpsyntax function="notes_list_msgs"></phpsyntax>
+        <phpsyntax function="notes_mark_read"></phpsyntax>
+        <phpsyntax function="notes_mark_unread"></phpsyntax>
+        <phpsyntax function="notes_nav_create"></phpsyntax>
+        <phpsyntax function="notes_search"></phpsyntax>
+        <phpsyntax function="notes_unread"></phpsyntax>
+        <phpsyntax function="notes_version"></phpsyntax>
+        <phpsyntax function="number_format" usage="string number_format ( float number [, int decimals [, string dec_point [, string thousands_sep]]])">Format a number with grouped thousands</phpsyntax>
+        <phpsyntax function="ob_end_clean"></phpsyntax>
+        <phpsyntax function="ob_end_flush"></phpsyntax>
+        <phpsyntax function="ob_get_contents"></phpsyntax>
+        <phpsyntax function="ob_get_length"></phpsyntax>
+        <phpsyntax function="ob_gzhandler"></phpsyntax>
+        <phpsyntax function="ob_iconv_handler"></phpsyntax>
+        <phpsyntax function="ob_implicit_flush"></phpsyntax>
+        <phpsyntax function="ob_start"></phpsyntax>
+        <phpsyntax function="ocibindbyname"></phpsyntax>
+        <phpsyntax function="ocicancel"></phpsyntax>
+        <phpsyntax function="ocicollappend"></phpsyntax>
+        <phpsyntax function="ocicollassign"></phpsyntax>
+        <phpsyntax function="ocicollassignelem"></phpsyntax>
+        <phpsyntax function="ocicolldateappendelem"></phpsyntax>
+        <phpsyntax function="ocicolldateassignelem"></phpsyntax>
+        <phpsyntax function="ocicolldategetelem"></phpsyntax>
+        <phpsyntax function="ocicollgetelem"></phpsyntax>
+        <phpsyntax function="ocicollmax"></phpsyntax>
+        <phpsyntax function="ocicollsize"></phpsyntax>
+        <phpsyntax function="ocicolltrim"></phpsyntax>
+        <phpsyntax function="ocicolumnisnull"></phpsyntax>
+        <phpsyntax function="ocicolumnname"></phpsyntax>
+        <phpsyntax function="ocicolumnprecision"></phpsyntax>
+        <phpsyntax function="ocicolumnscale"></phpsyntax>
+        <phpsyntax function="ocicolumnsize"></phpsyntax>
+        <phpsyntax function="ocicolumntype"></phpsyntax>
+        <phpsyntax function="ocicolumntyperaw"></phpsyntax>
+        <phpsyntax function="ocicommit"></phpsyntax>
+        <phpsyntax function="ocidefinebyname"></phpsyntax>
+        <phpsyntax function="ocierror"></phpsyntax>
+        <phpsyntax function="ociexecute"></phpsyntax>
+        <phpsyntax function="ocifetch"></phpsyntax>
+        <phpsyntax function="ocifetchinto"></phpsyntax>
+        <phpsyntax function="ocifetchstatement"></phpsyntax>
+        <phpsyntax function="ocifreecoll"></phpsyntax>
+        <phpsyntax function="ocifreecursor"></phpsyntax>
+        <phpsyntax function="ocifreedesc"></phpsyntax>
+        <phpsyntax function="ocifreestatement"></phpsyntax>
+        <phpsyntax function="ociinternaldebug"></phpsyntax>
+        <phpsyntax function="ociloadlob"></phpsyntax>
+        <phpsyntax function="ocilogoff"></phpsyntax>
+        <phpsyntax function="ocilogon"></phpsyntax>
+        <phpsyntax function="ocinewcollection"></phpsyntax>
+        <phpsyntax function="ocinewcursor"></phpsyntax>
+        <phpsyntax function="ocinewdescriptor"></phpsyntax>
+        <phpsyntax function="ocinlogon"></phpsyntax>
+        <phpsyntax function="ocinumcols"></phpsyntax>
+        <phpsyntax function="ociparse"></phpsyntax>
+        <phpsyntax function="ociplogon"></phpsyntax>
+        <phpsyntax function="ociresult"></phpsyntax>
+        <phpsyntax function="ocirollback"></phpsyntax>
+        <phpsyntax function="ocirowcount"></phpsyntax>
+        <phpsyntax function="ocisavelob"></phpsyntax>
+        <phpsyntax function="ocisavelobfile"></phpsyntax>
+        <phpsyntax function="ociserverversion"></phpsyntax>
+        <phpsyntax function="ocisetprefetch"></phpsyntax>
+        <phpsyntax function="ocistatementtype"></phpsyntax>
+        <phpsyntax function="ociwritelobtofile"></phpsyntax>
+        <phpsyntax function="octdec"></phpsyntax>
+        <phpsyntax function="odbc_autocommit"></phpsyntax>
+        <phpsyntax function="odbc_binmode"></phpsyntax>
+        <phpsyntax function="odbc_close"></phpsyntax>
+        <phpsyntax function="odbc_close_all"></phpsyntax>
+        <phpsyntax function="odbc_columnprivileges"></phpsyntax>
+        <phpsyntax function="odbc_columns"></phpsyntax>
+        <phpsyntax function="odbc_commit"></phpsyntax>
+        <phpsyntax function="odbc_connect"></phpsyntax>
+        <phpsyntax function="odbc_cursor"></phpsyntax>
+        <phpsyntax function="odbc_do"></phpsyntax>
+        <phpsyntax function="odbc_error"></phpsyntax>
+        <phpsyntax function="odbc_errormsg"></phpsyntax>
+        <phpsyntax function="odbc_exec"></phpsyntax>
+        <phpsyntax function="odbc_execute"></phpsyntax>
+        <phpsyntax function="odbc_fetch_array"></phpsyntax>
+        <phpsyntax function="odbc_fetch_into"></phpsyntax>
+        <phpsyntax function="odbc_fetch_object"></phpsyntax>
+        <phpsyntax function="odbc_fetch_row"></phpsyntax>
+        <phpsyntax function="odbc_field_len"></phpsyntax>
+        <phpsyntax function="odbc_field_name"></phpsyntax>
+        <phpsyntax function="odbc_field_num"></phpsyntax>
+        <phpsyntax function="odbc_field_precision"></phpsyntax>
+        <phpsyntax function="odbc_field_scale"></phpsyntax>
+        <phpsyntax function="odbc_field_type"></phpsyntax>
+        <phpsyntax function="odbc_foreignkeys"></phpsyntax>
+        <phpsyntax function="odbc_free_result"></phpsyntax>
+        <phpsyntax function="odbc_gettypeinfo"></phpsyntax>
+        <phpsyntax function="odbc_longreadlen"></phpsyntax>
+        <phpsyntax function="odbc_next_result"></phpsyntax>
+        <phpsyntax function="odbc_num_fields"></phpsyntax>
+        <phpsyntax function="odbc_num_rows"></phpsyntax>
+        <phpsyntax function="odbc_pconnect"></phpsyntax>
+        <phpsyntax function="odbc_prepare"></phpsyntax>
+        <phpsyntax function="odbc_primarykeys"></phpsyntax>
+        <phpsyntax function="odbc_procedurecolumns"></phpsyntax>
+        <phpsyntax function="odbc_procedures"></phpsyntax>
+        <phpsyntax function="odbc_result"></phpsyntax>
+        <phpsyntax function="odbc_result_all"></phpsyntax>
+        <phpsyntax function="odbc_rollback"></phpsyntax>
+        <phpsyntax function="odbc_setoption"></phpsyntax>
+        <phpsyntax function="odbc_specialcolumns"></phpsyntax>
+        <phpsyntax function="odbc_statistics"></phpsyntax>
+        <phpsyntax function="odbc_tableprivileges"></phpsyntax>
+        <phpsyntax function="odbc_tables"></phpsyntax>
+        <phpsyntax function="open_listen_sock"></phpsyntax>
+        <phpsyntax function="opendir"></phpsyntax>
+        <phpsyntax function="openlog"></phpsyntax>
+        <phpsyntax function="openssl_error_string"></phpsyntax>
+        <phpsyntax function="openssl_free_key"></phpsyntax>
+        <phpsyntax function="openssl_get_privatekey"></phpsyntax>
+        <phpsyntax function="openssl_get_publickey"></phpsyntax>
+        <phpsyntax function="openssl_open"></phpsyntax>
+        <phpsyntax function="openssl_pkcs7_decrypt"></phpsyntax>
+        <phpsyntax function="openssl_pkcs7_encrypt"></phpsyntax>
+        <phpsyntax function="openssl_pkcs7_sign"></phpsyntax>
+        <phpsyntax function="openssl_pkcs7_verify"></phpsyntax>
+        <phpsyntax function="openssl_seal"></phpsyntax>
+        <phpsyntax function="openssl_sign"></phpsyntax>
+        <phpsyntax function="openssl_verify"></phpsyntax>
+        <phpsyntax function="openssl_x509_checkpurpose"></phpsyntax>
+        <phpsyntax function="openssl_x509_free"></phpsyntax>
+        <phpsyntax function="openssl_x509_parse"></phpsyntax>
+        <phpsyntax function="openssl_x509_read"></phpsyntax>
+        <phpsyntax function="ora_bind"></phpsyntax>
+        <phpsyntax function="ora_close"></phpsyntax>
+        <phpsyntax function="ora_columnname"></phpsyntax>
+        <phpsyntax function="ora_columnsize"></phpsyntax>
+        <phpsyntax function="ora_columntype"></phpsyntax>
+        <phpsyntax function="ora_commit"></phpsyntax>
+        <phpsyntax function="ora_commitoff"></phpsyntax>
+        <phpsyntax function="ora_commiton"></phpsyntax>
+        <phpsyntax function="ora_do"></phpsyntax>
+        <phpsyntax function="ora_error"></phpsyntax>
+        <phpsyntax function="ora_errorcode"></phpsyntax>
+        <phpsyntax function="ora_exec"></phpsyntax>
+        <phpsyntax function="ora_fetch"></phpsyntax>
+        <phpsyntax function="ora_fetch_into"></phpsyntax>
+        <phpsyntax function="ora_getcolumn"></phpsyntax>
+        <phpsyntax function="ora_logoff"></phpsyntax>
+        <phpsyntax function="ora_logon"></phpsyntax>
+        <phpsyntax function="ora_numcols"></phpsyntax>
+        <phpsyntax function="ora_numrows"></phpsyntax>
+        <phpsyntax function="ora_open"></phpsyntax>
+        <phpsyntax function="ora_parse"></phpsyntax>
+        <phpsyntax function="ora_plogon"></phpsyntax>
+        <phpsyntax function="ora_rollback"></phpsyntax>
+        <phpsyntax function="orbit_caught_exception"></phpsyntax>
+        <phpsyntax function="orbit_exception_id"></phpsyntax>
+        <phpsyntax function="orbit_exception_value"></phpsyntax>
+        <phpsyntax function="orbit_get_repository_id"></phpsyntax>
+        <phpsyntax function="orbit_load_idl"></phpsyntax>
+        <phpsyntax function="ord" usage="int ord ( string string)">Returns the ASCII value of the first character of string. This function complements chr(). </phpsyntax>
+        <phpsyntax function="output"></phpsyntax>
+        <phpsyntax function="ovrimos_close"></phpsyntax>
+        <phpsyntax function="ovrimos_close_all"></phpsyntax>
+        <phpsyntax function="ovrimos_commit"></phpsyntax>
+        <phpsyntax function="ovrimos_connect"></phpsyntax>
+        <phpsyntax function="ovrimos_cursor"></phpsyntax>
+        <phpsyntax function="ovrimos_exec"></phpsyntax>
+        <phpsyntax function="ovrimos_execute"></phpsyntax>
+        <phpsyntax function="ovrimos_fetch_into"></phpsyntax>
+        <phpsyntax function="ovrimos_fetch_row"></phpsyntax>
+        <phpsyntax function="ovrimos_field_len"></phpsyntax>
+        <phpsyntax function="ovrimos_field_name"></phpsyntax>
+        <phpsyntax function="ovrimos_field_num"></phpsyntax>
+        <phpsyntax function="ovrimos_field_type"></phpsyntax>
+        <phpsyntax function="ovrimos_free_result"></phpsyntax>
+        <phpsyntax function="ovrimos_longreadlen"></phpsyntax>
+        <phpsyntax function="ovrimos_num_fields"></phpsyntax>
+        <phpsyntax function="ovrimos_num_rows"></phpsyntax>
+        <phpsyntax function="ovrimos_prepare"></phpsyntax>
+        <phpsyntax function="ovrimos_result"></phpsyntax>
+        <phpsyntax function="ovrimos_result_all"></phpsyntax>
+        <phpsyntax function="ovrimos_rollback"></phpsyntax>
+        <phpsyntax function="pack"></phpsyntax>
+        <phpsyntax function="parse_ini_file"></phpsyntax>
+        <phpsyntax function="parse_str" usage="void parse_str ( string str [, array arr])">Parses the string into variables</phpsyntax>
+        <phpsyntax function="parse_url"></phpsyntax>
+        <phpsyntax function="passthru"></phpsyntax>
+        <phpsyntax function="pathinfo"></phpsyntax>
+        <phpsyntax function="pclose"></phpsyntax>
+        <phpsyntax function="pdf_add_annotation"></phpsyntax>
+        <phpsyntax function="pdf_add_bookmark"></phpsyntax>
+        <phpsyntax function="pdf_add_launchlink"></phpsyntax>
+        <phpsyntax function="pdf_add_locallink"></phpsyntax>
+        <phpsyntax function="pdf_add_note"></phpsyntax>
+        <phpsyntax function="pdf_add_outline"></phpsyntax>
+        <phpsyntax function="pdf_add_pdflink"></phpsyntax>
+        <phpsyntax function="pdf_add_thumbnail"></phpsyntax>
+        <phpsyntax function="pdf_add_weblink"></phpsyntax>
+        <phpsyntax function="pdf_arc"></phpsyntax>
+        <phpsyntax function="pdf_arcn"></phpsyntax>
+        <phpsyntax function="pdf_attach_file"></phpsyntax>
+        <phpsyntax function="pdf_begin_page"></phpsyntax>
+        <phpsyntax function="pdf_begin_pattern"></phpsyntax>
+        <phpsyntax function="pdf_begin_template"></phpsyntax>
+        <phpsyntax function="pdf_circle"></phpsyntax>
+        <phpsyntax function="pdf_clip"></phpsyntax>
+        <phpsyntax function="pdf_close"></phpsyntax>
+        <phpsyntax function="pdf_close_image"></phpsyntax>
+        <phpsyntax function="pdf_close_pdi"></phpsyntax>
+        <phpsyntax function="pdf_close_pdi_page"></phpsyntax>
+        <phpsyntax function="pdf_closepath"></phpsyntax>
+        <phpsyntax function="pdf_closepath_fill_stroke"></phpsyntax>
+        <phpsyntax function="pdf_closepath_stroke"></phpsyntax>
+        <phpsyntax function="pdf_concat"></phpsyntax>
+        <phpsyntax function="pdf_continue_text"></phpsyntax>
+        <phpsyntax function="pdf_curveto"></phpsyntax>
+        <phpsyntax function="pdf_delete"></phpsyntax>
+        <phpsyntax function="pdf_end_page"></phpsyntax>
+        <phpsyntax function="pdf_end_pattern"></phpsyntax>
+        <phpsyntax function="pdf_end_template"></phpsyntax>
+        <phpsyntax function="pdf_endpath"></phpsyntax>
+        <phpsyntax function="pdf_fill"></phpsyntax>
+        <phpsyntax function="pdf_fill_stroke"></phpsyntax>
+        <phpsyntax function="pdf_findfont"></phpsyntax>
+        <phpsyntax function="pdf_get_buffer"></phpsyntax>
+        <phpsyntax function="pdf_get_font"></phpsyntax>
+        <phpsyntax function="pdf_get_fontname"></phpsyntax>
+        <phpsyntax function="pdf_get_fontsize"></phpsyntax>
+        <phpsyntax function="pdf_get_image_height"></phpsyntax>
+        <phpsyntax function="pdf_get_image_width"></phpsyntax>
+        <phpsyntax function="pdf_get_parameter"></phpsyntax>
+        <phpsyntax function="pdf_get_pdi_parameter"></phpsyntax>
+        <phpsyntax function="pdf_get_pdi_value"></phpsyntax>
+        <phpsyntax function="pdf_get_value"></phpsyntax>
+        <phpsyntax function="pdf_initgraphics"></phpsyntax>
+        <phpsyntax function="pdf_lineto"></phpsyntax>
+        <phpsyntax function="pdf_makespotcolor"></phpsyntax>
+        <phpsyntax function="pdf_moveto"></phpsyntax>
+        <phpsyntax function="pdf_new"></phpsyntax>
+        <phpsyntax function="pdf_open"></phpsyntax>
+        <phpsyntax function="pdf_open_ccitt"></phpsyntax>
+        <phpsyntax function="pdf_open_file"></phpsyntax>
+        <phpsyntax function="pdf_open_gif"></phpsyntax>
+        <phpsyntax function="pdf_open_image"></phpsyntax>
+        <phpsyntax function="pdf_open_image_file"></phpsyntax>
+        <phpsyntax function="pdf_open_jpeg"></phpsyntax>
+        <phpsyntax function="pdf_open_memory_image"></phpsyntax>
+        <phpsyntax function="pdf_open_pdi"></phpsyntax>
+        <phpsyntax function="pdf_open_pdi_page"></phpsyntax>
+        <phpsyntax function="pdf_open_png"></phpsyntax>
+        <phpsyntax function="pdf_open_tiff"></phpsyntax>
+        <phpsyntax function="pdf_place_image"></phpsyntax>
+        <phpsyntax function="pdf_place_pdi_page"></phpsyntax>
+        <phpsyntax function="pdf_rect"></phpsyntax>
+        <phpsyntax function="pdf_restore"></phpsyntax>
+        <phpsyntax function="pdf_rotate"></phpsyntax>
+        <phpsyntax function="pdf_save"></phpsyntax>
+        <phpsyntax function="pdf_scale"></phpsyntax>
+        <phpsyntax function="pdf_set_border_color"></phpsyntax>
+        <phpsyntax function="pdf_set_border_dash"></phpsyntax>
+        <phpsyntax function="pdf_set_border_style"></phpsyntax>
+        <phpsyntax function="pdf_set_char_spacing"></phpsyntax>
+        <phpsyntax function="pdf_set_duration"></phpsyntax>
+        <phpsyntax function="pdf_set_font"></phpsyntax>
+        <phpsyntax function="pdf_set_horiz_scaling"></phpsyntax>
+        <phpsyntax function="pdf_set_info"></phpsyntax>
+        <phpsyntax function="pdf_set_info_author"></phpsyntax>
+        <phpsyntax function="pdf_set_info_creator"></phpsyntax>
+        <phpsyntax function="pdf_set_info_keywords"></phpsyntax>
+        <phpsyntax function="pdf_set_info_subject"></phpsyntax>
+        <phpsyntax function="pdf_set_info_title"></phpsyntax>
+        <phpsyntax function="pdf_set_leading"></phpsyntax>
+        <phpsyntax function="pdf_set_parameter"></phpsyntax>
+        <phpsyntax function="pdf_set_text_pos"></phpsyntax>
+        <phpsyntax function="pdf_set_text_rendering"></phpsyntax>
+        <phpsyntax function="pdf_set_text_rise"></phpsyntax>
+        <phpsyntax function="pdf_set_transition"></phpsyntax>
+        <phpsyntax function="pdf_set_value"></phpsyntax>
+        <phpsyntax function="pdf_set_word_spacing"></phpsyntax>
+        <phpsyntax function="pdf_setcolor"></phpsyntax>
+        <phpsyntax function="pdf_setdash"></phpsyntax>
+        <phpsyntax function="pdf_setflat"></phpsyntax>
+        <phpsyntax function="pdf_setfont"></phpsyntax>
+        <phpsyntax function="pdf_setgray"></phpsyntax>
+        <phpsyntax function="pdf_setgray_fill"></phpsyntax>
+        <phpsyntax function="pdf_setgray_stroke"></phpsyntax>
+        <phpsyntax function="pdf_setlinecap"></phpsyntax>
+        <phpsyntax function="pdf_setlinejoin"></phpsyntax>
+        <phpsyntax function="pdf_setlinewidth"></phpsyntax>
+        <phpsyntax function="pdf_setmatrix"></phpsyntax>
+        <phpsyntax function="pdf_setmiterlimit"></phpsyntax>
+        <phpsyntax function="pdf_setpolydash"></phpsyntax>
+        <phpsyntax function="pdf_setrgbcolor"></phpsyntax>
+        <phpsyntax function="pdf_setrgbcolor_fill"></phpsyntax>
+        <phpsyntax function="pdf_setrgbcolor_stroke"></phpsyntax>
+        <phpsyntax function="pdf_show"></phpsyntax>
+        <phpsyntax function="pdf_show_boxed"></phpsyntax>
+        <phpsyntax function="pdf_show_xy"></phpsyntax>
+        <phpsyntax function="pdf_skew"></phpsyntax>
+        <phpsyntax function="pdf_stringwidth"></phpsyntax>
+        <phpsyntax function="pdf_stroke"></phpsyntax>
+        <phpsyntax function="pdf_translate"></phpsyntax>
+        <phpsyntax function="pfpro_cleanup"></phpsyntax>
+        <phpsyntax function="pfpro_init"></phpsyntax>
+        <phpsyntax function="pfpro_process"></phpsyntax>
+        <phpsyntax function="pfpro_process_raw"></phpsyntax>
+        <phpsyntax function="pfpro_version"></phpsyntax>
+        <phpsyntax function="pfsockopen"></phpsyntax>
+        <phpsyntax function="pg_client_encoding"></phpsyntax>
+        <phpsyntax function="pg_clientencoding"></phpsyntax>
+        <phpsyntax function="pg_close"></phpsyntax>
+        <phpsyntax function="pg_cmdtuples"></phpsyntax>
+        <phpsyntax function="pg_connect"></phpsyntax>
+        <phpsyntax function="pg_dbname"></phpsyntax>
+        <phpsyntax function="pg_end_copy"></phpsyntax>
+        <phpsyntax function="pg_errormessage"></phpsyntax>
+        <phpsyntax function="pg_exec"></phpsyntax>
+        <phpsyntax function="pg_fetch_array"></phpsyntax>
+        <phpsyntax function="pg_fetch_object"></phpsyntax>
+        <phpsyntax function="pg_fetch_row"></phpsyntax>
+        <phpsyntax function="pg_fieldisnull"></phpsyntax>
+        <phpsyntax function="pg_fieldname"></phpsyntax>
+        <phpsyntax function="pg_fieldnum"></phpsyntax>
+        <phpsyntax function="pg_fieldprtlen"></phpsyntax>
+        <phpsyntax function="pg_fieldsize"></phpsyntax>
+        <phpsyntax function="pg_fieldtype"></phpsyntax>
+        <phpsyntax function="pg_freeresult"></phpsyntax>
+        <phpsyntax function="pg_getlastoid"></phpsyntax>
+        <phpsyntax function="pg_host"></phpsyntax>
+        <phpsyntax function="pg_loclose"></phpsyntax>
+        <phpsyntax function="pg_locreate"></phpsyntax>
+        <phpsyntax function="pg_loexport"></phpsyntax>
+        <phpsyntax function="pg_loimport"></phpsyntax>
+        <phpsyntax function="pg_loopen"></phpsyntax>
+        <phpsyntax function="pg_loread"></phpsyntax>
+        <phpsyntax function="pg_loreadall"></phpsyntax>
+        <phpsyntax function="pg_lounlink"></phpsyntax>
+        <phpsyntax function="pg_lowrite"></phpsyntax>
+        <phpsyntax function="pg_numfields"></phpsyntax>
+        <phpsyntax function="pg_numrows"></phpsyntax>
+        <phpsyntax function="pg_options"></phpsyntax>
+        <phpsyntax function="pg_pconnect"></phpsyntax>
+        <phpsyntax function="pg_port"></phpsyntax>
+        <phpsyntax function="pg_put_line"></phpsyntax>
+        <phpsyntax function="pg_result"></phpsyntax>
+        <phpsyntax function="pg_set_client_encoding"></phpsyntax>
+        <phpsyntax function="pg_setclientencoding"></phpsyntax>
+        <phpsyntax function="pg_trace"></phpsyntax>
+        <phpsyntax function="pg_tty"></phpsyntax>
+        <phpsyntax function="pg_untrace"></phpsyntax>
+        <phpsyntax function="php_logo_guid"></phpsyntax>
+        <phpsyntax function="php_sapi_name"></phpsyntax>
+        <phpsyntax function="php_uname"></phpsyntax>
+        <phpsyntax function="phpcredits"></phpsyntax>
+        <phpsyntax function="phpinfo"></phpsyntax>
+        <phpsyntax function="phpversion"  usage="string phpversion (void)">Returns a string containing the version of the currently running PHP parser.
+Note: This information is also available in the predefined constant PHP_VERSION. 
+        </phpsyntax>
+        <phpsyntax function="pi"></phpsyntax>
+        <phpsyntax function="png2wbmp"></phpsyntax>
+        <phpsyntax function="popen"></phpsyntax>
+        <phpsyntax function="pos" usage="mixed pos ( array array)">Get the current element from an array</phpsyntax>
+        <phpsyntax function="posix_ctermid"></phpsyntax>
+        <phpsyntax function="posix_getcwd"></phpsyntax>
+        <phpsyntax function="posix_getegid"></phpsyntax>
+        <phpsyntax function="posix_geteuid"></phpsyntax>
+        <phpsyntax function="posix_getgid"></phpsyntax>
+        <phpsyntax function="posix_getgrgid"></phpsyntax>
+        <phpsyntax function="posix_getgrnam"></phpsyntax>
+        <phpsyntax function="posix_getgroups"></phpsyntax>
+        <phpsyntax function="posix_getlogin"></phpsyntax>
+        <phpsyntax function="posix_getpgid"></phpsyntax>
+        <phpsyntax function="posix_getpgrp"></phpsyntax>
+        <phpsyntax function="posix_getpid"></phpsyntax>
+        <phpsyntax function="posix_getppid"></phpsyntax>
+        <phpsyntax function="posix_getpwnam"></phpsyntax>
+        <phpsyntax function="posix_getpwuid"></phpsyntax>
+        <phpsyntax function="posix_getrlimit"></phpsyntax>
+        <phpsyntax function="posix_getsid"></phpsyntax>
+        <phpsyntax function="posix_getuid"></phpsyntax>
+        <phpsyntax function="posix_isatty"></phpsyntax>
+        <phpsyntax function="posix_kill"></phpsyntax>
+        <phpsyntax function="posix_mkfifo"></phpsyntax>
+        <phpsyntax function="posix_setegid"></phpsyntax>
+        <phpsyntax function="posix_seteuid"></phpsyntax>
+        <phpsyntax function="posix_setgid"></phpsyntax>
+        <phpsyntax function="posix_setpgid"></phpsyntax>
+        <phpsyntax function="posix_setsid"></phpsyntax>
+        <phpsyntax function="posix_setuid"></phpsyntax>
+        <phpsyntax function="posix_times"></phpsyntax>
+        <phpsyntax function="posix_ttyname"></phpsyntax>
+        <phpsyntax function="posix_uname"></phpsyntax>
+        <phpsyntax function="pow"></phpsyntax>
+        <phpsyntax function="preg_grep"></phpsyntax>
+        <phpsyntax function="preg_match"></phpsyntax>
+        <phpsyntax function="preg_match_all"></phpsyntax>
+        <phpsyntax function="preg_quote"></phpsyntax>
+        <phpsyntax function="preg_replace"></phpsyntax>
+        <phpsyntax function="preg_replace_callback"></phpsyntax>
+        <phpsyntax function="preg_split"></phpsyntax>
+        <phpsyntax function="prev" usage="mixed prev ( array array)">Rewind the internal array pointer</phpsyntax>
+        <phpsyntax function="print">
+Output a string.
+Outputs arg. Returns TRUE on success or FALSE on failure. 
+print() is not actually a real function (it is a language construct) so you are not required to use parentheses with it. 
+</phpsyntax>
+        <phpsyntax function="printf" usage="void printf ( string format [, mixed args])">Output a formatted string.</phpsyntax>
+        <phpsyntax function="print_r"></phpsyntax>
+        <phpsyntax function="printer_abort"></phpsyntax>
+        <phpsyntax function="printer_close"></phpsyntax>
+        <phpsyntax function="printer_create_brush"></phpsyntax>
+        <phpsyntax function="printer_create_dc"></phpsyntax>
+        <phpsyntax function="printer_create_font"></phpsyntax>
+        <phpsyntax function="printer_create_pen"></phpsyntax>
+        <phpsyntax function="printer_delete_brush"></phpsyntax>
+        <phpsyntax function="printer_delete_dc"></phpsyntax>
+        <phpsyntax function="printer_delete_font"></phpsyntax>
+        <phpsyntax function="printer_delete_pen"></phpsyntax>
+        <phpsyntax function="printer_draw_bmp"></phpsyntax>
+        <phpsyntax function="printer_draw_chord"></phpsyntax>
+        <phpsyntax function="printer_draw_elipse"></phpsyntax>
+        <phpsyntax function="printer_draw_line"></phpsyntax>
+        <phpsyntax function="printer_draw_pie"></phpsyntax>
+        <phpsyntax function="printer_draw_rectangle"></phpsyntax>
+        <phpsyntax function="printer_draw_roundrect"></phpsyntax>
+        <phpsyntax function="printer_draw_text"></phpsyntax>
+        <phpsyntax function="printer_end_doc"></phpsyntax>
+        <phpsyntax function="printer_end_page"></phpsyntax>
+        <phpsyntax function="printer_get_option"></phpsyntax>
+        <phpsyntax function="printer_list"></phpsyntax>
+        <phpsyntax function="printer_logical_fontheight"></phpsyntax>
+        <phpsyntax function="printer_open"></phpsyntax>
+        <phpsyntax function="printer_select_brush"></phpsyntax>
+        <phpsyntax function="printer_select_font"></phpsyntax>
+        <phpsyntax function="printer_select_pen"></phpsyntax>
+        <phpsyntax function="printer_set_option"></phpsyntax>
+        <phpsyntax function="printer_start_doc"></phpsyntax>
+        <phpsyntax function="printer_start_page"></phpsyntax>
+        <phpsyntax function="printer_write"></phpsyntax>
+        <phpsyntax function="printf"></phpsyntax>
+        <phpsyntax function="pspell_add_to_personal"></phpsyntax>
+        <phpsyntax function="pspell_add_to_session"></phpsyntax>
+        <phpsyntax function="pspell_check"></phpsyntax>
+        <phpsyntax function="pspell_clear_session"></phpsyntax>
+        <phpsyntax function="pspell_config_create"></phpsyntax>
+        <phpsyntax function="pspell_config_ignore"></phpsyntax>
+        <phpsyntax function="pspell_config_mode"></phpsyntax>
+        <phpsyntax function="pspell_config_personal"></phpsyntax>
+        <phpsyntax function="pspell_config_repl"></phpsyntax>
+        <phpsyntax function="pspell_config_runtogether"></phpsyntax>
+        <phpsyntax function="pspell_config_save_repl"></phpsyntax>
+        <phpsyntax function="pspell_new"></phpsyntax>
+        <phpsyntax function="pspell_new_config"></phpsyntax>
+        <phpsyntax function="pspell_new_personal"></phpsyntax>
+        <phpsyntax function="pspell_save_wordlist"></phpsyntax>
+        <phpsyntax function="pspell_store_replacement"></phpsyntax>
+        <phpsyntax function="pspell_suggest"></phpsyntax>
+        <phpsyntax function="putenv"></phpsyntax>
+        <phpsyntax function="putenv"></phpsyntax>
+        <phpsyntax function="qdom_error"></phpsyntax>
+        <phpsyntax function="qdom_tree"></phpsyntax>
+        <phpsyntax function="quoted_printable_decode" usage="string quoted_printable_decode ( string str)">Convert a quoted-printable string to an 8 bit string </phpsyntax>
+        <phpsyntax function="quotemeta" usage="string quotemeta ( string str)">Quote meta characters</phpsyntax>
+        <phpsyntax function="rad2deg"></phpsyntax>
+        <phpsyntax function="rand"></phpsyntax>
+        <phpsyntax function="range" usage="array range ( mixed low, mixed high [, int step])">Create an array containing a range of elements</phpsyntax>
+        <phpsyntax function="rawurldecode"></phpsyntax>
+        <phpsyntax function="rawurlencode"></phpsyntax>
+        <phpsyntax function="read"></phpsyntax>
+        <phpsyntax function="read_exif_data"></phpsyntax>
+        <phpsyntax function="readdir"></phpsyntax>
+        <phpsyntax function="readfile"></phpsyntax>
+        <phpsyntax function="readgzfile"></phpsyntax>
+        <phpsyntax function="readline"></phpsyntax>
+        <phpsyntax function="readline_add_history"></phpsyntax>
+        <phpsyntax function="readline_clear_history"></phpsyntax>
+        <phpsyntax function="readline_completion_function"></phpsyntax>
+        <phpsyntax function="readline_info"></phpsyntax>
+        <phpsyntax function="readline_list_history"></phpsyntax>
+        <phpsyntax function="readline_list_history"></phpsyntax>
+        <phpsyntax function="readline_read_history"></phpsyntax>
+        <phpsyntax function="readline_write_history"></phpsyntax>
+        <phpsyntax function="readlink"></phpsyntax>
+        <phpsyntax function="readlink"></phpsyntax>
+        <phpsyntax function="readv"></phpsyntax>
+        <phpsyntax function="realpath"></phpsyntax>
+        <phpsyntax function="realpath"></phpsyntax>
+        <phpsyntax function="recode"></phpsyntax>
+        <phpsyntax function="recode_file"></phpsyntax>
+        <phpsyntax function="recode_string"></phpsyntax>
+        <phpsyntax function="recv"></phpsyntax>
+        <phpsyntax function="recvfrom"></phpsyntax>
+        <phpsyntax function="recvmsg"></phpsyntax>
+        <phpsyntax function="register_shutdown_function"></phpsyntax>
+        <phpsyntax function="register_tick_function"></phpsyntax>
+        <phpsyntax function="remove"></phpsyntax>
+        <phpsyntax function="remove"></phpsyntax>
+        <phpsyntax function="rename"></phpsyntax>
+        <phpsyntax function="reset" usage="mixed reset ( array array)">Set the internal pointer of an array to its first element</phpsyntax>
+        <phpsyntax function="restore_error_handler"></phpsyntax>
+        <phpsyntax function="rewind"></phpsyntax>
+        <phpsyntax function="rewinddir"></phpsyntax>
+        <phpsyntax function="rmdir"></phpsyntax>
+        <phpsyntax function="rotate"></phpsyntax>
+        <phpsyntax function="rotateto"></phpsyntax>
+        <phpsyntax function="rotateto"></phpsyntax>
+        <phpsyntax function="round"></phpsyntax>
+        <phpsyntax function="rsort" usage="void rsort ( array array [, int sort_flags])">Sort an array in reverse order</phpsyntax>
+        <phpsyntax function="rtrim" usage="string rtrim ( string str [, string charlist])">Strip whitespace from the end of a string </phpsyntax>
+        <phpsyntax function="satellite_caught_exception"></phpsyntax>
+        <phpsyntax function="satellite_exception_id"></phpsyntax>
+        <phpsyntax function="satellite_exception_value"></phpsyntax>
+        <phpsyntax function="satellite_get_repository_id"></phpsyntax>
+        <phpsyntax function="satellite_load_idl"></phpsyntax>
+        <phpsyntax function="save"></phpsyntax>
+        <phpsyntax function="savetofile"></phpsyntax>
+        <phpsyntax function="scale"></phpsyntax>
+        <phpsyntax function="scaleto"></phpsyntax>
+        <phpsyntax function="scaleto"></phpsyntax>
+        <phpsyntax function="select"></phpsyntax>
+        <phpsyntax function="sem_acquire"></phpsyntax>
+        <phpsyntax function="sem_get"></phpsyntax>
+        <phpsyntax function="sem_release"></phpsyntax>
+        <phpsyntax function="send"></phpsyntax>
+        <phpsyntax function="sendmsg"></phpsyntax>
+        <phpsyntax function="sendto"></phpsyntax>
+        <phpsyntax function="serialize"></phpsyntax>
+        <phpsyntax function="session_cache_limiter"></phpsyntax>
+        <phpsyntax function="session_decode"></phpsyntax>
+        <phpsyntax function="session_destroy"></phpsyntax>
+        <phpsyntax function="session_encode"></phpsyntax>
+        <phpsyntax function="session_get_cookie_params"></phpsyntax>
+        <phpsyntax function="session_id"></phpsyntax>
+        <phpsyntax function="session_is_registered"></phpsyntax>
+        <phpsyntax function="session_module_name"></phpsyntax>
+        <phpsyntax function="session_name"></phpsyntax>
+        <phpsyntax function="session_register"></phpsyntax>
+        <phpsyntax function="session_save_path"></phpsyntax>
+        <phpsyntax function="session_set_cookie_params"></phpsyntax>
+        <phpsyntax function="session_set_save_handler"></phpsyntax>
+        <phpsyntax function="session_start"></phpsyntax>
+        <phpsyntax function="session_unregister"></phpsyntax>
+        <phpsyntax function="session_unset"></phpsyntax>
+        <phpsyntax function="session_write_close"></phpsyntax>
+        <phpsyntax function="set_content"></phpsyntax>
+        <phpsyntax function="set_error_handler"></phpsyntax>
+        <phpsyntax function="set_file_buffer"></phpsyntax>
+        <phpsyntax function="set_iovec"></phpsyntax>
+        <phpsyntax function="set_magic_quotes_runtime"></phpsyntax>
+        <phpsyntax function="set_nonblock"></phpsyntax>
+        <phpsyntax function="set_socket_blocking"></phpsyntax>
+        <phpsyntax function="set_time_limit"></phpsyntax>
+        <phpsyntax function="setaction"></phpsyntax>
+        <phpsyntax function="setbackground"></phpsyntax>
+        <phpsyntax function="setbounds"></phpsyntax>
+        <phpsyntax function="setcolor"></phpsyntax>
+        <phpsyntax function="setcolor"></phpsyntax>
+        <phpsyntax function="setcookie" usage="boolean setcookie ( string name [, string value [, int expire [, string path [, string domain [, int secure]]]]])">Send a cookie
+setcookie() defines a cookie to be sent along with the rest of the HTTP headers. 
+Like other headers, cookies must be sent before any output from your script (this is a protocol restriction). 
+This requires that you place calls to this function prior to any output, including &lt;html&gt; and &lt;head&gt; tags as well as any whitespace.
+If output exists prior to calling this function, setcookie() will fail and return FALSE. 
+If setcookie() successfully runs, it will return TRUE. 
+This does not indicate whether the user accepted the cookie. 
+
+All the arguments except the name argument are optional. 
+If only the name argument is present, the cookie by that name will be deleted from the remote client. 
+You may also replace an argument with an empty string (&quot;&quot;) in order to skip that argument. 
+Because the expire and secure arguments are integers, they cannot be skipped with an empty string, use a zero (0) instead. 
+        </phpsyntax>
+        <phpsyntax function="setdepth"></phpsyntax>
+        <phpsyntax function="setdimension"></phpsyntax>
+        <phpsyntax function="setdown"></phpsyntax>
+        <phpsyntax function="setfont"></phpsyntax>
+        <phpsyntax function="setfont"></phpsyntax>
+        <phpsyntax function="setframes"></phpsyntax>
+        <phpsyntax function="setframes"></phpsyntax>
+        <phpsyntax function="setheight"></phpsyntax>
+        <phpsyntax function="setheight"></phpsyntax>
+        <phpsyntax function="sethit"></phpsyntax>
+        <phpsyntax function="setindentation"></phpsyntax>
+        <phpsyntax function="setleftfill"></phpsyntax>
+        <phpsyntax function="setleftmargin"></phpsyntax>
+        <phpsyntax function="setline"></phpsyntax>
+        <phpsyntax function="setlinespacing"></phpsyntax>
+        <phpsyntax function="setlocale" usage="string setlocale ( mixed category, string locale [, string ...])">Set locale information</phpsyntax>
+        <phpsyntax function="setmargins"></phpsyntax>
+        <phpsyntax function="setmatrix"></phpsyntax>
+        <phpsyntax function="setname"></phpsyntax>
+        <phpsyntax function="setname"></phpsyntax>
+        <phpsyntax function="setover"></phpsyntax>
+        <phpsyntax function="setrate"></phpsyntax>
+        <phpsyntax function="setratio"></phpsyntax>
+        <phpsyntax function="setrightfill"></phpsyntax>
+        <phpsyntax function="setrightmargin"></phpsyntax>
+        <phpsyntax function="setsockopt"></phpsyntax>
+        <phpsyntax function="setspacing"></phpsyntax>
+        <phpsyntax function="settype"></phpsyntax>
+        <phpsyntax function="setup"></phpsyntax>
+        <phpsyntax function="sha1" usage="string sha1 ( string str)">
+Calculate the sha1 hash of a string
+Calculates the sha1 hash of str using the US Secure Hash Algorithm 1, and returns that hash. 
+The hash is a 40-character hexadecimal number. 
+</phpsyntax>
+        <phpsyntax function="sha1_file" usage="string sha1_file ( string filename)">Calculate the sha1 hash of a file</phpsyntax>
+        <phpsyntax function="shell_exec"></phpsyntax>
+        <phpsyntax function="shm_attach"></phpsyntax>
+        <phpsyntax function="shm_detach"></phpsyntax>
+        <phpsyntax function="shm_get_var"></phpsyntax>
+        <phpsyntax function="shm_put_var"></phpsyntax>
+        <phpsyntax function="shm_remove"></phpsyntax>
+        <phpsyntax function="shm_remove_var"></phpsyntax>
+        <phpsyntax function="shmop_close"></phpsyntax>
+        <phpsyntax function="shmop_delete"></phpsyntax>
+        <phpsyntax function="shmop_open"></phpsyntax>
+        <phpsyntax function="shmop_read"></phpsyntax>
+        <phpsyntax function="shmop_size"></phpsyntax>
+        <phpsyntax function="shmop_write"></phpsyntax>
+        <phpsyntax function="show_source"></phpsyntax>
+        <phpsyntax function="shuffle" usage="void shuffle ( array array)">Shuffle an array</phpsyntax>
+        <phpsyntax function="shutdown"></phpsyntax>
+        <phpsyntax function="signal"></phpsyntax>
+        <phpsyntax function="similar_text" usage="int similar_text ( string first, string second [, float percent])">Calculate the similarity between two strings </phpsyntax>
+        <phpsyntax function="sin"></phpsyntax>
+        <phpsyntax function="sizeof" usage="int sizeof ( mixed var)">Get the number of elements in variable. The sizeof() function is an alias for count().</phpsyntax>
+        <phpsyntax function="skewx"></phpsyntax>
+        <phpsyntax function="skewxto"></phpsyntax>
+        <phpsyntax function="skewxto"></phpsyntax>
+        <phpsyntax function="skewy"></phpsyntax>
+        <phpsyntax function="skewyto"></phpsyntax>
+        <phpsyntax function="skewyto"></phpsyntax>
+        <phpsyntax function="sleep"></phpsyntax>
+        <phpsyntax function="snmp_get_quick_print"></phpsyntax>
+        <phpsyntax function="snmp_set_quick_print"></phpsyntax>
+        <phpsyntax function="snmpget"></phpsyntax>
+        <phpsyntax function="snmpget"></phpsyntax>
+        <phpsyntax function="snmprealwalk"></phpsyntax>
+        <phpsyntax function="snmpset"></phpsyntax>
+        <phpsyntax function="snmpwalk"></phpsyntax>
+        <phpsyntax function="snmpwalk"></phpsyntax>
+        <phpsyntax function="snmpwalkoid"></phpsyntax>
+        <phpsyntax function="socket"></phpsyntax>
+        <phpsyntax function="socket_get_status"></phpsyntax>
+        <phpsyntax function="socket_set_blocking"></phpsyntax>
+        <phpsyntax function="socket_set_timeout"></phpsyntax>
+        <phpsyntax function="socket_set_timeout"></phpsyntax>
+        <phpsyntax function="socketpair"></phpsyntax>
+        <phpsyntax function="sort" usage="void sort ( array array [, int sort_flags])">Sort an array. This function sorts an array. Elements will be arranged from lowest to highest when this function has completed.</phpsyntax>
+        <phpsyntax function="soundex" usage="string soundex ( string str)">Calculate the soundex key of a string</phpsyntax>
+        <phpsyntax function="split"></phpsyntax>
+        <phpsyntax function="spliti"></phpsyntax>
+        <phpsyntax function="sprintf" usage="string sprintf ( string format [, mixed args])">Return a formatted string</phpsyntax>
+        <phpsyntax function="sql_regcase"></phpsyntax>
+        <phpsyntax function="sqrt"></phpsyntax>
+        <phpsyntax function="srand"></phpsyntax>
+        <phpsyntax function="sscanf" usage="mixed sscanf ( string str, string format [, string var1])">Parses input from a string according to a format </phpsyntax>
+        <phpsyntax function="stat"></phpsyntax>
+        <phpsyntax function="str_pad" usage="string str_pad ( string input, int pad_length [, string pad_string [, int pad_type]])">Pad a string to a certain length with another string </phpsyntax>
+        <phpsyntax function="str_repeat" usage="string str_repeat ( string input, int multiplier)">Repeat a string</phpsyntax>
+        <phpsyntax function="str_replace" usage="mixed str_replace ( mixed search, mixed replace, mixed subject)">Replace all occurrences of the search string with the replacement string </phpsyntax>
+        <phpsyntax function="str_rot13" usage="string str_rot13 ( string str)">
+Perform the rot13 transform on a string.
+This function performs the ROT13 encoding on the str argument and returns the resulting string. 
+The ROT13 encoding simply shifts every letter by 13 places in the alphabet while leaving non-alpha characters untouched. 
+Encoding and decoding are done by the same function, passing an encoded string as argument 
+will return the original version. 
+</phpsyntax>
+        <phpsyntax function="str_shuffle" usage="string str_shuffle ( string str)">Randomly shuffles a string</phpsyntax> 
+        <phpsyntax function="str_word_count" usage="mixed str_word_count ( string string [, int format])">Return information about words used in a string </phpsyntax>
+        <phpsyntax function="strcasecmp" usage="int strcasecmp ( string str1, string str2)">Binary safe case-insensitive string comparison </phpsyntax>
+        <phpsyntax function="strchr" usage="string strchr ( string haystack, string needle)">Find the first occurrence of a character.This function is an alias for strstr(), and is identical in every way.</phpsyntax>
+        <phpsyntax function="strcmp" usage="int strcmp ( string str1, string str2)">Binary safe string comparison.
+Returns &lt; 0 if str1 is less than str2; &gt; 0 if str1 is greater than str2, and 0 if they are equal. 
+Note that this comparison is case sensitive. 
+        </phpsyntax>
+        <phpsyntax function="strcoll" usage="int strcoll ( string str1, string str2)">Locale based string comparison</phpsyntax>
+        <phpsyntax function="strcspn" usage="int strcspn ( string str1, string str2)">Find length of initial segment not matching mask </phpsyntax>
+        <phpsyntax function="streammp3"></phpsyntax>
+        <phpsyntax function="strerror"></phpsyntax>
+        <phpsyntax function="strftime"></phpsyntax>
+        <phpsyntax function="strftime"></phpsyntax>
+        <phpsyntax function="strip_tags" usage="string strip_tags ( string str [, string allowable_tags])">Strip HTML and PHP tags from a string</phpsyntax>
+        <phpsyntax function="stripcslashes" usage="string stripcslashes ( string str)">Un-quote string quoted with addcslashes() </phpsyntax>
+        <phpsyntax function="stripslashes" usage="string stripslashes ( string str)">Un-quote string quoted with addslashes() </phpsyntax>
+        <phpsyntax function="stristr" usage="string stristr ( string haystack, string needle)">Case-insensitive strstr() </phpsyntax>
+        <phpsyntax function="strlen" usage="int strlen ( string str)">Get string length</phpsyntax>
+        <phpsyntax function="strnatcasecmp" usage="int strnatcasecmp ( string str1, string str2)">Case insensitive string comparisons using a "natural order" algorithm </phpsyntax>
+        <phpsyntax function="strnatcmp" usage="int strnatcmp ( string str1, string str2)">String comparisons using a "natural order" algorithm </phpsyntax>
+        <phpsyntax function="strncasecmp" usage="int strncasecmp ( string str1, string str2, int len)">Binary safe case-insensitive string comparison of the first n characters </phpsyntax>
+        <phpsyntax function="strncmp" usage="int strncmp ( string str1, string str2, int len)">Binary safe string comparison of the first n characters </phpsyntax>
+        <phpsyntax function="strpos" usage="int strpos ( string haystack, string needle [, int offset])">Find position of first occurrence of a string </phpsyntax>
+        <phpsyntax function="strrchr" usage="string strrchr ( string haystack, string needle)">Find the last occurrence of a character in a string </phpsyntax>
+        <phpsyntax function="strrev" usage="string strrev ( string string)">Reverse a string</phpsyntax>
+        <phpsyntax function="strrpos" usage="int strrpos ( string haystack, char needle)">Find position of last occurrence of a char in a string </phpsyntax>
+        <phpsyntax function="strspn" usage="int strspn ( string str1, string str2)">Find length of initial segment matching mask </phpsyntax>
+        <phpsyntax function="strstr" usage="string strstr ( string haystack, string needle)">Find first occurrence of a string</phpsyntax>
+        <phpsyntax function="strtok" usage="string strtok ( string arg1, string arg2)">Tokenize string</phpsyntax>
+        <phpsyntax function="strtolower" usage="string strtolower ( string str)">Make a string lowercase</phpsyntax>
+        <phpsyntax function="strtotime"></phpsyntax>
+        <phpsyntax function="strtoupper" usage="string strtoupper ( string string)">Make a string uppercase</phpsyntax>
+        <phpsyntax function="strtr" usage="string strtr ( string str, string from, string to) - string strtr ( string str, array replace_pairs)">Translate certain characters</phpsyntax>
+        <phpsyntax function="strval"></phpsyntax>
+        <phpsyntax function="substr" usage="string substr(string str, int start [, int length])">Returns part of a string</phpsyntax>
+        <phpsyntax function="substr_count" usage="int substr_count ( string haystack, string needle)">Count the number of substring occurrences</phpsyntax>
+        <phpsyntax function="substr_replace" usage="string substr_replace ( string string, string replacement, int start [, int length])">Replace text within a portion of a string</phpsyntax>
+        <phpsyntax function="swf_actiongeturl"></phpsyntax>
+        <phpsyntax function="swf_actiongotoframe"></phpsyntax>
+        <phpsyntax function="swf_actiongotolabel"></phpsyntax>
+        <phpsyntax function="swf_actionnextframe"></phpsyntax>
+        <phpsyntax function="swf_actionplay"></phpsyntax>
+        <phpsyntax function="swf_actionprevframe"></phpsyntax>
+        <phpsyntax function="swf_actionsettarget"></phpsyntax>
+        <phpsyntax function="swf_actionstop"></phpsyntax>
+        <phpsyntax function="swf_actiontogglequality"></phpsyntax>
+        <phpsyntax function="swf_actionwaitforframe"></phpsyntax>
+        <phpsyntax function="swf_addbuttonrecord"></phpsyntax>
+        <phpsyntax function="swf_addcolor"></phpsyntax>
+        <phpsyntax function="swf_closefile"></phpsyntax>
+        <phpsyntax function="swf_definebitmap"></phpsyntax>
+        <phpsyntax function="swf_definefont"></phpsyntax>
+        <phpsyntax function="swf_defineline"></phpsyntax>
+        <phpsyntax function="swf_definepoly"></phpsyntax>
+        <phpsyntax function="swf_definerect"></phpsyntax>
+        <phpsyntax function="swf_definetext"></phpsyntax>
+        <phpsyntax function="swf_endbutton"></phpsyntax>
+        <phpsyntax function="swf_enddoaction"></phpsyntax>
+        <phpsyntax function="swf_endshape"></phpsyntax>
+        <phpsyntax function="swf_endsymbol"></phpsyntax>
+        <phpsyntax function="swf_fontsize"></phpsyntax>
+        <phpsyntax function="swf_fontslant"></phpsyntax>
+        <phpsyntax function="swf_fonttracking"></phpsyntax>
+        <phpsyntax function="swf_getbitmapinfo"></phpsyntax>
+        <phpsyntax function="swf_getfontinfo"></phpsyntax>
+        <phpsyntax function="swf_getframe"></phpsyntax>
+        <phpsyntax function="swf_labelframe"></phpsyntax>
+        <phpsyntax function="swf_lookat"></phpsyntax>
+        <phpsyntax function="swf_modifyobject"></phpsyntax>
+        <phpsyntax function="swf_mulcolor"></phpsyntax>
+        <phpsyntax function="swf_nextid"></phpsyntax>
+        <phpsyntax function="swf_oncondition"></phpsyntax>
+        <phpsyntax function="swf_openfile"></phpsyntax>
+        <phpsyntax function="swf_ortho"></phpsyntax>
+        <phpsyntax function="swf_ortho2"></phpsyntax>
+        <phpsyntax function="swf_perspective"></phpsyntax>
+        <phpsyntax function="swf_placeobject"></phpsyntax>
+        <phpsyntax function="swf_polarview"></phpsyntax>
+        <phpsyntax function="swf_popmatrix"></phpsyntax>
+        <phpsyntax function="swf_posround"></phpsyntax>
+        <phpsyntax function="swf_pushmatrix"></phpsyntax>
+        <phpsyntax function="swf_removeobject"></phpsyntax>
+        <phpsyntax function="swf_rotate"></phpsyntax>
+        <phpsyntax function="swf_scale"></phpsyntax>
+        <phpsyntax function="swf_setfont"></phpsyntax>
+        <phpsyntax function="swf_setframe"></phpsyntax>
+        <phpsyntax function="swf_shapearc"></phpsyntax>
+        <phpsyntax function="swf_shapecurveto"></phpsyntax>
+        <phpsyntax function="swf_shapecurveto3"></phpsyntax>
+        <phpsyntax function="swf_shapefillbitmapclip"></phpsyntax>
+        <phpsyntax function="swf_shapefillbitmaptile"></phpsyntax>
+        <phpsyntax function="swf_shapefilloff"></phpsyntax>
+        <phpsyntax function="swf_shapefillsolid"></phpsyntax>
+        <phpsyntax function="swf_shapelinesolid"></phpsyntax>
+        <phpsyntax function="swf_shapelineto"></phpsyntax>
+        <phpsyntax function="swf_shapemoveto"></phpsyntax>
+        <phpsyntax function="swf_showframe"></phpsyntax>
+        <phpsyntax function="swf_startbutton"></phpsyntax>
+        <phpsyntax function="swf_startdoaction"></phpsyntax>
+        <phpsyntax function="swf_startshape"></phpsyntax>
+        <phpsyntax function="swf_startsymbol"></phpsyntax>
+        <phpsyntax function="swf_textwidth"></phpsyntax>
+        <phpsyntax function="swf_translate"></phpsyntax>
+        <phpsyntax function="swf_viewport"></phpsyntax>
+        <phpsyntax function="swfaction"></phpsyntax>
+        <phpsyntax function="swfbitmap"></phpsyntax>
+        <phpsyntax function="swfbutton"></phpsyntax>
+        <phpsyntax function="swfbutton_keypress"></phpsyntax>
+        <phpsyntax function="swffill"></phpsyntax>
+        <phpsyntax function="swffont"></phpsyntax>
+        <phpsyntax function="swfgradient"></phpsyntax>
+        <phpsyntax function="swfmorph"></phpsyntax>
+        <phpsyntax function="swfmovie"></phpsyntax>
+        <phpsyntax function="swfshape"></phpsyntax>
+        <phpsyntax function="swfsprite"></phpsyntax>
+        <phpsyntax function="swftext"></phpsyntax>
+        <phpsyntax function="swftextfield"></phpsyntax>
+        <phpsyntax function="sybase_affected_rows"></phpsyntax>
+        <phpsyntax function="sybase_affected_rows"></phpsyntax>
+        <phpsyntax function="sybase_close"></phpsyntax>
+        <phpsyntax function="sybase_close"></phpsyntax>
+        <phpsyntax function="sybase_connect"></phpsyntax>
+        <phpsyntax function="sybase_connect"></phpsyntax>
+        <phpsyntax function="sybase_data_seek"></phpsyntax>
+        <phpsyntax function="sybase_data_seek"></phpsyntax>
+        <phpsyntax function="sybase_fetch_array"></phpsyntax>
+        <phpsyntax function="sybase_fetch_array"></phpsyntax>
+        <phpsyntax function="sybase_fetch_field"></phpsyntax>
+        <phpsyntax function="sybase_fetch_field"></phpsyntax>
+        <phpsyntax function="sybase_fetch_object"></phpsyntax>
+        <phpsyntax function="sybase_fetch_object"></phpsyntax>
+        <phpsyntax function="sybase_fetch_row"></phpsyntax>
+        <phpsyntax function="sybase_fetch_row"></phpsyntax>
+        <phpsyntax function="sybase_field_seek"></phpsyntax>
+        <phpsyntax function="sybase_field_seek"></phpsyntax>
+        <phpsyntax function="sybase_free_result"></phpsyntax>
+        <phpsyntax function="sybase_free_result"></phpsyntax>
+        <phpsyntax function="sybase_get_last_message"></phpsyntax>
+        <phpsyntax function="sybase_get_last_message"></phpsyntax>
+        <phpsyntax function="sybase_min_client_severity"></phpsyntax>
+        <phpsyntax function="sybase_min_error_severity"></phpsyntax>
+        <phpsyntax function="sybase_min_message_severity"></phpsyntax>
+        <phpsyntax function="sybase_min_server_severity"></phpsyntax>
+        <phpsyntax function="sybase_num_fields"></phpsyntax>
+        <phpsyntax function="sybase_num_fields"></phpsyntax>
+        <phpsyntax function="sybase_num_rows"></phpsyntax>
+        <phpsyntax function="sybase_num_rows"></phpsyntax>
+        <phpsyntax function="sybase_pconnect"></phpsyntax>
+        <phpsyntax function="sybase_pconnect"></phpsyntax>
+        <phpsyntax function="sybase_query"></phpsyntax>
+        <phpsyntax function="sybase_query"></phpsyntax>
+        <phpsyntax function="sybase_result"></phpsyntax>
+        <phpsyntax function="sybase_result"></phpsyntax>
+        <phpsyntax function="sybase_select_db"></phpsyntax>
+        <phpsyntax function="sybase_select_db"></phpsyntax>
+        <phpsyntax function="symlink"></phpsyntax>
+        <phpsyntax function="symlink"></phpsyntax>
+        <phpsyntax function="syslog"></phpsyntax>
+        <phpsyntax function="system"></phpsyntax>
+        <phpsyntax function="tan"></phpsyntax>
+        <phpsyntax function="tempnam"></phpsyntax>
+        <phpsyntax function="textdomain"></phpsyntax>
+        <phpsyntax function="time"></phpsyntax>
+        <phpsyntax function="tmpfile"></phpsyntax>
+        <phpsyntax function="touch"></phpsyntax>
+        <phpsyntax function="trigger_error"></phpsyntax>
+        <phpsyntax function="trim" usage="string trim ( string str [, string charlist])">Strip whitespace from the beginning and end of a string </phpsyntax>
+        <phpsyntax function="uasort" usage="void uasort ( array array, callback cmp_function)">Sort an array with a user-defined comparison function and maintain index association </phpsyntax>
+        <phpsyntax function="ucfirst" usage="string ucfirst ( string str)">Make a string's first character uppercase</phpsyntax>
+        <phpsyntax function="ucwords" usage="string ucwords ( string str)">Uppercase the first character of each word in a string </phpsyntax>
+        <phpsyntax function="udm_add_search_limit"></phpsyntax>
+        <phpsyntax function="udm_alloc_agent"></phpsyntax>
+        <phpsyntax function="udm_api_version"></phpsyntax>
+        <phpsyntax function="udm_clear_search_limits"></phpsyntax>
+        <phpsyntax function="udm_errno"></phpsyntax>
+        <phpsyntax function="udm_error"></phpsyntax>
+        <phpsyntax function="udm_find"></phpsyntax>
+        <phpsyntax function="udm_free_agent"></phpsyntax>
+        <phpsyntax function="udm_free_ispell_data"></phpsyntax>
+        <phpsyntax function="udm_free_res"></phpsyntax>
+        <phpsyntax function="udm_get_doc_count"></phpsyntax>
+        <phpsyntax function="udm_get_res_field"></phpsyntax>
+        <phpsyntax function="udm_get_res_param"></phpsyntax>
+        <phpsyntax function="udm_load_ispell_data"></phpsyntax>
+        <phpsyntax function="udm_set_agent_param"></phpsyntax>
+        <phpsyntax function="uksort" usage="void uksort ( array array, callback cmp_function)">Sort an array by keys using a user-defined comparison function </phpsyntax>
+        <phpsyntax function="umask"></phpsyntax>
+        <phpsyntax function="uniqid"></phpsyntax>
+        <phpsyntax function="unixtojd"></phpsyntax>
+        <phpsyntax function="unlink"></phpsyntax>
+        <phpsyntax function="unpack"></phpsyntax>
+        <phpsyntax function="unregister_tick_function"></phpsyntax>
+        <phpsyntax function="unserialize"></phpsyntax>
+        <phpsyntax function="urldecode"></phpsyntax>
+        <phpsyntax function="urlencode"></phpsyntax>
+        <phpsyntax function="user_error"></phpsyntax>
+        <phpsyntax function="usleep"></phpsyntax>
+        <phpsyntax function="usort" usage="void usort ( array array, callback cmp_function)">Sort an array by values using a user-defined comparison function</phpsyntax>
+        <phpsyntax function="utf8_decode"></phpsyntax>
+        <phpsyntax function="utf8_encode"></phpsyntax>
+        <phpsyntax function="var_dump"></phpsyntax>
+        <phpsyntax function="velocis_autocommit"></phpsyntax>
+        <phpsyntax function="velocis_close"></phpsyntax>
+        <phpsyntax function="velocis_commit"></phpsyntax>
+        <phpsyntax function="velocis_connect"></phpsyntax>
+        <phpsyntax function="velocis_exec"></phpsyntax>
+        <phpsyntax function="velocis_fetch"></phpsyntax>
+        <phpsyntax function="velocis_fieldname"></phpsyntax>
+        <phpsyntax function="velocis_fieldnum"></phpsyntax>
+        <phpsyntax function="velocis_freeresult"></phpsyntax>
+        <phpsyntax function="velocis_off_autocommit"></phpsyntax>
+        <phpsyntax function="velocis_result"></phpsyntax>
+        <phpsyntax function="velocis_rollback"></phpsyntax>
+        <phpsyntax function="virtual"></phpsyntax>
+        <phpsyntax function="vpopmail_add_alias_domain"></phpsyntax>
+        <phpsyntax function="vpopmail_add_alias_domain_ex"></phpsyntax>
+        <phpsyntax function="vpopmail_add_domain"></phpsyntax>
+        <phpsyntax function="vpopmail_add_domain_ex"></phpsyntax>
+        <phpsyntax function="vpopmail_add_user"></phpsyntax>
+        <phpsyntax function="vpopmail_auth_user"></phpsyntax>
+        <phpsyntax function="vpopmail_del_domain"></phpsyntax>
+        <phpsyntax function="vpopmail_del_domain_ex"></phpsyntax>
+        <phpsyntax function="vpopmail_del_user"></phpsyntax>
+        <phpsyntax function="vpopmail_error"></phpsyntax>
+        <phpsyntax function="vpopmail_passwd"></phpsyntax>
+        <phpsyntax function="vpopmail_set_user_quota"></phpsyntax>
+        <phpsyntax function="vprintf" usage="void vprintf ( string format, array args)">Output a formatted string</phpsyntax>
+        <phpsyntax function="vsprintf" usage="string vsprintf ( string format, array args)">Output a formatted string</phpsyntax>
+        <phpsyntax function="wddx_add_vars"></phpsyntax>
+        <phpsyntax function="wddx_deserialize"></phpsyntax>
+        <phpsyntax function="wddx_packet_end"></phpsyntax>
+        <phpsyntax function="wddx_packet_start"></phpsyntax>
+        <phpsyntax function="wddx_serialize_value"></phpsyntax>
+        <phpsyntax function="wddx_serialize_vars"></phpsyntax>
+        <phpsyntax function="wordwrap" usage="string wordwrap ( string str [, int width [, string break [, int cut]]])">Wraps a string to a given number of characters using a string break character</phpsyntax>
+        <phpsyntax function="write"></phpsyntax>
+        <phpsyntax function="writev"></phpsyntax>
+        <phpsyntax function="xml_error_string"></phpsyntax>
+        <phpsyntax function="xml_get_current_byte_index"></phpsyntax>
+        <phpsyntax function="xml_get_current_column_number"></phpsyntax>
+        <phpsyntax function="xml_get_current_line_number"></phpsyntax>
+        <phpsyntax function="xml_get_error_code"></phpsyntax>
+        <phpsyntax function="xml_parse"></phpsyntax>
+        <phpsyntax function="xml_parse_into_struct"></phpsyntax>
+        <phpsyntax function="xml_parser_create"></phpsyntax>
+        <phpsyntax function="xml_parser_create_ns"></phpsyntax>
+        <phpsyntax function="xml_parser_free"></phpsyntax>
+        <phpsyntax function="xml_parser_get_option"></phpsyntax>
+        <phpsyntax function="xml_parser_set_option"></phpsyntax>
+        <phpsyntax function="xml_set_character_data_handler"></phpsyntax>
+        <phpsyntax function="xml_set_default_handler"></phpsyntax>
+        <phpsyntax function="xml_set_element_handler"></phpsyntax>
+        <phpsyntax function="xml_set_end_namespace_decl_handler"></phpsyntax>
+        <phpsyntax function="xml_set_external_entity_ref_handler"></phpsyntax>
+        <phpsyntax function="xml_set_notation_decl_handler"></phpsyntax>
+        <phpsyntax function="xml_set_object"></phpsyntax>
+        <phpsyntax function="xml_set_processing_instruction_handler"></phpsyntax>
+        <phpsyntax function="xml_set_start_namespace_decl_handler"></phpsyntax>
+        <phpsyntax function="xml_set_unparsed_entity_decl_handler"></phpsyntax>
+        <phpsyntax function="xmldoc"></phpsyntax>
+        <phpsyntax function="xmldocfile"></phpsyntax>
+        <phpsyntax function="xmltree"></phpsyntax>
+        <phpsyntax function="xpath_eval"></phpsyntax>
+        <phpsyntax function="xpath_eval_expression"></phpsyntax>
+        <phpsyntax function="xptr_eval"></phpsyntax>
+        <phpsyntax function="xslt_closelog"></phpsyntax>
+        <phpsyntax function="xslt_create"></phpsyntax>
+        <phpsyntax function="xslt_errno"></phpsyntax>
+        <phpsyntax function="xslt_error"></phpsyntax>
+        <phpsyntax function="xslt_fetch_result"></phpsyntax>
+        <phpsyntax function="xslt_free"></phpsyntax>
+        <phpsyntax function="xslt_openlog"></phpsyntax>
+        <phpsyntax function="xslt_output_begintransform"></phpsyntax>
+        <phpsyntax function="xslt_output_endtransform"></phpsyntax>
+        <phpsyntax function="xslt_process"></phpsyntax>
+        <phpsyntax function="xslt_run"></phpsyntax>
+        <phpsyntax function="xslt_set_base"></phpsyntax>
+        <phpsyntax function="xslt_set_encoding"></phpsyntax>
+        <phpsyntax function="xslt_set_error_handler"></phpsyntax>
+        <phpsyntax function="xslt_set_sax_handler"></phpsyntax>
+        <phpsyntax function="xslt_set_scheme_handler"></phpsyntax>
+        <phpsyntax function="xslt_transform"></phpsyntax>
+        <phpsyntax function="yaz_addinfo"></phpsyntax>
+        <phpsyntax function="yaz_ccl_conf"></phpsyntax>
+        <phpsyntax function="yaz_ccl_parse"></phpsyntax>
+        <phpsyntax function="yaz_close"></phpsyntax>
+        <phpsyntax function="yaz_connect"></phpsyntax>
+        <phpsyntax function="yaz_database"></phpsyntax>
+        <phpsyntax function="yaz_element"></phpsyntax>
+        <phpsyntax function="yaz_errno"></phpsyntax>
+        <phpsyntax function="yaz_error"></phpsyntax>
+        <phpsyntax function="yaz_hits"></phpsyntax>
+        <phpsyntax function="yaz_itemorder"></phpsyntax>
+        <phpsyntax function="yaz_present"></phpsyntax>
+        <phpsyntax function="yaz_range"></phpsyntax>
+        <phpsyntax function="yaz_record"></phpsyntax>
+        <phpsyntax function="yaz_scan"></phpsyntax>
+        <phpsyntax function="yaz_scan_result"></phpsyntax>
+        <phpsyntax function="yaz_search"></phpsyntax>
+        <phpsyntax function="yaz_syntax"></phpsyntax>
+        <phpsyntax function="yaz_wait"></phpsyntax>
+        <phpsyntax function="yp_all"></phpsyntax>
+        <phpsyntax function="yp_cat"></phpsyntax>
+        <phpsyntax function="yp_err_string"></phpsyntax>
+        <phpsyntax function="yp_errno"></phpsyntax>
+        <phpsyntax function="yp_first"></phpsyntax>
+        <phpsyntax function="yp_get_default_domain"></phpsyntax>
+        <phpsyntax function="yp_master"></phpsyntax>
+        <phpsyntax function="yp_match"></phpsyntax>
+        <phpsyntax function="yp_next"></phpsyntax>
+        <phpsyntax function="yp_order"></phpsyntax>
+        <phpsyntax function="zend_logo_guid"></phpsyntax>
+        <phpsyntax function="zend_test_func"></phpsyntax>
+        <phpsyntax function="zend_version"></phpsyntax>
+        <phpsyntax function="zzip_close"></phpsyntax>
+        <phpsyntax function="zzip_closedir"></phpsyntax>
+        <phpsyntax function="zzip_entry_compressedsize"></phpsyntax>
+        <phpsyntax function="zzip_entry_compressionmethod"></phpsyntax>
+        <phpsyntax function="zzip_entry_filesize"></phpsyntax>
+        <phpsyntax function="zzip_entry_name"></phpsyntax>
+        <phpsyntax function="zzip_open"></phpsyntax>
+        <phpsyntax function="zzip_opendir"></phpsyntax>
+        <phpsyntax function="zzip_read"></phpsyntax>
+        <phpsyntax function="zzip_readdir"></phpsyntax>
+==================================================        
+*Below this are the various PHP-specific keywords *
+==================================================     
+        <phpsyntax keyword="if" tokenval="1001"></phpsyntax>
+        <phpsyntax keyword="elseif" tokenval="1002"></phpsyntax>
+        <phpsyntax keyword="else" tokenval="1003"></phpsyntax>
+        <phpsyntax keyword="endif" tokenval="1004"></phpsyntax>
+        <phpsyntax keyword="for" tokenval="1005"></phpsyntax>
+        <phpsyntax keyword="endfor" tokenval="1005"></phpsyntax>
+        <phpsyntax keyword="while" tokenval="1007"></phpsyntax>
+        <phpsyntax keyword="endwhile" tokenval="1008"></phpsyntax>
+        <phpsyntax keyword="switch" tokenval="1009"></phpsyntax>
+        <phpsyntax keyword="case" tokenval="1010"></phpsyntax>
+        <phpsyntax keyword="endswitch" tokenval="1011"></phpsyntax>
+        <phpsyntax keyword="break" tokenval="1012"></phpsyntax>
+        <phpsyntax keyword="continue" tokenval="1013"></phpsyntax>
+        <phpsyntax keyword="return" tokenval="1014"></phpsyntax>
+        <phpsyntax keyword="define" tokenval="1015"></phpsyntax>
+        <phpsyntax keyword="include" tokenval="1016"></phpsyntax>
+        <phpsyntax keyword="include_once" tokenval="1017"></phpsyntax>
+        <phpsyntax keyword="require" tokenval="1018"></phpsyntax>
+        <phpsyntax keyword="require_once" tokenval="1019"></phpsyntax>
+        <phpsyntax keyword="function" tokenval="1020"></phpsyntax>
+        <phpsyntax keyword="class" tokenval="1021"></phpsyntax>
+        <phpsyntax keyword="new" tokenval="1022"></phpsyntax>
+        <phpsyntax keyword="do" tokenval="1023"></phpsyntax>
+        <phpsyntax keyword="old_function" tokenval="1024"></phpsyntax>
+        <phpsyntax keyword="default" tokenval="1025"></phpsyntax>
+        <phpsyntax keyword="global" tokenval="1026"></phpsyntax>
+        <phpsyntax keyword="static" tokenval="1027"></phpsyntax>
+        <phpsyntax keyword="foreach" tokenval="1028"></phpsyntax>
+        <phpsyntax keyword="endforeach" tokenval="1029"></phpsyntax>
+        <phpsyntax keyword="extends" tokenval="1030"></phpsyntax>
+        <phpsyntax keyword="empty" tokenval="1031"></phpsyntax>
+        <phpsyntax keyword="array" tokenval="1032"></phpsyntax>
+        <phpsyntax keyword="echo" tokenval="1033"></phpsyntax>
+        <phpsyntax keyword="var" tokenval="1034"></phpsyntax>
+        <phpsyntax keyword="as" tokenval="1035"></phpsyntax> 
+        <phpsyntax keyword="print" tokenval="1036"></phpsyntax> 
+        <phpsyntax keyword="unset" tokenval="1037"></phpsyntax>
+        <phpsyntax keyword="exit" tokenval="1038"></phpsyntax>
+        <phpsyntax keyword="die" tokenval="1039"></phpsyntax>
+        <phpsyntax keyword="and" tokenval="1040"></phpsyntax>
+        <phpsyntax keyword="or" tokenval="1041"></phpsyntax>
+        <phpsyntax keyword="xor" tokenval="1042"></phpsyntax>
+        <phpsyntax keyword="list" tokenval="1043"></phpsyntax> 
+        <phpsyntax keyword="null" tokenval="1044"></phpsyntax>
+        <phpsyntax keyword="false" tokenval="1045"></phpsyntax>
+        <phpsyntax keyword="true" tokenval="1046"></phpsyntax>
+=========================================================        
+*Below this are the various PHP-specific variable types *
+=========================================================
+        <phpsyntax type="string"></phpsyntax>         
+        <phpsyntax type="unset"></phpsyntax> 
+        <phpsyntax type="object"></phpsyntax>         
+        <phpsyntax type="bool"></phpsyntax>         
+        <phpsyntax type="boolean"></phpsyntax>         
+        <phpsyntax type="real"></phpsyntax>         
+        <phpsyntax type="double"></phpsyntax>         
+        <phpsyntax type="float"></phpsyntax>         
+        <phpsyntax type="int"></phpsyntax>         
+        <phpsyntax type="integer"></phpsyntax>        
+===================================================        
+*Below this are the various PHP-specific constants *
+===================================================
+        <phpsyntax constant="__LINE__"></phpsyntax>
+        <phpsyntax constant="__FILE__"></phpsyntax>
+        <phpsyntax constant="true"></phpsyntax>
+        <phpsyntax constant="false"></phpsyntax>
+        <phpsyntax constant="null"></phpsyntax>
+        <phpsyntax constant="object"></phpsyntax>
+        <phpsyntax constant="array"></phpsyntax>
+
+</phpstandardsyntax>

@@ -1,0 +1,157 @@
+library UML14_Transformations;
+
+model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver    : MDRDriver;
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main() : Standard::Void
+{	 
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+	aTransformation   : MyTransformation;
+    projectPath       : Standard::String;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+
+	// we define some filenames 
+	projectPath       := 'E:/Program Files/eclipse/workspace/UML1.4/';
+	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
+	inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
+	outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'UML',		// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', 
+		inputFilename,
+		outputFilename
+	);
+
+ 	'model connected'.toOut();
+
+	aTransformation := new MyTransformation();
+	aTransformation.run();
+	
+	'That s all folks !'.toOut();
+}
+
+/************************************************************************************************/
+/************************************************************************************************/
+
+class MyTransformation
+{
+	////////////////////////////////////////////////////////////////////////////////////
+	run ()
+	{
+		attributeIterator : Standard::Iterator;
+		anAttribute       : source_model::Core::Attribute;	
+	
+		attributeIterator := !source_model::Core::Attribute!.allInstances().getNewIterator();
+		attributeIterator.start();
+		while attributeIterator.isOn() 
+		{		
+			anAttribute := attributeIterator.item().oclAsType (!source_model::Core::Attribute!);
+			Attribute_Process (anAttribute);
+			attributeIterator.next();
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_Process (theAttribute : source_model::Core::Attribute)
+	{
+		theClass : source_model::Core::Class;
+
+		'ProcessAttribute BEGIN'.toOut();
+
+        // we have to deal only with public attributes
+		if theAttribute.visibility.[=](!source_model::Data_Types::VisibilityKind!.vk_public)
+		{
+			// we retrieve the class of the attribute
+			theClass := theAttribute.owner;
+		
+			// we make the attribute private
+			Attribute_Privatize (theClass, theAttribute);
+
+			// we add a getter
+			Attribute_AddGetter (theClass, theAttribute);
+			
+		}
+		
+		'ProcessAttribute END'.toOut();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_Privatize (theClass     : source_model::Core::Class ;
+					     theAttribute : source_model::Core::Attribute)
+	{
+		theAttribute.visibility := !source_model::Data_Types::VisibilityKind!.vk_private;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	Attribute_AddGetter(ownerClass   : source_model::Core::Class ;
+					    theAttribute : source_model::Core::Attribute)
+	{
+		getOperation    : source_model::Core::Operation;
+        getMethod       : source_model::Core::Method;
+        returnParameter : source_model::Core::Parameter;
+
+        // we create the get operation
+		getOperation := new source_model::Core::Operation ();		
+		
+		// we set the name of the get operation
+		getOperation.name  := 'get_'.concat (theAttribute.name.oclAsType(!Standard::String!));
+
+		// we create the get method
+		getMethod               := new source_model::Core::Method();
+		getMethod.body          := new source_model::Data_Types::ProcedureExpression();
+		getMethod.body.language := 'java';
+		getMethod.body.body     := '// java comment'; 
+		
+		// we create the return parameter
+		returnParameter      := new source_model::Core::Parameter();
+		returnParameter.kind := !source_model::Data_Types::ParameterDirectionKind!.pdk_return;
+
+		// we set the type of the return parameter
+        associate ( 
+        	type           := theAttribute.type : source_model::Core::Classifier,
+        	typedParameter := returnParameter   : source_model::Core::Parameter
+        );
+
+		// we put the return parameter into the operation
+        associate ( 
+        	parameter         := returnParameter : source_model::Core::Parameter,
+        	behavioralFeature := getOperation    : source_model::Core::BehavioralFeature
+        );
+
+		// we associate the method with the operation
+        associate ( 
+        	specification := getOperation : source_model::Core::Operation,
+        	method        := getMethod    : source_model::Core::Method
+        );
+
+		// we put the get method into the classifier
+        associate ( 
+        	feature := getMethod  : source_model::Core::Feature, 
+        	owner   := ownerClass : source_model::Core::Classifier
+        );
+
+		// we put the get operation into the classifier
+        associate ( 
+        	feature := getOperation : source_model::Core::Feature, 
+        	owner   := ownerClass   : source_model::Core::Classifier
+        );
+	}
+}
+

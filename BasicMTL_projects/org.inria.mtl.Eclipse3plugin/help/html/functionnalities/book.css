@@ -1,0 +1,201 @@
+P.Code {
+	DISPLAY: block; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 0pt 15pt; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; COLOR: #4444cc; TEXT-INDENT: 0pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+H6.CaptionFigColumn {
+	DISPLAY: block; FONT-SIZE: 9pt; MARGIN: 3pt 0pt 11pt; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; COLOR: #000000; TEXT-INDENT: 0pt; FONT-STYLE: italic; FONT-FAMILY: "Arial"; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+P.Note {
+	DISPLAY: block; FONT-SIZE: 9pt; MARGIN: 19.5pt 0pt 19.5pt 30pt; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; COLOR: #000000; TEXT-INDENT: 0pt; FONT-FAMILY: "Arial"; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+EM.UILabel {
+	FONT-WEIGHT: bold; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; TEXT-DECORATION: none
+}
+EM.CodeName {
+	FONT-WEIGHT: bold; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; FONT-FAMILY: "Courier New"; TEXT-DECORATION: none
+}
+BODY {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H1 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H2 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H3 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H4 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H5 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+H6 {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+P {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TABLE {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TD {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+CAPTION {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TH {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+UL {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+OL {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+DL {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+LI {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+DD {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+DT {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+PRE {
+	FONT-FAMILY: Courier, monospace
+}
+BODY {
+	FONT-SIZE: 10pt
+}
+H1 {
+	FONT-SIZE: 10pt
+}
+H2 {
+	FONT-SIZE: 10pt
+}
+H3 {
+	FONT-SIZE: 10pt
+}
+H4 {
+	FONT-SIZE: 10pt
+}
+H5 {
+	FONT-SIZE: 10pt
+}
+H6 {
+	FONT-SIZE: 10pt
+}
+P {
+	FONT-SIZE: 10pt
+}
+TABLE {
+	FONT-SIZE: 10pt
+}
+TD {
+	FONT-SIZE: 10pt
+}
+CAPTION {
+	FONT-SIZE: 10pt
+}
+TH {
+	FONT-SIZE: 10pt
+}
+UL {
+	FONT-SIZE: 10pt
+}
+OL {
+	FONT-SIZE: 10pt
+}
+DL {
+	FONT-SIZE: 10pt
+}
+LI {
+	FONT-SIZE: 10pt
+}
+DD {
+	FONT-SIZE: 10pt
+}
+DT {
+	FONT-SIZE: 10pt
+}
+PRE {
+	FONT-SIZE: 10pt
+}
+BODY {
+	BACKGROUND: #ffffff
+}
+H1 {
+	FONT-SIZE: 18pt; BACKGROUND: #dddddd
+}
+H2 {
+	FONT-SIZE: 14pt
+}
+H3 {
+	FONT-SIZE: 11pt
+}
+H4 {
+	FONT-SIZE: 10pt; FONT-STYLE: italic
+}
+P {
+	MARGIN-TOP: 10px; MARGIN-BOTTOM: 10px
+}
+PRE {
+	FONT-SIZE: 9pt
+}
+A:link {
+	COLOR: #0000ff
+}
+A:hover {
+	COLOR: #000080
+}
+A:visited {
+	TEXT-DECORATION: underline
+}
+UL {
+	MARGIN-TOP: 0px
+}
+LI {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+LI P {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+OL {
+	MARGIN-TOP: 0px
+}
+DL {
+	MARGIN-TOP: 0px
+}
+DT {
+	MARGIN-TOP: 0px; FONT-WEIGHT: bold; MARGIN-BOTTOM: 0px
+}
+DD {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+STRONG {
+	FONT-WEIGHT: bold
+}
+EM {
+	FONT-STYLE: italic
+}
+VAR {
+	FONT-STYLE: italic
+}
+DIV.revision {
+	BORDER-LEFT: #7b68ee thin solid
+}
+TH {
+	FONT-WEIGHT: bold
+}
+LI {
+	
+}
+.rightTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #003399; LINE-HEIGHT: 12px; FONT-FAMILY: helvetica,arial,sans-serif,verdana; TEXT-ALIGN: left; TEXT-DECORATION: none
+}

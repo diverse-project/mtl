@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<?NLS TYPE="org.eclipse.help.toc"?> 
+ <toc label="MTL Plugin Help" topic="help/html/toc.html">
+ <topic label="Presentation" href="help/html/presentation/presentation.html">
+ </topic>
+ <topic label="Getting Started" href="help/html/gettingstarted/maintopic.html">
+ </topic>
+ <topic label="Properties of a MTL project" href="help/html/properties/maintopic.html">
+ </topic>
+ <topic label="Preferences settings" href="help/html/preferences/maintopic.html">
+ </topic>
+ <topic label="MTL Perspective" href="help/html/perspective/maintopic.html">
+ </topic>
+ <topic label="Tasks" href="help/html/functionnalities/maintopic.html">
+ <topic label="Create projects" href="help/html/functionnalities/createProjects.html">
+			<topic label="Create a project in the workspace" 
+				href="help/html/functionnalities/CreateprojWorkspace.html"/>
+			<topic label="Create a project in an existing directory" 
+				href="help/html/functionnalities/CreateprojDir.html"/>
+			</topic>
+		<topic label="Create Files and Folders" 
+			href="help/html/functionnalities/menufandF.html"/>
+			<topic label="Create a Folder" 
+				href="help/html/functionnalities/CreateFolder.html"/>
+			<topic label="Create an MTL File" 
+				href="help/html/functionnalities/CreateFile.html"/>
+ </topic>
+ <topic label="More informations" href="">
+			<topic label="About MTL" 	href="http://modelware.inria.fr/rubrique8.html"/>
+			<topic label="About Triskell Team" 	href="http://www.irisa.fr/triskell"/>
+</topic>
+
+ </toc>

@@ -1,0 +1,78 @@
+// $Id: While.mtl,v 1.1 2003/10/14 15:56:21 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+class Foreach extends Instruction 
+{
+	varDeclaration : VarDeclaration;
+	collection     : Expression;
+	condition      : Expression;	
+	body           : Standard::OrderedSet;
+
+
+	/** */ 
+	appendBody(instr : Instruction) : Standard::Void
+	{	if isNull(body)
+			{ JavaCode [BMTL_body=new BMTLOrderedSet()]; }
+		body := body.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+
+	/** */
+	toASTJava() : ASTJava::Object
+	{
+	anInstruction : Instruction;
+	instructions : Standard::Iterator;
+	properties : Standard::Iterator;
+	aProperty : Property;
+
+	////////////////////////////////////////////////////////////
+	// we create the foreach node 
+	////////////////////////////////////////////////////////////
+	JavaCode [
+		org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Foreach  theForeach = 
+			new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Foreach (
+
+				(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration)BMTL_varDeclaration.BMTL_toASTJava(),
+
+				(BMTL_collection != null ?
+					(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_collection.BMTL_toASTJava()
+					: null
+				),
+
+				(BMTL_condition != null ?
+					(org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_condition.BMTL_toASTJava()				
+					  : null
+				)
+			)
+	];
+
+	////////////////////////////////////////////////////////////
+	// we set the body instruction
+	////////////////////////////////////////////////////////////
+	instructions := body.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+      JavaCode [theForeach.appendBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+
+	////////////////////////////////////////////////////////////
+	// we set the properties of the node
+	////////////////////////////////////////////////////////////
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theForeach.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+
+	JavaCode [return theForeach];
+	}
+ }

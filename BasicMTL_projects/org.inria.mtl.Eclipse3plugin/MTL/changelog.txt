@@ -1,0 +1,11 @@
+$Id: changelog.txt,v 1.1 2004-07-30 14:10:39 sdzale Exp $
+List of the changes between different versions
+
+
+Current changes (since beta2)
+-----------------------------
+- Support for the foreach syntax
+- EMF repository support
+- Support for elseif syntax
+- Fixed support for operators. They correctly use precedence.
+- ModFact repository support.

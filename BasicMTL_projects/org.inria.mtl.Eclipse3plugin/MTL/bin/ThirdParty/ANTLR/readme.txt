@@ -1,0 +1,1 @@
+This is the ANTLR jar file from antlr2.7.2_03 plugin for Eclipse

@@ -1,0 +1,39 @@
+<!-- $Id: build.xml,v 1.1 2004-07-30 14:10:52 sdzale Exp $ -->
+<project name="UML14" default="run all UML14_Transformations" basedir=".">
+	<description>
+        Sample Build file for using the BasicMTL compiler
+	</description>
+	
+	
+	
+	
+	<target name="run all UML14_Transformations" depends="run UML14_Transformation, run TP_IM, run PL derivation"> 
+  		<description>
+  		</description>   		
+  	</target>  	
+	<target name="run UML14_Transformation" > 
+  		<description>
+  		</description>
+  		<ant antfile="UML_Utils_build.xml" dir="." target="compile"/>
+  		<ant antfile="UML14_Transformations_build.xml" dir="." target="compile"/>
+  		<ant antfile="UML14_Transformations_build.xml" dir="." target="run"/>
+  	</target>
+  	<target name="run TP_IM" > 
+  		<description>
+  		</description> 
+  		<ant antfile="Utils_build.xml" dir="src/TP_IM" target="compile"/>
+  		<ant antfile="TP_IM_build.xml" dir="src/TP_IM" target="compile"/>
+  		<ant antfile="TP_IM_build.xml" dir="src/TP_IM" target="run"/>
+  	</target>	
+  	<target name="run PL derivation" > 
+  		<description>
+  		</description>  
+  		<ant antfile="PLDerivation_build.xml" dir="." target="compile"/>
+  		<ant antfile="PLDerivation_build.xml" dir="." target="run"/>  		
+  	</target> 
+  	<target name="clean">
+  		<delete dir="build"></delete>   		
+  	</target>
+  	
+
+</project>

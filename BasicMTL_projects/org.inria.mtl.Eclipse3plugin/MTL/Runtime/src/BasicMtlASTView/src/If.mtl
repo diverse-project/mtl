@@ -1,0 +1,59 @@
+// $Id: If.mtl,v 1.2 2003/12/03 04:30:14 ffondeme Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class If extends Instruction {
+ 
+	condition : Expression;
+	thenBody : Standard::OrderedSet;
+	elseBody : Standard::OrderedSet;
+ 
+	appendThenBody(instr : Instruction) : Standard::Void
+	{	if isNull(thenBody)
+			{ JavaCode [BMTL_thenBody=new BMTLOrderedSet()]; }
+		thenBody := thenBody.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+	appendElseBody(instr : Instruction) : Standard::Void
+	{	if isNull(elseBody)
+			{ JavaCode [BMTL_elseBody=new BMTLOrderedSet()]; }
+		elseBody := elseBody.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	anInstruction : Instruction;
+	instructions,properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.If theIf=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.If((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_condition.BMTL_toASTJava())];
+	instructions := thenBody.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+		JavaCode [theIf.appendThenBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+	if isNull(elseBody).[not]()
+	{
+	instructions := elseBody.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+		JavaCode [theIf.appendElseBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theIf.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theIf];
+	}
+ }

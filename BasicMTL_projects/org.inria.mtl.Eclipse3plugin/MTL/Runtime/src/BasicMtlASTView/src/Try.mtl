@@ -1,0 +1,72 @@
+// $Id: Try.mtl,v 1.2 2003/12/16 07:39:04 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Try extends Instruction {
+ 
+	tryBody : Standard::OrderedSet;
+	finalizeBody : Standard::OrderedSet;
+	catchPart : Standard::OrderedSet;
+ 
+	appendTryBody(instr : Instruction) : Standard::Void
+	{	if isNull(tryBody)
+			{ JavaCode [BMTL_tryBody=new BMTLOrderedSet()]; }
+		tryBody := tryBody.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+	appendCatchPart(aCatch : Catch) : Standard::Void
+	{	if isNull(catchPart)
+			{ JavaCode [BMTL_catchPart=new BMTLOrderedSet()]; }
+		catchPart := catchPart.append(aCatch).oclAsType(!Standard::OrderedSet!);
+	}
+ 
+	appendFinalizeBody(instr : Instruction) : Standard::Void
+	{	if isNull(finalizeBody)
+			{ JavaCode [BMTL_finalizeBody=new BMTLOrderedSet()]; }
+		finalizeBody := finalizeBody.append(instr).oclAsType(!Standard::OrderedSet!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	anInstruction : Instruction;
+	aCatch : Catch;
+	instructions,catches,properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Try theTry=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Try()];
+	instructions := tryBody.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+		JavaCode [theTry.appendTryBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+	catches := catchPart.getNewIterator();
+	catches.start();
+	while catches.isOn() {
+		aCatch := catches.item().oclAsType(!Catch!);
+		JavaCode [theTry.appendCatchPart((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Catch)BMTL_aCatch.BMTL_toASTJava())];
+		catches.next();
+	}
+	if isNull(finalizeBody).[not]() {
+	instructions := finalizeBody.getNewIterator();
+	instructions.start();
+	while instructions.isOn() {
+		anInstruction := instructions.item().oclAsType(!Instruction!);
+		JavaCode [theTry.appendFinalizeBody((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Instruction)BMTL_anInstruction.BMTL_toASTJava())];
+		instructions.next();
+	}
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theTry.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theTry];
+	}
+ }

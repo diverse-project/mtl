@@ -1,0 +1,12 @@
+$Id: configuration.txt,v 1.1 2004-07-30 14:11:45 sdzale Exp $
+Errorlink eclipse plugin allows to have hyperlinks in the console. 
+This is usefull for example when you have an error message with line indication
+and you want to directly jump to this file to look at the error.
+
+download from : http://sourceforge.net/projects/sunshade/
+for Irisa a copy is available in /udd/triskell/Soft/eclipse/plugin/errorlink
+
+to use the errorlink plugin with MTL simply add these regexp (windows/preferences/external tools/errorlink)
+
+.* (.*\.mtl)()() .*
+.* (.*\.mtl) line (\d+):(\d+): .*
