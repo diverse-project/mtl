@@ -1,5 +1,5 @@
 /*
- * $Id: PoseidonModelManager.java,v 1.1 2004-10-06 15:15:49 dvojtise Exp $
+ * $Id: PoseidonModelManager.java,v 1.2 2004-10-08 14:36:01 jpthibau Exp $
  * Authors : dvojtise
  * Created on 5 octobre 2004
  * 
@@ -23,7 +23,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 /**
  * @author dvojtise 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * 
  * This Model Manager is intended to be the start of a BasicMTL or MTL library
  * it does all the initialization stuffes needed by the MDRdriver
@@ -182,7 +182,7 @@ public class PoseidonModelManager {
 	{
 		if (! isInitialized) throw new Exception("Driver not correctly initialized");
 		
-		MDRAPI api = new MDRAPI(repository, metamodel, modelName, model);
+		MDRAPI api = new MDRAPI(repository, metamodel, modelName, model, false);
 		saveHookForModel(api, model);
 		api.startup(null);
 		return api;
@@ -263,7 +263,8 @@ public class PoseidonModelManager {
 		MDRAPI api = new MDRAPI(null, 
 								new XmiMetamodel(metamodelXmiFileName),
 								modelName, 
-								xmiModel);
+								xmiModel, 
+								false);
 		managedAPIs.put(modelName,api);
 		saveHookForModel(api, xmiModel);
 		api.startup(null);
@@ -285,7 +286,8 @@ public class PoseidonModelManager {
 		MDRAPI api = new MDRAPI(null, 
 								new XmiMetamodel(metamodelXmiFileName, new String [] {metaPackageToInstanciate}),
 								modelName, 
-								xmiModel);
+								xmiModel,
+								false);
 		managedAPIs.put(modelName,api);
 		saveHookForModel(api, xmiModel);
 		api.startup(null);

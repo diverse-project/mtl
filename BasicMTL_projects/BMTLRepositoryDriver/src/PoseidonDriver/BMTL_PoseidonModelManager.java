@@ -1,4 +1,4 @@
-/* $Id: BMTL_PoseidonModelManager.java,v 1.1 2004-10-06 15:04:40 dvojtise Exp $
+/* $Id: BMTL_PoseidonModelManager.java,v 1.2 2004-10-08 14:35:57 jpthibau Exp $
  * Created on 25 août 2003
  */
 package MDRDriver;
@@ -123,7 +123,7 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 		StringValue modelName,
 		Model model)
 		throws Exception {
-		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model);
+		return this.getModel(repository == null ? null : repository.getTheString(), metamodel, modelName == null ? null : modelName.getTheString(), model, false);
 	}
 
 	/* (non-Javadoc)
@@ -146,7 +146,8 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 			metamodelXmiFileName == null ? null : metamodelXmiFileName.getTheString(),
 			modelName == null ? null : modelName.getTheString(),
 			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
-			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString());
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString(),
+			false);
 	}
 
 	/* (non-Javadoc)
@@ -164,7 +165,8 @@ public class BMTL_PoseidonModelManager extends SimpleStandaloneModelManager impl
 			metaPackageToInstanciate == null ? null : metaPackageToInstanciate.getTheString(),
 			modelName == null ? null : modelName.getTheString(),
 			modelXmiInputFileName == null ? null : modelXmiInputFileName.getTheString(),
-			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString());
+			modelXmiOuputFileName == null ? null : modelXmiOuputFileName.getTheString(),
+			false);
 	}
 
 	/* (non-Javadoc)
