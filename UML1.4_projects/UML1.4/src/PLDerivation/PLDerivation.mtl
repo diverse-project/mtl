@@ -1,5 +1,5 @@
 /************************************************************
- * $Id: PLDerivation.mtl,v 1.1 2003-11-04 12:48:22 dvojtise Exp $ *
+ * $Id: PLDerivation.mtl,v 1.2 2003-11-06 15:42:10 dvojtise Exp $ *
  ************************************************************/
 library PLDerivation;
 
@@ -23,18 +23,18 @@ main() : Standard::Void
    fullMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'FullMercure',
-                       '.\\Uml1.4Models\\MercurePL.xmi',
-                       '.\\DerivedProductModel\\FullMercure.xmi');
+                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
+                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\FullMercure.xmi');
    customMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'CustomMercure',
-                       '.\\Uml1.4Models\\MercurePL.xmi',
-                       '.\\DerivedProductModel\\CustomMercure.xmi');
+                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
+                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\CustomMercure.xmi');
    miniMercure := mdrdriver.getModelFromXMI ('.\\MetaModel\\xmi_1.2\\01-02-15.xml',
                        'UML',        // name of the root package in the Uml1.4 metamodel
                        'MiniMercure',
-                       '.\\Uml1.4Models\\MercurePL.xmi',
-                       '.\\DerivedProductModel\\MiniMercure.xmi');
+                       'Uml1.4Models\\PLDerivation\\MercurePL.xmi',
+                       'Uml1.4Models\\PLDerivation\\DerivedProductModel\\MiniMercure.xmi');
 
 
 
