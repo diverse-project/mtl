@@ -160,7 +160,7 @@ public class CompileCommand extends MTLCommand
 	/** */
 	private String checkPathEnd (String path)
 	{
-		if (path.charAt(path.length()-1) == MTLPlugin.getSeparator())
+		if (path.charAt(path.length()-1) == MTLPlugin.getSeparator().charAt(0))
 		{
 			return path;
 		}

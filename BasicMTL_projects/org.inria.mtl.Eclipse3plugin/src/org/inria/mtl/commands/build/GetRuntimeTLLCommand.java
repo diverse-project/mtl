@@ -21,7 +21,7 @@ public class GetRuntimeTLLCommand extends MTLCommand
 	public Object mainExecute() throws Exception 
 	{
 		java.util.Collection result = new java.util.Vector ();
-		char s = MTLPlugin.getSeparator();
+		String s = MTLPlugin.getSeparator();
 
 		// we retrieve the name of the folder that contains the runtime TLLs.
 		String tllFolderName = MTLPlugin.getDefault().getLocation() + s + "MTL" + s + "bin" + s + "Compil" + s + "TLL";
