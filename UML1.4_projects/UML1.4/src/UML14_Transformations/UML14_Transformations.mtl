@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML14_Transformations.mtl,v 1.5 2003-09-18 12:57:22 dvojtise Exp $
+ * $Id: UML14_Transformations.mtl,v 1.1 2003-11-04 12:48:23 dvojtise Exp $
  * Simple transformations that apply to UML1.4 models
  *	includes : 
  *		Attribute_Privatize that privatize 
@@ -30,8 +30,10 @@ main() : Standard::Void
 	// we define some filenames 
 	projectPath       := './';
 	metamodelFilename := projectPath.concat ('MetaModel/xmi_1.2/01-02-15.xml');
-	inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
-	outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
+	// inputFilename     := projectPath.concat ('Uml1.4Models/testposeidon.xmi');
+	// outputFilename    := projectPath.concat ('Uml1.4Models/testposeidon_modified.xmi');
+	inputFilename     := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML.xml');
+	outputFilename    := projectPath.concat ('Uml1.4Models/xmi_1.1/SimpleUmlMM_UML.xml');
 
 
 

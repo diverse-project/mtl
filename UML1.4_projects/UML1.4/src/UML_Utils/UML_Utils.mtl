@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: UML_Utils.mtl,v 1.3 2003-09-17 09:57:38 dvojtise Exp $
+ * $Id: UML_Utils.mtl,v 1.1 2003-11-04 12:48:22 dvojtise Exp $
  * This library provides tools function to manipulate objects of UML1.4 metamodel
  * It is inspired by some usefull Objecteering J method for some metaclasses.
  * It should avoid to have some repetitive MTL code. 
