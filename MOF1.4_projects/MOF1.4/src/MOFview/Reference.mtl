@@ -1,0 +1,29 @@
+/******************************************************************************
+ * $Id: Reference.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class Reference extends StructuralFeature
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getExposedEnd () : MOFview::AssociationEnd   {return null;}
+
+	/** */
+	getReferencedEnd () : MOFview::AssociationEnd   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setExposedEnd (exposedEnd : MOFview::AssociationEnd)   {}
+
+	/** */
+	setReferencedEnd (referencedEnd : MOFview::AssociationEnd)   {}
+}

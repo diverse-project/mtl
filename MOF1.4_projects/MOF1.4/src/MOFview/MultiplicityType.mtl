@@ -1,0 +1,41 @@
+/******************************************************************************
+ * $Id: MultiplicityType.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class MultiplicityType extends StructureType
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getLower () : Standard::Integer   {return null;}
+
+	/** */
+	getUpper () : Standard::Integer   {return null;}
+	
+	/** */
+	getIsOrdered () : Standard::Boolean   {return null;}
+	
+	/** */
+	getIsUnique () : Standard::Boolean   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setLower (lower : Standard::Integer)   {}
+
+	/** */
+	setUpper (upper : Standard::Integer)   {}
+	
+	/** */
+	setIsOrdered (isOrdered : Standard::Boolean)   {}
+	
+	/** */
+	setIsUnique (isUnique : Standard::Boolean)   {}
+}

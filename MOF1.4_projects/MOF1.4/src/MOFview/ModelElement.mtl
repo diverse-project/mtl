@@ -1,0 +1,53 @@
+/******************************************************************************
+ * $Id: ModelElement.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class ModelElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/**  */
+	getName () : Standard::String   {return null;}
+
+	/**  */
+	getQualifiedName () : Standard::String   {return null;}
+
+	/**  */
+	getAnnotation () : Standard::String   {return null;}
+
+	/** */
+	getContainer () : MOFview::Namespace   {return null;}
+	
+	/** */
+	getRequiredElements () : Standard::Set   {return null;}
+
+	/** */
+	getConstraints () : Standard::Set   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/**  */
+	setName (name : Standard::String)  {}
+
+	/**  */
+	setQualifiedName (qualifiedName : Standard::String)   {}
+
+	/**  */
+	setAnnotation (annotation : Standard::String)   {}
+
+	/** */
+	setContainer (container : MOFview::Namespace)   {}
+	
+	/** */
+	addRequiredElement (requiredElements : MOFview::ModelElement)  {}
+
+	/** */
+	addConstraint (constraint : MOFview::Constraint)  {}
+}

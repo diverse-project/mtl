@@ -1,0 +1,41 @@
+/******************************************************************************
+ * $Id: Constraint.mtl,v 1.1 2004-02-02 17:20:42 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class Constraint extends ModelElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getExpression () : Standard::String   {return null;}
+
+	/** */
+	getLanguage() : Standard::String   {return null;}
+	
+	/** */
+	getEvaluationPolicy () : MOFview::EvaluationKind   {return null;}
+	
+	/** */
+	getconstrainedElements () : Standard::Set   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setExpression (expression : Standard::String)   {}
+
+	/** */
+	setLanguage (language : Standard::String)   {}
+	
+	/** */
+	setEvaluationPolicy (evaluationPolicy : MOFview::EvaluationKind)   {}
+	
+	/** */
+	addConstrainedElement (constrainedElement : MOFview::ModelElement) {}
+}

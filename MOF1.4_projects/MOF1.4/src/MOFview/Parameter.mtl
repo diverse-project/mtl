@@ -1,0 +1,29 @@
+/******************************************************************************
+ * $Id: Parameter.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class Parameter extends TypedElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getDirection () : MOFview::DirectionKind   {return null;}
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setDirection (direction : MOFview::DirectionKind)   {}
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   {}
+}

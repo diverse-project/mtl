@@ -1,0 +1,41 @@
+/******************************************************************************
+ * $Id: AssociationEnd.mtl,v 1.1 2004-02-02 17:20:40 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class AssociationEnd extends TypedElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsNavigable () : Standard::Boolean   {return null;}
+
+	/** */
+	getIsChangeable () : Standard::Boolean   {return null;}
+
+	/** */
+	getAggregation () : MOFview::AggregationKind   {return null;} 
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   {return null;}
+	
+	
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsNavigable (isNavigable : Standard::Boolean)   {}
+
+	/** */
+	setIsChangeable (isChangeable : Standard::Boolean) {}
+
+	/** */
+	setAggregation (aggregation : MOFview::AggregationKind)   {} 
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   {}
+}

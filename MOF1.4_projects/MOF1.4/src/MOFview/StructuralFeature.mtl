@@ -1,0 +1,29 @@
+/******************************************************************************
+ * $Id: StructuralFeature.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class StructuralFeature extends Feature, TypedElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getMultiplicity () : MOFview::MultiplicityType   {return null;}
+	
+	/** */
+	getIsChangeable () : Standard::Boolean   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setMultiplicity (multiplicity : MOFview::MultiplicityType)   {}
+	
+	/** */
+	setIsChangeable (isChangeable : Standard::Boolean)   {}
+}

@@ -1,0 +1,47 @@
+/******************************************************************************
+ * $Id: GeneralizableElement.mtl,v 1.1 2004-02-02 17:20:39 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class GeneralizableElement extends Namespace
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsRoot () : Standard::Boolean   {return null;}
+
+	/** */
+	getIsLeaf () : Standard::Boolean   {return null;}
+
+	/** */
+	getIsAbstract() : Standard::Boolean   {return null;}
+
+	/** */
+	getVisibility () : MOFview::VisibilityKind   {return null;}
+
+	/** */
+	getSupertypes () : Standard::Set   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsRoot (isRoot : Standard::Boolean)   {}
+
+	/** */
+	setIsLeaf (isLeaf : Standard::Boolean)   {}
+
+	/** */
+	setIsAbstract (isAbstract : Standard::Boolean)   {}
+
+	/** */
+	setVisibility (visibility : MOFview::VisibilityKind)   {}
+
+	/** */
+	addSupertype (superType : MOFview::GeneralizableElement)  {}
+}

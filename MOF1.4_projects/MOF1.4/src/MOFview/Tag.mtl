@@ -1,0 +1,35 @@
+/******************************************************************************
+ * $Id: Tag.mtl,v 1.1 2004-02-02 17:20:43 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class Tag extends ModelElement
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getTagId () : Standard::String   {return null;}
+
+	/** */
+	getValues () : Standard::Set   {return null;}
+
+	/** */
+	getElements () : Standard::Set   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setTagId (tagId : Standard::String)   {}
+
+	/** */
+	addValue (value : Standard::String)  {}
+
+	/** */
+	addElement (element : MOFview::ModelElement)  {}
+}

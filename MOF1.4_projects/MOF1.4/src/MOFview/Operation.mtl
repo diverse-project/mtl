@@ -1,0 +1,29 @@
+/******************************************************************************
+ * $Id: Operation.mtl,v 1.1 2004-02-02 17:20:44 edrezen Exp $
+ ******************************************************************************/
+
+library MOFview;
+
+class Operation extends Feature 
+{
+	/*********************************/
+	/**           GETTERS           **/
+	/*********************************/
+
+	/** */
+	getIsQuery () : Standard::Boolean   {return null;}
+
+	/** */
+	getExceptions () : Standard::Set   {return null;}
+
+
+	/*********************************/
+	/**           SETTERS           **/
+	/*********************************/
+
+	/** */
+	setIsQuery (isQuery : Standard::Boolean)   {}
+
+	/** */
+	addException (exception : MOFview::Exception)  {}
+}
