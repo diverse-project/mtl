@@ -1,4 +1,4 @@
-/* $Id: Directories.java,v 1.5 2004-06-29 13:12:08 edrezen Exp $
+/* $Id: Directories.java,v 1.6 2004-07-01 10:24:28 edrezen Exp $
  * Created on May 22, 2003
  *
  * Authors : ffondemen
@@ -84,16 +84,16 @@ public class Directories {
 
 	/** This method returns the list of filenames in the provided path name. This is done recursivly.
 	 * The returned strings are relative to the initial dir
-	 * The initial directory must already have a separator (for example '/')
 	 */
 	static public String[] getFilesFromDirectory (String dir)
 	{
+		String dirPath = new java.io.File (dir).getAbsolutePath();
+
 		java.util.Vector vec = getFilesAsVectorFromDirectory (dir);
-		String result[] = new String[vec.size()];
+		String[] result = new String[vec.size()];
 		for (int i=0; i<result.length; i++)
 		{
-			result[i] = (String)vec.get(i);
-			result[i] = result[i].substring (dir.length()); 
+			result[i] = ((File)vec.get(i)).getAbsolutePath().substring (dirPath.length()+1);
 		}
 		return result;
 	}
@@ -116,7 +116,7 @@ public class Directories {
 		}
 		else if (file.isFile())
 		{
-			result.add (file.getAbsolutePath());
+			result.add (file);
 		}
 		return result;
 	}
