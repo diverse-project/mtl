@@ -1,9 +1,11 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.3 2003-08-09 15:17:53 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/allReferedTypes.java,v 1.4 2003-08-14 21:00:20 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
 package TypeChecker;
+
+import java.util.Iterator;
 
 import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.utils.Java.Mangler;
@@ -50,9 +52,10 @@ public class allReferedTypes {
 			if ((checkIsnotAView(loadedTLL.getName(),theLib))
 				&& (checkIsnotAnInheritedLib(loadedTLL.getName(),theLib))) {
 				QualifiedName usedLib=new QualifiedName();
+				usedLib.add(loadedTLL.getName());
 				usedLib.setIsExternType(true);
 				usedLib.setExternMangledName(loadedTLL.getMangle());
-				usedLib.setExternCompleteName(loadedTLL.getPackageName()+usedLib.getExternMangledName());
+				usedLib.setExternCompleteName(loadedTLL.getPackageName()+'.'+usedLib.getExternMangledName());
 				usedLib.setExternLibMangledName(loadedTLL.getMangle());
 				usedLib.setExternLibCompleteName(loadedTLL.getPackageName()+usedLib.getExternLibMangledName());
 				theLib.appendUsedLibs(usedLib);
@@ -91,7 +94,7 @@ public class allReferedTypes {
 		}
 		return false;
 	}
-	
+	/*
 	public static boolean checkStandardLib(QualifiedName aType,String libName)
 	{	if (libName.equals("Standard"))
 		{	aType.setIsExternType(true);
@@ -102,16 +105,16 @@ public class allReferedTypes {
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	public static boolean checkExternLibName(QualifiedName aType,String libName,BasicMtlLibrary theLib)
 	{	Library theLoadedTll=loadTLL(libName,theLib);
 		if (theLoadedTll != null)
 			{	aType.setIsExternType(true);
 				aType.setExternMangledName(theLoadedTll.getMangle());
-				aType.setExternCompleteName(theLoadedTll.getPackageName()+aType.getExternMangledName());
+				aType.setExternCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternMangledName());
 				aType.setExternLibMangledName(theLoadedTll.getMangle());
-				aType.setExternLibCompleteName(theLoadedTll.getPackageName()+aType.getExternLibMangledName());
+				aType.setExternLibCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternLibMangledName());
 				return true;
 		}
 		return false;
@@ -123,11 +126,17 @@ public class allReferedTypes {
 			{	String className=(String)aType.get(1);
 				KnownClasses knownClasses=theLoadedTll.getKnownTypes();
 				if (knownClasses.containsKey(className)) {
+					UserClass theClass = (UserClass)knownClasses.get(className);
+					boolean isManuallyMangled = ((Boolean)theClass.getProperty("ManualMangling").getValue()).booleanValue();
 					aType.setIsExternType(true);
-					aType.setExternMangledName(((UserClass)knownClasses.get(className)).getMangle());
-					aType.setExternCompleteName(theLoadedTll.getPackageName()+aType.getExternMangledName());
+					aType.setExternMangledName(theClass.getMangle());
+					if (isManuallyMangled) {
+						aType.setExternCompleteName(theClass.getMangle());
+					} else {
+						aType.setExternCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternMangledName());
+					}
 					aType.setExternLibMangledName(theLoadedTll.getMangle());
-					aType.setExternLibCompleteName(theLoadedTll.getPackageName()+aType.getExternLibMangledName());
+					aType.setExternLibCompleteName(theLoadedTll.getPackageName()+'.'+aType.getExternLibMangledName());
 					return true;
 				}
 		}
@@ -140,34 +149,39 @@ public class allReferedTypes {
 		int correctlyChecked=0;
 		AllReferedTypes allReferedTypes=theLib.getAllReferedTypes();
 		for(int i=0;i<allReferedTypes.size();i++) {
-			QualifiedName aType=(QualifiedName)allReferedTypes.get(i);
-			String firstName=(String)aType.get(0);
-			if (checkModel(aType,firstName,theLib)) correctlyChecked++;
-			else if (aType.size()==1) { //a single name
-					if (checkLocalClass(aType,firstName,theLib)) correctlyChecked++;
-					else	if (checkExternLibName(aType,firstName,theLib)) correctlyChecked++;
-							else {TLLtypechecking.getLog().error("Unknown Local Type"+firstName);
-									errors++;} 
-					}
-				else //extern library class::...
-					if (aType.size()==2) {
-						/*if (checkStandardLib(aType,firstName)) correctlyChecked++;
-						else*/ if (checkTLLClass(aType,firstName,theLib)) correctlyChecked++;
-							else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName+aType.get(1));
-									errors++;} 
-					}
-					else //type which is not a model element and has more thn 2 components
-						//Certainly a mistake !
-							{ TLLtypechecking.getLog().error("or Undeclared model or extern class type having more than 2 components !");;
-								TLLtypechecking.getLog().info(firstName+"could be the undeclared model");
-								TLLtypechecking.getLog().info("The type components :");
-								for(int j=0;j<aType.size();j++)
-									TLLtypechecking.getLog().info(aType.get(j));
-								errors++;
-								}
+			if (checkType((QualifiedName)allReferedTypes.get(i), theLib))
+				correctlyChecked++;
 			}
 		TLLtypechecking.getLog().info(correctlyChecked+" types correctly checked.");
 		return errors+warnings;
+	}
+	
+	public static boolean checkType (QualifiedName aType, BasicMtlLibrary theLib) {
+		String firstName=(String)aType.get(0);
+		if (checkModel(aType,firstName,theLib)) return true;
+		else if (aType.size()==1) { //a single name
+				if (checkLocalClass(aType,firstName,theLib)) return true;
+				else	if (checkExternLibName(aType,firstName,theLib)) return true;
+						else {TLLtypechecking.getLog().error("Unknown Local Type"+firstName);
+								errors++;} 
+				}
+			else //extern library class::...
+				if (aType.size()==2) {
+					/*if (checkStandardLib(aType,firstName)) return true;
+					else*/ if (checkTLLClass(aType,firstName,theLib)) return true;
+						else { TLLtypechecking.getLog().error("Extern class type not found:"+firstName+aType.get(1));
+								errors++;} 
+				}
+				else //type which is not a model element and has more thn 2 components
+					//Certainly a mistake !
+						{ TLLtypechecking.getLog().error("or Undeclared model or extern class type having more than 2 components !");;
+							TLLtypechecking.getLog().info(firstName+"could be the undeclared model");
+							TLLtypechecking.getLog().info("The type components :");
+							for(int j=0;j<aType.size();j++)
+								TLLtypechecking.getLog().info(aType.get(j));
+							errors++;
+							}
+		return false;
 	}
 
 }

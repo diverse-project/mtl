@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/VarCallAnalyser.java,v 1.1 2003-08-06 15:55:29 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/OperationCallChecker/VarCallAnalyser.java,v 1.2 2003-08-14 21:00:20 ffondeme Exp $
  * Created on 1 août 2003
  *
  */
@@ -16,7 +16,8 @@ import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
 public class VarCallAnalyser extends TLLTopDownVisitor.VarCallAnalyser {
 
 	public void VarCallAction(VarCall ASTnode,java.util.Map context)
-	{	VarDeclaration relatedVarDecl=ASTnode.relatedDecl;
+	{	VarDeclaration relatedVarDecl=CommonFunctions.getVarDeclaration(ASTnode.getContainerOp(), ASTnode.getVarName(), ASTnode.getLineNumber());
+		ASTnode.setRelatedDecl(relatedVarDecl);
 		QualifiedName type=relatedVarDecl.getType();
 		if (type.getIsModelType()) ASTnode.setModelEltVar(true);
 	}

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.2 2003-08-08 15:49:26 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/TLLTypeChecker/src/TypeChecker/inheritedSignatures.java,v 1.3 2003-08-14 21:00:20 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  */
@@ -34,7 +34,7 @@ public class inheritedSignatures {
 		return true;
 	}
 	
-	public static java.util.Vector compatibleAndPresentOp(UserDefinedClass aClass,InheritedOpSignature parentSignature)
+	public static java.util.Vector compatibleAndPresentOp(UserDefinedClass aClass,InheritedOpSignature parentSignature, BasicMtlLibrary theLib)
 	//determine if the parentsignature is compatible with signatures already present in the inherited set of the class
 	//also determine if the signature is already present in the inherited set
 	{	java.util.Vector result=new java.util.Vector();
@@ -59,12 +59,12 @@ public class inheritedSignatures {
 		return result;
 	}
 	
-	public static boolean addAnInheritedSignature(UserDefinedClass aClass,InheritedOpSignature parentSignature)
+	public static boolean addAnInheritedSignature(UserDefinedClass aClass,InheritedOpSignature parentSignature, BasicMtlLibrary theLib)
 	{	if (aClass.cardInheritedSignatures()==0)
 			aClass.appendInheritedSignatures(parentSignature);
 		else {
 			boolean isRedefined=redefinedOp(aClass,parentSignature);
-			java.util.Vector compatible_present=compatibleAndPresentOp(aClass,parentSignature);
+			java.util.Vector compatible_present=compatibleAndPresentOp(aClass,parentSignature, theLib);
 			boolean isCompatible=((Boolean)compatible_present.get(0)).booleanValue();
 			boolean isAlreadyPresent=((Boolean)compatible_present.get(1)).booleanValue();
 			if (! isRedefined) {
@@ -84,7 +84,7 @@ public class inheritedSignatures {
 		return true;//no error
 	}
 	
-	public static boolean addSignatures(UserDefinedClass aClass,UserDefinedClass parentClass,QualifiedName originType,QualifiedName relayer)
+	public static boolean addSignatures(UserDefinedClass aClass,UserDefinedClass parentClass,QualifiedName originType,QualifiedName relayer, BasicMtlLibrary theLib)
 	{	int errors=0;
 		for (int i=0;i<parentClass.cardLocalSignatures();i++) {
 			//make the inherited signature from the parent local signature
@@ -94,14 +94,14 @@ public class inheritedSignatures {
 			parentSignature.setReturnedType(localSignature.getReturnedType());
 			for (int j=0;j<localSignature.cardArgsTypes();j++)
 				parentSignature.appendArgsTypes(localSignature.getArgsTypes(j));
-			parentSignature.setParentThatRelayOp(relayer);
 			parentSignature.setTypeWhichDefineOp(originType);
-			if (! addAnInheritedSignature(aClass,parentSignature))
+			parentSignature.setParentThatRelayOp(relayer);
+			if (! addAnInheritedSignature(aClass,parentSignature, theLib))
 				errors++;
 		}
 		for (int i=0;i<parentClass.cardInheritedSignatures();i++) {
 			InheritedOpSignature parentSignature=(InheritedOpSignature)parentClass.getInheritedSignatures(i);
-			if (! addAnInheritedSignature(aClass,parentSignature))
+			if (! addAnInheritedSignature(aClass,parentSignature, theLib))
 				errors++;
 		}			
 		if (errors>0) return true;
@@ -116,7 +116,8 @@ public class inheritedSignatures {
 			else { QualifiedName origin=new QualifiedName();
 					origin.addElement(theLib.getName());
 					origin.addElement(parentName);
-				    return addSignatures(aClass,parentClass,origin,relayer);} 
+					allReferedTypes.checkLocalClass(origin, parentName, theLib);
+				    return addSignatures(aClass,parentClass,origin,relayer, theLib);} 
 		}
 		if (parentName.equals(theLib.getName())) {
 			TheLibraryClass parentClass=theLib.getLibraryClass();
@@ -124,7 +125,8 @@ public class inheritedSignatures {
 			else { QualifiedName origin=new QualifiedName();
 					origin.addElement(theLib.getName());
 					origin.addElement(theLib.getName());
-				    return addSignatures(aClass,parentClass,origin,relayer); }
+					allReferedTypes.checkLocalClass(origin, theLib.getName(), theLib);
+				    return addSignatures(aClass,parentClass,origin,relayer, theLib); }
 		}
 		if (TLLtypechecking.loadedLibraries.containsKey(parentName)) {
 			TheLibraryClass parentClass=(TheLibraryClass)TLLtypechecking.loadedLibraries.get(parentName);
@@ -132,13 +134,14 @@ public class inheritedSignatures {
 			else { QualifiedName origin=new QualifiedName();
 					origin.addElement(parentName);
 					origin.addElement(parentName);
-					return addSignatures(aClass,parentClass,origin,relayer);}
+					allReferedTypes.checkTLLClass(origin, parentName, theLib);
+					return addSignatures(aClass,parentClass,origin,relayer, theLib);}
 		}
 	TLLtypechecking.getLog().error("the inherited parent"+parentName+" can't be resolved !");
 	return true; 
 	}
 
-	public static boolean unsolvedExternTLLParent(String parentName,String className,UserDefinedClass aClass,QualifiedName relayer)
+	public static boolean unsolvedExternTLLParent(String parentName,String className,UserDefinedClass aClass,QualifiedName relayer, BasicMtlLibrary theLib)
 	{	if (TLLtypechecking.loadedLibraries.containsKey(parentName)) {
 			KnownClasses knownClasses=((Library)TLLtypechecking.loadedLibraries.get(parentName)).getKnownTypes();
 			if (knownClasses.containsKey(className)) {
@@ -147,10 +150,11 @@ public class inheritedSignatures {
 				else { QualifiedName origin=new QualifiedName();
 						origin.addElement(parentName);
 						origin.addElement(className);
-				    	return addSignatures(aClass,parentClass,origin,relayer); }
+						allReferedTypes.checkTLLClass(origin, parentName, theLib);
+				    	return addSignatures(aClass,parentClass,origin,relayer, theLib); }
 			}
 		}
-		TLLtypechecking.getLog().error("the inherited parent class"+parentName+":"+className+" can't be resolved !");
+		TLLtypechecking.getLog().error("the inherited parent class "+parentName+"::"+className+" can't be resolved !");
 		return true; 
 	}
 	
@@ -163,19 +167,21 @@ public class inheritedSignatures {
 				aClass.setCompletedInheritedSignatures(true);
 				return false;
 			}
-		QualifiedName relayer=new QualifiedName(); //aClass is the ralayer for inherited signatures
-		relayer.addElement(theLib.getName());
-		relayer.addElement(aClass.getName());
+//		QualifiedName relayer=new QualifiedName(); //aClass is the ralayer for inherited signatures
+//		relayer.addElement(theLib.getName());
+//		relayer.addElement(aClass.getName());
+//		allReferedTypes.checkLocalClass(relayer, aClass.getName(), theLib);
 		for (int i=0;i<parents.size();i++) {
 			QualifiedName parentType=(QualifiedName)parents.get(i);
+			allReferedTypes.checkType(parentType, theLib);
 			String parentName=(String)parentType.get(0);
 			if (parentType.size()==1)
-				{ if (unSolvedSingleNameParent(parentName,aClass,theLib,relayer))
+				{ if (unSolvedSingleNameParent(parentName,aClass,theLib,parentType))
 				  	  return true;
 				}
 		   else {
 				String className=(String)parentType.get(1);
-				if (unsolvedExternTLLParent(parentName,className,aClass,relayer))
+				if (unsolvedExternTLLParent(parentName,className,aClass,parentType, theLib))
 					return true;
 		   	}
 		}
@@ -185,7 +191,8 @@ public class inheritedSignatures {
 
 	public static int synthetizeInheritedSignatures(BasicMtlLibrary theLib)
 	{	java.util.Vector remainingUnsolved=new java.util.Vector();
-		remainingUnsolved.addElement(theLib.getLibraryClass());
+		//The library class is part of the classes
+		//remainingUnsolved.addElement(theLib.getLibraryClass());
 		for (int i=0;i<theLib.cardClasses();i++)
 			remainingUnsolved.addElement(theLib.getClasses(i));
 		int lastRemainigCount=remainingUnsolved.size()+1;
