@@ -1,0 +1,329 @@
+// $Id $
+// This file contains various transformations that applies on UML1.4 MM
+
+
+// Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+
+
+// note : the structuration of the transformation may be not the best one,
+//		current version uses tool classes, suggestions are welcome
+
+library UML14_Transformations;
+
+// Lib local model
+model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
+
+// Typed model 
+model mdrdriver : MDRDriver;
+
+
+/********************************************/
+// Entry point operation : main
+/********************************************/
+
+main():Standard::Void
+{	
+	// local variables
+	mdrdriver : MDRDriver::MDRModelManager;
+	aPrivatizeAttributes_Transformation : PrivatizeAttributes_Transformation;
+	
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\UML1.4\\MetaModel\\xmi_1.2\\01-02-15.xml', 
+						'UML',		// name of the root package in the Uml1.4 metamodel
+						'UML1.4_model', 
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\UML1.4\\Uml1.4Models\\testposeidon.xmi',
+						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\UML1.4\\Uml1.4Models\\testposeidon_modified.xmi');
+
+	'model connected'.toOut();	
+	
+	//A bad hack to enable visibility enums...
+	!source_model::Data_Types::VisibilityKind!.allInstances();
+
+	aPrivatizeAttributes_Transformation := new PrivatizeAttributes_Transformation();
+	aPrivatizeAttributes_Transformation.processAllAttributes();
+	aPrivatizeAttributes_Transformation.findPublicVisibility('vk_public');
+	
+	'That s all folks !'.toOut();
+}
+
+class PrivatizeAttributes_Transformation
+{
+	/**
+	  * privatize all public attributes of all classes of the model
+	  */
+	processAllClasses()
+	{
+		// local variables
+		classIterator : Standard::Iterator;
+		classSet : Standard::Set;
+		aClass : source_model::Core::Class;	
+		aClass_Transformations : Class_Transformations;
+		
+		// create a tool class
+		aClass_Transformations :=  new Class_Transformations();
+		
+		classSet := !source_model::Core::Class!.allInstances();
+		
+		classIterator := classSet.getNewIterator();
+		classIterator.start();
+		
+		while classIterator.isOn() 
+		{		
+			aClass := classIterator.item().oclAsType(!source_model::Core::Class!);
+			// connect the class to the tool class
+			aClass_Transformations.theClass := aClass;
+			aClass_Transformations.privatizeAttributes(); 
+			
+				
+			classIterator.next();
+		}
+	}
+	processAllAttributes()
+	{
+		// local variables
+		attributeIterator : Standard::Iterator;
+		attributeSet : Standard::Set;
+		anAttribute : source_model::Core::Attribute;	
+		aClass_Transformations : Class_Transformations;
+		
+   		aPublicVisibility : source_model::Data_Types::VisibilityKind;
+   		aVisibility : Standard::OclAny;
+		
+		// create a tool class
+		aClass_Transformations :=  new Class_Transformations();
+		
+		attributeSet := !source_model::Core::Attribute!.allInstances();
+		
+		attributeIterator := attributeSet.getNewIterator();
+		attributeIterator.start();
+		
+		while attributeIterator.isOn() 
+		{		
+			anAttribute := attributeIterator.item().oclAsType(!source_model::Core::Attribute!);
+			// if attribute is public
+			anAttribute.toOut();
+			aPublicVisibility := findPublicVisibility('vk_public');
+			// aPublicVisibility := new source_model::Data_Types::VisibilityKind();
+			// aPublicVisibility.name := 'vk_public';
+			// aPublicVisibility.toOut();			
+			// aPublicVisibility := anAttribute.visibility;
+			// anAttribute.visibility.toOut();  // DO NOT WORK ????!!!!
+			// if aPublicVisibility.oclIsTypeOf(!source_model::Data_Types::VisibilityKind::vk_public!))
+			if anAttribute.visibility.oclIsKindOf(!source_model::Data_Types::VisibilityKind::vk_public!))
+			{
+				'attribute with public visibility found'.toOut();
+			}
+			else
+			{
+				'attribute with NON public visibility found'.toOut();
+			}
+			
+			// if owner is a class
+/*			if anAttribute.owneroclIsTypeOf(!vehiculeLib::vehicule!) {
+		throws 'OclAny.=(OclAny) has problems';
+	}*/
+			// aClass_Transformations.theClass := aClass;
+			// aClass_Transformations.privatizeAttribute(anAttribute); 
+			
+				
+			attributeIterator.next();
+		}
+	}
+	findPublicVisibility(name:Standard::String):source_model::Data_Types::VisibilityKind
+	{
+		visibilityKindIterator : Standard::Iterator;
+		visibilityKindSet : Standard::Set;
+		aVisibility : source_model::Data_Types::VisibilityKind;
+		anObject : Standard::OclAny;
+		
+		visibilityKindSet := !source_model::Data_Types::VisibilityKind!.allInstances();
+		visibilityKindIterator := visibilityKindSet.getNewIterator();
+		visibilityKindIterator.start();
+		
+		while visibilityKindIterator.isOn() 
+		{	
+			anObject := visibilityKindIterator.item();
+			anObject.toOut();
+			aVisibility := anObject.oclAsType(!source_model::Data_Types::VisibilityKind!);
+			if aVisibility.getName().[=](name) {
+				return anObject;
+			}
+			// aVisibility := anObject.oclAsType(!source_model::Data_Types::VisibilityKind!);
+			// aVisibility.toOut();
+			
+				
+			visibilityKindIterator.next();
+		}
+		return null;
+	}
+	processPackage(p : source_model::Package)
+	{
+		// TODO
+	}
+}
+
+class Class_Transformations
+{
+	// class members
+	theClass : source_model::Foundation::Core::Class;
+	
+	
+	
+	/** for all public attributes of this class => privatize them
+	  */	
+	privatizeAttributes() : Standard::Void
+	{
+		theClass.toOut();
+		
+	}
+	/** 
+	  * privatize this attribute of this class
+	  * pre : anAttribute.owner = theClass
+	  */
+	privatizeAttribute(anAttribute : source_model::Core::Attribute)
+	{
+	
+	}
+	
+	/** 
+	  * add a getter for this attribute of this class
+	  * pre : anAttribute.owner = theClass
+	  */
+	addGetter(anAttribute : source_model::Core::Attribute)
+	{
+	}
+
+	/** 
+	  * add a setter for this attribute of this class
+	  * pre : anAttribute.owner = theClass
+	  */	
+	addSetter(anAttribute : source_model::Core::Attribute)
+	{
+	}
+}
+
+transform():Standard::Void
+{
+	// local variables
+	classIterator : Standard::Iterator;
+	classSet : Standard::Set;
+	aClass : source_model::Class;	
+	
+	classSet := !source_model::Class!.allInstances();
+	
+	classIterator := classSet.getNewIterator();
+	classIterator.start();
+	
+	while classIterator.isOn() 
+	{		
+		aClass := classIterator.item().oclAsType(!source_model::Class!);
+		ModifyClass(aClass); 
+		
+			
+		classIterator.next();
+	}
+	
+		
+}
+
+ModifyClass(sourceClass : source_model::Class) 
+{
+	// local variables
+	anAttribute : source_model::Attribute;
+	className : Standard::String;
+	
+	
+	// create new attribute for this class
+	anAttribute := new source_model::Attribute();
+	className := sourceClass.name; 
+	
+	anAttribute.name := 'new_attribute'.concat(className);
+	
+	//associate (owner := sourceClass : source_model::Class, attribute := anAttribute : source_model::Attribute);
+	associate ( attribute := anAttribute : source_model::Attribute, owner := sourceClass : source_model::Class);
+	
+	
+	// change class name
+	sourceClass.name := className.concat('_changed');
+	
+}
+
+/** 
+ * break all associations in two attributes
+ */
+associations2attributes()
+{
+	// local variables
+	associationIterator : Standard::Iterator;
+	associationSet : Standard::Set;
+	anAssociation : source_model::Association;	
+	
+	associationSet := !source_model::Association!.allInstances();
+	
+	associationIterator := associationSet.getNewIterator();
+	associationIterator.start();
+	
+	while associationIterator.isOn() 
+	{		
+		anAssociation := associationIterator.item().oclAsType(!source_model::Association!);
+		association2attributes(anAssociation); 					
+		associationIterator.next();
+	}
+}
+/** 
+ * break an association in two attributes
+ */
+association2attributes(anAssociation : source_model::Association)
+{	
+	// local variables
+	sourceClass, destClass : source_model::Class;
+	sourceClassName, destClassName, associationName : Standard::String;	
+	name : Standard::String;
+	
+	// get source
+	sourceClass := anAssociation.source;
+	sourceClassName := sourceClass.name;
+	// get destination
+	destClass := anAssociation.destination;
+	destClassName := destClass.name;
+	
+	// add attribute on source
+	associationName := anAssociation.name;
+		// as the association in SimpleUML  have no role name, we simply use the class name + the association name
+	
+	name := 'association_';
+	name := name.concat(associationName);
+	name := name.concat('_');
+	name := name.concat(sourceClassName);
+	//name := 'association_'.concat(anAssociation.name).concat('_').concat(sourceClass.name);
+	addAttribute(sourceClass, name, destClass);
+	// add attribute on destination
+	//name := 'association_'.concat(anAssociation.name).concat('_').concat(destClass.name);
+	addAttribute(destClass, name, sourceClass);	
+	
+	// remove association
+		// TO DO not supported yet !!
+	// dissociate(source := sourceClass : source_model::Class, forward := anAssociation : source_model::Association); 
+	// dissociate(source := sourceClass : source_model::Class, forward := anAssociation : source_model::Association);
+	//delete(anAssociation.oclAsType(!source_model::Association!));
+	anAssociation.delete();
+}
+
+/** 
+ * add an attribute on a class
+ */
+addAttribute(aClass: source_model::Class; name : Standard::String; attributeType : source_model::ModelElement)
+{
+	// local variables
+	anAttribute : source_model::Attribute;
+		
+	// create new attribute for this class
+	anAttribute := new source_model::Attribute();
+	anAttribute.name := name;		
+	associate ( typed := anAttribute : source_model::Attribute, type := attributeType : source_model::Classifier);
+	associate ( attribute := anAttribute : source_model::Attribute, owner := aClass : source_model::Class);
+	
+}
