@@ -5,4 +5,9 @@ library testVehicules;
 /********************************************/
 
 main():Standard::Void
-{}
+{
+	vehicule : vehiculeLib::vehicule;
+	vehicule := new vehiculeLib::vehicule();
+	vehicule.vitessemaxi := 250;
+	vehicule.passagers := 5;
+}

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-08-12 14:49:59 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-08-14 21:37:43 ffondeme Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="vehicule_antlr2tll" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -7,6 +7,10 @@
 	<property name="src" location="./src"/>
 	<property name="bin" location="../../../bin"/>
 	<property name="build" location="../../../build"/>
+	
+	<!-- tools -->
+	<property name="ANTLR2TLL" location="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar"/>
+	<property name="CodeGenerator" location="../../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar"/>
 
 	<target name="init">
     	<!-- Create the time stamp -->
@@ -22,7 +26,7 @@
 	
 	<target name="vehicule_antlr2tll" depends="init"
   	 	description="Parse vehicule.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -30,7 +34,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Vehicule"/> 
+         <arg value="Vehicule"/> 
        </java>
  
 	</target>
@@ -38,7 +42,7 @@
 	<target name="compile vehicule" depends="vehicule_antlr2tll"
   	 	description="Generate code for vehicule.mtl">
 	    <mkdir dir="${build}/src/java/Vehicule"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -53,7 +57,7 @@
   
 	<target name="aquatique_antlr2tll" depends="vehicule_antlr2tll"
   	 	description="Parse aquatique.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -61,7 +65,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Aquatique"/> 
+         <arg value="Aquatique"/> 
        </java>
  
 	</target>
@@ -69,7 +73,7 @@
 	<target name="compile aquatique" depends="aquatique_antlr2tll"
   	 	description="Generate code for aquatique.mtl">
 	    <mkdir dir="${build}/src/java/Aquatique"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -84,7 +88,7 @@
   
 	<target name="terrestre_antlr2tll" depends="vehicule_antlr2tll"
   	 	description="Parse terrestre.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -92,7 +96,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Terrestre"/> 
+         <arg value="Terrestre"/> 
        </java>
  
 	</target>
@@ -100,7 +104,7 @@
 	<target name="compile terrestre" depends="terrestre_antlr2tll"
   	 	description="Generate code for terrestre.mtl">
 	    <mkdir dir="${build}/src/java/Terrestre"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -115,7 +119,7 @@
   
 	<target name="amphibie_antlr2tll" depends="aquatique_antlr2tll,terrestre_antlr2tll"
   	 	description="Parse amphibie.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -123,7 +127,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Amphibie"/> 
+         <arg value="Amphibie"/> 
        </java>
  
 	</target>
@@ -131,7 +135,7 @@
 	<target name="compile amphibie" depends="amphibie_antlr2tll"
   	 	description="Generate code for amphibie.mtl">
 	    <mkdir dir="${build}/src/java/Amphibie"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -146,7 +150,7 @@
   
 	<target name="amphibieherite_antlr2tll" depends="aquatique_antlr2tll,terrestre_antlr2tll"
   	 	description="Parse amphibieherite.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -154,7 +158,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Amphibieherite"/> 
+         <arg value="Amphibieherite"/> 
        </java>
  
 	</target>
@@ -162,7 +166,7 @@
 	<target name="compile amphibieherite" depends="amphibieherite_antlr2tll"
   	 	description="Generate code for amphibieherite.mtl">
 	    <mkdir dir="${build}/src/java/Amphibieherite"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -177,7 +181,7 @@
 	
 	<target name="caracteristiques_antlr2tll" depends="init"
   	 	description="Parse caracteristiques.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -185,7 +189,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Caracteristiques"/> 
+         <arg value="Caracteristiques"/> 
        </java>
  
 	</target>
@@ -193,7 +197,7 @@
 	<target name="compile caracteristiques" depends="caracteristiques_antlr2tll"
   	 	description="Generate code for caracteristiques.mtl">
 	    <mkdir dir="${build}/src/java/Caracteristiques"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -208,7 +212,7 @@
 	
 	<target name="testvehicules_antlr2tll" depends="caracteristiques_antlr2tll,amphibie_antlr2tll,amphibieherite_antlr2tll"
   	 	description="Parse testvehicules.mtl to a TLL">
-	 	<java jar="../../../../TLLTypeChecker/dist/bin/TLLTypeChecker.jar" 
+	 	<java jar="${ANTLR2TLL}" 
            fork="true"
            failonerror="true"
            >
@@ -216,7 +220,7 @@
          <arg value="-TLLPath"/> 
          <arg value="${build}/src/"/> 
          <arg value="-PackageName"/> 
-         <arg value="SimpleSamples.Vehicules.src.java.Testvehicules"/> 
+         <arg value="Testvehicules"/> 
        </java>
  
 	</target>
@@ -224,7 +228,7 @@
 	<target name="compile testvehicules" depends="testvehicules_antlr2tll"
   	 	description="Generate code for testvehicules.mtl">
 	    <mkdir dir="${build}/src/java/Testvehicules"/>
-	 	<java jar="../../../../BasicMtlJavaCodeGenerator/dist/bin/TLLCodeGenerator.jar" 
+	 	<java jar="${CodeGenerator}" 
            fork="true"
            failonerror="true"
            >
@@ -233,6 +237,37 @@
          <arg value="${build}/src/"/> 
          <arg value="-BinPath"/> 
          <arg value="${build}/src/java/Testvehicules/"/> 
+       </java>
+ 
+	</target>
+	
+	<target name="completevehicules_antlr2tll"
+  	 	description="Parse completevehicule.mtl to a TLL">
+	 	<java jar="${ANTLR2TLL}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\completevehicule.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="CompleteVehicule"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile completeVehicules" depends="completevehicules_antlr2tll"
+  	 	description="Generate code for completevehicule.mtl">
+	    <mkdir dir="${build}/src/java/CompleteVehicule"/>
+	 	<java jar="${CodeGenerator}" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="completevehicule"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/CompleteVehicule/"/> 
        </java>
  
 	</target>

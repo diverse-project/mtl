@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2003-08-12 14:50:00 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.4 2003-08-14 21:37:43 ffondeme Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="verif_SimpleUML2RDBMS_V1_syntax" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -12,8 +12,9 @@
 	<!-- The necessary libraries compilation prrocess -->
 	<property name="lang" location="src/lang"/>
 	
-	<!-- This project depends on the MDRDriver, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
+	<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
 	<property name="MDRDriver"  location="..\MDRDriver"/>
+	<property name="BasicMTLRuntime"  location="..\BasicMTLRuntime"/>
 	<property name="TLLTypeChecker"  location="..\TLLTypeChecker"/>
 	<property name="BasicMtlJavaCodeGenerator"  location="..\BasicMtlJavaCodeGenerator"/>
 	<!-- Deep dependencies does not need to be managed -->
@@ -36,7 +37,7 @@
 	    <ant antfile="${build.lang}/build.xml" dir="${build.lang}" target="compile Standard"/>
 	</target>
 	
-	<target name="SimpleSample_antlr2tll_old" depends="init"
+	<target name="SimpleSample_antlr2tll" depends="init"
   	 	description="Compile Simple sample with vehicules to a TLL">
 	 	<java jar="../BasicMtlAntlr/dist/bin/BasicMtlAntlr.jar" 
            fork="true"
@@ -71,12 +72,6 @@
  
 	</target>
 	
-	<target name="SimpleSample_java2class" depends="SimpleSample_tll2java"
-  	 	description="Compile TLL Simple sample with vehicules to a Java">
-  	 	<javac>
-  	 	</javac>
-  	</target>
-	
   
 	<target name="clean"
         description="clean up" >
@@ -93,10 +88,13 @@
   	<target name="compile_BasicMTL"
   		description="Compiles necessary libraries (if needed)">
 	    
-		<!-- This project depends on the MDRDriver, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
 	    <echo>Building the "MDRDriver" project.</echo>
 	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="dist" inheritAll="false"/>
 	    <echo>"MDRDriver" project built.</echo>
+	    <echo>Building the "BasicMTLRuntime" project.</echo>
+	    <ant antfile="${BasicMTLRuntime}\build.xml" dir="${BasicMTLRuntime}" target="dist" inheritAll="false"/>
+	    <echo>"BasicMTLRuntime" project built.</echo>
 	    <echo>Building the "TLLTypeChecker" project.</echo>
 	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="dist" inheritAll="false"/>
 	    <echo>"TLLTypeChecker" project built.</echo>
@@ -108,8 +106,9 @@
   	<target name="recompile_BasicMTL"
   		description="Completely recompiles necessary libraries">
 	    
-		<!-- This project depends on the MDRDriver, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
 	    <ant antfile="${MDRDriver}\build.xml" dir="${MDRDriver}" target="deep_clean" inheritAll="false"/>
+	    <ant antfile="${BasicMTLRuntime}\build.xml" dir="${BasicMTLRuntime}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${TLLTypeChecker}\build.xml" dir="${TLLTypeChecker}" target="deep_clean" inheritAll="false"/>
 	    <ant antfile="${BasicMtlJavaCodeGenerator}\build.xml" dir="${BasicMtlJavaCodeGenerator}" target="deep_clean" inheritAll="false"/>
 	    
