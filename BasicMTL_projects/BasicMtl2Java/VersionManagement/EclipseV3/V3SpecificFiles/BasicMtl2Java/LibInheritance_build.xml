@@ -1,4 +1,4 @@
-<!-- $Id: LibInheritance_build.xml,v 1.10 2004-03-15 14:28:43 dvojtise Exp $ -->
+<!-- $Id: LibInheritance_build.xml,v 1.1 2004-06-04 12:02:06 jpthibau Exp $ -->
 <project name="BasicMtl2Java_LibInheritance" default="dist" basedir=".">
 	<description>
         Build file for the BasicMTL2Java compiler written all in Java
@@ -274,6 +274,8 @@
     			<pathelement path="${dist}\bin\ThirdParty\ModFact\v1_0_0\JMIRepository.jar"/>
     			<pathelement path="${dist}\bin\ThirdParty\EMF\org.inria.EMFDriver.jar"/>
      			<pathelement path="${org.eclipse.core.runtime.jar}"/>
+     			<pathelement path="${org.eclipse.core.runtime.compatibility.jar}"/>
+     			<pathelement path="${org.eclipse.osgi.jar}"/>
     			<pathelement path="${org.eclipse.ui.workbench.jar}"/>
     			<pathelement path="${org.eclipse.emf.common.jar}"/>
     			<pathelement path="${org.eclipse.emf.edit.jar}"/>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="org.inria.EMFTransformationLauncher"
+   name="EMFTransformationLauncher Plug-in"
+   version="1.0.0"
+   provider-name=""
+   class="org.inria.EMFTransformationLauncher.EMFTransformationLauncherPlugin">
+
+   <runtime>
+      <library name="EMFTransformationLauncher.jar"/>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.inria.EMFDriver"/>
+      <import plugin="EMFDriverTest"/>
+      <import plugin="library"/>
+      <import plugin="library.edit"/>
+   </requires>
+
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.inria.EMFTransformationLauncher.actionSet">
+         <menu
+               label="Transformation"
+               id="sampleMenu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               label="&amp;Launch Transformation"
+               icon="icons/sample.gif"
+               tooltip="Hello, Eclipse world"
+               class="org.inria.EMFTransformationLauncher.actions.SampleAction"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="org.inria.EMFTransformationLauncher.actions.SampleAction">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>

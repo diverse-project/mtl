@@ -1,0 +1,26 @@
+<!-- $Id: common_build.xml,v 1.1 2004-06-04 12:02:26 jpthibau Exp $ -->
+<project name="VersionCopying" default="copyVersionFiles" basedir=".">
+	<description>
+        Build file for copying all specific files of the selected version into compiler tree structure
+	</description>
+	
+	<target name="copyVersionFiles">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+  		<copy file="${versionPropertyFile}" tofile="../../build.properties"/>
+  		<copy  todir="../../">
+  			<fileset dir="V3SpecificFiles/BasicMtl2Java/">
+  				<include name="*.xml"/>
+			</fileset> 
+  		</copy>
+  		<copy  todir="../../../EMFDriverTest/">
+  			<fileset dir="V3SpecificFiles/EMFDriverTest/"/>
+  		</copy>
+  		<copy  todir="../../../org.inria.EMFDriver/">
+  			<fileset dir="V3SpecificFiles/org.inria.EMFDriver/"/>
+  		</copy>
+  		<copy  todir="../../../org.inria.EMFTransformationLauncher/">
+  			<fileset dir="V3SpecificFiles/org.inria.EMFTransformationLauncher/"/>
+  		</copy>
+  	</target>
+</project>

@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.8 2004-04-22 15:18:02 guest Exp $
+# $Id: modelware_night_build.sh,v 1.9 2004-06-04 12:02:24 jpthibau Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -43,8 +43,8 @@ setenv BASE $HOME/temp/modelware_night_build/eclipse/workspace
 setenv CLASSPATH $BASE/Utils/ThirdParty/JUnit/junit.jar:$BASE/BasicMtlAntlr/ThirdParty/ANTLR/antlrfull.jar
 
 
-#copy the correct property file (according to eclipse and emf version)
-cp build.properties.samples/2.1.0.build.properties build.properties
+#copy the correct version files (according to eclipse and emf version)
+ant VersionManagement/EclipseV2/2.1.0_build.xml
 
 
 #echo $CLASSPATH

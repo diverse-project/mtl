@@ -1,0 +1,14 @@
+<!-- $Id: 3.0.0_build.xml,v 1.1 2004-06-04 12:02:13 jpthibau Exp $ -->
+<project name="Specific V3.0.0" default="selectThisVersion" basedir=".">
+	<description>
+        Build file for copying all specificities of Eclipse V3.0.0, EMF V1.1.1.
+	</description>
+	<!-- set global properties for this build -->
+	<property name="versionPropertyFile" location="V2SpecificFiles/BasicMtl2Java/build.properties.samples/3.0.0.build.properties"/>
+	
+	<target name="selectThisVersion">
+		<!-- call common part -->
+		<ant antfile="common_build.xml" dir="." target="copyVersionFiles" inheritAll="true"/>
+	</target>    
+
+</project>
