@@ -23,19 +23,23 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * This class is a multithreaded test for the MDR driver. It requires the models<br>
- *  - ../MDRDriver/ThirdParty/MDR/Test/models/test.xml<br>
- *  - ../MDRDriver/ThirdParty/MDR/Test/models/UML13-JMI.xml<br>
- *  - ../MDRDriver/ThirdParty/MDR/Test/models/UML13.xml<br>
- *  - ../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml<br>
- *  - ../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml<br>
+ *  - <install_dir>/ThirdParty/MDR/Test/models/test.xml<br>
+ *  - <install_dir>/ThirdParty/MDR/Test/models/UML13-JMI.xml<br>
+ *  - <install_dir>/ThirdParty/MDR/Test/models/UML13.xml<br>
+ *  - <install_dir>/ThirdParty/MDR/Test/models/TableMM.xml<br>
+ *  - <install_dir>/ThirdParty/MDR/Test/models/Championship.xml<br>
  * 
- * It uses log4j, whose configuration should be in ../MDRDriver/ThirdParty/log4j/log4j_configuration
+ * It uses log4j, whose configuration should be in <install_dir>/ThirdParty/log4j/log4j_configuration
+ * 
+ * It is possibel to force <install_dir> by setting a non null value to the syatem property Directories.RootPath (see below)
  * 
  * "org.netbeans.mdr.byteCodeDir" is a system property indicating where to place the bytecode that MDR generates, according to the manipulated metamodels.
  * Tu use it, you may do System.setProperty or invoke the JVM with option -Dorg.netbeans.mdr.byteCodeDir=<Path to put the binaries>
  */
 public class Test 
 {
+	public static String rootPath;
+	
 	protected static final org.apache.log4j.Logger log = Logger.getLogger("MDRDriverTest");
 	public static org.apache.log4j.Logger getLog () {
 		return Test.log;
@@ -108,6 +112,9 @@ public class Test
 	}
 	
 	public static void entry () throws Exception {
+		if (rootPath == null)
+			rootPath = Directories.getRootPath(Test.class.getName());
+			
 		final StringBuffer decompiler = new StringBuffer();
 		
 		try {			
@@ -149,7 +156,7 @@ public class Test
 				}
 			});
 					
-			String filePath = new java.io.File("../MDRDriver/ThirdParty/log4j/log4j_configuration").getCanonicalPath();
+			String filePath = new java.io.File(rootPath + "/ThirdParty/log4j/log4j_configuration").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath);
 			Test.getLog().info("Starting MDR driver test...");
@@ -164,7 +171,8 @@ public class Test
 				uml13Loading,
 				new TestThread("testBadMetamodel", new TestThread [] {uml13Loading}),
 				new TestThread("testUML13Model", new TestThread [] {uml13Loading}),
-				new TestThread("testLoadStore", new TestThread [] {uml13Loading})
+				new TestThread("testLoadStore", new TestThread [] {uml13Loading}),
+				new TestThread("testErwan")
 /**/			};
 			for (int i = 0; i < testThreads.length; ++i)
 				testThreads[i].start();
@@ -230,7 +238,7 @@ public class Test
 	public static void rien() {}
 	
 	public static void testLoadStore () throws Exception {
-		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/test.xml", "../MDRDriver/ThirdParty/MDR/Test/models/testResult.xml"));
+		MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "unpriv", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/test.xml", rootPath + "/ThirdParty/MDR/Test/models/testResult.xml"));
 		api.startup(null);
 		ModelElementIterator attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		MetaAttribute vis = api.getMetaAttribute("visibility", null);
@@ -278,7 +286,7 @@ public class Test
 		
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
+		api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "priv", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/testResult.xml", XmiModel.Read));
 		api.startup(null);
 		attributes = api.getMetaClass(new String [] {"Foundation", "Core", "Attribute"}).allInstancesIterator(null);
 		//To be reloaded because the api has changed...
@@ -308,7 +316,7 @@ public class Test
 	}
 	
 	public static void testMOFModel () throws Exception {
-		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, MofMetamodel.getTheInstance(), "UML 1.3", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/UML13-JMI.xml", XmiModel.Read));
 		api.startup(null);
 		if (api.getMdrRepository().getExtent("UML 1.3") == null)
 			throw new Exception("Error: MDR extent UML 1.3 not found...");
@@ -505,7 +513,7 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel () throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel("../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Write));
 		api.startup(null);
 
 		MetaClass table = api.getMetaClass(new String [] {"SimpleDB", "Table"});
@@ -595,7 +603,7 @@ public class Test
 			
 		api.shutdown(null);
 		
-		api = new MDRAPI(null, new XmiMetamodel("../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml"), "championshipRes", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championshipRes", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 		api.startup(null);
 		
 		
@@ -705,7 +713,7 @@ public class Test
 	
 	public static void testSimpleTableDBModel2 () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel("../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 			api.startup(null);
 			throw new Exception("Test testSimpleTableDBModel2 passed while should not...");
 		} catch (CreationFailedException x) {
@@ -713,13 +721,13 @@ public class Test
 	}
 	
 	public static void testSimpleTableDBModel3 () throws Exception {
-		MDRAPI api = new MDRAPI(null, new XmiMetamodel("../MDRDriver/ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+		MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/TableMM.xml"), "championship2", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 		api.startup(null);
 	}
 	
 	public static void testUnknownMetamodel () throws Exception {
 		try {
-			MDRAPI api = new MDRAPI(null, new XmiMetamodel("../MDRDriver/ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null));
+			MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/truc.xml"), "truc", new XmiModel(new String [0], null));
 			api.startup(null);
 			throw new Exception("Test testUnknownMetamodel passed while should not...");
 		} catch (java.io.FileNotFoundException x) {
@@ -730,18 +738,130 @@ public class Test
 		final PrintStream err = System.err;
 		try {
 			System.setErr(new PrintStream(new OutputStream () {public void write(int b) throws IOException{}}));
-			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
+			MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "badMM", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/Championship.xml", XmiModel.Read));
 			api.startup(null);
 			throw new Exception("Test testBadMetamodel passed while should not...");
 		} catch (javax.jmi.xmi.MalformedXMIException x) {
 		} finally {
 			System.setErr(err);
 		}
-        MDRAPI api = new MDRAPI(null, new XmiMetamodel("../TestErwan/models/MOFmetamodel.xml","SimpleUmlMM"), "MyModel", new XmiModel("../TestErwan/models/instance.xmi", XmiModel.Write));
 	}
 	
+	public static void testErwan () throws Exception {
+        MDRAPI api = new MDRAPI(null, new XmiMetamodel(rootPath + "/ThirdParty/MDR/Test/models/MOFmetamodel.xml","SimpleUmlMM"), "MyModel", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/instance.xmi", XmiModel.Write));
+        
+        api.startup(null); 
+
+
+        MetaClass mc_PrimitiveDataType = api.getMetaClass(new String [] {"SimpleUmlMM","PrimitiveDataType"});
+        MetaClass mc_Class = api.getMetaClass(new String [] {"SimpleUmlMM","Class"});
+        MetaClass mc_Attribute = api.getMetaClass(new String [] {"SimpleUmlMM","Attribute"});
+        MetaClass mc_Association = api.getMetaClass(new String [] {"SimpleUmlMM","Association"});
+        MetaClass mc_ModelElement = api.getMetaClass(new String [] {"SimpleUmlMM","ModelElement"});
+        MetaClass mc_Classifier = api.getMetaClass(new String [] {"SimpleUmlMM","Classifier"});
+
+
+        MetaAssociationEnd mae_attribute_Attribute = api.getMetaAssociationEnd("attribute",mc_Attribute,mc_Class);
+        MetaAssociationEnd mae_forward_Association = api.getMetaAssociationEnd("forward",mc_Association,mc_Class);
+        MetaAssociationEnd mae_reverse_Association = api.getMetaAssociationEnd("reverse",mc_Association,mc_Class);
+        MetaAssociationEnd mae_type_Classifier = api.getMetaAssociationEnd("type",mc_Classifier,mc_Attribute);
+        MetaAssociationEnd mae_owner_Class = api.getMetaAssociationEnd("owner",mc_Class,mc_Attribute);
+        MetaAssociationEnd mae_source_Class = api.getMetaAssociationEnd("source",mc_Class,mc_Association);
+        MetaAssociationEnd mae_destination_Class = api.getMetaAssociationEnd("destination",mc_Class,mc_Association);
+        MetaAttribute ma_name = api.getMetaAttribute("name",null);
+        MetaAttribute ma_kind = api.getMetaAttribute("kind",null);
+        MetaAssociationEnd mae_typed_Attribute = api.getMetaAssociationEnd("typed",mc_Attribute,mc_Classifier);
+
+
+        ModelElement me_compositeur = mc_Class.instanciate (null,null);
+        ModelElement me_composition = mc_Association.instanciate (null,null);
+        ModelElement me_interprete = mc_Class.instanciate (null,null);
+        ModelElement me_interpretation = mc_Association.instanciate (null,null);
+        ModelElement me_oeuvre = mc_Class.instanciate (null,null);
+        ModelElement me_annees_etudes = mc_Attribute.instanciate (null,null);
+        ModelElement me_integer = mc_PrimitiveDataType.instanciate (null,null);
+        ModelElement me_date = mc_Class.instanciate (null,null);
+        ModelElement me_jour = mc_Attribute.instanciate (null,null);
+        ModelElement me_mois = mc_Attribute.instanciate (null,null);
+        ModelElement me_annee = mc_Attribute.instanciate (null,null);
+        ModelElement me_date_creation = mc_Attribute.instanciate (null,null);
+        ModelElement me_date_naissance = mc_Attribute.instanciate (null,null);
+
+
+        linkTwoModelElements (api, me_compositeur,mae_source_Class,me_composition,mae_forward_Association);
+        linkTwoModelElements (api, me_compositeur,mae_owner_Class,me_date_naissance,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_composition,mae_forward_Association,me_compositeur,mae_source_Class);
+        linkTwoModelElements (api, me_composition,mae_reverse_Association,me_oeuvre,mae_destination_Class);
+        linkTwoModelElements (api, me_interprete,mae_source_Class,me_interpretation,mae_forward_Association);
+        linkTwoModelElements (api, me_interprete,mae_owner_Class,me_annees_etudes,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_interpretation,mae_forward_Association,me_interprete,mae_source_Class);
+        linkTwoModelElements (api, me_interpretation,mae_reverse_Association,me_oeuvre,mae_destination_Class);
+        linkTwoModelElements (api, me_oeuvre,mae_destination_Class,me_composition,mae_reverse_Association);
+        linkTwoModelElements (api, me_oeuvre,mae_destination_Class,me_interpretation,mae_reverse_Association);
+        linkTwoModelElements (api, me_oeuvre,mae_owner_Class,me_date_creation,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_annees_etudes,mae_attribute_Attribute,me_interprete,mae_owner_Class);
+        linkTwoModelElements (api, me_annees_etudes,mae_typed_Attribute,me_integer,mae_type_Classifier);
+        linkTwoModelElements (api, me_integer,mae_type_Classifier,me_annees_etudes,mae_typed_Attribute);
+        linkTwoModelElements (api, me_integer,mae_type_Classifier,me_jour,mae_typed_Attribute);
+        linkTwoModelElements (api, me_integer,mae_type_Classifier,me_mois,mae_typed_Attribute);
+        linkTwoModelElements (api, me_integer,mae_type_Classifier,me_annee,mae_typed_Attribute);
+        linkTwoModelElements (api, me_date,mae_owner_Class,me_mois,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_date,mae_owner_Class,me_annee,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_date,mae_type_Classifier,me_date_creation,mae_typed_Attribute);
+        linkTwoModelElements (api, me_date,mae_type_Classifier,me_date_naissance,mae_typed_Attribute);
+        linkTwoModelElements (api, me_date,mae_owner_Class,me_jour,mae_attribute_Attribute);
+        linkTwoModelElements (api, me_jour,mae_typed_Attribute,me_integer,mae_type_Classifier);
+        linkTwoModelElements (api, me_jour,mae_attribute_Attribute,me_date,mae_owner_Class);
+        linkTwoModelElements (api, me_mois,mae_typed_Attribute,me_integer,mae_type_Classifier);
+        linkTwoModelElements (api, me_mois,mae_attribute_Attribute,me_date,mae_owner_Class);
+        linkTwoModelElements (api, me_annee,mae_typed_Attribute,me_integer,mae_type_Classifier);
+        linkTwoModelElements (api, me_annee,mae_attribute_Attribute,me_date,mae_owner_Class);
+        linkTwoModelElements (api, me_date_creation,mae_attribute_Attribute,me_oeuvre,mae_owner_Class);
+        linkTwoModelElements (api, me_date_creation,mae_typed_Attribute,me_date,mae_type_Classifier);
+        linkTwoModelElements (api, me_date_naissance,mae_attribute_Attribute,me_compositeur,mae_owner_Class);
+        linkTwoModelElements (api, me_date_naissance,mae_typed_Attribute,me_date,mae_type_Classifier);
+
+
+        me_compositeur.setAttributeValue (me_compositeur,ma_name,new StringValueImpl(false,null,"compositeur"));
+        me_compositeur.setAttributeValue (me_compositeur,ma_kind,new StringValueImpl(false,null,"persistent"));
+        me_composition.setAttributeValue (me_composition,ma_name,new StringValueImpl(false,null,"composition"));
+        me_composition.setAttributeValue (me_composition,ma_kind,new StringValueImpl(false,null,""));
+        me_interprete.setAttributeValue (me_interprete,ma_name,new StringValueImpl(false,null,"interprete"));
+        me_interprete.setAttributeValue (me_interprete,ma_kind,new StringValueImpl(false,null,"persistent"));
+        me_interpretation.setAttributeValue (me_interpretation,ma_name,new StringValueImpl(false,null,"interpretation"));
+        me_interpretation.setAttributeValue (me_interpretation,ma_kind,new StringValueImpl(false,null,""));
+        me_oeuvre.setAttributeValue (me_oeuvre,ma_name,new StringValueImpl(false,null,"oeuvre"));
+        me_oeuvre.setAttributeValue (me_oeuvre,ma_kind,new StringValueImpl(false,null,"persistent"));
+        me_annees_etudes.setAttributeValue (me_annees_etudes,ma_name,new StringValueImpl(false,null,"années_études"));
+        me_annees_etudes.setAttributeValue (me_annees_etudes,ma_kind,new StringValueImpl(false,null,"primary"));
+        me_integer.setAttributeValue (me_integer,ma_name,new StringValueImpl(false,null,"integer"));
+        me_integer.setAttributeValue (me_integer,ma_kind,new StringValueImpl(false,null,""));
+        me_date.setAttributeValue (me_date,ma_name,new StringValueImpl(false,null,"date"));
+        me_date.setAttributeValue (me_date,ma_kind,new StringValueImpl(false,null,"persistent"));
+        me_jour.setAttributeValue (me_jour,ma_name,new StringValueImpl(false,null,"jour"));
+        me_jour.setAttributeValue (me_jour,ma_kind,new StringValueImpl(false,null,"primary"));
+        me_mois.setAttributeValue (me_mois,ma_name,new StringValueImpl(false,null,"mois"));
+        me_mois.setAttributeValue (me_mois,ma_kind,new StringValueImpl(false,null,"primary"));
+        me_annee.setAttributeValue (me_annee,ma_name,new StringValueImpl(false,null,"année"));
+        me_annee.setAttributeValue (me_annee,ma_kind,new StringValueImpl(false,null,"primary"));
+        me_date_creation.setAttributeValue (me_date_creation,ma_name,new StringValueImpl(false,null,"date_création"));
+        me_date_creation.setAttributeValue (me_date_creation,ma_kind,new StringValueImpl(false,null,"composed"));
+        me_date_naissance.setAttributeValue (me_date_naissance,ma_name,new StringValueImpl(false,null,"date_naissance"));
+        me_date_naissance.setAttributeValue (me_date_naissance,ma_kind,new StringValueImpl(false,null,"composed"));
+
+
+        api.shutdown(null);
+        
+	}
+
+    private static void linkTwoModelElements (API api, ModelElement me_source, MetaAssociationEnd ae_source, ModelElement me_target, MetaAssociationEnd ae_target) throws Exception
+    {
+        MetaAssociation assoc = api.getMetaAssociationWithAssociationEnds(new MetaAssociationEnd[] { ae_source, ae_target });
+        assoc.associateModelElements (null, new ModelRole [] { api.getRole(me_target, ae_target), api.getRole(me_source, ae_source) } );
+    }
+	
 	public static void testUML13Model () throws Exception {
-		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel("../MDRDriver/ThirdParty/MDR/Test/models/test.xml", XmiModel.Read));
+		final MDRAPI api = new MDRAPI(null, new LoadedMetamodel("UML 1.3", new String [] {"UML"}), "test", new XmiModel(rootPath + "/ThirdParty/MDR/Test/models/test.xml", XmiModel.Read));
 		api.startup(null);
 
 		MetaClass classifier = api.getMetaClass(new String [] {"UML", "Foundation", "Core", "Classifier"});

@@ -8,11 +8,11 @@
     <classpathentry kind="src" path="/Utils"/>
     <classpathentry kind="lib" path="/Utils/ThirdParty/JUnit/junit.jar"/>
     <classpathentry kind="lib" path="ThirdParty/MDR/generation/bin"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/jmi.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/jmiutils.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/mdrapi.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/mof.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/nbmdr.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/MDR/060803/openide-lookup.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/jmi.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/jmiutils.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/mdrapi.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/mof.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/nbmdr.jar"/>
+    <classpathentry kind="lib" path="ThirdParty/MDR/official/openide-lookup.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
