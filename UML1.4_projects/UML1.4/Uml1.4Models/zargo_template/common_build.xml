@@ -1,0 +1,38 @@
+<!-- $Id $ -->
+<!-- Usefull script to pack and unpack zargo files from poseidon or ArgoUML -->
+<project name="poseidon import export" default="extract_xmi_from_zargo" basedir=".">
+	<description>
+        target for import export of poseidon files
+	</description>
+	
+	<!-- this property must be overwriten by the user build --> 
+	<property name="base.name" value="testposeidon"/>
+	<property name="dest.dir" location="."/>
+
+	
+	<target name="extract_xmi_from_zargo">
+		<mkdir dir="${base.name}_extracted"/>
+		<unzip src="${base.name}.zargo" dest="${base.name}_extracted"/>
+		<copy file="${base.name}_extracted/${base.name}.xmi" todir="."/>
+		<delete dir="${base.name}_extracted"></delete>		
+	</target>
+	<target name="create_zargo_from_xmi">
+		<mkdir dir="new"/>
+		<copy file="${base.name}.xmi" todir="new"/>
+		<copy file="template.argo" todir="new"/> 
+		<replaceregexp file="new/template.argo"
+                         match="(#FILE#)"
+                         replace="${base.name}.xmi" byline="true">
+		</replaceregexp>
+		<replaceregexp file="new/template.argo"
+                         match="(#AUTHOR#)"
+                         replace="${user.name}" byline="true">
+		</replaceregexp>		
+		<move file="new/template.argo" tofile="new/${base.name}.argo"/> 
+		<zip destfile="${base.name}.zargo"
+       		basedir="new"
+		  />
+		<delete dir="new"></delete>
+	</target>
+</project>
+
