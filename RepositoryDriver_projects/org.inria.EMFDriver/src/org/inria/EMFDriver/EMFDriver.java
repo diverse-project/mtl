@@ -1,4 +1,4 @@
-/* $Id: EMFDriver.java,v 1.2 2004-03-08 08:18:19 jpthibau Exp $
+/* $Id: EMFDriver.java,v 1.3 2004-03-10 17:15:44 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -47,8 +47,8 @@ public class EMFDriver {
 	public static final org.apache.log4j.Logger log = Logger.getLogger("EMFDriver");
 
 	
-	// the editing domains registered to manage models with specific fileExetension
-	private static Hashtable editingDomainsTable = new Hashtable();
+	// the editing domain providers registered to manage models with specific fileExetension
+	private static Hashtable editingDomainProvidersTable = new Hashtable();
 	
 	//model(s) under reading/transformation are registered in the modelsTable
 	private static Hashtable modelsTable = new Hashtable();
@@ -66,8 +66,8 @@ public class EMFDriver {
 							System.err.println("Can't state log4j in EMFDriver"); }
 	}
 	
-	public static void addEditingDomain(String fileExtension,EditingDomain ed){
-		editingDomainsTable.put(fileExtension,ed);
+	public static void addEditingDomainProvider(String fileExtension,EditingDomainProvider provider){
+		editingDomainProvidersTable.put(fileExtension,provider);
 	}
 
 /* These below methods are called by the application that use the EMFDriver.
@@ -87,13 +87,14 @@ public class EMFDriver {
 		if (modelsTable.get(modelName) != null)
 			throw new Exception("The model \""+modelName+"\" is already managed; dispose this model before to try to create it !");
 		log.info("Creating file"+modelXmiOutputFileName+" as model named:"+modelName);
-		EditingDomain ed = (EditingDomain)editingDomainsTable.get(modelFileExtension);
-		if (ed == null) throw new Exception("No EditingDomain available for \""+modelFileExtension+"\" models extension.");
+		EditingDomainProvider provider = (EditingDomainProvider)editingDomainProvidersTable.get(modelFileExtension);
+		if (provider == null) throw new Exception("No EditingDomain available for \""+modelFileExtension+"\" models extension.");
 		Resource resource = null;
 				// create the resource through the editing domain.
 				//
-		resource = ed.createResource(URI.createFileURI(modelXmiOutputFileName).toString());
+		resource = provider.getANewResource(modelXmiOutputFileName);
 		if (resource == null) throw new Exception("No resource created to file \""+modelXmiOutputFileName+"\".");
+		EditingDomain ed = provider.getEditingDomain();
 		EMFAPI api = new EMFAPI(modelName,modelFileExtension,modelXmiOutputFileName,ed,resource);
 		//register the new model in the managed models Table
 		modelsTable.put(modelName,api);
@@ -111,7 +112,9 @@ public class EMFDriver {
 		if (modelsTable.get(modelName) != null)
 			throw new Exception("The model \""+modelName+"\" is already managed; dispose this model before to try to load it !");
 		log.info("Loading file"+modelXmiInputFileName+" as model named:"+modelName);
-		EditingDomain ed = (EditingDomain)editingDomainsTable.get(modelFileExtension);
+		EditingDomainProvider provider = (EditingDomainProvider)editingDomainProvidersTable.get(modelFileExtension);
+		if (provider == null) throw new Exception("No EditingDomain available for \""+modelFileExtension+"\" models extension.");
+		EditingDomain ed = provider.getEditingDomain();
 		if (ed == null) throw new Exception("No EditingDomain available for \""+modelFileExtension+"\" models extension.");
 		Resource resource = null;
 			// Load the resource through the editing domain.
@@ -205,9 +208,9 @@ public class EMFDriver {
 			Iterator childrenDescrIter = api.editingDomain.getNewChildDescriptors(modelElt,null).iterator();
 			while (childrenDescrIter.hasNext()) {
 				CommandParameter descriptor = (CommandParameter)childrenDescrIter.next();
-				Command cmd = CreateChildCommand.create(api.editingDomain,modelElt,descriptor,selection);
-				if (! metaClasses.containsKey(cmd.getDescription()))
-					metaClasses.put(cmd.getDescription(),new EMFChildElement(modelElt,descriptor,cmd));
+				Command createCmd = CreateChildCommand.create(api.editingDomain,modelElt,descriptor,selection);
+				if (! metaClasses.containsKey(createCmd.getDescription()))
+					metaClasses.put(createCmd.getDescription(),new EMFChildElement(modelElt,descriptor,createCmd));
 			}
 		}
 		return metaClasses;

@@ -1,4 +1,4 @@
-/* $Id: EMFFeatured.java,v 1.1 2004-03-08 08:18:16 jpthibau Exp $
+/* $Id: EMFFeatured.java,v 1.2 2004-03-10 17:15:44 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -96,15 +96,12 @@ public abstract class EMFFeatured
 		if (setAttribute && !feature)
 			throw new UnknownCommandException(this, name, arguments, discriminants, "Cannot both query the model and affect an attribute.");
 		if (setAttribute) { 
-			System.out.println("To implement");
 			EStructuralFeature sf = ((EMFModelElement)this).type.getAttribute(name);
-			Object val = this.getSpecificAPI().value2java(arguments[0],true,false);
+			Object val = this.getSpecificAPI().value2java(arguments[0],false,false);
 			Command setcmd = SetCommand.create(this.api.editingDomain,((EMFModelElement)this).getRefObject(),sf,val);
-			int www=10;
 			if (setcmd.canExecute())
 				setcmd.execute();
-			else ((EMFModelElement)this).getRefObject().eSet(sf,new Integer(10));
-			//throw new UnknownCommandException(this, name, arguments, discriminants, "One parameter required : the new attriute value.");
+			else throw new UnknownCommandException(this, name, arguments, discriminants, "One parameter required : the new attriute value.");
 /*			if (arguments == null || arguments.length != 1)
 				throw new UnknownCommandException(this, name, arguments, discriminants, "One parameter required : the new attriute value.");
 			try {
@@ -136,6 +133,9 @@ public abstract class EMFFeatured
 							f = new EMFMetaFeature(this.getSpecificAPI(), name, c, new EMFMetaFeature [] {f, g});
 					}
 					if (operation) {
+						if (name.equals("delete")) {
+							this.delete();
+							return null; } 
 						g = (EMFMetaFeature)this.getSpecificAPI().getMetaOperation(name, c);
 						if (f == null)
 							f = g;

@@ -1,9 +1,9 @@
-/* $Id: EditingDomainProvider.java,v 1.1 2004-02-27 08:39:30 jpthibau Exp $
+/* $Id: EditingDomainProvider.java,v 1.1 2004-03-10 17:15:45 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
  */
-package org.inria.EMFTransformationLauncher.actions;
+package org.inria.EMFDriver;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -14,10 +14,14 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
+import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
@@ -44,6 +48,10 @@ public class EditingDomainProvider
 	 */
 	private String FileExtension;
 
+	/* root Element : owner for all possible created subElements
+	 * generally the EPackage that defines the model and my contain all its elements
+	 */
+	private EObject rootElement;
 
 	/**
 	 * This creates a model editing domain.
@@ -88,6 +96,18 @@ public class EditingDomainProvider
 		return adapterFactory;
 	}
 
+	public void setRootElement(EObject rootElement) {
+		//Set the rootElement
+		 this.rootElement = rootElement;
+	}
+	//create a new resource having the root element
+	//the root element needs to be added to the resource in order to allow children creation
+	public Resource getANewResource(String fileName) {
+		Resource resource = null;
+		resource = editingDomain.createResource (URI.createFileURI(fileName).toString());
+		resource.getContents().add(this.rootElement);
+		return resource;
+	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

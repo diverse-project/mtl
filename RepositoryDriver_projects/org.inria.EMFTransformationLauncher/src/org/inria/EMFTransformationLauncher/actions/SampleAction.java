@@ -7,14 +7,20 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.common.notify.AdapterFactory;
 
 import org.inria.EMFDriver.EMFDriver;
+import org.inria.EMFDriver.EditingDomainProvider;
+import org.eclipse.emf.ecore.*;
+
+import java.util.Map;
 
 //***************************************************************
 //===============================================================
 //change this import according to the application you want to run
 import FileAccessTest.*;
 import AllInstancesTest.*;
+import EltsCreationAndSettingTest.*;
 //==============================================================
 
 
@@ -23,7 +29,12 @@ import AllInstancesTest.*;
  * =========================================================================
  * @author jpthibau
  */
+import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+import org.eclipse.example.library.impl.LibraryFactoryImpl;
+import org.eclipse.example.library.LibraryPackage;
+import org.eclipse.example.library.LibraryFactory;
 import org.eclipse.example.library.provider.LibraryItemProviderAdapterFactory;
 /* *************************************************************************
 * =========================================================================
@@ -57,18 +68,31 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		 * =========================================================================
 		 */
 		EditingDomainProvider provider1 = new EditingDomainProvider("ecore",new EcoreItemProviderAdapterFactory());
+
 		EditingDomainProvider provider2 = new EditingDomainProvider("library",new LibraryItemProviderAdapterFactory());
+
+		Map registry = EPackage.Registry.INSTANCE;
+		String ecorePackageURI = EcorePackage.eNS_URI;
+		EcorePackage ecorePackage = (EcorePackage) registry.get(ecorePackageURI);
+		EcoreFactory ecoreFactory = ecorePackage.getEcoreFactory();
+		provider1.setRootElement(ecoreFactory.createEPackage());
+
+		String libraryPackageURI = LibraryPackage.eNS_URI;
+		LibraryPackage libraryPackage = (LibraryPackage) registry.get(libraryPackageURI);
+		LibraryFactory libraryFactory = libraryPackage.getLibraryFactory();
+		provider2.setRootElement(libraryFactory.createLibrary());
 		/* *************************************************************************
 		* =========================================================================
 		*/
 		//ADD HERE ANY EDITING DOMAIN YOU NEED
-		EMFDriver.addEditingDomain("ecore",provider1.getEditingDomain());
-		EMFDriver.addEditingDomain("library",provider2.getEditingDomain());
+		EMFDriver.addEditingDomainProvider("ecore",provider1);
+		EMFDriver.addEditingDomainProvider("library",provider2);
 
 		//RUN THE APPROPRIATE APPLICATION BY CALLING ITS ENTRYPOINT METHOD
 		try {
-			new BMTLLib_FileAccessTest().BMTL_runTransformation();
-			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
+//			new BMTLLib_FileAccessTest().BMTL_runTransformation();
+//			new BMTLLib_AllInstancesTest().BMTL_runTransformation();
+			new BMTLLib_EltsCreationAndSettingTest().BMTL_runTransformation();
 		}
 		catch (Throwable e) {System.out.println("Application terminated with  exception :"+e);
 							 e.printStackTrace();}

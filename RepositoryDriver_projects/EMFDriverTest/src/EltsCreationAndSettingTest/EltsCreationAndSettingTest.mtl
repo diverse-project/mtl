@@ -1,0 +1,84 @@
+library EltsCreationAndSettingTest;
+
+//library models
+model LibraryM : RepositoryModel;
+model MyOwnLibraryM : RepositoryModel;
+
+/********************************************/
+// Entry point operation : runTransformation
+//
+// the name of the entry point operation may
+// be changed in modifying the runTransformation
+// procedure call inside EMFTransformationLauncher project, SampleAction.java 
+/********************************************/
+
+runTransformation():Standard::Void
+{
+	modelManager : EMFDriver::EMFModelManager;
+	set : Standard::Set;
+	it : Standard::Iterator;
+	aBook, newBook, aBookToRemove : LibraryM::[org.eclipse.example.library.Library]::Book;
+	aWriter, newWriter : LibraryM::[org.eclipse.example.library.Library]::Writer;
+	
+	modelManager := new EMFDriver::EMFModelManager();
+
+	// use loadModelFromXmi method to get the initial model.
+	LibraryM := modelManager.loadModelFromXMI(
+									'LibraryInstance',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/InputModels/My.library');
+
+	//create a new model to copy in it all classes of the loaded model
+	//use createModel method
+
+	MyOwnLibraryM := modelManager.createModel(
+									'MyOwnLibrary',
+									'library',
+									'c:/ECLIPSEEMFDRIVER/eclipse/workspace/EMFDriverTest/OutputModels/MyOwnLibrary.library');
+
+
+	//add a book taht will be removed later
+	aBookToRemove := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+	aBookToRemove.title := 'To remove later...';
+	
+	//copy all books from loaded model to created one
+	'Copy all Books...'.toOut();
+	'*===============*'.toOut();
+	set := !LibraryM::[org.eclipse.example.library.Library]::Book!.allInstances();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		it.item().toOut();
+		aBook := it.item();
+		newBook := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Book();
+		newBook.title := aBook.title;
+		newBook.pages := aBook.pages;
+		it.next();
+	}
+
+
+	'Copy all Writers...'.toOut();
+	'*=================*'.toOut();
+	set := !LibraryM::[org.eclipse.example.library.Library]::Writer!.allInstances();
+	set.toOut();
+	it := set.getNewIterator();
+	it.start();
+	while it.isOn() {
+		it.item().toOut();
+		aWriter := it.item();
+		newWriter  := new MyOwnLibraryM::[org.eclipse.example.library.Library]::Writer();
+		newWriter.name := aWriter.name;
+		it.next();
+	}
+
+	//remove the bad book taht was first added to library
+	aBookToRemove.delete();
+	
+	//save the created model
+	modelManager.saveModelToXMI('MyOwnLibrary');
+	
+	//clean the modelManager so that it may call other transformations without any model under management;
+	// use the disposeModel method that frees loaded models
+	modelManager.disposeModel('LibraryInstance');
+	modelManager.disposeModel('MyOwnLibrary');
+}

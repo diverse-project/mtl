@@ -1,4 +1,4 @@
-/* $Id: EMFMetaClass.java,v 1.1 2004-03-08 08:18:17 jpthibau Exp $
+/* $Id: EMFMetaClass.java,v 1.2 2004-03-10 17:15:44 jpthibau Exp $
  * Authors : 
  * 
  * Copyright 2003 - INRIA - LGPL license
@@ -17,6 +17,7 @@ import org.irisa.triskell.MT.repository.API.Java.ModelElementIterator;
 import org.irisa.triskell.MT.repository.API.Java.UnknownElementException;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.command.*;
 import org.eclipse.emf.edit.command.*;
 import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.common.util.*;
@@ -117,24 +118,20 @@ public class EMFMetaClass extends EMFMetaType
 		org.irisa.triskell.MT.DataTypes.Java.Value[] arguments)
 		throws org.irisa.triskell.MT.repository.API.Java.UnknownElementException, org.irisa.triskell.MT.repository.API.Java.CommonException, org.irisa.triskell.MT.repository.API.Java.IllegalAccessException
 	{
-		//Every constructor is supposed to be public
-		//Every constructor parameter is supposed to be of type IN_DIR.
 		org.irisa.triskell.MT.repository.API.Java.ModelElement ret =null;
-/*		try {
-			java.util.List javaArguments = new java.util.ArrayList(arguments == null ? 0 : arguments.length);
-			for (int i = 0; i < (arguments == null ? 0 : arguments.length); ++i)
-				javaArguments.add(this.getSpecificAPI().value2java(arguments[i], false, false));
-			ret = this.getSpecificAPI().getModelElement(this.refClass.refCreateInstance(arguments == null ? null : javaArguments));
-		} catch (AlreadyExistsException x) {
-			if (((MofClass)this.getRefClass().refMetaObject()).isSingleton())
-				throw new CommonException("Cannot build a second value of singleton " + this.toString());
-			else
-				throw new CommonException(x.getMessage());
-		} catch (Exception x) {
-			throw new CommonException(x.getMessage() + " - " + x.getClass().getName());
-		}
-		if (ret == null)
-			throw new CommonException(this.toString() + ": construction failed (unknown reason).");*/
+		if (arguments != null && arguments.length > 0)
+			EMFDriver.log.warn("Ignoring arguments in metaClass.instantiate(...). EMF provides only a 'withou parameters' constructor");
+		//try to get the creation command related to this metaClass
+		Command cmd = this.refClass.creationCommand;
+		if (cmd == null) throw new CommonException("Cannot find a model element constructor for metaClass " + this.toString());
+		cmd.execute();
+		Collection builtChildren = cmd.getResult();
+		if (builtChildren.isEmpty()) 
+			throw new CommonException("The model elemnt constructor fails for metaClass " + this.toString());
+		if (builtChildren.size() > 1)
+			EMFDriver.log.warn("It seems a call to metaClass constructor created more than one object for the metaClass "+ this.toString()); 
+		EObject builtChild = (EObject)builtChildren.iterator().next();
+		ret = new EMFModelElement(false,null,this.getSpecificAPI(),builtChild,refClass.metaClass);
 		return ret;
 	}
 
