@@ -1,0 +1,17 @@
+// $Id: JavaCodeLiteral.mtl,v 1.1 2003-09-17 07:31:03 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class JavaCodeLiteral extends Literal {
+ 
+	value : Standard::String;
+	
+	toASTJava() : ASTJava::Object
+	{
+	JavaCode [return new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.JavaCodeLiteral(this.BMTL_value.getTheString())];
+	}
+ }

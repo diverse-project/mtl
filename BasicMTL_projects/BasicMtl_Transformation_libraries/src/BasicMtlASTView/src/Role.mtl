@@ -1,0 +1,29 @@
+// $Id: Role.mtl,v 1.1 2003-09-17 07:31:05 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Role extends ASTNode {
+ 
+	RoleName : Standard::String;
+	expression : Expression;
+
+	toASTJava() : ASTJava::Object
+	{
+	properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Role theRole=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Role(this.BMTL_RoleName.getTheString())];
+	JavaCode [theRole.setExpression((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression)BMTL_expression.BMTL_toASTJava())];
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theRole.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theRole];
+	}
+ }

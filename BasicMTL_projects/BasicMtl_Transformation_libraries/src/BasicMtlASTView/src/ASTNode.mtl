@@ -1,0 +1,95 @@
+// $Id: ASTNode.mtl,v 1.1 2003-09-17 07:31:02 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class ASTNode {
+ 
+	decoration : Standard::Set;
+	
+	createNewBMTLTypeProperty(key : Standard::String;value : Standard::OrderedSet;tagType : Standard::String)
+	{	theProperty : BMTLTypeProperty;
+		theProperty := null;
+		if tagType.[=]('TypeTag').or(tagType.[=]('Tag')) {
+		theProperty := new BMTLTypeProperty();
+		theProperty.name := key;
+		theProperty.value := value;
+		theProperty.tagType := tagType;
+		if isNull(decoration)
+		//TODO this don't work { decoration := new Standard::Set(); }
+		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
+		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		}
+		else { 'Bad tagType to create new BMTLTypeProperty.'.toErr(); }
+	}
+	
+	createNewInheritanceProperty(key : Standard::String;value : Standard::Set;tagType : Standard::String)
+	{	theProperty : InheritanceProperty;
+		theProperty := null;
+		if tagType.[=]('InheritanceTag') {
+		theProperty := new InheritanceProperty();
+		theProperty.name := key;
+		theProperty.value := value;
+		theProperty.tagType := tagType;
+		if isNull(decoration)
+		//TODO this don't work { decoration := new Standard::Set(); }
+		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
+		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		}
+		else { 'Bad tagType to create new InheritanceProperty.'.toErr(); }
+	}
+	
+	createNewStringProperty(key : Standard::String;value : Standard::String;tagType : Standard::String)
+	{	theProperty : StringProperty;
+		theProperty := null;
+		if tagType.[=]('StringTag') {
+		theProperty := new StringProperty();
+		theProperty.name := key;
+		theProperty.value := value;
+		theProperty.tagType := tagType;
+		if isNull(decoration)
+		//{ decoration := new Standard::Set(); }
+		{ JavaCode [BMTL_decoration=new BMTLSet()]; }
+		decoration := decoration.append(theProperty.oclAsType(!Property!)).oclAsType(!Standard::Set!);
+		}
+		else { 'Bad tagType to create new StringProperty.'.toErr(); }
+	}
+	
+	getProperty(key : Standard::String) : Property
+	{	property : Property;
+		property := self.findProperty(key); 
+    	return property;
+	}
+
+	setProperty(key : Standard::String;value : Standard::OclAny)
+	{	property : Property;
+		property := self.findProperty(key); 
+    	property.setTheValue(value);
+	}
+
+	findProperty(name : Standard::String) : Property
+	{	current : Property;
+		properties : Standard::Iterator;
+		if isNull(decoration)
+		{ return null; }
+		properties := decoration.getNewIterator();
+		properties.start();
+    	while properties.isOn() {
+    		current := properties.item();
+    		if current.name.[=](name) {
+    			return current;
+    		}
+    		properties.next();
+    	}
+    	return null; 
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+		'toASTJava SHOULD BE DONE ONLY ON SUBCLASSES OF ASTNode'.toErr();
+		return null;
+	}
+}

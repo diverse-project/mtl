@@ -1,0 +1,43 @@
+// $Id: Associate.mtl,v 1.1 2003-09-17 07:31:04 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class Associate extends Instruction {
+ 
+	roles : Standard::Set;
+	AssociationName : Standard::String;
+	isAssociate : Standard::Boolean;
+ 
+	appendRoles(aRole : Role) : Standard::Void
+	{	if isNull(roles)
+			{ JavaCode [BMTL_roles=new BMTLSet()]; }
+		roles := roles.append(aRole).oclAsType(!Standard::Set!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	aRole : Role;
+	theRoles,properties : Standard::Iterator;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Associate theAssociate=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Associate(BMTL_isAssociate.getTheBoolean())];
+	theRoles := roles.getNewIterator();
+	theRoles.start();
+	while theRoles.isOn() {
+		aRole := theRoles.item().oclAsType(!Role!);
+		JavaCode [theAssociate.appendRoles((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Role)BMTL_aRole.BMTL_toASTJava())];
+		theRoles.next();
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theAssociate.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theAssociate];
+	}
+ }

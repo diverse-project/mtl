@@ -1,0 +1,153 @@
+<!-- $Id: buildViaView.xml,v 1.1 2003-09-17 07:31:06 jpthibau Exp $ -->
+<project name="BasicMtlASTView" default="ASTView_antlr2tll" basedir=".">
+	<description>
+        Build file for the different BasicMTL files in this project
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="./src"/>
+	<property name="bin" location="../../bin/"/>
+	<property name="build" location="../../build/"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+	    <mkdir dir="${build}/src"/>
+	    <mkdir dir="${build}/src/UncheckedTLL"/>
+	    <mkdir dir="${build}/src/TLL"/>
+	    <mkdir dir="${build}/src/java"/>
+	    <mkdir dir="${bin}"/>
+	</target>
+	
+	<target name="ASTJava_antlr2tll" depends="init"
+  	 	description="Parse ASTJava.mtl to a TLL">
+	 	<java jar="../../../TLLTypeCheckerViaView/dist/bin/TLLTypeCheckerViaView.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="${src}\ASTJava.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="ASTJava"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile ASTJava" depends="ASTJava_antlr2tll"
+  	 	description="Generate code for ASTJava.mtl">
+	    <mkdir dir="${build}/src/java/ASTJava"/>
+	 	<java jar="../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="ASTJava"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/ASTJava/"/> 
+       </java>
+ 
+	</target>
+
+	<target name="ASTView_antlr2tll" depends="ASTJava_antlr2tll"
+  	 	description="Parse all .mtl of the AST to a TLL">
+	 	<java jar="../../../TLLTypeCheckerViaView/dist/bin/TLLTypeCheckerViaView.jar" 
+           fork="true"
+           failonerror="true"
+           >
+          <arg value="${src}\Associate.mtl"/> 
+         <arg value="${src}\ASTNode.mtl"/> 
+          <arg value="${src}\Attribute.mtl"/> 
+          <arg value="${src}\BMTLTypeProperty.mtl"/> 
+         <arg value="${src}\BasicMtlLibrary.mtl"/> 
+         <arg value="${src}\BooleanLiteral.mtl"/> 
+          <arg value="${src}\Catch.mtl"/> 
+         <arg value="${src}\Expression.mtl"/> 
+         <arg value="${src}\If.mtl"/> 
+          <arg value="${src}\InheritanceProperty.mtl"/> 
+         <arg value="${src}\Instruction.mtl"/> 
+         <arg value="${src}\IntLiteral.mtl"/> 
+         <arg value="${src}\JavaCodeLiteral.mtl"/> 
+         <arg value="${src}\Library.mtl"/> 
+         <arg value="${src}\Literal.mtl"/> 
+         <arg value="${src}\ModelRef.mtl"/> 
+         <arg value="${src}\NewObject.mtl"/> 
+         <arg value="${src}\NullLiteral.mtl"/> 
+         <arg value="${src}\OclAsType.mtl"/> 
+         <arg value="${src}\OclTypeLiteral.mtl"/> 
+         <arg value="${src}\Operation.mtl"/> 
+         <arg value="${src}\OperationCall.mtl"/> 
+         <arg value="${src}\Property.mtl"/> 
+         <arg value="${src}\RealLiteral.mtl"/> 
+         <arg value="${src}\RepositoryRef.mtl"/> 
+         <arg value="${src}\Return.mtl"/> 
+         <arg value="${src}\Role.mtl"/> 
+         <arg value="${src}\SelfLiteral.mtl"/> 
+         <arg value="${src}\StringLiteral.mtl"/> 
+          <arg value="${src}\StringProperty.mtl"/> 
+         <arg value="${src}\Throws.mtl"/> 
+         <arg value="${src}\Try.mtl"/> 
+         <arg value="${src}\TypedModelRef.mtl"/> 
+         <arg value="${src}\UserClass.mtl"/> 
+         <arg value="${src}\VarCall.mtl"/> 
+         <arg value="${src}\VarDeclaration.mtl"/> 
+         <arg value="${src}\VarSetting.mtl"/> 
+         <arg value="${src}\While.mtl"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-PackageName"/> 
+         <arg value="BasicMtlASTView"/> 
+       </java>
+ 
+	</target>
+
+	<target name="compile BasicMtlASTView" depends="ASTView_antlr2tll"
+  	 	description="Generate code for all .mtl forming the AST">
+	    <mkdir dir="${build}/src/java/BasicMtlASTView"/>
+	 	<java jar="../../../BasicMtlJavaCodeGenerator/dist/bin/BasicMtlJavaCodeGenerator.jar" 
+           fork="true"
+           failonerror="true"
+           >
+         <arg value="BasicMtlASTView"/> 
+         <arg value="-TLLPath"/> 
+         <arg value="${build}/src/"/> 
+         <arg value="-BinPath"/> 
+         <arg value="${build}/src/java/BasicMtlASTView/"/> 
+       </java>
+ 
+	</target>
+
+	<target name="create_jar" depends="compile BasicMtlASTView"
+		description="create the jar file">
+		<jar destfile="${build}/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}/Standard"/>
+			 <fileset dir="${bin}/ASTJava"/>
+			 <fileset dir="${bin}/BasicMtlASTView"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>   
+		    	<attribute name="Main-Class" value="ASTView.Library"/>
+				<attribute name="Class-Path" value="ThirdParty/log4j/log4j.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="clean"
+        description="clean up AST lib" >
+    	<!-- Delete the ${build}, {$bin} and ${dist} directory trees -->
+    	<delete dir="${build}/src/java/ASTView"/>    
+    	<delete dir="${build}/src/UncheckedTLL/ASTview.tll"/>
+    	<delete dir="${build}/src/TLL/ASTView.tll"/>    
+  	</target>
+</project>

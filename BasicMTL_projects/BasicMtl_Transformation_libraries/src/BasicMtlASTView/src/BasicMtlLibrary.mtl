@@ -1,0 +1,62 @@
+// $Id: BasicMtlLibrary.mtl,v 1.1 2003-09-17 07:31:02 jpthibau Exp $
+// part of the BasicMtlASTView Library ( view on ASTJava )
+/* version written for basicmtl.g,v 1.2
+ *	(cf /udd/triskell/cvsroot/dev/MT/BasicMtlAntlr/ANTLRParser/basicmtl.g,v 1.2)
+ */
+ 
+ library BasicMtlASTView;
+ 
+ class BasicMtlLibrary extends Library {
+ 
+	parameters : Standard::Set;
+//	extendedLib : Standard::Set;
+	
+	appendParameters ( aModel : ModelRef) : Standard::Void
+	{	if isNull(parameters)
+			{ JavaCode [BMTL_parameters=new BMTLSet()]; }
+		parameters := parameters.append(aModel).oclAsType(!Standard::Set!);
+	}
+
+	toASTJava() : ASTJava::Object
+	{
+	theParameters,classes,operations,properties : Standard::Iterator;
+	aParameter : ModelRef;
+	aClass : UserClass;
+	anOperation : Operation;
+	aProperty : Property;
+	JavaCode [org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary theBasicMtlLibrary=new org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.BasicMtlLibrary(this.get_BMTL_name().getTheString())];
+	if isNull(parameters).not() {
+	theParameters := parameters.getNewIterator();
+	theParameters.start();
+	while theParameters.isOn() {
+		aParameter := theParameters.item().oclAsType(!ModelRef!);
+		JavaCode [theBasicMtlLibrary.appendParameters((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.ModelRef)BMTL_aParameter.BMTL_toASTJava())];
+		theParameters.next();
+	}
+	}
+	if isNull(self.oclAsType(!Library!).definedOperations).not() {
+	operations := self.oclAsType(!Library!).definedOperations.getNewIterator();
+	operations.start();
+	while operations.isOn() {
+		anOperation := operations.item().oclAsType(!Operation!);
+		JavaCode [theBasicMtlLibrary.appendDefinedOperations((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Operation)BMTL_anOperation.BMTL_toASTJava())];
+		operations.next();
+	}
+	}
+	classes := self.oclAsType(!Library!).definedClasses.getNewIterator();
+	classes.start();
+	while classes.isOn() {
+		aClass := classes.item().oclAsType(!UserClass!);
+		JavaCode [theBasicMtlLibrary.appendDefinedClasses((org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.UserClass)BMTL_aClass.BMTL_toASTJava())];
+		classes.next();
+	}
+	properties := self.oclAsType(!ASTNode!).decoration.getNewIterator();
+	properties.start();
+	while properties.isOn() {
+		aProperty := properties.item().oclAsType(!Property!);
+		JavaCode [theBasicMtlLibrary.appendDecoration((org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Property)BMTL_aProperty.BMTL_toASTJava())];
+		properties.next();
+	}
+	JavaCode [return theBasicMtlLibrary];
+	}
+ }
