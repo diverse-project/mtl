@@ -1,4 +1,4 @@
-/* $Id: basicmtlParser.g,v 1.1 2003-07-11 08:25:06 jpthibau Exp $ */
+/* $Id: basicmtlParser.g,v 1.2 2003-07-11 09:09:26 jpthibau Exp $ */
 header {
 package ANTLRParser;
 
@@ -12,6 +12,7 @@ package ANTLRParser;
 class BasicmtlParser extends Parser;
 options {
 	buildAST = true;
+	importVocab=BasicMtl;	
         k=2;
 }
 {

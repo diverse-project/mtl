@@ -1,4 +1,4 @@
-/* $Id: basicmtlLexer.g,v 1.1 2003-07-11 08:25:06 jpthibau Exp $*/
+/* $Id: basicmtlLexer.g,v 1.2 2003-07-11 09:09:27 jpthibau Exp $*/
 header {
 package ANTLRParser;
 
@@ -13,13 +13,19 @@ package ANTLRParser;
 class BasicmtlLexer extends Lexer;
 options {
 	caseSensitive = true;
-/*	exportVocab=BasicMtl; */	
+	exportVocab=BasicMtl;	
 	k=2;
 	charVocabulary = '\3'..'\377' | '\u1000'..'\u1fff';
 	testLiterals = false;
 }
 
-tokens { NUM_FLOAT;
+tokens { "library"; "nativelibrary"; "Model"; "is";
+	      "class"; "extends"; "creation"; "throwsException";
+	      "return"; "while"; "if"; "else"; "throws"; "try"; "catch"; "finally"; "associate";
+	      "new"; "self"; "null"; "true"; "false";
+	      "oclAsType"; "::";
+	      "tag"; "BooleanTag"; "IntegerTag"; "RealTag"; "StringTag"; "SpecialTag";
+	       NUM_FLOAT;
 }
 
 { public int lineNumber=1;
