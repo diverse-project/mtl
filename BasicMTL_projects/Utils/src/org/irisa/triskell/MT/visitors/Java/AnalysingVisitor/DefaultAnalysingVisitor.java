@@ -1,21 +1,25 @@
 package org.irisa.triskell.MT.visitors.Java.AnalysingVisitor;
 
 import java.util.*;
+
+import org.irisa.triskell.MT.utils.Java.AWK;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
-import java.lang.*;
+import org.irisa.triskell.MT.visitors.Java.GenericVisitor.*;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 
 public class DefaultAnalysingVisitor 
     implements org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.AnalysingVisitor
 {
-    protected Vector analysers = new Vector();
-    public org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Analyser getAnalysers (int i) {
-        return (org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Analyser)this.analysers.elementAt(i);
-    }
-    public int cardAnalysers () {
-        return this.analysers.size();
-    }
+	public static Comparator ClassComparator = new Comparator () {
+
+		public int compare(Object o1, Object o2) {
+			return ((Class)o1).getName().compareTo(((Class)o2).getName());
+		}
+		
+	};
+	
+    protected TreeMap analysers = new TreeMap(ClassComparator);
 
     public final String analysersPackage;
     public String getAnalysersPackage () {
@@ -67,11 +71,7 @@ public class DefaultAnalysingVisitor
     public String AnalyserBuildName(
         java.lang.Class nodeType)
     {
-String name=nodeType.getName();
-		  int lastPointIndex=name.length();
-		  while ((lastPointIndex!=0) && (name.charAt(lastPointIndex-1)!='.'))
-		   		lastPointIndex--;
-		  return (this.getAnalysersPackage() + '.' + name.substring(lastPointIndex) + this.analyserSuffix());
+		  return (this.getAnalysersPackage() + '.' + AWK.lastFieldOf(nodeType.getName(), ".") + this.analyserSuffix());
     }
 
     public org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.Analyser getAnalyser(
@@ -80,9 +80,12 @@ String name=nodeType.getName();
 		if (nodeType == null)
 			return null;
     		
-		for (int i = 0; i < this.cardAnalysers(); ++i)
-			if (this.getAnalysers(i).getNodeType().equals(nodeType))
-				return this.getAnalysers(i);
+		Analyser c = (Analyser)this.analysers.get(nodeType);
+		if (c == null) {
+			if (this.analysers.containsKey(nodeType))
+				return null;
+		} else
+			return c;
     			
 		Analyser foundAnalyser = null;
 		/* System.out.println(this.AnalyserBuildName(nodeType)); */
@@ -93,12 +96,14 @@ String name=nodeType.getName();
 		} catch (Exception x) {
 			foundAnalyser = this.getAnalyser(nodeType.getSuperclass());
 		} finally {
-			if (foundAnalyser != null)
-				this.analysers.addElement(foundAnalyser);
 		}
 		
 		if (foundAnalyser == null && this.getParent() != null)
 			foundAnalyser = this.getParent().getAnalyser(nodeType);
+			
+		if (foundAnalyser != null)
+			this.analysers.put(nodeType, foundAnalyser);
+			
 		return foundAnalyser;
     }
 
