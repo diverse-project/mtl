@@ -1,21 +1,25 @@
-// $ID$
-// This library provides tools function to manipulate objects of UML1.4 metamodel
-// It is inspired by some usefull Objecteering J method for some metaclasses.
-// It should avoid to have some repetitive MTL code.
+/******************************************************************************
+ * $Id: UML_Utils.mtl,v 1.2 2003-09-17 07:45:20 dvojtise Exp $
+ * This library provides tools function to manipulate objects of UML1.4 metamodel
+ * It is inspired by some usefull Objecteering J method for some metaclasses.
+ * It should avoid to have some repetitive MTL code. 
+ * Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ ******************************************************************************/
 
 library UML_Utils;
 
 model UML : RepositoryModel;		// should be a UML1.4 MetaModel
 
 
-////////////////////////////////////////////////////////////////////////////////////
-// category : 
-// name     : init
-// purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
-// in       : aModel : a UML1.4 metamodel
-// out      : the library itself
-// remark   : 
-////////////////////////////////////////////////////////////////////////////////////
+/******************************************************************************
+ * category : 
+ * name     : init
+ * purpose  : Initialization of the library. A metamodel of UML1.4 has to be given
+ * in       : aModel : a UML1.4 metamodel
+ * out      : the library itself
+ * remark   : 
+ ******************************************************************************/
 
 init (aModel : RepositoryModel) : UML_Utils
 {

@@ -1,3 +1,11 @@
+/******************************************************************************
+ * $Id: UML14_Transformations.mtl,v 1.4 2003-09-17 07:45:20 dvojtise Exp $
+ * Simple transformations that apply to UML1.4 models
+ *	includes : 
+ *		Attribute_Privatize that privatize 
+ * Syntax used : BasicMTL V1.9 syntax cf. basicmtlParser.mtl V1.9
+ *
+ ******************************************************************************/
 library UML14_Transformations;
 
 model source_model : RepositoryModel;		// should be a UML1.4 MetaModel
@@ -46,18 +54,18 @@ main() : Standard::Void
     
  	'model connected'.toOut();
 
-	aTransformation := new MyTransformation();
+	aTransformation := new PrivatizeAttributeTransformation();
 	aTransformation.run();
 	
 	'That s all folks !'.toOut();
 }
 
-/************************************************************************************************/
-/************************************************************************************************/
+/*****************************************************************************/
+/*****************************************************************************/
 
-class MyTransformation
+class PrivatizeAttributeTransformation
 {
-	////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	run ()
 	{
 		attributeIterator : Standard::Iterator;
@@ -73,7 +81,7 @@ class MyTransformation
 		}
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	Attribute_Process (theAttribute : source_model::Core::Attribute)
 	{
 		theClass : source_model::Core::Class;
