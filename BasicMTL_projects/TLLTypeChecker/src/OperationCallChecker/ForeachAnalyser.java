@@ -1,6 +1,6 @@
 /*
  * Created on 1 août 2003
- * $Id: ForeachAnalyser.java,v 1.2 2004-04-28 08:07:32 edrezen Exp $
+ * $Id: ForeachAnalyser.java,v 1.3 2004-06-14 10:03:46 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -10,7 +10,7 @@ package OperationCallChecker;
 import java.util.Map;
 
 import org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.*;
-import org.irisa.triskell.MT.visitors.Java.AnalysingVisitor.DefaultAnalysingVisitor;
+import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitable;
 import org.irisa.triskell.MT.visitors.Java.GenericVisitor.Visitor;
 
@@ -35,11 +35,17 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 			{
 				OperationCall oc = (OperationCall)node;
 				
+				if (oc.getCaller()==null)
+				{
+					MSGHandler.debug (ForeachAnalyser.class,40, "null caller for an OperationCall");				
+					return;	
+				}
+				
 				if (oc.getCaller() instanceof VarCall)
 				{
 					operationCalls.add (node);					
 				}
-				else
+				else if (oc.getCaller() instanceof OperationCall)
 				{
 					// search into arguments
 					for (int i=0; i<oc.cardArguments(); i++)
@@ -49,6 +55,10 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 					
 					// search into caller
 					oc.getCaller().accept (this, context);					
+				}
+				else
+				{
+					// other kinds of caller don't need any extra check (like StringLiteral for instance)				
 				}
 			}
 		}
