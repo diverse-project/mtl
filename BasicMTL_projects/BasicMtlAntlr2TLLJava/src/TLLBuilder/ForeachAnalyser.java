@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ForeachAnalyser.java,v 1.2 2004-04-21 18:42:18 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2TLLJava/src/TLLBuilder/ForeachAnalyser.java,v 1.3 2004-04-28 07:26:54 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -50,7 +50,7 @@ public class ForeachAnalyser extends ASTTopDownVisitor.ForeachAnalyser
 		knownVarDecls.addElement(varDec);
 		context.put("DeclaredParametersandVars",knownVarDecls);
 	}
-
+	
 
 	/** */
     public void ForeachCollection (
@@ -63,6 +63,19 @@ public class ForeachAnalyser extends ASTTopDownVisitor.ForeachAnalyser
 		Expression col = (Expression) collection;
 		theCreatedForeach.setCollection (col);		
     }
+
+
+	/** */
+	public void ForeachCondition (
+		Object theForeach,
+		Object condition,
+		Map context
+	) 
+	{
+		Foreach theCreatedForeach = (Foreach) theForeach;
+		Expression theCondition = (Expression) condition;
+		theCreatedForeach.setCondition (theCondition);
+	}
 
 
 	/** */

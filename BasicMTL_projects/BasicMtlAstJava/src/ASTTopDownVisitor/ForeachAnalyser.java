@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ForeachAnalyser.java,v 1.1 2004-04-21 18:11:46 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ForeachAnalyser.java,v 1.2 2004-04-28 07:27:16 edrezen Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -31,6 +31,12 @@ public class ForeachAnalyser extends Analyser {
 
 		ASTnode.getCollection().accept (visitor,context);
 		this.ForeachCollection (theCreatedForeach, context.get("Instruction"), context);
+
+		if (ASTnode.getCondition() != null)
+		{
+			ASTnode.getCondition().accept (visitor,context);
+			this.ForeachCondition (theCreatedForeach, context.get("Instruction"), context);
+		}
 
 		// we loop over the instructions of the foreach body
 		for (int i=0; i<ASTnode.cardBody(); i++) 
@@ -75,6 +81,15 @@ public class ForeachAnalyser extends Analyser {
 	public void ForeachCollection (
 		Object theForeach, 
 		Object collection, 
+		java.util.Map context
+	) 
+	{
+	}
+
+	/** */
+	public void ForeachCondition (
+		Object theForeach, 
+		Object condition, 
 		java.util.Map context
 	) 
 	{

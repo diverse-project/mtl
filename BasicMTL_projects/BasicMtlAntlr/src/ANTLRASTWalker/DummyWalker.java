@@ -1,4 +1,4 @@
-//$Id: DummyWalker.java,v 1.9 2004-04-21 18:15:27 edrezen Exp $
+//$Id: DummyWalker.java,v 1.10 2004-04-28 07:24:50 edrezen Exp $
 
 package ANTLRASTWalker;
 
@@ -108,5 +108,5 @@ public class DummyWalker implements ANTLRWalkerActionsInterface {
 
 	public Object attributeGetter(String attributeName) {return null;}
 
-	public Object foreachInstr (Object element, Object collection, Object body) { return null; }
+	public Object foreachInstr (Object element, Object collection, Object condition, Object body) { return null; }
 }

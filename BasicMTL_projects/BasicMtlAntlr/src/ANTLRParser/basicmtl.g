@@ -1,4 +1,4 @@
-/* $Id: basicmtl.g,v 1.23 2004-04-22 14:47:29 dvojtise Exp $ 			*/
+/* $Id: basicmtl.g,v 1.24 2004-04-28 07:24:51 edrezen Exp $ 			*/
 /*															 			*/
 /* Copyright 2004 - INRIA - LGPL license 					 			*/
 /* This is the parser of the BasicMTL syntax. It uses an ANTLRASTWalker */
@@ -777,22 +777,22 @@ exception catch [RecognitionException ex] {
 
 /*===============================================================
 foreachInstruction : 
-"foreach" '(' varDecl ')' "in" '(' expression ')'  bodyinstr
+"foreach" '(' varDecl ')' "in" '(' expression ')'  ("where" '('expression')')? bodyinstr  
 ==================================================================*/
 foreachInstruction returns [Object tree=null;]
 { 
 	Object s1 = null; 
 	Object s2 = null; 
 	Object s3 = null; 
+	Object s4 = null; 
 }
  :	
- 	"foreach" OPENBRACKET  s1=varDecl  CLOSEBRACKET  "in"  OPENBRACKET s2=expression CLOSEBRACKET  s3=bodyinstr
+ 	"foreach" OPENBRACKET  s1=varDecl  CLOSEBRACKET  "in"  OPENBRACKET s2=expression CLOSEBRACKET  ("where" OPENBRACKET s3=expression CLOSEBRACKET)?   s4=bodyinstr  
 	{ 
-		tree = walker.foreachInstr (s1,s2,s3);
+		tree = walker.foreachInstr (s1,s2,s3,s4);
 	}
 	exception catch [RecognitionException ex] {	throw ex; }
 ;
-
 
 /*===============================================================
 arguments : expression ( COMMA expression  )*

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.8 2004-04-21 18:17:34 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTViewAssociation/src/antlr2ASTView/antlr2astView.java,v 1.9 2004-04-28 07:26:09 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -718,7 +718,7 @@ public Object specialTagValue(String value)
 	 * @param body           the body of the foreach, i.e. the instructions to be done
 	 * @return the Foreach node
 	 */
-public Object foreachInstr (Object typedVars, Object expression, Object body) 
+public Object foreachInstr (Object typedVars, Object collection, Object condition, Object body) 
 {
 	// we build the node for the foreach statement
 	 BMTL_Foreach node = (BMTL_Foreach) ((InstanciableType)theCreatedLib.getMetaClass(new String [] {"Foreach"})).instanciate();
@@ -745,7 +745,12 @@ public Object foreachInstr (Object typedVars, Object expression, Object body)
 		////////////////////////////////////////////////////////////
 		// we set the expression (of the collection) for the foreach node 
 		////////////////////////////////////////////////////////////
-		node.set_BMTL_expression ((BMTL_ExpressionInterface)expression);
+		node.set_BMTL_collection((BMTL_ExpressionInterface)collection);
+
+		////////////////////////////////////////////////////////////
+		// we set the expression (of the condition) for the foreach node 
+		////////////////////////////////////////////////////////////
+		node.set_BMTL_condition((BMTL_ExpressionInterface)condition);
 
 		////////////////////////////////////////////////////////////
 		// we set the instruction body for the foreach node 

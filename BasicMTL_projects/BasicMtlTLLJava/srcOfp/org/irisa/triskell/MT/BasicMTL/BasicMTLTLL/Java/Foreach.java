@@ -50,6 +50,18 @@ public class Foreach
         else return 1;
     }
 
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression condition;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression getCondition () {
+        return this.condition;
+    }
+    public void setCondition (org.irisa.triskell.MT.BasicMTL.BasicMTLTLL.Java.Expression value) {
+        this.condition = value; 
+    }
+    public int cardCondition () {
+        if ( this.condition == null ) return 0;
+        else return 1;
+    }
+
 
     public Foreach(
         int lineNumber)

@@ -1,6 +1,6 @@
 /*
  * Created on 16 juil. 2003
- * $Id: antlr2ast.java,v 1.16 2004-04-21 18:18:02 edrezen Exp $
+ * $Id: antlr2ast.java,v 1.17 2004-04-28 07:26:24 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -536,7 +536,7 @@ public Object specialTagValue(String value)
 	tag.addElement(value);
 	return tag; }
 
-public Object foreachInstr(Object element, Object collection, Object body) 
+public Object foreachInstr(Object element, Object collection, Object condition, Object body) 
 {
 	return null;
 }

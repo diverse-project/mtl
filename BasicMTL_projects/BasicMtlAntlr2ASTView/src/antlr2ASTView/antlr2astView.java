@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.9 2004-04-21 18:16:31 edrezen Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2ASTView/src/antlr2ASTView/antlr2astView.java,v 1.10 2004-04-28 07:25:28 edrezen Exp $
  * Created on 16 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -681,7 +681,7 @@ public Object specialTagValue(String value)
 	tag.addElement(value);
 	return tag; }
 
-public Object foreachInstr (Object element, Object collection, Object body) 
+public Object foreachInstr (Object element, Object collection, Object condition, Object body) 
 {
 	return null; 
 }

@@ -55,13 +55,26 @@ public class Foreach
         else return 1;
     }
 
+    protected org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition;
+    public org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression getCondition () {
+        return this.condition;
+    }
+    public void setCondition (org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression value) {
+        this.condition = value; 
+    }
+    public int cardCondition () {
+        if ( this.condition == null ) return 0;
+        else return 1;
+    }
+
 
     public Foreach(
         org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.VarDeclaration varDeclaration,
-        org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression collection)
+        org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression collection,
+        org.irisa.triskell.MT.BasicMTL.BasicMTLAST.Java.Expression condition)
     {
-	setVarDeclaration (varDeclaration);
+setVarDeclaration (varDeclaration);
     	setCollection (collection);
-
+    	setCondition (condition);
     }
 }
