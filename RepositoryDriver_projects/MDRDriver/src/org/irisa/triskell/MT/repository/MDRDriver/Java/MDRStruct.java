@@ -37,7 +37,8 @@ public class MDRStruct
     public void accept(
         org.irisa.triskell.MT.DataTypes.Java.ValueVisitor visitor)
     {
-		visitor.visitTupleValue(this);
+		//visitor.visitTupleValue(this);
+		visitor.visitModelElementValue(this);
     }
 
     public boolean equals(

@@ -118,8 +118,8 @@ public class MDREnumered
     public void accept(
         org.irisa.triskell.MT.DataTypes.Java.ValueVisitor visitor)
     {
-		visitor.visitEnumValue(this);
-
+		//visitor.visitEnumValue(this);
+		visitor.visitModelElementValue(this);
     }
 
     public String getTheEnum()

@@ -58,7 +58,7 @@ public class MDRMetaEnumeration
     private class MDREnumType extends EnumType {
     	
 		public MDREnumType() {
-			super(MDRMetaEnumeration.this.getPartsAsStrings());
+			super(MDRMetaEnumeration.this.getPartsAsStrings(), new Type [] {ModelElementType.TheInstance});
 		}
 
 		public boolean isKindOfInternal (Value v) {
@@ -324,7 +324,7 @@ public class MDRMetaEnumeration
     }
 
 	public boolean conformsTo(Type parentType) {
-		return ModelElementType.TheInstance.conformsTo(parentType) || this.getEnumType().conformsTo(parentType);
+		return this.equals(parentType) || ModelElementType.TheInstance.conformsTo(parentType) || this.getEnumType().conformsTo(parentType);
 	}
 
 
