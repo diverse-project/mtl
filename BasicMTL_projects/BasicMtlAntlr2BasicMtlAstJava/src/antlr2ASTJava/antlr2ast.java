@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.2 2003-07-24 06:43:52 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr2BasicMtlAstJava/src/antlr2ASTJava/antlr2ast.java,v 1.3 2003-08-06 16:20:33 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -34,7 +34,7 @@ public Library buildLibraryFromText(String fileName)
 
 public static void main(String[] args)
 {	try {
-		String filePath = new java.io.File("ThirdParty/log4j/log4j_configuration").getCanonicalPath();
+		String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
 		LogManager.resetConfiguration();
 		DOMConfigurator.configure(filePath); }
 	catch(java.io.IOException e) {
@@ -114,8 +114,11 @@ public Object model(String lineNumber,String modelName,String viewName)
 public Object classDefinition(String lineNumber,String className,Object inheritance,java.util.Vector tags,java.util.Vector attributes,java.util.Vector methods)
 {	int i;
 	UserClass node=new UserClass(className);
-	for(i=0;i<attributes.size();i++)
-		node.appendDefinedAttributes((Attribute)attributes.get(i)); 
+	for(i=0;i<attributes.size();i++) {
+		java.util.Vector declaredAttributes=(java.util.Vector)attributes.get(i);
+		for (int j=0;j<declaredAttributes.size();j++)
+			node.appendDefinedAttributes((Attribute)declaredAttributes.get(j)); 
+	}
 	for(i=0;i<methods.size();i++)
 		node.appendDefinedMethods((Operation)methods.get(i)); 
 	putProperty(node,"Inheritance",inheritance,"SpecialTag");
@@ -282,6 +285,10 @@ public Object stringLiteral(String value,java.util.Vector operationCalls)
 {	Expression expr=(Expression)new StringLiteral(value);
 	return (Expression)putOperationCalls(expr,operationCalls); }
 
+public Object oclTypeLiteral(Object type,java.util.Vector operationCalls)
+{	Expression expr=(Expression)new OclTypeLiteral((java.util.Vector)type);
+	return (Expression)putOperationCalls(expr,operationCalls); }
+
 public Object selfLiteral(java.util.Vector operationCalls)
 {	Expression expr=(Expression)new SelfLiteral();
 	return (Expression)putOperationCalls(expr,operationCalls); }
@@ -299,12 +306,17 @@ public Object falseLiteral(java.util.Vector operationCalls)
 	return (Expression)putOperationCalls(expr,operationCalls); }
 
 public Object libraryOrVariable(Object type,java.util.Vector operationCalls)
-{	VarCall var = new VarCall((java.util.Vector)type);
-	Expression expr=(Expression) var;
+{	Expression expr;
+	java.util.Vector libraryOrVarName=(java.util.Vector)type;
+	if (libraryOrVarName.size()==1) {
+		VarCall var = new VarCall((String)libraryOrVarName.get(0));
+		expr=(Expression) var; }
+	else { log.warn("type DOES NOT CONTAIN A SINGLE STRING "+type);
+			expr=(Expression)new NullLiteral();}
 	return (Expression)putOperationCalls(expr,operationCalls); }
 
 public Object attributeGetter(String classVarName,java.util.Vector gotAttributes)
-{	VarCall var = new VarCall(createVector(classVarName));
+{	VarCall var = new VarCall(classVarName);
 	Expression expr=(Expression)var;
 	for (int i=0;i<gotAttributes.size();i++) {
 	     OperationCall op=new OperationCall("get_"+gotAttributes.get(i));
@@ -314,7 +326,7 @@ public Object attributeGetter(String classVarName,java.util.Vector gotAttributes
 	return expr; }
 
 public Object variableName(String value)
-{	return (Expression)new VarCall(createVector(value)); }
+{	return (Expression)new VarCall(value); }
 
 public Object directOperationCalls(java.util.Vector operationCalls)
 { return (Expression)putOperationCalls(null,operationCalls); }

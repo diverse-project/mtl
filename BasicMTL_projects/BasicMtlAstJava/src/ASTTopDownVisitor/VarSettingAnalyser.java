@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/VarSettingAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/VarSettingAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -23,16 +23,17 @@ public class VarSettingAnalyser extends Analyser {
 
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	VarSetting ASTnode=(VarSetting) node;
-		this.VarSettingBefore(ASTnode,context);
+		Object theVarSet=this.VarSettingBefore(ASTnode,context);
 		((Expression)ASTnode.getValue()).accept(visitor,context);
-		this.VarSettingExpression(context.get("Instruction"),context);
-		this.VarSettingAfter(ASTnode,context);
+		this.VarSettingExpression(theVarSet,context.get("Instruction"),context);
+		this.VarSettingAfter(theVarSet,ASTnode,context);
 	}
 
-	public void VarSettingBefore(VarSetting ASTnode,java.util.Map context) {}
+	public Object VarSettingBefore(VarSetting ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void VarSettingExpression(Object expr,java.util.Map context) {}
+	public void VarSettingExpression(Object theVarSet,Object expr,java.util.Map context) {}
 
-	public void VarSettingAfter(VarSetting ASTnode,java.util.Map context) {}
+	public void VarSettingAfter(Object theVarSet,VarSetting ASTnode,java.util.Map context) {}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/WhileAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/WhileAnalyser.java,v 1.2 2003-08-06 16:27:30 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,23 +24,24 @@ public class WhileAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		While ASTnode=(While) node;
-		WhileBefore(ASTnode,context);
+		Object theWhile=WhileBefore(ASTnode,context);
 		((Expression)ASTnode.getCondition()).accept(visitor,context);
-		this.WhileCondition(context.get("Instruction"),context);
+		this.WhileCondition(theWhile,context.get("Instruction"),context);
 		limit=ASTnode.cardBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getBody(i)).accept(visitor,context);
-			this.WhileBodyInstruction(context.get("Instruction"),context);
+			this.WhileBodyInstruction(theWhile,context.get("Instruction"),context);
 		}
-		WhileAfter(ASTnode,context);
+		WhileAfter(theWhile,ASTnode,context);
 	}
 
-	public void WhileBefore(While ASTnode,java.util.Map context) {}
+	public Object WhileBefore(While ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void WhileCondition(Object expr,java.util.Map context) {}
+	public void WhileCondition(Object theWhile,Object expr,java.util.Map context) {}
 
-	public void WhileBodyInstruction(Object instr,java.util.Map context) {}
+	public void WhileBodyInstruction(Object theWhile,Object instr,java.util.Map context) {}
 
-	public void WhileAfter(While ASTnode,java.util.Map context) {}
+	public void WhileAfter(Object theWhile,While ASTnode,java.util.Map context) {}
 
 }

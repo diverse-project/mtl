@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/RoleAnalyser.java,v 1.1 2003-07-28 07:35:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/RoleAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -23,16 +23,17 @@ public class RoleAnalyser extends Analyser {
 
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	Role ASTnode=(Role) node;
-		this.RoleBefore(ASTnode,context);
+		Object theRole=this.RoleBefore(ASTnode,context);
 		((Expression)ASTnode.getExpression()).accept(visitor,context);
-		this.RoleExpression(context.get("Instruction"),context);
-		this.RoleAfter(ASTnode,context);
+		this.RoleExpression(theRole,context.get("Instruction"),context);
+		this.RoleAfter(theRole,ASTnode,context);
 	}
 
-	public void RoleBefore(Role ASTnode,java.util.Map context) {}
+	public Object RoleBefore(Role ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void RoleExpression(Object expr,java.util.Map context) {}
+	public void RoleExpression(Object theRole,Object expr,java.util.Map context) {}
 
-	public void RoleAfter(Role ASTnode,java.util.Map context) {}
+	public void RoleAfter(Object theRole,Role ASTnode,java.util.Map context) {}
 
 }

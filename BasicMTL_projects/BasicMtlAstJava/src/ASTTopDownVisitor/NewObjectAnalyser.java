@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/NewObjectAnalyser.java,v 1.1 2003-07-28 07:35:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/NewObjectAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,19 +24,20 @@ public class NewObjectAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		NewObject ASTnode=(NewObject) node;
-		this.NewObjectBefore(ASTnode,context);
+		Object theNewObject=this.NewObjectBefore(ASTnode,context);
 		limit=ASTnode.cardArguments();
 		for (i=0;i<limit;i++) {
 			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
-			this.NewObjectArgument(context.get("Instruction"),context);
+			this.NewObjectArgument(theNewObject,context.get("Instruction"),context);
 		}
-		this.NewObjectAfter(ASTnode,context);
+		this.NewObjectAfter(theNewObject,ASTnode,context);
 	}
 
-	public void NewObjectBefore(NewObject ASTnode,java.util.Map context) {}
+	public Object NewObjectBefore(NewObject ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void NewObjectArgument(Object arg,java.util.Map context) {}
+	public void NewObjectArgument(Object theNewObject,Object arg,java.util.Map context) {}
 
-	public void NewObjectAfter(NewObject ASTnode,java.util.Map context) {}
+	public void NewObjectAfter(Object theNewObject,NewObject ASTnode,java.util.Map context) {}
 
 }

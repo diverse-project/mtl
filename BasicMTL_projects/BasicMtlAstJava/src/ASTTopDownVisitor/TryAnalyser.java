@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/TryAnalyser.java,v 1.1 2003-07-28 07:35:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/TryAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,33 +24,34 @@ public class TryAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		Try ASTnode=(Try) node;
-		this.TryBefore(ASTnode,context);
+		Object theTry=this.TryBefore(ASTnode,context);
 		limit=ASTnode.cardTryBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getTryBody(i)).accept(visitor,context);
-			this.TryBodyInstruction(context.get("Instruction"),context);
+			this.TryBodyInstruction(theTry,context.get("Instruction"),context);
 		}
 		limit=ASTnode.cardCatchPart();
 		for (i=0;i<limit;i++) {
 			((Catch)ASTnode.getCatchPart(i)).accept(visitor,context);
-			this.TryCatchPart(context.get("Catch"),context);
+			this.TryCatchPart(theTry,context.get("Catch"),context);
 		}
 		limit=ASTnode.cardFinalizeBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getFinalizeBody(i)).accept(visitor,context);
-			this.TryFinalizeInstruction(context.get("Instruction"),context);
+			this.TryFinalizeInstruction(theTry,context.get("Instruction"),context);
 		}
-		this.TryAfter(ASTnode,context);
+		this.TryAfter(theTry,ASTnode,context);
 	}
 
-	public void TryBefore(Try ASTnode,java.util.Map context) {}
+	public Object TryBefore(Try ASTnode,java.util.Map context)
+	{	return null;}
 
-	public void TryBodyInstruction(Object instr,java.util.Map context) {}
+	public void TryBodyInstruction(Object theTry,Object instr,java.util.Map context) {}
 
-	public void TryCatchPart(Object catchPart,java.util.Map context) {}
+	public void TryCatchPart(Object theTry,Object catchPart,java.util.Map context) {}
 
-	public void TryFinalizeInstruction(Object instr,java.util.Map context) {}
+	public void TryFinalizeInstruction(Object theTry,Object instr,java.util.Map context) {}
 
-	public void TryAfter(Try ASTnode,java.util.Map context) {}
+	public void TryAfter(Object theTry,Try ASTnode,java.util.Map context) {}
 
 }

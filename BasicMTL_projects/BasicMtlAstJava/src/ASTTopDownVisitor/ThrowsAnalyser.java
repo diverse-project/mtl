@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ThrowsAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ThrowsAnalyser.java,v 1.2 2003-08-06 16:27:30 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -23,16 +23,17 @@ public class ThrowsAnalyser extends Analyser {
 
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	Throws ASTnode=(Throws) node;
-		this.ThrowsBefore(ASTnode,context);
+		Object theThrows=this.ThrowsBefore(ASTnode,context);
 		((Expression)ASTnode.getThrownExpression()).accept(visitor,context);
-		this.ThrowsExpression(context.get("Instruction"),context);
-		this.ThrowsAfter(ASTnode,context);
+		this.ThrowsExpression(theThrows,context.get("Instruction"),context);
+		this.ThrowsAfter(theThrows,ASTnode,context);
 	}
 
-	public void ThrowsBefore(Throws ASTnode,java.util.Map context) {}
+	public Object ThrowsBefore(Throws ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void ThrowsExpression(Object expr,java.util.Map context) {}
+	public void ThrowsExpression(Object theThrows,Object expr,java.util.Map context) {}
 
-	public void ThrowsAfter(Throws ASTnode,java.util.Map context) {}
+	public void ThrowsAfter(Object theThrows,Throws ASTnode,java.util.Map context) {}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/IfAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/IfAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,30 +24,31 @@ public class IfAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		If ASTnode=(If) node;
-		this.IfBefore(ASTnode,context);
+		Object theIf=this.IfBefore(ASTnode,context);
 		((Expression)ASTnode.getCondition()).accept(visitor,context);
-		this.IfCondition(context.get("Instruction"),context);
+		this.IfCondition(theIf,context.get("Instruction"),context);
 		limit=ASTnode.cardThenBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getThenBody(i)).accept(visitor,context);
-			this.IfThenInstruction(context.get("Instruction"),context);
+			this.IfThenInstruction(theIf,context.get("Instruction"),context);
 		}
 		limit=ASTnode.cardElseBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getElseBody(i)).accept(visitor,context);
-			this.IfElseInstruction(context.get("Instruction"),context);
+			this.IfElseInstruction(theIf,context.get("Instruction"),context);
 		}
-		this.IfAfter(ASTnode,context);
+		this.IfAfter(theIf,ASTnode,context);
 	}
 
-	public void IfBefore(If ASTnode,java.util.Map context) {}
+	public Object IfBefore(If ASTnode,java.util.Map context)
+	{	return null;}
 
-	public void IfCondition(Object expr,java.util.Map context) {}
+	public void IfCondition(Object theIf,Object expr,java.util.Map context) {}
 
-	public void IfThenInstruction(Object instr,java.util.Map context) {}
+	public void IfThenInstruction(Object theIf,Object instr,java.util.Map context) {}
 
-	public void IfElseInstruction(Object instr,java.util.Map context) {}
+	public void IfElseInstruction(Object theIf,Object instr,java.util.Map context) {}
 
-	public void IfAfter(If ASTnode,java.util.Map context) {}
+	public void IfAfter(Object theIf,If ASTnode,java.util.Map context) {}
 
 }

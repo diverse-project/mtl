@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/CatchAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/CatchAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,23 +24,24 @@ public class CatchAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		Catch ASTnode=(Catch) node;
-		this.CatchBefore(ASTnode,context);
+		Object theCatch=this.CatchBefore(ASTnode,context);
 		((VarDeclaration)ASTnode.getCatchedException()).accept(visitor,context);
-		this.CatchVarDeclaration(context.get("VarDeclaration"),context);
+		this.CatchVarDeclaration(theCatch,context.get("VarDeclaration"),context);
 		limit=ASTnode.cardCatchBody();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getCatchBody(i)).accept(visitor,context);
-			this.CatchInstruction(context.get("Instruction"),context);
+			this.CatchInstruction(theCatch,context.get("Instruction"),context);
 		}
-		this.CatchAfter(ASTnode,context);
+		this.CatchAfter(theCatch,ASTnode,context);
 	}
 
-	public void CatchBefore(Catch ASTnode,java.util.Map context) {}
+	public Object CatchBefore(Catch ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void CatchVarDeclaration(Object varDecl,java.util.Map context) {}
+	public void CatchVarDeclaration(Object theCatch,Object varDecl,java.util.Map context) {}
 
-	public void CatchInstruction(Object instr,java.util.Map context) {}
+	public void CatchInstruction(Object theCatch,Object instr,java.util.Map context) {}
 
-	public void CatchAfter(Catch ASTnode,java.util.Map context) {}
+	public void CatchAfter(Object theCatch,Catch ASTnode,java.util.Map context) {}
 
 }

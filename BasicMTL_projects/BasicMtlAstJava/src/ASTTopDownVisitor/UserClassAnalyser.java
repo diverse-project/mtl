@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/UserClassAnalyser.java,v 1.1 2003-07-28 07:35:35 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/UserClassAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 17 juil. 2003
  *
  */
@@ -24,27 +24,28 @@ public class UserClassAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		UserClass ASTnode=(UserClass) node;
-		this.UserClassBefore(ASTnode,context);
+		Object theClass=this.UserClassBefore(ASTnode,context);
 		limit=ASTnode.cardDefinedAttributes();
 		for (i=0;i<limit;i++) {
 			((Attribute)ASTnode.getDefinedAttributes(i)).accept(visitor,context);
-			this.UserClassAttribute(context.get("Attribute"),context);
+			this.UserClassAttribute(theClass,context.get("Attribute"),context);
 		}
 		limit=ASTnode.cardDefinedMethods();
 		for (i=0;i<limit;i++) {
 			((Operation)ASTnode.getDefinedMethods(i)).accept(visitor,context);
-			this.UserClassMethod(context.get("Operation"),context);
+			this.UserClassMethod(theClass,context.get("Operation"),context);
 		}
-		this.UserClassAfter(ASTnode,context);
+		this.UserClassAfter(theClass,ASTnode,context);
 	}
 
-	public void UserClassBefore(UserClass ASTnode,java.util.Map context) {}
+	public Object UserClassBefore(UserClass ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void UserClassAttribute(Object attrib,java.util.Map context) {}
+	public void UserClassAttribute(Object theClass,Object attrib,java.util.Map context) {}
 
-	public void UserClassMethod(Object op,java.util.Map context) {}
+	public void UserClassMethod(Object theClass,Object op,java.util.Map context) {}
 
-	public void UserClassAfter(UserClass ASTnode,java.util.Map context) {}
+	public void UserClassAfter(Object theClass,UserClass ASTnode,java.util.Map context) {}
 
 
 }

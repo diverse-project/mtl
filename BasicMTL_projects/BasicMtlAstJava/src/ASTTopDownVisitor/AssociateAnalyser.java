@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/AssociateAnalyser.java,v 1.1 2003-07-28 07:35:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/AssociateAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,19 +24,20 @@ public class AssociateAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		Associate ASTnode=(Associate) node;
-		this.AssociateBefore(ASTnode,context);
+		Object theAssociate=this.AssociateBefore(ASTnode,context);
 		limit=ASTnode.cardRoles();
 		for (i=0;i<limit;i++) {
 			((Role)ASTnode.getRoles(i)).accept(visitor,context);
-			this.AssociateRole(context.get("Role"),context);
+			this.AssociateRole(theAssociate,context.get("Role"),context);
 		}
-		this.AssociateAfter((Associate) node,context);
+		this.AssociateAfter(theAssociate,(Associate) node,context);
 	}
 
-	public void AssociateBefore(Associate ASTnode,java.util.Map context) {}
+	public Object AssociateBefore(Associate ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void AssociateRole(Object role,java.util.Map context) {}
+	public void AssociateRole(Object theAssociate,Object role,java.util.Map context) {}
 
-	public void AssociateAfter(Associate ASTnode,java.util.Map context) {}
+	public void AssociateAfter(Object theAssociate,Associate ASTnode,java.util.Map context) {}
 
 }

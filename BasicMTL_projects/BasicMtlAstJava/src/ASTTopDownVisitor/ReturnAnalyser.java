@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ReturnAnalyser.java,v 1.1 2003-07-28 07:35:35 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/ReturnAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -23,16 +23,17 @@ public class ReturnAnalyser extends Analyser {
 
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	Return ASTnode=(Return) node;
-		this.ReturnBefore(ASTnode,context);
+		Object theReturn=this.ReturnBefore(ASTnode,context);
 		((Expression)ASTnode.getReturnedExpression()).accept(visitor,context);
-		this.ReturnArgument(context.get("Instruction"),context);
-		this.ReturnAfter(ASTnode,context);
+		this.ReturnArgument(theReturn,context.get("Instruction"),context);
+		this.ReturnAfter(theReturn,ASTnode,context);
 	}
 
-	public void ReturnBefore(Return ASTnode,java.util.Map context) {}
+	public Object ReturnBefore(Return ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void ReturnArgument(Object arg,java.util.Map context) {}
+	public void ReturnArgument(Object theReturn,Object arg,java.util.Map context) {}
 
-	public void ReturnAfter(Return ASTnode,java.util.Map context) {}
+	public void ReturnAfter(Object theReturn,Return ASTnode,java.util.Map context) {}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OperationCallAnalyser.java,v 1.1 2003-07-28 07:35:34 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OperationCallAnalyser.java,v 1.2 2003-08-06 16:27:31 jpthibau Exp $
  * Created on 24 juil. 2003
  *
  */
@@ -24,27 +24,28 @@ public class OperationCallAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		OperationCall ASTnode=(OperationCall) node;
-		this.OperationCallBefore(ASTnode,context);
+		Object theOperationCall=this.OperationCallBefore(ASTnode,context);
 		limit=ASTnode.cardArguments();
 		for (i=0;i<limit;i++) {
 			((Expression)ASTnode.getArguments(i)).accept(visitor,context);
-			this.OperationCallArgument(context.get("Instruction"),context);
+			this.OperationCallArgument(theOperationCall,context.get("Instruction"),context);
 		}
 		if (ASTnode.getCaller() != null) {
 			ASTnode.getCaller().accept(visitor,context);
-			this.OperationCallCaller(context.get("Instruction"),context);
+			this.OperationCallCaller(theOperationCall,context.get("Instruction"),context);
 		}
-		else this.OperationCallCaller(null,context);
+		else this.OperationCallCaller(theOperationCall,null,context);
 		
-		this.OperationCallAfter((OperationCall) node,context);
+		this.OperationCallAfter(theOperationCall,(OperationCall) node,context);
 	}
 
-	public void OperationCallBefore(OperationCall ASTnode,java.util.Map context) {}
+	public Object OperationCallBefore(OperationCall ASTnode,java.util.Map context)
+	{ return null; }
 
-	public void OperationCallArgument(Object arg,java.util.Map context) {}
+	public void OperationCallArgument(Object theOperationCall,Object arg,java.util.Map context) {}
 
-	public void OperationCallCaller(Object expr,java.util.Map context) {}
+	public void OperationCallCaller(Object theOperationCall,Object expr,java.util.Map context) {}
 
-	public void OperationCallAfter(OperationCall ASTnode,java.util.Map context) {}
+	public void OperationCallAfter(Object theOperationCall,OperationCall ASTnode,java.util.Map context) {}
 
 }

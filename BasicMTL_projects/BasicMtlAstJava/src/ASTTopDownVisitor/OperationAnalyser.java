@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OperationAnalyser.java,v 1.1 2003-07-28 07:35:33 jpthibau Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAstJava/src/ASTTopDownVisitor/OperationAnalyser.java,v 1.2 2003-08-06 16:27:30 jpthibau Exp $
  * Created on 17 juil. 2003
  *
  */
@@ -24,34 +24,35 @@ public class OperationAnalyser extends Analyser {
 	public void analyse(Visitable node,Visitor visitor,java.util.Map context)
 	{	int i,limit;
 		Operation ASTnode=(Operation) node;
-		this.OperationBefore(ASTnode,context);
+		Object theOperation=this.OperationBefore(ASTnode,context);
 		limit=ASTnode.cardParameters();
 		for (i=0;i<limit;i++) {
 			((VarDeclaration)ASTnode.getParameters(i)).accept(visitor,context);
-			this.OperationParameter(context.get("VarDeclaration"),context);
+			this.OperationParameter(theOperation,context.get("VarDeclaration"),context);
 		}
 		limit=ASTnode.cardDeclaredVariables();
 		for (i=0;i<limit;i++) {
 			((VarDeclaration)ASTnode.getDeclaredVariables(i)).accept(visitor,context);
-			this.OperationVarDeclaration(context.get("VarDeclaration"),context);
+			this.OperationVarDeclaration(theOperation,context.get("VarDeclaration"),context);
 		}
 		limit=ASTnode.cardInstructions();
 		for (i=0;i<limit;i++) {
 			((Instruction)ASTnode.getInstructions(i)).accept(visitor,context);
-			this.OperationInstruction(context.get("Instruction"),context);
+			this.OperationInstruction(theOperation,context.get("Instruction"),context);
 		}
-		this.OperationAfter((Operation) node,context);
+		this.OperationAfter(theOperation,(Operation) node,context);
 	}
 
-	public void OperationBefore(Operation ASTnode,java.util.Map context) {}
+	public Object OperationBefore(Operation ASTnode,java.util.Map context)
+	{	return null; }
 
-	public void OperationParameter(Object varDecl,java.util.Map context) {}
+	public void OperationParameter(Object theOperation,Object varDecl,java.util.Map context) {}
 
-	public void OperationVarDeclaration(Object varDecl,java.util.Map context) {}
+	public void OperationVarDeclaration(Object theOperation,Object varDecl,java.util.Map context) {}
 
-	public void OperationInstruction(Object instr,java.util.Map context) {}
+	public void OperationInstruction(Object theOperation,Object instr,java.util.Map context) {}
 
-	public void OperationAfter(Operation ASTnode,java.util.Map context) {}
+	public void OperationAfter(Object theOperation,Operation ASTnode,java.util.Map context) {}
 
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.3 2003-08-06 09:08:47 dvojtise Exp $
+ * $Header: /tmp/cvs2svn/cvsroot/BasicMTL_projects/BasicMtlAntlr/src/ANTLRParser/BMTLParser.java,v 1.4 2003-08-06 16:24:22 jpthibau Exp $
  * Created on 16 juil. 2003
  *
  */
@@ -40,12 +40,6 @@ public class BMTLParser {
 			BasicmtlParser parser = new BasicmtlParser(lexer);
 			builtTree=parser.basicMTL(lexer,aWalker);
 			}
-		catch (antlr.ANTLRException e) {
-			noPb=false;
-			log.warn("ANTLRException on "+name+" "+e);
-			log.warn("=> "+e.getMessage());
-			e.printStackTrace();
-		}
 		catch(Exception e) {
 			noPb=false;
 			log.warn("exception: "+e+"=>"+e.getMessage());
@@ -59,7 +53,7 @@ public class BMTLParser {
 	public static void main(String[] args)
 	{	DummyWalker aWalker=new DummyWalker();
 		try {
-			String filePath = new java.io.File("ThirdParty/log4j/log4j_configuration").getCanonicalPath();
+			String filePath = new java.io.File("./log4j_configuration.xml").getCanonicalPath();
 			LogManager.resetConfiguration();
 			DOMConfigurator.configure(filePath); }
 		catch(java.io.IOException e) {
