@@ -1,6 +1,6 @@
 /*
  * Created on 1 août 2003
- * $Id: ForeachAnalyser.java,v 1.3 2004-06-14 10:03:46 edrezen Exp $
+ * $Id: ForeachAnalyser.java,v 1.4 2004-07-07 14:17:12 edrezen Exp $
  * Authors : jpthibau
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -78,7 +78,7 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 		Map context
 	) 
 	{
-		for (int i=0; i<ASTnode.cardBody(); i++)
+/*		for (int i=0; i<ASTnode.cardBody(); i++)
 		{
 			Instruction instr = (Instruction)ASTnode.getBody(i);
 	
@@ -99,7 +99,7 @@ public class ForeachAnalyser extends TLLTopDownVisitor.ForeachAnalyser
 				}
 			}
 		}
-		
+*/		
 	}
 
 }
