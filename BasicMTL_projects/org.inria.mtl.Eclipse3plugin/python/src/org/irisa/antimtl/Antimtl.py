@@ -560,8 +560,8 @@ def main():
 
 
           
-        tll_build = templates_path+"tll_build.template.xml"
-        build = templates_path+"build.template.xml"
+        tll_build = templates_path+"/tll_build.template.xml"
+        build = templates_path+"/build.template.xml"
   
         print >> sys.stdout, "Look for .mtlclasspath and .classpath in %s"%output
         print >> sys.stdout, "Look for templates of ant files in %s"%templates_path
