@@ -1,5 +1,5 @@
 /*
- * $Id: JarClassLoader.java,v 1.2 2004-08-19 11:42:23 dvojtise Exp $
+ * $Id: JarClassLoader.java,v 1.1 2004-10-25 14:46:04 jpthibau Exp $
  * Created on 16 août 2004
  * Copyright (c) 2002 Object Factory Inc. All rights reserved.
  * Permission to copy granted under the MIT license
