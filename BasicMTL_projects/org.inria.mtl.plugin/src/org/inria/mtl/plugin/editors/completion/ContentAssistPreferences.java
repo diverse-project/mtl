@@ -11,6 +11,7 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB; 
 
@@ -63,9 +64,10 @@ public class ContentAssistPreferences {
   }
 
   private static MTLCompletionProcessor getMTLProcessor(ContentAssistant assistant) {
-	IContentAssistProcessor p = assistant.getContentAssistProcessor(PreferenceConstants.MTL);
-	if (p instanceof MTLCompletionProcessor)
-	  return (MTLCompletionProcessor) p;
+	IContentAssistProcessor p = assistant.getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
+	if (p instanceof MTLCompletionProcessor) 
+		  return (MTLCompletionProcessor) p;
+	
 	return null;
   }
 
@@ -73,8 +75,8 @@ public class ContentAssistPreferences {
   private static void configureMTLProcessor(ContentAssistant assistant, IPreferenceStore store) {
 	MTLCompletionProcessor pcp = getMTLProcessor(assistant);
 	if (pcp == null)
-	  return;
-
+		 return;
+	
 	String triggers = store.getString(AUTOACTIVATION_TRIGGERS_JAVA);
 	if (triggers != null)
 	  pcp.setCompletionProposalAutoActivationCharacters(triggers.toCharArray());
@@ -87,22 +89,22 @@ public class ContentAssistPreferences {
    * Configure the given content assistant from the given store.
    */
   public static void configure(ContentAssistant assistant, IPreferenceStore store) {
-
+	
 	MTLEditorEnvironment textTools = MTLPlugin.getDefault().getMTLEditorEnvironment();
 	IColorManager manager = textTools.getColorManager();
 
 	boolean enabled = store.getBoolean(AUTOACTIVATION);
 	assistant.enableAutoActivation(enabled);
-
+	
 	int delay = store.getInt(AUTOACTIVATION_DELAY);
 	assistant.setAutoActivationDelay(delay);
-
+	
 	Color c = getColor(store, PROPOSALS_FOREGROUND, manager);
 	assistant.setProposalSelectorForeground(c);
-
+	
 	c = getColor(store, PROPOSALS_BACKGROUND, manager);
 	assistant.setProposalSelectorBackground(c);
-
+	
 	c = getColor(store, PARAMETERS_FOREGROUND, manager);
 	assistant.setContextInformationPopupForeground(c);
 	assistant.setContextSelectorForeground(c);
@@ -113,6 +115,7 @@ public class ContentAssistPreferences {
 
 	enabled = store.getBoolean(AUTOINSERT);
 	assistant.enableAutoInsert(enabled);
+	
 
 	configureMTLProcessor(assistant, store); 
 	

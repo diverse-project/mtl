@@ -153,7 +153,6 @@ public final class MTLCodeScanner extends AbstractMTLScanner implements MTLWords
 			   wordRule.addWord(elbuffer.getName(), constant);
 		   }
 		   rules.add(wordRule);
-		   System.out.println("Nb règles :"+rules.size());
 		   return rules;
 
 	}

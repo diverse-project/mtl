@@ -15,9 +15,6 @@ import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jdt.internal.ui.text.HTMLTextPresenter;
 import org.eclipse.jdt.internal.ui.text.JavaPairMatcher;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
-import org.eclipse.ui.actions.ActionContext;
-import org.eclipse.ui.actions.ActionGroup;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -93,36 +90,33 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.editors.text.DefaultEncodingSupport;
 import org.eclipse.ui.editors.text.IEncodingSupport;
 import org.eclipse.ui.part.EditorActionBarContributor;
+import org.eclipse.ui.texteditor.AddTaskAction;
+import org.eclipse.ui.texteditor.ContentAssistAction;
+import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IEditorStatusLine;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.texteditor.ResourceAction;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 import org.eclipse.ui.texteditor.TextEditorAction;
 import org.eclipse.ui.texteditor.TextOperationAction;
-import org.eclipse.ui.texteditor.ResourceAction;
-import org.eclipse.ui.texteditor.AddTaskAction;
-import org.eclipse.ui.texteditor.ContentAssistAction;
-import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
-import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-
-
 import org.inria.mtl.plugin.MTLPlugin;
-import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
-import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
 import org.inria.mtl.plugin.editors.actions.GenerateActionGroup;
-//import org.inria.mtl.plugin.editors.actions.
+import org.inria.mtl.plugin.editors.actions.GotoMatchingBracketAction;
+import org.inria.mtl.plugin.editors.actions.MTLEditorActionDefinitionIds;
 import org.inria.mtl.plugin.editors.utils.AnnotationType;
 import org.inria.mtl.plugin.editors.utils.FastMTLPartitionScanner;
 import org.inria.mtl.plugin.editors.utils.IColorManager;
+import org.inria.mtl.plugin.editors.utils.IContextMenuConstants;
 import org.inria.mtl.plugin.editors.utils.IJavaAnnotation;
 import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
-import org.inria.mtl.plugin.editors.utils.IContextMenuConstants;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 

@@ -215,74 +215,29 @@ public class MTLCompletionProcessor implements IContentAssistProcessor {
 	   IFile file = null;
 	   IProject project = null;
 	   if (offset > 0) {
-//
-//		 MTLEditor editor = null;
-//		 AbstractContentOutlinePage outlinePage = null;
-//
-//		 IEditorPart targetEditor = MTLPlugin.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-//		 if (targetEditor != null && (targetEditor instanceof MTLEditor)) {
-//		   editor = (MTLEditor) targetEditor;
-//		   file = ((IFileEditorInput) editor.getEditorInput()).getFile();
-//		   project = file.getProject();
-//		   outlinePage = editor.getfOutlinePage();
-//		   if (outlinePage instanceof MTLContentOutlinePage) {
-//			 identifiers = ((MTLContentOutlinePage) outlinePage).getVariables();
-//		   }
-//		 }
-//	   }
 
 	   ContextType MTLContextType = ContextTypeRegistry.getInstance().getContextType("mtl"); //$NON-NLS-1$
 		((CompilationUnitContextType) MTLContextType).setContextParameters(document, offset, 0);
 
 	   MTLUnitContext context = (MTLUnitContext) MTLContextType.createContext();
 	   String prefix = context.getKey();
-//
-//	   int lastSignificantToken = getLastToken(viewer, offset, context);
-//	   boolean useClassMembers =
-//		 (lastSignificantToken == ITerminalSymbols.TokenNameMINUS_GREATER) || 
-//		 (lastSignificantToken == ITerminalSymbols.TokenNamethis) ||
-//			 (lastSignificantToken == ITerminalSymbols.TokenNamenew);
 	   boolean emptyPrefix = prefix == null || prefix.equals("");
-//
-	   if (fTemplateEngine != null) {
-		 IMTLCompletionProposal[] templateResults = new IMTLCompletionProposal[0];
+	   
+	   IMTLCompletionProposal[] templateResults = new IMTLCompletionProposal[0];
+	   ICompletionProposal[] results;
 
-		 ICompletionProposal[] results;
+	   if (fTemplateEngine != null) {
+		// IMTLCompletionProposal[] templateResults = new IMTLCompletionProposal[0];
+
+		//ICompletionProposal[] results;
 		 if (!emptyPrefix) {
 		   fTemplateEngine.reset();
 		   fTemplateEngine.complete(viewer, offset); //, unit);
 		   templateResults = fTemplateEngine.getResults();
 		 }
-	   
-
+	   }
+    
 		 IMTLCompletionProposal[] identifierResults = new IMTLCompletionProposal[0];
-//		 if ((!useClassMembers) && identifiers != null) {
-//		   IdentifierEngine identifierEngine;
-//
-//		   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("mtl"); //$NON-NLS-1$
-//		   if (contextType != null) {
-//			 identifierEngine = new IdentifierEngine(contextType);
-//			 identifierEngine.complete(viewer, offset, identifiers);
-//			 identifierResults = identifierEngine.getResults();
-//		   }
-//		 }
-
-		 // declarations stored in file project.index on project level
-//		 IMTLCompletionProposal[] declarationResults = new IMTLCompletionProposal[0];
-//		 if (project != null) {
-//		   DeclarationEngine declarationEngine;
-//
-//		   ContextType contextType = ContextTypeRegistry.getInstance().getContextType("mtlp"); //$NON-NLS-1$
-//		   if (contextType != null) {
-//			 IdentifierIndexManager indexManager = MTLPlugin.getDefault().getIndexManager(project);
-//			 SortedMap sortedMap = indexManager.getIdentifierMap();
-//
-//			 declarationEngine = new DeclarationEngine(contextType, lastSignificantToken, file);
-//			 declarationEngine.complete(viewer, offset, sortedMap);
-//			 declarationResults = declarationEngine.getResults();
-//		   }
-//		 }
-
 		 // built in function names from MTLsyntax.xml
 		 ArrayList syntaxbuffer = MTLSyntax.getSyntaxData();
 		 IMTLCompletionProposal[] builtinResults = new IMTLCompletionProposal[0];
@@ -298,33 +253,26 @@ public class MTLCompletionProcessor implements IContentAssistProcessor {
 			 builtinResults = builtinEngine.getResults();
 		   }
 		 }
-
 		 // concatenate the result arrays
 		 IMTLCompletionProposal[] total;
 		 total =
 		   new IMTLCompletionProposal[templateResults.length
-	//		 + identifierResults.length
 			 + builtinResults.length];
-	//		 + declarationResults.length];
+
 		 System.arraycopy(templateResults, 0, total, 0, templateResults.length);
-	//	 System.arraycopy(identifierResults, 0, total, templateResults.length, identifierResults.length);
-		 System.arraycopy(builtinResults, 0, total, templateResults.length /*+ identifierResults.length*/, builtinResults.length);
-	//	 System.arraycopy(
-//		   declarationResults,
-//		   0,
-//		   total,
-//		   templateResults.length + identifierResults.length + builtinResults.length,
-//		   declarationResults.length);
+		 System.arraycopy(builtinResults, 0, total, templateResults.length , builtinResults.length);
 
 		 results = total;
 
 		 fNumberOfComputedResults = (results == null ? 0 : results.length);
+		
 		 /*
 		  * Order here and not in result collector to make sure that the order
-		  * applies to all proposals and not just those of the compilation unit. 
+		  * applies to all proposals  
 		  */
-		 return order(results);
-	   }
+		return order(results); 
+	   
+	   
 	   }
 	   return new IMTLCompletionProposal[0];
 	 }

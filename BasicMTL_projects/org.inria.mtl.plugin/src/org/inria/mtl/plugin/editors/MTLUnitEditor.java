@@ -98,11 +98,8 @@ public class MTLUnitEditor extends MTLEditor {
 	  switch (operation) {
 		case CONTENTASSIST_PROPOSALS :
 		  String msg = fContentAssistant.showPossibleCompletions();
-		 // setStatusLineErrorMessage(msg);
+		  setStatusLineErrorMessage(msg);
 		  return;
-		  //					case CORRECTIONASSIST_PROPOSALS:
-		  //						fCorrectionAssistant.showPossibleCompletions();
-		  //						return;
 		case UNDO :
 		  fIgnoreTextConverters = true;
 		  break;
@@ -855,10 +852,10 @@ public class MTLUnitEditor extends MTLEditor {
 
 	try {
 		ISourceViewer test=getSourceViewer();
-		if (test==null){
-			System.out.println("Test null"+test.toString());
-		}
-		System.out.println(test.toString());
+//		if (test==null){
+//			System.out.println("Test null"+test.toString());
+//		}
+//		System.out.println(test.toString());
 	  AdaptedSourceViewer asv = (AdaptedSourceViewer) getSourceViewer();
 	  if (asv != null) {
 

@@ -24,13 +24,13 @@ public class MTLActionConstants {
    * Source menu: name of standard Comment global action
    * (value <code>"org.inria.mtl.plugin.editors.actions.Comment"</code>).
    */
-  public static final String COMMENT = "org.inria.mtl.plugin.editors.Comment"; //$NON-NLS-1$
+  public static final String COMMENT = "org.inria.mtl.plugin.mtleditor.Comment"; //$NON-NLS-1$
 
   /**
    * Source menu: name of standard Uncomment global action
    * (value <code>"org.inria.mtl.plugin.editors.Uncomment"</code>).
    */
-  public static final String UNCOMMENT = "org.inria.mtl.plugin.editors.Uncomment"; //$NON-NLS-1$
+  public static final String UNCOMMENT = "org.inria.mtl.plugin.mtleditor.UnComment"; //$NON-NLS-1$
   /**
 	 * Source menu: name of standard Shift Rightl action
 	 * (value <code>"org.inria.mtl.plugin.editors.ShiftRight"</code>).
@@ -47,7 +47,7 @@ public class MTLActionConstants {
    * Source menu: name of standard Format global action (value <code>"org.
    * phpeclipse.phpdt.ui.actions.Format"</code>).
    */
-  public static final String FORMAT = "org.inria.mtl.plugin.editors.Format"; //$NON-NLS-1$
+  public static final String FORMAT = "org.inria.mtl.plugin.mtleditor.Format "; //$NON-NLS-1$
 
   /**
    * Source menu: name of standard Convert Line Delimiters To Windows global action

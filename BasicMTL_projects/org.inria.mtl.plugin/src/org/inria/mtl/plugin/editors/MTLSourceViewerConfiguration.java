@@ -9,7 +9,7 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 
 import org.eclipse.jdt.internal.ui.text.java.JavaAutoIndentStrategy;
-import org.eclipse.jdt.internal.ui.text.java.JavaDoubleClickSelector;
+//import org.eclipse.jdt.internal.ui.text.java.JavaDoubleClickSelector;
 import org.eclipse.jdt.internal.ui.text.java.JavaStringAutoIndentStrategy;
 import org.eclipse.jdt.internal.ui.text.java.JavaStringDoubleClickSelector;
 import org.eclipse.jdt.internal.ui.text.javadoc.JavaDocAutoIndentStrategy;
@@ -31,6 +31,7 @@ import org.inria.mtl.plugin.MTLPlugin;
 import org.inria.mtl.plugin.editors.utils.IColorManager;
 import org.inria.mtl.plugin.editors.utils.MTLEditorEnvironment;
 import org.inria.mtl.plugin.editors.utils.MTLPartitionScanner;
+import org.inria.mtl.plugin.editors.utils.MTLDoubleClickSelector;
 import org.inria.mtl.plugin.preferences.PreferenceConstants;
 
 /**
@@ -144,54 +145,12 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 		};
 	}
 
-	/** 
-	 * Returns all configured content types for the given source viewer
-	 */
-//	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-//		
-//	 if (getEditor()!=null){
-//			ContentAssistant assistant = new ContentAssistant();
-//			 IContentAssistProcessor processor = new HTMLCompletionProcessor();
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.HTML);
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.HTML_MULTILINE_COMMENT);
-//			 assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.CSS);
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.CSS_MULTILINE_COMMENT);
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.JAVASCRIPT);
-//			 assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.JS_MULTILINE_COMMENT);
-//	  
-//	 	
-//	 }
-
-	  // TODO define special smarty partition content assist
-//	  assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.SMARTY);
-//		  assistant.setContentAssistProcessor(processor, IPHPPartitionScannerConstants.SMARTY_MULTILINE_COMMENT);
-//
-//	  assistant.setContentAssistProcessor(new PHPCompletionProcessor(), IPHPPartitionScannerConstants.PHP);
-//
-//	  assistant.setContentAssistProcessor(new PHPDocCompletionProcessor(), IPHPPartitionScannerConstants.PHP_MULTILINE_COMMENT);
-//	  ContentAssistPreference.configure(assistant, getPreferenceStore());
-//
-//	  assistant.setContextInformationPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
-//	  assistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
-
-//	  return assistant;
-//	}
 	/**
 	 * Returns the prefixes to be used by the line-shift operation.
 	 */
 	public String[] getDefaultPrefixes(ISourceViewer sourceViewer, String contentType) {
 	  return new String[] { "//", "" }; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	/**
-	 * Returns the double-click strategy ready to be used in this viewer when double clicking onto text of the given content type
-	 * 
-	 */
-//	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
-//	  return new PHPDoubleClickSelector();
-//	}
-
-
 	/** 
 	 * Returns the auto indentation strategy ready to be used with the given source viewer when manipulating text of the given content type.
 	 * 
@@ -219,12 +178,10 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
 		assistant.setContentAssistProcessor(processor, MTLPartitionScanner.MTL_STRING);
 		
-
 		ContentAssistPreferences.configure(assistant, getPreferenceStore());
-		//assistant.setProposalPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
+		assistant.setProposalPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
 		assistant.setContextInformationPopupOrientation(ContentAssistant.CONTEXT_INFO_ABOVE);
 		assistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
-		System.out.println("Passé par contentAssist");
 		return assistant; 
 	}
 	
@@ -282,7 +239,7 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 
 		// rule for multiline comments
 		// We just need a scanner that does nothing but returns a token with the corrresponding text attributes
-			dr= new DefaultDamagerRepairer(getMultilineCommentScanner());
+		dr= new DefaultDamagerRepairer(getMultilineCommentScanner());
 		reconciler.setDamager(dr, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
 		reconciler.setRepairer(dr, MTLPartitionScanner.MTL_MULTI_LINE_COMMENT);
 
@@ -318,7 +275,7 @@ public class MTLSourceViewerConfiguration extends SourceViewerConfiguration {
 			return new DefaultTextDoubleClickStrategy();
 		else if (MTLPartitionScanner.MTL_STRING.equals(contentType))
 			return new JavaStringDoubleClickSelector();
-		return new JavaDoubleClickSelector();
+		return new MTLDoubleClickSelector();
 	}
 	
 

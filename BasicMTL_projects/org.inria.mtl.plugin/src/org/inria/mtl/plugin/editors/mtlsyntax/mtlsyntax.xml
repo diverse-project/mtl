@@ -95,7 +95,7 @@ bindec() converts a binary number to an integer. The largest number that can be 
         <mtlsyntax keyword="class" tokenval="1021"></mtlsyntax>
         <mtlsyntax keyword="new" tokenval="1022"></mtlsyntax>
         <mtlsyntax keyword="do" tokenval="1023"></mtlsyntax>
-        <mtlsyntax keyword="libraries" tokenval="1024"></mtlsyntax>
+        <mtlsyntax keyword="library" tokenval="1024"></mtlsyntax>
         <mtlsyntax keyword="model" tokenval="1025"></mtlsyntax>
         <mtlsyntax keyword="global" tokenval="1026"></mtlsyntax>
         <mtlsyntax keyword="static" tokenval="1027"></mtlsyntax>
@@ -118,7 +118,6 @@ bindec() converts a binary number to an integer. The largest number that can be 
         <mtlsyntax keyword="null" tokenval="1044"></mtlsyntax>
         <mtlsyntax keyword="false" tokenval="1045"></mtlsyntax>
         <mtlsyntax keyword="true" tokenval="1046"></mtlsyntax>
-		<mtlsyntax keyword="model" tokenval="1046"></mtlsyntax>
 =========================================================        
 *Below this are the various mtl-specific variable types *
 =========================================================

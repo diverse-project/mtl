@@ -33,11 +33,9 @@ import org.inria.mtl.plugin.preferences.PreferenceConstants;
 public class MTLActionContributor extends BasicTextEditorActionContributor {
 
   protected RetargetTextEditorAction fContentAssistTip;
-  // protected TextEditorAction fTogglePresentation;
   protected RetargetAction fRetargetContentAssist;
-
   protected RetargetTextEditorAction fContentAssist;
-  private RetargetTextEditorAction fGotoMatchingBracket;
+  private 	 RetargetTextEditorAction fGotoMatchingBracket;
   private List fRetargetToolbarActions = new ArrayList();
   private List fPartListeners = new ArrayList();
 
