@@ -1,0 +1,83 @@
+<!-- $Id: buildViewDist.xml,v 1.1 2003-09-17 08:19:33 jpthibau Exp $ -->
+<project name="BasicMtlASTViewDistribution" default="dist">
+	<description>
+        Build file for distribution of BasicMtlASTView
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="build/src/java"/>
+	<property name="bin" location="build/bin"/>
+	<property name="dist"  location="build/dist"/>
+	
+	<!-- This project depends on the following project -->
+	<property name="Utils"  location="..\Utils"/>
+	<property name="BasicMTLRuntime"  location="..\BasicMTLRuntime"/>
+	<property name="MTDataTypes"  location="..\MTDataTypes"/>
+	<property name="RepositoryAPI"  location="..\RepositoryAPI"/>
+	<property name="BasicMtlASTJava"  location="..\BasicMtlASTJava"/>
+	<property name="BasicMtlASTView"  location="src\BasicMtlASTView"/>
+
+	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${bin}"/>
+	    <mkdir dir="${dist}"/>
+	    <mkdir dir="${dist}/bin"/>
+	    <ant antfile="${BasicMtlASTView}/build.xml" dir="${BasicMtlASTView}" target="compile BasicMtlASTView"/>
+	</target>
+	
+	<target name="compile_java" depends="init"
+        description="compile the source " >
+    	<!-- Compile the java code from ${src} into ${bin} -->
+	    <javac srcdir="${src}" 
+    	    destdir="${bin}"
+   			classpath=".;${BasicMTLRuntime}\bin;${MTDataTypes}\bin;${RepositoryAPI}\bin;${BasicMtlASTJava}\bin;${Utils}\bin"/>
+	</target>
+
+	<target name="create_jar" depends="compile_java"
+		description="create the jar file">
+		<jar destfile="${dist}/bin/${ant.project.name}.jar">
+			<!-- files to include in the jar -->
+			<fileset dir="${bin}"/>
+			<!-- manifest to include -->
+		    <manifest>
+		    	<attribute name="Built-By" value="${user.name}"/>   
+		    	<attribute name="Main-Class" value="BasicMtlASTView.Library"/>
+				<attribute name="Class-Path" value=". BasicMTLRuntime.jar MTDataTypes.jar RepositoryAPI.jar BasicMtlASTJava.jar Utils.jar"/>
+		    	<section name="${ant.project.name}">
+		      		<attribute name="Specification-Title" value="${ant.project.name}"/>
+      				<attribute name="Specification-Version" value="${TSTAMP} ${TODAY}"/>
+      				<attribute name="Specification-Vendor" value="Irisa/Triskell"/>
+      				<attribute name="Implementation-Title" value="common"/>
+      				<attribute name="Implementation-Version" value="${TSTAMP} ${TODAY}"/> 
+      				<attribute name="Implementation-Vendor" value="Irisa/Triskell"/>
+    			</section>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="create_jar"
+		description="create a distibution">
+		<mkdir dir="${dist}"/>
+		<!-- This project depends on the Utils project -->
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMTLRuntime}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${MTDataTypes}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${RepositoryAPI}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${BasicMtlASTJava}\dist\bin"/>
+		</copy>
+		<copy todir="${dist}/bin">
+			<fileset dir="${Utils}\dist\bin"/>
+		</copy>
+		
+		<!-- There is no need of junit or log4j-->
+		<delete dir="${dist}/bin/ThirdParty"/>
+	</target>	
+
+</project>

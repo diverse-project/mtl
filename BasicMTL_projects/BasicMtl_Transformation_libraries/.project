@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>BasicMTLRuntime</project>
+		<project>BasicMtlAstJava</project>
 		<project>MDRDriver</project>
 		<project>MTDataTypes</project>
 		<project>RepositoryAPI</project>

@@ -1,4 +1,4 @@
-// $Id: SimpleUML_Transformations.mtl,v 1.1 2003-08-29 07:32:54 dvojtise Exp $
+// $Id: SimpleUML_Transformations.mtl,v 1.2 2003-09-17 08:19:33 jpthibau Exp $
 // This file contains various transformations that applies on SimpleUML MM
 
 
@@ -28,7 +28,7 @@ main():Standard::Void
 	mdrdriver.init();
 	
 	// intanciate the model, save result in another file
-	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\MetaModel\\\SimpleUmlMM_MOF.xml', 
+	source_model := mdrdriver.getModelFromXMI('C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\MetaModel\\SimpleUmlMM_MOF.xml', 
 						'SimpleUmlMM',
 						'SimpleUML_source_model', 
 						'C:\\PROJET_MTL\\ECLIPSE\\workspace\\BasicMtl_Transformation_libraries\\src\\SimpleUML\\models\\SimpleUML_FullExample.xml',

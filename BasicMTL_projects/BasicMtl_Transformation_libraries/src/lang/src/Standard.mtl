@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: Standard.mtl,v 1.9 2003-08-26 12:51:42 ffondeme Exp $
+// $Id: Standard.mtl,v 1.10 2003-09-17 08:19:33 jpthibau Exp $
 // concrete syntax : to be discussed as it is not the currently implemented one
 //		- how to indicate the map to the concrete native java methods and classes
 //  	- how to represent the class void [] or ""
@@ -562,6 +562,11 @@ tag DoNotGenerate := booleantag true;
 	getNewIterator() : Iterator
 	{
 		// create a new iterator for this collection
+	}
+	
+	append(object : BMTLObject) : Collection
+	{
+		//append (add to the end) the object argument to the Collection
 	}
 	
 	size() : Integer

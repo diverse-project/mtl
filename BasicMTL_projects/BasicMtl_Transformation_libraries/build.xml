@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.4 2003-08-14 21:37:43 ffondeme Exp $ -->
+<!-- $Id: build.xml,v 1.5 2003-09-17 08:19:33 jpthibau Exp $ -->
 <project name="BasicMtl_Transformation_libraires" default="verif_SimpleUML2RDBMS_V1_syntax" basedir=".">
 	<description>
         Build file for the different BasicMTL files in this project
@@ -16,6 +16,7 @@
 	<property name="MDRDriver"  location="..\MDRDriver"/>
 	<property name="BasicMTLRuntime"  location="..\BasicMTLRuntime"/>
 	<property name="TLLTypeChecker"  location="..\TLLTypeChecker"/>
+	<property name="TLLTypeCheckerViaView"  location="..\TLLTypeCheckerViaView"/>
 	<property name="BasicMtlJavaCodeGenerator"  location="..\BasicMtlJavaCodeGenerator"/>
 	<!-- Deep dependencies does not need to be managed -->
 	
@@ -114,4 +115,23 @@
 	    
 	    <ant target="compile_BasicMTL"/>
   	</target>
+
+  	<target name="compile_BasicMTLViaView"
+  		description="Compiles necessary libraries (if needed)">
+	    
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeChecker and BasicMtlJavaCodeGenerator projects -->
+	    <echo>Building the "TLLTypeCheckerViaView" project.</echo>
+	    <ant antfile="${TLLTypeCheckerViaView}\build.xml" dir="${TLLTypeCheckerViaView}" target="dist" inheritAll="false"/>
+	    <echo>"TLLTypeCheckerViaView" project built.</echo>
+  	</target>
+  	
+  	<target name="recompile_BasicMTLViaView"
+  		description="Completely recompiles necessary libraries">
+	    
+		<!-- This project depends on the MDRDriver, BasicMTLRuntime, TLLTypeCheckerViaView and BasicMtlJavaCodeGenerator projects -->
+	    <ant antfile="${TLLTypeCheckerViaView}\build.xml" dir="${TLLTypeCheckerViaView}" target="deep_clean" inheritAll="false"/>
+	    
+	    <ant target="compile_BasicMTLViaView"/>
+  	</target>
+
 </project>
