@@ -8,6 +8,7 @@ package org.irisa.triskell.MT.BasicMTL.DataTypes;
 
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLString;
 import org.irisa.triskell.MT.BasicMTL.DataTypes.impl.BMTLVoid;
+import org.irisa.triskell.MT.BasicMTL.TopTypes.BMTLType;
 import org.irisa.triskell.MT.DataTypes.Java.StringValue;
 import org.irisa.triskell.MT.DataTypes.Java.VoidValue;
 import org.irisa.triskell.MT.repository.API.Java.ModelElement;
@@ -24,4 +25,6 @@ public interface BMTLModelElementInterface extends ModelElement, BMTLOclAnyInter
 	BMTLVoidInterface BMTL_delete();
 	
 	BMTLStringInterface BMTL_oclUid();
+	
+	BMTLOclTypeInterface BMTL_getType();
 }
