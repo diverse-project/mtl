@@ -1,5 +1,5 @@
 /*
-* $Id: PreferencesConstants.java,v 1.5 2004-09-16 13:16:22 dvojtise Exp $
+* $Id: PreferencesConstants.java,v 1.6 2005-01-30 05:39:33 dvojtise Exp $
 * Authors : ${user}
 *
 * Created on ${date}
@@ -1111,9 +1111,9 @@ public static void initializeDefaultValues(IPreferenceStore store) {
 	
 	//MTL Folder settings
 	store.setDefault(PreferencesConstants.FJAVA_BINNAME,"bin");
-	store.setDefault(PreferencesConstants.FJAVA_SRCNAME,"src");
+	store.setDefault(PreferencesConstants.FJAVA_SRCNAME,"java");
 	store.setDefault(PreferencesConstants.FMTL_BINNAME,"tll");
-	store.setDefault(PreferencesConstants.FMTL_SRCNAME,"src");
+	store.setDefault(PreferencesConstants.FMTL_SRCNAME,"src/mtl");
 	store.setDefault(PreferencesConstants.OUTPUT_BUILDNAME,"build");
 	store.setDefault(PreferencesConstants.MODEL_NAME,"models");
 	store.setDefault(PreferencesConstants.METAMODEL_NAME,"metamodels");
