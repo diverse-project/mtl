@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
     <classpathentry kind="src" path="src"/>
-    <classpathentry kind="var"
+    <classpathentry exported="true" kind="var"
         path="ECLIPSE_HOME/plugins/org.eclipse.core.runtime_2.1.0/runtime.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.core.runtime_2.1.0/runtimesrc.zip"/>
-    <classpathentry kind="var"
+    <classpathentry exported="true" kind="var"
         path="ECLIPSE_HOME/plugins/org.eclipse.swt.win32_2.1.0/ws/win32/swt.jar" sourcepath="ORG_ECLIPSE_PLATFORM_WIN32_SOURCE_SRC/org.eclipse.swt.win32_2.1.0/ws/win32/swtsrc.zip"/>
-    <classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xmlParserAPIs.jar"/>
-    <classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xercesImpl.jar"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="ThirdParty/MTL/BasicMTLc.jar"/>
-    <classpathentry kind="lib" path="ThirdParty/log4j/log4j.jar"/>
-    <classpathentry kind="var" path="ECLIPSE_UI_EDITORS"/>
-    <classpathentry kind="var" path="ECLIPSE_JDT_UI"/>
-    <classpathentry kind="var" path="ECLIPSE_JFACE"/>
-    <classpathentry kind="var" path="ECLIPSE_UI_WORKBENCH"/>
-    <classpathentry kind="var" path="ECLIPSE_PDE_UI"/>
-    <classpathentry kind="var" path="ECLIPSE_CORE_RESOURCES"/>
-    <classpathentry kind="var" path="ECLIPSE_JDT_CORE"/>
-    <classpathentry kind="var" path="ECLIPSE_UI_VIEWS"/>
-    <classpathentry kind="lib" path="ThirdParty/antlr/antlrfull.jar"/>
-    <classpathentry kind="var" path="ECLIPSE_UI_WORKBENCH_TEXTEDITOR"/>
-    <classpathentry kind="var" path="ECLIPSE_JFACE_TEXT"/>
-    <classpathentry kind="var" path="ECLIPSE_TEXT"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xmlParserAPIs.jar"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_HOME/plugins/org.apache.xerces_4.0.7/xercesImpl.jar"/>
+    <classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_UI_EDITORS"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_JDT_UI"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_JFACE"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_UI_WORKBENCH"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_PDE_UI"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_CORE_RESOURCES"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_JDT_CORE"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_UI_VIEWS"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_UI_WORKBENCH_TEXTEDITOR"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_JFACE_TEXT"/>
+    <classpathentry exported="true" kind="var" path="ECLIPSE_TEXT"/>
+    <classpathentry kind="lib" path="MTL/bin/BasicMTLc.jar"/>
+    <classpathentry kind="lib" path="MTL/bin/BasicMTLruntime.jar"/>
+    <classpathentry kind="lib" path="MTL/bin/ThirdParty/ANTLR/antlrfull.jar"/>
+    <classpathentry kind="lib" path="MTL/bin/ThirdParty/log4j/log4j.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>

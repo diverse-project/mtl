@@ -23,13 +23,11 @@
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.apache.xerces"/>
    </requires>
-
-
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             name="%MTLPerspective"
-            icon="icons/croco.gif"
+            icon="icons/fmtl.gif"
             class="org.inria.mtl.plugin.perspectives.MTLPerspective"
             id="org.inria.mtl.plugin.MTLPerspective">
       </perspective>
@@ -94,7 +92,7 @@
       <editor
             name="%MTLEditor"
             default="true"
-            icon="icons/sample.gif"
+            icon="icons/file_mtl.gif"
             extensions="mtl"
             contributorClass="org.inria.mtl.plugin.editors.MTLActionContributor"
             class="org.inria.mtl.plugin.editors.MTLUnitEditor"
@@ -348,7 +346,7 @@
       </category>
       <wizard
             name="%new.pluginProject.name"
-            icon="icons/xx.gif"
+            icon="icons/mtl2.gif"
             category="org.inria.plugin.mtl.wizcat"
             class="org.inria.mtl.plugin.wizards.NewProjectWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
@@ -364,7 +362,7 @@
       </wizard>
       <wizard
             name="%new.pluginFolder.name"
-            icon="icons/sample.gif"
+            icon="icons/mtl.gif"
             category="org.inria.plugin.mtl.wizcat"
             class="org.eclipse.ui.wizards.newresource.BasicNewFolderResourceWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
@@ -377,7 +375,7 @@
       </wizard>
       <wizard
             name="%new.pluginFile.name"
-            icon="icons/sample.gif"
+            icon="icons/file_mtl.gif"
             category="org.inria.plugin.mtl.wizcat"
             class="org.eclipse.ui.wizards.newresource.BasicNewFileResourceWizard"
             preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.ui.resourcePerspective"
@@ -501,7 +499,7 @@
 		 </category>
       <view
             name="%mtlConsoleView"
-            icon="icons/sample.gif"
+            icon="icons/fmtl.gif"
             category="MTLPlugin"
             class="org.inria.mtl.plugin.views.MTLConsole"
             id="org.inria.mtl.plugin.views.mtlconsoleview">
