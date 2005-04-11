@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// $Id: ModFactDriver.mtl,v 1.2 2005-03-18 14:49:32 dvojtise Exp $
+// $Id: ModFactDriver.mtl,v 1.3 2005-04-11 12:13:23 dvojtise Exp $
 //
 // This native library is used to provide the specific functions needed to open, load, save models
 // with the MDR repository
@@ -49,19 +49,23 @@ tag DoNotGenerate := booleantag true;
 	/**
 	  * return a metamodel based an an xmi file
 	  */
-	getMdrXMIMetaModel (file : Standard::String, metaPackageToInstanciate : Standard::Sequence) : MdrMetaModel {}
+	getMdrXMIMetaModel (file : Standard::String; metaPackageToInstanciate : Standard::Sequence) : MdrMetamodel 
+	{
+	}
 	
 	
 	/**
 	  * return the MOF metamodel
 	  */
-	getMdrMOFMetaModel () : MdrMetaModel {}
+	getMdrMOFMetaModel () : MdrMetamodel {}
 	
 	
 	/**
 	  * return the MOF metamodel
 	  */
-	getMdrLoadedMetaModel (metamodelPackageName : Standard::String, metaPackageToInstanciate : Standard::Sequence) : MdrMetaModel {}
+	getMdrLoadedMetaModel (metamodelPackageName : Standard::String; metaPackageToInstanciate : Standard::Sequence) : MdrMetamodel 
+	{
+	}
 	
 	
 	/**
@@ -69,7 +73,9 @@ tag DoNotGenerate := booleantag true;
 	 * WARNING: this will make the dependent model use an alredy existing MDR extend according to the model name;
 	 * be sure this extent can accept the model you want. 
 	 */
-	getMdrImplementedMetaModel () : MdrMetaModel {}
+	getMdrImplementedMetaModel () : MdrMetamodel 
+	{
+	}
 	
 	
 	/**
