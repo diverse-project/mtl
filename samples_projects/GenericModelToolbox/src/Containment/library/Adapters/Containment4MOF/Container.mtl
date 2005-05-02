@@ -20,6 +20,8 @@ package Containment4MOF
 	
 	class Container extends Containment::DefaultAdapter_ProxyContainer 
 	{
+		aMOF : Standard::RepositoryAPI;
+
 		/** Definition of the hierarchical structure of the adapter class. */
 		getContents() : Standard::Set
 		{
@@ -56,6 +58,7 @@ package Containment4MOF
 					addChildrenFor (!MOF::Parameter!, 'Parameter');
 				}
 			}
+			
 			return this.contents;
 		}
 	
@@ -79,12 +82,9 @@ package Containment4MOF
 		}
 	
 		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
-		initTheModel (modelPath : Standard::String) 
+		initTheModel (metamodel : Standard::RepositoryAPI) 
 		{
-			driver : MDRDriver::MDRModelManager;
-			driver := new MDRDriver::MDRModelManager();
-			driver.init();
-			MOF := driver.getModelFromXMI ('../../MetaModels/MOF/MOF_metamodel.xmi', 'Model', modelPath,  modelPath, modelPath.concat('.modified'));
+			MOF := metamodel;
 		}
 	
 	
@@ -95,6 +95,7 @@ package Containment4MOF
 			foreach (aModelElement : MOF::ModelElement) in (getProxySubject().oclAsType(!MOF::Namespace!).contents) where (aModelElement.oclIsTypeOf(type))
 			{
 				addChild (aModelElement, role);
+				
 			}
 		}
 	}

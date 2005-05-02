@@ -1,4 +1,4 @@
-<!-- $Id: common_build.xml,v 1.2 2004-07-01 15:41:01 edrezen Exp $ -->
+<!-- $Id: common_build.xml,v 1.3 2005-05-02 12:50:21 edrezen Exp $ -->
 <project name="common_build" default="compile" basedir=".">
 	<description>
         Common Build file for using the BasicMTL compiler
@@ -24,12 +24,15 @@
 	<property name="BasicMTLc.jar" location="${MTLcompiler.jar.path}/BasicMTLc.jar"/>
 	<property name="Runtime.TLL.path" value="${MTLcompiler.path}/src/TLL"/>
 	<property name="BasicMTLRuntime.jar" location="${MTLcompiler.jar.path}/BasicMTLruntime.jar"/>
+	<property name="MDRDriver.path" location="../../../MDRDriver"/>
+
 	
 	<path id="current.class.path">
 	  	<pathelement path="${BasicMTLRuntime.jar}"/>
+		<pathelement path="${MDRDriver.path}/lib/MDRDriver.jar"/>
 	</path>
 	  	
-	<property name="user.needed.TLL.path" value="${Runtime.TLL.path}"/> <!-- other TLL needed in order to comile this one -->
+	<property name="user.needed.TLL.path" value="${MTLcompiler.path}/dist/Runtime/src/TLL/;${MDRDriver.path}/build/TLL/;${builtsrc}/TLL/"/> <!-- other TLL needed in order to comile this one -->
 
 	<!-- ************************************************ -->
 	<!-- ************************************************ -->

@@ -6,6 +6,8 @@ package Containment4SimpleRDBMS
 {
 	class Container extends Containment::DefaultAdapter_ProxyContainer
 	{
+		aRDBMS : Standard::RepositoryAPI;
+
 		/** Definition of the hierarchical structure of the adapter class. */
 		getContents() : Standard::Set
 		{
@@ -57,12 +59,9 @@ package Containment4SimpleRDBMS
 	
 	
 		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
-		initTheModel (modelPath : Standard::String) 
+		initTheModel (metamodel :  Standard::RepositoryAPI) 
 		{
-			driver : MDRDriver::MDRModelManager;
-			driver := new MDRDriver::MDRModelManager();
-			driver.init();
-			RDBMS := driver.getModelFromXMI ('../../MetaModels/SimpleRDBMS/SimpleRDBMS_metamodel.xmi', 'SimpleRdbmsMM2', modelPath,  modelPath, modelPath.concat('.modified'));
+			aRDBMS := metamodel;
 		}
 	}
 	

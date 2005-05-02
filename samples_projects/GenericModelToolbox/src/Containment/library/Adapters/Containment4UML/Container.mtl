@@ -6,6 +6,8 @@ package Containment4UML
 {
 	class Container extends Containment::DefaultAdapter_ProxyContainer
 	{
+		aUML : Standard::RepositoryAPI;
+
 		/** Definition of the hierarchical structure of the adapter class. */
 		getContents() : Standard::Set
 		{
@@ -83,12 +85,9 @@ package Containment4UML
 	
 	
 		/** Definition of the Template Method primitive declared in ContainmentDefaultAdapter::ProxyContainer */
-		initTheModel (modelPath : Standard::String) 
+		initTheModel (metamodel : Standard::RepositoryAPI) 
 		{
-			driver : MDRDriver::MDRModelManager;
-			driver := new MDRDriver::MDRModelManager();
-			driver.init();
-			UML := driver.getModelFromXMI ('../../MetaModels/UML/UML_metamodel.xmi', 'UML', modelPath,  modelPath, modelPath.concat('.modified'));
+			aUML := metamodel;
 		}
 		
 	}

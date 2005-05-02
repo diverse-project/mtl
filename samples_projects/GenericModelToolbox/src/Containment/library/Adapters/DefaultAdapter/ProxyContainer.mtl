@@ -5,13 +5,12 @@ package DefaultAdapter
 	class ProxyContainer extends DefaultAdapter_AbstractContainer
 	{
 		proxySubject : Standard::OclAny;
-
 	
 		/** GOF Template method */
-		init (modelPath : Standard::String) : Containment::View_Container
+		init (metamodel : Standard::RepositoryAPI) : Containment::View_Container
 		{
 			// we initialize the model 
-			initTheModel (modelPath);
+			initTheModel (metamodel);
 	
 			// we initialize the role of the root Container object		
 			setRole ('root');
@@ -25,28 +24,27 @@ package DefaultAdapter
 		addChild (proxySubject: Standard::OclAny;  role : Standard::String) : Containment::View_Container
 		{
 			result : Containment::DefaultAdapter_ProxyContainer;
-			
+
 			// a little check won't hurt.
 			if (isNull(proxySubject))
 			{
 				return null;
 			}
-			
 			// we create the child Container
 			result := createContainer ();
-			
+
 			// we set the proxy subject
 			result.setProxySubject (proxySubject);
-			
+
 			// we set the role
 			result.setRole (role);
-			
+
 			// we set the parent
 			result.setParent (this);
-	
+
 			// we add this child Container into the self Container
 			this.contents := this.contents.including (result);
-	
+
 			// we return the result
 			return result;
 		}
@@ -56,10 +54,10 @@ package DefaultAdapter
 		getName() : Standard::String
 		{ 
 			result : Standard::String;
-	
+
 			if (isNull(getProxySubject()))  { result := 'root'; }
 			else                            { result := getProxySubjectName (getProxySubject()); }
-			
+
 			return result;
 		}
 	
@@ -89,7 +87,7 @@ package DefaultAdapter
 	
 	
 		/** Primitive used in a GOF Template Method */
-		initTheModel (modelPath : Standard::String) 
+		initTheModel (metamodel : Standard::RepositoryAPI) 
 		{
 			'ContainmentDefaultAdapter::ProxyContainer::initTheModel be abstract...'.toErr();
 		}
