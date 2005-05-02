@@ -1,0 +1,27 @@
+Notes on the existing Valooder transorm
+---------------------------------------
+
+The existing Valooder transform (VT) is written in Eiffel code and can be seen as a design pattern Visitor.
+
+It actually visits a hierachy of nodes that represents a UML model. This is the internal representation
+of Umlaut for a UML model.
+
+VT traverses the hierarchy and proceeds the transformation.
+
+
+Formalization
+-------------
+
+Actually, the transformation is not so well documented. It should be interesting to describe it in a 
+more high level description than the Eiffel code itself. 
+
+One attempt could be made to describe (at least the main structure) the VT through UML diagrams (like
+sequence diagrams if we keep the imperative way).
+
+
+Objecteering profile
+--------------------
+
+An Objecteering profile could be quickly built in order to add get/set methods to classes of a given 
+metamodel; it would be then enough to describe manipulation on instances of metamodels through methods
+calls in sequence diagrams.

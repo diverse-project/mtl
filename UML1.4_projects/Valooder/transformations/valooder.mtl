@@ -1,0 +1,368 @@
+library valooder;
+
+model UML       : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver : MDRDriver;
+model toolbox   : UML_Utils;
+ 
+   
+/********************************************/
+// Entry point operation : main
+/********************************************/
+ 
+main() : Standard::Void
+{	 
+	// local variables
+	mdrdriver         : MDRDriver::MDRModelManager;
+	aValoodFramework  : ValoodFramework;
+    projectPath       : Standard::String;
+	metamodelFilename : Standard::String;
+	inputFilename     : Standard::String;
+	outputFilename    : Standard::String;
+
+	// we define some filenames 
+	
+	projectPath       := 'E:/Program Files/eclipse/workspace/ValooderTransform/';	
+	metamodelFilename := projectPath.concat ('MetaModel/UML14.xml');
+	inputFilename     := projectPath.concat ('Models/testposeidon.xmi');
+	outputFilename    := projectPath.concat ('Models/testposeidon_modified.xmi');
+
+    // we initialize the MDR driver			
+	mdrdriver := new MDRDriver::MDRModelManager();
+	mdrdriver.init();
+	 
+	// intanciate the model, save result in another file
+	UML := mdrdriver.getModelFromXMI (
+		metamodelFilename, 
+		'UML',		// name of the root package in the Uml1.4 metamodel
+		'UML1.4_model', 
+		inputFilename,
+		outputFilename
+	);
+
+
+    // we initialize the uml utils
+    toolbox := new UML_Utils ();
+    toolbox.init (UML);
+    
+ 	'model connected'.toOut();
+
+	aValoodFramework := new ValoodFramework();
+	aValoodFramework.valood ();	
+	aValoodFramework.valood ();	
+
+	'That s all folks !'.toOut();
+}
+
+
+/************************************************************************************************/
+/************************************************************************************************/
+
+
+class ValoodFramework
+{
+	// all these objects are singletons
+	_root_type    : UML::Core::Class;
+	_boolean_type : UML::Core::Primitive;
+	_double_type  : UML::Core::Primitive;
+	_integer_type : UML::Core::Primitive;
+	_string_type  : UML::Core::Primitive;
+
+	// all these objects are singletons
+	_valood                               : UML::Model_Management::Package;
+	_activable                            : UML::Core::Class;
+	_reactive                             : UML::Core::Class; 
+	_protocol_entity                      : UML::Core::Class;
+	_port                                 : UML::Core::Class; 
+	_proxy                                : UML::Core::Class; 
+	_event                                : UML::Core::Class; 
+	_cadp_simulator                       : UML::Core::Class; 
+	_configuration                        : UML::Core::Class; 
+	_state_machine                        : UML::Core::Class; 
+	_active_state_machine                 : UML::Core::Class; 
+	_passive_state_machine                : UML::Core::Class; 
+	_activable_nb_transitions             : UML::Core::Operation; 
+	_activable_action                     : UML::Core::Operation; 
+	_activable_labels                     : UML::Core::Operation; 
+	_event_dispatch_to                    : UML::Core::Operation; 
+	_event_event_name                     : UML::Core::Operation; 
+	_cadp_simulator_initial_configuration : UML::Core::Operation; 
+	_configuration_out                    : UML::Core::Operation; 
+	_cadp_simulator_make                  : UML::Core::Operation; 
+	_active_state_machine_completion      : UML::Core::Operation; 
+	_state_machine_entry                  : UML::Core::Operation; 
+	_state_machine_exit                   : UML::Core::Operation; 
+	_proxy_to_server_association          : UML::Core::Association;
+	_proxy_association_end                : UML::Core::AssociationEnd;
+	_server_association_end               : UML::Core::AssociationEnd;
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	debug (aString : Standard::String)
+	{
+		aString.toOut();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	valood () : UML::Model_Management::Package
+	{
+		if (isNull(_valood)) 
+		{
+			debug ('valood CREATION');
+		
+			// we build the valood package
+			_valood := toolbox.createPackage ('VALOOD');
+			
+			// we add to it the primitive types
+			toolbox.addModelElementToNameSpace (root_type(),    _valood);
+			toolbox.addModelElementToNameSpace (boolean_type(), _valood);
+			toolbox.addModelElementToNameSpace (double_type(),  _valood);			
+			toolbox.addModelElementToNameSpace (integer_type(), _valood);
+			toolbox.addModelElementToNameSpace (string_type(),  _valood);						
+		}		
+
+		// we return the valood		
+		return _valood;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	root_type () : UML::Core::Class
+	{
+		if (isNull(_root_type))
+		{
+			debug ('root_type CREATION');
+			
+			_root_type := toolbox.createClass ('any');
+		}
+		return _root_type;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	boolean_type () : UML::Core::Primitive
+	{
+		if (isNull(_boolean_type ))
+		{
+			debug ('boolean_type CREATION');
+
+			_boolean_type  := toolbox.createPrimitive('boolean');
+		}
+		return _boolean_type ;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	double_type () : UML::Core::Primitive
+	{
+		if (isNull(_double_type ))
+		{
+			debug ('double_type CREATION');
+					
+			_double_type  := toolbox.createPrimitive('double');
+		}
+		return _double_type ;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	integer_type () : UML::Core::Primitive
+	{
+		if (isNull(_integer_type ))
+		{
+			debug ('integer_type CREATION');
+					
+			_integer_type  := toolbox.createPrimitive('integer');
+		}
+		return _integer_type ;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	string_type () : UML::Core::Primitive
+	{
+		if (isNull(_string_type ))
+		{
+			debug ('string_type CREATION');
+					
+			_string_type  := toolbox.createPrimitive('string');
+		}
+		return _string_type ;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	activable_nb_transitions () : UML::Core::Operation
+	{
+		if (isNull(_activable_nb_transitions))
+		{
+			debug ('activable_nb_transitions CREATION');
+			_activable_nb_transitions := toolbox.createOperation ('nb_transitions', toolbox.getVisibilityKind('vk_public'));
+			toolbox.createAndAddTypedReturnParameter (integer_type(), _activable_nb_transitions);
+			toolbox.addFeatureToClassifier (_activable_nb_transitions, activable());
+		}
+		return _activable_nb_transitions;		
+	}	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	activable_action () : UML::Core::Operation
+	{
+		if (isNull(_activable_action))
+		{
+			_activable_action := toolbox.createOperation ('action', toolbox.getVisibilityKind('vk_public'));
+			toolbox.createAndAddTypedParameter ('n', integer_type(), _activable_action);
+			toolbox.addFeatureToClassifier (_activable_action , activable());		
+		}
+		return _activable_action ;		
+	}	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	activable_labels () : UML::Core::Operation
+	{
+		if (isNull(_activable_labels))
+		{
+			_activable_labels := toolbox.createOperation ('labels', toolbox.getVisibilityKind('vk_public'));
+
+			toolbox.createAndAddTypedParameter       ('n', integer_type(), _activable_labels);
+			toolbox.createAndAddTypedReturnParameter (string_type(), _activable_labels);
+			toolbox.addFeatureToClassifier           (_activable_labels, activable());					
+		}
+		return _activable_labels;		
+	}	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	activable () : UML::Core::Class
+	{
+		if (isNull(_activable))
+		{
+			_activable := toolbox.createClass ('ACTIVABLE');
+			toolbox.addModelElementToNameSpace (_activable, valood());
+			
+		}
+		return _activable;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	reactive () : UML::Core::Class
+	{
+		if (isNull(_reactive))
+		{
+			_reactive := toolbox.createClass ('REACTIVE');
+			toolbox.addModelElementToNameSpace (_reactive, valood());			
+		}
+		return _reactive;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	protocol_entity () : UML::Core::Class
+	{
+		if (isNull(_protocol_entity))
+		{
+			_protocol_entity := toolbox.createClass ('PROTOCOL_ENTITY');
+			toolbox.addModelElementToNameSpace (_protocol_entity, valood());						
+		}
+		return _protocol_entity;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	port () : UML::Core::Class
+	{
+		result : UML::Core::Class;
+		result := toolbox.createClass ('PORT');
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	proxy () : UML::Core::Class
+	{
+		result : UML::Core::Class;
+		result := toolbox.createClass ('PROXY');
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	event () : UML::Core::Class
+	{
+		result : UML::Core::Class;
+		result := toolbox.createClass ('EVENT');
+		return result;
+	}
+
+	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	event_dispatch_to () : UML::Core::Operation
+	{
+		result : UML::Core::Operation;
+		result := toolbox.createOperation ('dispatch_to', toolbox.getVisibilityKind('vk_public'));
+//		toolbox.createAndAddTypedParameter ('target', root_type, result);
+		return result;		
+	}	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	event_event_name () : UML::Core::Operation
+	{
+		result : UML::Core::Operation;
+		result := toolbox.createOperation ('event_name', toolbox.getVisibilityKind('vk_public'));
+//		toolbox.createAndAddTypedReturnParameter (string_type, result);
+		return result;		
+	}	
+ 
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+	cadp_simulator_initial_configuration () : UML::Core::Operation
+	{
+		result : UML::Core::Operation;
+		result := toolbox.createOperation ('initial_configuration', toolbox.getVisibilityKind('vk_public'));
+//		toolbox.createAndAddTypedReturnParameter (string_type, result);
+		return result;		
+	}	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//
+	////////////////////////////////////////////////////////////////////////////////////
+
+	<< singleton >> 
+	cadp_simulator_out () : UML::Core::Operation
+	{
+		result : UML::Core::Operation;
+		result := toolbox.createOperation ('dispatch_to', toolbox.getVisibilityKind('vk_public'));
+		toolbox.createAndAddTypedReturnParameter (string_type(), result);
+		return result;		
+	}	
+
+
+}
+

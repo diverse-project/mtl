@@ -1,0 +1,18 @@
+Formalizing transformations with UML
+------------------------------------
+
+It could be interesting to use UML to describe how a transformation looks like. Since such a transformation
+can be done from a model (seen as an instance of a metamodel) to another one, it may be possible to
+describe in an imperative way the structure of the transformation by Sequence Diagrams (that deal with
+instances of model classes).
+
+In our case, we could use the UML metamodel and describe the VT in one or more Sequence Diagrams using
+instances of UML metamodel (i.e. UML models). To achieve this, we need to perform actions on the UML
+metamodel level, like setting and getting information of instances of the metamodel (like a setName()
+method for the metaclass UML:ModelElement). 
+
+From this point of view, we need to extend the UML metamodel in order to be able to manipulate it. 
+This can be compared to the JMI mapping from MOF to Java that provides the API needed to create and 
+manipulate instances of the given MOF metamodel; in our case, the metamodel is the UML one and the 
+mapping target is another UML model.
+

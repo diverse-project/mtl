@@ -1,0 +1,136 @@
+
+////////////////////////////////////////////////////////////////////////////////////
+	
+Code à la Eiffel, utile pour créer des méthodes qui rendent toujours la meme instance
+
+compute () : UML::Core::Operation
+{
+	result : UML::Core::Operation;
+	aName  : Standard::String;
+	once
+	{
+		aName       := 'compute';
+		result      := new UML::Core::Operation();
+		result.name := aName;
+	}
+	// autres instructions
+
+	// return
+	return result;		
+}	
+
+Autre possibilité : méthode renvoyant un singleton
+
+	<<singleton>> compute() : UML::Core::Operation
+ou bien
+	<<once>> compute() : UML::Core::Operation	
+	{
+		result : UML::Core::Operation;
+		aName  : Standard::String;
+		aName       := 'compute';
+		result      := new UML::Core::Operation();
+		result.name := aName;
+		return result;		
+	}
+Le stereotype <<singleton>> assure que le résultat de la méthode est calculé au premier appel 
+puis est ensuite seulement renvoyé lors des appels suivants.
+
+
+
+
+
+
+Le code java généré a besoin de savoir quelle objet est utilisé comme retour de méthode, afin de
+pouvoir déclarer cet objet comme 'static' à la méthode. Ceci implique que l'expression après le
+'return' soit un objet simple (p.e. ne pas avoir 'return new Operation()')
+
+Le code java équivalent serait :
+
+Operation compute()
+{
+	static Operation result = null;
+	String aName;
+	
+	if (result==null)
+	{
+		aName = "compute";
+		
+		result      = new Operation();
+		result.name = aName;
+	}
+	return result;
+}
+
+
+Le mapping MTL/Java est donc
+
+operation (args) : typeRetour
+{
+   // déclaration objets locaux, dont objet à retourner
+   result : typeRetour;
+   o1     : type1;
+   ...
+   oN     : typeN;
+   
+   once
+   {
+      // instructions
+      i1;
+      ...
+      iN;
+   }
+   
+   return result;
+}
+
+==>
+
+typeRetour operation (args)
+{
+	static typeRetour result = null;
+	type1 o1;
+	...
+	typeN oN;
+	
+	if (result==null)
+	{
+	   i1;
+	   ...
+	   iN;
+	}
+	
+	return result;
+}
+
+
+Au niveau de la grammaire, on a actuellement pour une définition de méthode :
+
+methodDefinition : ("creation")? IDENTIFIER 
+		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
+		( "throwsException" )?
+		( tag )*
+		OPENBRACE (localVarDef )* (instruction)* CLOSEBRACE
+
+Il faut pouvoir traiter le 'once' comme une instruction particulière
+methodDefinition : ("creation")? IDENTIFIER 
+		openbracket ( parameterdef )? CLOSEBRACKET (COLON type)?
+		( "throwsException" )?
+		( tag )*
+		OPENBRACE (localVarDef )* (onceInstruction)? (instruction)* CLOSEBRACE
+
+onceInstruction : "once" OPENBRACE (instruction)* CLOSEBRACE
+
+	
+////////////////////////////////////////////////////////////////////////////////////
+
+Code à la Eiffel, utilisation d'une variable "Result" déclarée implicitement, avec
+le type de retour de la fonction
+
+compute () : UML::Core::Operation
+{
+	once
+	{
+		Result      := new UML::Core::Operation();
+		Result.name := 'compute';
+	}
+}	

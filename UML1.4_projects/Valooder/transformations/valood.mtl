@@ -1,0 +1,75 @@
+library valood;
+
+model UML       : RepositoryModel;		// should be a UML1.4 MetaModel
+model mdrdriver : MDRDriver;
+model toolbox   : UML_Utils;
+
+////////////////////////////////////////////////////////////////////////////////////
+class Valood
+{
+	getActivable () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getReactive () : UML::Core::Class
+	{
+		// TODO
+	}
+
+	getProtocolEntity () : UML::Core::Class
+	{
+		// TODO
+	}
+
+	getPort () : UML::Core::Class
+	{
+		// TODO
+	}
+
+	getProxy () : UML::Core::Class
+	{
+		// TODO
+	}
+
+	getEvent () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getCadpSimulator () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getConfiguration () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getStateMachine () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getActiveStateMachine () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+	getPassiveStateMachine () : UML::Core::Class
+	{
+		// TODO
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+
+	
+}
