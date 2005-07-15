@@ -103,7 +103,7 @@ abstract public class CollectionValueImpl
     {
 		if (! (rhs instanceof CollectionValue)) return false;
 		if (! ((CollectionValue)rhs).getKind().equals(this.getKind())) return false;
-		boolean collectionComparison = this.theCollectionAsArray == null || ((rhs instanceof CollectionValueImpl) && ((CollectionValueImpl)rhs).theCollectionAsArray == null);
+		boolean collectionComparison = this.theCollectionAsArray == null && ((rhs instanceof CollectionValueImpl) && ((CollectionValueImpl)rhs).theCollectionAsArray == null);
 		if (this.kind == CollectionKind.getSet_kind())  {
 			if (collectionComparison)
 				return CollectionValueImpl.compareSet(this.getTheCollectionAsCollection(), ((CollectionValueImpl)rhs).getTheCollectionAsCollection());
