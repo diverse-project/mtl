@@ -1,5 +1,5 @@
 /*
- * $Id: allReferedTypes.java,v 1.24 2004-11-05 15:40:18 jpthibau Exp $
+ * $Id: allReferedTypes.java,v 1.25 2005-07-15 16:04:23 ffondeme Exp $
  * Created on 30 juil. 2003
  *
  * Copyright 2004 - INRIA - LGPL license
@@ -11,8 +11,10 @@ package TypeChecker;
 //import org.irisa.triskell.MT.utils.Java.AWK;
 //import org.irisa.triskell.MT.utils.Java.Mangler;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.irisa.triskell.MT.utils.MessagesHandler.MSGHandler;
@@ -150,6 +152,27 @@ public class allReferedTypes extends CompilerObservable
 		return loadedTLL;
 	}
 	
+	public static Library loadTLL(String libName)
+	{	Library loadedTLL=null;
+		if (TLLtypechecking.defaultTLLPaths != null) {
+			java.util.Vector possiblesPaths=TLLtypechecking.defaultTLLPaths;
+			int triedPaths=0;
+			do {
+				try {
+					loadedTLL=Library.load((String)possiblesPaths.get(triedPaths)+libName+TLLtypechecking.tllSuffix);
+				} catch (Exception e){loadedTLL=null;}
+				triedPaths++;
+			}
+			while (loadedTLL==null && triedPaths<possiblesPaths.size());
+			}
+		if (loadedTLL==null) {
+			//last chance : same location for loading and production
+			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
+		}
+			
+		return loadedTLL;
+	}
+		
 	/**
 	 * loadTLLAllKnownClasses loads the TLL and gives its AllKnownClasses names
 	 * The returned collection contains first the library name then userclasses names
@@ -161,26 +184,16 @@ public class allReferedTypes extends CompilerObservable
 	 * @param theLib	: 
 	 * @return Library : loaded library
 	 */
-	public static Collection loadTLLAllKnownClasses(String libName)
-	{	Library loadedTLL=null;
+	public static Collection loadTLLAllKnownClasses(String libName) {
+		return loadTLLAllKnownClasses(loadTLL(libName));
+	}
+	
+	public static Collection loadTLLAllKnownClasses(Library loadedTLL) {
 		String libraryName = null;
-		if (TLLtypechecking.defaultTLLPaths != null) {
-			java.util.Vector possiblesPaths=TLLtypechecking.defaultTLLPaths;
-			int triedPaths=0;
-			do {
-				try {
-					loadedTLL=Library.load((String)possiblesPaths.get(triedPaths)+libName+TLLtypechecking.tllSuffix);							
-				} catch (Exception e){loadedTLL=null;}
-				triedPaths++;
-			}
-			while (loadedTLL==null && triedPaths<possiblesPaths.size());
-			}
-		if (loadedTLL==null)
-			//last chance : same location for loading and production
-			loadedTLL=Library.load(TLLtypechecking.defaultTLLPath+libName+TLLtypechecking.tllSuffix);
-			
+
 		if (loadedTLL == null)  
 					return null;
+		
 		Enumeration allKnownClasses = loadedTLL.knownTypes.elements();
 		ArrayList result = new ArrayList();
 		while (allKnownClasses.hasMoreElements())
@@ -192,6 +205,55 @@ public class allReferedTypes extends CompilerObservable
 			}
 		result.add(0,libraryName);
 		return result;
+	}
+	
+	public static UserClass getUserDefinedClass(String name, Library lib) {
+		Enumeration allKnownClasses = lib.knownTypes.elements();
+		while (allKnownClasses.hasMoreElements())
+			{ 	UserDefinedClass c = (UserDefinedClass)allKnownClasses.nextElement();
+				if ( (c instanceof UserClass) && (((UserClass)c).getName().equals((name))) )
+					return (UserClass)c;
+			}
+		return null;
+	}
+	
+	/**
+	 * The qualified names
+	 * @param name
+	 * @param lib
+	 * @return
+	 */
+	public static Collection getUserClassInheritance(String name, Library lib) {
+		UserClass c = getUserDefinedClass(name, lib);
+		if (c == null)
+			return null;
+		if (c.inheritance == null)
+			return new ArrayList(0);
+		return (Collection)c.inheritance.clone();
+	}
+	
+	/**
+	 * The names
+	 * @param name
+	 * @param lib
+	 * @return
+	 */
+	public static Collection getUserClassLocalInheritance(String name, Library lib) {
+		Collection c = getUserClassInheritance(name, lib);
+		if (c == null) {
+			return Arrays.asList(new Object [0]);
+		}
+			
+		Iterator it = c.iterator();
+		Collection ret = new ArrayList();
+		while (it.hasNext()) {
+			QualifiedName qn = (QualifiedName)it.next();
+			if (qn.size() == 1)
+				ret.add(qn.get(0));
+			else if (qn.get(0).equals(lib.getName()))
+				ret.add(qn.get(1));
+		}
+		return ret;
 	}
 	
 	public static boolean checkLocalClass(QualifiedName aType,String typeName,BasicMtlLibrary  theLib)
