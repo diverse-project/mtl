@@ -1,6 +1,6 @@
 /*
  * Created on May 26, 2003
- * $Id: BMTLLibrary.java,v 1.5 2004-02-17 08:58:21 dvojtise Exp $
+ * $Id: BMTLLibrary.java,v 1.6 2005-07-15 14:05:35 ffondeme Exp $
  * Authors : ffondeme
  * 
  * Copyright 2004 - INRIA - LGPL license
@@ -43,7 +43,9 @@ public abstract class BMTLLibrary extends BMTLObject implements BMTLLibInterface
 
 	public void recordNewInstance(String className,Object instance)
 	{ 
-		this.allClassInstances(className).add(instance);
+		Collection c = this.allClassInstances(className);
+		if (!c.contains(instance))
+			c.add(instance);
 	}
 	
 	public void removeInstance(String className, Object instance)
