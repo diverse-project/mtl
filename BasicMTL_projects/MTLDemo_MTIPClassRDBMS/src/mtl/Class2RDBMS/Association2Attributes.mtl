@@ -1,0 +1,136 @@
+/******************************************************************************
+ * $Id: Association2Attributes.mtl,v 1.1 2005-07-29 14:57:26 dvojtise Exp $
+ * Repository independent transformations that apply to SimpleUML models
+ *	includes : 
+ *		association 2 attributes 
+ *
+ ******************************************************************************/
+
+
+library Class2RDBMS;
+
+//-- Lib local models --
+//Repository models
+model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
+	// Note: the possibility to store the result into file other than the input file is handled by the driver itself
+	//		and thus is not visible here
+
+
+class Associations2Attributes
+{ 
+	/**
+	  * Connects the input model to this library for future use
+	  */
+	initmodel( a_source_model:RepositoryModel)
+	{
+	 	'Associations2Attributes.initmodels()'.toOut();
+		source_model := a_source_model;
+	}
+	/******************************************** 
+	 * break all associations in two attributes
+	 ********************************************/
+	associations2attributes()
+	{
+		// local variables
+		associationIterator : Standard::Iterator;
+		associationSet : Standard::Set;
+		anAssociation : source_model::Association;	
+		
+		associationSet := !source_model::Association!.allInstances();
+		
+		associationIterator := associationSet.getNewIterator();
+		associationIterator.start();
+		
+		while associationIterator.isOn() 
+		{		
+			anAssociation := associationIterator.item().oclAsType(!source_model::Association!);
+			'   Processing Association'.toOut();
+			association2attributes(anAssociation); 					
+			associationIterator.next();
+		}
+		'Associations2Attributes.associations2attributes() done'.toOut();
+	}
+
+	/******************************************** 
+	 * break an association in two attributes
+	 ********************************************/
+	association2attributes(anAssociation : source_model::Association) 
+	{	
+		// local variables
+		sourceClass, destClass : source_model::Class;
+		sourceClassName, destClassName, associationName : Standard::String;
+		name : Standard::String;
+		
+		// get source
+		sourceClass := anAssociation.source;
+		sourceClassName := sourceClass.name;
+		// get destination
+		destClass := anAssociation.destination;
+		destClassName := destClass.name;
+		
+		// add attribute on source
+		associationName := anAssociation.name;
+			// as the association in SimpleUML  have no role name, we simply use the class name + the association name
+		name := 'association_';
+		name := name.concat(associationName);
+		name := name.concat('_');
+		name := name.concat(sourceClassName);
+		addAttribute(sourceClass, name, destClass);
+		// add attribute on destination
+		// name := 'association_'.concat(anAssociation.name).concat('_').concat(destClass.name);
+		addAttribute(destClass, name, sourceClass);	
+		
+		// remove association
+		anAssociation.delete();
+	}
+	
+	/******************************************** 
+	 * add an attribute on a class
+	 ********************************************/
+	addAttribute(aClass: source_model::Class; name : Standard::String; attributeType : source_model::ModelElement)
+	{
+		// local variables
+		anAttribute : source_model::Attribute;
+			
+		// create new attribute for this class
+		anAttribute := new source_model::Attribute();
+		anAttribute.name := name;		
+		associate ( typed := anAttribute : source_model::Attribute, type := attributeType : source_model::Classifier);
+		associate ( attribute := anAttribute : source_model::Attribute, owner := aClass : source_model::Class);
+		
+	}
+
+	/********************************************
+	* Add a new attribute and change the class name (something stupid but visible in the result model
+	********************************************/
+	stupidDemoTransform():Standard::Void
+	{
+		// local variables
+		classIterator 	: Standard::Iterator;
+		classSet 		: Standard::Set;
+		aClass 			: source_model::Class;
+		anAttribute 	: source_model::Attribute;
+		className 		: Standard::String;	
+		
+		classSet := !source_model::Class!.allInstances();
+		
+		classIterator := classSet.getNewIterator();
+		classIterator.start();
+		
+		while classIterator.isOn() 
+		{		
+			aClass := classIterator.item().oclAsType(!source_model::Class!);
+			
+			// create new attribute for this class
+			anAttribute := new source_model::Attribute();
+			className := aClass.name; 	
+			anAttribute.name := 'new_attribute'.concat(className);	
+			associate ( attribute := anAttribute : source_model::Attribute, owner := aClass : source_model::Class);		
+			// change class name
+			aClass.name := className.concat('_changed'); 
+						
+			classIterator.next();
+		}					
+	}
+}
+

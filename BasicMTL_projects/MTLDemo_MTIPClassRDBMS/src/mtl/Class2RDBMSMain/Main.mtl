@@ -1,0 +1,64 @@
+/*
+ * $Id: Main.mtl,v 1.1 2005-07-29 14:57:20 dvojtise Exp $
+ *
+ * Sample of use of associations2attribute with a MDR repository
+ */
+ 
+library Class2RDBMSMain;
+// no extends for this lib
+ 
+// Lib local model
+model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
+model target_model : RepositoryModel;		// must be conform to RDBMS MetaModel
+
+// Library level methods
+// ---------------------
+// Typed model 
+model Class2RDBMS_lib : Class2RDBMS;
+
+// Library contructors
+// -------------------
+main(args : Standard::Sequence):Standard::Void 
+{
+	argsParser 			: ArgumentsParser;
+	aSourceModelManager : sourceModelManager;
+	sourceFileName		: Standard::String;
+	destFileName		: Standard::String;
+	driverName			: Standard::String;
+		
+	anClass2RDBMSTransfo : Class2RDBMS::Associations2Attributes;
+
+	// we initialize the arguments parser
+	argsParser := new ArgumentsParser ();
+	argsParser.init (args);
+
+	
+	
+	
+	// instanciate transformation lib
+	Class2RDBMS_lib := new Class2RDBMS();
+			
+	aSourceModelManager := new sourceModelManager();
+	sourceFileName := argsParser.getArg();
+	destFileName := argsParser.getArg();
+	driverName := argsParser.getArg();
+	
+	'driverName='.concat(driverName).toOut();
+	aSourceModelManager.init(driverName);
+	aSourceModelManager.loadSourceModel (sourceFileName, destFileName);
+	
+		
+		// instanciate transformation tool class, and initialize the library models	
+	anClass2RDBMSTransfo := new Class2RDBMS_lib::Associations2Attributes();
+	anClass2RDBMSTransfo.initmodel(source_model);
+		// start the transformation
+	anClass2RDBMSTransfo.associations2attributes();
+
+    aSourceModelManager.storeSourceModel(); 
+	aSourceModelManager.disposeSourceModel();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

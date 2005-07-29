@@ -1,0 +1,56 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<XMI xmi.version = '1.2' timestamp = 'Fri Jul 29 16:45:19 CEST 2005'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <SimpleUML.Class xmi.id = 'a1' name = 'Order' is_persistent = 'true'>
+      <SimpleUML.Class.attrs>
+        <SimpleUML.Attribute xmi.id = 'a2' is_primary = 'true' name = 'order_no'>
+          <SimpleUML.Attribute.type>
+            <SimpleUML.PrimitiveDataType xmi.idref = 'a3'/>
+          </SimpleUML.Attribute.type>
+        </SimpleUML.Attribute>
+      </SimpleUML.Class.attrs>
+    </SimpleUML.Class>
+    <SimpleUML.Class xmi.id = 'a4' name = 'Customer' is_persistent = 'true'>
+      <SimpleUML.Class.attrs>
+        <SimpleUML.Attribute xmi.id = 'a5' is_primary = 'true' name = 'order_no'>
+          <SimpleUML.Attribute.type>
+            <SimpleUML.PrimitiveDataType xmi.idref = 'a6'/>
+          </SimpleUML.Attribute.type>
+        </SimpleUML.Attribute>
+      </SimpleUML.Class.attrs>
+    </SimpleUML.Class>
+    <SimpleUML.Class xmi.id = 'a7' name = 'Address' is_persistent = 'false'>
+      <SimpleUML.Class.attrs>
+        <SimpleUML.Attribute xmi.id = 'a8' is_primary = 'true' name = 'order_no'>
+          <SimpleUML.Attribute.type>
+            <SimpleUML.PrimitiveDataType xmi.idref = 'a6'/>
+          </SimpleUML.Attribute.type>
+        </SimpleUML.Attribute>
+      </SimpleUML.Class.attrs>
+    </SimpleUML.Class>
+    <SimpleUML.PrimitiveDataType xmi.id = 'a3' name = 'int'/>
+    <SimpleUML.PrimitiveDataType xmi.id = 'a6' name = 'string'/>
+    <SimpleUML.Association xmi.id = 'a9' name = 'customer'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a1'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a4'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+    <SimpleUML.Association xmi.id = 'a10' name = 'address'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a4'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a7'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+  </XMI.content>
+</XMI>
