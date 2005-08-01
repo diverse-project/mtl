@@ -1,0 +1,147 @@
+/*
+ * $Id: TargetModelManager.mtl,v 1.1 2005-08-01 15:47:28 dvojtise Exp $
+ *
+ * This class is dedicated to manage the model target_model of  SimpleUmlTransformationsWithModelLoader Library
+ * It proposes to load, store and dispose this model independently of the repository
+ * Currently it can work only with this target_model, a more generic version is possible but currently bugged
+ *  due to a problem in the compiler that doesn't allows to corretly pass models as parameters
+ */
+ 
+library Class2RDBMSMain;
+
+class TargetModelManager
+{
+	driverName 		: Standard::String;
+	EmfModelManager : EMFDriver::EMFModelManager;
+	MdrDriver       : MDRDriver::MDRModelManager;
+	ModFactDriver   : ModFactDriver::ModFactModelManager;
+
+	/*
+	 * external methods
+	 */
+	init(theDriverName : Standard::String)
+	{
+		driverName := theDriverName;
+		if (driverName = 'MDR') 
+		{
+			// we initialize the MDR driver			
+			MdrDriver := new MDRDriver::MDRModelManager();
+			MdrDriver.init();
+		}
+		elseif (driverName = 'ModFact')
+		{
+			// we initialize the MDR driver			
+			ModFactDriver := new ModFactDriver::ModFactModelManager();
+			ModFactDriver.init();
+		}
+		elseif (driverName = 'EMF')
+		{
+			EmfModelManager := new EMFDriver::EMFModelManager();
+		}
+		else 
+		{
+			'ERROR: don\'t know how to use the specified driver: "'.concat(driverName).concat('"\n').toErr();
+		}
+		
+	}
+	loadTargetModel(target_inputFilename, target_outputFilename : Standard::String)
+	{
+		if (driverName = 'MDR') 
+		{
+			loadTargetModelInMDR(target_inputFilename, target_outputFilename);
+		}
+		elseif (driverName = 'ModFact')
+		{
+			loadTargetModelInModFact(target_inputFilename, target_outputFilename);
+		}
+		elseif (driverName = 'EMF')
+		{
+			loadTargetModelInEMF(target_inputFilename, target_outputFilename);
+		}
+		else 
+		{
+			'ERROR: don\'t know how to use the specified driver: "'.concat(driverName).concat('"\n').toErr();
+		}
+	}
+	
+	storetargetModel()
+	{
+		if (driverName = 'EMF') 
+		{
+			'Storing EMF model'.toOut();
+			// store this model
+			EmfModelManager.saveModelToXMI('RDBMS_target_model');
+		}
+		elseif (driverName = 'MDR')
+		{// store this model
+			MdrDriver.storeModel('RDBMS_target_model');
+		}
+	}
+	disposetargetModel()
+	{
+		if (driverName = 'EMF') 
+		{
+			'Disposing EMF model'.toOut();
+			EmfModelManager.disposeModel('RDBMS_target_model');
+		}
+		elseif (driverName = 'MDR')
+		{
+			MdrDriver.disposeModel('RDBMS_target_model');
+		}				
+	}
+	
+	/*
+	 * internal methods
+	 */
+	loadTargetModelInMDR(target_inputFilename, target_outputFilename : Standard::String )
+	{
+		projectPath       : Standard::String;
+		target_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		target_metamodelFilename := projectPath.concat ('metamodels/XMI1.2_MOF1.4/RDBMS_MOF.xml');
+		
+	    
+		
+			
+		// intanciate the target model, no changes in the target model
+		target_model := MdrDriver.getModelFromXMI (
+			target_metamodelFilename, 
+			'RDBMS',		// name of the root element in the Uml1.4 metamodel
+			'RDBMS_target_model', 
+			target_inputFilename,
+			target_outputFilename
+		);
+	}
+	loadTargetModelInModFact(target_inputFilename, target_outputFilename : Standard::String )
+	{
+		projectPath       : Standard::String;
+		target_metamodelFilename : Standard::String;
+	
+		// we define some filenames 
+		projectPath       := '';
+		target_metamodelFilename := projectPath.concat ('metamodels/XMI1.2_MOF1.4/RDBMS_MOF.xml');
+		
+	    			
+		// intanciate the target model, no changes in the target model
+		target_model := ModFactDriver.getModelFromXMI (
+			target_metamodelFilename, 
+			'RDBMS',		// name of the root element in the Uml1.4 metamodel
+			'RDBMS_target_model', 
+			target_inputFilename,
+			target_outputFilename
+		);
+	}
+	loadTargetModelInEMF(target_inputFilename, target_outputFilename : Standard::String )
+	{
+		target_model := EmfModelManager.loadModelFromXMI(
+									'RDBMS_target_model', // name under which this model will be registered
+									'RDBMS',	// Name of the editing domain provider / file extension, case sensitive
+									target_inputFilename);
+		// Indicates where to save after changes have occured
+		EmfModelManager.saveModelAsXMI('RDBMS_target_model',
+								target_outputFilename);
+	
+	}
+}

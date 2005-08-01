@@ -1,0 +1,72 @@
+/******************************************************************************
+ * $Id: Class2RDBMS.mtl,v 1.1 2005-08-01 15:47:30 dvojtise Exp $
+ * Repository independent transformations that apply to SimpleUML models
+ *	includes : 
+ *		association 2 attributes 
+ *
+ ******************************************************************************/
+
+
+library Class2RDBMS;
+
+//-- Lib local models --
+//Repository models
+model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
+model target_model : RepositoryModel;		// must be conform to RDBMS MetaModel
+	// Note: the possibility to store the result into file other than the input file is handled by the driver itself
+	//		and thus is not visible here
+
+
+class Class2RDBMSTransfo
+{ 
+	/**
+	  * Connects the input model to this library for future use
+	  */
+	initmodel( a_source_model, a_target_model:RepositoryModel )
+	{
+	 	'Associations2Attributes.initmodels()'.toOut();
+		source_model := a_source_model;
+		target_model := a_target_model;
+	}
+	
+	
+	/******************************************** 
+	 * PrettyPrint Input Model
+	 ********************************************/
+	classModelToString() : Standard::String
+	{
+		result 			: Standard::String;
+		visitor 		: ToStringClassVisitor;
+		aVisitorResult  : VisitorResult;
+		aVisitorResultString  : Standard::String;
+		classifierSet 	: Standard::Set;
+		topLevelIterator : Standard::Iterator;
+		aClassifier 	: source_model::Classifier;
+		
+		
+		visitor := new ToStringClassVisitor();
+		visitor.init(new ToStringVisitorResultFactory());
+		//visitor := new Class2RDBMSPass1Visitor();
+		//visitor.init(new VisitorResultFactory());
+		
+		// we prepare a string for full display
+		result := '';
+		
+		classifierSet := !source_model::Classifier!.allInstances();
+		topLevelIterator := classifierSet.getNewIterator();
+		while (topLevelIterator.isOn())
+		{
+			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
+			aVisitorResult := aClassifier.accept (visitor, '');	
+			aVisitorResultString := aVisitorResult.toString();
+			result := result.concat (aVisitorResultString);
+			topLevelIterator.next ();
+		}	
+		
+		
+		
+		return result;
+	}
+	
+}
+

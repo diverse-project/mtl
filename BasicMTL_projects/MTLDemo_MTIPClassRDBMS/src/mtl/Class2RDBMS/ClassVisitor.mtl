@@ -1,0 +1,102 @@
+/************************************************
+***   $Id: ClassVisitor.mtl,v 1.1 2005-08-01 15:47:30 dvojtise Exp $
+***   File : ClassVisitor.mtl
+***   Library : ClassVisitors
+***   Author :dvojtise
+***   Date : August 1, 2005 9:21:25 AM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+
+
+	
+/** */
+class ClassVisitor extends DefaultVisitors::InvokableVisitor 
+{
+	resultFactory : VisitorResultFactory;
+	
+	
+	/** */
+	init (factory : VisitorResultFactory)
+	{
+		this.resultFactory := factory;
+	}
+	
+	
+	visitOclAny (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{	
+		return resultFactory.create ();
+	}
+	
+	/**	*/	
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass 		: source_model::Class;
+		result 			: VisitorResult;
+		
+		attributesIterator : Standard::Iterator;
+		aAttribute 		: source_model::Attribute;
+
+		assocIterator 	: Standard::Iterator;
+		aAssociation  	: source_model::Association;
+		
+
+		// we create the result
+		result := resultFactory.create ();// we retrieve the called object
+		theClass := instance.oclAsType (!source_model::Class!);
+		'ClassVisitor visiting Class'.toOut();
+		// we visit the Attribute objects
+		attributesIterator := theClass.attrs.getNewIterator();
+		while (attributesIterator.isOn())
+		{
+			aAttribute := attributesIterator.item().oclAsType (!source_model::Attribute!);
+			result.add (aAttribute.accept (this, context).oclAsType(!Standard::OclAny!));
+			attributesIterator.next();
+		}
+		
+		assocIterator := theClass.src.getNewIterator();
+		while (assocIterator.isOn())
+		{
+			aAssociation := assocIterator.item().oclAsType (!source_model::Association!);
+			result.add (aAssociation.accept (this, context).oclAsType(!Standard::OclAny!));
+			assocIterator.next();
+		}
+		return result;
+	}
+	/**	*/	
+	visitAttribute (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAttribute: source_model::Attribute;
+		result : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theAttribute := instance.oclAsType (!source_model::Attribute!);
+		'ClassVisitor visiting Attribute'.toOut();
+		/*
+		theAttribute.getType().accept (this, context);*/
+		
+		return result;
+	}
+	
+		/**	*/	
+	visitAssociation (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAssociation: source_model::Association;
+		result : VisitorResult;
+
+		// we create the result
+		result := resultFactory.create ();
+
+		// we retrieve the called object
+		theAttribute := instance.oclAsType (!source_model::Association!);
+		'ClassVisitor visiting Association'.toOut();
+		/*
+		theAttribute.getType().accept (this, context);*/
+		
+		return result;
+	}
+}

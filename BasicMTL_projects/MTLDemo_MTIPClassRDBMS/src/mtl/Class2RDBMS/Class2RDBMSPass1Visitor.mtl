@@ -1,0 +1,67 @@
+/************************************************
+***   $Id: Class2RDBMSPass1Visitor.mtl,v 1.1 2005-08-01 15:47:31 dvojtise Exp $
+***   File : ToStringClassVisitor.mtl
+***   Library : Visitors
+***   Version : 0.1 
+***   Author :dvojtise
+***   Date : August 1, 2005 10:09:17 AM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+/** */
+class Class2RDBMSPass1VisitorResultFactory extends VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new TostringVisitorResult().init ();
+	}
+}
+
+/** */ 
+class Class2RDBMSPass1Visitor extends ClassVisitor
+{
+	/** */
+	init () : ToStringClassVisitor 
+	{
+		this.oclAsType(!ClassVisitor!).init (new VisitorResultFactory());
+		return this;
+	}
+	
+	
+	/** */
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass : source_model::Class;
+		result   : VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		theTable : target_model::Table;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theClass := instance.oclAsType (!source_model::Class!);
+
+		// if persistent create a table
+		if(theClass.is_persistent)
+		{
+		 	theTable := new target_model::Table();
+		 	theTable.name := theClass.name;
+		}
+		
+
+		result.add (theTable);
+		
+		// we increase the indentation
+		indent := indent.concat ('    ');
+
+		// we call the parent
+		result.add (this.oclAsType(!ClassVisitor!).visitClass(instance, indent));
+		
+		return result;				
+	}
+	
+}

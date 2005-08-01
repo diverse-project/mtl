@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Association2Attributes.mtl,v 1.1 2005-07-29 14:57:26 dvojtise Exp $
+ * $Id: Association2Attributes.mtl,v 1.2 2005-08-01 15:47:32 dvojtise Exp $
  * Repository independent transformations that apply to SimpleUML models
  *	includes : 
  *		association 2 attributes 
@@ -11,10 +11,11 @@ library Class2RDBMS;
 
 //-- Lib local models --
 //Repository models
-model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
+//model source_model : RepositoryModel;		// must be conform to SimpleUML MetaModel
 	// Note: the possibility to store the result into file other than the input file is handled by the driver itself
 	//		and thus is not visible here
 
+//model visitors : Visitors;
 
 class Associations2Attributes
 { 
@@ -26,6 +27,10 @@ class Associations2Attributes
 	 	'Associations2Attributes.initmodels()'.toOut();
 		source_model := a_source_model;
 	}
+	
+	
+	
+	
 	/******************************************** 
 	 * break all associations in two attributes
 	 ********************************************/

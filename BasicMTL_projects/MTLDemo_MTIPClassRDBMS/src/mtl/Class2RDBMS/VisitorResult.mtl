@@ -1,0 +1,110 @@
+/************************************************
+***   $Id: VisitorResult.mtl,v 1.1 2005-08-01 15:47:32 dvojtise Exp $
+***   File : VisitorResult.mtl
+***   Library : Visitors
+***   Version : 0.1 
+***   Author :dvojtise
+***   Date : August 1, 2005 9:28:47 AM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+/** This is a simple collection used to collect the result of a visit 
+ * It gives convenience prettyprint method
+ */
+ 
+ 
+/** */
+class VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new VisitorResult().init();
+	}
+}
+ 
+class VisitorResult
+{
+	set : Standard::Set;
+	
+	init () : VisitorResult
+	{	
+		set := new Standard::Set ();
+		return this;
+	}
+	
+	add (elt : Standard::OclAny) : VisitorResult
+	{
+		if (isNull(elt).not())
+		{
+			set := set.including (elt);
+		}
+
+		return this;
+	}
+	
+	toString() : Standard::String
+	{
+		result   : Standard::String;
+		iterator : Standard::Iterator;		
+		item     : Standard::OclAny;
+		found : Standard::Boolean;
+		
+		result := '';
+
+		iterator := this.set.getNewIterator();
+		while (iterator.isOn())
+		{
+			item := iterator.item();
+
+			found := false;
+
+			if (found.[=](false).and (item.oclIsKindOf(!Standard::String!)) )
+			{
+				result := result.concat (item.oclAsType(!Standard::String!));
+				found := true;				
+			}
+
+
+			if (found.[=](false).and (item.oclIsKindOf(!VisitorResult!)) )
+			{
+				result := result.concat (item.oclAsType(!VisitorResult!).toString());
+				found := true;				
+			}
+
+			if (found.[=](false))
+			{
+				'NOT FOUND'.toOut();
+				item.toOut();
+			}
+
+			iterator.next();
+		}
+	
+		return result;
+	}
+}
+
+/** */
+class TostringVisitorResult extends VisitorResult
+{
+	init () : VisitorResult
+	{
+		this.oclAsType(!VisitorResult!).init();
+		return this;
+	}
+	
+	add (elt : Standard::OclAny) : VisitorResult
+	{
+		str : Standard::String;
+		
+		if (elt.oclIsTypeOf (!Standard::String!))
+		{
+			str := elt.oclAsType (!Standard::String!);
+			str := str.concat ('\n');
+			elt := str.oclAsType (!Standard::OclAny!);
+			//elt.toOut();
+		}
+		return this.oclAsType (!VisitorResult!).add (elt);
+	}
+}

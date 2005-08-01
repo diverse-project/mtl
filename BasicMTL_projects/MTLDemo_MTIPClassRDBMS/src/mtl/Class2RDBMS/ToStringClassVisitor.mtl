@@ -1,0 +1,96 @@
+/************************************************
+***   $Id: ToStringClassVisitor.mtl,v 1.1 2005-08-01 15:47:31 dvojtise Exp $
+***   File : ToStringClassVisitor.mtl
+***   Library : Visitors
+***   Version : 0.1 
+***   Author :dvojtise
+***   Date : August 1, 2005 10:09:17 AM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+/** */
+class ToStringVisitorResultFactory extends VisitorResultFactory
+{
+	create () : VisitorResult
+	{
+		return new TostringVisitorResult().init ();
+	}
+}
+
+/** */ 
+class ToStringClassVisitor extends ClassVisitor
+{
+	/** */
+	init () : ToStringClassVisitor 
+	{
+		this.oclAsType(!ClassVisitor!).init (new ToStringVisitorResultFactory());
+		return this;
+	}
+	
+	
+	/** */
+	visitClass (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theClass : source_model::Class;
+		result   : VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theClass := instance.oclAsType (!source_model::Class!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('CLASS ');
+		str := str.concat (theClass.name.oclAsType (!Standard::String!));		
+		'ToStringClassVisitor visiting Class'.toOut();
+		result.add (str);
+		
+		// we increase the indentation
+		indent := indent.concat ('    ');
+
+		// we call the parent
+		result.add (this.oclAsType(!ClassVisitor!).visitClass(instance, indent));
+		
+		return result;				
+	}
+	
+	/** */
+	visitAttribute (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAttribute : source_model::Attribute;
+		result   : VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theAttribute := instance.oclAsType (!source_model::Attribute!);
+
+		// for this visitor, we use the context for indentation
+		indent := context.oclAsType (!Standard::String!);
+
+		// we build the result
+		str := indent;
+		str := str.concat ('ATTRIBUTE ');
+		str := str.concat (theAttribute.name.oclAsType(!Standard::String!));
+		str := str.concat (' of type ');
+		'ToStringClassVisitor visiting Attribute'.toOut();
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ClassVisitor!).visitAttribute(instance, indent));
+		
+		return result;				
+	}
+	
+}

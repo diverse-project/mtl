@@ -1,5 +1,5 @@
 /*
- * $Id: Main.mtl,v 1.1 2005-07-29 14:57:20 dvojtise Exp $
+ * $Id: Main.mtl,v 1.2 2005-08-01 15:47:29 dvojtise Exp $
  *
  * Sample of use of associations2attribute with a MDR repository
  */
@@ -21,12 +21,13 @@ model Class2RDBMS_lib : Class2RDBMS;
 main(args : Standard::Sequence):Standard::Void 
 {
 	argsParser 			: ArgumentsParser;
-	aSourceModelManager : sourceModelManager;
+	aSourceModelManager : SourceModelManager;
+	aTargetModelManager : TargetModelManager;
 	sourceFileName		: Standard::String;
 	destFileName		: Standard::String;
 	driverName			: Standard::String;
 		
-	anClass2RDBMSTransfo : Class2RDBMS::Associations2Attributes;
+	aClass2RDBMSTransfo : Class2RDBMS::Class2RDBMSTransfo;
 
 	// we initialize the arguments parser
 	argsParser := new ArgumentsParser ();
@@ -38,21 +39,24 @@ main(args : Standard::Sequence):Standard::Void
 	// instanciate transformation lib
 	Class2RDBMS_lib := new Class2RDBMS();
 			
-	aSourceModelManager := new sourceModelManager();
+	aSourceModelManager := new SourceModelManager();
+	aTargetModelManager := new TargetModelManager();
 	sourceFileName := argsParser.getArg();
 	destFileName := argsParser.getArg();
 	driverName := argsParser.getArg();
 	
 	'driverName='.concat(driverName).toOut();
 	aSourceModelManager.init(driverName);
-	aSourceModelManager.loadSourceModel (sourceFileName, destFileName);
+	aSourceModelManager.loadSourceModel (sourceFileName, null);
+	aTargetModelManager.init(driverName);
+	aTargetModelManager.loadTargetModel (null, destFileName);
 	
 		
 		// instanciate transformation tool class, and initialize the library models	
-	anClass2RDBMSTransfo := new Class2RDBMS_lib::Associations2Attributes();
-	anClass2RDBMSTransfo.initmodel(source_model);
+	aClass2RDBMSTransfo := new Class2RDBMS_lib::Class2RDBMSTransfo();
+	aClass2RDBMSTransfo.initmodel(source_model, target_model);
 		// start the transformation
-	anClass2RDBMSTransfo.associations2attributes();
+	aClass2RDBMSTransfo.classModelToString().toOut();
 
     aSourceModelManager.storeSourceModel(); 
 	aSourceModelManager.disposeSourceModel();
