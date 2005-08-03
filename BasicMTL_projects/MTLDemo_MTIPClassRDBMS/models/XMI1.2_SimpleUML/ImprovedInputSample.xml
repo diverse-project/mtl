@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'ISO-8859-1' ?>
-<XMI xmi.version = '1.2' timestamp = 'Tue Aug 02 11:27:04 CEST 2005'>
+<XMI xmi.version = '1.2' timestamp = 'Wed Aug 03 17:25:19 CEST 2005'>
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
@@ -34,9 +34,11 @@
         </SimpleUML.Attribute>
       </SimpleUML.Class.attrs>
     </SimpleUML.Class>
+    <SimpleUML.Class xmi.id = 'a9' name = 'Delivery' is_persistent = 'false'/>
+    <SimpleUML.Class xmi.id = 'a10' name = 'Vendor' is_persistent = 'false'/>
     <SimpleUML.PrimitiveDataType xmi.id = 'a3' name = 'int'/>
     <SimpleUML.PrimitiveDataType xmi.id = 'a6' name = 'string'/>
-    <SimpleUML.Association xmi.id = 'a9' name = 'customer'>
+    <SimpleUML.Association xmi.id = 'a11' name = 'customer'>
       <SimpleUML.Association.src>
         <SimpleUML.Class xmi.idref = 'a1'/>
       </SimpleUML.Association.src>
@@ -44,12 +46,44 @@
         <SimpleUML.Class xmi.idref = 'a4'/>
       </SimpleUML.Association.dest>
     </SimpleUML.Association>
-    <SimpleUML.Association xmi.id = 'a10' name = 'address'>
+    <SimpleUML.Association xmi.id = 'a12' name = 'address'>
       <SimpleUML.Association.src>
         <SimpleUML.Class xmi.idref = 'a4'/>
       </SimpleUML.Association.src>
       <SimpleUML.Association.dest>
         <SimpleUML.Class xmi.idref = 'a7'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+    <SimpleUML.Association xmi.id = 'a13' name = 'delivery'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a1'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a9'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+    <SimpleUML.Association xmi.id = 'a14' name = 'address'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a9'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a7'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+    <SimpleUML.Association xmi.id = 'a15' name = 'vendor'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a1'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a10'/>
+      </SimpleUML.Association.dest>
+    </SimpleUML.Association>
+    <SimpleUML.Association xmi.id = 'a16' name = 'client'>
+      <SimpleUML.Association.src>
+        <SimpleUML.Class xmi.idref = 'a10'/>
+      </SimpleUML.Association.src>
+      <SimpleUML.Association.dest>
+        <SimpleUML.Class xmi.idref = 'a4'/>
       </SimpleUML.Association.dest>
     </SimpleUML.Association>
   </XMI.content>

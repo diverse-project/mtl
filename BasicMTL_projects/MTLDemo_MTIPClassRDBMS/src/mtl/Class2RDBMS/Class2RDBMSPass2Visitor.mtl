@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: Class2RDBMSPass2Visitor.mtl,v 1.1 2005-08-03 14:41:39 dvojtise Exp $
+***   $Id: Class2RDBMSPass2Visitor.mtl,v 1.2 2005-08-03 16:34:40 dvojtise Exp $
 ***   File : ToStringClassVisitor.mtl
 ***   Library : Visitors
 ***   Version : 0.1 
@@ -100,6 +100,12 @@ class Class2RDBMSPass2Visitor extends ClassVisitor
 		result 			: VisitorResult;
 		attIterator 	: Standard::Iterator;
 		newPrefix 		: Standard::String;
+		sourceItemIt	: Standard::Iterator;
+		item			: ClassAndPathItem;
+		
+		asourceClass	: source_model::Class;
+		
+		
 
 		// we create the result
 		result := this.resultFactory.create ();
@@ -117,38 +123,34 @@ class Class2RDBMSPass2Visitor extends ClassVisitor
 		// for each of the dest which are non persistent we must consider it as part of this class 
 		// and then create primary key in this class table with a special rule
 			// create a column for each of the primary keys (all primary attributes) of the dest class
-		if classHelper.isClassPersistent(srcClass) and classHelper.isClassPersistent(destClass)
+		/*if classHelper.isClassPersistent(srcClass) and classHelper.isClassPersistent(destClass)
 		{			
 			theTable := trace.exists(srcClass).oclAsType (!target_model::Table!);
 			newPrefix := theAssociation.name.oclAsType(!Standard::String!);
 			newPrefix := newPrefix.concat('_');
 			class2RDBMSHelper.createFColumnsForNonPersistentClass(destClass, theTable, newPrefix);
-		}
-		
-		
-		// TODO traiter les autres cas recursivement
-		
-		
-		// for each of the dest which are non persistent we must consider it as part of this class 
-		// and then create primary key in this class table with a special rule
-			// create a column for each of the primary keys (all primary attributes) of the dest class
-		/*if not classHelper.isClassPersistent(destClass)
+		}*/
+		/* deal with long chain of not persistent classes between two persistent classes */
+		if classHelper.isClassPersistent(srcClass) 
 		{
-			// find all the TopPersistentSrcClass of this association
-			// we know that the table linked to the source already exists for this class
-			theTable := trace.exists(srcClass).oclAsType (!target_model::Table!);
-			attIterator := destClass.attrs.getNewIterator();
-			while (attIterator.isOn())
+			'********1*********'.toOut();
+			// we need to retreive the sources classes and create foreign keys for them
+			sourceItemIt := classHelper.getPersistentSourcesAndPath(srcClass).getNewIterator();
+			'********2*********'.toOut();
+			while sourceItemIt.isOn()
 			{
-				anAttribute := attIterator.item().oclAsType (!source_model::Attribute!);
-				namePrefix := destClass.name;
-				namePrefix := namePrefix.concat('_');
-				theColumn := class2RDBMSHelper.createColumnFromAttribute(anAttribute, theTable, namePrefix);
-				attIterator.next();
+				'********3*********'.toOut();
+				item := sourceItemIt.item().oclAsType(!ClassAndPathItem!);
+				'********4*********'.toOut();
+				asourceClass := item.modelClass.oclAsType(!source_model::Class!);
+				theTable := trace.exists(asourceClass).oclAsType (!target_model::Table!);
+				newPrefix := item.path.oclAsType(!Standard::String!);
+				class2RDBMSHelper.createFColumnsForNonPersistentClass(srcClass, theTable, newPrefix);
+				sourceItemIt.next();
 			}
+			'********5*********'.toOut();
 		}
-		// we call the parent
-		result.add (this.oclAsType(!ClassVisitor!).visitAssociation(instance, instance));*/
+		
 		return result;
 	}
 }

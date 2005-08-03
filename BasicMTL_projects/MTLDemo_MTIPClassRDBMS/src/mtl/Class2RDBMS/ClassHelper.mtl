@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: ClassHelper.mtl,v 1.1 2005-08-03 14:41:38 dvojtise Exp $
+***   $Id: ClassHelper.mtl,v 1.2 2005-08-03 16:34:35 dvojtise Exp $
 ***   File : ClassHelper.mtl
 ***   Library : Class2RDBMS
 ***   Version : 0.1 
@@ -65,5 +65,63 @@ class ClassHelper
 		}
 		return result;
 	}
+	
+	/* retreives all the opersistent classes that are source of this class */
+	getPersistentSourcesAndPath(theClass : source_model::Class) : Standard::Set
+	{
+		result : Standard::Set;
+		result := new Standard::Set();
+		result := getPersistentSourcesAndPathRecursive(theClass, result, '');
+		return result;
+	}
+	getPersistentSourcesAndPathRecursive(theClass : source_model::Class; result : Standard::Set; currentPath : Standard::String) : Standard::Set
+	{
+		assocIterator 	: Standard::Iterator;
+		anAssociation 	: source_model::Association;
+		item			: ClassAndPathItem;
+		newPath			: Standard::String;
+		
+		'   1 getPersistentSourcesAndPathRecursive'.toOut();
+		assocIterator := !source_model::Association!.allInstances().getNewIterator();
+		while (assocIterator.isOn())
+		{
+			anAssociation := assocIterator.item().oclAsType (!source_model::Association!);
+			'   2 getPersistentSourcesAndPathRecursive'.toOut();
+			if( anAssociation.dest.[=](theClass))
+			{	
+				'   2b getPersistentSourcesAndPathRecursive'.toOut();
+				newPath := anAssociation.name.oclAsType(!Standard::String!).concat('_');
+				newPath :=  newPath.concat(currentPath);
+				'   3 getPersistentSourcesAndPathRecursive'.toOut();
+				// this assoc imply this class as dest
+				// let's look to the src
+				if isClassPersistent(anAssociation.src.oclAsType(!source_model::Class!))
+				{
+					
+					'   4 getPersistentSourcesAndPathRecursive'.toOut();
+					item := new ClassAndPathItem();
+					item.modelClass := anAssociation.src.oclAsType(!source_model::Class!);
+					item.path := newPath;
+					result := result.including(item);
+				}
+				else
+				{
+					
+					'   4b getPersistentSourcesAndPathRecursive'.toOut();
+					// recursive
+					result := getPersistentSourcesAndPathRecursive(anAssociation.src.oclAsType(!source_model::Class!), result, newPath);
+				}
+			}
+			'   2end getPersistentSourcesAndPathRecursive'.toOut();
+			assocIterator.next();
+		}
+		return result;
+	}
 
+}
+
+class ClassAndPathItem
+{
+	modelClass   : source_model::Class;
+	path : Standard::String;
 }
