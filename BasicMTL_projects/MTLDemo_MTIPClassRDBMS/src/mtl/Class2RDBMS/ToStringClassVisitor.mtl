@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: ToStringClassVisitor.mtl,v 1.1 2005-08-01 15:47:31 dvojtise Exp $
+***   $Id: ToStringClassVisitor.mtl,v 1.2 2005-08-03 14:41:40 dvojtise Exp $
 ***   File : ToStringClassVisitor.mtl
 ***   Library : Visitors
 ***   Version : 0.1 
@@ -84,6 +84,7 @@ class ToStringClassVisitor extends ClassVisitor
 		str := str.concat ('ATTRIBUTE ');
 		str := str.concat (theAttribute.name.oclAsType(!Standard::String!));
 		str := str.concat (' of type ');
+		str := str.concat (theAttribute.type.name.oclAsType(!Standard::String!));
 		'ToStringClassVisitor visiting Attribute'.toOut();
 		result.add (str);
 		
@@ -93,4 +94,36 @@ class ToStringClassVisitor extends ClassVisitor
 		return result;				
 	}
 	
+	/** */
+	visitAssociation (instance : Standard::OclAny; context : Standard::OclAny) : Standard::OclAny
+	{
+		theAssociation : source_model::Association;
+		result   : VisitorResult;
+		indent   : Standard::String;
+		str      : Standard::String;
+		
+		// we create a new visitor result
+		result := this.resultFactory.create ();
+
+		// we retrieve the called object
+		theAssociation := instance.oclAsType (!source_model::Association!);		
+
+		// we build the result
+		str := '';
+		str := str.concat ('ASSOCIATION ');
+		str := str.concat (theAssociation.name.oclAsType(!Standard::String!));
+		str := str.concat (' from ');
+		str := str.concat (theAssociation.src.name.oclAsType(!Standard::String!));
+		str := str.concat (' to ');
+		str := str.concat (theAssociation.dest.name.oclAsType(!Standard::String!));
+		
+		'ToStringClassVisitor visiting Association'.toOut();
+		result.add (str);
+		
+		// we call the parent
+		result.add (this.oclAsType(!ClassVisitor!).visitAssociation(instance, indent));
+		
+		return result;				
+	}
+		
 }

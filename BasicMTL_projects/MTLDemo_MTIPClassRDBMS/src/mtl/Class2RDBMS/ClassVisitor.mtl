@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: ClassVisitor.mtl,v 1.1 2005-08-01 15:47:30 dvojtise Exp $
+***   $Id: ClassVisitor.mtl,v 1.2 2005-08-03 14:41:39 dvojtise Exp $
 ***   File : ClassVisitor.mtl
 ***   Library : ClassVisitors
 ***   Author :dvojtise
@@ -54,14 +54,24 @@ class ClassVisitor extends DefaultVisitors::InvokableVisitor
 			result.add (aAttribute.accept (this, context).oclAsType(!Standard::OclAny!));
 			attributesIterator.next();
 		}
+		'	ClassVisitor visiting Class: end of attributes'.toOut();
 		
-		assocIterator := theClass.src.getNewIterator();
+		// this would have been better if the association has been navigable. as metamodel is not
+		// navigable this way, we have to retreive it in another way.
+		
+		assocIterator := !source_model::Association!.allInstances().getNewIterator();
 		while (assocIterator.isOn())
 		{
 			aAssociation := assocIterator.item().oclAsType (!source_model::Association!);
-			result.add (aAssociation.accept (this, context).oclAsType(!Standard::OclAny!));
+			if( aAssociation.src.[=](theClass))
+			{	// visit only association for which this class is source (ensures that we visit only once) 
+				'trying assoc valid => call accept'.toOut();
+				//aAssociation.accept(this, context);
+				result.add (aAssociation.accept (this, context).oclAsType(!Standard::OclAny!));
+			}
 			assocIterator.next();
 		}
+		'	ClassVisitor visiting Class: end'.toOut();
 		return result;
 	}
 	/**	*/	
@@ -92,7 +102,7 @@ class ClassVisitor extends DefaultVisitors::InvokableVisitor
 		result := resultFactory.create ();
 
 		// we retrieve the called object
-		theAttribute := instance.oclAsType (!source_model::Association!);
+		theAssociation := instance.oclAsType (!source_model::Association!);
 		'ClassVisitor visiting Association'.toOut();
 		/*
 		theAttribute.getType().accept (this, context);*/

@@ -1,0 +1,87 @@
+/******************************************************************************
+ * $Id: HashTable.mtl,v 1.1 2005-08-03 14:41:40 dvojtise Exp $
+ ******************************************************************************/
+
+library Class2RDBMS;
+
+/******************************************************************************/
+
+class HashTableItem
+{
+	key   : Standard::OclAny;
+	value : Standard::OclAny;
+	
+	/** */
+	init (
+		key   : Standard::OclAny;
+		value : Standard::OclAny
+	) : HashTableItem
+	{
+		this.key   := key;
+		this.value := value;
+		return this;
+	}
+
+	/** */
+	setValue (
+		value : Standard::OclAny
+	)
+	{
+		this.value := value;
+	}
+}
+
+
+/******************************************************************************/
+
+class HashTable
+{
+	table : Standard::Set;
+	
+	/** */
+	init () : HashTable
+	{
+		this.table := new Standard::Set ();
+		return this;
+	}
+
+
+	/** */
+	add (
+		key   : Standard::OclAny;
+		value : Standard::OclAny
+	) : HashTableItem
+	{
+		result : HashTableItem;
+
+		result := new HashTableItem().init(key,value);
+
+		this.table := this.table.including (result);
+		
+		return result;
+	}
+
+
+	/** */
+	exists (key: Standard::OclAny) : Standard::OclAny
+	{
+		result   : Standard::OclAny;
+		iterator : Standard::Iterator;
+		item     : HashTableItem;
+
+		result := null;
+
+		iterator := this.table.getNewIterator();
+		while (isNull(result).and(iterator.isOn()))
+		{
+			item := iterator.item().oclAsType (!HashTableItem!);
+			if (item.key[=](key))
+			{
+				result := item.value;
+			}
+			iterator.next ();
+		}		
+		return result;
+	}
+
+}

@@ -1,0 +1,69 @@
+/************************************************
+***   $Id: ClassHelper.mtl,v 1.1 2005-08-03 14:41:38 dvojtise Exp $
+***   File : ClassHelper.mtl
+***   Library : Class2RDBMS
+***   Version : 0.1 
+***   Author :dvojtise
+***   Date : August 2, 2005 4:51:26 PM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+class ClassHelper
+{
+	
+	/** a class is persitent according to its topmost parent persistent status*/
+	isClassPersistent(theClass : source_model::Class) : Standard::Boolean
+	{
+		
+		if isNull(theClass.parent)
+		{ 
+			return theClass.is_persistent;
+		}
+		else
+		{
+			return isClassPersistent(theClass.parent.oclAsType(!source_model::Class!));
+		}
+		
+	}
+	
+	
+	isPrimitive(theClassifier : Standard::OclAny ) : Standard::Boolean
+	{
+		return theClassifier.oclIsKindOf(!source_model::PrimitiveDataType!);
+		
+	}
+	
+	/** return the top parent or itself */
+	getTopParent(theClass : source_model::Class) : source_model::Class
+	{
+		if isNull(theClass.parent)
+		{
+			return theClass;
+		}
+		else
+		{
+			return getTopParent(theClass.parent.oclAsType(!source_model::Class!));
+		}
+	}
+	
+	getDestAssoc(theClass : source_model::Class) : Standard::Set
+	{
+		assocIterator : Standard::Iterator;
+		result : Standard::Set;
+		anAssociation : source_model::Association;
+		
+		result := new Standard::Set();
+		assocIterator := !source_model::Association!.allInstances().getNewIterator();
+		while (assocIterator.isOn())
+		{
+			anAssociation := assocIterator.item().oclAsType (!source_model::Association!);
+			if( anAssociation.src.[=](theClass))
+			{	result:= result.including(anAssociation);
+			}
+			assocIterator.next();
+		}
+		return result;
+	}
+
+}

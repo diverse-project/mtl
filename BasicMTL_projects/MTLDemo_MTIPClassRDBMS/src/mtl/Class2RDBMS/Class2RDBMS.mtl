@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Class2RDBMS.mtl,v 1.1 2005-08-01 15:47:30 dvojtise Exp $
+ * $Id: Class2RDBMS.mtl,v 1.2 2005-08-03 14:41:39 dvojtise Exp $
  * Repository independent transformations that apply to SimpleUML models
  *	includes : 
  *		association 2 attributes 
@@ -36,37 +36,90 @@ class Class2RDBMSTransfo
 	classModelToString() : Standard::String
 	{
 		result 			: Standard::String;
-		visitor 		: ToStringClassVisitor;
+		visitor0 		: ClassVisitor;
+		visitor1 		: Class2RDBMSPass1Visitor;
+		visitor2 		: Class2RDBMSPass2Visitor;
 		aVisitorResult  : VisitorResult;
 		aVisitorResultString  : Standard::String;
 		classifierSet 	: Standard::Set;
-		topLevelIterator : Standard::Iterator;
+		associationSet 	: Standard::Set;
+		topLevelIterator: Standard::Iterator;
 		aClassifier 	: source_model::Classifier;
+		anAssociation 	: source_model::Association;
+		trace			: HashTable;
 		
-		
-		visitor := new ToStringClassVisitor();
-		visitor.init(new ToStringVisitorResultFactory());
-		//visitor := new Class2RDBMSPass1Visitor();
-		//visitor.init(new VisitorResultFactory());
+		trace := new HashTable();
+		trace.init();
+		visitor0 := new ToStringClassVisitor();
+		visitor0.init(new ToStringVisitorResultFactory());
+		visitor1 := new Class2RDBMSPass1Visitor();
+		visitor1.init(new VisitorResultFactory());
+		visitor1.initTrace(trace);
+		visitor2 := new Class2RDBMSPass2Visitor();
+		visitor2.init(new VisitorResultFactory());
+		visitor2.initTrace(trace);
 		
 		// we prepare a string for full display
 		result := '';
+	/*	
+		classifierSet := !source_model::Classifier!.allInstances();
+		topLevelIterator := classifierSet.getNewIterator();
+		while (topLevelIterator.isOn())
+		{
+			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
+			aVisitorResult := aClassifier.accept (visitor1, '');	
+			aVisitorResultString := aVisitorResult.toString();
+			result := result.concat (aVisitorResultString);
+			topLevelIterator.next ();
+		}
+		*/
+		
+		
+		/* pass 1, creates all toplevel table from persitent classes
+		it takjes care of inheritance
+		*/
+		callVisitorOnTopElements(visitor1);
+	/*	classifierSet := !source_model::Classifier!.allInstances();
+		topLevelIterator := classifierSet.getNewIterator();
+		while (topLevelIterator.isOn())
+		{
+			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
+			aClassifier.accept (visitor1, '');	
+			topLevelIterator.next ();
+			'1 topLevel Classifier done'.toOut();
+		}*/
+		
+		/* pass 2, 
+		*/	
+		callVisitorOnTopElements(visitor2);
+/*		classifierSet := !source_model::Classifier!.allInstances();
+		topLevelIterator := classifierSet.getNewIterator();
+		while (topLevelIterator.isOn())
+		{
+			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
+			aClassifier.accept (visitor2, '');	
+			topLevelIterator.next ();
+			'1 topLevel Classifier done'.toOut();
+		}	
+			
+			*/					
+		return result;
+	}
+	callVisitorOnTopElements(visitor 		: ClassVisitor)
+	{
+		
+		classifierSet 	: Standard::Set;
+		topLevelIterator: Standard::Iterator;
+		aClassifier 	: source_model::Classifier;
 		
 		classifierSet := !source_model::Classifier!.allInstances();
 		topLevelIterator := classifierSet.getNewIterator();
 		while (topLevelIterator.isOn())
 		{
 			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
-			aVisitorResult := aClassifier.accept (visitor, '');	
-			aVisitorResultString := aVisitorResult.toString();
-			result := result.concat (aVisitorResultString);
+			aClassifier.accept (visitor, '');	
 			topLevelIterator.next ();
-		}	
-		
-		
-		
-		return result;
+		}
 	}
-	
 }
 

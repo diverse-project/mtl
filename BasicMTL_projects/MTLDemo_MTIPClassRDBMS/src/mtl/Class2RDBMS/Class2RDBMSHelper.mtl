@@ -1,0 +1,230 @@
+/************************************************
+***   $Id: Class2RDBMSHelper.mtl,v 1.1 2005-08-03 14:41:40 dvojtise Exp $
+***   File : Class2RDBMSHelper.mtl
+***   Library : Class2RDBMS
+***   Version : 0.1 
+***   Author :dvojtise
+***   Date : August 3, 2005 9:34:38 AM CEST
+*************************************************/
+
+library Class2RDBMS;
+
+/** useful method that are used by more than one pass */
+class Class2RDBMSHelper
+{
+	trace    			: HashTable;
+	classHelper			: ClassHelper;
+	
+	init(theTrace : HashTable) : Class2RDBMSHelper
+	{
+		trace := theTrace;
+		classHelper :=  new ClassHelper();
+		return this;
+	}
+	
+	/** create (or get if it already exist) a table for this class */
+	getTableForClass(theClass : source_model::Class) : target_model::Table
+	{
+		theTable : target_model::Table;
+		theTable := trace.exists(theClass);
+		if isNull(theTable)
+		{
+			theTable := new target_model::Table();
+		 	theTable.name := theClass.name;
+		 	trace.add(theClass, theTable);
+		}
+		return theTable;
+	}
+	
+	
+	// create the columns associated to foreign keys
+	createFColumnsForNonPersistentClass(
+				theClass: source_model::Class;
+				theTable : target_model::Table;
+				namePrefix : Standard::String)
+	{
+		it 			: Standard::Iterator;
+		anAssoc 	: source_model::Association;
+		anAttribute : source_model::Attribute;
+		aFKey 		: target_model::FKey;
+		newPrefix 	: Standard::String;
+		targetTable : target_model::Table;
+		aColumn		: target_model::Column;
+		
+		'>>>>>createFColumnsForNonPersistentClass'.toOut();
+		aFKey := new target_model::FKey();
+		associate (fkeys := aFKey : target_model::FKey, table := theTable : target_model::Table);
+		'--1--createFColumnsForNonPersistentClass'.toOut();
+		// retrieve target table for this class
+		targetTable := trace.exists(theClass).oclAsType (!target_model::Table!);
+		associate (fkeyreferers := aFKey : target_model::FKey, references := targetTable : target_model::Table);
+		
+		// for each primary colum of the class
+			// add a column
+		'--11-createFColumnsForNonPersistentClass'.toOut();
+		theClass.toOut();
+		theClass.name.toOut();
+		targetTable.toOut();
+		it := targetTable.pkey.getNewIterator();
+		'--2--createFColumnsForNonPersistentClass'.toOut();
+		while (it.isOn())
+		{
+			aColumn := it.item().oclAsType(!source_model::Column!);
+			//newPrefix := namePrefix.concat(theClass.name.oclAsType(!Standard::String!));
+			//newPrefix := newPrefix.concat('_');
+			newPrefix := namePrefix;
+			'--3--createFColumnsForNonPersistentClass'.toOut();
+			createColumnFromPColumn(aColumn, theTable, aFKey, newPrefix);
+			it.next ();		
+		}
+		'<<<<<<createFColumnsForNonPersistentClass'.toOut();	
+	}
+	
+	createColumnFromPColumn(aColumn : target_model::Column; 
+							theTable: target_model::Table;
+							aFKey : target_model::FKey; 
+							newPrefix : Standard::String)
+	{		
+		newName : Standard::String;		
+		newColumn	: target_model::Column;
+				
+		
+		'    >>>>>>createColumnFromPColumn'.toOut();				
+		newName := newPrefix.concat(aColumn.name.oclAsType(!Standard::String!));
+		
+	 	newColumn := new target_model::Column();
+	 	newColumn.name := newName;
+		newColumn.type := aColumn.type;
+		'    ---1--createColumnFromPColumn'.toOut();
+	 	associate (cols := newColumn : target_model::Column,owner := theTable : target_model::Table );
+		'    ---2--createColumnFromPColumn'.toOut();
+	 	associate (cols := newColumn : target_model::Column, foreignkeys := aFKey : target_model::FKey );
+	 	
+		'    <<<<<<createColumnFromPColumn'.toOut();
+	}
+	
+	// add the created columns to the table
+	// use the given prefix for column name
+	createColumnsForNonPersistentClass(
+				theClass: source_model::Class;
+				theTable : target_model::Table;
+				namePrefix : Standard::String)
+	{
+		it 			: Standard::Iterator;
+		anAssoc 	: source_model::Association;
+		anAttribute : source_model::Attribute;
+		newPrefix 	: Standard::String;
+		
+		// for each attributes
+			//createColsFromAttribute
+		it := theClass.attrs.getNewIterator();
+		while (it.isOn())
+		{
+			anAttribute := it.item().oclAsType(!source_model::Attribute!);
+			//newPrefix := namePrefix.concat(theClass.name.oclAsType(!Standard::String!));
+			//newPrefix := newPrefix.concat('_');
+			newPrefix := namePrefix;
+			createColumnFromAttribute(anAttribute, theTable, newPrefix);
+			it.next ();		
+		}	
+		// for each of the assoc pointing to the class try to find the persistent class
+		// for each associations
+			// if dest is not persistent 
+				//createColumnsForNonPersistentClass
+		it := classHelper.getDestAssoc(theClass).getNewIterator();
+		while (it.isOn())
+		{
+			anAssoc := it.item().oclAsType(!source_model::Association!);
+			if not classHelper.isClassPersistent(anAssoc.dest.oclAsType(!source_model::Class!))
+			{			
+				newPrefix := namePrefix.concat(anAssoc.name.oclAsType(!Standard::String!));
+				createColumnsForNonPersistentClass(anAssoc.dest.oclAsType(!source_model::Class!),
+					theTable,
+					newPrefix);
+			}
+			it.next ();
+		}		
+	}
+	
+	createColumnsForPersistentDestClass(
+				theClass: source_model::Class;
+				theTable : target_model::Table;
+				namePrefix : Standard::String)
+	{
+		// for each attribute
+	}
+	
+	createColumnFromAttribute(theAttribute: source_model::Attribute;
+				theTable : target_model::Table;
+				namePrefix : Standard::String) : target_model::Column
+	{
+		theColumn 	: target_model::Column;
+		name 		: Standard::String;
+		
+		name := namePrefix.concat(theAttribute.name.oclAsType(!Standard::String!));
+		
+		if(theAttribute.type.oclIsKindOf(!source_model::PrimitiveDataType!))
+		{
+			'>>>>>>>Class2RDBMSPass1Visitor.createColumnFromAttribute adding Primitive Attribute'.toOut();
+			// Rule 3
+			//  Attributes whose type is a primitive type should be transformed to a single 
+			//  column whose type is the same as the primitive type
+		 	theColumn := new target_model::Column();
+		 	theColumn.name := name;
+		 	theColumn.type := theAttribute.type.name;
+			
+		 	associate (cols := theColumn : target_model::Column,owner := theTable : target_model::Table );
+		 	if theAttribute.is_primary
+		 	{
+		 		// we also need to associate it as a pkey
+		 		associate (pkey := theColumn : target_model::Column, pkeyreferers:= theTable : target_model::Table );
+		 	}
+		 	'<<<<<<<Class2RDBMSPass1Visitor.createColumnFromAttribute Attribute added'.toOut();
+		}
+		
+		return theColumn;
+	}
+	
+	
+/*	findTopPersistentsrcClasses(anAssoc : target_model::Association) : Standard::Set
+	{
+		result : Standard::Set;
+		result := new Standard::Set();
+		
+		result := findTopPersistentsrcClassesRecursive(anAssoc, result);
+		
+		return result;
+		
+	}
+	*/
+	// find the persitent classes that uses this non persitent class
+	// TODO deal with non persitent class used as type by an attribute
+	
+/*	findTopPersistentsrcClassesRecursive(theAssoc : source_model::Association; result : Standard::Set) : Standard::Set
+	{
+		it : Standard::Iterator;
+		anAssoc : source_model::Association;
+		
+		
+		if classHelper.isClassPersistent(theAssoc.src.oclAsType(!source_model::Class!))
+		{
+			result := result.including(classHelper.getTopParent(theAssoc.src.oclAsType(!source_model::Class!)))
+			
+		}
+		else
+		{ 
+			it := !source_model::Association!.allInstances().getNewIterator();
+			
+			// for each of the assoc pointing to the class try to find the persistent class
+			topLevelIterator := classifierSet.getNewIterator();
+			while (it.isOn())
+			{
+				anAssoc := it.item().oclAsType(!source_model::Association!);
+				result := findTopPersistentsrcClassesRecursive(anAssoc,result);
+				it.next ();
+			}
+		}
+		return result;
+	}
+	*/
+}
