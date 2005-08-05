@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: ClassHelper.mtl,v 1.2 2005-08-03 16:34:35 dvojtise Exp $
+***   $Id: ClassHelper.mtl,v 1.3 2005-08-05 14:14:56 dvojtise Exp $
 ***   File : ClassHelper.mtl
 ***   Library : Class2RDBMS
 ***   Version : 0.1 
@@ -49,19 +49,14 @@ class ClassHelper
 	
 	getDestAssoc(theClass : source_model::Class) : Standard::Set
 	{
-		assocIterator : Standard::Iterator;
 		result : Standard::Set;
-		anAssociation : source_model::Association;
 		
 		result := new Standard::Set();
-		assocIterator := !source_model::Association!.allInstances().getNewIterator();
-		while (assocIterator.isOn())
+		foreach (anAssociation : source_model::Association)
 		{
-			anAssociation := assocIterator.item().oclAsType (!source_model::Association!);
 			if( anAssociation.src.[=](theClass))
 			{	result:= result.including(anAssociation);
 			}
-			assocIterator.next();
 		}
 		return result;
 	}
@@ -76,16 +71,12 @@ class ClassHelper
 	}
 	getPersistentSourcesAndPathRecursive(theClass : source_model::Class; result : Standard::Set; currentPath : Standard::String) : Standard::Set
 	{
-		assocIterator 	: Standard::Iterator;
-		anAssociation 	: source_model::Association;
 		item			: ClassAndPathItem;
 		newPath			: Standard::String;
 		
 		'   1 getPersistentSourcesAndPathRecursive'.toOut();
-		assocIterator := !source_model::Association!.allInstances().getNewIterator();
-		while (assocIterator.isOn())
+		foreach (anAssociation : source_model::Association)
 		{
-			anAssociation := assocIterator.item().oclAsType (!source_model::Association!);
 			'   2 getPersistentSourcesAndPathRecursive'.toOut();
 			if( anAssociation.dest.[=](theClass))
 			{	
@@ -113,11 +104,9 @@ class ClassHelper
 				}
 			}
 			'   2end getPersistentSourcesAndPathRecursive'.toOut();
-			assocIterator.next();
 		}
 		return result;
 	}
-
 }
 
 class ClassAndPathItem

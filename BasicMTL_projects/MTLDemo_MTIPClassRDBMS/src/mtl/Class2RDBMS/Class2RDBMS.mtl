@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: Class2RDBMS.mtl,v 1.2 2005-08-03 14:41:39 dvojtise Exp $
+ * $Id: Class2RDBMS.mtl,v 1.3 2005-08-05 14:15:02 dvojtise Exp $
  * Repository independent transformations that apply to SimpleUML models
  *	includes : 
  *		association 2 attributes 
@@ -31,21 +31,14 @@ class Class2RDBMSTransfo
 	
 	
 	/******************************************** 
-	 * PrettyPrint Input Model
+	 * Transform a Class model into a RDBMS model
 	 ********************************************/
-	classModelToString() : Standard::String
+	classModelToRDBMS() : Standard::String
 	{
 		result 			: Standard::String;
 		visitor0 		: ClassVisitor;
 		visitor1 		: Class2RDBMSPass1Visitor;
 		visitor2 		: Class2RDBMSPass2Visitor;
-		aVisitorResult  : VisitorResult;
-		aVisitorResultString  : Standard::String;
-		classifierSet 	: Standard::Set;
-		associationSet 	: Standard::Set;
-		topLevelIterator: Standard::Iterator;
-		aClassifier 	: source_model::Classifier;
-		anAssociation 	: source_model::Association;
 		trace			: HashTable;
 		
 		trace := new HashTable();
@@ -61,64 +54,24 @@ class Class2RDBMSTransfo
 		
 		// we prepare a string for full display
 		result := '';
-	/*	
-		classifierSet := !source_model::Classifier!.allInstances();
-		topLevelIterator := classifierSet.getNewIterator();
-		while (topLevelIterator.isOn())
-		{
-			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
-			aVisitorResult := aClassifier.accept (visitor1, '');	
-			aVisitorResultString := aVisitorResult.toString();
-			result := result.concat (aVisitorResultString);
-			topLevelIterator.next ();
-		}
-		*/
-		
-		
+				
 		/* pass 1, creates all toplevel table from persitent classes
-		it takjes care of inheritance
+		it takes care of inheritance
 		*/
 		callVisitorOnTopElements(visitor1);
-	/*	classifierSet := !source_model::Classifier!.allInstances();
-		topLevelIterator := classifierSet.getNewIterator();
-		while (topLevelIterator.isOn())
-		{
-			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
-			aClassifier.accept (visitor1, '');	
-			topLevelIterator.next ();
-			'1 topLevel Classifier done'.toOut();
-		}*/
 		
 		/* pass 2, 
 		*/	
-		callVisitorOnTopElements(visitor2);
-/*		classifierSet := !source_model::Classifier!.allInstances();
-		topLevelIterator := classifierSet.getNewIterator();
-		while (topLevelIterator.isOn())
-		{
-			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
-			aClassifier.accept (visitor2, '');	
-			topLevelIterator.next ();
-			'1 topLevel Classifier done'.toOut();
-		}	
-			
-			*/					
+		callVisitorOnTopElements(visitor2);	
+							
 		return result;
 	}
+	
 	callVisitorOnTopElements(visitor 		: ClassVisitor)
 	{
-		
-		classifierSet 	: Standard::Set;
-		topLevelIterator: Standard::Iterator;
-		aClassifier 	: source_model::Classifier;
-		
-		classifierSet := !source_model::Classifier!.allInstances();
-		topLevelIterator := classifierSet.getNewIterator();
-		while (topLevelIterator.isOn())
+		foreach (aClassifier : source_model::Classifier)
 		{
-			aClassifier := topLevelIterator.item().oclAsType(!source_model::Classifier!);
-			aClassifier.accept (visitor, '');	
-			topLevelIterator.next ();
+			aClassifier.accept (visitor, '');
 		}
 	}
 }

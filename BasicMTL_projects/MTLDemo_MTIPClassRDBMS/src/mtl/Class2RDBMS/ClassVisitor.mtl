@@ -1,5 +1,5 @@
 /************************************************
-***   $Id: ClassVisitor.mtl,v 1.2 2005-08-03 14:41:39 dvojtise Exp $
+***   $Id: ClassVisitor.mtl,v 1.3 2005-08-05 14:14:59 dvojtise Exp $
 ***   File : ClassVisitor.mtl
 ***   Library : ClassVisitors
 ***   Author :dvojtise
@@ -35,11 +35,11 @@ class ClassVisitor extends DefaultVisitors::InvokableVisitor
 		theClass 		: source_model::Class;
 		result 			: VisitorResult;
 		
-		attributesIterator : Standard::Iterator;
-		aAttribute 		: source_model::Attribute;
+		//attributesIterator : Standard::Iterator;
+		//aAttribute 		: source_model::Attribute;
 
-		assocIterator 	: Standard::Iterator;
-		aAssociation  	: source_model::Association;
+		//assocIterator 	: Standard::Iterator;
+		//aAssociation  	: source_model::Association;
 		
 
 		// we create the result
@@ -47,29 +47,31 @@ class ClassVisitor extends DefaultVisitors::InvokableVisitor
 		theClass := instance.oclAsType (!source_model::Class!);
 		'ClassVisitor visiting Class'.toOut();
 		// we visit the Attribute objects
-		attributesIterator := theClass.attrs.getNewIterator();
-		while (attributesIterator.isOn())
+		foreach(anAttribute : source_model::Attribute) in (theClass.attrs)
+		//attributesIterator := theClass.attrs.getNewIterator();
+		//while (attributesIterator.isOn())
 		{
-			aAttribute := attributesIterator.item().oclAsType (!source_model::Attribute!);
-			result.add (aAttribute.accept (this, context).oclAsType(!Standard::OclAny!));
-			attributesIterator.next();
+			//aAttribute := attributesIterator.item().oclAsType (!source_model::Attribute!);
+			result.add (anAttribute.accept (this, context).oclAsType(!Standard::OclAny!));
+			//attributesIterator.next();
 		}
 		'	ClassVisitor visiting Class: end of attributes'.toOut();
 		
 		// this would have been better if the association has been navigable. as metamodel is not
 		// navigable this way, we have to retreive it in another way.
 		
-		assocIterator := !source_model::Association!.allInstances().getNewIterator();
-		while (assocIterator.isOn())
+		foreach (anAssociation : source_model::Association) in (!source_model::Association!.allInstances())
+		//assocIterator := !source_model::Association!.allInstances().getNewIterator();
+		//while (assocIterator.isOn())
 		{
-			aAssociation := assocIterator.item().oclAsType (!source_model::Association!);
-			if( aAssociation.src.[=](theClass))
+			//aAssociation := assocIterator.item().oclAsType (!source_model::Association!);
+			if( anAssociation.src.[=](theClass))
 			{	// visit only association for which this class is source (ensures that we visit only once) 
 				'trying assoc valid => call accept'.toOut();
 				//aAssociation.accept(this, context);
-				result.add (aAssociation.accept (this, context).oclAsType(!Standard::OclAny!));
+				result.add (anAssociation.accept (this, context).oclAsType(!Standard::OclAny!));
 			}
-			assocIterator.next();
+			//assocIterator.next();
 		}
 		'	ClassVisitor visiting Class: end'.toOut();
 		return result;

@@ -1,5 +1,5 @@
 /*
- * $Id: Main.mtl,v 1.2 2005-08-01 15:47:29 dvojtise Exp $
+ * $Id: Main.mtl,v 1.3 2005-08-05 14:15:08 dvojtise Exp $
  *
  * Sample of use of associations2attribute with a MDR repository
  */
@@ -56,7 +56,7 @@ main(args : Standard::Sequence):Standard::Void
 	aClass2RDBMSTransfo := new Class2RDBMS_lib::Class2RDBMSTransfo();
 	aClass2RDBMSTransfo.initmodel(source_model, target_model);
 		// start the transformation
-	aClass2RDBMSTransfo.classModelToString().toOut();
+	aClass2RDBMSTransfo.classModelToRDBMS().toOut();
 
     aSourceModelManager.storeSourceModel(); 
 	aSourceModelManager.disposeSourceModel();
