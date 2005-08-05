@@ -12,8 +12,8 @@
 	<classpathentry kind="lib" path="C:/eclipse3.0.2/eclipse/plugins/org.inria.mtl_0.0.6/MTL/Runtime/src/TLL/ModFactDriver.tll"/>
 	<classpathentry kind="lib" path="C:/eclipse3.0.2/eclipse/plugins/org.inria.mtl_0.0.6/MTL/Runtime/src/TLL/PoseidonDriver.tll"/>
 	<classpathentry kind="lib" path="C:/eclipse3.0.2/eclipse/plugins/org.inria.mtl_0.0.6/MTL/Runtime/src/TLL/Standard.tll"/>
-	<classpathentry kind="src" path="src/mtl/Class2RDBMS"/>
 	<classpathentry kind="src" path="src/mtl/Class2RDBMSMain"/>
+	<classpathentry kind="src" path="src/mtl/Class2RDBMS/Class2RDBMSHelper"/>
 	<classpathentry kind="output" path="build/java"/>
 	<classpathentry kind="output_tll" path="build/tll"/>
 </classpath>
