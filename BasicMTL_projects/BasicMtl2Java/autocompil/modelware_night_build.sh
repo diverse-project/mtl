@@ -1,5 +1,5 @@
 #!/usr/local/bin/tcsh
-# $Id: modelware_night_build.sh,v 1.17 2005-03-02 14:33:37 dvojtise Exp $
+# $Id: modelware_night_build.sh,v 1.18 2005-10-04 12:17:53 dvojtise Exp $
 # this script is run every night in order to verify that the latest files in the repository correctly compile
 # it runs some tests on the compiler in order to assure non regression.
 # sends email in case of trouble
@@ -33,10 +33,14 @@ cd eclipse/workspace
 setenv CVS_RSH ssh
 # load the private key that have no passphrase (do not remove this line ! this is the way my script can run automatically)
 # this suppose that you are running a ssh-agent 
-ssh-add $HOME/.ssh/weak_identity
-echo cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
-cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
+#ssh-add $HOME/.ssh/weak_identity
+#echo cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
+#cvs -Q -d :ext:dvojtise@lievre.irisa.fr:/CVS/modelware checkout _all_projects
 #cvs -d /udd/triskell/cvsroot checkout dev/MT/BasicMtl2Java
+ssh-add $HOME/.ssh/id_rsa_eclipse
+echo cvs -Q -d :ext:dvojtise@gforge.inria.fr:/cvsroot/mtl checkout _all_projects
+cvs -Q -d :ext:dvojtise@gforge.inria.fr:/cvsroot/mtl checkout _all_projects
+
 cd BasicMtl2Java
 #setenv BASE `pwd`
 setenv BASE $HOME/temp/modelware_night_build/eclipse/workspace
