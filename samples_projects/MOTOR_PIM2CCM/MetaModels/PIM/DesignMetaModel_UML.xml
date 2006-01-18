@@ -1,0 +1,1543 @@
+<?xml version =  '1.0' encoding = 'ISO-8859-1' ?>
+
+<!DOCTYPE XMI SYSTEM 'uml14.dtd'>
+<XMI xmi.version = '1.1' >
+    <XMI.header>
+        <XMI.documentation>
+            <XMI.exporter>Objecteering/UML XMI Module</XMI.exporter>
+            <XMI.exporterVersion>2.1</XMI.exporterVersion>
+        </XMI.documentation>
+    </XMI.header>
+    <XMI.content>
+        <UML:Package xmi.id = 'a4199814704-193'>
+            <UML:ModelElement.name>DesignMetaModel</UML:ModelElement.name>
+            <UML:ModelElement.visibility xmi.value = 'public'/>
+            <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+            <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+            <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+            <UML:ModelElement.clientDependency>
+            </UML:ModelElement.clientDependency>
+            <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'a7341696-487' />     <!-- metamodel -->
+            </UML:ModelElement.stereotype>
+            <UML:Namespace.ownedElement>
+                <UML:Class xmi.id = 'a4199814704-197'>
+                    <UML:ModelElement.name>Component</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a4199814704-197_ext'/>    <!-- Component -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-868'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-868'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-197' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-866' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Component's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a4199814704-199'>
+                    <UML:ModelElement.name>Interface</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a4199814704-199_ext'/>    <!-- Interface -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-112'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-112'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-199' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Interface's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = 'a3834118928-446'>
+                            <UML:ModelElement.name>isAbstract</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:StructuralFeature.multiplicity >
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:StructuralFeature.multiplicity >
+                            <UML:StructuralFeature.changeability xmi.value = 'frozen'/>
+                            <UML:Attribute.initialValue>
+                                <UML:Expression>
+                                    <UML:Expression.language></UML:Expression.language>
+                                    <UML:Expression.body></UML:Expression.body>
+                                </UML:Expression>
+                            </UML:Attribute.initialValue>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:StructuralFeature.type>
+                                <UML:Classifier xmi.idref = 'a4-5' />     <!-- boolean -->
+                            </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a4199814704-219'>
+                    <UML:ModelElement.name>Port</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'true'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a4199814704-219_ext'/>    <!-- Port -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-111'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-111'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-219' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Port's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a4199814704-261'>
+                    <UML:ModelElement.name>ConnectorEnd</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a4199814704-261_ext'/>    <!-- ConnectorEnd -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-110'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-110'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-261' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class ConnectorEnd's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = 'a4199814704-312'>
+                            <UML:ModelElement.name>kind</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:StructuralFeature.multiplicity >
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:StructuralFeature.multiplicity >
+                            <UML:StructuralFeature.changeability xmi.value = 'changeable'/>
+                            <UML:Attribute.initialValue>
+                                <UML:Expression>
+                                    <UML:Expression.language></UML:Expression.language>
+                                    <UML:Expression.body></UML:Expression.body>
+                                </UML:Expression>
+                            </UML:Attribute.initialValue>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:StructuralFeature.type>
+                                <UML:Classifier xmi.idref = 'a3834118928-923' />     <!-- ConnectorKind -->
+                            </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a4199814704-263'>
+                    <UML:ModelElement.name>Connector</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a4199814704-263_ext'/>    <!-- Connector -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-109'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-109'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-263' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Connector's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = 'a3834118928-1779'>
+                            <UML:ModelElement.name>kind</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:StructuralFeature.multiplicity >
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:StructuralFeature.multiplicity >
+                            <UML:StructuralFeature.changeability xmi.value = 'frozen'/>
+                            <UML:Attribute.initialValue>
+                                <UML:Expression>
+                                    <UML:Expression.language></UML:Expression.language>
+                                    <UML:Expression.body></UML:Expression.body>
+                                </UML:Expression>
+                            </UML:Attribute.initialValue>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:StructuralFeature.type>
+                                <UML:Classifier xmi.idref = 'a3834118928-923' />     <!-- ConnectorKind -->
+                            </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-38'>
+                    <UML:ModelElement.name>Operation</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-38_ext'/>    <!-- Operation -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-908'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-908'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-38' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-901' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Operation's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-890'>
+                    <UML:ModelElement.name>Association</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-890_ext'/>    <!-- Association -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-108'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-108'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-890' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Association's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-901'>
+                    <UML:ModelElement.name>Feature</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'true'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-901_ext'/>    <!-- Feature -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-116'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-116'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-901' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Feature's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-906'>
+                    <UML:ModelElement.name>AssociationEnd</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-906_ext'/>    <!-- AssociationEnd -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-912'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-912'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-906' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-901' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class AssociationEnd's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-923'>
+                    <UML:ModelElement.name>ConnectorKind</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-923_ext'/>    <!-- ConnectorKind -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue>
+                            <UML:TaggedValue.type>
+                                <UML:TagDefinition>
+                                    <UML:TagDefinition.tagType >primitive</UML:TagDefinition.tagType>
+                                </UML:TagDefinition>
+                            </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                    </UML:ModelElement.taggedValue>
+                    <UML:Namespace.ownedElement>
+                    </UML:Namespace.ownedElement>	<!-- End Class ConnectorKind's ownedElement -->
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-925'>
+                    <UML:ModelElement.name>PortIsProvided</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-925_ext'/>    <!-- PortIsProvided -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-1023'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-1023'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-925' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-219' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class PortIsProvided's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-927'>
+                    <UML:ModelElement.name>PortIsRequired</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-927_ext'/>    <!-- PortIsRequired -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-1021'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-1021'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-927' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-219' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class PortIsRequired's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-929'>
+                    <UML:ModelElement.name>PortEventIsProvided</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-929_ext'/>    <!-- PortEventIsProvided -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-1017'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-1017'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-929' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-219' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class PortEventIsProvided's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-931'>
+                    <UML:ModelElement.name>PortEventIsRequired</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-931_ext'/>    <!-- PortEventIsRequired -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-1019'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-1019'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-931' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a4199814704-219' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class PortEventIsRequired's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-326'>
+                    <UML:ModelElement.name>Property</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-326_ext'/>    <!-- Property -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3834118928-910'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3834118928-910'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-326' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-901' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Property's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = 'a3834118928-490'>
+                            <UML:ModelElement.name>isReadOnly</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:StructuralFeature.multiplicity >
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:StructuralFeature.multiplicity >
+                            <UML:StructuralFeature.changeability xmi.value = 'frozen'/>
+                            <UML:Attribute.initialValue>
+                                <UML:Expression>
+                                    <UML:Expression.language></UML:Expression.language>
+                                    <UML:Expression.body></UML:Expression.body>
+                                </UML:Expression>
+                            </UML:Attribute.initialValue>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:StructuralFeature.type>
+                                <UML:Classifier xmi.idref = 'a4-5' />     <!-- boolean -->
+                            </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3834118928-866'>
+                    <UML:ModelElement.name>Class</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'true'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3834118928-866_ext'/>    <!-- Class -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-106'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-106'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3834118928-866' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Class's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3725595884-103'>
+                    <UML:ModelElement.name>ModelElement</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'true'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3725595884-103_ext'/>    <!-- ModelElement -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:Namespace.ownedElement>
+                    </UML:Namespace.ownedElement>	<!-- End Class ModelElement's ownedElement -->
+                    <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = 'a3725595884-128'>
+                            <UML:ModelElement.name>name</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:Feature.ownerScope xmi.value = 'instance'/>
+                            <UML:StructuralFeature.multiplicity >
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:StructuralFeature.multiplicity >
+                            <UML:StructuralFeature.changeability xmi.value = 'changeable'/>
+                            <UML:Attribute.initialValue>
+                                <UML:Expression>
+                                    <UML:Expression.language></UML:Expression.language>
+                                    <UML:Expression.body></UML:Expression.body>
+                                </UML:Expression>
+                            </UML:Attribute.initialValue>
+                            <UML:ModelElement.clientDependency>
+                            </UML:ModelElement.clientDependency>
+                            <UML:StructuralFeature.type>
+                                <UML:Classifier xmi.idref = 'a4-13' />     <!-- string -->
+                            </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Class xmi.id = 'a3725595884-193'>
+                    <UML:ModelElement.name>Model</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                    <UML:Class.isActive xmi.value = 'false'/>
+                    <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                        <XMI.reference xmi.idref= 'a3725595884-193_ext'/>    <!-- Model -->
+                    </XMI.extension>
+                    <UML:ModelElement.clientDependency>
+                    </UML:ModelElement.clientDependency>
+                    <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = 'a3725595884-195'/>
+                    </UML:GeneralizableElement.generalization>
+                    <UML:Namespace.ownedElement>
+                        <UML:Generalization xmi.id = 'a3725595884-195'>
+                            <UML:ModelElement.name>Generalization</UML:ModelElement.name>
+                            <UML:Generalization.child>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-193' />
+                            </UML:Generalization.child>
+                            <UML:Generalization.parent>
+                                <UML:GeneralizableElement xmi.idref = 'a3725595884-103' />
+                            </UML:Generalization.parent>
+                        </UML:Generalization>
+                    </UML:Namespace.ownedElement>	<!-- End Class Model's ownedElement -->
+                    <UML:Classifier.feature>
+                    </UML:Classifier.feature>
+                </UML:Class>
+                <UML:Association xmi.id = 'a4199814704-201'>
+                    <UML:ModelElement.name>_Component_requires_Interface_i1</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-202'>
+                            <UML:ModelElement.name>requires</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-202_ext'/>    <!-- requires -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-203'>
+                            <UML:ModelElement.name>i1</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-203_ext'/>    <!-- i1 -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-197' />     <!-- Component -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a4199814704-210'>
+                    <UML:ModelElement.name>_Component_provides_Interface_i2</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-211'>
+                            <UML:ModelElement.name>provides</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-211_ext'/>    <!-- provides -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-212'>
+                            <UML:ModelElement.name>i2</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-212_ext'/>    <!-- i2 -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-197' />     <!-- Component -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a4199814704-221'>
+                    <UML:ModelElement.name>_Component_ownedPort_Port_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-222'>
+                            <UML:ModelElement.name>ownedPort</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-222_ext'/>    <!-- ownedPort -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-219' />     <!-- Port -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-223'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-223_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-197' />     <!-- Component -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-338'>
+                    <UML:ModelElement.name>_Interface_ownedAttribute_Property_owner</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-337'>
+                            <UML:ModelElement.name>ownedAttribute</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-337_ext'/>    <!-- ownedAttribute -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-326' />     <!-- Property -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-336'>
+                            <UML:ModelElement.name>owner</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-336_ext'/>    <!-- owner -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-990'>
+                    <UML:ModelElement.name>_Interface_operation_Operation_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-991'>
+                            <UML:ModelElement.name>operation</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-991_ext'/>    <!-- operation -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-38' />     <!-- Operation -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-992'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-992_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-945'>
+                    <UML:ModelElement.name>_PortIsProvided_provided_Interface_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-946'>
+                            <UML:ModelElement.name>provided</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-946_ext'/>    <!-- provided -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-947'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-947_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-925' />     <!-- PortIsProvided -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-963'>
+                    <UML:ModelElement.name>_PortIsRequired_required_Interface_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-964'>
+                            <UML:ModelElement.name>required</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-964_ext'/>    <!-- required -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-965'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-965_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-927' />     <!-- PortIsRequired -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-1008'>
+                    <UML:ModelElement.name>_PortEventIsProvided_eventProvided_Interface_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-1009'>
+                            <UML:ModelElement.name>eventProvided</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-1009_ext'/>    <!-- eventProvided -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-1010'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-1010_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-929' />     <!-- PortEventIsProvided -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-972'>
+                    <UML:ModelElement.name>_PortEventIsRequired_eventRequired_Interface_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-973'>
+                            <UML:ModelElement.name>eventRequired</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-973_ext'/>    <!-- eventRequired -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-199' />     <!-- Interface -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-974'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-974_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-931' />     <!-- PortEventIsRequired -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a4199814704-274'>
+                    <UML:ModelElement.name>_Port_port_ConnectorEnd_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-275'>
+                            <UML:ModelElement.name>port</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-275_ext'/>    <!-- port -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-261' />     <!-- ConnectorEnd -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-276'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-276_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-219' />     <!-- Port -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a4199814704-265'>
+                    <UML:ModelElement.name>_Connector_ownedEnd_ConnectorEnd_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-266'>
+                            <UML:ModelElement.name>ownedEnd</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>2</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>2</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-266_ext'/>    <!-- ownedEnd -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-261' />     <!-- ConnectorEnd -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a4199814704-267'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a4199814704-267_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-263' />     <!-- Connector -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-981'>
+                    <UML:ModelElement.name>_Class_undefined_ConnectorEnd_theClass</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-982'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-982_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a4199814704-261' />     <!-- ConnectorEnd -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-983'>
+                            <UML:ModelElement.name>theClass</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'frozen'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-983_ext'/>    <!-- theClass -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-866' />     <!-- Class -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-914'>
+                    <UML:ModelElement.name>Relates</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-915'>
+                            <UML:ModelElement.name>connection</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>2</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-915_ext'/>    <!-- connection -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-906' />     <!-- AssociationEnd -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-916'>
+                            <UML:ModelElement.name>relates</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'aggregate'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>1</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-916_ext'/>    <!-- relates -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-890' />     <!-- Association -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3834118928-905'>
+                    <UML:ModelElement.name>_Class_part_Feature_undefined</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-904'>
+                            <UML:ModelElement.name>part</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-904_ext'/>    <!-- part -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-901' />     <!-- Feature -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3834118928-903'>
+                            <UML:ModelElement.name>undefined</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3834118928-903_ext'/>    <!-- undefined -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3834118928-866' />     <!-- Class -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+                <UML:Association xmi.id = 'a3725595884-197'>
+                    <UML:ModelElement.name>_Model_elements_ModelElement_owner</UML:ModelElement.name>
+                    <UML:Association.connection>
+                        <UML:AssociationEnd xmi.id = 'a3725595884-198'>
+                            <UML:ModelElement.name>elements</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'true'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'none'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>-1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725595884-198_ext'/>    <!-- elements -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3725595884-103' />     <!-- ModelElement -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                        <UML:AssociationEnd xmi.id = 'a3725595884-199'>
+                            <UML:ModelElement.name>owner</UML:ModelElement.name>
+                            <UML:ModelElement.visibility xmi.value = 'public'/>
+                            <UML:AssociationEnd.isNavigable xmi.value = 'false'/>
+                            <UML:AssociationEnd.ordering xmi.value = 'unordered'/>
+                            <UML:AssociationEnd.aggregation xmi.value = 'composite'/>
+                            <UML:AssociationEnd.targetScope xmi.value = 'instance'/>
+                            <UML:AssociationEnd.multiplicity>
+                                <UML:Multiplicity>
+                                    <UML:Multiplicity.range>
+                                        <UML:MultiplicityRange>
+                                            <UML:MultiplicityRange.lower>0</UML:MultiplicityRange.lower>
+                                            <UML:MultiplicityRange.upper>1</UML:MultiplicityRange.upper>
+                                        </UML:MultiplicityRange>
+                                    </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                            </UML:AssociationEnd.multiplicity>
+                            <UML:AssociationEnd.changeability xmi.value = 'changeable'/>
+                            <XMI.extension xmi.extender = 'Objecteering43' xmi.extenderID = 'Objing' >
+                                <XMI.reference xmi.idref= 'a3725595884-199_ext'/>    <!-- owner -->
+                            </XMI.extension>
+                            <UML:AssociationEnd.participant>
+                                <UML:Classifier xmi.idref = 'a3725595884-193' />     <!-- Model -->
+                            </UML:AssociationEnd.participant>
+                        </UML:AssociationEnd>
+                    </UML:Association.connection>
+                </UML:Association>
+            </UML:Namespace.ownedElement>	<!-- End Package DesignMetaModel's ownedElement -->
+            <UML:Namespace.ownedElement>
+                <!-- Stereotypes -->
+                <UML:Stereotype xmi.id = 'a7341696-487'>
+                    <UML:ModelElement.name>metamodel</UML:ModelElement.name>
+                    <UML:Stereotype.icon></UML:Stereotype.icon>
+                    <UML:Stereotype.baseClass>Package</UML:Stereotype.baseClass>
+                </UML:Stereotype>
+                <!-- Predefined types -->
+                <UML:DataType xmi.id = 'a4-13'>
+                    <UML:ModelElement.name>String</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-7'>
+                    <UML:ModelElement.name>Char</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-9'>
+                    <UML:ModelElement.name>Integer</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-11'>
+                    <UML:ModelElement.name>Real</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-5'>
+                    <UML:ModelElement.name>Boolean</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+                <UML:DataType xmi.id = 'a4-15'>
+                    <UML:ModelElement.name>Undefined</UML:ModelElement.name>
+                    <UML:ModelElement.visibility xmi.value = 'public'/>
+                    <UML:GeneralizableElement.isRoot xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isLeaf xmi.value = 'false'/>
+                    <UML:GeneralizableElement.isAbstract xmi.value = 'false'/>
+                </UML:DataType>
+            </UML:Namespace.ownedElement>	<!-- End Package DesignMetaModel's ownedElement -->
+        </UML:Package>
+    </XMI.content>
+</XMI>
