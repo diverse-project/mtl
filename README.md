@@ -9,7 +9,7 @@ This works was done in the Triskell team http://triskell.irisa.fr/
 MTL is the ancestor of Kermeta (http://www.kermeta.org/index_k1_k2.html), K3 (http://diverse-project.github.io/k3/) and ALE (http://gemoc.org/ale-lang/) metamodeling languages.
 
 
-# Main feature
+# Main features
 
 - IDE to design MTL transformations
 - support for several metamodelling technologies such as
